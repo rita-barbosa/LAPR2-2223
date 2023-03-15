@@ -8,6 +8,7 @@
 |:---------------|:------------------------------------------------------------------------------------------|
 | **Clerk**      | Person responsible for carrying out various business supporting activities on the system. |
 | **CLK**        | Acronym for _Clerk_.                                                                      |
+| **Sale**       | Transaction between property and money.                                                                                |
 | **...**        | ...                                                                                       |
 
 
