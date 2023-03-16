@@ -15,16 +15,35 @@ activate Employee
     Employee -> System : asks to make sale/rent announcement
     activate System
 
-        System --> Employee : requests data (type of property; area; location; DCC; price; \nphotographs; number of: bedrooms,bathrooms and parking spaces; \navailable equipment; existence of basement; inhabitable loft; sun exposure)
+    System --> Employee : shows types of properties and asks to select one
     deactivate System
 
-    Employee -> System : types requested data (type of property; area; location; DCC; price; \nphotographs; number of: bedrooms,bathrooms and parking spaces; \navailable equipment; existence of basement; inhabitable loft; sun exposure)
-    activate System
+    Employee --> System : selects a type of property
+        activate System
 
+    alt land property
+       System --> Employee : requests data (type of property; area; location; DCC; price)
+          deactivate System
+      Employee -> System : submits requested data
+              activate System
+
+    else apartment property
+      System --> Employee : requests data (type of property; area; location; DCC; price; photographs; number of bedrooms; \nnumber of bathrooms; number of parking spaces; available equipment)
+        deactivate System
+    Employee -> System : submits requested data
+            activate System
+    else house property
+
+      System --> Employee : requests data (type of property; area; location; DCC; price; \nphotographs; number of bedrooms; number of bathrooms; number of parking spaces; \navailable equipment; existence of basement; inhabitable loft; sun exposure)
+        deactivate System
+
+        Employee -> System : submits requested data
+        activate System
+end
         System --> Employee : shows all data and requests confirmation
     deactivate System
 
-    Employee -> System : confirmes data
+    Employee -> System : confirms data
     activate System
 
         System --> Employee : displays operation success

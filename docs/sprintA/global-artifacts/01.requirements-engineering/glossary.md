@@ -27,6 +27,9 @@
 | **ETN**		                    | Acronym for Employee's Telephone Number.											       |
 | **Filter**		                 | ...											                                            |
 | **Inhabitable Loft**         | ...											                                            |
+| **JaCoCo**                   | ...                                                       |
+| **JavaFX 11**                | ...                                                       |
+| **JUnit 5**                  | ...                                                       |
 | **Local Manager**	           | ...							  				                                          |
 | **Location**		               | ...											                                            |
 | **Network**		                | ...											                                            |
