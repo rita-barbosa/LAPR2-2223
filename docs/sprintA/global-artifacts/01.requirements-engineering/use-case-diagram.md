@@ -15,9 +15,9 @@ link as suggested below.**
 
 # Use Cases / User Stories
 
-| UC/US  | Description                                   |                   
-|:-------|:----------------------------------------------|
-| US 001 | [Short Name for US001](../../us001/Readme.md) |
-| ...    | ...                                           |
-| US 006 | [Create Task](../../us006/Readme.md)          |
-| ...    | ...                                           |
+| UC/US  | Description                                         |                   
+|:-------|:----------------------------------------------------|
+| US 001 | [Short Name for US001](../../us001/Readme.md)       |
+| US 002 | [To publish an announcement](../../us002/Readme.md) |
+| US 003 | [Create Task](../../us003/Readme.md)                |
+| US 004 | [](../../us004/Readme.md)                           |
