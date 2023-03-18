@@ -7,8 +7,14 @@ _Specifies functionalities that:_
 - _are common across several US/UC;_
 - _are not related to US/UC, namely: Audit, Reporting and Security._
 
+| **Requirements** 	 | **Description** (EN)                                                                                                                                                               |                                       
+|:-------------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Authentication     | "All those who wish to use the application must be authenticated with a password (...)"                                                                                            |
+| Security           | "All those who wish to use the application must be authenticated(...)" ; "(...) a password holding seven alphanumeric characters, including three capital letters and two digits." |
+| Scheduling         | "...the client can request to schedule a visit to the real estate agent for a specific property to verify its conditions. "                                                        |
+| Reporting          ||
+| Audit              ||
 
-(fill in here)
 
 
 ## Usability 
