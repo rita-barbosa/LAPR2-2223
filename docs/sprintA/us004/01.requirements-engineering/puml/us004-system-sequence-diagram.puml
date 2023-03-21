@@ -24,12 +24,19 @@ activate Owner
         System --> Owner : shows property's lists and asks to select one
     deactivate System
 
+
+    System --> "Owner" : requests data
+    activate System
+    Owner -> System : imports requested data (photographs/pictures)
+
+        deactivate System
+
     Owner -> System : selects a property's list
 '    activate System
 '    deactivate System
 
     alt Rental
-        autonumber 6
+        autonumber 8
         System --> "Owner": requests data
         activate System
 
@@ -37,7 +44,7 @@ activate Owner
         deactivate System
 
     else Sale
-        autonumber 6
+        autonumber 8
          System --> "Owner": requests data
         activate System
 
@@ -56,16 +63,28 @@ activate Owner
         System --> "Owner": requests data
         activate System
 
-        "Owner" -> System: types requested data (bedrooms, bathrooms, central heating,\n air conditioning)
+        "Owner" -> System: types requested data (bedrooms, bathrooms)
         deactivate System
 
+    System --> "Owner": requests data
+                    activate System
+
+                    "Owner" -> System: selects requested data (central heating, air conditioning)
+                    deactivate System
+
     else House
-        autonumber 10
+        autonumber 12
          System --> "Owner": requests data
         activate System
 
-        "Owner" -> System: types requested data (bedrooms, bathrooms, central heating,\n air conditioning, basement, inhabitable loft, sun exposure)
+        "Owner" -> System: types requested data (bedrooms, bathrooms)
         deactivate System
+
+         System --> "Owner": requests data
+                activate System
+
+                "Owner" -> System: selects requested data (central heating, air conditioning, basement,\n inhabitable loft, sun exposure)
+                deactivate System
 
     else Land
 
