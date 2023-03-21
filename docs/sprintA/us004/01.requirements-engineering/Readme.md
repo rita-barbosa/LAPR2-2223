@@ -140,13 +140,7 @@ As long as it is not announced, access to the request is exclusive to the owner 
 
 **Other alternatives might exist.**
 
-#### Alternative One
-
-![System Sequence Diagram - Alternative One](svg/us006-system-sequence-diagram-alternative-one.svg)
-
-#### Alternative Two
-
-![System Sequence Diagram - Alternative Two](svg/us006-system-sequence-diagram-alternative-two.svg)
+![System Sequence Diagram - US004](svg/us004-system-sequence-diagram.svg)
 
 ### 1.7 Other Relevant Remarks
 

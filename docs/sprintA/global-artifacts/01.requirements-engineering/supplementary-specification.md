@@ -27,11 +27,11 @@ _Evaluates the user interface. It has several subcategories,
 among them: error prevention; interface aesthetics and design; help and
 documentation; consistency and standards._
 
-| **Requirements** | **Description**                                                                                                                                                                            |
-|------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Aesthetics       | "The application graphical interface is to be developed in JavaFX 11."                                                                                                                     |
-| Accessibility    | "(...) the client is, then responsible for being able to consult the properties by type, number of rooms, and sort by criteria such as price or the parish where the property is located." |
-| Documentation    | "(...) use Javadoc to generate useful documentation for Java code."<br>"The JaCoCo plugin should be used to generate the coverage report"                                                  |
+| **Requirements**  | **Description**                                                                                                                                                                             |
+|:------------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Aesthetics        | "The application graphical interface is to be developed in JavaFX 11."                                                                                                                      |
+| Accessibility     | "(...) the client is, then responsible for being able to consult the properties by type, number of rooms, and sort by criteria such as price or the parish where the property is located."  |
+| Documentation     | "(...) use Javadoc to generate useful documentation for Java code."<br>"The JaCoCo plugin should be used to generate the coverage report"                                                   |
 
 ## Reliability
 
@@ -39,9 +39,9 @@ _Refers to the integrity, compliance and interoperability of the software. The r
 frequency and severity of failure, possibility of recovery, possibility of prediction, accuracy, average time between
 failures._
 
-| **Requirements** | **Description**                                                                                     |
-|------------------|-----------------------------------------------------------------------------------------------------|
-| Recoverability   | "The should use object serialization to ensure data persistence between two runs of the aplication" |
+| **Requirements**  | **Description**                                                                                      |
+|:------------------|:-----------------------------------------------------------------------------------------------------|
+| Recoverability    | "The should use object serialization to ensure data persistence between two runs of the aplication"  |
 
 ## Performance
 
@@ -49,8 +49,8 @@ _Evaluates the performance requirements of the software, namely: response time, 
 consumption, CPU usage, load capacity and application availability._
 
 | **Performance** | **Description** |
-|-----------------|-----------------|
-|                 |                 |
+|:----------------|:----------------|
+| ...             | ...             |
 
 ## Supportability
 
@@ -59,17 +59,24 @@ testability, adaptability, maintainability, compatibility,
 configurability, installability, scalability and more._
 
 | **Supportability** | **Description**                                                                                                                                                                                     |
-|--------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|:-------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Testability        | "The development team must implement unit tests for all methods, except for methods that implement Input/Output operations"<br>"The units tests should be implemented using the JUnit 5 framework." |
 | Compatibility      | _should we included that part that says that this system will substitute another previously used_                                                                                                   |
 
 ## +
 
+**Section's Description**
+
+(fill in here )
+
+| **+** | **Description** |
+|-------|-----------------|
+| ...   | ...             |
+
 ### Design Constraints
 
 _Specifies or constraints the system design process. Examples may include: programming languages, software process,
 mandatory standards/patterns, use of development tools, class library, etc._
-
 
 
 ### Implementation Constraints

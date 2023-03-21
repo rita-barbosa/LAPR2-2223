@@ -1,0 +1,89 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing true
+
+title System Sequence Diagram (SSD) - US004
+
+autonumber
+
+actor "<b>Owner</b>" as Owner
+participant "<b>:System</b>" as System
+
+activate Owner
+
+    Owner -> System : asks to create a new request
+    activate System
+
+        System --> Owner : requests data
+    deactivate System
+
+    Owner -> System : types requested data (property's name, reference, description, location,\n distance from City Center, area)
+    activate System
+
+        System --> Owner : shows property's lists and asks to select one
+    deactivate System
+
+    Owner -> System : selects a property's list
+'    activate System
+'    deactivate System
+
+    alt Rental
+        autonumber 6
+        System --> "Owner": requests data
+        activate System
+
+        "Owner" -> System: types requested data (rent, contract's duration)
+        deactivate System
+
+    else Sale
+        autonumber 6
+         System --> "Owner": requests data
+        activate System
+
+        "Owner" -> System: types requested data (price)
+        deactivate System
+
+    end
+
+    System --> "Owner" : shows property's types and asks to select one
+    activate System
+    Owner -> System : selects property's type
+    deactivate System
+
+   alt Apartment
+
+        System --> "Owner": requests data
+        activate System
+
+        "Owner" -> System: types requested data (bedrooms, bathrooms, central heating,\n air conditioning)
+        deactivate System
+
+    else House
+        autonumber 10
+         System --> "Owner": requests data
+        activate System
+
+        "Owner" -> System: types requested data (bedrooms, bathrooms, central heating,\n air conditioning, basement, inhabitable loft, sun exposure)
+        deactivate System
+
+    else Land
+
+    ...No extra steps when selecting this option...
+
+    end
+
+        System --> Owner : requests the selection of an agent
+    activate System
+
+    "Owner" -> System : selects an agent
+    deactivate System
+
+
+        "Owner" -> System : summits the request
+    activate System
+
+    System --> "Owner" : displays operation success
+    deactivate System
+
+@enduml
