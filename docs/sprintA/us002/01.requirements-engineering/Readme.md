@@ -26,17 +26,33 @@ example received through a phone call.
 
 > **Question:** How is the sun exposure evaluated?
 >  
+> **Answer:** Sun exposure will take the following values: North, South, East, or West.
+
+> **Question:** Is the phone call the only way the agent can receive the sale announcement?
+>
+> **Answer:** *wainting for answer*
+
+> **Question:** What are the minimum and maximum values of the discount range?
+>
+> **Answer:** *wainting for answer*
+
+> **Question:** What are the ways to receive an alert for a discount?
+>
+> **Answer:** *wainting for answer*
+
+> **Question:** When discounts are applied, is it just to one property or to many properties?
+>
 > **Answer:** *wainting for answer*
 
 
 ### 1.3. Acceptance Criteria
 
-
-* **AC1:** All required information must be filled in.
+* **AC1:** The type of property must be specified.
+* **AC2:** All the information describing a property has to be introduced.
+* **AC3:** The area of the property needs to be in m<sup>2</sup>.
 
 
 ### 1.4. Found out Dependencies
-
 
 * There is a dependency to "US004 Submit a request for listing a property" since at least a request for an announcement must be made for the agent to be able to publish an advertisement.
 
@@ -47,18 +63,18 @@ example received through a phone call.
 **Input Data:**
 
 * Typed data:
-	* area in m ^2^ 
-	* location
+	* Area of the property
+	* Location
 	* DCC
-	* price of the property
-	* one or more photographs
-    * number of bedrooms
-    * number of bathrooms
-    * number of parking spaces
-    * available equipment
-    * existence of basement
-    * inhabitable loft
-    * sun exposure
+	* Price of the property
+	* One or more photographs
+    * Number of bedrooms
+    * Number of bathrooms
+    * Number of parking spaces
+    * Available equipment
+    * Existence of basement
+    * Inhabitable loft
+    * Sun exposure
 
 * Selected data:
 	* Type of property
@@ -66,16 +82,14 @@ example received through a phone call.
 
 **Output Data:**
 
+* List of types of properties
 * (In)Success of the operation
 
 ### 1.6. System Sequence Diagram (SSD)
 
+![System Sequence Diagram - US002](svg/us002-system-sequence-diagram.svg)
+
 **Other alternatives might exist.**
-
-#### Alternative One
-
-![System Sequence Diagram - Alternative One](svg/us002-system-sequence-diagram.svg)
-
 
 ### 1.7 Other Relevant Remarks
 

@@ -12,7 +12,7 @@ participant ":System" as System
 
 activate Employee
 
-    Employee -> System : asks to make sale/rent announcement
+    Employee -> System : asks to publish announcement
     activate System
 
     System --> Employee : shows types of properties and asks to select one
