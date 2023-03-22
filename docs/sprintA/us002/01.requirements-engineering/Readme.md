@@ -108,10 +108,11 @@ example received through a phone call.
 
 ### 1.6. System Sequence Diagram (SSD)
 
-![](C:\Users\micro\IdeaProjects\1ANO_2SEMESTRE\PI\docs\sprintA\us002\01.requirements-engineering\svg\us002-system-sequence-diagram.svg)
+![System Sequence Diagram (SSD)](svg\us002-system-sequence-diagram.svg)
 
 **Other alternatives might exist.**
-![](C:\Users\micro\IdeaProjects\1ANO_2SEMESTRE\PI\docs\sprintA\us002\01.requirements-engineering\svg\us002-system-sequence-diagram-version2.svg)
+
+![System Sequence Diagram (SSD)-Version 2](svg\us002-system-sequence-diagram-version2.svg)
 ### 1.7 Other Relevant Remarks
 
 * All registered information, except the agency commission, can be accessed by the client who intends to
