@@ -1,0 +1,52 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+'left to right direction
+
+skinparam classAttributeIconSize 0
+
+hide circle
+hide methods
+
+'title Domain Model
+
+'class Platform {
+'  -description
+'}
+
+class Agency {
+    designation
+    location
+    localManager
+}
+
+class Advertisements {
+    typeProperty
+    area
+    location
+    DCC
+    price
+    photographs
+    aditionalInfo
+}
+'Could there be subclasses??
+
+class Agent {
+    agency
+    adress
+    CCN
+    contact
+    email
+    name
+    taxNumber
+}
+
+
+Agency "1" - "0..*" Agent : has >
+Agency "1" - "0..*" Advertisements: owns >
+Agent "1" -- "*" Advertisements : creates >
+
+
+@enduml
