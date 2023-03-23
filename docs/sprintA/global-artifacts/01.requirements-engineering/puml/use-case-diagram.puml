@@ -7,29 +7,17 @@ skinparam rectangle{
     BorderColor yellow
 }
 
-title Use Case Diagram Example
+title Use Case Diagram
 
 left to right direction
 
-rectangle "System Actors" as actors {
-    actor Freelancer
-    actor "Organization\nEmployee" as Employee
-}
-
-
-note right of Freelancer
-    Actor identified but still
-    no concrete use cases
-end note
-
-rectangle "Use Cases" as usecases{
-    usecase "UC6 - Create a Task" as UC6
-    Employee --> UC6
-}
-note right of actors
-    Rectangles and Titles are for
-    demonstration purposes only.
-    Omitt on your diagrams.
-end note
+    usecase "UC1 - Display listed properties" as UC1
+        "Unregistered User" --> UC1
+    usecase "UC2 - Publish an announcement" as UC2
+        "Agent" --> UC2
+    usecase "UC3 - " as UC3
+        "System Administrator" --> UC3
+     usecase "UC4 - " as UC4
+         "Owner" --> UC4
 
 @enduml

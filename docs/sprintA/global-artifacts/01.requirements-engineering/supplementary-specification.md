@@ -43,7 +43,7 @@ failures._
 |:------------------|:-----------------------------------------------------------------------------------------------------|
 | Recoverability    | "The should use object serialization to ensure data persistence between two runs of the aplication"  |
 
-## Performance
+ ## Performance
 
 _Evaluates the performance requirements of the software, namely: response time, start-up time, recovery time, memory
 consumption, CPU usage, load capacity and application availability._
@@ -58,10 +58,10 @@ _The supportability requirements gathers several characteristics, such as:
 testability, adaptability, maintainability, compatibility,
 configurability, installability, scalability and more._
 
-| **Supportability** | **Description**                                                                                                                                                                                     |
-|:-------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Testability        | "The development team must implement unit tests for all methods, except for methods that implement Input/Output operations"<br>"The units tests should be implemented using the JUnit 5 framework." |
-| Compatibility      | _should we included that part that says that this system will substitute another previously used_                                                                                                   |
+| **Supportability** | **Description**                                                                                                                                                                                                                              |
+|:-------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Testability        | "The development team must implement unit tests for all methods, except for methods that implement Input/Output operations"<br>"The units tests should be implemented using the JUnit 5 framework."                                          |
+| Compatibility      | _should we included that part that says that this system will substitute another previously used_  <br/> "The application to be developed in this project will replace and application that was already in operation in some agencies (...)" |
 
 ## +
 
@@ -78,6 +78,11 @@ configurability, installability, scalability and more._
 _Specifies or constraints the system design process. Examples may include: programming languages, software process,
 mandatory standards/patterns, use of development tools, class library, etc._
 
+| **Design Constraints**   | **Description**                                                                                                                                                                                                                                                                                                                    |
+|--------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Programming languages    | "The application must be developed in Java language using IntelliJ IDE or NetBeans."                                                                                                                                                                                                                                               |
+| Use of development tools | "Use Javadoc to generate useful documentation for Java code." <br/>"The unit tests should be implemented using the JUnit 5 framework." <br/> "The JaCoCo plugin should be used to generate the coverage report." <br/> "All the images/figures produced during the software development process should be recorded in SVG format." |
+| Software process         | "Adopt best practices for identifying requirements and for OO software analysis and design."                                                                                                                                                                                                                                       |
 
 ### Implementation Constraints
 
@@ -85,18 +90,31 @@ _Specifies or constraints the code or construction of a system such
 such as: mandatory standards/patterns, implementation languages,
 database integrity, resource limits, operating system._
 
-(fill in here )
+
+| **Implementation Constraints** | **Description**                                                                                                                                                                               |
+|--------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Implementation language        | "The application must be developed in Java language using IntelliJ IDE or NetBeans." <br/> "The application graphical interface is to be developed in JavaFX 11."                             |
+| Mandatory standards/patterns   | "Adopt recognized coding conventions and standards (e.g., CamelCase)"<br/>  "The application should use object serialization to ensure data persistence between two runs of the application." |
 
 ### Interface Constraints
 
 _Specifies or constraints the features inherent to the interaction of the
 system being developed with other external systems._
 
-(fill in here )
+| **Interface Constraints** | **Description** |
+|---------------------------|-----------------|
+| ...                       | ...             |
+
+* _There isn't any._
 
 ### Physical Constraints
 
 _Specifies a limitation or physical requirement regarding the hardware used to house the system, as for example:
 material, shape, size or weight._
 
-(fill in here )
+
+| **Physical Contraints** | **Description** |
+|-------------------------|-----------------|
+| ...                     | ...             |
+
+* _There isn't any._
