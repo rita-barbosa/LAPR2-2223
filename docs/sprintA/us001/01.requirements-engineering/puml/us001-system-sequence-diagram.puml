@@ -18,7 +18,7 @@ activate User
         System --> User : shows all the listed properties and asks to select data
     deactivate System
 
-    alt type of business / type of property / number of rooms
+    alt with criteria
     User -> System : selects data (type of business; type of property; number of rooms)
     activate System
 
@@ -26,12 +26,10 @@ activate User
     deactivate System
 
     User -> System : selects data (price; parish)
-        activate System
-
-           System --> User : display all the listed properties, according to the \ncriteria chosen
         deactivate System
 
-    else none
+    else without criteria
+
     User -> System : doesn't select any data
     activate System
 
@@ -41,12 +39,10 @@ activate User
     User -> System : selects data (sale; rent)
     activate System
 
-       System --> User : display all the listed properties, according to the \ncriteria chosen
-    deactivate System
-
 end
 
-
+    System --> User : display all the listed properties, according to the \ncriteria chosen
+    deactivate System
 
 
 @enduml
