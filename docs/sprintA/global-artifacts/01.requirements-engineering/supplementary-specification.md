@@ -7,19 +7,52 @@ _Specifies functionalities that:_
 - _are common across several US/UC;_
 - _are not related to US/UC, namely: Audit, Reporting and Security._
 
-| **Requirements** 	 | **Description**                                                                                                                                                                                                                                  |                                       
-|:-------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Authentication     | "All those who wish to use the application must be authenticated with a password (...)"                                                                                                                                                          |
-| Security           | "All those who wish to use the application must be authenticated(...)" <br> "(...) a password holding seven alphanumeric characters, including three capital letters and two digits."                                                            |
-| Scheduling         | "...the client can request to schedule a visit to the real estate agent for a specific property to verify its conditions. "                                                                                                                      |
-| Reporting          | "(...) the agent records the visit and an indication of whether or not he thins the deal will take place."                                                                                                                                       |
-| Auditing           | _what should be included?_                                                                                                                                                                                                                       |
-| Printing           | "All registered information (...) can be accessed by the client (...)"                                                                                                                                                                           |
-| Registration       | "The company's systems administrator will be responsible for registering all employees (...) and branches of the network (...)"                                                                                                                  |
-| Communication      | _should we put the parts of the clients request here?_                                                                                                                                                                                           |
-| Analyzing          | "The main functions of a store manager are to monitor and streamline the branch (...) and to analyse and evaluate the performance of employees."<br>"The manager of the network intends to analyse the performance of each of the branches(...)" |
-| Localization       | "The application must support the English language"                                                                                                                                                                                              |
-| System Management  | "The company's systems administrator will be (...) preparing the system in order to facilitate the insertion of advertisements and facilitate the use of the application"                                                                        |
+* Authentication
+  * "All those who wish to use the application must be authenticated with a password (...)"
+  
+
+* Security
+  * "All those who wish to use the application must be authenticated(...)"
+  * "(...) a password holding seven alphanumeric characters, including three capital letters and two digits."
+  
+
+* Scheduling
+  * "...the client can request to schedule a visit to the real estate agent for a specific property to verify its conditions."
+
+
+* Reporting
+  * "(...) the agent records the visit and an indication of whether or not he thins the deal will take place." 
+
+
+* Auditing
+  * _WHAT SHOULD BE INCLUDED?_
+
+
+* Printing
+  * "All registered information (...) can be accessed by the client (...)"
+
+
+* Registration
+  * "The company's systems administrator will be responsible for registering all employees (...) and branches of the network (...)"
+
+
+* Communication
+  * _SHOULD WE PUT THE PARTS OF THE CLIENTS REQUEST HERE?_
+
+
+* Analyzing
+  * "The main functions of a store manager are to monitor and streamline the branch (...) and to analyse and evaluate the performance of employees."
+  * "The manager of the network intends to analyse the performance of each of the branches(...)"
+
+
+* Localization
+  * "The application must support the English language"
+
+
+* System Management
+  * "The company's systems administrator will be (...) preparing the system in order to facilitate the insertion of advertisements and facilitate the use of the application"
+
+
 
 ## Usability
 
@@ -27,30 +60,34 @@ _Evaluates the user interface. It has several subcategories,
 among them: error prevention; interface aesthetics and design; help and
 documentation; consistency and standards._
 
-| **Requirements**  | **Description**                                                                                                                                                                             |
-|:------------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Aesthetics        | "The application graphical interface is to be developed in JavaFX 11."                                                                                                                      |
-| Accessibility     | "(...) the client is, then responsible for being able to consult the properties by type, number of rooms, and sort by criteria such as price or the parish where the property is located."  |
-| Documentation     | "(...) use Javadoc to generate useful documentation for Java code."<br>"The JaCoCo plugin should be used to generate the coverage report"                                                   |
+* Aesthetics
+  * "The application graphical interface is to be developed in JavaFX 11."
 
+
+* Accessibility
+  * "(...) the client is, then responsible for being able to consult the properties by type, number of rooms, and sort by criteria such as price or the parish where the property is located."
+
+
+* Documentation
+  * "(...) use Javadoc to generate useful documentation for Java code."<br>"The JaCoCo plugin should be used to generate the coverage report"
+
+    
 ## Reliability
 
 _Refers to the integrity, compliance and interoperability of the software. The requirements to be considered are:
 frequency and severity of failure, possibility of recovery, possibility of prediction, accuracy, average time between
 failures._
 
-| **Requirements**  | **Description**                                                                                      |
-|:------------------|:-----------------------------------------------------------------------------------------------------|
-| Recoverability    | "The should use object serialization to ensure data persistence between two runs of the aplication"  |
+* Recoverability
+  * "The should use object serialization to ensure data persistence between two runs of the application"
+
 
  ## Performance
 
 _Evaluates the performance requirements of the software, namely: response time, start-up time, recovery time, memory
 consumption, CPU usage, load capacity and application availability._
 
-| **Performance** | **Description** |
-|:----------------|:----------------|
-| ...             | ...             |
+* _there's nothing about this_
 
 ## Supportability
 
@@ -58,10 +95,15 @@ _The supportability requirements gathers several characteristics, such as:
 testability, adaptability, maintainability, compatibility,
 configurability, installability, scalability and more._
 
-| **Supportability** | **Description**                                                                                                                                                                                                                              |
-|:-------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Testability        | "The development team must implement unit tests for all methods, except for methods that implement Input/Output operations"<br>"The units tests should be implemented using the JUnit 5 framework."                                          |
-| Compatibility      | _should we included that part that says that this system will substitute another previously used_  <br/> "The application to be developed in this project will replace and application that was already in operation in some agencies (...)" |
+* Testability
+  * "The development team must implement unit tests for all methods, except for methods that implement Input/Output operations"
+  * "The units tests should be implemented using the JUnit 5 framework."
+
+
+* Compatibility
+  * _SHOULD WE INCLUDED THAT PART THAT SAYS THIS SYSTEM WILL SUBSTITUTE ANOTHER PREVIOUSLY USED?_
+  * "The application to be developed in this project will replace and application that was already in operation in some agencies (...)"
+
 
 ## +
 
@@ -69,20 +111,25 @@ configurability, installability, scalability and more._
 
 (fill in here )
 
-| **+** | **Description** |
-|-------|-----------------|
-| ...   | ...             |
 
 ### Design Constraints
 
 _Specifies or constraints the system design process. Examples may include: programming languages, software process,
 mandatory standards/patterns, use of development tools, class library, etc._
 
-| **Design Constraints**   | **Description**                                                                                                                                                                                                                                                                                                                    |
-|--------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Programming languages    | "The application must be developed in Java language using IntelliJ IDE or NetBeans."                                                                                                                                                                                                                                               |
-| Use of development tools | "Use Javadoc to generate useful documentation for Java code." <br/>"The unit tests should be implemented using the JUnit 5 framework." <br/> "The JaCoCo plugin should be used to generate the coverage report." <br/> "All the images/figures produced during the software development process should be recorded in SVG format." |
-| Software process         | "Adopt best practices for identifying requirements and for OO software analysis and design."                                                                                                                                                                                                                                       |
+* Programming languages
+  * "The application must be developed in Java language using IntelliJ IDE or NetBeans."
+
+* Use of development tools
+  * "Use Javadoc to generate useful documentation for Java code."
+  * "The unit tests should be implemented using the JUnit 5 framework."
+  * "The JaCoCo plugin should be used to generate the coverage report."
+  * "All the images/figures produced during the software development process should be recorded in SVG format."
+
+
+* Software process
+  * "Adopt best practices for identifying requirements and for OO software analysis and design."  
+
 
 ### Implementation Constraints
 
@@ -90,22 +137,22 @@ _Specifies or constraints the code or construction of a system such
 such as: mandatory standards/patterns, implementation languages,
 database integrity, resource limits, operating system._
 
+* Implementation language
+  * "The application must be developed in Java language using IntelliJ IDE or NetBeans."
+  * "The application graphical interface is to be developed in JavaFX 11."
 
-| **Implementation Constraints** | **Description**                                                                                                                                                                               |
-|--------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Implementation language        | "The application must be developed in Java language using IntelliJ IDE or NetBeans." <br/> "The application graphical interface is to be developed in JavaFX 11."                             |
-| Mandatory standards/patterns   | "Adopt recognized coding conventions and standards (e.g., CamelCase)"<br/>  "The application should use object serialization to ensure data persistence between two runs of the application." |
+
+* Mandatory standards/patterns
+  * "Adopt recognized coding conventions and standards (e.g., CamelCase)"
+  * "The application should use object serialization to ensure data persistence between two runs of the application."
+
 
 ### Interface Constraints
 
 _Specifies or constraints the features inherent to the interaction of the
 system being developed with other external systems._
 
-| **Interface Constraints** | **Description** |
-|---------------------------|-----------------|
-| ...                       | ...             |
-
-* _There isn't any._
+* _THERE ISN'T ANY._
 
 ### Physical Constraints
 
@@ -113,8 +160,4 @@ _Specifies a limitation or physical requirement regarding the hardware used to h
 material, shape, size or weight._
 
 
-| **Physical Contraints** | **Description** |
-|-------------------------|-----------------|
-| ...                     | ...             |
-
-* _There isn't any._
+* _THERE ISN'T ANY._
