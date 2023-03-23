@@ -10,11 +10,7 @@ skinparam classAttributeIconSize 0
 hide circle
 hide methods
 
-'title Domain Model
-
-'class Platform {
-'  -description
-'}
+title Domain Model - US002
 
 class Agency {
     designation
@@ -22,16 +18,39 @@ class Agency {
     localManager
 }
 
-class Advertisements {
+class Advertisement {
+    comission
+}
+
+class Land extends Property{
+
+}
+
+class House extends Property{
+    numBedrooms
+    numBathrooms
+    centralHeating
+    airConditioning
+    basement
+    inhabitableLoft
+    sunExposure
+}
+
+class Apartment extends Property{
+    numBedrooms
+    numBathrooms
+    centralHeating
+    airConditioning
+}
+
+class Property{
     typeProperty
     area
     location
     DCC
     price
     photographs
-    aditionalInfo
 }
-'Could there be subclasses??
 
 class Agent {
     agency
@@ -45,8 +64,8 @@ class Agent {
 
 
 Agency "1" - "0..*" Agent : has >
-Agency "1" - "0..*" Advertisements: owns >
-Agent "1" -- "*" Advertisements : creates >
+Agent "1" -- "*" Advertisement : creates >
+Advertisement "1" -- "1" Property : contains a/Represents  >
 
 
 @enduml
