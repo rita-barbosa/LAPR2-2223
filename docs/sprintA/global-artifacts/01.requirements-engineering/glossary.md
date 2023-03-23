@@ -13,11 +13,13 @@
 | **Area**		                   | ...											                                            |
 | **Availability**	            | ...											                                            |
 | **Branch of Network**        | ...											                                            |
+| **Buyer**                    | ...                                                       |
 | **Category**		               | ...											                                            |
 | **CCN**		                    | Acronym for Citizen's Card Number.							                 |
 | **Citizen's Card Number**    | ...										                                             |
-| **Client**		                 | ...											                                            |
+| **Client**		                 | Synonym of buyer (esclarecer melhor)											           |
 | **Commission**	              | ...											                                            |
+| **Customer**                 | Synonym of buyer (esclarecer melhor)	                                                          |
 | **DCC**		                    | Acronym for Distance City Center.							                  |
 | **Designation**	             | ...											                                            |
 | **Distance City Center**     | ...										                                             |
@@ -36,6 +38,7 @@
 | **Offer**		                  | ...											                                            |																						 |
 | **Order**		                  | Proposed visit schedule by the agent.											          |
 | **Owner**      	             | ...											                                            |
+| **Parish**                   | ...                                                       |
 | **Property**   	             | ...											                                            |
 | **Registred User**	          | ...											                                            |
 | **Rent** 		                  | ...											                                            |

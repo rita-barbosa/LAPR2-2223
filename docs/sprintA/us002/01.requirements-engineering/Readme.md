@@ -112,9 +112,6 @@ example received through a phone call.
 
 ![System Sequence Diagram (SSD)](svg/us002-system-sequence-diagram.svg)
 
-
-![System Sequence Diagram (SSD) - Version 2](svg/us002-system-sequence-diagram-version2.svg)
-
 ### 1.7 Other Relevant Remarks
 
 * All registered information, except the agency commission, can be accessed by the client who intends to
