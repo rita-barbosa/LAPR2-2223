@@ -128,7 +128,8 @@ As long as it is not announced, access to the request is exclusive to the owner 
 <p>
 
 * Imported/Uploaded data:
-  * photographs
+     * photographs
+   
 </p>
 
 **Output Data:**
