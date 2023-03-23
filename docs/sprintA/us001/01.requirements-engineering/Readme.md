@@ -62,7 +62,7 @@ If the client does not select the type of business, the type of property and the
 ### 1.3. Acceptance Criteria
 
 
-There isn't any acceptance Criteria
+* **AC1** The user should be able to display the properties, accordingly to the criteria chosen by them. 
 
 
 ### 1.4. Found out Dependencies
