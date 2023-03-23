@@ -12,23 +12,28 @@ hide methods
 
 title Domain Model - US004
 
+class Request{
+    reference code ?
+    description ?
+}
 
-class Request {
-    reference
-    description
+
+class Property {
     area
     price or rent
     DCC
+    location
+    address
     renting contract duration
     photographs
 }
 
 
-class Land extends Request{
+class Land extends Property{
     \n
 }
 
-class House extends Request{
+class House extends Property{
     bedrooms
     bathrooms
     central heating
@@ -38,7 +43,7 @@ class House extends Request{
     sun exposure
 }
 
-class Apartment extends Request{
+class Apartment extends Property{
     bedrooms
     bathrooms
     central heating
@@ -50,16 +55,30 @@ class Agent {
     email
     password
     position
-    reference code
+    reference code ?
+    agency code?
     phone
 }
+
+class Agency {
+    name
+    email ?
+    designation
+    reference code ?
+    agency code?
+    location
+    local manager
+    phone ?
+}
+
+
+
 
 class Owner {
     name
     email
     password
-    position
-    reference code
+    reference code ?
     phone
 }
 
@@ -72,9 +91,9 @@ class Owner {
 '    phone
 '}
 
+Request "1" -- "1" Property : represents >
+Agency "1" -- "*" Agent : has >
 Owner "1" -- "*" Request : creates >
-Request "1" - "1" Agent : associated to >
+Request " *" - "1" Agent : associated to >
 Owner "1" -- "1" Agent : delegates >
-'Task "*" -- "1" Employee: created by >
-'Employee "0..1" -- "1" User: acts as >
 @enduml
