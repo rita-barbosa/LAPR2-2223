@@ -13,7 +13,7 @@ choosing the responsible agent.
 
 Each request lists a property for sale or/and rent, and it is assigned to an agent.
 
-The request for sale's standard information is the property's price, area ( m<sup>2</sup> ), location, distance from City
+The request for sale's standard information is the property's price/rent, the renting contract's duration, area (m<sup>2</sup>), location, distance from City
 Center, and one or more photographs.
 
 The request for sale's additional information is based on the property's type. As seen in the table below.

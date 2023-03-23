@@ -1,0 +1,23 @@
+@startuml
+'https://plantuml.com/use-case-diagram
+
+left to right direction
+
+actor Main_Admin as Admin
+actor Agent as Agent
+actor Client as Client
+actor Owner as Owner
+
+rectangle "Use Cases" as usecases{
+    usecase "US1 - Display listed properties" as UC1
+    usecase "US2 - Publish an announcement" as UC2
+    usecase "US3 - Register new employees" as UC3
+    usecase "US4 - Summit a Request" as UC4
+}
+
+    Client --> UC1
+    Agent --> UC2
+    Admin --> UC3
+    Owner --> UC4
+
+@enduml

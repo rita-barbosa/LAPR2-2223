@@ -85,14 +85,14 @@ activate Owner
 
                 "Owner" -> System: selects requested data (central heating, air conditioning, basement,\n inhabitable loft, sun exposure)
                 deactivate System
-
+               deactivate "Owner"
     else Land
 
     ...No extra steps when selecting this option...
 
     end
-
         System --> Owner : requests the selection of an agent
+   activate "Owner"
     activate System
 
     "Owner" -> System : selects an agent
