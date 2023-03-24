@@ -10,19 +10,23 @@ To identify domain conceptual classes, start by making a list of candidate conce
 
 **Business Transactions**
 
-*
+* Sale
+* Lease
 
 ---
 
-**Transaction Line Itemss**
+**Transaction Line Items**
 
-*
+* Land
+* House
+* Apartment
 
 ---
 
 **Product/Service related to a Transaction or Transaction Line Item**
 
-*  
+* Visit
+* Property
 
 ---
 
@@ -30,13 +34,22 @@ To identify domain conceptual classes, start by making a list of candidate conce
 **Transaction Records**
 
 *  
+* ... WHAT THINGS DO WE HAVE TO RECORD THE TRANSACTIONS? AND THE STORE'S WORK ???
 
 ---  
 
 
 **Roles of People or Organizations**
 
-* 
+* Agent
+* System Administrator
+* Employee
+* Buyer
+* Owner
+* Unregistered User
+* Local Manager
+* Store Network Manager
+* ...
 
 
 ---
@@ -44,62 +57,70 @@ To identify domain conceptual classes, start by making a list of candidate conce
 
 **Places**
 
-*  
+* Store
+* Agency
 
 ---
 
 ** Noteworthy Events**
 
-* 
+* Announcement
+* Visit
+* Sale
+* Lease
+* ...
 
 ---
 
 
 **Physical Objects**
 
-*
+* No Physical Objects
+* ... WHAT ABOUT THE HOUSE / APARTMENT ???
 
 ---
 
 
 **Descriptions of Things**
 
-*  
-
+* Type of Property
+* Type of Listing
+* Type of Commission
+* ... WHAT ABOUT EMPLOYEE'S TYPE ???
 
 ---
 
 
 **Catalogs**
 
-*  
+*  Property Catalog
 
 ---
 
 
 **Containers**
 
-*  
+* Store ?? (container of agents) ???
 
 ---
 
 
 **Elements of Containers**
 
-*  
+* Agent ????
 
 ---
 
 
 **Organizations**
 
-*  
+*  Company / Many Agencies ??
 
 ---
 
 **Other External/Collaborating Systems**
 
-*  
+*  NOT YET DEFINED ...
 
 
 ---
@@ -107,26 +128,28 @@ To identify domain conceptual classes, start by making a list of candidate conce
 
 **Records of finance, work, contracts, legal matters**
 
-* 
+* TO BE ANSWERED...
 
 ---
 
 
 **Financial Instruments**
 
-*  
+*  NOT YET DEFINED ...
 
 ---
 
 
 **Documents mentioned/used to perform some work/**
 
-* 
+* Visit schedule ?????
+* ...
+
 ---
 
 
 
-###**Rationale to identify associations between conceptual classes**###
+### **Rationale to identify associations between conceptual classes** ###
 
 An association is a relationship between instances of objects that indicates a relevant connection and that is worth of remembering, or it is derivable from the List of Common Associations: 
 
