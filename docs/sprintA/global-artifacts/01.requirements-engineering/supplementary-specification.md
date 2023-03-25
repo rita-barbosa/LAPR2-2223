@@ -24,9 +24,6 @@ _Specifies functionalities that:_
   * "(...) the agent records the visit and an indication of whether or not he thins the deal will take place." 
 
 
-* Auditing
-  * _WHAT SHOULD BE INCLUDED?_
-
 
 * Printing
   * "All registered information (...) can be accessed by the client (...)"
@@ -37,7 +34,10 @@ _Specifies functionalities that:_
 
 
 * Communication
-  * _SHOULD WE PUT THE PARTS OF THE CLIENTS REQUEST HERE?_
+  * "The owner (...) sends the request to an agent."
+  * "(...)the client can request to schedule a visit to the real estate agent (...)"
+  * "the client (...) sends a request for the purchase/lease of the property to the agent"
+  * "The agent receives the request (...) and sends the response."
 
 
 * Analyzing
@@ -79,16 +79,9 @@ frequency and severity of failure, possibility of recovery, possibility of predi
 failures._
 
 * Recoverability
-  * "The should use object serialization to ensure data persistence between two runs of the application"
+  * "The application should use object serialization to ensure data persistence between two runs of the application"
 
-
- ## Performance
-
-_Evaluates the performance requirements of the software, namely: response time, start-up time, recovery time, memory
-consumption, CPU usage, load capacity and application availability._
-
-* _there's nothing about this_
-
+  
 ## Supportability
 
 _The supportability requirements gathers several characteristics, such as:
@@ -146,18 +139,4 @@ database integrity, resource limits, operating system._
   * "Adopt recognized coding conventions and standards (e.g., CamelCase)"
   * "The application should use object serialization to ensure data persistence between two runs of the application."
 
-
-### Interface Constraints
-
-_Specifies or constraints the features inherent to the interaction of the
-system being developed with other external systems._
-
-* _THERE ISN'T ANY._
-
-### Physical Constraints
-
-_Specifies a limitation or physical requirement regarding the hardware used to house the system, as for example:
-material, shape, size or weight._
-
-
-* _THERE ISN'T ANY._
+  
