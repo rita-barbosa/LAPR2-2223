@@ -61,8 +61,7 @@ example received through a phone call.
 >
 > **Answer:** *waiting for answer*
 
-> Are this questions the same ?(https://moodle.isep.ipp.pt/mod/forum/discuss.php?d=21872)
->
+
 > **Question:** Is it possible to have multiple announcements for the same property?
 >
 > **Answer:** No
@@ -75,15 +74,14 @@ example received through a phone call.
 
 ### 1.4. Found out Dependencies
 
-* There is a dependency to "US004 Submit a request for listing a property" since at least a request for an announcement
-  must be made for the agent to be able to publish an advertisement.
+* There are no dependencies.
 
 ### 1.5 Input and Output Data
 
 **Input Data:**
 
 * Typed data:
-    * Comission value
+    * Commission value
     * Area of the property
     * Location
     * DCC
@@ -99,7 +97,7 @@ example received through a phone call.
 
 * Selected data:
     * Type of property
-    * Type of comission
+    * Type of commission
 
 **Output Data:**
 

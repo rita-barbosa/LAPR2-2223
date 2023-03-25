@@ -22,3 +22,4 @@ link as suggested below.**
 | US 002 | [Publish an announcement](../../us002/Readme.md)   |
 | US 003 | [Register new employees](../../us003/Readme.md)    |
 | US 004 | [Summit a request](../../us004/Readme.md)          |
+| US 005 | [Register new store](../../us005/Readme.md)        |
