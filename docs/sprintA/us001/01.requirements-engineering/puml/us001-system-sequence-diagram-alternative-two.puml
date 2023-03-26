@@ -1,9 +1,7 @@
 @startuml
-skinparam monochrome true
-skinparam packageStyle rectangle
-skinparam shadowing false
+'https://plantuml.com/sequence-diagram
 
-title System Sequence Diagram (SSD) - US001
+title System Sequence Diagram (SSD) - US001 - Alternative Two
 
 autonumber
 
@@ -19,25 +17,33 @@ activate User
     deactivate System
 
     alt with criteria
-        User -> System : selects data (type of business; type of property; number of rooms)
-        activate System
+    User -> System : selects data (type of business; type of property; number of rooms)
+    activate System
 
-        System --> User : display all the listed properties, according to the \ncriteria chosen and asks to select data
-        deactivate System
+    System --> User : display all the listed properties, according to the \ncriteria chosen and asks to select data
+    deactivate System
+
+        opt sort by price or parish
 
         User -> System : selects data (price; parish)
         deactivate System
 
+        end
+
     else without criteria
 
-        User -> System : doesn't select any data
-        activate System
+    User -> System : doesn't select any data
+    activate System
 
-        System --> User : asks to select data
-        deactivate System
+    System --> User : asks to select data
+    deactivate System
+
+        opt sort properties
 
         User -> System : selects data (sale; rent)
         activate System
+
+        end
 
     end
 
