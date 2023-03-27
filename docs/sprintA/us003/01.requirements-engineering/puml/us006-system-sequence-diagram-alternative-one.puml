@@ -21,7 +21,7 @@ activate Employee
     Employee -> System : types requested data (name, citizen's card\n number, the contact telephone number, tax\nnumber, the adress, the address email)
     activate System
 
-        System --> Employee : shows agencies partner list and roles and asks \n to select one
+        System --> Employee : shows agencies partner list, roles and asks \n to select one
     deactivate System
 
     Employee -> System : selects an agency and a role
