@@ -161,34 +161,16 @@ An association is a relationship between instances of objects that indicates a r
 + **_A_** is related with a transaction (item) of **_B_**
 + etc.
 
-
-
-|      Concept (A)      | Association | Concept (B)  |
-|:---------------------:|:-----------:|:------------:|
-|         Agent         |   accepts   |   request    |
-|                       |    is a     |   employee   |
-|                       |   rejects   |   request    |
-|                       |   publish   | announcement |
-|       Apartment       |   type of   |   property   |
-|         Buyer         |             |              |
-|      Client   ??      |     buy     |   property   |
-|                       |    rent     |   property   |
-|                       |    sends    |   request    |
-|         House         |   type of   |   property   |
-|         Land          |   type of   |   property   |
-|     Local Manager     |   manage    |   store ??   |
-|         Owner         |  submits a  |   request    |
-| Store Network Manager |   manage    |  stores ??   |
-| System Administrator  |  register   |   employee   |
-|                       |  register   |    store     |
-|   Unregistered user   |   display   |  properties  |
-
+| Concept (A) 		 | Association	 | Concept (B) |
+|----------------|:------------:|------------:|
+| C1  	          |    verb1     |          C2 |
+| ...  	         |  ...    		   |         ... |
 
 
 
 ## Domain Model
 
-**Do NOT forget to identify concepts atributes too.**
+**Do NOT forget to identify concepts attributes too.**
 
 **Insert below the Domain Model Diagram in a SVG format**
 
