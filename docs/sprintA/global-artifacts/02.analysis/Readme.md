@@ -154,28 +154,41 @@ An association is a relationship between instances of objects that indicates a r
 + **_A_** is related with a transaction (item) of **_B_**
 + etc.
 
-
-
-|      Concept (A)      | Association |        Concept (B)         |
-|:---------------------:|:-----------:|:--------------------------:|
-|        Agency         |   has an    |           agent            |
-|         Agent         |   accepts   |          request           |
-|                       |    is a     |          employee          |
-|                       |   rejects   |          request           |
-|                       |   publish   |        announcement        |
-|       Apartment       |   type of   |          property          |
-|         Buyer         |     ??      |             ??             |
-|       Client ??       |     buy     |          property          |
-|                       |    rent     |          property          |
-|                       |    sends    |          request           |
-|         House         |   type of   |          property          |
-|         Land          |   type of   |          property          |
-|     Local Manager     |   manage    |          store ??          |
-|         Owner         |  submits a  |          request           |
-| Store Network Manager |   manage    |         stores ??          |
-| System Administrator  |  register   |          employee          |
-|                       |  register   |           store            |
-|   Unregistered user   |   display   | advertisement / properties |
+|     Concept (A)     | Association  |        Concept (B)         |
+|:-------------------:|:------------:|:--------------------------:|
+|       Agency        | has a/an ??  |           Agent            |
+|                     | is a part of |          Network           |
+|        Agent        |     is a     |          Employee          |
+|                     |  publishes   |        Announcement        |
+|                     |  schedules   |           Visit            |
+|    Announcement     |   contains   |          Property          |
+|      Apartment      |   type of    |          Housing           |
+|       Client        |     is a     |           Person           |
+|       Company       |     has      |          Employee          |
+|                     |     has      |    SystemAdministrator     |
+|                     |     owns     |           Agency           |
+|                     |     owns     |          Network           |
+|      Customer       |     is a     |           Client           |
+|                     |   requests   |           Visit            |
+|      Employee       |     is a     |           Person           |
+|        House        |     is a     |          Housing           |
+|       Housing       | represents a |          Property          |
+|        Land         |     is a     |          Property          |
+|        Lease        |     is a     |          Payment           |
+|       Listing       |   contains   |          Property          |
+|       Manager       |     is a     |          Employee          |
+|   NetworkManager    |   manages    |          Network           |
+|        Owner        |     is a     |           Client           |
+|                     |   makes a    |          Listing           |
+|      Property       |  belongs to  |           Owner            |
+|                     |   entails    |          Payment           |
+|    StoreManager     |     is a     |          Manager           |
+|                     |   manages    |           Agency           |
+| SystemAdministrator |     is a     |           Person           |
+|                     |   register   |          Employee          |
+|                     |  registers   |          store???          |
+| Unregistered user?  |   display    | advertisement / properties |
+|        Visit        |  linked to   |        Announcement        |
 
 
 
