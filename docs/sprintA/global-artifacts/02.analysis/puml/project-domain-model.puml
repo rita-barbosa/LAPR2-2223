@@ -14,71 +14,84 @@ hide methods
 '  -description
 '}
 
-class Organization {
-    name
-    vatNumber
-    website
-    phoneNumber
-    email
+class Company {
 }
 
-class Task {
-    reference
-    description
-    informalDesc
-    technicalDesc
-    duration
-    cost
+class SystemAdministrator {
 }
 
-class Category {
-    description
+class Agency {
 }
 
 class Employee {
-    name
-    email
-    position
-    phone
 }
 
-class TechnicalSkill{
-    shortDescription
-    fullDescription
+class Person{
 }
 
-class ActivityArea{
-    shortDescription
-    fullDescription
+'or User'
+class Client{
 }
 
-class FeatureTS{
-    mandatory
+class Owner{
 }
 
-'class User {
-'    name
-'    email
-'    password
-'}
-class PostalAddress{
-    street
-    zipCode
-    city
+class Customer{
 }
-'Platform "1" -- "*" Organization : has registered >
-'Platform "1" -- "*" Category : defines >
-Organization "1" - "0..*" Employee : has >
-Organization "1" - "0..*" Task: owns >
-'Task "*" -- "1" Employee: created by >
-Employee "1" -- "*" Task : creates >
-'Employee "0..1" -- "1" User: acts as >
-Task "*" - "1" Category: cataloged as >
-TechnicalSkill "*" - "1" ActivityArea: regarding an >
 
-Category "*" - "*" TechnicalSkill :  : requires >
-(Category, TechnicalSkill) . FeatureTS
+class Agent{
+}
 
-Organization "1" -left "1" PostalAddress : located At >
+class Manager{
+}
+class StoreManager{}
+class NetworkManager{}
+class Announcement{}
+class Listing{}
+class Visit{}
+class Property{}
+class Land{}
+abstract class Housing{}
+class Apartment{}
+class House{}
+class Network{}
+'Será que podemos deixar assim??'
+class Payment{}
+class Lease{}
+
+
+Company "1" ---- "1..*" Agency : owns >
+Company "1" ---- "1..*" Employee : has >
+Company "1" ---- "1" SystemAdministrator : has >
+SystemAdministrator "1" ---- "1" Person: is a >
+SystemAdministrator "1" ---- "0..*" Employee: registers >
+Employee "1" ---- "1" Person: is a >
+Client "1" -- "1" Person: is a >
+Owner "1" -- "1" Client: is a >
+Customer "1" -- "1" Client: is a >
+Agent "1" -- "1" Employee: is a >
+Manager "1" -- "1" Employee: is a >
+StoreManager "1" -- "1" Manager: is a >
+NetworkManager "1" --- "1" Manager: is a >
+Agent "1" -- "*" Announcement: publishes >
+Agent "1" --  "*" Visit: schedules >
+Agency "1" -- "1..*" Agent: has a >
+Owner "1" -- "*" Listing: makes a >
+Customer "1" -- "*" Visit:  requests >
+StoreManager "1" -- "1" Agency: manages >
+NetworkManager "1" -up- "1" Network: manages >
+'ver melhor a relação v'
+Agency "1" -- "1" Network: is part of >
+Company "1" -- "1" Network: owns >
+Announcement "1" -- "1" Property: contains >
+Visit "1" --- "1" Announcement: linked to >
+Land "1" -- "1" Property: is a >
+Housing "1" --- "1" Property:  represents a >
+Apartment "1" -- "1" Housing: is a >
+House "1" -- "1" Housing: is a >
+Listing "1" --- "1" Property: contains >
+Property "1" -- "1" Payment: entails >
+Lease "1" -- "1" Payment: is a >
+Property "1" -- "1" Owner:  belongs to >
 
 @enduml
