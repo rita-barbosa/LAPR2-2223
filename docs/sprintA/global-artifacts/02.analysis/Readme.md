@@ -16,25 +16,24 @@ To identify domain conceptual classes, start by making a list of candidate conce
 ---
 
 **Transaction Line Items**
+* Property
 
-* Land
-* House
-* Apartment
 
 ---
 
 **Product/Service related to a Transaction or Transaction Line Item**
 
 * Visit
-* Property
+* Land
+* House
+* Apartment
 
 ---
 
-
 **Transaction Records**
 
-*  
-* ... WHAT THINGS DO WE HAVE TO RECORD THE TRANSACTIONS? AND THE STORE'S WORK ???
+ 
+* YET TO BE COMPLETED
 
 ---  
 
@@ -49,7 +48,6 @@ To identify domain conceptual classes, start by making a list of candidate conce
 * Unregistered User
 * Local Manager
 * Store Network Manager
-* ...
 
 
 ---
@@ -57,7 +55,6 @@ To identify domain conceptual classes, start by making a list of candidate conce
 
 **Places**
 
-* Store
 * Agency
 
 ---
@@ -66,18 +63,14 @@ To identify domain conceptual classes, start by making a list of candidate conce
 
 * Announcement
 * Visit
-* Sale
-* Lease
-* ...
+* Listing
 
 ---
 
 
 **Physical Objects**
 
-* No Physical Objects
-* ... WHAT ABOUT THE HOUSE / APARTMENT ???
-
+* YET TO BE COMPLETED
 ---
 
 
@@ -86,41 +79,41 @@ To identify domain conceptual classes, start by making a list of candidate conce
 * Type of Property
 * Type of Listing
 * Type of Commission
-* ... WHAT ABOUT EMPLOYEE'S TYPE ???
+
 
 ---
 
 
 **Catalogs**
 
-*  Property Catalog
+*  PropertyCatalog
 
 ---
 
 
 **Containers**
 
-* Store ?? (container of agents) ???
+* Store 
 
 ---
 
 
 **Elements of Containers**
 
-* Agent ????
+* Agent 
 
 ---
 
 
 **Organizations**
 
-*  Company / Many Agencies ??
+*  Company/Organization
 
 ---
 
 **Other External/Collaborating Systems**
 
-*  NOT YET DEFINED ...
+*  YET TO BE DEFINED
 
 
 ---
@@ -128,22 +121,22 @@ To identify domain conceptual classes, start by making a list of candidate conce
 
 **Records of finance, work, contracts, legal matters**
 
-* TO BE ANSWERED...
+* TO BE ANSWERED
 
 ---
 
 
 **Financial Instruments**
 
-*  NOT YET DEFINED ...
+* YET TO BE DEFINED
 
 ---
 
 
 **Documents mentioned/used to perform some work/**
 
-* Visit schedule ?????
-* ...
+* Visit schedule 
+* YET TO BE COMPLETED
 
 ---
 
