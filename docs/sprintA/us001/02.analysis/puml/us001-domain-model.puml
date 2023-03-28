@@ -1,0 +1,50 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+'left to right direction
+
+skinparam classAttributeIconSize 0
+
+hide circle
+hide methods
+
+title Domain Model - US001
+
+class UnregisteredUser{
+}
+
+class Announcement {
+    comission
+}
+
+class Property{
+    typeProperty
+    area
+    location
+    DCC
+    price
+    photographs
+}
+
+class Criteria{
+    typeOfBusiness
+    typeOfproperty
+    numberofrooms
+    price
+    parish
+    sale
+    rent
+
+}
+
+UnregisteredUser "1" - "*" Announcement: display >
+UnregisteredUser "1" - "*" Criteria: chooses >
+Announcement "1" - "1" Property: contains >
+Criteria "*" -- "*" Announcement: limit? >
+
+'se criteria part again
+
+
+@enduml
