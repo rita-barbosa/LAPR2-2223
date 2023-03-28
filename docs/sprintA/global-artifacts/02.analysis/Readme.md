@@ -163,25 +163,26 @@ An association is a relationship between instances of objects that indicates a r
 
 
 
-|      Concept (A)      | Association | Concept (B)  |
-|:---------------------:|:-----------:|:------------:|
-|         Agent         |   accepts   |   request    |
-|                       |    is a     |   employee   |
-|                       |   rejects   |   request    |
-|                       |   publish   | announcement |
-|       Apartment       |   type of   |   property   |
-|         Buyer         |             |              |
-|      Client   ??      |     buy     |   property   |
-|                       |    rent     |   property   |
-|                       |    sends    |   request    |
-|         House         |   type of   |   property   |
-|         Land          |   type of   |   property   |
-|     Local Manager     |   manage    |   store ??   |
-|         Owner         |  submits a  |   request    |
-| Store Network Manager |   manage    |  stores ??   |
-| System Administrator  |  register   |   employee   |
-|                       |  register   |    store     |
-|   Unregistered user   |   display   |  properties  |
+|      Concept (A)      | Association |        Concept (B)         |
+|:---------------------:|:-----------:|:--------------------------:|
+|        Agency         |   has an    |           agent            |
+|         Agent         |   accepts   |          request           |
+|                       |    is a     |          employee          |
+|                       |   rejects   |          request           |
+|                       |   publish   |        announcement        |
+|       Apartment       |   type of   |          property          |
+|         Buyer         |     ??      |             ??             |
+|       Client ??       |     buy     |          property          |
+|                       |    rent     |          property          |
+|                       |    sends    |          request           |
+|         House         |   type of   |          property          |
+|         Land          |   type of   |          property          |
+|     Local Manager     |   manage    |          store ??          |
+|         Owner         |  submits a  |          request           |
+| Store Network Manager |   manage    |         stores ??          |
+| System Administrator  |  register   |          employee          |
+|                       |  register   |           store            |
+|   Unregistered user   |   display   | advertisement / properties |
 
 
 
