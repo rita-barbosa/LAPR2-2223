@@ -93,16 +93,10 @@ configurability, installability, scalability and more._
   * "The units tests should be implemented using the JUnit 5 framework."
 
 
-* Compatibility
-  * _SHOULD WE INCLUDED THAT PART THAT SAYS THIS SYSTEM WILL SUBSTITUTE ANOTHER PREVIOUSLY USED?_
-  * "The application to be developed in this project will replace and application that was already in operation in some agencies (...)"
-
-
 ## +
 
 **Section's Description**
 
-(fill in here )
 
 
 ### Design Constraints
