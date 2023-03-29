@@ -10,10 +10,6 @@ hide methods
 
 'title Domain Model
 
-'class Platform {
-'  -description
-'}
-
 class Company {
 }
 
@@ -21,17 +17,24 @@ class SystemAdministrator {
 }
 
 class Agency {
+designation
+location
+emailAddress
+contactNumber
 }
 
 class Employee {
 }
 
 class Person{
+name
+CCN
+taxNumber
+adress
+emailAddress
+contactNumber
 }
 
-'or User'
-class Client{
-}
 
 class Owner{
 }
@@ -40,58 +43,109 @@ class Customer{
 }
 
 class Agent{
+agency
 }
 
-class Manager{
+class StoreManager{
+agency
 }
-class StoreManager{}
-class NetworkManager{}
-class Announcement{}
-class Listing{}
-class Visit{}
-class Property{}
-class Land{}
-abstract class Housing{}
-class Apartment{}
-class House{}
+class NetworkManager{
+'does he also have an agency to which he is assigned to '
+}
+class Announcement{
+commission
+}
+class Listing{
+}
+class Visit{
+date
+}
+class VisitReport{
+ dealProspect
+ description
+}
+class Property{
+ area
+ location
+ DCC
+ photograph
+}
+class Land{
+}
+abstract class Residence{
+ numberBedrooms
+ numberBathrooms
+ parkingSpace
+availableEquipment
+}
+class Apartment{
+}
+class House{
+ basement
+ inhabitableLoft
+ sunExposure
+}
+
 class Network{}
-'Será que podemos deixar assim??'
-class Payment{}
-class Lease{}
+class Sale{
+price
+}
+class Lease{
+price
+contractDuration
+}
+class UnregisteredUser{
+}
+class Criteria{
+    typeOfBusiness
+    typeOfProperty
+    numberOfRooms
+    price
+    parish
+    sale
+    rent
+}
 
-
-Company "1" ---- "1..*" Agency : owns >
-Company "1" ---- "1..*" Employee : has >
-Company "1" ---- "1" SystemAdministrator : has >
-SystemAdministrator "1" ---- "1" Person: is a >
-SystemAdministrator "1" ---- "0..*" Employee: registers >
-Employee "1" ---- "1" Person: is a >
-Client "1" -- "1" Person: is a >
-Owner "1" -- "1" Client: is a >
-Customer "1" -- "1" Client: is a >
+Employee "*" -up- "1" Company : works for >
+Company "1" --- "1..*" Agency : owns >
+Company "1" --- "1" SystemAdministrator : knows >
+SystemAdministrator "1" - "1" Person: is a >
+SystemAdministrator "1" -- "0..*" Employee: registers >
+SystemAdministrator "1" -- "0..*" Agency: registers >
+Employee "1" -- "1" Person: is a >
+Person "1" - "1" Owner: is a <
+Customer "1" -- "1" Person: is a >
 Agent "1" -- "1" Employee: is a >
-Manager "1" -- "1" Employee: is a >
-StoreManager "1" -- "1" Manager: is a >
-NetworkManager "1" --- "1" Manager: is a >
-Agent "1" -- "*" Announcement: publishes >
-Agent "1" --  "*" Visit: schedules >
-Agency "1" -- "1..*" Agent: has a >
-Owner "1" -- "*" Listing: makes a >
+StoreManager "1" -- "1" Employee: is a >
+NetworkManager "1" --- "1" Employee: is a >
+Agent "1" - "*" Announcement: publishes >
+Agent "1" -- "*" Visit: schedules >
+Agent "1" --- "1" Agency: works for >
+Owner "1" -up- "*" Listing: makes a >
 Customer "1" -- "*" Visit:  requests >
 StoreManager "1" -- "1" Agency: manages >
 NetworkManager "1" -up- "1" Network: manages >
-'ver melhor a relação v'
-Agency "1" -- "1" Network: is part of >
+Agency "1" --- "1" Network: is part of >
 Company "1" -- "1" Network: owns >
 Announcement "1" -- "1" Property: contains >
-Visit "1" --- "1" Announcement: linked to >
+Announcement "1" - "1" Owner: requests <
+Visit "1" --- "1" Announcement: associated to >
 Land "1" -- "1" Property: is a >
-Housing "1" --- "1" Property:  represents a >
-Apartment "1" -- "1" Housing: is a >
-House "1" -- "1" Housing: is a >
+Residence "1" --- "1" Property:  represents a >
+Apartment "1" -- "1" Residence: is a >
+House "1" -- "1" Residence: is a >
 Listing "1" --- "1" Property: contains >
-Property "1" -- "1" Payment: entails >
-Lease "1" -- "1" Payment: is a >
-Property "1" -- "1" Owner:  belongs to >
+Announcement "1"-- "1" Sale: is associated to >
+Announcement "1" - "1" Lease: is associated to >
+Announcement "1" - "1" Listing: is based on >
+Listing "1"-- "1" Sale: is associated to >
+Listing "1" -- "1" Lease: is associated to >
+Property "1" --- "1" Owner:  belongs to >
+Visit "1" - "1"  VisitReport: associated with <
+Agent "1" - "0..*" VisitReport: registers >
+Agent "1" -- "0..*" Listing: accepts >
+UnregisteredUser "1" - "*" Announcement: display >
+UnregisteredUser "1" - "*" Criteria: chooses >
+Criteria "*" -- "*" Announcement: filters >
 
 @enduml
