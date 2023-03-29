@@ -15,7 +15,7 @@ example received through a phone call.
 > more or less attributes to be mentioned.
 
 
-> The information required in any kind of sale is: type of property, area, location, DCC, price and one or maore
+> The information required in any kind of sale is: type of property, area, location, DCC, price and one or more
 > photographs. If the property is an apartment or house then the number of bedrooms, bathrooms and parking spaces, as
 > well
 > as the available equipment should be included. Lastly, if it's a house the existence of a basement, inhabitable loft
