@@ -45,6 +45,7 @@
 | **Store Network Manager** | It's the person responsible for managing and analysing the performance of each branch.				                                 |
 | **Sun Exposure**	         | Direction in which the house receives sunlight.											                                                                 |
 | **Tax Number**	           | Identifying number of an employee used for tax purposes.										                                                         |
+| **Type of Business**      | It refers to the sale and rent of a property.                                                                              |
 | **Type of Commission**    | Different categories available to classify the _Agent_'s commission.                                                       |
 | **Type of Listing**       | Categorization of the properties regarding its sale and/or lease.                                                          |
 | **Type of Property**      | Categorization of properties regarding their attributes.                                                                   |
