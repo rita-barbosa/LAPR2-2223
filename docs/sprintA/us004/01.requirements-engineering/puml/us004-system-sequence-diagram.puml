@@ -18,7 +18,7 @@ activate Owner
         System --> Owner : requests data
     deactivate System
 
-    Owner -> System : types requested data (property's name, reference, description, location,\n distance from City Center, area)
+    Owner -> System : types requested data (name, citizen's card number, tax number, address,\n email address, telephone number, reference code ?, property's name,\n reference, description, location, distance from City Center, area)
     activate System
 
         System --> Owner : shows property's lists and asks to select one

@@ -14,7 +14,7 @@ choosing the responsible agent.
 Each request lists a property for sale or/and rent, and it is assigned to an agent.
 
 The request for sale's standard information is the property's listing, the price/rent, the renting contract's duration (when applicable),
-area (m<sup>2</sup>), location, distance from the City Center, and one or more photographs.
+area, location, distance from the City Center, and one or more photographs.
 
 The request for sale's additional information is based on the property's type, as seen in the table below.
 
@@ -116,6 +116,7 @@ Being an employee, the Agent's attributes are: name, citizen's card number, taxe
 * **AC1:** Request reference must have at least *n* alphanumeric chars. ????
 * **AC2:** When creating a request with an already existing reference/name, the system must reject such operation and the owner must have to change the new request.
 * **AC3:** The currency used for the property's price or rent is US Dollars (USD - $)
+* **AC4:** The property's area is measured in squared meters (m<sup>2</sup>)
 * **AC4:** citizen's card number, taxes number, address, email address, and telephone number CRITERIA ??????
 
 ### 1.4. Found out Dependencies
@@ -131,17 +132,17 @@ Being an employee, the Agent's attributes are: name, citizen's card number, taxe
     * a reference ???
     * a designation / name
     * price (Sale and/or Rent)
-    * area ( m<sup>2</sup> )
+    * area
     * location (VERY AMBIGUOUS)
     * a description ???
     * distance from the city center (DCC)
     * Owner's data
-      * name
-      * citizen's card number
-      * tax number
-      * address
-      * email address
-      * telephone number
+        * name
+        * citizen's card number
+        * tax number
+        * address
+        * email address
+        * telephone number
     
 </p>
 <p>
@@ -176,7 +177,6 @@ Being an employee, the Agent's attributes are: name, citizen's card number, taxe
 
 [//]: # (* List of number of bathrooms)
 
-
 ### 1.6. System Sequence Diagram (SSD)
 
 **Other alternatives might exist.**
@@ -184,3 +184,4 @@ Being an employee, the Agent's attributes are: name, citizen's card number, taxe
 ![System Sequence Diagram - US004](svg/us004-system-sequence-diagram.svg)
 
 ### 1.7 Other Relevant Remarks
+n/a
