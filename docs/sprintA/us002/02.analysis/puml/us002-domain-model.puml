@@ -18,39 +18,40 @@ class Agency {
     localManager
 }
 
-class Advertisement {
+class Announcement {
     comission
 }
-
-class Land extends Property{
-
-}
-
-class House extends Property{
-    numBedrooms
-    numBathrooms
-    centralHeating
-    airConditioning
-    basement
-    inhabitableLoft
-    sunExposure
-}
-
-class Apartment extends Property{
-    numBedrooms
-    numBathrooms
-    centralHeating
-    airConditioning
-}
-
 class Property{
-    typeProperty
-    area
-    location
-    DCC
-    price
-    photographs
+ area
+ location
+ DCC
+ photograph
 }
+class Land{
+}
+abstract class Residence{
+ numberBedrooms
+ numberBathrooms
+ parkingSpace
+availableEquipment
+}
+class Apartment{
+}
+class House{
+ basement
+ inhabitableLoft
+ sunExposure
+}
+
+
+class Sale{
+price
+}
+class Lease{
+price
+contractDuration
+}
+
 
 class Agent {
     agency
@@ -63,9 +64,14 @@ class Agent {
 }
 
 
-Agency "1" - "0..*" Agent : has >
-Agent "1" -- "*" Advertisement : creates >
-Advertisement "1" -- "1" Property : contains a/Represents  >
-
+Agent "1" - "1" Agency: works for >
+Agent "1" -- "*" Announcement: publishes >
+Announcement "1"- "1" Sale: is associated to >
+Announcement "1" -- "1" Lease: is associated to >
+Announcement "1" -- "1" Property: contains >
+Land "1" -- "1" Property: is a >
+Residence "1" -- "1" Property:  represents a >
+Apartment "1" -- "1" Residence: is a >
+House "1" -- "1" Residence: is a >
 
 @enduml

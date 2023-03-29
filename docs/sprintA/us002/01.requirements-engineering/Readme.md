@@ -92,7 +92,7 @@ example received through a phone call.
 >**Question:** Does the agency have any commission (fixed or percentage) on top of the one that the agent sets, or the agent must set a commission that already includes the company's?
 > 
 > **Answer:** The commission value includes the agent and the company commission.
->
+
 
 
 
