@@ -125,7 +125,7 @@ As a system administrator, I want to register a new employee.
     * an address
 * Selected data:
 	* Agency to wich is assigned
-    * Role (agent, store manager, store network, manager)
+    * Role (agent, store manager, store network)
 
 
 **Output Data:**
