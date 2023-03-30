@@ -12,66 +12,65 @@ hide methods
 
 title Domain Model - US002
 
-class Agency {
-    designation
-    location
-    localManager
-}
 
 class Announcement {
-    comission
+ typeCommission
+ amountCommission
 }
 class Property{
  area
- location
- DCC
- photograph
+ distanceCityCenter
 }
-class Land{
-}
-abstract class Residence{
+
+class Residence{
  numberBedrooms
  numberBathrooms
  parkingSpace
-availableEquipment
-}
-class Apartment{
 }
 class House{
  basement
  inhabitableLoft
  sunExposure
 }
-
-
-class Sale{
-price
+class TypeProperty{
+designation
+}
+class TypeResidence{
+designation
+}
+class Photograph{
+url
+}
+class Location{
+streetName
+city
+district
+state
+zipCode
+}
+class Price{
+amount
 }
 class Lease{
-price
 contractDuration
 }
-
-
 class Agent {
-    agency
-    adress
-    CCN
-    contact
-    email
-    name
-    taxNumber
+}
+class AvailableEquipment{
+description
 }
 
 
-Agent "1" - "1" Agency: works for >
 Agent "1" -- "*" Announcement: publishes >
-Announcement "1"- "1" Sale: is associated to >
-Announcement "1" -- "1" Lease: is associated to >
-Announcement "1" -- "1" Property: contains >
-Land "1" -- "1" Property: is a >
-Residence "1" -- "1" Property:  represents a >
-Apartment "1" -- "1" Residence: is a >
-House "1" -- "1" Residence: is a >
+Announcement "1" - "1" Property: contains >
+TypeProperty "1" -- "1" Property: is a description of >
+Residence -up-|> Property
+TypeResidence "1" -up- "1" Residence: is a description of >
+House -up-|> Residence
+Property "1" - "*" Photograph: contains >
+Property "1"--"1" Location: contains >
+Property "1" -- "1" Price: contains >
+Price <|-- Lease
+Residence "1" -- "*"AvailableEquipment: contains >
 
 @enduml

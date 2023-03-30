@@ -1,11 +1,11 @@
-# US 006 - To create a Task 
+# US 002 - Publish an announcement
 
 ## 2. Analysis
 
-### 2.1. Relevant Domain Model Excerpt 
+### 2.1. Relevant Domain Model Excerpt
 
-![Domain Model](svg/us002-domain-model.svg)
+![Domain Model - US002](svg/us002-domain-model.svg)
 
 ### 2.2. Other Remarks
 
-n/a
+None existent.
