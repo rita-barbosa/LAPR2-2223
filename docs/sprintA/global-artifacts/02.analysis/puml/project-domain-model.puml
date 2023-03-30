@@ -43,20 +43,18 @@ class Customer{
 }
 
 class Agent{
-agency
 }
 
 class StoreManager{
-agency
 }
 class NetworkManager{
 'does he also have an agency to which he is assigned to '
 }
 class Announcement{
-commission
+typeCommission
+amountCommission
 }
-class Listing{
-}
+
 class Visit{
 date
 }
@@ -66,62 +64,57 @@ class VisitReport{
 }
 class Property{
  area
- location
- DCC
- photograph
+ distanceCityCenter
 }
-class Land{
-}
+
 abstract class Residence{
  numberBedrooms
  numberBathrooms
  parkingSpace
 availableEquipment
 }
-class Apartment{
-}
+
 class House{
  basement
  inhabitableLoft
  sunExposure
 }
-
 class Network{}
-class Sale{
-price
+class Client{
+}
+class TypeProperty{
+designation
+}
+class TypeResidence{
+designation
+}
+class Photograph{
+url
+}
+class Location{
+streetName
+}
+class Price{
+amount
 }
 class Lease{
-price
 contractDuration
 }
-class UnregisteredUser{
-}
-class Criteria{
-    typeOfBusiness
-    typeOfProperty
-    numberOfRooms
-    price
-    parish
-    sale
-    rent
-}
 
-Employee "*" -up- "1" Company : works for >
+Employee "*" -- "1" Company : works for >
 Company "1" --- "1..*" Agency : owns >
 Company "1" --- "1" SystemAdministrator : knows >
-SystemAdministrator "1" - "1" Person: is a >
-SystemAdministrator "1" -- "0..*" Employee: registers >
+SystemAdministrator --|> Employee
+SystemAdministrator "1" --- "0..*" Employee: registers >
 SystemAdministrator "1" -- "0..*" Agency: registers >
-Employee "1" -- "1" Person: is a >
-Person "1" - "1" Owner: is a <
-Customer "1" -- "1" Person: is a >
-Agent "1" -- "1" Employee: is a >
-StoreManager "1" -- "1" Employee: is a >
-NetworkManager "1" --- "1" Employee: is a >
+Person  <|--  Employee
+Person <|-- Owner
+Customer  --|> Person
+Agent  --|> Employee
+StoreManager --|> Employee
+NetworkManager ---|> Employee
 Agent "1" - "*" Announcement: publishes >
 Agent "1" -- "*" Visit: schedules >
-Agent "1" --- "1" Agency: works for >
-Owner "1" -up- "*" Listing: makes a >
 Customer "1" -- "*" Visit:  requests >
 StoreManager "1" -- "1" Agency: manages >
 NetworkManager "1" -up- "1" Network: manages >
@@ -129,23 +122,19 @@ Agency "1" --- "1" Network: is part of >
 Company "1" -- "1" Network: owns >
 Announcement "1" -- "1" Property: contains >
 Announcement "1" - "1" Owner: requests <
-Visit "1" --- "1" Announcement: associated to >
-Land "1" -- "1" Property: is a >
-Residence "1" --- "1" Property:  represents a >
-Apartment "1" -- "1" Residence: is a >
-House "1" -- "1" Residence: is a >
-Listing "1" --- "1" Property: contains >
-Announcement "1"-- "1" Sale: is associated to >
-Announcement "1" - "1" Lease: is associated to >
-Announcement "1" - "1" Listing: is based on >
-Listing "1"-- "1" Sale: is associated to >
-Listing "1" -- "1" Lease: is associated to >
-Property "1" --- "1" Owner:  belongs to >
-Visit "1" - "1"  VisitReport: associated with <
+Visit "1" -- "1" Property: scheduled to >
+Residence  --|>  Property
+House --|> Residence
+Visit "1" - "1"  VisitReport: is a description of <
 Agent "1" - "0..*" VisitReport: registers >
-Agent "1" -- "0..*" Listing: accepts >
-UnregisteredUser "1" - "*" Announcement: display >
-UnregisteredUser "1" - "*" Criteria: chooses >
-Criteria "*" -- "*" Announcement: filters >
+Client "1" - "1..*" Announcement: displays >
+Employee "1" ----- "1" Agency: works in  >
+TypeProperty "1" -- "1" Property: is a description for >
+TypeResidence "1" -- "1" Residence: is a description for >
+Property "1" -- "*" Photograph: contains >
+Property "1"--"1" Location: contains >
+Property "1" -- "1" Price: contains a >
+Price <|-- Lease
+
 
 @enduml
