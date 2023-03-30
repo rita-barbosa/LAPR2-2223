@@ -65,13 +65,14 @@ class Property{
  distanceCityCenter
 }
 
-abstract class Residence{
+class Residence{
  numberBedrooms
  numberBathrooms
  parkingSpace
-availableEquipment
 }
-
+class AvailableEquipment{
+description
+}
 class House{
  basement
  inhabitableLoft
@@ -128,15 +129,17 @@ Visit "1" -- "1" Property: done to >
 Residence  --|>  Property
 House --|> Residence
 Visit "1" - "1"  VisitReport: is a description of <
-Agent "1" --- "0..*" VisitReport: registers >
+Agent "1" -- "0..*" VisitReport: registers >
 Client "1" - "1..*" Announcement: displays >
 Employee "1" ----- "1" Agency: works in  >
 TypeProperty "1" -- "1" Property: is a description of >
 TypeResidence "1" -- "1" Residence: is a description of >
-Property "1" -- "*" Photograph: contains >
+Property "1" -- "1..*" Photograph: contains >
 Property "1"--"1" Location: contains >
 Property "1" -- "1" Price: contains >
 Price <|-- Lease
 Person "1" ---- "1" Location: contains >
 Agency "1" ---- "1" Location: contains >
+Residence "1" -- "*"AvailableEquipment: contains >
+
 @enduml
