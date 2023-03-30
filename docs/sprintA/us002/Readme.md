@@ -1,4 +1,4 @@
-# US 002 - To publish an announcement 
+# US 002 - Publish an announcement 
 
 [Requirements Engineering](01.requirements-engineering/Readme.md)
 
