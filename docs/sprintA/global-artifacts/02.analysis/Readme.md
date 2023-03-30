@@ -117,49 +117,44 @@ remembering, or it is derivable from the List of Common Associations:
 + **_A_** is related with a transaction (item) of **_B_**
 + etc.
 
-|     Concept (A)     |   Association    |     Concept (B)     |
-|:-------------------:|:----------------:|:-------------------:|
-|       Agency        |   is a part of   |       Network       |
-|        Agent        |     accepts      |       Listing       |
-|                     |       is a       |      Employee       |
-|                     |    publishes     |    Announcement     |
-|                     |    registers     |     VisitReport     |
-|                     |    schedules     |        Visit        |
-|                     |    works for     |       Agency        |
-|    Announcement     |     contains     |      Property       |
-|                     | is associated to |        Lease        |
-|                     | is associated to |        Sale         |
-|                     |   is based on    |       Listing       |
-|      Apartment      |       is a       |       Housing       |
-|       Company       |      knows       | SystemAdministrator |
-|                     |       owns       |       Agency        |
-|                     |       owns       |       Network       |
-|      Criteria       |     filters      |    Announcement     |
-|      Customer       |       is a       |       Person        |
-|                     |     requests     |        Visit        |
-|      Employee       |       is a       |       Person        |
-|                     |    works for     |       Company       |
-|        House        |       is a       |      Residence      |
-|        Land         |       is a       |      Property       |
-|       Listing       |     contains     |      Property       |
-|                     | is associated to |        Lease        |
-|                     | is associated to |        Sale         |
-|   NetworkManager    |       is a       |      Employee       |
-|                     |     manages      |       Network       |
-|        Owner        |       is a       |       Person        |
-|                     |     makes a      |       Listing       |
-|      Property       |    belongs to    |        Owner        |
-|      Residence      |   represents a   |      Property       |
-|                     |     entails      |       Payment       |
-|    StoreManager     |       is a       |      Employee       |
-|                     |     manages      |       Agency        |
-| SystemAdministrator |       is a       |       Person        |
-|                     |    registers     |      Employee       |
-|                     |    registers     |       Agency        |
-|  Unregistered user  |     chooses      |      Criteria       |
-|                     |     display      |    Announcement     |
-|        Visit        |  associated to   |    Announcement     |
-|     VisitReport     | associated with  |        Visit        |
+|     Concept (A)     |     Association     |     Concept (B)     |
+|:-------------------:|:-------------------:|:-------------------:|
+|       Agency        |      contains       |      Location       |
+|                     |    is a part of     |       Network       |
+|        Agent        |        is a         |      Employee       |
+|                     |      publishes      |    Announcement     |
+|                     |      registers      |     VisitReport     |
+|                     |      schedules      |        Visit        |
+|    Announcement     |      contains       |      Property       |
+|       Company       |        knows        | SystemAdministrator |
+|                     |        owns         |       Agency        |
+|                     |        owns         |       Network       |
+|       Client        |       display       |    Announcements    |
+|      Customer       |        is a         |       Person        |
+|                     |      requests       |        Visit        |
+|      Employee       |        is a         |       Person        |
+|                     |      works in       |       Agency        |
+|        House        |        is a         |      Residence      |
+|        Lease        |        is a         |        Price        |
+|   NetworkManager    |        is a         |      Employee       |
+|                     |       manages       |       Network       |
+|        Owner        |        is a         |       Person        |
+|                     |      requests       |       Listing       |
+|       Person        |      contains       |      Location       |
+|      Property       |      contains       |        Owner        |
+|                     |      contains       |     Photograph      |
+|                     |      contains       |        Price        |
+|      Residence      |      contains       | AvailableEquipment  |
+|                     |        is a         |      Property       |
+|    StoreManager     |        is a         |      Employee       |
+|                     |       manages       |       Agency        |
+| SystemAdministrator |        is a         |       Person        |
+|                     |      registers      |      Employee       |
+|                     |      registers      |       Agency        |
+|    TypeProperty     | is a description of |      Property       |
+|    TypeResidence    | is a description of |      Residence      |
+|        Visit        |       done to       |      Property       |
+|     VisitReport     | is a description of |        Visit        |
 
 ## Domain Model
 
