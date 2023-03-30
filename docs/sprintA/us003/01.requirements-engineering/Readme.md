@@ -1,4 +1,4 @@
-# US 003 - To create a Task 
+# US 003 - To register a new employee 
 
 ## 1. Requirements Engineering
 
@@ -138,7 +138,7 @@ As a system administrator, I want to register a new employee.
 **Other alternatives might exist.**
 
 
-![System Sequence Diagram - Alternative One](svg/us006-system-sequence-diagram-alternative-one.svg)
+![System Sequence Diagram - Alternative One](svg/us003-system-sequence-diagram-alternative-one.svg)
 
 
 ### 1.7 Other Relevant Remarks
