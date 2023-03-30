@@ -18,7 +18,6 @@ class SystemAdministrator {
 
 class Agency {
 designation
-location
 emailAddress
 contactNumber
 }
@@ -28,9 +27,8 @@ class Employee {
 
 class Person{
 name
-CCN
+citizenCardNumber
 taxNumber
-adress
 emailAddress
 contactNumber
 }
@@ -93,6 +91,10 @@ url
 }
 class Location{
 streetName
+city
+district
+state
+zipCode
 }
 class Price{
 amount
@@ -101,7 +103,7 @@ class Lease{
 contractDuration
 }
 
-Employee "*" -- "1" Company : works for >
+
 Company "1" --- "1..*" Agency : owns >
 Company "1" --- "1" SystemAdministrator : knows >
 SystemAdministrator --|> Employee
@@ -110,11 +112,11 @@ SystemAdministrator "1" -- "0..*" Agency: registers >
 Person  <|--  Employee
 Person <|-- Owner
 Customer  --|> Person
-Agent  --|> Employee
+Agent  ----|> Employee
 StoreManager --|> Employee
 NetworkManager ---|> Employee
-Agent "1" - "*" Announcement: publishes >
-Agent "1" -- "*" Visit: schedules >
+Agent "1" --- "*" Announcement: publishes >
+Agent "1" - "*" Visit: schedules >
 Customer "1" -- "*" Visit:  requests >
 StoreManager "1" -- "1" Agency: manages >
 NetworkManager "1" -up- "1" Network: manages >
@@ -122,19 +124,19 @@ Agency "1" --- "1" Network: is part of >
 Company "1" -- "1" Network: owns >
 Announcement "1" -- "1" Property: contains >
 Announcement "1" - "1" Owner: requests <
-Visit "1" -- "1" Property: scheduled to >
+Visit "1" -- "1" Property: done to >
 Residence  --|>  Property
 House --|> Residence
 Visit "1" - "1"  VisitReport: is a description of <
-Agent "1" - "0..*" VisitReport: registers >
+Agent "1" --- "0..*" VisitReport: registers >
 Client "1" - "1..*" Announcement: displays >
 Employee "1" ----- "1" Agency: works in  >
-TypeProperty "1" -- "1" Property: is a description for >
-TypeResidence "1" -- "1" Residence: is a description for >
+TypeProperty "1" -- "1" Property: is a description of >
+TypeResidence "1" -- "1" Residence: is a description of >
 Property "1" -- "*" Photograph: contains >
 Property "1"--"1" Location: contains >
-Property "1" -- "1" Price: contains a >
+Property "1" -- "1" Price: contains >
 Price <|-- Lease
-
-
+Person "1" ---- "1" Location: contains >
+Agency "1" ---- "1" Location: contains >
 @enduml
