@@ -12,83 +12,89 @@ hide methods
 
 title Domain Model - US004
 
-class Request{
-    reference code ?
-    description ?
-}
-
-
 class Property {
     area
-    price or rent
     DCC
-    location
-    address
-    renting contract duration
-    photographs
 }
 
-
-class Land extends Property{
-    \n
+class Photograph{
+    url
 }
 
-class House extends Property{
-    bedrooms
-    bathrooms
-    central heating
-    air conditioning
+class Lease extends Price{
+    contractDuration
+}
+
+class Price {
+    price
+}
+
+class Residence extends Property{
+    numberBedrooms
+    numberBathrooms
+    parkingSpace
+    availableEquipment
+    centralHeating
+    airConditioning
+}
+
+class Location{
+    street
+    city
+    *district*
+    state
+    zipCode
+}
+
+class TypeResidence extends Residence{
+    designation
+}
+
+class TypeProperty{
+    designation
+}
+
+class House extends Residence{
     basement
-    inhabitable loft
-    sun exposure
-}
-
-class Apartment extends Property{
-    bedrooms
-    bathrooms
-    central heating
-    air conditioning
+    inhabitableLoft
+    sunExposure
 }
 
 class Agent {
     name
-    citizen's card number
-    taxes number
+    citizenCardNumber
+    taxesNumber
     address
-    telephone number
-    email address
+    telephoneNumber
+    emailAddress
     password
-    position
-    reference code ?
-    agency code?
+    agency
 }
-
 
 class Agency {
-    name/designation
-    email address
-    ID/reference code/agency code
+    designation
+    emailAddress
     location
-    local manager
-    phone number
+    localManager
+    contactNumber
 }
-
-
-
 
 class Owner {
     name
-    citizen's card number
-    tax number
+    citizenCardNumber
+    taxNumber
     address
-    email address
-    telephone number
-    reference code ?
+    emailAddress
+    telephoneNumber
 }
 
-Request "1" -- "1" Property : represents >
-Agency "1" -- "*" Agent : has >
-Owner "1" -- "*" Request : creates >
-Request " *" - "1" Agent : associated to >
-Owner "1" -- "1" Agent : delegates >
+TypeProperty "1" -- "*" Property : classifies a >
+Price "1" -left- "1" Property : appraises a >
+Property "1" -up- "1" Owner : belongs to >
+Agent "1" -down- "0..*" Property : revises >
+Agency "1" -down- "1..*" Agent : employees >
+Photograph "1..*" -up- "1" Property : depicts >
+Location "1" -right- "1" Property : represents a >
+
+
 @enduml
