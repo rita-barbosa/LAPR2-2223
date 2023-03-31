@@ -46,7 +46,7 @@ As a system administrator, I want to register a store.
 ### 1.3. Acceptance Criteria
 
 
-* **AC1:** All required files must be filled in.
+* **AC1:** All required data must be filled in.
 * **AC2:** The designation should have at most forty characters
 
 

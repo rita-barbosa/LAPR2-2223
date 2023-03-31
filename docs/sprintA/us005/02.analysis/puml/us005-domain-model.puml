@@ -29,16 +29,13 @@ class Store {
 
 }
 
-class Employee {
-    name
-    email
-    position
-    phone
+class SystemAdministrator {
+
 }
 
 
-Organization "1" - "0..*" Employee : has >
+Organization "1" - "1" SystemAdministrator : Knows >
 Organization "1" - "0..*" Store: owns >
-Employee "1" -- "*" Store : register >
+SystemAdministrator "1" -- "*" Store : register >
 
 @enduml
