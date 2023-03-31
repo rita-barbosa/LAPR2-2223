@@ -15,18 +15,12 @@ As a system administrator, I want to register a new employee.
 
 **From the specifications document:**
 
->	The company's systems administrator will be responsible for registering all employees (specifying the name, the citizen's card number, the tax number, the address, the email address, the contact telephone number and the agency to wich it is assigned).
+>	The company's systems administrator will be responsible for registering all employees (specifying the name, the citizen's card number, the tax number, the address, the email address, the contact telephone number and the agency to which it is assigned).
 
 >	The company's systems administrator will be responsible for the branches of the network (specifying the designation, location and local manager) as well as preparing the system in order to facilitate the insertion of advertisements and facilitate the use of the application.
 
 
 **From the client clarifications:**
-
-> **Question:** In case it is on an agency, must the agent be assigned automatically by the system?
->  
-> **Answer:** The agent that registers the information in the system can choose to assign any agent.
-
-
 
 > **Question:** Can an employee be registered to more than one agency?
 >
@@ -83,22 +77,6 @@ As a system administrator, I want to register a new employee.
 
 
 
-> **Question:** How many digits does the tax number for the employee need to have?
->
-> **Answer:** _No response yet._
-
-
-
-> **Question:** How many digits does the citizen's card number employee need to have?
->
-> **Answer:** _No response yet._
-
-
-
-> **Question:** How many digits does the contact telephone number for the employee need to have?
->
-> **Answer:** _No response yet._
-
 ### 1.3. Acceptance Criteria
 
 
@@ -120,12 +98,12 @@ As a system administrator, I want to register a new employee.
 	* a name, 
 	* a citizen's card number,
 	* a tax number,
-	* an email adress,
+	* an email address,
 	* a contact telephone number,
     * an address
 * Selected data:
-	* Agency to wich is assigned
-    * Role (agent, store manager, store network)
+	* Agency to which is assigned
+    * Role 
 
 
 **Output Data:**
@@ -138,7 +116,7 @@ As a system administrator, I want to register a new employee.
 **Other alternatives might exist.**
 
 
-![System Sequence Diagram - Alternative One](svg/us003-system-sequence-diagram-alternative-one.svg)
+![System Sequence Diagram](svg/us003-system-sequence-diagram.svg)
 
 
 ### 1.7 Other Relevant Remarks
