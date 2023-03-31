@@ -14,37 +14,46 @@ As a system administrator, I want to register a store.
 
 **From the specifications document:**
 
->	Each task is characterized by having a unique reference per organization, a designation, an informal and a technical description, an estimated duration and cost as well as the its classifying task category. 
+>	Each store has ID, designation, location, local manager, phone number and email.
 
-
->	As long as it is not published, access to the task is exclusive to the employees of the respective organization. 
+ 
 
 
 
 **From the client clarifications:**
 
-> **Question:** Which is the unit of measurement used to estimate duration?
+> **Question:** Does a store designation have to be detailed? If so, will the system administrator have to register the name, email, phone number or anything else? Does the location of a store have to be detailed as well? If yes, will the system administrator have to record the address, postcode or something else? To register the store manager, does the system administrator only register the manager's name? If not, will the system administrator have to register the manager as if he were an employee (except the agent he is assigned to)? Do registered stores have to be in alphabetical order?
 >  
-> **Answer:** Duration is estimated in days.
+> **Answer:** When registering a store, the System Administrator should introduce the following information: an ID, a designation/name, a location, a local manager, a phone number and an e-mail address. The ID is an integer number. An example of the store location is: 71 ST. NICHOLAS DRIVE, NORTH POLE, FAIRBANKS NORTH STAR, AK, 99705. An example phone number is (907) 488-6419.
 
 
-> **Question:** Monetary data is expressed in any particular currency?
+> **Question:** Could you please share how will the designation of new stores be made, is there a pattern perhaps?
 >  
-> **Answer:** Monetary data (e.g. estimated cost of a task) is indicated in POTs (virtual currency internal to the platform).
+> **Answer:** There is no pattern. The System Administrator can introduce any designation/name. The designation/name should have at most forty characters.
+
+
+> **Question:** Will the System Administrator be able to choose a location from a list of available locations (defined elsewhere in the application) or will he be able to submit any location he wants?
+>
+> **Answer:** The System Administrator can submit any location.
+ 
+
+> **Question:** Are the local managers restricted to their initial location or can they be re-registered/reassigned to other locations?
+>
+> **Answer:** For now this is not a problem.
+
 
 
 ### 1.3. Acceptance Criteria
 
 
-* **AC1:** All required files must be filled in.
-* **AC2:** Task reference must have at least 5 alphanumeric chars.
-* **AC3:** When creating a task with an already existing reference, the system must reject such operation and the user must have the change to modify the typed reference.
+* **AC1:** All required data must be filled in.
+* **AC2:** The designation should have at most forty characters
 
 
 ### 1.4. Found out Dependencies
 
 
-* There is a dependency to "US003 Create a task category" since at least a task category must exist to classify the task being created.
+* There is no dependencies to US005.
 
 
 ### 1.5 Input and Output Data
@@ -53,34 +62,26 @@ As a system administrator, I want to register a store.
 **Input Data:**
 
 * Typed data:
-	* a reference, 
-	* a designation, 
-	* an informal description
-	* a technical description
-	* an estimated duration
-	* an estimated cost
-	
-* Selected data:
-	* Classifying task category 
+    * ID 
+    * designation
+    * location
+    * local manager
+    * phone number
+    * email address
+    
 
 
 **Output Data:**
 
-* List of existing task categories
+* All typed data
 * (In)Success of the operation
 
 ### 1.6. System Sequence Diagram (SSD)
 
 **Other alternatives might exist.**
 
-#### Alternative One
-
-![System Sequence Diagram - Alternative One](svg/us005-system-sequence-diagram-alternative-one.svg)
-
-#### Alternative Two
-
-![System Sequence Diagram - Alternative Two](svg/us005-system-sequence-diagram-alternative-two.svg)
+![System Sequence Diagram](svg/us005-system-sequence-diagram.svg)
 
 ### 1.7 Other Relevant Remarks
 
-* The created task stays in a "not published" state in order to distinguish from "published" tasks.
+* There's no one relevant remarks.
