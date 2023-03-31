@@ -44,8 +44,8 @@ contactNumber
 
 Company "1" ----- "1" SystemAdministrator : knows >
 SystemAdministrator ---|> Employee
-SystemAdministrator "1" - "0..*" Employee: registers >
-SystemAdministrator "1" --- "0..*" Agency: registers >
+SystemAdministrator "1" - "*" Employee: registers >
+SystemAdministrator "1" --- "*" Agency: registers >
 Employee "*" ---- "1" Company : works for >
 Employee "1" --- "1" Agency: works in  >
 Person  <|--  Employee
