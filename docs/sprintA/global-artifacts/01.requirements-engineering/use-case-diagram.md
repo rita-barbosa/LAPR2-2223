@@ -1,12 +1,10 @@
 # Use Case Diagram (UCD)
 
-**In the scope of this project, there is a direct relationship of _1 to 1_ between Use Cases (UC) and User Stories (US).
-**
+**In the scope of this project, there is a direct relationship of _1 to 1_ between Use Cases (UC) and User Stories (US).**
 
 However, be aware, this is a pedagogical simplification. On further projects and curricular units might also exist _1 to
 N **and/or** N to 1 relationship between US and UC.
 
-**Insert below the Use Case Diagram in a SVG format**
 
 ![Use Case Diagram](svg/use-case-diagram.svg)
 
@@ -21,5 +19,5 @@ link as suggested below.**
 | US 001 | [Display listed properties](../../us001/Readme.md) |
 | US 002 | [Publish an announcement](../../us002/Readme.md)   |
 | US 003 | [Register new employees](../../us003/Readme.md)    |
-| US 004 | [Summit a request](../../us004/Readme.md)          |
+| US 004 | [Submit a request](../../us004/Readme.md)          |
 | US 005 | [Register new store](../../us005/Readme.md)        |

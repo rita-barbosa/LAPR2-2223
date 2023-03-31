@@ -17,6 +17,7 @@ class SystemAdministrator {
 }
 
 class Agency {
+ID
 designation
 emailAddress
 contactNumber
@@ -108,8 +109,8 @@ contractDuration
 Company "1" --- "1..*" Agency : owns >
 Company "1" --- "1" SystemAdministrator : knows >
 SystemAdministrator --|> Employee
-SystemAdministrator "1" --- "0..*" Employee: registers >
-SystemAdministrator "1" -- "0..*" Agency: registers >
+SystemAdministrator "1" --- "*" Employee: registers >
+SystemAdministrator "1" -- "*" Agency: registers >
 Person  <|--  Employee
 Person <|-- Owner
 Customer  --|> Person
@@ -121,16 +122,16 @@ Agent "1" - "*" Visit: schedules >
 Customer "1" -- "*" Visit:  requests >
 StoreManager "1" -- "1" Agency: manages >
 NetworkManager "1" -up- "1" Network: manages >
-Agency "1" --- "1" Network: is part of >
+Agency "1..*" --- "1" Network: is part of >
 Company "1" -- "1" Network: owns >
 Announcement "1" -- "1" Property: contains >
-Announcement "1" - "1" Owner: requests <
+Announcement "*" - "1" Owner: requests <
 Visit "1" -- "1" Property: done to >
 Residence  --|>  Property
 House --|> Residence
 Visit "1" - "1"  VisitReport: is a description of <
-Agent "1" -- "0..*" VisitReport: registers >
-Client "1" - "1..*" Announcement: displays >
+Agent "1" -- "*" VisitReport: registers >
+Client "1" - "1..*" Announcement: views >
 Employee "1" ----- "1" Agency: works in  >
 TypeProperty "1" -- "1" Property: is a description of >
 TypeResidence "1" -- "1" Residence: is a description of >

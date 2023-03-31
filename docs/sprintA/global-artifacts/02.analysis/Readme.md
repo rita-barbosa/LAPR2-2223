@@ -42,7 +42,7 @@ Iterative Development".
 * Employee
 * Customer
 * Owner
-* Unregistered User
+* Client
 * Store Manager
 * Network Manager
 
@@ -65,8 +65,7 @@ Iterative Development".
 
 **Physical Objects**
 
-* YET TO BE COMPLETED
-* Property (?)
+* Property
 
 ---
 
@@ -74,9 +73,7 @@ Iterative Development".
 **Descriptions of Things**
 
 * Type of Property
-* Type of Listing
-* Type of Commission
-* Type of Business
+* Type of Residence
 
 ---
 
@@ -94,7 +91,7 @@ Iterative Development".
 
 **Organizations**
 
-* Company/Organization
+* Company
 
 ---
 
@@ -129,7 +126,7 @@ remembering, or it is derivable from the List of Common Associations:
 |       Company       |        knows        | SystemAdministrator |
 |                     |        owns         |       Agency        |
 |                     |        owns         |       Network       |
-|       Client        |       display       |    Announcements    |
+|       Client        |        views        |    Announcement     |
 |      Customer       |        is a         |       Person        |
 |                     |      requests       |        Visit        |
 |      Employee       |        is a         |       Person        |
@@ -149,8 +146,8 @@ remembering, or it is derivable from the List of Common Associations:
 |    StoreManager     |        is a         |      Employee       |
 |                     |       manages       |       Agency        |
 | SystemAdministrator |        is a         |       Person        |
-|                     |      registers      |      Employee       |
 |                     |      registers      |       Agency        |
+|                     |      registers      |      Employee       |
 |    TypeProperty     | is a description of |      Property       |
 |    TypeResidence    | is a description of |      Residence      |
 |        Visit        |       done to       |      Property       |
@@ -158,7 +155,7 @@ remembering, or it is derivable from the List of Common Associations:
 
 ## Domain Model
 
-**Do NOT forget to identify concepts atributes too.**
+**Do NOT forget to identify concepts attributes too.**
 
 **Insert below the Domain Model Diagram in a SVG format**
 

@@ -2,11 +2,6 @@
 
 ## Functionality
 
-_Specifies functionalities that:_
-
-- _are common across several US/UC;_
-- _are not related to US/UC, namely: Audit, Reporting and Security._
-
 * Authentication
     * "All those who wish to use the application must be authenticated with a password (...)"
   
@@ -86,7 +81,7 @@ failures._
 
 _The supportability requirements gathers several characteristics, such as:
 testability, adaptability, maintainability, compatibility,
-configurability, installability, scalability and more._
+configurability, instability, scalability and more._
 
 * Testability
     * "The development team must implement unit tests for all methods, except for methods that implement Input/Output operations"
@@ -96,8 +91,6 @@ configurability, installability, scalability and more._
 ## +
 
 **Section's Description**
-
-
 
 ### Design Constraints
 
@@ -121,7 +114,7 @@ mandatory standards/patterns, use of development tools, class library, etc._
 ### Implementation Constraints
 
 _Specifies or constraints the code or construction of a system such
-such as: mandatory standards/patterns, implementation languages,
+as: mandatory standards/patterns, implementation languages,
 database integrity, resource limits, operating system._
 
 * Implementation language
