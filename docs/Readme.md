@@ -2,8 +2,6 @@
 
 # 1. Team Members
 
-The teams consists of students identified in the following table.
-
 | Student Number | Name             |
 |----------------|------------------|
 | **1220683**    | Matilde Varela   |

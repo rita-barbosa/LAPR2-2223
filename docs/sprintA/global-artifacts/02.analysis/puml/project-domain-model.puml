@@ -47,7 +47,6 @@ class Agent{
 class StoreManager{
 }
 class NetworkManager{
-'does he also have an agency to which he is assigned to '
 }
 class Announcement{
 typeCommission
