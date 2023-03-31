@@ -23,7 +23,7 @@ class Store {
     ID
     designation
     location
-    local manager
+    localManager
     phoneNumber
     email
 
