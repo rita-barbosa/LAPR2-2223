@@ -1,4 +1,4 @@
-# US 002 - To publish an announcement
+# US 002 - Publish an announcement
 
 ## 1. Requirements Engineering
 
@@ -37,15 +37,11 @@ example received through a phone call.
 > **Question:** Are all the criteria for publishing the sale of a property in the system mandatory, or is there any data
 > that the owner can choose not to give?
 >
-> **Answer:** *wainting for answer* (Questions made : 28/03 - 15:50)
-
-> **Question:** What is the acceptance criteria for the address or location?
->
-> **Answer:** *wainting for answer* (Questions made : 28/03 - 15:50)
+> **Answer:** The number of bathrooms, the available equipment and the sun exposure are not mandatory. At least one photograph is required.
 
 > **Question:** Is it required that the owner identifies themselves in the announcement?
 >
-> **Answer:** *wainting for answer* (Questions made : 28/03 - 10:49)
+> **Answer:** Information about the owner is not published.
 
 > **Question:** Also, must the agent who reviews and publishes an advertisement request be the same agent who accepts or
 > rejects the purchase/lease request for that listing?
@@ -56,6 +52,9 @@ example received through a phone call.
 >
 > **Answer:** The agent should choose the type of commission and enter the value.
 
+> **Question:** How can the owner send the photograph for thw announcement? 
+> 
+> **Answer:** The owner can send the photograph by e-mail or any other means. The owner can even deliver the photograph to the store.
 
 > **Question:** Is it possible to have multiple announcements for the same property?
 >
@@ -93,17 +92,19 @@ example received through a phone call.
 > 
 > **Answer:** The commission value includes the agent and the company commission.
 
-
+>**Question:** When the agent receives the phone call is it the agent who registers the order in the system?
+> 
+> **Answer:** The agent registers the order in the system.
 
 
 
 ### 1.3. Acceptance Criteria
 
 * **AC1:** The type of property must be specified.
-* **AC2:** All the information describing a property has to be submitted.
+* **AC2:** All the information, except number of bathrooms, available equipment and sun exposure, describing a property has to be submitted.
 * **AC3:** The area of the property needs to be expressed in m<sup>2</sup>.
 * **AC4:** The minimum value of the commission is 0 and there is no maximum.
-
+* **AC5:** At least one photograph is required
 ### 1.4. Found out Dependencies
 
 * There are no dependencies.
@@ -144,5 +145,5 @@ example received through a phone call.
 
 ### 1.7 Other Relevant Remarks
 
-* All registered information, except the agency commission, can be accessed by the client who intends to
+* All registered information, except the agent commission, can be accessed by the client who intends to
   buy or rent the property.

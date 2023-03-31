@@ -28,8 +28,6 @@ The request for sale's additional information is based on the property's type, a
 |  Inhabitable Loft   |          Yes / No           |     -     |
 |    Sun Exposure     | North / South / West / East |     -     |
 
-Being an employee, the Agent's attributes are: name, citizen's card number, taxes number, address, email address, contact/telephone number, and the agency to which it is assigned.
-
 [//]: # (As long as it is not announced, access to the request is exclusive to the owner and respectively assigned agent.)
 
 **From the client clarifications:**
@@ -37,6 +35,16 @@ Being an employee, the Agent's attributes are: name, citizen's card number, taxe
 > **Question:** What are the attributes of the Owner?
 >
 > **Answer:**  The Owner's attributes are: name, citizen's card number, tax number, address, email address, and telephone number.
+
+
+> **Question:** What are the attributes of the Agent?
+>
+> **Answer:**  The Agent's attributes are: name, citizen's card number, tax number, email address, contact telephone number, and the agency to which they are assigned.
+
+
+> **Question:** What are the attributes of the location?
+>
+> **Answer:**  The location's attributes are: street name, city, district, state and Zip Code.
 
 
 > **Question:** Does an Owner need to be registered in the system to submit a request for a property listing?
@@ -51,7 +59,7 @@ Being an employee, the Agent's attributes are: name, citizen's card number, taxe
 
 > **Question:** If the Owner does not choose an agent, will the application/agency randomly assign an agent to the property?
 >
-> **Answer:**  No. All data slots must be filled.
+> **Answer:**  Yes.
 
 
 > **Question:** Are there any restrictions on the choice of an agent?
@@ -81,7 +89,7 @@ Being an employee, the Agent's attributes are: name, citizen's card number, taxe
 
 > **Question:** Does the Owner have a limit of request they can do?
 >
-> **Answer:** YET TO BE ANSWERED.
+> **Answer:** No.
 
 
 > **Question:** Can the Owner choose the agency/branch/store independently of the location of the property?
@@ -113,11 +121,10 @@ Being an employee, the Agent's attributes are: name, citizen's card number, taxe
 
 ### 1.3. Acceptance Criteria
 
-* **AC1:** Request reference must have at least *n* alphanumeric chars. ????
-* **AC2:** When creating a request with an already existing reference/name, the system must reject such operation and the owner must have to change the new request.
-* **AC3:** The currency used for the property's price or rent is US Dollars (USD - $)
-* **AC4:** The property's area is measured in squared meters (m<sup>2</sup>)
-* **AC4:** citizen's card number, taxes number, address, email address, and telephone number CRITERIA ??????
+* **AC1:** The currency used for the property's price or rent is US Dollars (USD - $)
+* **AC2:** The property's area is measured in squared meters (m<sup>2</sup>)
+
+[//]: # (* **AC4:** citizen's card number, taxes number, address, email address, and telephone number CRITERIA ??????)
 
 ### 1.4. Found out Dependencies
 
@@ -129,12 +136,16 @@ Being an employee, the Agent's attributes are: name, citizen's card number, taxe
 <p>
 
 * Typed data:
-    * a reference ???
-    * a designation / name
-    * price (Sale and/or Rent)
+    * name
+    * price (price and/or rent)
+    * Contract's duration
     * area
-    * location (VERY AMBIGUOUS)
-    * a description ???
+    * location
+        * street name
+        * city
+        * district
+        * state
+        * Zip Code
     * distance from the city center (DCC)
     * Owner's data
         * name
@@ -148,17 +159,17 @@ Being an employee, the Agent's attributes are: name, citizen's card number, taxe
 <p>
 
 * Selected data:
-    * property's listing 
+    * property's listing (Sale and/or Rent)
     * property's type
     * central heating
     * air conditioning
     * basement
     * number of Bedrooms
-    * number of Bathrooms ????
+    * number of Bathrooms
     * inhabitable loft
     * sun exposure
     * agency
-      * agent
+        * agent
 </p>
 <p>
 
@@ -172,6 +183,8 @@ Being an employee, the Agent's attributes are: name, citizen's card number, taxe
 * List of request's listings
 * List of property's types
 * List of number of bedrooms
+* List of number of Bathrooms
+* List of existing/available agencies
 * List of existing/available agents
 * (In)Success of the operation
 
