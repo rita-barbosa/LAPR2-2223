@@ -28,12 +28,6 @@ The request for sale's additional information is based on the property's type, a
 |  Inhabitable Loft   |          Yes / No           |     -     |
 |    Sun Exposure     | North / South / West / East |     -     |
 
-Being employees, the Agents attributes are: name, citizen's card number, tax number, email address, contact telephone number, and the agency to which they are assigned.
-
-The Owners attributes are: the name, the citizen's card number, the tax number, the address, the email address, and the telephone number.
-
-The location's attributes are: street name, city, district, state and Zip Code.
-
 [//]: # (As long as it is not announced, access to the request is exclusive to the owner and respectively assigned agent.)
 
 **From the client clarifications:**
@@ -41,6 +35,16 @@ The location's attributes are: street name, city, district, state and Zip Code.
 > **Question:** What are the attributes of the Owner?
 >
 > **Answer:**  The Owner's attributes are: name, citizen's card number, tax number, address, email address, and telephone number.
+
+
+> **Question:** What are the attributes of the Agent?
+>
+> **Answer:**  The Agent's attributes are: name, citizen's card number, tax number, email address, contact telephone number, and the agency to which they are assigned.
+
+
+> **Question:** What are the attributes of the location?
+>
+> **Answer:**  The location's attributes are: street name, city, district, state and Zip Code.
 
 
 > **Question:** Does an Owner need to be registered in the system to submit a request for a property listing?
@@ -117,9 +121,8 @@ The location's attributes are: street name, city, district, state and Zip Code.
 
 ### 1.3. Acceptance Criteria
 
-* **AC1:** When creating a request with an already existing reference/name, the system must reject such operation and the owner must have to change the new request.
-* **AC2:** The currency used for the property's price or rent is US Dollars (USD - $)
-* **AC3:** The property's area is measured in squared meters (m<sup>2</sup>)
+* **AC1:** The currency used for the property's price or rent is US Dollars (USD - $)
+* **AC2:** The property's area is measured in squared meters (m<sup>2</sup>)
 
 [//]: # (* **AC4:** citizen's card number, taxes number, address, email address, and telephone number CRITERIA ??????)
 
