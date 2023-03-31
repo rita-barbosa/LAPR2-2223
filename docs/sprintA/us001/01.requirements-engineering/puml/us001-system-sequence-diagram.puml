@@ -12,22 +12,17 @@ participant ":System" as System
 
 activate User
 
-'ter em conta a UI que aparece para o cliente ????
-
     User -> System : asks to display listed properties
     activate System
 
-    System --> User : shows all the listed properties and asks to select data (type of business; \ntype of property; number of bedrooms)
+    System --> User : asks to select data (type of business; \ntype of property; number of bedrooms)
     deactivate System
 
-    alt user selects some criteria
+    alt user selects criteria
         User -> System : selects data
         activate System
 
-        System --> User : display all the listed properties, according to the \ncriteria chosen and asks to select data (price; city; state)
-        deactivate System
-
-        User -> System : selects data (price; city; state)
+        System --> User : display all the listed properties, according to the \ncriteria chosen
         deactivate System
 
     else user doesn't select any criteria
@@ -37,16 +32,33 @@ activate User
         User -> System : doesn't select any data
         activate System
 
-        System --> User : asks to select data (sale; rent)
+        System --> User : display listed properties by most recent added
         deactivate System
-
-        User -> System : selects data (sale; rent)
-        activate System
 
     end
 
-    System --> User : display all the listed properties, according to the \ncriteria chosen
-    deactivate System
+
+    System --> User : asks to select data (price; city; state)
+           deactivate System
+
+    alt user selects any sorting criteria
+        User -> System : selects data (price; city; state)
+                    activate System
+
+            System --> User : display all the listed properties, according to the \ncriteria chosen
+            deactivate System
+
+    else user doesn't select any sorting criteria
+
+        autonumber 6
+
+        User -> System : doesn't select any data
+        activate System
+
+        System --> User : display listed properties by most recent added
+        deactivate System
+
+    end
 
 
 @enduml

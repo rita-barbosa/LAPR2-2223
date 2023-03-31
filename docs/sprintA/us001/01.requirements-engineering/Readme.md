@@ -17,7 +17,7 @@ As an unregistered user, I want to display listed properties.
 
 >   The user can see all the information about the properties, except for the agency commission.
 
->	The properties can be consulted by type, number of rooms and sort them by criteria such as price or the parish where the property is located.
+>	The properties can be consulted by type, number of rooms and sort them by criteria such as price or the city where the property is located.
 
 
 
@@ -58,12 +58,12 @@ If the client does not select the type of business, the type of property and the
 > **Answer:** I already clarified what the unregistered user will see and what he can do within the application. If the system does not contain any properties, the system should show an empty list of properties.
 
 
-> **Question:** When a unregistered user wants to list properties, the list given by the program is sorted by default with which criteria? For example the list is shown with the properties sorted by most recently added?
+> **Question:** When an unregistered user wants to list properties, the list given by the program is sorted by default with which criteria? For example the list is shown with the properties sorted by most recently added?
 >
 > **Answer:** Thank you for your suggestion. By default, the list should be shown with the properties sorted by most recently added.
 
 
-> **Question:** Can an user filter the properties list for example by a type but choosing multiple values? For example the users wants to see only properties with 3 or 4 rooms. If this is possible, after filtering the list to show only the values chosen, he can sort by ascending/descending?
+> **Question:** Can a user filter the properties list for example by a type but choosing multiple values? For example the users wants to see only properties with 3 or 4 rooms. If this is possible, after filtering the list to show only the values chosen, he can sort by ascending/descending?
 >
 > **Answer:** The user should select only one value for each feature of the property. By default, the list should be shown with the properties sorted by most recently added.
 
@@ -87,7 +87,7 @@ If the client does not select the type of business, the type of property and the
 ### 1.4. Found out Dependencies
 
 
-The isn't any dependencies.
+There aren't any dependencies.
 
 
 ### 1.5 Input and Output Data
