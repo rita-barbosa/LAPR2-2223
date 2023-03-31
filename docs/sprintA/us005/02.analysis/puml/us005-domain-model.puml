@@ -11,31 +11,29 @@ hide circle
 hide methods
 
 
-class Organization {
-    name
-    vatNumber
-    website
-    phoneNumber
-    email
+class Company {
 }
 
-class Store {
+class Agency {
     ID
     designation
-    location
-    localManager
-    phoneNumber
-    email
-
+    contactNumber
+    emailAdress
 }
-
+class Location {
+    streetName
+    city
+    district
+    state
+    zipcode
+}
 class SystemAdministrator {
 
 }
 
 
-Organization "1" - "1" SystemAdministrator : Knows >
-Organization "1" - "0..*" Store: owns >
-SystemAdministrator "1" -- "*" Store : register >
-
+Company "1" - "1" SystemAdministrator : Knows >
+Company "1" - "*" Agency: owns >
+SystemAdministrator "1" -- "*" Agency : register >
+Agency "1" -- "1" Location: contains >
 @enduml

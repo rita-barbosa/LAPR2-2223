@@ -14,7 +14,7 @@ As a system administrator, I want to register a store.
 
 **From the specifications document:**
 
->	Each store has ID, designation, location, local manager, phone number and email.
+>Each store has ID, designation, location, local manager, phone number and email.
 
  
 
@@ -65,7 +65,6 @@ As a system administrator, I want to register a store.
     * ID 
     * designation
     * location
-    * local manager
     * phone number
     * email address
     
