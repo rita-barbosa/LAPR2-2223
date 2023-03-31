@@ -43,7 +43,7 @@ example received through a phone call.
 >
 > **Answer:** Information about the owner is not published.
 
-> **Question:** Also, must the agent who reviews and publishes an advertisement request be the same agent who accepts or
+> **Question:** Must the agent who reviews and publishes an advertisement request be the same agent who accepts or
 > rejects the purchase/lease request for that listing?
 >
 > **Answer:** The agent that receives the request is the one that posts the announcement.
@@ -52,7 +52,7 @@ example received through a phone call.
 >
 > **Answer:** The agent should choose the type of commission and enter the value.
 
-> **Question:** How can the owner send the photograph for thw announcement? 
+> **Question:** How can the owner send the photograph for the announcement? 
 > 
 > **Answer:** The owner can send the photograph by e-mail or any other means. The owner can even deliver the photograph to the store.
 
@@ -72,7 +72,7 @@ example received through a phone call.
 >
 > **Answer:** No.
 
-> **Question:**  What are the limit values/percentage of the comission? 
+> **Question:**  What are the limit values/percentage of the commission? 
 >
 > **Answer:** There is no maximum and the minimum is 0. 
 
@@ -104,7 +104,8 @@ example received through a phone call.
 * **AC2:** All the information, except number of bathrooms, available equipment and sun exposure, describing a property has to be submitted.
 * **AC3:** The area of the property needs to be expressed in m<sup>2</sup>.
 * **AC4:** The minimum value of the commission is 0 and there is no maximum.
-* **AC5:** At least one photograph is required
+* **AC5:** At least one photograph is required.
+
 ### 1.4. Found out Dependencies
 
 * There are no dependencies.
