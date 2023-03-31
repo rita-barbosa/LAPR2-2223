@@ -1,4 +1,4 @@
-# US 004 - To create a Task
+# US 004 - To submit a request
 
 ## 1. Requirements Engineering
 
@@ -77,7 +77,7 @@ The request for sale's additional information is based on the property's type, a
 > **Answer:** YET TO BE ANSWERED.
 
 
-> **Question:** Can the property's Owner summit requests to both sale and rental listings?
+> **Question:** Can the property's Owner submit requests to both sale and rental listings?
 >
 > **Answer:** YET TO BE CLARIFIED.
 
