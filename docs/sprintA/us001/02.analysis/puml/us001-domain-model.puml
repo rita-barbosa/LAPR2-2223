@@ -12,39 +12,69 @@ hide methods
 
 title Domain Model - US001
 
-class UnregisteredUser{
-}
+class Client{}
 
 class Announcement {
-    comission
+    typeCommission
+    amountCommission
 }
 
 class Property{
-    typeProperty
-    area
-    location
-    DCC
-    price
-    photographs
+      area
+      distanceCityCenter
 }
 
-class Criteria{
-    typeOfBusiness
-    typeOfproperty
-    numberofrooms
-    price
-    parish
-    sale
-    rent
-
+class Price{
+amount
 }
 
-UnregisteredUser "1" - "*" Announcement: display >
-UnregisteredUser "1" - "*" Criteria: chooses >
-Announcement "1" - "1" Property: contains >
-Criteria "*" -- "*" Announcement: limit? >
+class Lease{
+contractDuration
+}
 
-'se criteria part again
+class Location{
+streetName
+city
+district
+state
+zipCode
+}
 
+class TypeProperty{
+designation
+}
+
+class TypeResidence{
+designation
+}
+
+class Photograph{
+url
+}
+
+class House{
+ basement
+ inhabitableLoft
+ sunExposure
+}
+
+class Residence{
+ numberBedrooms
+ numberBathrooms
+ parkingSpace
+availableEquipment
+}
+
+
+Client "1" -- "1..*" Announcement: display >
+Announcement "1" -- "1" Property: contains >
+Announcement "1" - "1" Lease: is associated to >
+Residence  --|>  Property
+House --|> Residence
+TypeProperty "1" - "1" Property: is a description of >
+TypeResidence "1" -- "1" Residence: is a description of >
+Property "1" - "1" Location: contains >
+Property "1" -- "*" Photograph: contains >
+Price <|-up- Lease
 
 @enduml

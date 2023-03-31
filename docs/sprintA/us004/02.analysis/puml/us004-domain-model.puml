@@ -60,6 +60,10 @@ class House extends Residence{
     sunExposure
 }
 
+class AvailableEquipment{
+    description
+}
+
 class Agent {
     name
     citizenCardNumber
@@ -74,7 +78,6 @@ class Agent {
 class Agency {
     designation
     emailAddress
-    location
     localManager
     contactNumber
 }
@@ -88,13 +91,14 @@ class Owner {
     telephoneNumber
 }
 
-TypeProperty "1" -- "*" Property : classifies a >
-Price "1" -left- "1" Property : appraises a >
+Agency "1" -- "1" Location : contains >
+TypeProperty "1" -- "*" Property : classifies >
+Price "1" -left- "1" Property : appraises >
 Property "1" -up- "1" Owner : belongs to >
-Agent "1" -down- "0..*" Property : revises >
-Agency "1" -down- "1..*" Agent : employees >
+Agent "1" -down- "0..*" Property : < advertised by
+Agency "1" -right- "1..*" Agent : employees >
 Photograph "1..*" -up- "1" Property : depicts >
-Location "1" -right- "1" Property : represents a >
-
+Location "1" -right- "1" Property : represents >
+Property "1" -- "*" AvailableEquipment : contains >
 
 @enduml
