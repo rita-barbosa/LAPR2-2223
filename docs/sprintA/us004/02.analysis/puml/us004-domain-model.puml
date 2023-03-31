@@ -33,20 +33,18 @@ class Residence extends Property{
     numberBedrooms
     numberBathrooms
     parkingSpace
-    availableEquipment
-    centralHeating
-    airConditioning
+
 }
 
 class Location{
     street
     city
-    *district*
+    district
     state
     zipCode
 }
 
-class TypeResidence extends Residence{
+class TypeResidence{
     designation
 }
 
@@ -64,41 +62,28 @@ class AvailableEquipment{
     description
 }
 
-class Agent {
-    name
-    citizenCardNumber
-    taxesNumber
-    address
-    telephoneNumber
-    emailAddress
-    password
-    agency
-}
+class Agent extends Employee{}
 
 class Agency {
+    ID
     designation
     emailAddress
-    localManager
     contactNumber
 }
-
+class Employee{}
 class Owner {
-    name
-    citizenCardNumber
-    taxNumber
-    address
-    emailAddress
-    telephoneNumber
 }
 
+
+Employee "1" -- "1" Agency: works in  >
 Agency "1" -- "1" Location : contains >
 TypeProperty "1" -- "*" Property : classifies >
-Price "1" -left- "1" Property : appraises >
+Price "1" -left- "1" Property : contains <
 Property "1" -up- "1" Owner : belongs to >
-Agent "1" -down- "0..*" Property : < advertised by
-Agency "1" -right- "1..*" Agent : employees >
-Photograph "1..*" -up- "1" Property : depicts >
-Location "1" -right- "1" Property : represents >
-Property "1" -- "*" AvailableEquipment : contains >
+Agent "1" -down- "*" Property : < advertised by
+Photograph "1..*" -up- "1" Property : contains <
+Location "1" -right- "1" Property : contains <
+Residence "1" -- "*" AvailableEquipment : contains >
+TypeResidence "1" -- "1" Residence: classifies >
 
 @enduml

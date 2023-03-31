@@ -28,7 +28,7 @@ The request for sale's additional information is based on the property's type, a
 |  Inhabitable Loft   |          Yes / No           |     -     |
 |    Sun Exposure     | North / South / West / East |     -     |
 
-[//]: # (As long as it is not announced, access to the request is exclusive to the owner and respectively assigned agent.)
+As long as it is not announced, access to the request is exclusive to the owner and respectively assigned agent.
 
 **From the client clarifications:**
 
@@ -72,14 +72,9 @@ The request for sale's additional information is based on the property's type, a
 > **Answer:** No.
 
 
-> **Question:** Does each request have unique reference?
->
-> **Answer:** YET TO BE ANSWERED.
-
-
 > **Question:** Can the property's Owner submit requests to both sale and rental listings?
 >
-> **Answer:** YET TO BE CLARIFIED.
+> **Answer:** No.
 
 
 > **Question:** Is it possible to submit multiple listing for the same property and type of listing?
@@ -97,14 +92,9 @@ The request for sale's additional information is based on the property's type, a
 > **Answer:** Yes.
 
 
-> **Question:** Does the request have a description? If so, does the description have any limitation?
->
-> **Answer:** YET TO BE ANSWERED.
-
-
 > **Question:** Is the agent essential for the submission of a request? If the owner does not choose any agent, will the platform randomly assign a respective agent?
 >
-> **Answer:** No, the selection of an Agent is necessary data for the request's submission.
+> **Answer:** Yes.
 
 
 > **Question:** Must all the request's data slots be filled, according to the property's type and listing?
@@ -117,14 +107,11 @@ The request for sale's additional information is based on the property's type, a
 > **Answer:** No.
 
 
-* The created request stays in a "not published" state in order to distinguish from "published" requests. ???? (check **Moodle** - Mr. Client says that's an implementation detail, he doesn't need to know)
 
 ### 1.3. Acceptance Criteria
 
 * **AC1:** The currency used for the property's price or rent is US Dollars (USD - $)
-* **AC2:** The property's area is measured in squared meters (m<sup>2</sup>)
-
-[//]: # (* **AC4:** citizen's card number, taxes number, address, email address, and telephone number CRITERIA ??????)
+* **AC2:** The property's area is measured in square meters (m<sup>2</sup>)
 
 ### 1.4. Found out Dependencies
 
@@ -140,6 +127,7 @@ The request for sale's additional information is based on the property's type, a
     * price (price and/or rent)
     * Contract's duration
     * area
+    * Available equipment
     * location
         * street name
         * city
@@ -159,10 +147,8 @@ The request for sale's additional information is based on the property's type, a
 <p>
 
 * Selected data:
-    * property's listing (Sale and/or Rent)
+    * property's listing 
     * property's type
-    * central heating
-    * air conditioning
     * basement
     * number of Bedrooms
     * number of Bathrooms
@@ -188,7 +174,6 @@ The request for sale's additional information is based on the property's type, a
 * List of existing/available agents
 * (In)Success of the operation
 
-[//]: # (* List of number of bathrooms)
 
 ### 1.6. System Sequence Diagram (SSD)
 
