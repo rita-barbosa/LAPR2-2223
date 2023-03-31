@@ -22,14 +22,13 @@ class Agent{
 class StoreManager{
 }
 class NetworkManager{
-'does he also have an agency to which he is assigned to '
 }
 
 class Person{
 name
-CCN
+citizenCardNumber
 taxNumber
-adress
+address
 emailAddress
 contactNumber
 }
@@ -42,16 +41,16 @@ contactNumber
 }
 
 
-Company "1" ----- "1" SystemAdministrator : knows >
-SystemAdministrator ---|> Employee
-SystemAdministrator "1" - "*" Employee: registers >
-SystemAdministrator "1" --- "*" Agency: registers >
-Employee "*" ---- "1" Company : works for >
-Employee "1" --- "1" Agency: works in  >
-Person  <|--  Employee
+Company "1" -- "1" SystemAdministrator : knows >
+SystemAdministrator -|> Employee
+SystemAdministrator "1" -- "*" Employee: registers >
+SystemAdministrator "1" -up- "*" Agency: registers >
+Employee "*" -- "1" Company : works for >
+Employee "1" -- "1" Agency: works in  >
+Person  <|-up-  Employee
 Agent  --|> Employee
 StoreManager --|> Employee
-NetworkManager ---|> Employee
+NetworkManager --|> Employee
 
 
 @enduml

@@ -22,6 +22,7 @@ As a system administrator, I want to register a new employee.
 
 **From the client clarifications:**
 
+
 > **Question:** Can an employee be registered to more than one agency?
 >
 > **Answer:** No.
@@ -76,7 +77,6 @@ As a system administrator, I want to register a new employee.
 > **Answer:** The commission value includes the agent and the company commission.
 
 
-
 ### 1.3. Acceptance Criteria
 
 
@@ -116,7 +116,7 @@ As a system administrator, I want to register a new employee.
 **Other alternatives might exist.**
 
 
-![System Sequence Diagram](svg/us003-system-sequence-diagram.svg)
+![System Sequence Diagram - Alternative One](svg/us003-system-sequence-diagram.svg)
 
 
 ### 1.7 Other Relevant Remarks
