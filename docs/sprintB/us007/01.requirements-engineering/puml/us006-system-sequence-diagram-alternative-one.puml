@@ -3,37 +3,32 @@ skinparam monochrome true
 skinparam packageStyle rectangle
 skinparam shadowing false
 
-title System Sequence Diagram (SSD) - Alternative One
+title System Sequence Diagram (SSD) - US007
 
 autonumber
 
-actor "Organization Employee" as Employee
+actor "Unregistered User" as User
 participant ":System" as System
 
-activate Employee
+activate User
 
-    Employee -> System : asks to create a new task
+    User -> System : asks to create a new account
     activate System
 
-        System --> Employee : requests data
+        System --> User : requests data
     deactivate System
 
-    Employee -> System : types requested data (reference, description, \ninformal description, technical description,\nduration, cost)
+    User -> System : types requested data (name, citizen's card number,\n taxes number, address, email address, telephone number)
+
     activate System
 
-        System --> Employee : shows task category list and asks to select one
+        System --> User : sends generated password to email and asks for validation
     deactivate System
 
-    Employee -> System : selects a task category
+    User -> System : validates the account
     activate System
 
-        System --> Employee : shows selected category
-    deactivate System
-
-    Employee -> System : submits data
-    activate System
-
-        System --> Employee : displays operation success
+        System --> User : displays operation success
     deactivate System
 
 @enduml
