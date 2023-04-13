@@ -2,12 +2,12 @@
 
 This folder contains all the global artifacts for your project, split by each implementation phase.
 
-[Glossary](docs/sprintB/global-artifacts/01.requirements-engineering/glossary.md)
+[Glossary](01.requirements-engineering/glossary.md)
 
-[Supplementary Specification](docs/sprintB/global-artifacts/01.requirements-engineering/supplementary-specification.md)
+[Supplementary Specification](01.requirements-engineering/supplementary-specification.md)
 
-[Use Case Diagram](docs/sprintB/global-artifacts/01.requirements-engineering/use-case-diagram.md)
+[Use Case Diagram](01.requirements-engineering/use-case-diagram.md)
 
-[Analysis](docs/sprintB/global-artifacts/02.analysis/Readme.md)
+[Analysis](02.analysis/Readme.md)
 
-[Design](docs/sprintB/global-artifacts/03.design/readme.md)
+[Design](03.design/readme.md)
