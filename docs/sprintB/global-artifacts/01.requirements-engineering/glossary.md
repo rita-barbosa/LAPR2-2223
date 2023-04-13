@@ -17,7 +17,7 @@
 | **Buyer**                 | A person that intends to buy or rent an available property.                                                                    |
 | **CCN**		                 | Acronym for Citizen's Card Number.							                                                                                      |
 | **Citizen's Card Number** | It refers to the number that identifies individuals. 										                                                                |
-| **Client**		              | It refers to an user that is not registered on the system.									                                                            |
+| **Client**		              | Synonym of _Buyer_									                                                                                                    |
 | **Commission**	           | An amount of money paid to an employee upon completing sale or rent of a property.											                                  |
 | **Customer**              | It is a synonym of _Buyer_.                                                                                                    |
 | **DCC**		                 | Acronym for Distance City Center.							                                                                                       |
