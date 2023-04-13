@@ -1,0 +1,66 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - US002
+
+autonumber
+
+actor "Agent" as Employee
+participant ":System" as System
+
+activate Employee
+
+    Employee -> System : asks to publish announcement
+    activate System
+
+      System --> Employee : shows types of comission and asks to select one
+    deactivate System
+
+    Employee -> System : selects type of comission
+    activate System
+
+    System --> Employee : requests value of comission
+    deactivate System
+
+    Employee -> System : enters comission value
+    activate System
+
+    System --> Employee : shows types of properties and asks to select one
+    deactivate System
+
+    Employee -> System : selects a type of property
+        activate System
+
+    alt land property
+    autonumber 8
+       System --> Employee : requests data (type of property; area; location; DCC; price)
+          deactivate System
+      Employee -> System : submits requested data
+              activate System
+
+    else apartment property
+     autonumber 8
+      System --> Employee : requests data (type of property; area; location; DCC; price; photographs; number of bedrooms; \nnumber of bathrooms; number of parking spaces; available equipment)
+        deactivate System
+    Employee -> System : submits requested data
+            activate System
+    else house property
+     autonumber 8
+      System --> Employee : requests data (type of property; area; location; DCC; price; \nphotographs; number of bedrooms; number of bathrooms; number of parking spaces; \navailable equipment; existence of basement; inhabitable loft; sun exposure)
+        deactivate System
+
+        Employee -> System : submits requested data
+        activate System
+end
+        System --> Employee : shows all data and requests confirmation
+    deactivate System
+
+    Employee -> System : confirms data
+    activate System
+
+        System --> Employee : displays operation success
+    deactivate System
+
+@enduml

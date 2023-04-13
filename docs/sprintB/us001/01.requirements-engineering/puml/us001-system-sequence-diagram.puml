@@ -1,0 +1,64 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - US001
+
+autonumber
+
+actor "Unregistered user" as User
+participant ":System" as System
+
+activate User
+
+    User -> System : asks to display listed properties
+    activate System
+
+    System --> User : asks to select data (type of business; \ntype of property; number of bedrooms)
+    deactivate System
+
+    alt user selects criteria
+        User -> System : selects data
+        activate System
+
+        System --> User : display all the listed properties, according to the \ncriteria chosen
+        deactivate System
+
+    else user doesn't select any criteria
+
+        autonumber 3
+
+        User -> System : doesn't select any data
+        activate System
+
+        System --> User : display listed properties by most recent added
+        deactivate System
+
+    end
+
+
+    System --> User : asks to select data (price; city; state)
+           deactivate System
+
+    alt user selects any sorting criteria
+        User -> System : selects data (price; city; state)
+                    activate System
+
+            System --> User : display all the listed properties, according to the \ncriteria chosen
+            deactivate System
+
+    else user doesn't select any sorting criteria
+
+        autonumber 6
+
+        User -> System : doesn't select any data
+        activate System
+
+        System --> User : display listed properties by most recent added
+        deactivate System
+
+    end
+
+
+@enduml

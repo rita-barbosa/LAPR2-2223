@@ -1,0 +1,76 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+'left to right direction
+
+skinparam classAttributeIconSize 0
+
+hide circle
+hide methods
+
+title Domain Model - US002
+
+
+class Announcement {
+ typeCommission
+ amountCommission
+}
+class Property{
+ area
+ distanceCityCenter
+}
+
+class Residence{
+ numberBedrooms
+ numberBathrooms
+ parkingSpace
+}
+class House{
+ basement
+ inhabitableLoft
+ sunExposure
+}
+class TypeProperty{
+designation
+}
+class TypeResidence{
+designation
+}
+class Photograph{
+url
+}
+class Location{
+streetName
+city
+district
+state
+zipCode
+}
+class Price{
+amount
+}
+class Lease{
+contractDuration
+}
+class Agent {
+}
+class AvailableEquipment{
+description
+}
+
+
+Agent "1" -- "*" Announcement: publishes >
+Announcement "1" - "1" Property: contains >
+TypeProperty "1" -- "1" Property: is a description of >
+Residence -up-|> Property
+TypeResidence "1" -up- "1" Residence: is a description of >
+House -up-|> Residence
+Property "1" - "*" Photograph: contains >
+Property "1"--"1" Location: contains >
+Property "1" -- "1" Price: contains >
+Price <|-- Lease
+Residence "1" -- "*"AvailableEquipment: contains >
+
+@enduml

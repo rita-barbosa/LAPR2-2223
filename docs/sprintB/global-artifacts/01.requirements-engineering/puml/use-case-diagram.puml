@@ -1,0 +1,25 @@
+@startuml
+'skinparam monochrome true
+skinparam packageStyle rectangle
+'skinparam shadowing false
+
+skinparam rectangle{
+    BorderColor yellow
+}
+
+title Use Case Diagram
+
+left to right direction
+
+    usecase "UC1 - Display listed properties" as UC1
+        "Unregistered User" --> UC1
+    usecase "UC2 - Publish an announcement" as UC2
+        "Agent" --> UC2
+    usecase "UC3 - Register new employees" as UC3
+        "System Administrator" --> UC3
+    usecase "UC5 - Register new store" as UC5
+        "System Administrator" --> UC5
+     usecase "UC4 - Submit a request" as UC4
+        "Owner" --> UC4
+
+@enduml

@@ -1,0 +1,39 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+'left to right direction
+
+skinparam classAttributeIconSize 0
+
+hide circle
+hide methods
+
+
+class Company {
+}
+
+class Agency {
+    ID
+    designation
+    contactNumber
+    emailAdress
+}
+class Location {
+    streetName
+    city
+    district
+    state
+    zipcode
+}
+class SystemAdministrator {
+
+}
+
+
+Company "1" - "1" SystemAdministrator : Knows >
+Company "1" - "*" Agency: owns >
+SystemAdministrator "1" -- "*" Agency : register >
+Agency "1" -- "1" Location: contains >
+@enduml

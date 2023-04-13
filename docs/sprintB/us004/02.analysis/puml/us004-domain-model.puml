@@ -1,0 +1,89 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+'left to right direction
+
+skinparam classAttributeIconSize 0
+
+hide circle
+hide methods
+
+title Domain Model - US004
+
+class Property {
+    area
+    DCC
+}
+
+class Photograph{
+    url
+}
+
+class Lease extends Price{
+    contractDuration
+}
+
+class Price {
+    price
+}
+
+class Residence extends Property{
+    numberBedrooms
+    numberBathrooms
+    parkingSpace
+
+}
+
+class Location{
+    street
+    city
+    district
+    state
+    zipCode
+}
+
+class TypeResidence{
+    designation
+}
+
+class TypeProperty{
+    designation
+}
+
+class House extends Residence{
+    basement
+    inhabitableLoft
+    sunExposure
+}
+
+class AvailableEquipment{
+    description
+}
+
+class Agent extends Employee{}
+
+class Agency {
+    ID
+    designation
+    emailAddress
+    contactNumber
+}
+class Employee{}
+class Owner {
+}
+
+
+Employee "1" -- "1" Agency: works in  >
+Agency "1" -- "1" Location : contains >
+TypeProperty "1" -- "*" Property : classifies >
+Price "1" -left- "1" Property : contains <
+Property "1" -up- "1" Owner : belongs to >
+Agent "1" -down- "*" Property : < advertised by
+Photograph "1..*" -up- "1" Property : contains <
+Location "1" -right- "1" Property : contains <
+Residence "1" -- "*" AvailableEquipment : contains >
+TypeResidence "1" -- "1" Residence: classifies >
+
+@enduml

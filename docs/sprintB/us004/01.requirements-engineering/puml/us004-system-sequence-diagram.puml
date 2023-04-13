@@ -1,0 +1,113 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - US004
+
+autonumber
+
+actor "<b>Owner</b>" as Owner
+participant "<b>:System</b>" as System
+
+activate Owner
+
+    Owner -> System : asks to create a new listing
+    activate System
+
+        System --> Owner : requests listing type
+    deactivate System
+
+    Owner -> System : selects listing type
+    activate System
+
+        System --> Owner : requests data
+    deactivate System
+
+
+
+ alt Lease
+        autonumber 5
+        "Owner" -> System: types requested data (rent, contract's duration)
+        activate System
+
+            System --> "Owner" : requests Owner's data
+        deactivate System
+
+    else Sale
+        autonumber 5
+        "Owner" -> System: types requested data (price)
+        activate System
+
+            System --> "Owner" : requests Owner's data
+        deactivate System
+
+    end
+
+    Owner -> System : types requested data (name, citizen's card number, tax number, *Owner's address*,\n email address, telephone number, location, distance from City Center, area)
+    activate System
+
+    System --> "Owner" : requests data (pictures)
+    deactivate System
+
+    Owner -> System : imports/uploads requested data (photographs/pictures)
+    activate System
+
+    System --> Owner : shows property's type
+        deactivate System
+
+    Owner -> System : selects a property's type
+    activate System
+
+    System --> Owner : request data
+    deactivate System
+
+   alt Apartment
+
+        "Owner" -> System : selects requested data (bedrooms, bathrooms, central heating, air conditioning)
+        activate System
+
+        System --> Owner : request agency's selection
+        deactivate System
+
+    else House
+
+        autonumber 13
+        "Owner" -> System: selects requested data (bedrooms, bathrooms, central heating, air conditioning,\n basement, inhabitable loft, sun exposure)
+        activate System
+
+        System --> Owner : request agency's selection
+        deactivate System
+
+    else Land
+        autonumber 13
+        "Owner" <--> System: No data needed when selecting this option
+        activate System
+
+        System --> Owner : request agency's selection
+        deactivate System
+    end
+
+    autonumber 15
+
+       Owner -> System : selects an agency
+        activate System
+
+       System --> Owner : shows list of agency's agents
+    deactivate System
+
+
+        Owner -> System : selects an agent
+    activate System
+
+    System --> Owner : shows all data and requests confirmation
+    deactivate System
+
+
+        "Owner" -> System : confirms data and submits created listing
+    activate System
+
+    System --> "Owner" : displays operation success
+    deactivate System
+
+@enduml

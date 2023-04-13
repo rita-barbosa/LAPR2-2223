@@ -1,0 +1,56 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+'left to right direction
+
+skinparam classAttributeIconSize 0
+
+hide circle
+hide methods
+
+class SystemAdministrator {}
+
+class Company {}
+
+class Employee {}
+
+class Agent{
+}
+
+class StoreManager{
+}
+class NetworkManager{
+}
+
+class Person{
+name
+citizenCardNumber
+taxNumber
+address
+emailAddress
+contactNumber
+}
+
+
+class Agency {
+designation
+emailAddress
+contactNumber
+}
+
+
+Company "1" -- "1" SystemAdministrator : knows >
+SystemAdministrator -|> Employee
+SystemAdministrator "1" -- "*" Employee: registers >
+SystemAdministrator "1" -up- "*" Agency: registers >
+Employee "*" -- "1" Company : works for >
+Employee "1" -- "1" Agency: works in  >
+Person  <|-up-  Employee
+Agent  --|> Employee
+StoreManager --|> Employee
+NetworkManager --|> Employee
+
+
+@enduml
