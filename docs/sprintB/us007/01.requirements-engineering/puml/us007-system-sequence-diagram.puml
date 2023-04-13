@@ -12,20 +12,20 @@ participant ":System" as System
 
 activate User
 
-    User -> System : asks to create a new account
+    User -> System : asks to register in the system
     activate System
 
         System --> User : requests data
     deactivate System
 
-    User -> System : types requested data (name, citizen's card number,\n taxes number, address, email address, telephone number)
+    User -> System : types requested data
 
     activate System
 
         System --> User : sends generated password to email and asks for validation
     deactivate System
 
-    User -> System : validates the account
+    User -> System : validates the typed data
     activate System
 
         System --> User : displays operation success

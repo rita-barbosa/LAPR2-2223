@@ -1,4 +1,4 @@
-# US 006 - To create a Task 
+# US 007 - To register user in the system 
 
 ## 1. Requirements Engineering
 
@@ -6,8 +6,7 @@
 ### 1.1. User Story Description
 
 
-As an organization employee, I want to create a new task in order to be further published.
-
+As an unregistered user, I want to register in the system to buy, sell or rent properties.
 
 
 ### 1.2. Customer Specifications and Clarifications 
@@ -15,31 +14,30 @@ As an organization employee, I want to create a new task in order to be further 
 
 **From the specifications document:**
 
->	Each task is characterized by having a unique reference per organization, a designation, an informal and a technical description, an estimated duration and cost as well as the its classifying task category. 
+>	All those who wish to use the application must be authenticated. 
 
 
->	As long as it is not published, access to the task is exclusive to the employees of the respective organization. 
+>	??? 
 
 
 
 **From the client clarifications:**
 
-> **Question:** Which is the unit of measurement used to estimate duration?
+> **Question:** Does the user also receive the password via email or can he choose a password when registering?
 >  
-> **Answer:** Duration is estimated in days.
+> **Answer:** YET TO BE ANSWERED
 
 
-> **Question:** Monetary data is expressed in any particular currency?
+> **Question:** When an unregistered user wants to register a new account in the system, the set of parameters that are asked are the following: name, citizen card number, tax number, email, phone number, and password. Do you want any extra parameters/requirements to be asked or just the ones specified above? If so, which ones are mandatory? 
 >  
-> **Answer:** Monetary data (e.g. estimated cost of a task) is indicated in POTs (virtual currency internal to the platform).
+> **Answer:** YET TO BE ANSWERED
 
 
 ### 1.3. Acceptance Criteria
 
 
-* **AC1:** All required fiels must be filled in.
-* **AC2:** Task reference must have at least 5 alphanumeric chars.
-* **AC3:** When creating a task with an already existing reference, the system must reject such operation and the user must have the change to modify the typed reference.
+* **AC1:** Passwords have seven alphanumeric characters in length, including three capital letters and two digits.
+
 
 
 ### 1.4. Found out Dependencies
@@ -54,12 +52,12 @@ As an organization employee, I want to create a new task in order to be further 
 **Input Data:**
 
 * Typed data:
-	* a reference, 
-	* a designation, 
-	* an informal description
-	* a technical description
-	* an estimated duration
-	* an estimated cost
+   * name
+   * citizen's card number
+   * taxes number
+   * address
+   * email address
+   * telephone number
 	
 * Selected data:
 	* Classifying task category 
@@ -67,20 +65,15 @@ As an organization employee, I want to create a new task in order to be further 
 
 **Output Data:**
 
-* List of existing task categories
 * (In)Success of the operation
 
 ### 1.6. System Sequence Diagram (SSD)
 
 **Other alternatives might exist.**
 
-#### Alternative One
 
-![System Sequence Diagram - Alternative One](svg/us006-system-sequence-diagram-alternative-one.svg)
+![System Sequence Diagram - US007](svg/us007-system-sequence-diagram.svg)
 
-#### Alternative Two
-
-![System Sequence Diagram - Alternative Two](svg/us006-system-sequence-diagram-alternative-two.svg)
 
 ### 1.7 Other Relevant Remarks
 
