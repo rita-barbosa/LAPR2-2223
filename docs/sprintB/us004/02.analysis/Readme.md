@@ -1,4 +1,4 @@
-# US 004 - To submit a Request
+# US 004 - To submit an announcement
 
 ## 2. Analysis
 

@@ -1,4 +1,4 @@
-# US 004 - To submit a request
+# US 004 - To submit an announcement
 
 ## 1. Requirements Engineering
 
@@ -16,7 +16,7 @@ Each request lists a property for sale or/and rent, and it is assigned to an age
 The request for sale's standard information is the property's listing, the price/rent, the renting contract's duration (when applicable),
 area, location, distance from the City Center, and one or more photographs.
 
-The request for sale's additional information is based on the property's type, as seen in the table below.
+The sale's additional information is based on the property's type, as seen in the table below.
 
 |     Information     |            House            | Apartment |
 |:-------------------:|:---------------------------:|:---------:|

@@ -1,4 +1,4 @@
-# US 004 - To submit a Request
+# US 004 - To submit an announcement
 
 [Requirements Engineering](01.requirements-engineering/Readme.md)
 
