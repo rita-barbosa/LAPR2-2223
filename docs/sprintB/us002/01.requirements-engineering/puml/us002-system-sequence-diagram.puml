@@ -15,16 +15,16 @@ activate Employee
     Employee -> System : asks to publish announcement
     activate System
 
-      System --> Employee : shows types of comission and asks to select one
+      System --> Employee : shows types of commission and asks to select one
     deactivate System
 
-    Employee -> System : selects type of comission
+    Employee -> System : selects type of commission
     activate System
 
-    System --> Employee : requests value of comission
+    System --> Employee : requests value of commission
     deactivate System
 
-    Employee -> System : enters comission value
+    Employee -> System : enters commission value
     activate System
 
     System --> Employee : shows types of properties and asks to select one
@@ -34,30 +34,35 @@ activate Employee
         activate System
 
     alt land property
+
     autonumber 8
        System --> Employee : requests data (type of property; area; location; DCC; price)
           deactivate System
-      Employee -> System : submits requested data
+      Employee -> System : types requested data
               activate System
 
     else apartment property
+
      autonumber 8
       System --> Employee : requests data (type of property; area; location; DCC; price; photographs; number of bedrooms; \nnumber of bathrooms; number of parking spaces; available equipment)
         deactivate System
-    Employee -> System : submits requested data
+    Employee -> System : types requested data
             activate System
+
     else house property
+
      autonumber 8
       System --> Employee : requests data (type of property; area; location; DCC; price; \nphotographs; number of bedrooms; number of bathrooms; number of parking spaces; \navailable equipment; existence of basement; inhabitable loft; sun exposure)
         deactivate System
 
-        Employee -> System : submits requested data
+        Employee -> System : types requested data
         activate System
-end
+
+    end
         System --> Employee : shows all data and requests confirmation
     deactivate System
 
-    Employee -> System : confirms data
+    Employee -> System : submits data
     activate System
 
         System --> Employee : displays operation success
