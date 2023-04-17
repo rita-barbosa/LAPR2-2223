@@ -14,9 +14,14 @@ title Domain Model - US002
 
 
 class Announcement {
- typeCommission
- amountCommission
+requestDate
+acceptanceDate
 }
+class Commission {
+typeCommission
+amountCommission
+}
+
 class Property{
  area
  distanceCityCenter
@@ -72,5 +77,6 @@ Property "1"--"1" Location: contains >
 Property "1" -- "1" Price: contains >
 Price <|-- Lease
 Residence "1" -- "*"AvailableEquipment: contains >
+Announcement "1" -- "1" Commission: is assigned to <
 
 @enduml
