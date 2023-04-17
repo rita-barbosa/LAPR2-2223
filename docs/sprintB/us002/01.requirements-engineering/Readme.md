@@ -96,7 +96,7 @@ example received through a phone call.
 > 
 > **Answer:** The agent registers the order in the system.
 
-
+> The agent should identify, in the system, the owner that wants to sell a property. The agent should use the owner e-mail address to identify the owner. The owner who is contacting the agent (for example, through a phone call) must be registered in the system. The agent that receives the phone call is the property responsible agent.
 
 ### 1.3. Acceptance Criteria
 
@@ -105,6 +105,8 @@ example received through a phone call.
 * **AC3:** The area of the property needs to be expressed in m<sup>2</sup>.
 * **AC4:** The minimum value of the commission is 0 and there is no maximum.
 * **AC5:** At least one photograph is required.
+* **AC6:** The owner that wants to sell a property must be identified in the system.
+* **AC7:** When publishing an announcement of an already existing property, the system must reject such operation.
 
 ### 1.4. Found out Dependencies
 
