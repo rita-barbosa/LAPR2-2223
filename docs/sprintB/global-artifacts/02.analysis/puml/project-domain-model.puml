@@ -94,7 +94,7 @@ district
 state
 zipCode
 }
-class Price{
+class Transaction{
 amount
 }
 class Lease{
@@ -116,14 +116,14 @@ Customer  ---|> Person
 Agent  ----|> Employee
 StoreManager --|> Employee
 NetworkManager ---|> Employee
-Agent "1" --- "*" Announcement: publishes >
+Agent "1" -- "*" Announcement: publishes >
 Agent "1" - "*" Visit: schedules >
 Customer "1" -- "*" Visit:  requests >
 StoreManager "1" -- "1" Agency: manages >
 NetworkManager "1" -up- "1" Network: manages >
 Agency "1..*" --- "1" Network: is part of >
 Announcement "1" -- "1" Property: contains >
-Announcement "*" - "1" Owner: requests <
+Announcement "*" -- "1" Owner: requests <
 Visit "1" -- "1" Property: done to >
 Residence  --|>  Property
 House --|> Residence
@@ -133,14 +133,14 @@ Employee "1" ----- "1" Agency: works in  >
 TypeProperty "1" -- "1" Property: is a description of >
 TypeResidence "1" -- "1" Residence: is a description of >
 Property "1" -- "1..*" Photograph: contains >
-Property "1"--"1" Location: contains >
-Property "1" -- "1" Price: contains >
-Price <|-- Lease
-Person "1" ---- "1" Location: contains >
-Agency "1" ---- "1" Location: contains >
+Property "1"--"1" Location: is located  >
+Property "1" -- "1" Transaction: !!!!!contains!!!!! >
+Transaction <|-- Lease
+Person "1" ---- "1" Location: is located >
+Agency "1" ---- "1" Location: is located >
 Residence "1" -- "*"AvailableEquipment: contains >
 Announcement "1" -- "1" Commission: is assigned to <
-
+Agency "1" --- "1" Announcement: is responsible for >
 
 
 @enduml
