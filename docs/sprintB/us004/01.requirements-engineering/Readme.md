@@ -135,6 +135,7 @@ As long as it is not announced, access to the announcement is exclusive to the o
         * state
         * Zip Code
     * distance from the city center (DCC)
+    * photographs' URL
     * Owner's data
         * name
         * citizen's card number
@@ -156,12 +157,6 @@ As long as it is not announced, access to the announcement is exclusive to the o
     * sun exposure
     * agency
         * agent
-</p>
-<p>
-
-* Unstructured data:
-     * photographs
-   
 </p>
 
 **Output Data:**
