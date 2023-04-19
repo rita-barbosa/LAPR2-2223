@@ -1,0 +1,81 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false\
+
+
+
+participant ":PublishAnnouncementController" as CTRL
+participant ":AuthFacade" as _APP
+participant "authFacade\n:AuthFacade" as APP
+participant "userSession\n:UserSession" as SESSION
+participant ":Repositories" as RepositorySingleton
+participant "repositories\n:Repositories" as PLAT
+participant "agencyRepository\n:AgencyRepository" as AgencyRepository
+participant "agency\n:Agency" as AGENCY
+
+
+autonumber 21
+
+             -> CTRL : getAgentFromSession()
+             activate CTRL
+
+autonumber 21.1
+
+    group Get Property Type List
+
+             CTRL -> _APP: getInstance()
+             activate _APP
+             _APP -> CTRL: authFacade
+             deactivate _APP
+
+
+             CTRL -> APP: getCurrentUserSession()
+             activate APP
+
+                 APP --> CTRL: userSession
+             deactivate APP
+
+             CTRL -> SESSION: getUserId()
+             activate SESSION
+
+                 SESSION --> CTRL: email
+             deactivate SESSION
+
+
+             CTRL -> PLAT: getAgencyRepository()
+             activate PLAT
+
+                 PLAT --> CTRL: agencyRepository
+             deactivate PLAT
+
+
+             CTRL -> AgencyRepository: getAgencyByUserEmail(email)
+             activate AgencyRepository
+
+                 loop [for each agency
+                     AgencyRepository -> AGENCY : anyEmployeeHasEmail(email)
+                     activate AGENCY
+
+                          AGENCY --> AgencyRepository : true/false
+                     deactivate AGENCY
+                 end
+                 AgencyRepository --> CTRL : agency
+             deactivate AgencyRepository
+
+             CTRL -> AGENCY: getAgentByEmail(email)
+             activate AGENCY
+
+                 AGENCY --> CTRL : agent
+             deactivate AGENCY
+
+
+
+
+    end
+
+autonumber 22
+
+    <-- CTRL : agent
+
+@enduml
