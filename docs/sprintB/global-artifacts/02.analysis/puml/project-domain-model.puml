@@ -15,7 +15,7 @@ class SystemAdministrator {
 }
 
 class Agency {
-ID
+id
 designation
 emailAddress
 phoneNumber
@@ -26,7 +26,7 @@ class Employee {
 
 class Person{
 name
-citizenCardNumber
+passportCardNumber
 taxNumber
 emailAddress
 phoneNumber
@@ -47,10 +47,15 @@ class StoreManager{
 class NetworkManager{
 }
 class Announcement{
+ownerEmail
+
+}
+class Date {
 requestDate
 acceptanceDate
+rejectionDate
+saleDate
 }
-
 class Visit{
 date
 }
@@ -134,13 +139,13 @@ TypeProperty "1" -- "1" Property: is a description of >
 TypeResidence "1" -- "1" Residence: is a description of >
 Property "1" -- "1..*" Photograph: contains >
 Property "1"--"1" Location: is located  >
-Property "1" -- "1" Transaction: !!!!!contains!!!!! >
+Property "1" -- "1" Transaction: monetization is described bby >
 Transaction <|-- Lease
 Person "1" ---- "1" Location: is located >
 Agency "1" ---- "1" Location: is located >
 Residence "1" -- "*"AvailableEquipment: contains >
 Announcement "1" -- "1" Commission: is assigned to <
 Agency "1" --- "1" Announcement: is responsible for >
-
+Announcement "1" --- "1" Date : has registration of >
 
 @enduml
