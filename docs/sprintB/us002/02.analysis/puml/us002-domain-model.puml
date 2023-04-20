@@ -17,6 +17,15 @@ class Announcement {
  typeCommission
  amountCommission
 }
+ class Announcement {
+requestDate
+acceptanceDate
+ }
+class Commission {
+typeCommission
+amountCommission
+}
+
 class Property{
  area
  distanceCityCenter
@@ -39,7 +48,7 @@ class TypeResidence{
 designation
 }
 class Photograph{
-url
+uri
 }
 class Location{
 streetName
@@ -48,8 +57,8 @@ district
 state
 zipCode
 }
-class Price{
-amount
+class Business{
+price
 }
 class Lease{
 contractDuration
@@ -59,10 +68,14 @@ class Agent {
 class AvailableEquipment{
 description
 }
-
+class Request{
+requestDate
+}
+class TypeBusiness{
+description
+}
 
 Agent "1" -- "*" Announcement: publishes >
-Announcement "1" - "1" Property: contains >
 TypeProperty "1" -- "1" Property: is a description of >
 Residence -up-|> Property
 TypeResidence "1" -up- "1" Residence: is a description of >
@@ -70,7 +83,14 @@ House -up-|> Residence
 Property "1" - "*" Photograph: contains >
 Property "1"--"1" Location: contains >
 Property "1" -- "1" Price: contains >
-Price <|-- Lease
+Business <|-- Lease
 Residence "1" -- "*"AvailableEquipment: contains >
+Announcement "1" -- "1" Commission
+Property "1" -- "1" Request : < has information about
+Request "1" -- "1" Business: is described by >
+TypeBusiness "1" -- "1" Business : describes >
+Announcement "1" -- "1" Request : is  based on >
+
+
 
 @enduml
