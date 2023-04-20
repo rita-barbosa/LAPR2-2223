@@ -15,7 +15,7 @@ As a system administrator, I want to register a new employee.
 
 **From the specifications document:**
 
->	The company's systems administrator will be responsible for registering all employees (specifying the name, the citizen's card number, the tax number, the address, the email address, the contact telephone number and the agency to which it is assigned).
+>	The company's systems administrator will be responsible for registering all employees (specifying the name, the tax number, the address, the email address, the contact telephone number and the agency to which it is assigned).
 
 >	The company's systems administrator will be responsible for the branches of the network (specifying the designation, location and local manager) as well as preparing the system in order to facilitate the insertion of advertisements and facilitate the use of the application.
 
@@ -95,8 +95,7 @@ As a system administrator, I want to register a new employee.
 **Input Data:**
 
 * Typed data:
-	* a name, 
-	* a citizen's card number,
+	* a name,
 	* a tax number,
 	* an email address,
 	* a contact telephone number,
