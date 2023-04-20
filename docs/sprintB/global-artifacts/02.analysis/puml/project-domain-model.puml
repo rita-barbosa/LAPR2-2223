@@ -15,20 +15,18 @@ class SystemAdministrator {
 }
 
 class Agency {
-ID
+id
 designation
 emailAddress
 phoneNumber
 }
 
 class Employee {
-role
-agency
 }
 
-class Data{
+class Person{
 name
-employeeAddress
+passportCardNumber
 taxNumber
 emailAddress
 phoneNumber
@@ -49,7 +47,6 @@ class StoreManager{
 class NetworkManager{
 }
 class Announcement{
-requestDate
 acceptanceDate
 }
 
@@ -87,7 +84,7 @@ class TypeResidence{
 designation
 }
 class Photograph{
-url
+uri
 }
 class Location{
 streetName
@@ -96,8 +93,11 @@ district
 state
 zipCode
 }
-class Transaction{
+class Business{
 amount
+}
+class TypeBusiness{
+designation
 }
 class Lease{
 contractDuration
@@ -106,15 +106,17 @@ class Commission {
 typeCommission
 amountCommission
 }
-
+class Request{
+requestDate
+}
 
 
 SystemAdministrator --|> Employee
 SystemAdministrator "1" --- "*" Employee: registers >
 SystemAdministrator "1" -- "*" Agency: registers >
-Data  <|--  Employee
-Data <|-- Owner
-Customer  ---|> Data
+Person  <|--  Employee
+Person <|-- Owner
+Customer  ---|> Person
 Agent  ----|> Employee
 StoreManager --|> Employee
 NetworkManager ---|> Employee
@@ -125,7 +127,7 @@ StoreManager "1" -- "1" Agency: manages >
 NetworkManager "1" -up- "1" Network: manages >
 Agency "1..*" --- "1" Network: is part of >
 Announcement "1" -- "1" Property: contains >
-Announcement "*" -- "1" Owner: requests <
+Request "*" -- "1" Owner: submits <
 Visit "1" -- "1" Property: done to >
 Residence  --|>  Property
 House --|> Residence
@@ -136,13 +138,16 @@ TypeProperty "1" -- "1" Property: is a description of >
 TypeResidence "1" -- "1" Residence: is a description of >
 Property "1" -- "1..*" Photograph: contains >
 Property "1"--"1" Location: is located  >
-Property "1" -- "1" Transaction: !!!!!contains!!!!! >
-Transaction <|-- Lease
-Data "1" ---- "1" Location: is located >
+Person "1" ---- "1" Location: is located >
 Agency "1" ---- "1" Location: is located >
-Residence "1" -- "*"AvailableEquipment: contains >
+Residence "1" -left "*"AvailableEquipment: contains >
 Announcement "1" -- "1" Commission: is assigned to <
-Agency "1" --- "1" Announcement: is responsible for >
+Agency "1" --- "*" Announcement: owns >
+Property "1" -- "1" Request : < is submitted related to
+Request "1" - "1" Business: is described by >
+Business <|-- Lease
+TypeBusiness "1" -- "1" Business : describes >
+Announcement "1" -- "1" Request : is  based on >
 
 
 @enduml
