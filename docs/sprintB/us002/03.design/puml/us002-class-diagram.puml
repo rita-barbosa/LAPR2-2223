@@ -1,0 +1,98 @@
+@startuml
+'skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam linetype polyline
+'skinparam linetype orto
+
+skinparam classAttributeIconSize 0
+
+'left to right direction
+
+class AuthFacade
+{
+    + static getInstance()
+    + getCurrentUserSession()
+}
+
+class UserSession
+{
+    +Email getUserId()
+}
+
+class Agent {
+    - name
+    - passportCardNumber
+    - taxNumber
+    - emailAdress
+    - phoneNumber
+}
+
+class Announcement {
+    - String agent  ---QUAL É A INSTÂNCIA AGENT OU PERSON??
+    - String informalDescription
+    - String technicalDescription
+    - Integer duration
+    - Double cost
+
+    + Task(reference, description,\ninformalDescription, technicalDescription,\nduration, cost, createdBy, taskCategory)
+}
+class Commission {
+- String commissionType
+- double commissionValue
+
++ Commission(commissionValue,commissionType)
+}
+
+class Agency {
+    - integer id
+    - String designation
+    - String emailAdress
+    - String phoneNumber
+
+    - addAnnouncement(announcement)
+    - validateAnnouncement(announcement)
+    - getAgentByEmail(email)
+    + anyEmployeeHasEmail(email)
+    + publishAnnouncement(agent, typeCommission, commissionValue, ownerEmail, property)
+}
+
+class CommissionTypeRepository {
+    + getCommissionTypeList() : String[]
+}
+class PropertyTypeRepository {
+    + getPropertyTypeList() : String[]
+}
+
+class AgencyRepository {
+    + getAgencyByEmployeeEmail(email)
+}
+
+class Repositories {
+    - Repositories()
+    + getInstance() : Repositories
+    + getCommissionTypeRepository()
+    + getPropertyTypeRepository()
+    + getAgencyRepository()
+}
+
+class PublishAnnouncementController {
+    + PublishAnnouncementController(organizationRepository, taskCategoryRepository)
+    + getCommissionTypeList()
+    + getPropertyTypeList()
+    + publishAnnouncement(commissionType,commissionValue,ownerEmail,property)
+    + createProperty()
+    + createCommission(commissionType,commissionValue)
+    - getAgentFromSession()
+}
+
+
+
+class PublishAnnouncementUI {
+- keepCommissionType(typeCommission)
+- keepCommissionValue(commissionValue)
+- keepPropertyType(propertyType)
+}
+
+
+@enduml

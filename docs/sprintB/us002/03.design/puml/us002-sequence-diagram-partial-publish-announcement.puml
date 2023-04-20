@@ -1,0 +1,39 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false\
+
+
+participant "agency\n:Agency" as AGENCY
+participant "announcement\n:Announcement" as AD
+
+autonumber 23
+
+             -> AGENCY : publishAnnouncement(agent, typeCommission, commissionValue, ownerEmail, property)
+             activate AGENCY
+
+autonumber 23.1
+
+    group Publish announcement
+
+
+                AGENCY -> AD**: create(agent, typeCommission, commissionValue, ownerEmail, property)
+                AGENCY -> AGENCY: addAnnouncement(announcement)
+
+                activate AGENCY
+                    AGENCY -> AGENCY: validateAnnouncement(announcement)
+                    activate AGENCY
+                        AGENCY --> AGENCY
+                    deactivate AGENCY
+
+                    AGENCY --> AGENCY
+                deactivate AGENCY
+
+            deactivate AGENCY
+    end
+
+autonumber 24
+
+    <-- AGENCY : announcement
+
+@enduml
