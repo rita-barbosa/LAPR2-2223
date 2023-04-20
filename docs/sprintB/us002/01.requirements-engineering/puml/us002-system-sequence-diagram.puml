@@ -12,7 +12,7 @@ participant ":System" as System
 
 activate Employee
 
-    Employee -> System : asks to publish announcement
+    Employee -> System : asks to publish sale announcement
     activate System
 
       System --> Employee : shows types of commission and asks to select one
@@ -27,38 +27,98 @@ activate Employee
     Employee -> System : enters commission value
     activate System
 
+    System --> Employee : requests owner email
+    deactivate System
+
+    Employee -> System : enters requested data (ownerEmail)
+    activate System
+
     System --> Employee : shows types of properties and asks to select one
     deactivate System
 
     Employee -> System : selects a type of property
-        activate System
+    activate System
 
-    alt land property
+    System --> Employee : requests location of the property
+    deactivate System
 
-    autonumber 8
-       System --> Employee : requests data (type of property; area; location; DCC; price)
-          deactivate System
-      Employee -> System : types requested data
-              activate System
+    Employee -> System : types requested data (streetName, city, district, state, zipCode)
+    activate System
 
-    else apartment property
+    System --> Employee : requests area of the property
+    deactivate System
 
-     autonumber 8
-      System --> Employee : requests data (type of property; area; location; DCC; price; photographs; number of bedrooms; \nnumber of bathrooms; number of parking spaces; available equipment)
-        deactivate System
-    Employee -> System : types requested data
-            activate System
+    Employee -> System : types requested data (area)
+    activate System
 
-    else house property
+    System --> Employee : requests distance from city center of the property
+    deactivate System
 
-     autonumber 8
-      System --> Employee : requests data (type of property; area; location; DCC; price; \nphotographs; number of bedrooms; number of bathrooms; number of parking spaces; \navailable equipment; existence of basement; inhabitable loft; sun exposure)
+    Employee -> System : types requested data (distanceCityCentre)
+    activate System
+
+    System --> Employee : requests price of the property
+    deactivate System
+
+    Employee -> System : types requested data (price)
+    activate System
+
+
+    alt type of property = residence
+
+     autonumber 17.1
+        System --> Employee : requests data (number of bedrooms, number of parking spaces)
         deactivate System
 
         Employee -> System : types requested data
         activate System
 
+        System --> Employee : requests URI photograph of property
+        deactivate System
+
+            loop photograph
+            Employee -> System : types requested data (uri)
+            activate System
+            end loop
+
+
+        System --> Employee : requests number of bathrooms
+        deactivate System
+
+            opt numberBathrooms
+            Employee -> System : types requested data (numberBathrooms)
+            activate System
+            end opt
+
+        System --> Employee : requests available equipment
+        deactivate System
+
+            opt availableEquipment
+                loop availableEquipment
+                Employee -> System : types requested data (availableEquipment)
+                activate System
+                end loop
+            end opt
+
+    else type of property = house
+
+        autonumber 17.1
+        System --> Employee : requests data (existence of basement; inhabitable loft)
+        deactivate System
+
+        Employee -> System : types requested data
+        activate System
+
+        System --> Employee : asks to select sun exposure
+        deactivate System
+
+            opt sun exposure
+            Employee -> System : selects requested data (sunExposure)
+            activate System
+            end opt
+
     end
+    autonumber 18
         System --> Employee : shows all data and requests confirmation
     deactivate System
 
