@@ -12,9 +12,14 @@ hide methods
 
 class SystemAdministrator {}
 
-class Company {}
 
 class Employee {}
+
+class Role{
+Agent
+StoreManager
+NetworkManager
+}
 
 class Agent{
 }
@@ -24,7 +29,7 @@ class StoreManager{
 class NetworkManager{
 }
 
-class Person{
+class Data{
 name
 citizenCardNumber
 taxNumber
@@ -41,13 +46,14 @@ contactNumber
 }
 
 
-Company "1" -- "1" SystemAdministrator : knows >
+
 SystemAdministrator -|> Employee
 SystemAdministrator "1" -- "*" Employee: registers >
 SystemAdministrator "1" -up- "*" Agency: registers >
-Employee "*" -- "1" Company : works for >
+
 Employee "1" -- "1" Agency: works in  >
-Person  <|-up-  Employee
+Role "1" -- "1" Employee: knows  >
+Data  <|-up-  Employee
 Agent  --|> Employee
 StoreManager --|> Employee
 NetworkManager --|> Employee
