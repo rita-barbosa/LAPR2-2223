@@ -71,7 +71,14 @@ class Agency {
     contactNumber
 }
 class Employee{}
+
 class Owner {
+    name
+    citizen's card number
+    tax number
+    address
+    email address
+    telephone number
 }
 
 
