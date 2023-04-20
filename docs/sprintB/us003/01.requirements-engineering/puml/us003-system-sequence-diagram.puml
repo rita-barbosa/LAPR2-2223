@@ -27,17 +27,15 @@ activate Employee
     Employee -> System : selects an agency
     activate System
 
-    System --> Employee : shows selected agency
-        deactivate System
 
-    System --> Employee : shows roles and asks to select one
+    System --> Employee : shows role and asks to select one
         deactivate System
 
     Employee -> System : selects a role
             activate System
 
 
-        System --> Employee : shows selected role
+        System --> Employee : shows selected role, agency and requested \n data
     deactivate System
 
     Employee -> System : submits data
