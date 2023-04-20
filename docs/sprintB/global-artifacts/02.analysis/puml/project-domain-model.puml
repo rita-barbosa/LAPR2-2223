@@ -126,25 +126,24 @@ Customer "1" -- "*" Visit:  requests >
 StoreManager "1" -- "1" Agency: manages >
 NetworkManager "1" -up- "1" Network: manages >
 Agency "1..*" --- "1" Network: is part of >
-Announcement "1" -- "1" Property: contains >
 Request "*" -- "1" Owner: submits <
 Visit "1" -- "1" Property: done to >
-Residence  --|>  Property
+Residence  ---|>  Property
 House --|> Residence
-Visit "1" -- "1"  VisitReport: is a description of <
+Visit "1" --- "1"  VisitReport: is a description of <
 Agent "1" -- "*" VisitReport: registers >
 Employee "1" ----- "1" Agency: works in  >
 TypeProperty "1" -- "1" Property: is a description of >
 TypeResidence "1" -- "1" Residence: is a description of >
 Property "1" -- "1..*" Photograph: contains >
-Property "1"--"1" Location: is located  >
-Person "1" ---- "1" Location: is located >
-Agency "1" ---- "1" Location: is located >
+Property "1"--"1" Location: has address >
+Person "1" - "1" Location: has address >
+Agency "1" --- "1" Location: has adress >
 Residence "1" -left "*"AvailableEquipment: contains >
 Announcement "1" -- "1" Commission: is assigned to <
 Agency "1" --- "*" Announcement: owns >
-Property "1" -- "1" Request : < is submitted related to
-Request "1" - "1" Business: is described by >
+Property "1" -up- "1" Request : < has information about
+Request "1" -- "1" Business: is described by >
 Business <|-- Lease
 TypeBusiness "1" -- "1" Business : describes >
 Announcement "1" -- "1" Request : is  based on >
