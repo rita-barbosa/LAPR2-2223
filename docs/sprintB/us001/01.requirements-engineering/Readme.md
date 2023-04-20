@@ -35,7 +35,7 @@ As an unregistered user, I want to display listed properties.
 
 > **Question:** The properties have always a sale price, even if they are at lease?
 >
-> **Answer:** ***WAITING FOR AND ANSWER***
+> **Answer:** ***WAITING FOR AN ANSWER***
 
 
 > **Question:** In the project description it is stated that "the client is, then, responsible for being able to consult the properties by type, number of rooms, and sort by criteria such as price or the parish where the property is located.". Is the client able to sort properties by only these 4 criteria or is he able to sort properties by any of the properties' characteristics?
@@ -76,6 +76,27 @@ If the client does not select the type of business, the type of property and the
 > **Question:** In a previous question, you said that the address doesn't include parishes ("In the USA, the addresses will not include municipalities or parishes."). That being said, how should we sort the properties by location, specifically city, and state?
 >
 > **Answer:** The client should be able to sort properties by price, city and state.
+
+
+> **Question:** The order which the properties are sorted by default is an ascending (for price from lowest to highest and for parish from A to Z) or in a descending order?
+>
+> **Answer:** The client should be able to sort (ascending or descending) properties by price, city and state. By default, the list should be shown with the properties sorted by most recently added.
+
+
+> **Question:** Does a rent request includes a contract duration (minimum or defined)?
+>
+> **Answer:** The characteristics for a rental are the same as the ones for the sale of a property. The rent value is per month. Additionally, we have to define the contract duration. There is no minimum.
+
+
+> **Question:** When sorting by price or location:
+> 1) Does it mean ascending or descending? Most expensive to least expensive or vice-versa. By closest to furthest or vice-versa.
+> 2) To filter between a range of price?
+> 3) To filter the location of the property by city?
+>
+> **Answer:** The client should be able to sort (ascending or descending) properties by price, city and state. I do not want the filters that you are suggesting.
+
+
+
 
 ### 1.3. Acceptance Criteria
 
