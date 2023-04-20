@@ -3,32 +3,32 @@ skinparam monochrome true
 skinparam packageStyle rectangle
 skinparam shadowing false
 
-participant "organization\n:Organization" as ORG
-participant "task\n:Task" as TAREFA
+participant "data\n:Data" as DATA
+participant "agency\n:Agency" as AGENCY
 
 autonumber 16
--> ORG: createTask(reference, description,\ninformalDescription, technicalDescription,\nduration, cost, taskCategory, employee )
+-> DATA: registerEmployee(name, citizen card \nnumber, tax number, address,\n email address, contact number)
 
 autonumber 16.1
-activate ORG
-    group Create Task
+activate DATA
+    group Register Employee
 
-        ORG -> TAREFA**: create(reference, description,\ninformalDescription, technicalDescription,\nduration, cost, taskCategory, employee)
-        ORG -> ORG: addTask (task)
+        DATA -> AGENCY**: register(name, citizen card \nnumber, tax number, address,\n email address, contact number)
+        DATA -> DATA: addEmployee (employee)
 
-        activate ORG
-            ORG -> ORG: validateTask(task)
-            activate ORG
-                ORG --> ORG
-            deactivate ORG
+        activate DATA
+            DATA -> DATA: validateEmployee(employee)
+            activate DATA
+                DATA --> DATA
+            deactivate DATA
 
-            ORG --> ORG
-        deactivate ORG
+            DATA --> DATA
+        deactivate DATA
     end
 
     autonumber 17
-    <-- ORG : task
-deactivate ORG
+    <-- DATA : register
+deactivate DATA
 
 
 @enduml

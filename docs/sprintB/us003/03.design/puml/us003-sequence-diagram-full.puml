@@ -38,10 +38,10 @@ activate ADM
                     RepositorySingleton --> CTRL: repositories
                 deactivate RepositorySingleton
 
-                CTRL -> PLAT : getDataRepository()
+                CTRL -> PLAT : getAgencyRepository()
                 activate PLAT
 
-                    PLAT --> CTRL: DataRepository
+                    PLAT --> CTRL: AgencyRepository
                 deactivate PLAT
 
                 CTRL -> AgencyRepository : getAgency()
@@ -114,17 +114,17 @@ UI -> CTRL : getRole()
                     RepositorySingleton --> CTRL: repositories
                 deactivate RepositorySingleton
 
-                CTRL -> PLAT : getDataRepository()
+                CTRL -> PLAT : getAgencyRepository()
                 activate PLAT
 
                     PLAT -> CTRL : dataRepository
                 deactivate PLAT
 
-                CTRL -> DataRepository : getDataRepository(data)
-                activate DataRepository
+                CTRL -> AgencyRepository : getAgencyRepository(data)
+                activate AgencyRepository
 
-                    DataRepository --> CTRL : data
-                deactivate DataRepository
+                    AgencyRepository --> CTRL : data
+                deactivate AgencyRepository
                     CTRL --> CTRL : data
             deactivate CTRL
 
@@ -151,7 +151,7 @@ UI -> CTRL : getRole()
                 deactivate SESSAO
 
 
-                CTRL -> PLAT: getDataRepository(email)
+                CTRL -> PLAT: getAgencyRepository(email)
                 activate PLAT
 
                     PLAT --> CTRL: dataRepository
@@ -162,14 +162,14 @@ UI -> CTRL : getRole()
                 activate dataRepository
 
                     loop [for each data
-                        DataRepository -> DATA : anyEmployeeHasEmail(email)
+                        AgencyRepository -> DATA : anyEmployeeHasEmail(email)
                         activate DATA
 
-                             DATA --> DataRepository : true/false
+                             DATA --> AgencyRepository : true/false
                         deactivate DATA
                     end
-                    DataRepository --> CTRL : data
-                deactivate DataRepository
+                    AgencyRepository --> CTRL : data
+                deactivate AgencyRepository
 
                 CTRL -> DATA: getEmployeeByEmail(email)
                 activate DATA
@@ -184,7 +184,7 @@ UI -> CTRL : getRole()
             CTRL -> DATA: registerEmployee(name, citizen card number,\n tax number, address, email address, contact\n number)
             activate DATA
 
-                DATA -> TASK**: register(name, citizen card \nnumber, tax number, address,\n email address, contact number)
+                DATA -> AGENCY**: register(name, citizen card \nnumber, tax number, address,\n email address, contact number)
                 DATA -> DATA: addEmployee (register)
 
 
