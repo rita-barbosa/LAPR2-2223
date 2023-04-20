@@ -1,0 +1,47 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false\
+
+
+
+participant ":PublishAnnouncementController" as CTRL
+participant ":Repositories" as RepositorySingleton
+participant "repositories\n:Repositories" as PLAT
+participant "sunExposureRepository\n:SunExposureRepository" as SunExposureRepository
+
+
+autonumber 11
+
+            -> CTRL :  getSunExposureList()
+            activate CTRL
+
+autonumber 11.1
+
+    group Get Property Type List
+
+                 CTRL -> RepositorySingleton : getInstance()
+                activate RepositorySingleton
+
+                    RepositorySingleton --> CTRL: repositories
+                deactivate RepositorySingleton
+
+                CTRL -> PLAT : getSunExposureRepository()
+                activate PLAT
+
+                    PLAT --> CTRL: sunExposureRepository
+                deactivate PLAT
+
+                CTRL -> SunExposureRepository : getSunExposureList()
+                activate SunExposureRepository
+
+                   SunExposureRepository --> CTRL : sunExposureList
+                deactivate SunExposureRepository
+
+    end
+
+autonumber 12
+
+    <-- CTRL : sunExposureList
+
+@enduml

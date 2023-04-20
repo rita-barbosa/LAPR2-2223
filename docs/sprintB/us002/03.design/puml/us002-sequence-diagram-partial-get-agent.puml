@@ -6,8 +6,8 @@ skinparam shadowing false\
 
 
 participant ":PublishAnnouncementController" as CTRL
-participant ":AuthFacade" as _APP
-participant "authFacade\n:AuthFacade" as APP
+participant ":ApplicationSession" as _APP
+participant "applicationSession\n:ApplicationSession" as APP
 participant "userSession\n:UserSession" as SESSION
 participant ":Repositories" as RepositorySingleton
 participant "repositories\n:Repositories" as PLAT
@@ -30,13 +30,13 @@ autonumber 21.1
              deactivate _APP
 
 
-             CTRL -> APP: getCurrentUserSession()
+             CTRL -> APP: getCurrentSession()
              activate APP
 
                  APP --> CTRL: userSession
              deactivate APP
 
-             CTRL -> SESSION: getUserId()
+             CTRL -> SESSION: getUserEmail()
              activate SESSION
 
                  SESSION --> CTRL: email

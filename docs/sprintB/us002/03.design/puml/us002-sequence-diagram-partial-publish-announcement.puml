@@ -7,6 +7,7 @@ skinparam shadowing false\
 participant "agency\n:Agency" as AGENCY
 participant "announcement\n:Announcement" as AD
 
+
 autonumber 23
 
              -> AGENCY : publishAnnouncement(agent, typeCommission, commissionValue, ownerEmail, property)
