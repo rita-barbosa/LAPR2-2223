@@ -1,0 +1,49 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+'hide footbox
+
+participant ":RegisterEmployeeController" as CTRL
+participant ":Repositories" as RepositorySingleton
+participant "repositories\n:Repositories" as PLAT
+participant "AgencyRepository:\nAgencyRepository" as AgencyRepository
+participant "AgencyRepository:\nAgencyRepository" as AgencyRepository
+
+autonumber 3
+
+ -> CTRL : getTaskCategories()
+autonumber 3.1
+activate CTRL
+    group Get Task Category List
+
+
+            CTRL -> RepositorySingleton : getInstance()
+            activate RepositorySingleton
+
+                RepositorySingleton --> CTRL: repositories
+            deactivate RepositorySingleton
+
+            CTRL -> PLAT : getTaskCategoryRepository()
+            activate PLAT
+
+                PLAT --> CTRL: taskCategoryRepository
+            deactivate PLAT
+
+            CTRL -> AgencyRepository : getTaskCategories()
+            activate AgencyRepository
+
+                AgencyRepository --> CTRL : taskCategoryList
+            deactivate AgencyRepository
+
+
+    end
+    autonumber 4
+    <-- CTRL  : taskCategoryList
+deactivate CTRL
+
+
+@enduml

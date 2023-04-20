@@ -7,17 +7,17 @@ autonumber
 
 'hide footbox
 
-participant ":CreateTaskController" as CTRL
+participant ":RegisterEmployeeController" as CTRL
 participant ":Repositories" as RepositorySingleton
 participant "repositories\n:Repositories" as PLAT
-participant "taskCategoryRepository:\nTaskCategoryRepository" as TaskCategoryRepository
+participant "AgencyRepository:\nAgencyRepository" as AgencyRepository
 
 autonumber 3
 
- -> CTRL : getTaskCategories()
+ -> CTRL : getAgency()
 autonumber 3.1
 activate CTRL
-    group Get Task Category List
+    group Get Agency Category List
 
 
             CTRL -> RepositorySingleton : getInstance()
@@ -32,11 +32,11 @@ activate CTRL
                 PLAT --> CTRL: taskCategoryRepository
             deactivate PLAT
 
-            CTRL -> TaskCategoryRepository : getTaskCategories()
-            activate TaskCategoryRepository
+            CTRL -> AgencyRepository : getAgency()
+            activate AgencyRepository
 
-                TaskCategoryRepository --> CTRL : taskCategoryList
-            deactivate TaskCategoryRepository
+                AgencyRepository --> CTRL : taskCategoryList
+            deactivate AgencyRepository
 
 
     end

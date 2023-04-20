@@ -18,16 +18,24 @@ activate Employee
         System --> Employee : requests data
     deactivate System
 
-    Employee -> System : types requested data (name, citizen's card\n number, the contact telephone number, tax\nnumber, the adress, the address email)
+    Employee -> System : types requested data (name, the contact \ntelephone number, tax number, employee's adress, the address email)
     activate System
 
-        System --> Employee : shows agencies partner list, roles and asks \n to select one
+        System --> Employee : shows agencies partner list and asks to \n select one
     deactivate System
 
-    Employee -> System : selects an agency and a role
+    Employee -> System : selects an agency
     activate System
 
-        System --> Employee : shows selected agency and role
+
+    System --> Employee : shows role and asks to select one
+        deactivate System
+
+    Employee -> System : selects a role
+            activate System
+
+
+        System --> Employee : shows selected role, agency and requested \n data
     deactivate System
 
     Employee -> System : submits data
