@@ -15,50 +15,74 @@ activate User
     User -> System : asks to display listed properties
     activate System
 
-    System --> User : asks to select data (type of business; \ntype of property; number of bedrooms)
+    System --> User : display listed properties by most recent added \nand asks to select data (type of business)
     deactivate System
 
-    alt user selects criteria
-        User -> System : selects data
+    opt type of business
+        User -> System : selects data (type of business)
         activate System
-
-        System --> User : display all the listed properties, according to the \ncriteria chosen
-        deactivate System
-
-    else user doesn't select any criteria
-
-        autonumber 3
-
-        User -> System : doesn't select any data
-        activate System
-
-        System --> User : display listed properties by most recent added
-        deactivate System
-
     end
 
-
-    System --> User : asks to select data (price; city; state)
-           deactivate System
-
-    alt user selects any sorting criteria
-        User -> System : selects data (price; city; state)
-                    activate System
-
-            System --> User : display all the listed properties, according to the \ncriteria chosen
-            deactivate System
-
-    else user doesn't select any sorting criteria
-
-        autonumber 6
-
-        User -> System : doesn't select any data
-        activate System
-
-        System --> User : display listed properties by most recent added
+    System --> User : asks to select data (type of property)
         deactivate System
 
+    opt type of property
+        User -> System : selects data (type of property)
+        activate System
     end
+
+    System --> User : asks to select data (number of bedrooms)
+        deactivate System
+
+    opt number of bedrooms
+        User -> System : selects data (number of bedrooms)
+        activate System
+    end
+
+    System --> User : display all the listed properties, according to the \ncriteria chosen and asks to select data (price)
+        deactivate System
+
+    opt price
+       User -> System : selects data (price)
+       activate System
+
+       System --> User :  asks to select data (type of sorting)
+       deactivate System
+
+       User -> System : select data (type of sorting)
+       activate System
+    end
+
+    System --> User : asks to select data (city)
+        deactivate System
+
+    opt city
+       User -> System : selects data (city)
+       activate System
+
+       System --> User :  asks to select data (type of sorting)
+       deactivate System
+
+       User -> System : select data (type of sorting)
+       activate System
+    end
+
+    System --> User : asks to select data (state)
+        deactivate System
+
+    opt state
+       User -> System : selects data (state)
+       activate System
+
+       System --> User :  asks to select data (type of sorting)
+       deactivate System
+
+       User -> System : select data (type of sorting)
+       activate System
+    end
+
+    System --> User : display all the listed properties, according to the \ncriteria chosen
+        deactivate System
 
 
 @enduml
