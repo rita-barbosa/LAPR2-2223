@@ -31,7 +31,6 @@ class NetworkManager{
 
 class Data{
 name
-citizenCardNumber
 taxNumber
 address
 emailAddress
