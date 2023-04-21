@@ -1,0 +1,363 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+'hide footbox
+actor "Unregistered User" as User
+participant ":DisplayPropertiesUI" as UI
+participant ":DisplayPropertiesController" as CTRL
+participant ":Repositories" as RepositorySingleton
+participant "repositories\n:Repositories" as PLAT
+participant "filtersRepository\n:FiltersRepository" as FILTERSREP
+participant "filters\n:Filters" as FILTERS
+participant "agencyRepository\n: AgencyRepository" as AGENCYREP
+'participant "agency\n: Agency" as AGENCY
+participant "announcementRepository\n:AnnouncementRepository" as ANNOUNCREP
+'participant "announcement\n:Announcement" as ANNOUNC
+'participant "property\n:Property" as PROPERTY
+'participant "typeProperty\n:TypeProperty" as TYPEPROPERTY
+'participant "transaction\n: Transaction" as TRANSACTION
+
+activate User
+
+        User -> UI : asks to display listed properties
+        activate UI
+
+        UI -> CTRL** : create
+
+            UI -> CTRL : getFiltersList()
+            activate CTRL
+
+            'CTRL -> FILTERS : getFilters()
+            'activate FILTERS
+
+                CTRL -> RepositorySingleton : getInstance()
+                activate RepositorySingleton
+
+                RepositorySingleton --> CTRL: repositories
+                deactivate RepositorySingleton
+
+                CTRL -> PLAT : getFiltersRepository()
+                activate PLAT
+
+                PLAT --> CTRL: filtersRepository
+                deactivate PLAT
+
+                CTRL -> FILTERSREP : getFiltersList()
+                activate FILTERSREP
+
+                FILTERSREP --> CTRL : filtersList
+                deactivate FILTERSREP
+
+            CTRL --> UI : filtersList
+            deactivate CTRL
+
+            UI --> User : asks to select data (type of business; \ntype of property; number of bedrooms)
+            deactivate UI
+''''''''''''''''''''
+    alt user selects criteria
+        User -> UI : selects data
+        activate UI
+
+            'selectedFilters
+            UI -> CTRL : getAnnouncements(typeBusiness, \ntypeProperty, numberBedrooms)
+            activate CTRL
+
+                CTRL -> RepositorySingleton : getInstance()
+                activate RepositorySingleton
+
+                RepositorySingleton --> CTRL: repositories
+                deactivate RepositorySingleton
+
+                CTRL -> PLAT : getAgencyRepository()
+                activate PLAT
+
+                PLAT --> CTRL: AgencyRepository
+                deactivate PLAT
+
+                'collectAnnouncements
+                CTRL -> FILTERS : getAnnouncements(typeBusiness, \ntypeProperty, numberBedrooms)
+                activate FILTERS
+
+                    'getAnnouncementsByTypeBusiness
+
+                    FILTERS -> AGENCYREP : getAnnouncementsByTypeBusiness(typeBusiness)
+                    activate AGENCYREP
+
+                    loop for each announcement
+                           AGENCYREP -> ANNOUNCREP : announcementHasTypeBusiness(typeBusiness, announcementsList)
+                           activate ANNOUNCREP
+
+                           ANNOUNCREP --> AGENCYREP : true/false
+                           deactivate ANNOUNCREP
+
+                    end
+
+                    AGENCYREP --> FILTERS : announcementsList
+                    deactivate AGENCYREP
+
+                    FILTERS -> AGENCYREP : getAnnouncementsByTypeProperty(typeProperty, announcementsList)
+                    activate AGENCYREP
+
+                     loop for each announcement
+                           AGENCYREP -> ANNOUNCREP : announcementHasTypeProperty(typeProperty, announcementsList)
+                           activate ANNOUNCREP
+
+                           ANNOUNCREP --> AGENCYREP : true/false
+                           deactivate ANNOUNCREP
+
+                    end
+
+                    AGENCYREP --> FILTERS : announcementsList
+                    deactivate AGENCYREP
+
+                    FILTERS -> AGENCYREP : getAnnouncementsByNumberBedrooms(numberBedrooms, announcementsList)
+                    activate AGENCYREP
+
+                    loop for each announcement
+                           AGENCYREP -> ANNOUNCREP : announcementHasNumberBedrooms(numberBedrooms, announcementsList)
+                           activate ANNOUNCREP
+
+                           ANNOUNCREP --> AGENCYREP : true/false
+                           deactivate ANNOUNCREP
+
+                    end
+
+                    AGENCYREP --> FILTERS : announcementsList
+                    deactivate AGENCYREP
+
+'                    FILTERS -> ANNOUNCREP : collectAnnouncements(typeBusiness, \ntypeProperty, numberBedrooms)
+'                    activate ANNOUNCREP
+'
+'                    ANNOUNCREP --> FILTERS : announcements
+'                    deactivate ANNOUNCREP
+
+                FILTERS --> CTRL : announcements
+                deactivate FILTERS
+
+            CTRL --> UI : announcements
+            deactivate CTRL
+
+        UI --> User : display all the listed properties, according to the \ncriteria chosen
+        deactivate UI
+
+    else user doesn't select any criteria
+
+         autonumber 12
+
+         User -> UI : doesn't select any data
+         activate UI
+
+            UI -> CTRL : getAcceptancesDates()
+            activate CTRL
+
+                CTRL -> RepositorySingleton : getInstance()
+                activate RepositorySingleton
+
+                RepositorySingleton --> CTRL: repositories
+                deactivate RepositorySingleton
+
+                CTRL -> PLAT : getAgencyRepository()
+                activate PLAT
+
+                PLAT --> CTRL : AgencyRepository
+                deactivate PLAT
+
+                CTRL -> AGENCYREP : getAnnouncements()
+                activate AGENCYREP
+
+                AGENCYREP --> CTRL : announcements
+                deactivate AGENCYREP
+
+                CTRL -> CTRL : keepAnnouncements
+
+                CTRL -> RepositorySingleton : getInstance()
+                activate RepositorySingleton
+
+                RepositorySingleton --> CTRL: repositories
+                deactivate RepositorySingleton
+
+                CTRL -> PLAT : getAnnouncementRepository()
+                activate PLAT
+
+                PLAT --> CTRL : AnnouncementRepository
+                deactivate PLAT
+
+                CTRL -> ANNOUNCREP : getAcceptancesDates()
+                activate ANNOUNCREP
+
+                ANNOUNCREP --> CTRL : acceptancesDatesList
+                deactivate ANNOUNCREP
+
+                CTRL -> ANNOUNCREP : sortByMostRecentAdded(acceptancesDatesList)
+                activate ANNOUNCREP
+
+                ANNOUNCREP --> CTRL : announcements
+                deactivate ANNOUNCREP
+
+            CTRL --> UI : announcements
+            deactivate CTRL
+
+         UI --> User : display listed properties by most recent added
+         deactivate UI
+    end
+
+
+
+    UI --> User : asks to select data (price; city; state)
+    deactivate UI
+
+
+    alt user selects any sorting criteria
+        User -> UI : selects data (price; city; state)
+        activate UI
+
+            UI -> CTRL : getAnnouncements/keepFilters(price, city, state)
+            activate CTRL
+
+                CTRL -> RepositorySingleton : getInstance()
+                activate RepositorySingleton
+
+                RepositorySingleton --> CTRL: repositories
+                deactivate RepositorySingleton
+
+                CTRL -> PLAT : getAgencyRepository()
+                activate PLAT
+
+                PLAT --> CTRL : AgencyRepository
+                deactivate PLAT
+
+                CTRL -> AGENCYREP : getAnnouncements()
+                activate AGENCYREP
+
+                AGENCYREP --> CTRL : announcements
+                deactivate AGENCYREP
+
+            CTRL -> FILTERS : getAnnouncements(price, city, state)
+            activate FILTERS
+
+                alt ascending price
+
+                FILTERS -> AGENCYREP : sortAnnouncementsByAscendingPrice(announcementsList)
+                activate AGENCYREP
+
+                AGENCYREP --> FILTERS : announcementsList
+                deactivate AGENCYREP
+
+                else descending price
+
+                FILTERS -> AGENCYREP : sortAnnouncementsByDescendingPrice(announcementsList)
+                activate AGENCYREP
+
+                AGENCYREP --> FILTERS : announcementsList
+                deactivate AGENCYREP
+
+                end
+
+                FILTERS -> AGENCYREP : getAnnouncementsByCity(city, announcementsList)
+                activate AGENCYREP
+
+                 loop for each announcement
+                       AGENCYREP -> ANNOUNCREP : announcementHasCity(city, announcementsList)
+                       activate ANNOUNCREP
+
+                       ANNOUNCREP --> AGENCYREP : true/false
+                       deactivate ANNOUNCREP
+
+                end
+
+                AGENCYREP --> FILTERS : announcementsList
+                deactivate AGENCYREP
+
+                FILTERS -> AGENCYREP : getAnnouncementsByState(state, announcementsList)
+                activate AGENCYREP
+
+                loop for each announcement
+                       AGENCYREP -> ANNOUNCREP : announcementHasState(state, announcementsList)
+                       activate ANNOUNCREP
+
+                       ANNOUNCREP --> AGENCYREP : true/false
+                       deactivate ANNOUNCREP
+
+                end
+
+                    AGENCYREP --> FILTERS : announcements
+                    deactivate AGENCYREP
+
+                FILTERS --> CTRL : announcements
+                deactivate FILTERS
+
+            CTRL --> UI : announcements
+            deactivate CTRL
+
+        UI --> User : display all the listed properties, according to the \ncriteria chosen
+        deactivate UI
+
+    else user doesn't select any sorting criteria
+
+        autonumber 21
+
+        User -> UI : doesn't select any data
+        activate UI
+
+            UI -> CTRL : getAcceptancesDates()
+            activate CTRL
+
+                CTRL -> RepositorySingleton : getInstance()
+                activate RepositorySingleton
+
+                RepositorySingleton --> CTRL: repositories
+                deactivate RepositorySingleton
+
+                CTRL -> PLAT : getAgencyRepository()
+                activate PLAT
+
+                PLAT --> CTRL : AgencyRepository
+                deactivate PLAT
+
+                CTRL -> AGENCYREP : getAnnouncements()
+                activate AGENCYREP
+
+                AGENCYREP --> CTRL : announcements
+                deactivate AGENCYREP
+
+                CTRL -> CTRL : keepAnnouncements
+
+                CTRL -> RepositorySingleton : getInstance()
+                activate RepositorySingleton
+
+                RepositorySingleton --> CTRL: repositories
+                deactivate RepositorySingleton
+
+                CTRL -> PLAT : getAnnouncementRepository()
+                activate PLAT
+
+                PLAT --> CTRL : AnnouncementRepository
+                deactivate PLAT
+
+                CTRL -> ANNOUNCREP : getAcceptancesDates()
+                activate ANNOUNCREP
+
+                ANNOUNCREP --> CTRL : acceptancesDatesList
+                deactivate ANNOUNCREP
+
+                CTRL -> ANNOUNCREP : sortByMostRecentAdded(acceptancesDatesList)
+                activate ANNOUNCREP
+
+                ANNOUNCREP --> CTRL : announcements
+                deactivate ANNOUNCREP
+
+            CTRL --> UI : announcements
+            deactivate CTRL
+
+        UI --> User : display listed properties by most recent added
+        deactivate UI
+
+    end
+
+deactivate User
+
+@enduml
