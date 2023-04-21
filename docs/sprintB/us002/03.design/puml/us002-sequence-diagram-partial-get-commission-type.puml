@@ -1,0 +1,44 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+participant ":CreateTaskController" as CTRL
+participant ":Repositories" as RepositorySingleton
+participant "repositories\n:Repositories" as PLAT
+participant "commissionTypeRepository:\nCommissionTypeRepository" as CommissionTypeRepository
+
+autonumber 12
+-> CTRL : getCommissionByDescription(commissionTypeDescription)
+
+autonumber 12.1
+
+activate CTRL
+    group Get Task Category
+        CTRL -> RepositorySingleton : getInstance()
+        activate RepositorySingleton
+
+            RepositorySingleton --> CTRL: repositories
+        deactivate RepositorySingleton
+
+        CTRL -> PLAT : getCommissionTypeRepository()
+        activate PLAT
+
+            PLAT -> CTRL : commissionTypeRepository
+        deactivate PLAT
+
+        CTRL -> CommissionTypeRepository : getCommissionTypeByDescription(commissionTypeDescription)
+        activate CommissionTypeRepository
+
+            CommissionTypeRepository --> CTRL : commissionType
+        deactivate CommissionTypeRepository
+
+    end group
+
+    autonumber 13
+    <-- CTRL : commissionType
+
+deactivate CTRL
+
+
+@enduml

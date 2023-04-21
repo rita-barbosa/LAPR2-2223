@@ -18,7 +18,7 @@ autonumber 23.1
     group Publish announcement
 
 
-                AGENCY -> AD**: create(agent, typeCommission, commissionValue, ownerEmail, property)
+                AGENCY -> AD**: create(agent, commission, ownerEmail, request)
                 AGENCY -> AGENCY: addAnnouncement(announcement)
 
                 activate AGENCY

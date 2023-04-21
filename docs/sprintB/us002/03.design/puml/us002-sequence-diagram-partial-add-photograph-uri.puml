@@ -1,0 +1,39 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false\
+
+
+participant ":PublishAnnouncementController" as CTRL
+participant "photograph\n:Photograph" as PHOTO
+
+
+
+autonumber 30.6
+
+             -> CTRL : addPhotographUri()
+             activate CTRL
+
+autonumber 30.6.1
+
+    group Add Photograph Uri
+
+        CTRL -> PHOTO : addPhotographUri(uri)
+        activate PHOTO
+
+        PHOTO -> PHOTO : addPhotographUri(uri)
+        activate PHOTO
+
+        PHOTO --> CTRL : photograph
+        deactivate PHOTO
+
+        deactivate PHOTO
+
+    end
+
+autonumber 30.7
+
+            <-- CTRL : photograph
+            deactivate CTRL
+
+@enduml

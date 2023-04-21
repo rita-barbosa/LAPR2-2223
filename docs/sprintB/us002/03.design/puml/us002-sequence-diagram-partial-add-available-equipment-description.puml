@@ -1,0 +1,37 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false\
+
+
+participant ":PublishAnnouncementController" as CTRL
+participant "availableEquipment\n:AvailableEquipment" as AEQUIP
+
+autonumber 30.14
+
+             -> CTRL : addAvailableEquipment(description)
+             activate CTRL
+
+autonumber 30.14.1
+
+    group Add Available Equipment Uri
+
+        CTRL -> AEQUIP : addAvailableEquipment(description)
+        activate AEQUIP
+
+        AEQUIP -> AEQUIP : addAvailableEquipment(description)
+        activate AEQUIP
+
+        AEQUIP --> CTRL : availableEquipment
+        deactivate AEQUIP
+
+        deactivate AEQUIP
+
+    end
+
+autonumber 30.14
+
+            <-- CTRL : availableEquipment
+            deactivate CTRL
+
+@enduml

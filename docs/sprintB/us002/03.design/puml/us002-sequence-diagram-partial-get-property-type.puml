@@ -1,0 +1,44 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+participant ":CreateTaskController" as CTRL
+participant ":Repositories" as RepositorySingleton
+participant "repositories\n:Repositories" as PLAT
+participant "propertyTypeRepository:\nPropertyTypeRepository" as PropertyTypeRepository
+
+autonumber 12
+-> CTRL : getPropertyTypeByDescription(propertyTypeDescription)
+
+autonumber 12.1
+
+activate CTRL
+    group Get Task Category
+        CTRL -> RepositorySingleton : getInstance()
+        activate RepositorySingleton
+
+            RepositorySingleton --> CTRL: repositories
+        deactivate RepositorySingleton
+
+        CTRL -> PLAT : getPropertyTypeRepository()
+        activate PLAT
+
+            PLAT -> CTRL : propertyTypeRepository
+        deactivate PLAT
+
+        CTRL -> PropertyTypeRepository : getPropertyTypeByDescription(propertyTypeDescription)
+        activate PropertyTypeRepository
+
+        PropertyTypeRepository --> CTRL : propertyType
+        deactivate PropertyTypeRepository
+
+    end group
+
+    autonumber 13
+    <-- CTRL : propertyType
+
+deactivate CTRL
+
+
+@enduml

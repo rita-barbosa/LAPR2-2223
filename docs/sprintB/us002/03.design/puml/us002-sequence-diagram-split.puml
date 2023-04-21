@@ -11,11 +11,7 @@ participant ":PublishAnnouncementUI" as UI
 participant ":PublishAnnouncementController" as CTRL
 participant "agency\n:Agency" as AGENCY
 participant "announcement\n:Announcement" as AD
-participant "property\n:Property" as PROPERTY
-participant "photograph\n:Photograph" as PHOTO
-participant "availableEquipment\n:AvailableEquipment" as AEQUIP
-
-
+participant "request\n:Request" as REQUEST
 
 activate ADM
 
@@ -42,7 +38,6 @@ activate ADM
             ADM -> UI : selects a type of commission
             activate UI
 
-            UI --> UI : keepCommissionType(typeCommission)
 
             UI --> ADM : requests value of commission
             deactivate UI
@@ -50,16 +45,12 @@ activate ADM
             ADM -> UI : enters commission value
             activate UI
 
-                UI --> UI : keepCommissionValue(commissionValue)
-
 
             UI --> ADM : requests owner email
             deactivate UI
 
             ADM -> UI : enters requested data (ownerEmail)
             activate UI
-
-                UI --> UI : keepOwnerEmail(ownerEmail)
 
 
             UI -> CTRL : getTypePropertyList()
@@ -80,7 +71,15 @@ activate ADM
         ADM -> UI : selects a type of property
         activate UI
 
-            UI --> UI : keepPropertyType(propertyType)
+
+
+        UI -> CTRL : getPropertyTypeByDescription(commissionTypeDescription)
+        activate CTRL
+            ref over CTRL
+            Get Property Type
+            end ref
+        CTRL -->  UI: propertyType
+        deactivate CTRL
 
         UI --> ADM : requests location of the property
         deactivate UI
@@ -88,7 +87,6 @@ activate ADM
         ADM -> UI : types requested data (streetName, city, district, state, zipCode)
         activate UI
 
-            UI --> UI : keepLocation(streetName, city, district, state, zipCode)
 
         UI --> ADM :  requests area of the property
         deactivate UI
@@ -96,7 +94,6 @@ activate ADM
         ADM -> UI : types requested data (area)
         activate UI
 
-            UI --> UI : keepAreaValue(area)
 
         UI --> ADM :  requests distance from city center of the property
         deactivate UI
@@ -104,52 +101,41 @@ activate ADM
         ADM -> UI : types requested data (distanceCityCentre)
         activate UI
 
-            UI --> UI : keepDistanceCityCenter(distanceCityCentre)
-
         UI --> ADM :  requests price of the property
         deactivate UI
 
         ADM -> UI : types requested data (price)
         activate UI
 
-            UI --> UI : keepPriceValue(price)
 
  alt type of property = residence
 
-        autonumber 26.1
+        autonumber 30.1
         UI --> ADM : requests data (number of bedrooms, number of parking spaces)
         deactivate UI
 
         ADM -> UI : types requested data
         activate UI
 
-            UI --> UI : keepNumberBedroomAndParkingSpace(numberBedrooms,numberParkingSpaces)
-
             UI --> ADM : requests URI photograph of property
             deactivate UI
 
-                loop photograph
+
+                loop  min=1 max=30
+
                     ADM -> UI : types requested data (uri)
                     activate UI
 
-                    UI -> CTRL : addPhotograph(uri)
+                    UI -> CTRL : addPhotographUri(uri)
                     activate CTRL
 
-                    CTRL -> PHOTO : addPhotograph(uri)
-                    activate PHOTO
-
-                        PHOTO -> PHOTO : addPhotograph(uri)
-                        activate PHOTO
-
-                        PHOTO --> CTRL : photograph
-                        deactivate PHOTO
-
-                        deactivate PHOTO
+                    ref over CTRL
+                        Add Photograph Uri
+                    end ref
 
                      CTRL --> UI : photograph
                     deactivate CTRL
                 end loop
-                    UI --> UI : keepPhotograph(photograph)
 
 
         UI --> ADM : requests number of bathrooms
@@ -158,11 +144,7 @@ activate ADM
                 opt numberBathrooms
                 ADM -> UI : types requested data (numberBathrooms)
                 activate UI
-
-                    UI --> UI : keepNumberBathroom(numberBathrooms)
-
                 end opt
-
 
         UI --> ADM : requests available equipment
         deactivate UI
@@ -175,89 +157,92 @@ activate ADM
                             UI -> CTRL : addAvailableEquipment(description)
                             activate CTRL
 
-                            CTRL -> AEQUIP : addAvailableEquipment(description)
-                            activate AEQUIP
+                                ref over CTRL
+                                Add Available Equipment Description
+                                end
 
-                                AEQUIP -> AEQUIP : addAvailableEquipment(description)
-                                activate AEQUIP
-
-                                AEQUIP-->CTRL : availableEquipment
-                                deactivate AEQUIP
-
-                                deactivate AEQUIP
                             CTRL --> UI : availableEquipment
                             deactivate CTRL
                         end loop
-                        UI-->UI : keepAvailableEquipment(availableEquipment)
                  end opt
-
 
 else type of property = house
 
-        autonumber 26.1
+        autonumber 30.1
         UI --> ADM : requests data (existence of basement; inhabitable loft)
         deactivate UI
 
         ADM -> UI : types requested data
         activate UI
 
-
             UI --> ADM : asks to select sun exposure
-
-
-            UI -> CTRL : getSunExposureList()
-            activate CTRL
-            ref over CTRL
-                Get Sun Exposure List
-            end ref
-
-           CTRL --> UI : getSunExposureList
-           deactivate CTRL
-
             deactivate UI
-
 
             opt sun exposure
             ADM -> UI : selects requested data (sunExposure)
             activate UI
-
-            UI-->UI : keepSunExposure(sunExposure)
             end opt
 
     end
+    autonumber 31
     UI --> ADM : shows all data and asks for confirmation
         deactivate UI
 
     ADM -> UI : submits data
     activate UI
 
-        UI -> CTRL : createAnnouncement()
+        UI -> CTRL : publishAnnouncement(commissionValue, commissionTypeDescription, ownerEmail, propertyTypeDescription,\nstreetName, city, district, state, zipCode, area, distanceCityCentre,\nprice, photograph, numberBathrooms, availableEquipment, sunExposure)
         activate CTRL
 
+        CTRL -> CTRL : getAgentFromSession()
 
-        CTRL -> AD : createAnnouncement()
+            ref over CTRL
+                Get Agent
+            end ref
+
+            activate CTRL
+
+        CTRL --> CTRL : agent
+        deactivate CTRL
+
+        |||
+        CTRL -> AD : createRequest(ownerEmail, propertyType, streetName, city, district,\n state, zipCode, area, distanceCityCentre,price, photograph,\n numberBathrooms, availableEquipment, sunExposure)
         activate AD
 
-        AD -->CTRL : announcement
+        AD -> REQUEST** : create(ownerEmail, propertyType,streetName, city, district, state,\n zipCode, distanceCityCentre, price, photograph,\n numberBathrooms, availableEquipment, sunExposure)
+        activate REQUEST
+            |||
+            ref over REQUEST
+                Create Request
+            end ref
+
+        REQUEST --> AD : request
+        deactivate REQUEST
+
+        AD -> AD : addRequest(request)
+        activate AD
+        AD -> AD : validateRequest(request)
+        activate AD
+
+        AD --> AD :
+        deactivate AD
+
+        AD --> AD :
+        deactivate AD
+
+        AD -->CTRL : request
 
         deactivate AD
 
-            |||
-            CTRL -> CTRL : getAgentFromSession()
+        CTRL -> CTRL : getCommissionTypeByDescription(commissionTypeDescription)
+        activate CTRL
+            ref over CTRL
+            Get Commission Type
+            end ref
+        CTRL --> CTRL : commissionType
+        deactivate CTRL
 
-                ref over CTRL
-                    Get Agent
-                end ref
-
-                activate CTRL
-
-                CTRL --> CTRL : agent
-            deactivate CTRL
-
-
-            |||
-            CTRL -> AGENCY: publishAnnouncement(agent, typeCommission, commissionValue, ownerEmail, property)
-
+            CTRL -> AGENCY: publishAnnouncement(agent, commission, request)
 
                 ref over AGENCY
                     Publish Announcement

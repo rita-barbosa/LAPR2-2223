@@ -73,7 +73,7 @@ activate Employee
         Employee -> System : types requested data
         activate System
 
-        System --> Employee : requests URI photograph of property
+        System --> Employee : requests the photograph URI of the property
         deactivate System
 
             loop photograph

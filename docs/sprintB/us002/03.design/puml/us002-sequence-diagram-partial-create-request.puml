@@ -1,0 +1,45 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+participant "request\n:Request" as REQUEST
+participant "property\n:Property" as PROPERTY
+participant "location\n:Location" as LOCATION
+
+
+autonumber 37
+        -> REQUEST** : create(ownerEmail, propertyType,streetName, city, district, state,\n zipCode, distanceCityCentre, price, photograph,\n numberBathrooms, availableEquipment, sunExposure)
+        activate REQUEST
+
+autonumber 37.1
+
+    group Create Request
+
+
+        REQUEST -> PROPERTY** : createProperty( propertyType,streetName, city, district, state,\n zipCode, distanceCityCentre, price, photograph,\n numberBathrooms, availableEquipment, sunExposure)
+        activate PROPERTY
+
+        PROPERTY -> LOCATION** : createLocation(streetName, city, district, state, zipCode)
+        PROPERTY -> PROPERTY : validateLocation()
+        activate PROPERTY
+        PROPERTY --> PROPERTY :
+        deactivate PROPERTY
+
+        PROPERTY --> REQUEST : property
+        deactivate PROPERTY
+
+        REQUEST -> REQUEST : getCurrentDate()
+        activate REQUEST
+
+        REQUEST --> REQUEST :
+        deactivate REQUEST
+        |||
+
+    end
+autonumber 38
+        <-- REQUEST : request
+        deactivate REQUEST
+
+
+@enduml
