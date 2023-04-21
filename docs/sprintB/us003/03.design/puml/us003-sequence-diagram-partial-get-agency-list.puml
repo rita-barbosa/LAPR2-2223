@@ -15,10 +15,10 @@ participant "AgencyRepository:\nAgencyRepository" as AgencyRepository
 
 autonumber 3
 
- -> CTRL : getTaskCategories()
+ -> CTRL : getAgency()
 autonumber 3.1
 activate CTRL
-    group Get Task Category List
+    group Get Agency List
 
 
             CTRL -> RepositorySingleton : getInstance()
@@ -27,22 +27,22 @@ activate CTRL
                 RepositorySingleton --> CTRL: repositories
             deactivate RepositorySingleton
 
-            CTRL -> PLAT : getTaskCategoryRepository()
+            CTRL -> PLAT : getAgencyRepository()
             activate PLAT
 
-                PLAT --> CTRL: taskCategoryRepository
+                PLAT --> CTRL: AgencyRepository
             deactivate PLAT
 
-            CTRL -> AgencyRepository : getTaskCategories()
+            CTRL -> AgencyRepository : getAgency()
             activate AgencyRepository
 
-                AgencyRepository --> CTRL : taskCategoryList
+                AgencyRepository --> CTRL : AgencyList
             deactivate AgencyRepository
 
 
     end
     autonumber 4
-    <-- CTRL  : taskCategoryList
+    <-- CTRL  : AgencyList
 deactivate CTRL
 
 

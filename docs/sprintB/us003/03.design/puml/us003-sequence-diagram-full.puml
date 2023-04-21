@@ -185,11 +185,11 @@ UI -> CTRL : getRole()
             activate DATA
 
                 DATA -> AGENCY**: register(name, citizen card \nnumber, tax number, address,\n email address, contact number)
-                DATA -> DATA: addEmployee (register)
+                DATA -> DATA: addData (register)
 
 
                 activate DATA
-                    DATA -> DATA: validateEmployee (register)
+                    DATA -> DATA: validateData (register)
                     activate DATA
                         DATA --> DATA
                     deactivate DATA

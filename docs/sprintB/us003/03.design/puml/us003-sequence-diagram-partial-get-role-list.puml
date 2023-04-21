@@ -10,14 +10,14 @@ autonumber
 participant ":RegisterEmployeeController" as CTRL
 participant ":Repositories" as RepositorySingleton
 participant "repositories\n:Repositories" as PLAT
-participant "AgencyRepository:\nAgencyRepository" as AgencyRepository
+participant "RoleRepository:\nRoleRepository" as RoleRepository
 
 autonumber 3
 
- -> CTRL : getAgency()
+ -> CTRL : getRole()
 autonumber 3.1
 activate CTRL
-    group Get Agency Category List
+    group Get Role List
 
 
             CTRL -> RepositorySingleton : getInstance()
@@ -26,22 +26,22 @@ activate CTRL
                 RepositorySingleton --> CTRL: repositories
             deactivate RepositorySingleton
 
-            CTRL -> PLAT : getTaskCategoryRepository()
+            CTRL -> PLAT : getRoleRepository()
             activate PLAT
 
-                PLAT --> CTRL: taskCategoryRepository
+                PLAT --> CTRL: RoleRepository
             deactivate PLAT
 
-            CTRL -> AgencyRepository : getAgency()
-            activate AgencyRepository
+            CTRL -> RoleRepository : getRole()
+            activate RoleRepository
 
-                AgencyRepository --> CTRL : taskCategoryList
-            deactivate AgencyRepository
+                RoleRepository --> CTRL : RoleList
+            deactivate RoleRepository
 
 
     end
     autonumber 4
-    <-- CTRL  : taskCategoryList
+    <-- CTRL  : RoleList
 deactivate CTRL
 
 
