@@ -4,10 +4,10 @@ skinparam monochrome true
 skinparam packageStyle rectangle
 skinparam shadowing false
 
-actor "Owner" as Owner
-participant ":CreateRequestUI" as UI
-participant ":CreateRequestController" as CTRL
-participant "announcement\n:Announcement" as ANNOUNCE
+actor "<b>Owner</b>" as Owner
+participant "<b>:CreateRequestUI</b>" as UI
+participant "<b>:CreateRequestController</b>" as CTRL
+participant "<b>announcement\n:Announcement</b>" as ANNOUNCE
 
 autonumber
 
