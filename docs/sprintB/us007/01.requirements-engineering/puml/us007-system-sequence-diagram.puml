@@ -15,11 +15,19 @@ activate User
     User -> System : asks to register in the system
     activate System
 
-    System --> User : requests data (name, passport's card number,tax number, location,\n email address, telephone number, password)
+    System --> User : requests data (name, passportCardNumber, tax number,\n emailAddress, phoneNumber, password)
     deactivate System
 
-    User -> System : types requested data (name, passportCardNumber,taxNumber, location,\n phoneNumber, emailAddress, password)
+    User -> System : types requested data (name, passportCardNumber,taxNumber,\n emailAddress, phoneNumber, password)
     activate System
+
+    System --> User : requests data (location)
+    deactivate System
+
+    opt
+    User -> System : types requested data (location)
+    activate System
+    end opt
 
     System --> User : shows all data and asks for confirmation.
     deactivate System

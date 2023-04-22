@@ -38,8 +38,7 @@ As an unregistered user, I want to register in the system to buy, sell or rent p
 
 ### 1.4. Found out Dependencies
 
-* There is a dependency to "US003 Create a task category" since at least a task category must exist to classify the task
-  being created.
+* There isn't any dependencies.
 
 ### 1.5 Input and Output Data
 
@@ -66,4 +65,4 @@ As an unregistered user, I want to register in the system to buy, sell or rent p
 
 ### 1.7 Other Relevant Remarks
 
-* The created task stays in a "not published" state in order to distinguish from "published" tasks.
+* 
