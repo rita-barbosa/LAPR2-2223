@@ -65,15 +65,16 @@ class TaskCategoryRepository {
     + getTaskCategoryByDescription(description)
 }
 
-class OrganizationRepository {
+class AgencyRepository {
     + getOrganizationByEmployeeEmail(email)
 }
 
 class Repositories {
     - Repositories()
-    + getInstance() : Repositories
-    + getTaskCategoryRepository()
-    + getOrganizationRepository()
+    + getInstance() : repositories
+    + getTransactionTypeRepository()
+    + getPropertyTypeRepository()
+    + getAgencyRepository()
 }
 
 class CreateTaskController {

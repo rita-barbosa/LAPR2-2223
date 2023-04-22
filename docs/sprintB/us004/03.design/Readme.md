@@ -38,6 +38,7 @@
 |                                                    | ... adding to a collection and globally validating duplicated records? | Agency                       | Creator (Rule 1) : in the DM, Agency has an Announcement.                                                                                                                                   |
 | Step 13 : displays operation success               | ... informing operation success?                                       | CreateAnnouncementUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model.                                                                               |
 
+FALTA AINDA O REPOSITORIO DOS AGENTS e AGENCIES
 
 ### Systematization ##
 

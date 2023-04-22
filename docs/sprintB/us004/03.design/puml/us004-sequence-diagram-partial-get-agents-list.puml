@@ -1,0 +1,70 @@
+@startuml
+
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+participant ":CreatePropertyController" as CTRL
+participant ":Repositories" as RepositorySingleton
+participant "repositories\n:Repositories" as PLAT
+participant "agencyRepository\n:AgencyRepository" as AgencyRepository
+participant "agency\n:Agency" as AGC
+
+autonumber 21
+
+-> CTRL : getAgentsFromAgencyID(ID)
+activate CTRL
+
+activate CTRL
+
+    group Get Agents List
+    autonumber 21.1
+
+        CTRL -> RepositorySingleton : getInstance()
+        activate RepositorySingleton
+
+            RepositorySingleton --> CTRL: repositories
+        deactivate RepositorySingleton
+
+        CTRL -> PLAT : getAgencyRepository()
+        activate PLAT
+
+        PLAT --> CTRL : agencyRepository
+
+        deactivate PLAT
+        CTRL -> AgencyRepository : getAgencyByID(ID)
+
+       activate AgencyRepository
+
+           loop for each Agency
+
+           AgencyRepository -> AGC : anyAgencyHasID(ID)
+
+           activate AGC
+
+           AGC --> AgencyRepository : true/false
+
+           deactivate AGC
+            end
+
+       AgencyRepository --> CTRL : agency
+
+       deactivate AgencyRepository
+
+       CTRL -> AGC : getAgents()
+
+       activate AGC
+
+       AGC --> CTRL : agentsList
+       deactivate AGC
+
+   end
+
+   autonumber 22
+
+   <-- CTRL : agentsList
+
+   deactivate CTRL
+
+deactivate CTRL
+@enduml

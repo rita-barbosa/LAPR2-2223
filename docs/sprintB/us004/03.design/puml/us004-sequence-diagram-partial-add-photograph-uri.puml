@@ -1,0 +1,36 @@
+@startuml
+
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+participant ":CreateRequestController" as CTRL
+participant "photograph\n:Photograph" as PHOTO
+
+autonumber 16.2
+-> CTRL : addPhotographUri(uri)
+activate CTRL
+
+    group Add Photograph Uri
+        autonumber 16.2.1
+
+        CTRL -> PHOTO : addPhotographUri(uri)
+        activate PHOTO
+
+        PHOTO -> PHOTO : addPhotographUri(uri)
+        activate PHOTO
+
+        PHOTO --> PHOTO : photograph
+        deactivate PHOTO
+
+        PHOTO --> CTRL : photograph
+        deactivate PHOTO
+
+        deactivate PHOTO
+
+    end
+
+autonumber 16.3
+<-- CTRL : photograph
+deactivate CTRL
+@enduml

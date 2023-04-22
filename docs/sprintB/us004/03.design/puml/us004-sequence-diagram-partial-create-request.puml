@@ -1,0 +1,62 @@
+@startuml
+
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+participant "announcement\n:Announcement" as ANNOUNCE
+participant "request\n:Request" as REQUEST
+participant "date\n:Date" as DATE
+
+autonumber 34
+
+-> ANNOUNCE : create(userEmail, agent, propertyType, businessType, price,\n area, contractDuration, availableEquipment, streetName, city, district,\n state, zipCode, basement, inhabitableLoft, parkingSpace, sunExposure,\n numberBedrooms, numberBathrooms, distanceCityCenter, photograph,\n (agency no ???) )
+activate ANNOUNCE
+
+        group Create Request
+            autonumber 34.1
+
+            ANNOUNCE -> REQUEST**: create(userEmail, agent, propertyType, businessType, price, area,\n contractDuration, availableEquipment, streetName, city, district,\n state, zipCode, basement, inhabitableLoft, parkingSpace, sunExposure,\n numberBedrooms, numberBathrooms, distanceCityCenter, photograph,\n (agency no ???) )
+            activate REQUEST
+
+            REQUEST -> REQUEST : createProperty(propertyType, price, area, contractDuration, streetName,\n city, district, state, zipCode, basement, availableEquipment, inhabitableLoft,\n parkingSpace, sunExposure, numberBedrooms, numberBathrooms,\n distanceCityCenter, photograph)
+            activate REQUEST
+
+                ref over REQUEST
+                    Create Property with Location
+
+                end ref
+
+            REQUEST --> REQUEST
+
+            deactivate REQUEST
+
+            |||
+           REQUEST -> DATE : getDates()
+           activate DATE
+
+           DATE -> DATE : getCurrentDate()
+
+           DATE --> REQUEST : dates
+           deactivate DATE
+           deactivate REQUEST
+
+           ANNOUNCE -> ANNOUNCE : addRequest(request)
+           activate ANNOUNCE
+
+               ANNOUNCE -> ANNOUNCE : validateRequest(request)
+               activate ANNOUNCE
+
+               ANNOUNCE --> ANNOUNCE
+               deactivate ANNOUNCE
+
+           ANNOUNCE --> ANNOUNCE
+           deactivate ANNOUNCE
+       |||
+       end group
+
+autonumber 35
+
+<-- ANNOUNCE : request
+deactivate ANNOUNCE
+@enduml

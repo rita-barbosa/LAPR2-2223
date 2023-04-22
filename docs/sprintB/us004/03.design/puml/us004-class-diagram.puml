@@ -1,0 +1,155 @@
+@startuml
+'skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam linetype polyline
+'skinparam linetype orto
+
+skinparam classAttributeIconSize 0
+
+'left to right direction
+
+class AuthFacade
+{
+    + getCurrentUserSession()
+}
+
+class TransactionTypeRepository{}
+
+class TransactionType{}
+
+class UserSession
+{
+    + getUserID()
+}
+
+class Owner {
+    - name
+    - citizen's card number
+    - tax number
+    - address
+    - email
+    - role
+    - phone
+}
+
+class Property {
+    - String reference
+    - String description
+    - String informalDescription
+    - String technicalDescription
+    - Integer duration
+    - Double cost
+
+    + Property(reference, description,\ninformalDescription, technicalDescription,\nduration, cost, createdBy, taskCategory)
+}
+
+class PropertyType {
+    - String type
+    + setPropertyType()
+    + getPropertyType()
+}
+
+class Date{
+    - String actualDate
+    + getActualDate()
+}
+
+class location {
+    - String streetName
+    - String city
+    - String district
+    - String state
+    - String zipCode
+    + Location(streetName, city, district, state, zipCode)
+}
+
+class Agency {
+    - String name
+    - String vatNumber
+    - String website
+    - String phone
+    - String email
+
+    - addTask(task)
+    - validateTask(task)
+    + anyEmployeeHasEmail(email)
+    + Agency(name, vatNumber, webSite, phone, email, postalAddress, manager)
+    - getEmployeeByEmail(email)
+    + createAnnouncement(property, dates, userEmail, agent)
+
+'  +saveTask(task)
+}
+
+class PropertyTypeRepository {
+    + getTaskCategoryByDescription(description)
+}
+
+class AgencyRepository {
+    + anyAgencyHasID(ID)
+}
+
+class Repositories {
+    - Repositories()
+    + getInstance() : Repositories
+    + getTaskCategoryRepository()
+    + getOrganizationRepository()
+}
+
+class CreatePropertyController {
+    + CreatePropertyController(agencyRepository, transactionTypeRepository,\n propertyTypeRepository)
+    + getTransactionType()
+    + getPropertyType()
+    + getAgencies()
+    + getAgentsFromAgencyID(ID)
+    + createAnnouncement(propertyType, transactionType, price,\n contractDuration, area, availableEquipments, streetName, city,\n district, state, zipCode, agent, distanceFromCityCenter, url)
+    - getLocation(streetName, city, district, state, zipCode)
+    - getProperty(propertyType, transactionType, price, contractDuration, area, url,\n availableEquipments, distanceFromCityCenter, location)
+    - getDates()
+    - getUserEmail()
+}
+
+note right of CreatePropertyController
+    - userEmail is obtained from the user session
+    - ID, propertyType, transactionType,
+    agency, agent are retrieved
+    from selected data
+end note
+
+note bottom of PropertyTypeRepository
+    - used for displaying
+    the category list
+end note
+
+class CreatePropertyUI {
+}
+
+Repositories -> Repositories : instance
+ApplicationSession -> ApplicationSession : instance
+
+CreatePropertyUI .> CreatePropertyController
+
+CreatePropertyController .> Repositories : repositories
+
+Repositories -> "1" PropertyTypeRepository
+
+CreatePropertyController ..> PropertyType
+CreatePropertyController ..> AgencyRepository : organizationRepository
+CreatePropertyController ..> PropertyTypeRepository : PropertyTypeRepository
+
+Repositories --> "1" AgencyRepository
+
+AgencyRepository --> "*" Agency
+ApplicationSession --> "1" UserSession : userSession
+
+CreatePropertyController ..> "1" Agency : organization
+CreatePropertyController ..> ApplicationSession
+CreatePropertyController ..> UserSession
+Property "*" --> "1" PropertyType : taskCategory
+PropertyTypeRepository "1" --> "*" PropertyType : taskCategory
+Agency "1" --> "*" Property : tasks
+Property --> Owner : createdBy
+
+Agency --> "*" Owner : employs
+
+@enduml

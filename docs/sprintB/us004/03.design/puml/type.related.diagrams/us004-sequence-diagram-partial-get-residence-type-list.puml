@@ -1,0 +1,49 @@
+@startuml
+
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+participant ":CreatePropertyController" as CTRL
+participant ":Repositories" as RepositorySingleton
+participant "repositories\n:Repositories" as PLAT
+participant "residenceTypeRepository\n:ResidenceTypeRepository" as ResidenceTypeRepository
+
+autonumber 23
+
+-> CTRL : getResidenceType()
+
+     activate CTRL
+
+     group Get Residence Type List
+
+     autonumber 23.1
+
+     CTRL -> RepositorySingleton : getInstance()
+
+     activate RepositorySingleton
+
+     RepositorySingleton --> CTRL : repositories
+     deactivate RepositorySingleton
+
+     CTRL -> PLAT : getResidenceTypeRepository()
+
+     activate PLAT
+
+     PLAT --> CTRL : residenceTypeRepository
+     deactivate PLAT
+
+     CTRL -> ResidenceTypeRepository : getResidenceType()
+
+     activate ResidenceTypeRepository
+
+     ResidenceTypeRepository --> CTRL : residenceTypeList
+     deactivate ResidenceTypeRepository
+
+     end group
+
+     autonumber 24
+
+     <-- CTRL : residenceTypeList
+     deactivate CTRL
+@enduml
