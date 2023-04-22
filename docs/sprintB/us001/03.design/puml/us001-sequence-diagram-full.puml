@@ -12,351 +12,394 @@ participant ":DisplayPropertiesController" as CTRL
 participant ":Repositories" as RepositorySingleton
 participant "repositories\n:Repositories" as PLAT
 participant "filtersRepository\n:FiltersRepository" as FILTERSREP
-participant "filters\n:Filters" as FILTERS
 participant "agencyRepository\n: AgencyRepository" as AGENCYREP
-'participant "agency\n: Agency" as AGENCY
-participant "announcementRepository\n:AnnouncementRepository" as ANNOUNCREP
-'participant "announcement\n:Announcement" as ANNOUNC
-'participant "property\n:Property" as PROPERTY
-'participant "typeProperty\n:TypeProperty" as TYPEPROPERTY
-'participant "transaction\n: Transaction" as TRANSACTION
+participant "agency\n: Agency" as AGENCY
+
 
 activate User
 
-        User -> UI : asks to display listed properties
-        activate UI
+    User -> UI : asks to display listed properties
+    activate UI
 
-        UI -> CTRL** : create
+    UI -> CTRL** : create
 
-            UI -> CTRL : getFiltersList()
-            activate CTRL
+    UI -> CTRL : getAnnouncements()
+    activate CTRL
 
-            'CTRL -> FILTERS : getFilters()
-            'activate FILTERS
+         CTRL -> RepositorySingleton : getInstance()
+         activate RepositorySingleton
 
-                CTRL -> RepositorySingleton : getInstance()
-                activate RepositorySingleton
+         RepositorySingleton --> CTRL: repositories
+         deactivate RepositorySingleton
 
-                RepositorySingleton --> CTRL: repositories
-                deactivate RepositorySingleton
+         CTRL -> PLAT : getAgencyRepository()
+         activate PLAT
 
-                CTRL -> PLAT : getFiltersRepository()
-                activate PLAT
+         PLAT --> CTRL : agencyRepository
+         deactivate PLAT
 
-                PLAT --> CTRL: filtersRepository
-                deactivate PLAT
+         loop for each agency
 
-                CTRL -> FILTERSREP : getFiltersList()
-                activate FILTERSREP
+         CTRL -> AGENCYREP : getAgency()
+         activate AGENCYREP
 
-                FILTERSREP --> CTRL : filtersList
-                deactivate FILTERSREP
+         AGENCYREP --> CTRL : agency
+         deactivate AGENCYREP
 
-            CTRL --> UI : filtersList
-            deactivate CTRL
+         CTRL -> AGENCY : getAnnouncementList()
+         activate AGENCY
 
-            UI --> User : asks to select data (type of business; \ntype of property; number of bedrooms)
-            deactivate UI
-''''''''''''''''''''
-    alt user selects criteria
-        User -> UI : selects data
-        activate UI
+         AGENCY --> CTRL : announcementList
+         deactivate AGENCY
 
-            'selectedFilters
-            UI -> CTRL : getAnnouncements(typeBusiness, \ntypeProperty, numberBedrooms)
-            activate CTRL
+         end
+        'CTRL -> CTRL : keepAnnouncements
 
-                CTRL -> RepositorySingleton : getInstance()
-                activate RepositorySingleton
-
-                RepositorySingleton --> CTRL: repositories
-                deactivate RepositorySingleton
-
-                CTRL -> PLAT : getAgencyRepository()
-                activate PLAT
-
-                PLAT --> CTRL: AgencyRepository
-                deactivate PLAT
-
-                'collectAnnouncements
-                CTRL -> FILTERS : getAnnouncements(typeBusiness, \ntypeProperty, numberBedrooms)
-                activate FILTERS
-
-                    'getAnnouncementsByTypeBusiness
-
-                    FILTERS -> AGENCYREP : getAnnouncementsByTypeBusiness(typeBusiness)
-                    activate AGENCYREP
-
-                    loop for each announcement
-                           AGENCYREP -> ANNOUNCREP : announcementHasTypeBusiness(typeBusiness, announcementsList)
-                           activate ANNOUNCREP
-
-                           ANNOUNCREP --> AGENCYREP : true/false
-                           deactivate ANNOUNCREP
-
-                    end
-
-                    AGENCYREP --> FILTERS : announcementsList
-                    deactivate AGENCYREP
-
-                    FILTERS -> AGENCYREP : getAnnouncementsByTypeProperty(typeProperty, announcementsList)
-                    activate AGENCYREP
-
-                     loop for each announcement
-                           AGENCYREP -> ANNOUNCREP : announcementHasTypeProperty(typeProperty, announcementsList)
-                           activate ANNOUNCREP
-
-                           ANNOUNCREP --> AGENCYREP : true/false
-                           deactivate ANNOUNCREP
-
-                    end
-
-                    AGENCYREP --> FILTERS : announcementsList
-                    deactivate AGENCYREP
-
-                    FILTERS -> AGENCYREP : getAnnouncementsByNumberBedrooms(numberBedrooms, announcementsList)
-                    activate AGENCYREP
-
-                    loop for each announcement
-                           AGENCYREP -> ANNOUNCREP : announcementHasNumberBedrooms(numberBedrooms, announcementsList)
-                           activate ANNOUNCREP
-
-                           ANNOUNCREP --> AGENCYREP : true/false
-                           deactivate ANNOUNCREP
-
-                    end
-
-                    AGENCYREP --> FILTERS : announcementsList
-                    deactivate AGENCYREP
-
-'                    FILTERS -> ANNOUNCREP : collectAnnouncements(typeBusiness, \ntypeProperty, numberBedrooms)
-'                    activate ANNOUNCREP
+'        CTRL -> ANNOUNCREP : getAcceptancesDates(announcementList))
+'        activate ANNOUNCREP
 '
-'                    ANNOUNCREP --> FILTERS : announcements
-'                    deactivate ANNOUNCREP
+'        ANNOUNCREP --> CTRL : acceptancesDatesList
+'        deactivate ANNOUNCREP
 
-                FILTERS --> CTRL : announcements
-                deactivate FILTERS
+         CTRL -> CTRL : sortByMostRecentAdded(announcementList)
+         activate CTRL
+         deactivate CTRL
 
-            CTRL --> UI : announcements
-            deactivate CTRL
+         CTRL -> CTRL : announcementList
+         activate CTRL
+         deactivate CTRL
 
-        UI --> User : display all the listed properties, according to the \ncriteria chosen
-        deactivate UI
+         CTRL --> UI : announcementList
+         deactivate CTRL
 
-    else user doesn't select any criteria
+         UI -> CTRL : getFiltersList()
+         activate CTRL
 
-         autonumber 12
+             'CTRL -> FILTERS : getFilters()
+             'activate FILTERS
 
-         User -> UI : doesn't select any data
-         activate UI
+             CTRL -> RepositorySingleton : getInstance()
+             activate RepositorySingleton
 
-            UI -> CTRL : getAcceptancesDates()
-            activate CTRL
+             RepositorySingleton --> CTRL: repositories
+             deactivate RepositorySingleton
 
-                CTRL -> RepositorySingleton : getInstance()
-                activate RepositorySingleton
+             CTRL -> PLAT : getFiltersRepository()
+             activate PLAT
 
-                RepositorySingleton --> CTRL: repositories
-                deactivate RepositorySingleton
+             PLAT --> CTRL: filtersRepository
+             deactivate PLAT
 
-                CTRL -> PLAT : getAgencyRepository()
-                activate PLAT
+             CTRL -> FILTERSREP : getFiltersList()
+             activate FILTERSREP
 
-                PLAT --> CTRL : AgencyRepository
-                deactivate PLAT
+             FILTERSREP --> CTRL : filtersList
+             deactivate FILTERSREP
 
-                CTRL -> AGENCYREP : getAnnouncements()
-                activate AGENCYREP
+         CTRL --> UI : filtersList
+         deactivate CTRL
 
-                AGENCYREP --> CTRL : announcements
-                deactivate AGENCYREP
-
-                CTRL -> CTRL : keepAnnouncements
-
-                CTRL -> RepositorySingleton : getInstance()
-                activate RepositorySingleton
-
-                RepositorySingleton --> CTRL: repositories
-                deactivate RepositorySingleton
-
-                CTRL -> PLAT : getAnnouncementRepository()
-                activate PLAT
-
-                PLAT --> CTRL : AnnouncementRepository
-                deactivate PLAT
-
-                CTRL -> ANNOUNCREP : getAcceptancesDates()
-                activate ANNOUNCREP
-
-                ANNOUNCREP --> CTRL : acceptancesDatesList
-                deactivate ANNOUNCREP
-
-                CTRL -> ANNOUNCREP : sortByMostRecentAdded(acceptancesDatesList)
-                activate ANNOUNCREP
-
-                ANNOUNCREP --> CTRL : announcements
-                deactivate ANNOUNCREP
-
-            CTRL --> UI : announcements
-            deactivate CTRL
-
-         UI --> User : display listed properties by most recent added
-         deactivate UI
-    end
-
-
-
-    UI --> User : asks to select data (price; city; state)
+    UI --> User : display listed properties by most recent added \nand asks to select data (type of business)
     deactivate UI
 
-
-    alt user selects any sorting criteria
-        User -> UI : selects data (price; city; state)
+    opt type of business
+        User -> UI : selects data (type of business)
         activate UI
 
-            UI -> CTRL : getAnnouncements/keepFilters(price, city, state)
-            activate CTRL
+        UI -> CTRL :  getAnnouncements(announcements, typeBusiness)
+        activate CTRL
 
-                CTRL -> RepositorySingleton : getInstance()
-                activate RepositorySingleton
+        CTRL -> AGENCYREP : getAnnouncements(announcements, typeBusiness)
+        activate AGENCYREP
 
-                RepositorySingleton --> CTRL: repositories
-                deactivate RepositorySingleton
+        AGENCYREP -> AGENCY : getAnnouncementsByTypeBusiness(announcementList,\n typeBusiness)
+        activate AGENCY
 
-                CTRL -> PLAT : getAgencyRepository()
-                activate PLAT
+        loop for each announcement
 
-                PLAT --> CTRL : AgencyRepository
-                deactivate PLAT
+            AGENCY -> AGENCY : announcementHasTypeBusiness(announcementList,\n typeBusiness)
+            activate AGENCY
 
-                CTRL -> AGENCYREP : getAnnouncements()
-                activate AGENCYREP
+            AGENCY --> AGENCY: true/false
+            deactivate AGENCY
 
-                AGENCYREP --> CTRL : announcements
-                deactivate AGENCYREP
+            alt false
+            AGENCY -> AGENCY : removeAnnouncement(announcementList)
+            activate AGENCY
 
-            CTRL -> FILTERS : getAnnouncements(price, city, state)
-            activate FILTERS
+            AGENCY --> AGENCY: announcementList
+            deactivate AGENCY
+            |||
+           end
+        |||
+        end
 
-                alt ascending price
+        AGENCY --> AGENCYREP : announcementList
+        deactivate AGENCY
 
-                FILTERS -> AGENCYREP : sortAnnouncementsByAscendingPrice(announcementsList)
-                activate AGENCYREP
+        AGENCYREP --> CTRL : announcementList
+        deactivate AGENCYREP
 
-                AGENCYREP --> FILTERS : announcementsList
-                deactivate AGENCYREP
-
-                else descending price
-
-                FILTERS -> AGENCYREP : sortAnnouncementsByDescendingPrice(announcementsList)
-                activate AGENCYREP
-
-                AGENCYREP --> FILTERS : announcementsList
-                deactivate AGENCYREP
-
-                end
-
-                FILTERS -> AGENCYREP : getAnnouncementsByCity(city, announcementsList)
-                activate AGENCYREP
-
-                 loop for each announcement
-                       AGENCYREP -> ANNOUNCREP : announcementHasCity(city, announcementsList)
-                       activate ANNOUNCREP
-
-                       ANNOUNCREP --> AGENCYREP : true/false
-                       deactivate ANNOUNCREP
-
-                end
-
-                AGENCYREP --> FILTERS : announcementsList
-                deactivate AGENCYREP
-
-                FILTERS -> AGENCYREP : getAnnouncementsByState(state, announcementsList)
-                activate AGENCYREP
-
-                loop for each announcement
-                       AGENCYREP -> ANNOUNCREP : announcementHasState(state, announcementsList)
-                       activate ANNOUNCREP
-
-                       ANNOUNCREP --> AGENCYREP : true/false
-                       deactivate ANNOUNCREP
-
-                end
-
-                    AGENCYREP --> FILTERS : announcements
-                    deactivate AGENCYREP
-
-                FILTERS --> CTRL : announcements
-                deactivate FILTERS
-
-            CTRL --> UI : announcements
-            deactivate CTRL
-
-        UI --> User : display all the listed properties, according to the \ncriteria chosen
-        deactivate UI
-
-    else user doesn't select any sorting criteria
-
-        autonumber 21
-
-        User -> UI : doesn't select any data
-        activate UI
-
-            UI -> CTRL : getAcceptancesDates()
-            activate CTRL
-
-                CTRL -> RepositorySingleton : getInstance()
-                activate RepositorySingleton
-
-                RepositorySingleton --> CTRL: repositories
-                deactivate RepositorySingleton
-
-                CTRL -> PLAT : getAgencyRepository()
-                activate PLAT
-
-                PLAT --> CTRL : AgencyRepository
-                deactivate PLAT
-
-                CTRL -> AGENCYREP : getAnnouncements()
-                activate AGENCYREP
-
-                AGENCYREP --> CTRL : announcements
-                deactivate AGENCYREP
-
-                CTRL -> CTRL : keepAnnouncements
-
-                CTRL -> RepositorySingleton : getInstance()
-                activate RepositorySingleton
-
-                RepositorySingleton --> CTRL: repositories
-                deactivate RepositorySingleton
-
-                CTRL -> PLAT : getAnnouncementRepository()
-                activate PLAT
-
-                PLAT --> CTRL : AnnouncementRepository
-                deactivate PLAT
-
-                CTRL -> ANNOUNCREP : getAcceptancesDates()
-                activate ANNOUNCREP
-
-                ANNOUNCREP --> CTRL : acceptancesDatesList
-                deactivate ANNOUNCREP
-
-                CTRL -> ANNOUNCREP : sortByMostRecentAdded(acceptancesDatesList)
-                activate ANNOUNCREP
-
-                ANNOUNCREP --> CTRL : announcements
-                deactivate ANNOUNCREP
-
-            CTRL --> UI : announcements
-            deactivate CTRL
-
-        UI --> User : display listed properties by most recent added
-        deactivate UI
-
+        CTRL --> UI : announcementList
+        deactivate CTRL
+        |||
     end
+
+    UI --> User : asks to select data (type of property)
+    deactivate UI
+
+    opt type of property
+        User -> UI : selects data (type of property)
+        activate UI
+
+    UI -> CTRL :  getAnnouncements(announcements, typeProperty)
+    activate CTRL
+
+    CTRL -> AGENCYREP : getAnnouncements(announcements, typeProperty)
+    activate AGENCYREP
+
+    AGENCYREP -> AGENCY : getAnnouncementsByTypeBusiness(announcementList,\n typeProperty)
+    activate AGENCY
+
+    loop for each announcement
+        AGENCY -> AGENCY : announcementHasTypeBusiness(announcementList,\n typeProperty)
+        activate AGENCY
+
+        AGENCY --> AGENCY: true/false
+        deactivate AGENCY
+
+        alt false
+            AGENCY -> AGENCY : removeAnnouncement(announcementList)
+            activate AGENCY
+
+            AGENCY --> AGENCY: announcementList
+            deactivate AGENCY
+        |||
+        end
+        |||
+    end
+
+        AGENCY --> AGENCYREP : announcementList
+        deactivate AGENCY
+
+        AGENCYREP --> CTRL : announcementList
+        deactivate AGENCYREP
+
+        CTRL --> UI : announcementList
+        deactivate CTRL
+        |||
+    end
+
+    UI -> User : asks to select data (number of bedrooms)
+    deactivate UI
+
+    opt number of bedrooms
+        User -> UI : selects data (number of bedrooms)
+        activate UI
+
+        UI -> CTRL :  getAnnouncements(announcements, numberBedrooms)
+        activate CTRL
+
+        CTRL -> AGENCYREP : getAnnouncements(announcements, numberBedrooms)
+        activate AGENCYREP
+
+        AGENCYREP -> AGENCY : getAnnouncementsByNumberBedrooms(announcementList,\n numberBedrooms)
+        activate AGENCY
+
+        loop for each announcement
+            AGENCY -> AGENCY : announcementHasTypeBusiness(announcementList,\n numberBedrooms)
+            activate AGENCY
+
+            AGENCY --> AGENCY: true/false
+            deactivate AGENCY
+
+            alt false
+            AGENCY -> AGENCY : removeAnnouncement(announcementList)
+            activate AGENCY
+
+            AGENCY --> AGENCY: announcementList
+            deactivate AGENCY
+        |||
+        end
+    |||
+    end
+
+    AGENCY --> AGENCYREP : announcementList
+    deactivate AGENCY
+
+    AGENCYREP --> CTRL : announcementList
+    deactivate AGENCYREP
+
+    CTRL --> UI : announcementList
+    deactivate CTRL
+
+    |||
+    end
+
+    UI -> UI : sortingList
+    activate UI
+
+    UI --> UI
+    deactivate UI
+
+    UI --> User : display all the listed properties, according to the \ncriteria chosen and asks to select data (price)
+    deactivate UI
+
+    opt price
+        User -> UI : selects data (price)
+        activate UI
+
+        UI --> User :  asks to select data (type of sorting)
+        deactivate UI
+
+        User -> UI : select data (type of sorting)
+        activate UI
+
+        UI -> CTRL : sortAnnouncements(price, typeSorting, announcementList)
+        activate CTRL
+
+        CTRL -> AGENCYREP : sortAnnouncements(price, typeSorting, announcementList)
+        activate AGENCYREP
+
+        AGENCYREP -> AGENCY : sortAnnouncements(price, typeSorting, announcementList)
+        activate AGENCY
+
+        alt ascending price
+
+            AGENCY -> AGENCY : sortAnnouncementsByAscendingPrice(announcementList)
+            activate AGENCY
+
+            AGENCY --> AGENCY : announcementList
+            deactivate AGENCY
+
+            else descending price
+
+            AGENCY -> AGENCY : sortAnnouncementsByDescendingPrice(announcementList)
+            activate AGENCY
+
+            AGENCY --> AGENCY : announcementList
+            deactivate AGENCY
+
+            |||
+        end
+
+        AGENCY --> AGENCYREP : announcementList
+        deactivate AGENCY
+
+        AGENCYREP --> CTRL : announcementList
+        deactivate AGENCYREP
+
+        CTRL --> UI : announcementList
+        deactivate CTRL
+    |||
+    end
+
+    UI --> User : asks to select data (city)
+    deactivate UI
+
+    opt city
+        User -> UI : selects data (city)
+        activate UI
+
+        UI --> User :  asks to select data (type of sorting)
+        deactivate UI
+
+        User -> UI : select data (type of sorting)
+        activate UI
+
+        UI -> CTRL : sortAnnouncements(city, typeSorting, announcementList)
+        activate CTRL
+
+        CTRL -> AGENCYREP : sortAnnouncements(city, typeSorting, announcementList)
+        activate AGENCYREP
+
+        AGENCYREP -> AGENCY : sortAnnouncements(city, typeSorting, announcementList)
+        activate AGENCY
+
+        alt ascending city
+
+            AGENCY -> AGENCY : sortAnnouncementsByAscendingCity(announcementList)
+            activate AGENCY
+
+            AGENCY --> AGENCY : announcementList
+            deactivate AGENCY
+
+            else descending city
+
+            AGENCY -> AGENCY : sortAnnouncementsByDescendingCity(announcementList)
+            activate AGENCY
+
+            AGENCY --> AGENCY : announcementList
+            deactivate AGENCY
+
+        |||
+        end
+
+       AGENCY --> AGENCYREP : announcementList
+       deactivate AGENCY
+
+       AGENCYREP --> CTRL : announcementList
+       deactivate AGENCYREP
+
+       CTRL --> UI : announcementList
+       deactivate CTRL
+    |||
+    end
+
+    UI --> User : asks to select data (state)
+    deactivate UI
+
+    opt state
+        User -> UI : selects data (state)
+        activate UI
+
+        UI --> User :  asks to select data (type of sorting)
+        deactivate UI
+
+        User -> UI : select data (type of sorting)
+        activate UI
+
+        UI -> CTRL : sortAnnouncements(state, typeSorting, announcementList)
+        activate CTRL
+
+        CTRL -> AGENCYREP : sortAnnouncements(state, typeSorting, announcementList)
+        activate AGENCYREP
+
+        AGENCYREP -> AGENCY : sortAnnouncements(state, typeSorting, announcementList)
+        activate AGENCY
+
+        alt ascending state
+
+            AGENCY -> AGENCY : sortAnnouncementsByAscendingState(announcementList)
+            activate AGENCY
+
+            AGENCY --> AGENCY : announcementList
+            deactivate AGENCY
+
+            else descending state
+
+            AGENCY -> AGENCY : sortAnnouncementsByDescendingState(announcementList)
+            activate AGENCY
+
+            AGENCY --> AGENCY : announcementList
+            deactivate AGENCY
+
+        |||
+        end
+
+        AGENCY --> AGENCYREP : announcementList
+        deactivate AGENCY
+
+        AGENCYREP --> CTRL : announcementList
+        deactivate AGENCYREP
+
+        CTRL --> UI : announcementList
+        deactivate CTRL
+    |||
+    end
+
+    UI --> User : display all the listed properties, according to the \ncriteria chosen
+    deactivate UI
 
 deactivate User
 
