@@ -72,15 +72,6 @@ activate ADM
         activate UI
 
 
-
-        UI -> CTRL : getPropertyTypeByDescription(commissionTypeDescription)
-        activate CTRL
-            ref over CTRL
-            Get Property Type
-            end ref
-        CTRL -->  UI: propertyType
-        deactivate CTRL
-
         UI --> ADM : requests location of the property
         deactivate UI
 
@@ -191,7 +182,7 @@ else type of property = house
     ADM -> UI : submits data
     activate UI
 
-        UI -> CTRL : publishAnnouncement(commissionValue, commissionTypeDescription, ownerEmail, propertyTypeDescription,\nstreetName, city, district, state, zipCode, area, distanceCityCentre,\nprice, photograph, numberBathrooms, availableEquipment, sunExposure)
+        UI -> CTRL : publishAnnouncement(commissionValue, commissionTypeDescription, ownerEmail, propertyTypeDescription,\nstreetName, city, district, state, zipCode, area, distanceCityCentre,\nprice, photograph,numberBedrooms,numberParkingSpaces,\nexistenceBasement,inhabitableLoft, numberBathrooms, availableEquipment, sunExposure)
         activate CTRL
 
         CTRL -> CTRL : getAgentFromSession()
@@ -205,11 +196,20 @@ else type of property = house
         CTRL --> CTRL : agent
         deactivate CTRL
 
+            |||
+          CTRL-> CTRL : getPropertyTypeByDescription(propertyTypeDescription)
+                activate CTRL
+                    ref over CTRL
+                    Get Property Type
+                    end ref
+                CTRL -->  CTRL: propertyType
+                deactivate CTRL
+
         |||
-        CTRL -> AD : createRequest(ownerEmail, propertyType, streetName, city, district,\n state, zipCode, area, distanceCityCentre,price, photograph,\n numberBathrooms, availableEquipment, sunExposure)
+        CTRL -> AD : createRequest( ownerEmail, propertyType,\nstreetName, city, district, state, zipCode, area, distanceCityCentre,\nprice, photograph,numberBedrooms,numberParkingSpaces,\nexistenceBasement,inhabitableLoft, numberBathrooms, availableEquipment, sunExposure)
         activate AD
 
-        AD -> REQUEST** : create(ownerEmail, propertyType,streetName, city, district, state,\n zipCode, distanceCityCentre, price, photograph,\n numberBathrooms, availableEquipment, sunExposure)
+        AD -> REQUEST** : create(ownerEmail, propertyType,streetName, city, district, state,\n zipCode, distanceCityCentre, price, photograph,\nnumberBedrooms,numberParkingSpaces,existenceBasement,\ninhabitableLoft, numberBathrooms, availableEquipment, sunExposure)
         activate REQUEST
             |||
             ref over REQUEST
@@ -242,7 +242,8 @@ else type of property = house
         CTRL --> CTRL : commissionType
         deactivate CTRL
 
-            CTRL -> AGENCY: publishAnnouncement(agent, commission, request)
+            |||
+            CTRL -> AGENCY: publishAnnouncement(agent, commissionType, commissionValue, request)
 
                 ref over AGENCY
                     Publish Announcement

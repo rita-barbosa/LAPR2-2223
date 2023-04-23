@@ -7,8 +7,8 @@ skinparam shadowing false\
 
 participant ":PublishAnnouncementController" as CTRL
 participant ":ApplicationSession" as _APP
-participant "applicationSession\n:ApplicationSession" as APP
-participant "userSession\n:UserSession" as SESSION
+participant "appSession\n:ApplicationSession" as APP
+participant "currentSession\n:UserSession" as SESSION
 participant ":Repositories" as RepositorySingleton
 participant "repositories\n:Repositories" as PLAT
 participant "agencyRepository\n:AgencyRepository" as AgencyRepository
@@ -22,18 +22,18 @@ autonumber 21
 
 autonumber 21.1
 
-    group Get Property Type List
+    group Get Agent
 
              CTRL -> _APP: getInstance()
              activate _APP
-             _APP -> CTRL: authFacade
+             _APP -> CTRL: appSession
              deactivate _APP
 
 
              CTRL -> APP: getCurrentSession()
              activate APP
 
-                 APP --> CTRL: userSession
+                 APP --> CTRL: currentSession
              deactivate APP
 
              CTRL -> SESSION: getUserEmail()
@@ -54,7 +54,7 @@ autonumber 21.1
              activate AgencyRepository
 
                  loop [for each agency
-                     AgencyRepository -> AGENCY : anyEmployeeHasEmail(email)
+                     AgencyRepository -> AGENCY : anyAgentHasEmail(email)
                      activate AGENCY
 
                           AGENCY --> AgencyRepository : true/false

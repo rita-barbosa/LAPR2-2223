@@ -9,22 +9,18 @@ participant "location\n:Location" as LOCATION
 
 
 autonumber 37
-        -> REQUEST** : create(ownerEmail, propertyType,streetName, city, district, state,\n zipCode, distanceCityCentre, price, photograph,\n numberBathrooms, availableEquipment, sunExposure)
-        activate REQUEST
+
+        -> REQUEST** : createRequest(ownerEmail, propertyType,streetName, city, district, state,\nzipCode, distanceCityCentre, price, photograph,numberBedrooms,\nnumberParkingSpaces,existenceBasement,inhabitableLoft, numberBathrooms,\n availableEquipment, sunExposure)
+         activate REQUEST
 
 autonumber 37.1
 
     group Create Request
 
-
-        REQUEST -> PROPERTY** : createProperty( propertyType,streetName, city, district, state,\n zipCode, distanceCityCentre, price, photograph,\n numberBathrooms, availableEquipment, sunExposure)
+        REQUEST -> PROPERTY** : create(propertyType,streetName, city, district, state,\nzipCode, distanceCityCentre, price, photograph,numberBedrooms,\nnumberParkingSpaces,existenceBasement,inhabitableLoft, numberBathrooms,\n availableEquipment, sunExposure)
         activate PROPERTY
 
         PROPERTY -> LOCATION** : createLocation(streetName, city, district, state, zipCode)
-        PROPERTY -> PROPERTY : validateLocation()
-        activate PROPERTY
-        PROPERTY --> PROPERTY :
-        deactivate PROPERTY
 
         PROPERTY --> REQUEST : property
         deactivate PROPERTY

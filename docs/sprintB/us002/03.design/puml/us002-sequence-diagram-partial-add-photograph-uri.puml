@@ -20,10 +20,7 @@ autonumber 30.6.1
 
         CTRL -> PHOTO : addPhotographUri(uri)
         activate PHOTO
-
-        PHOTO -> PHOTO : addPhotographUri(uri)
-        activate PHOTO
-
+        |||
         PHOTO --> CTRL : photograph
         deactivate PHOTO
 

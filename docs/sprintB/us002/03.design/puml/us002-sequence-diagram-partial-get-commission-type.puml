@@ -14,7 +14,7 @@ autonumber 12
 autonumber 12.1
 
 activate CTRL
-    group Get Task Category
+    group Get Commission Type
         CTRL -> RepositorySingleton : getInstance()
         activate RepositorySingleton
 

@@ -14,14 +14,11 @@ autonumber 30.14
 
 autonumber 30.14.1
 
-    group Add Available Equipment Uri
+    group Add Available Equipment Description
 
         CTRL -> AEQUIP : addAvailableEquipment(description)
         activate AEQUIP
-
-        AEQUIP -> AEQUIP : addAvailableEquipment(description)
-        activate AEQUIP
-
+        |||
         AEQUIP --> CTRL : availableEquipment
         deactivate AEQUIP
 
