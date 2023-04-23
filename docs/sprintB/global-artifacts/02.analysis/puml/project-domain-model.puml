@@ -82,10 +82,10 @@ class House{
 }
 class Network{}
 
-class TypeProperty{
+class PropertyType{
 designation
 }
-class TypeResidence{
+class ResidenceType{
 designation
 }
 class Photograph{
@@ -101,15 +101,17 @@ zipCode
 class Business{
 amount
 }
-class TypeBusiness{
+class BusinessType{
 designation
 }
 class Lease{
 contractDuration
 }
 class Commission {
-typeCommission
 amountCommission
+}
+class CommissionType {
+designation
 }
 class Request{
 requestDate
@@ -125,7 +127,7 @@ Customer  ---|> Person
 Agent  ----|> Employee
 StoreManager --|> Employee
 NetworkManager ---|> Employee
-Agent "1" -- "*" Announcement: publishes >
+Agent "1" -- "*" Announcement: is published by <
 Agent "1" - "*" Visit: schedules >
 Customer "1" -- "*" Visit:  requests >
 StoreManager "1" -- "1" Agency: manages >
@@ -133,26 +135,27 @@ NetworkManager "1" -up- "1" Network: manages >
 Agency "1..*" --- "1" Network: is part of >
 Request "*" -- "1" Owner: submits <
 Visit "1" -- "1" Property: done to >
-Residence  ---|>  Property
+Residence  --|>  Property
 House --|> Residence
 Visit "1" --- "1"  VisitReport: is a description of <
 Agent "1" -- "*" VisitReport: registers >
 Employee "1" ----- "1" Agency: works in  >
-TypeProperty "1" -- "1" Property: is a description of >
-TypeResidence "1" -- "1" Residence: is a description of >
-Property "1" -- "1..*" Photograph: contains >
+PropertyType "1" -- "1" Property: is a description of >
+ResidenceType "1" -- "1" Residence: is a description of >
+Property "1" -- "1..*" Photograph: is visualized in >
 Property "1"--"1" Location: has address >
-Person "1" - "1" Location: has address >
-Agency "1" --- "1" Location: has adress >
-Residence "1" -left "*"AvailableEquipment: contains >
+Person "1" -- "1" Location: has address >
+Agency "1" -- "1" Location: has address >
+Residence "1" -left "*"AvailableEquipment: includes >
 Announcement "1" -- "1" Commission: is assigned to <
 Agency "1" --- "*" Announcement: owns >
 Property "1" -up- "1" Request : < has information about
 Request "1" -- "1" Business: is described by >
 Business <|-- Lease
-TypeBusiness "1" -- "1" Business : describes >
+BusinessType "1" -- "1" Business : describes >
 Announcement "1" -- "1" Request : is  based on >
 Person "1" - "1" User : is represented by >
 User "*" -- "*" Role : plays >
+Commission "*" - "1" CommissionType : is categorized in >
 
 @enduml
