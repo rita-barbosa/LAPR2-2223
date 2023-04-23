@@ -1,4 +1,4 @@
-# US 006 - To create a Task 
+# US 001 - To display listed properties 
 
 ## 3. Design - User Story Realization 
 
@@ -6,35 +6,44 @@
 
 **SSD - Alternative 1 is adopted.**
 
-| Interaction ID | Question: Which class is responsible for... | Answer               | Justification (with patterns)                                                                                 |
-|:-------------  |:--------------------- |:---------------------|:--------------------------------------------------------------------------------------------------------------|
-| Step 1  		 |	... interacting with the actor? | CreateTaskUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model. |
-| 			  		 |	... coordinating the US? | CreateTaskController | Controller                                                                                                    |
-| 			  		 |	... instantiating a new Task? | Organization         | Creator (Rule 1): in the DM Organization has a Task.                                                          |
-| 			  		 | ... knowing the user using the system?  | UserSession          | IE: cf. A&A component documentation.                                                                          |
-| 			  		 |							 | Organization         | IE: knows/has its own Employees                                                                               |
-| 			  		 |							 | Employee             | IE: knows its own data (e.g. email)                                                                           |
-| Step 2  		 |							 |                      |                                                                                                               |
-| Step 3  		 |	...saving the inputted data? | Task                 | IE: object created in step 1 has its own data.                                                                |
-| Step 4  		 |	...knowing the task categories to show? | System               | IE: Task Categories are defined by the Administrators.                                                        |
-| Step 5  		 |	... saving the selected category? | Task                 | IE: object created in step 1 is classified in one Category.                                                   |
-| Step 6  		 |							 |                      |                                                                                                               |              
-| Step 7  		 |	... validating all data (local validation)? | Task                 | IE: owns its data.                                                                                            | 
-| 			  		 |	... validating all data (global validation)? | Organization         | IE: knows all its tasks.                                                                                      | 
-| 			  		 |	... saving the created task? | Organization         | IE: owns all its tasks.                                                                                       | 
-| Step 8  		 |	... informing operation success?| CreateTaskUI         | IE: is responsible for user interactions.                                                                     | 
+| Interaction ID                                                                                               | Question: Which class is responsible for...     | Answer                      | Justification (with patterns)                                                                                                       |
+|:-------------------------------------------------------------------------------------------------------------|:------------------------------------------------|:----------------------------|:------------------------------------------------------------------------------------------------------------------------------------|
+| Step 1 : asks to display listed properties                                                                   | 	... interacting with the actor?                | DisplayPropertiesUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model.                       |
+| 	                                                                                                            | 	... coordinating the US?                       | DisplayPropertiesController | Controller                                                                                                                          |
+| 	                                                                                                            | 	... obtaining listed properties?               | Agency                      | Creator (Rule 1): in the DM Agency has Announcement.                                                                                |
+|                                                                                                              | ... obtaining filters?                          | FiltersRepository           | IE / Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model. It has the data. |
+| Step 2 : display listed properties by most recent added and asks to select data (type of business)           | 	...display listed properties?                  | DisplayPropertiesUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model.                       |
+|                                                                                                              | ...display the UI for the actor to input data?  | DisplayPropertiesUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model.                       |
+| Step 3 : selects data (type of business)                                                                     | 	...validating selected data?                   | DisplayPropertiesUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model.                       |
+| Step 4 : asks to select data (type of property)                                                              | 	...display the UI for the actor to input data? | DisplayPropertiesUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model.                       |
+| Step 5 : selects data (type of property)                                                                     | ...validating selected data?                    | DisplayPropertiesUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model.                       |
+| Step 6 : asks to select data (number of bedrooms)                                                            | 	...display the UI for the actor to input data? | DisplayPropertiesUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model.                       |
+| Step 7 : selects data (number of bedrooms)                                                                   | 	...validating selected data?                   | DisplayPropertiesUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model.                       |              
+| Step 8 : display all the listed properties, according to the criteria chosen and asks to select data (price) | 	...display listed properties?                  | DisplayPropertiesUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model.                       | 
+| 	                                                                                                            | 	... saving the created task?                   | DisplayPropertiesUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model.                       | 
+| Step 9 : selects data (price)   	                                                                            | 	...validating selected data?                   | DisplayPropertiesUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model.                       | 
+| Step 10 : asks to select data (type of sorting)                                                              | ...display the UI for the actor to input data?  | DisplayPropertiesUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model.                       |
+| Step 11 : select data (type of sorting)                                                                      | ...validating selected data?                    | DisplayPropertiesUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model.                       |
+| Step 12 : asks to select data (city)                                                                         | ...display the UI for the actor to input data?  | DisplayPropertiesUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model.                       |
+| Step 13 : selects data (city)                                                                                | ...validating selected data?                    | DisplayPropertiesUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model.                       |
+| Step 14 : asks to select data (type of sorting)                                                              | ...display the UI for the actor to input data?  | DisplayPropertiesUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model.                       |
+| Step 15 : select data (type of sorting)                                                                      | ...validating selected data?                    | DisplayPropertiesUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model.                       |
+| Step 16 : asks to select data (state)                                                                        | ...display the UI for the actor to input data?  | DisplayPropertiesUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model.                       |
+| Step 17 : selects data (state)                                                                               | ...validating selected data?                    | DisplayPropertiesUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model.                       |
+| Step 18 : asks to select data (type of sorting)                                                              | ...display the UI for the actor to input data?  | DisplayPropertiesUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model.                       |
+| Step 19 : select data (type of sorting)                                                                      | ...validating selected data?                    | DisplayPropertiesUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model.                       |
+| Step 20 : display all the listed properties, according to the criteria chosen                                | ...display listed properties?                   | DisplayPropertiesUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model.                       |
 
 ### Systematization ##
 
 According to the taken rationale, the conceptual classes promoted to software classes are: 
 
- * Organization
- * Task
+ * Agency
 
 Other software classes (i.e. Pure Fabrication) identified: 
 
- * CreateTaskUI  
- * CreateTaskController
+ * DisplayPropertiesUI  
+ * DisplayPropertiesController
 
 
 ## 3.2. Sequence Diagram (SD)
