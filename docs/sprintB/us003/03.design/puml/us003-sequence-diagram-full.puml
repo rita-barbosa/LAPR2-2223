@@ -11,12 +11,12 @@ participant ":RegisterEmployeeUI" as UI
 participant ":RegisterEmployeeController" as CTRL
 participant ":Repositories" as RepositorySingleton
 participant "repositories\n:Repositories" as PLAT
-participant "AgencyRepository:\nAgencyRepository" as AgencyRepository
-participant "RoleRepository:\nRoleRepository" as RoleRepository
+participant "agencyRepository:\nAgencyRepository" as AgencyRepository
+participant "roleRepository:\nRoleRepository" as RoleRepository
 participant ":ApplicationSession" as _APP
 participant "appSession\n:ApplicationSession" as APP
 participant "currentSession\n:UserSession" as SESSAO
-participant "Data\n:Data" as DATA
+participant "Person\n:Person" as PERSON
 participant "Agency\n:Agency" as AGENCY
 
 activate ADM
@@ -63,8 +63,7 @@ activate ADM
 UI -> CTRL : getRole()
             activate CTRL
 
-                CTRL -> RepositorySingleton : getInstance()
-                activate RepositorySingleton
+
 
                     RepositorySingleton --> CTRL: repositories
                 deactivate RepositorySingleton
@@ -105,7 +104,7 @@ UI -> CTRL : getRole()
         UI -> CTRL : RegisterEmployee (name,\n citizen card number, tax \n number, address, email \naddress, contact number)
         activate CTRL
 
-            CTRL -> CTRL : getData(data)
+            CTRL -> CTRL : getPerson(person)
             activate CTRL
 
                 CTRL -> RepositorySingleton : getInstance()
@@ -117,10 +116,10 @@ UI -> CTRL : getRole()
                 CTRL -> PLAT : getAgencyRepository()
                 activate PLAT
 
-                    PLAT -> CTRL : dataRepository
+                    PLAT -> CTRL : personRepository
                 deactivate PLAT
 
-                CTRL -> AgencyRepository : getAgencyRepository(data)
+                CTRL -> AgencyRepository : getAgencyRepository
                 activate AgencyRepository
 
                     AgencyRepository --> CTRL : data
@@ -154,52 +153,52 @@ UI -> CTRL : getRole()
                 CTRL -> PLAT: getAgencyRepository(email)
                 activate PLAT
 
-                    PLAT --> CTRL: dataRepository
+                    PLAT --> CTRL: personRepository
                 deactivate PLAT
 
 
-                CTRL -> dataRepository: getDataByEmployeeEmail(email)
-                activate dataRepository
+                CTRL -> personRepository: getPersonByEmployeeEmail(email)
+                activate personRepository
 
                     loop [for each data
-                        AgencyRepository -> DATA : anyEmployeeHasEmail(email)
-                        activate DATA
+                        AgencyRepository -> PERSON : anyEmployeeHasEmail(email)
+                        activate PERSON
 
-                             DATA --> AgencyRepository : true/false
-                        deactivate DATA
+                             PERSON --> AgencyRepository : true/false
+                        deactivate PERSON
                     end
                     AgencyRepository --> CTRL : data
                 deactivate AgencyRepository
 
-                CTRL -> DATA: getEmployeeByEmail(email)
-                activate DATA
+                CTRL -> PERSON: getEmployeeByEmail(email)
+                activate PERSON
 
-                    DATA --> CTRL : employee
-                deactivate DATA
+                    PERSON --> CTRL : employee
+                deactivate PERSON
 
                 CTRL --> CTRL : employee
             deactivate CTRL
 
             |||
-            CTRL -> DATA: registerEmployee(name, citizen card number,\n tax number, address, email address, contact\n number)
-            activate DATA
+            CTRL -> PERSON: registerEmployee(name, citizen card number,\n tax number, address, email address, contact\n number)
+            activate PERSON
 
-                DATA -> AGENCY**: register(name, citizen card \nnumber, tax number, address,\n email address, contact number)
-                DATA -> DATA: addData (register)
+                PERSON -> AGENCY**: register(name, citizen card \nnumber, tax number, address,\n email address, contact number)
+                PERSON -> PERSON: addData (register)
 
 
-                activate DATA
-                    DATA -> DATA: validateData (register)
-                    activate DATA
-                        DATA --> DATA
-                    deactivate DATA
+                activate PERSON
+                    PERSON -> PERSON: validateData (register)
+                    activate PERSON
+                        PERSON --> PERSON
+                    deactivate PERSON
 
-                    DATA --> DATA
-                deactivate DATA
+                    PERSON --> PERSON
+                deactivate PERSON
 
-                DATA --> CTRL : register
+                PERSON --> CTRL : register
 
-            deactivate DATA
+            deactivate PERSON
 
             CTRL --> UI: register
             deactivate CTRL
