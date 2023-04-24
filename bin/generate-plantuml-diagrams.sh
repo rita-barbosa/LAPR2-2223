@@ -1,4 +1,4 @@
-#! /bin/sh
+./#! /bin/sh
 #cd /Users/micro/IdeaProjects/1ANO_2SEMESTRE/PI
 echo "LOG: Generate Plantuml Diagrams"
 exportFormat="svg"
