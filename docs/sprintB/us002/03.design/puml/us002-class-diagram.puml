@@ -95,10 +95,12 @@ class Agency {
 }
 
 class CommissionTypeRepository {
-    + getCommissionTypeList() : String[]
+    + getCommissionTypeList()
+    + getCommissionTypeByDesignation(designation)
 }
 class PropertyTypeRepository {
-    + getPropertyTypeList() : String[]
+    + getPropertyTypeList()
+    + getPropertyTypeByDesignation(designation)
 }
 
 class AgencyRepository {
@@ -122,8 +124,8 @@ class PublishAnnouncementController {
     + addPhotographUri()
     + addAvailableEquipment()
     - getAgentFromSession()
-    - getPropertyTypeByDescription(propertyTypeDescription)
-    - getCommissionTypeByDescription(commissionTypeDescription)
+    - getPropertyTypeByDesignation(designation)
+    - getCommissionTypeByDesignation(designation)
 }
 class PropertyType
 {

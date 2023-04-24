@@ -9,7 +9,7 @@ participant "repositories\n:Repositories" as PLAT
 participant "propertyTypeRepository:\nPropertyTypeRepository" as PropertyTypeRepository
 
 autonumber 12
--> CTRL : getPropertyTypeByDescription(propertyTypeDescription)
+-> CTRL : getPropertyTypeByDesignation(designation)
 
 autonumber 12.1
 
@@ -27,7 +27,7 @@ activate CTRL
             PLAT -> CTRL : propertyTypeRepository
         deactivate PLAT
 
-        CTRL -> PropertyTypeRepository : getPropertyTypeByDescription(propertyTypeDescription)
+        CTRL -> PropertyTypeRepository : getPropertyTypeByDesignation(designation)
         activate PropertyTypeRepository
 
         PropertyTypeRepository --> CTRL : propertyType

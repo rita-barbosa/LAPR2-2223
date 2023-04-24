@@ -9,7 +9,7 @@ participant "repositories\n:Repositories" as PLAT
 participant "commissionTypeRepository:\nCommissionTypeRepository" as CommissionTypeRepository
 
 autonumber 12
--> CTRL : getCommissionByDescription(commissionTypeDescription)
+-> CTRL : getCommissionTypeByDesignation(designation)
 
 autonumber 12.1
 
@@ -27,7 +27,7 @@ activate CTRL
             PLAT -> CTRL : commissionTypeRepository
         deactivate PLAT
 
-        CTRL -> CommissionTypeRepository : getCommissionTypeByDescription(commissionTypeDescription)
+        CTRL -> CommissionTypeRepository : getCommissionTypeByDesignation(designation)
         activate CommissionTypeRepository
 
             CommissionTypeRepository --> CTRL : commissionType
