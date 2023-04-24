@@ -33,15 +33,15 @@ class FiltersRepository {
 class AgencyRepository{
 +agency
 
-+getAnnouncementsByTypeBusiness(announcementList, typeBusiness)
-+getAnnouncementsByTypeProperty(announcementList, typeProperty)
++getAnnouncementsByBusinessType(announcementList, businessType)
++getAnnouncementsByPropertyType(announcementList, propertyType)
 +getAnnouncementsByNumberBedrooms(announcementList, numberBedrooms)
 
 }
 
 class Agency{
-+announcementHasTypeBusiness(announcementList, typeBusiness)
-+announcementHasTypeProperties(announcementList, typeProperty)
++announcementHasTypeBusiness(announcementList, businessType)
++announcementHasTypeProperties(announcementList, propertyType)
 +announcementHasNumberBedrooms(announcementList, numberBedrooms)
 +removeAnnouncement(announcementList)
 -sortAnnouncementsByAscendingPrice(announcementList)
