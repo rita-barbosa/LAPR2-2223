@@ -9,10 +9,8 @@ participant ":Repositories" as RepositorySingleton
 participant "repositories\n:Repositories" as PLAT
 participant "residenceTypeRepository\n:ResidenceTypeRepository" as ResidenceTypeRepository
 
-autonumber 30
     -> CTRL : getResidenceTypeByDesignation(residenceTypeDesignation)
     activate CTRL
-        autonumber 30.1
 
         group Get Residence Type Object
 
@@ -37,8 +35,6 @@ autonumber 30
         deactivate ResidenceTypeRepository
 
         end group
-
-    autonumber 31
 
     <-- CTRL : residenceType
     deactivate CTRL

@@ -64,7 +64,7 @@ activate Employee
     activate System
 
 
-    alt type of property = residence
+    alt type of property = Residence
 
      autonumber 17.1
         System --> Employee : requests data (number of bedrooms, number of parking spaces)
@@ -100,7 +100,7 @@ activate Employee
                 end loop
             end opt
 
-    else type of property = house
+        alt type of property = House
 
         autonumber 17.1
         System --> Employee : requests data (existence of basement; inhabitable loft)
@@ -117,7 +117,9 @@ activate Employee
             activate System
             end opt
 
-    end
+        end alt
+
+    end alt
     autonumber 18
         System --> Employee : shows all data and requests confirmation
     deactivate System

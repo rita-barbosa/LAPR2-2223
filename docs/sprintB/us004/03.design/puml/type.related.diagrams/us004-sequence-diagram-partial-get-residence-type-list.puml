@@ -9,15 +9,12 @@ participant ":Repositories" as RepositorySingleton
 participant "repositories\n:Repositories" as PLAT
 participant "residenceTypeRepository\n:ResidenceTypeRepository" as ResidenceTypeRepository
 
-autonumber 23
 
 -> CTRL : getResidenceType()
 
      activate CTRL
 
      group Get Residence Type List
-
-     autonumber 23.1
 
      CTRL -> RepositorySingleton : getInstance()
 
@@ -41,8 +38,6 @@ autonumber 23
      deactivate ResidenceTypeRepository
 
      end group
-
-     autonumber 24
 
      <-- CTRL : residenceTypeList
      deactivate CTRL
