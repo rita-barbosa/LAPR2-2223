@@ -56,7 +56,7 @@ activate User
         CTRL -> AGENCYREP : getAnnouncements(announcements, businessType)
         activate AGENCYREP
 
-        AGENCYREP -> AGENCY : getAnnouncementsByTypeBusiness(announcementList,\n businessType)
+        AGENCYREP -> AGENCY : getAnnouncementsByBusinessType(announcementList,\n businessType)
         activate AGENCY
 
         ref over AGENCY
@@ -88,7 +88,7 @@ activate User
     CTRL -> AGENCYREP : getAnnouncements(announcements, propertyType)
     activate AGENCYREP
 
-    AGENCYREP -> AGENCY : getAnnouncementsByTypeProperty(announcementList,\n propertyType)
+    AGENCYREP -> AGENCY : getAnnouncementsByPropertyType(announcementList,\n propertyType)
     activate AGENCY
 
     ref over AGENCY

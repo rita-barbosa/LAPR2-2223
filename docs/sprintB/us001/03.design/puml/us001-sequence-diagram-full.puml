@@ -106,18 +106,18 @@ activate User
         User -> UI : selects data (type of business)
         activate UI
 
-        UI -> CTRL :  getAnnouncements(announcements, typeBusiness)
+        UI -> CTRL :  getAnnouncements(announcements, businessyType)
         activate CTRL
 
-        CTRL -> AGENCYREP : getAnnouncements(announcements, typeBusiness)
+        CTRL -> AGENCYREP : getAnnouncements(announcements, businessyType)
         activate AGENCYREP
 
-        AGENCYREP -> AGENCY : getAnnouncementsByTypeBusiness(announcementList,\n typeBusiness)
+        AGENCYREP -> AGENCY : getAnnouncementsByBusinessType(announcementList,\n businessyType)
         activate AGENCY
 
         loop for each announcement
 
-            AGENCY -> AGENCY : announcementHasTypeBusiness(announcementList,\n typeBusiness)
+            AGENCY -> AGENCY : announcementHasBusinessType(announcementList,\n businessyType)
             activate AGENCY
 
             AGENCY --> AGENCY: true/false
@@ -152,17 +152,17 @@ activate User
         User -> UI : selects data (type of property)
         activate UI
 
-    UI -> CTRL :  getAnnouncements(announcements, typeProperty)
+    UI -> CTRL :  getAnnouncements(announcements, propertyType)
     activate CTRL
 
-    CTRL -> AGENCYREP : getAnnouncements(announcements, typeProperty)
+    CTRL -> AGENCYREP : getAnnouncements(announcements, propertyType)
     activate AGENCYREP
 
-    AGENCYREP -> AGENCY : getAnnouncementsByTypeProperty(announcementList,\n typeProperty)
+    AGENCYREP -> AGENCY : getAnnouncementsByPropertyType(announcementList,\n propertyType)
     activate AGENCY
 
     loop for each announcement
-        AGENCY -> AGENCY : announcementHasTypeProperty(announcementList,\n typeProperty)
+        AGENCY -> AGENCY : announcementHasPropertyType(announcementList,\n propertyType)
         activate AGENCY
 
         AGENCY --> AGENCY: true/false
