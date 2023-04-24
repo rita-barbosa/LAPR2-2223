@@ -52,7 +52,7 @@ Other software classes (i.e. Pure Fabrication) identified:
 
 This diagram shows the full sequence of interactions between the classes involved in the realization of this user story.
 
-![Sequence Diagram - Full](svg/us006-sequence-diagram-full.svg)
+![Sequence Diagram - Full](svg/us001-sequence-diagram-full.svg)
 
 ### Alternative 2 - Split Diagram
 
@@ -60,24 +60,40 @@ This diagram shows the same sequence of interactions between the classes involve
 
 It uses interaction ocurrence.
 
-![Sequence Diagram - split](svg/us006-sequence-diagram-split.svg)
+![Sequence Diagram - split](svg/us001-sequence-diagram-split.svg)
 
-**Get Task Category List Partial SD**
+**Get Announcement List - Partial SD**
 
-![Sequence Diagram - Partial - Get Task Category List](svg/us006-sequence-diagram-partial-get-task-category-list.svg)
+![Sequence Diagram - Partial - Get Announcement List](svg/us001-sequence-diagram-partial-get-announcements-list.svg)
 
-**Get Task Category Object**
+**Get Filters List - Partial SD**
 
-![Sequence Diagram - Partial - Get Task Category Object](svg/us006-sequence-diagram-partial-get-task-category.svg)
+![Sequence Diagram - Partial - Get Filters List](svg/us001-sequence-diagram-partial-get-filters-list.svg)
 
-**Get Employee**
+**Get Announcements By Business Type**
 
-![Sequence Diagram - Partial - Get Employee](svg/us006-sequence-diagram-partial-get-employee.svg)
+![Sequence Diagram - Partial - Get Announcements By Business Type](svg/us001-sequence-diagram-partial-get-announcements-by-business-type.svg)
 
-**Create Task**
+**Get Announcements By Property Type**
 
-![Sequence Diagram - Partial - Create Task](svg/us006-sequence-diagram-partial-create-task.svg)
+![Sequence Diagram - Partial - Get Announcements By Property Type](svg/us001-sequence-diagram-partial-get-announcements-by-property-type.svg)
+
+**Get Announcements By Number of Bedrooms**
+
+![Sequence Diagram - Partial - Get Announcements By Number of Bedrooms](svg/us001-sequence-diagram-partial-get-announcements-by-number-bedrooms.svg)
+
+**Sort Announcements By Price**
+
+![Sequence Diagram - Partial - Sort Announcements By Price](svg/us001-sequence-diagram-partial-sort-announcements-by-price.svg)
+
+**Sort Announcements By City**
+
+![Sequence Diagram - Partial - Sort Announcements By City](svg/us001-sequence-diagram-partial-sort-announcements-by-city.svg)
+
+**Sort Announcements By State**
+
+![Sequence Diagram - Partial - Sort Announcements By State](svg/us001-sequence-diagram-partial-sort-announcements-by-state.svg)
 
 ## 3.3. Class Diagram (CD)
 
-![Class Diagram](svg/us006-class-diagram.svg)
+![Class Diagram](svg/us001-class-diagram.svg)
