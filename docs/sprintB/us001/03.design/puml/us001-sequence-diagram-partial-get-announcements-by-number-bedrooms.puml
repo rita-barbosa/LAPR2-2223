@@ -1,0 +1,43 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+participant "agency\n: Agency" as AGENCY
+
+autonumber 27
+-> AGENCY : getAnnouncementsByNumberBedrooms(announcementList,\n numberBedrooms)
+activate AGENCY
+
+autonumber 27.1
+activate AGENCY
+    group Get Announcements By Number of Bedrooms
+
+        loop for each announcement
+
+                AGENCY -> AGENCY : announcementHasNumberBedrooms(announcementList,\n numberBedrooms)
+                activate AGENCY
+
+                AGENCY --> AGENCY: true/false
+                deactivate AGENCY
+
+                alt false
+                AGENCY -> AGENCY : removeAnnouncement(announcementList)
+                activate AGENCY
+
+                AGENCY --> AGENCY: announcementList
+                deactivate AGENCY
+            |||
+            end
+        |||
+        end
+    |||
+    end
+
+    autonumber 28
+
+    <-- AGENCY : announcementList
+deactivate AGENCY
+
+
+@enduml

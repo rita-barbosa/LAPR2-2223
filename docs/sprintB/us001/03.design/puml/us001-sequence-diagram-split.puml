@@ -1,0 +1,269 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+'hide footbox
+actor "Unregistered User" as User
+participant ":DisplayPropertiesUI" as UI
+participant ":DisplayPropertiesController" as CTRL
+participant "filtersRepository\n:FiltersRepository" as FILTERSREP
+participant "agencyRepository\n: AgencyRepository" as AGENCYREP
+participant "agency\n: Agency" as AGENCY
+
+
+activate User
+
+    User -> UI : asks to display listed properties
+    activate UI
+
+    UI -> CTRL** : create
+
+    UI -> CTRL : getAnnouncements()
+    activate CTRL
+
+        ref over CTRL
+            Get Announcements List
+
+        end ref
+
+     CTRL --> UI : announcementList
+     deactivate CTRL
+
+     UI -> CTRL : getFiltersList()
+     activate CTRL
+
+     ref over CTRL
+         Get Filters List
+
+     end ref
+
+         CTRL --> UI : filtersList
+         deactivate CTRL
+
+    UI --> User : display listed properties by most recent added \nand asks to select data (type of business)
+    deactivate UI
+
+    opt business type
+        User -> UI : selects data (business type)
+        activate UI
+
+        UI -> CTRL :  getAnnouncements(announcements, businessType)
+        activate CTRL
+
+        CTRL -> AGENCYREP : getAnnouncements(announcements, businessType)
+        activate AGENCYREP
+
+        AGENCYREP -> AGENCY : getAnnouncementsByTypeBusiness(announcementList,\n businessType)
+        activate AGENCY
+
+        ref over AGENCY
+            Get Announcements By Business Type
+
+        end ref
+
+        AGENCY --> AGENCYREP : announcementList
+        deactivate AGENCY
+
+        AGENCYREP --> CTRL : announcementList
+        deactivate AGENCYREP
+
+        CTRL --> UI : announcementList
+        deactivate CTRL
+        |||
+    end
+
+    UI --> User : asks to select data (propertyType)
+    deactivate UI
+
+    opt property type
+        User -> UI : selects data (propertyType)
+        activate UI
+
+    UI -> CTRL :  getAnnouncements(announcements, propertyType)
+    activate CTRL
+
+    CTRL -> AGENCYREP : getAnnouncements(announcements, propertyType)
+    activate AGENCYREP
+
+    AGENCYREP -> AGENCY : getAnnouncementsByTypeProperty(announcementList,\n propertyType)
+    activate AGENCY
+
+    ref over AGENCY
+        Get Announcements By Property Type
+
+    end ref
+
+        AGENCY --> AGENCYREP : announcementList
+        deactivate AGENCY
+
+        AGENCYREP --> CTRL : announcementList
+        deactivate AGENCYREP
+
+        CTRL --> UI : announcementList
+        deactivate CTRL
+        |||
+    end
+
+    UI -> User : asks to select data (number of bedrooms)
+    deactivate UI
+
+    opt number of bedrooms
+
+        User -> UI : selects data (number of bedrooms)
+        activate UI
+
+        UI -> CTRL :  getAnnouncements(announcements, numberBedrooms)
+        activate CTRL
+
+        CTRL -> AGENCYREP : getAnnouncements(announcements, numberBedrooms)
+        activate AGENCYREP
+
+        AGENCYREP -> AGENCY : getAnnouncementsByNumberBedrooms(announcementList,\n numberBedrooms)
+        activate AGENCY
+
+        ref over AGENCY
+            Get Announcements By Number of Bedrooms
+
+        end ref
+
+    AGENCY --> AGENCYREP : announcementList
+    deactivate AGENCY
+
+    AGENCYREP --> CTRL : announcementList
+    deactivate AGENCYREP
+
+    CTRL --> UI : announcementList
+    deactivate CTRL
+
+    |||
+    end
+
+    UI -> UI : sortingList
+    activate UI
+
+    UI --> UI
+    deactivate UI
+
+    UI --> User : display all the listed properties, according to the \ncriteria chosen and asks to select data (price)
+    deactivate UI
+
+    opt price
+        User -> UI : selects data (price)
+        activate UI
+
+        UI --> User :  asks to select data (type of sorting)
+        deactivate UI
+
+        User -> UI : select data (type of sorting)
+        activate UI
+
+        UI -> CTRL : sortAnnouncements(price, typeSorting, announcementList)
+        activate CTRL
+
+        CTRL -> AGENCYREP : sortAnnouncements(price, typeSorting, announcementList)
+        activate AGENCYREP
+
+        AGENCYREP -> AGENCY : sortAnnouncements(price, typeSorting, announcementList)
+        activate AGENCY
+
+        ref over AGENCY
+            Sort Announcements By Price
+
+        end ref
+
+        AGENCY --> AGENCYREP : announcementList
+        deactivate AGENCY
+
+        AGENCYREP --> CTRL : announcementList
+        deactivate AGENCYREP
+
+        CTRL --> UI : announcementList
+        deactivate CTRL
+    |||
+    end
+
+    UI --> User : asks to select data (city)
+    deactivate UI
+
+    opt city
+        User -> UI : selects data (city)
+        activate UI
+
+        UI --> User :  asks to select data (type of sorting)
+        deactivate UI
+
+        User -> UI : select data (type of sorting)
+        activate UI
+
+        UI -> CTRL : sortAnnouncements(city, typeSorting, announcementList)
+        activate CTRL
+
+        CTRL -> AGENCYREP : sortAnnouncements(city, typeSorting, announcementList)
+        activate AGENCYREP
+
+        AGENCYREP -> AGENCY : sortAnnouncements(city, typeSorting, announcementList)
+        activate AGENCY
+
+        ref over AGENCY
+            Sort Announcements By City
+
+        end ref
+
+       AGENCY --> AGENCYREP : announcementList
+       deactivate AGENCY
+
+       AGENCYREP --> CTRL : announcementList
+       deactivate AGENCYREP
+
+       CTRL --> UI : announcementList
+       deactivate CTRL
+    |||
+    end
+
+    UI --> User : asks to select data (state)
+    deactivate UI
+
+    opt state
+        User -> UI : selects data (state)
+        activate UI
+
+        UI --> User :  asks to select data (type of sorting)
+        deactivate UI
+
+        User -> UI : select data (type of sorting)
+        activate UI
+
+        UI -> CTRL : sortAnnouncements(state, typeSorting, announcementList)
+        activate CTRL
+
+        CTRL -> AGENCYREP : sortAnnouncements(state, typeSorting, announcementList)
+        activate AGENCYREP
+
+        AGENCYREP -> AGENCY : sortAnnouncements(state, typeSorting, announcementList)
+        activate AGENCY
+
+        ref over AGENCY
+            Sort Announcements By State
+
+        end ref
+
+        AGENCY --> AGENCYREP : announcementList
+        deactivate AGENCY
+
+        AGENCYREP --> CTRL : announcementList
+        deactivate AGENCYREP
+
+        CTRL --> UI : announcementList
+        deactivate CTRL
+    |||
+    end
+
+    UI --> User : display all the listed properties, according to the \ncriteria chosen
+    deactivate UI
+
+deactivate User
+
+@enduml

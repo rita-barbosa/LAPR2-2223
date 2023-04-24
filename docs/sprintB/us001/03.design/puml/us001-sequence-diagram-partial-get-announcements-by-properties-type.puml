@@ -1,0 +1,44 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+
+
+'hide footbox
+participant "agency\n: Agency" as AGENCY
+
+autonumber 19
+-> AGENCY : getAnnouncementsByTypeProperty(announcementList,\n typeProperty)
+activate AGENCY
+
+autonumber 19.1
+activate AGENCY
+    group Get Announcements By Property Type
+
+        loop for each announcement
+                AGENCY -> AGENCY : announcementHasTypeProperty(announcementList,\n propertyType)
+                activate AGENCY
+
+                AGENCY --> AGENCY: true/false
+                deactivate AGENCY
+
+                alt false
+                    AGENCY -> AGENCY : removeAnnouncement(announcementList)
+                    activate AGENCY
+
+                    AGENCY --> AGENCY: announcementList
+                    deactivate AGENCY
+                |||
+                end
+                |||
+            end
+                |||
+    end
+
+    autonumber 20
+
+    <-- AGENCY : announcementList
+deactivate AGENCY
+
+@enduml

@@ -1,0 +1,66 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+'hide footbox
+
+participant ":CreateTaskController" as CTRL
+participant ":Repositories" as RepositorySingleton
+participant "repositories\n:Repositories" as PLAT
+participant "agencyRepository\n: AgencyRepository" as AGENCYREP
+participant "agency\n: Agency" as AGENCY
+
+autonumber 3
+
+ -> CTRL : getAnnouncements()
+autonumber 3.1
+activate CTRL
+    group Get Announcements List
+
+            CTRL -> RepositorySingleton : getInstance()
+            activate RepositorySingleton
+
+            RepositorySingleton --> CTRL: repositories
+            deactivate RepositorySingleton
+
+            CTRL -> PLAT : getAgencyRepository()
+            activate PLAT
+
+            PLAT --> CTRL : agencyRepository
+            deactivate PLAT
+
+            loop for each agency
+
+            CTRL -> AGENCYREP : getAgency()
+            activate AGENCYREP
+
+            AGENCYREP --> CTRL : agency
+            deactivate AGENCYREP
+
+            CTRL -> AGENCY : getAnnouncementList()
+            activate AGENCY
+
+            AGENCY --> CTRL : announcementList
+            deactivate AGENCY
+
+            end
+
+            CTRL -> CTRL : sortByMostRecentAdded(announcementList)
+            activate CTRL
+            deactivate CTRL
+
+            CTRL -> CTRL : announcementList
+            activate CTRL
+            deactivate CTRL
+
+
+    end
+    autonumber 4
+    <-- CTRL  : announcementList
+deactivate CTRL
+
+
+@enduml
