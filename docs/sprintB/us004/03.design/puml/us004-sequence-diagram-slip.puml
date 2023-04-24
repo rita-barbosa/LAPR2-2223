@@ -7,7 +7,8 @@ skinparam shadowing false
 actor "<b>Owner</b>" as Owner
 participant "<b>:CreateRequestUI</b>" as UI
 participant "<b>:CreateRequestController</b>" as CTRL
-participant "<b>announcement\n:Announcement</b>" as ANNOUNCE
+participant "announcement:\nAnnouncement" as ANNOUNCE
+participant "request\n:Request" as REQUEST
 
 autonumber
 
@@ -23,7 +24,7 @@ activate Owner
 
         deactivate UI
 
-    Owner -> UI : types requested data (price, area, distanceCityCenter, streetName, city,\n district, state, zipCode)
+    Owner -> UI : types requested data (amount, area, distanceCityCenter, streetName, city,\n district, state, zipCode)
 
         activate UI
 
@@ -130,7 +131,8 @@ activate Owner
                  activate CTRL
 
                        ref over CTRL
-                       Add Available Equipment Description
+                       Add Available Equipment
+                       Description
 
                        end ref
 
@@ -167,8 +169,8 @@ activate Owner
 
         opt list of available equipments
 
-         UI --> Owner : request data
-         deactivate UI
+            UI --> Owner : request data
+            deactivate UI
 
              loop availableEquipment
                  Owner -> UI : types requested data (availableEquipment)
@@ -178,16 +180,15 @@ activate Owner
                  activate CTRL
 
                        ref over CTRL
-                       Add Available Equipment Description
+                       Add Available Equipment
+                       Description
 
                        end ref
 
                  CTRL --> UI : availableEquipment
                  deactivate CTRL
-             |||
              end loop
-             |||
-             end opt
+        end opt
 
          UI --> Owner : requests data
          deactivate UI
@@ -229,7 +230,7 @@ activate Owner
 
         activate UI
 
-            UI -> CTRL : getAgentsFromAgencyID(ID)
+            UI -> CTRL : getAgentsFromAgencyID(id)
 
             activate CTRL
 
@@ -260,7 +261,7 @@ activate Owner
 
            activate UI
 
-            UI -> CTRL : createRequest(propertyTypeDesignation, businessTypeDesignation, price, area,\n contractDuration, availableEquipments, streetName, city, district, state, zipCode,\n basement, inhabitableLoft, parkingSpace, sunExposure, numberBedrooms,\n numberBathrooms, agent, distanceCityCenter, photograph, (agency no ???) )
+            UI -> CTRL : createRequest(propertyTypeDesignation, businessTypeDesignation, amount, area,\n contractDuration, availableEquipments, streetName, city, district, state, zipCode,\n basement, inhabitableLoft, parkingSpace, sunExposure, numberBedrooms,\n numberBathrooms, agent, distanceCityCenter, photograph, agency)
 
             activate CTRL
 
@@ -288,31 +289,52 @@ activate Owner
                         deactivate CTRL
 
             |||
-             CTRL -> CTRL : getUserEmail()
+             CTRL -> CTRL : getOwnerEmail()
                 activate CTRL
 
                     ref over CTRL
-                        Get User Identifier
+                        Get Owner Email
 
                     end ref
 
-                CTRL --> CTRL : userEmail
+                CTRL --> CTRL : ownerEmail
                 deactivate CTRL
 
         |||
-        CTRL -> ANNOUNCE : createRequest(userEmail, agent, propertyType, businessType, price, area,\n contractDuration, streetName, city, district, state, zipCode, basement,\n availableEquipment, inhabitableLoft, parkingSpace, sunExposure,\n numberBedrooms, numberBathrooms, distanceCityCenter, photograph,\n (agency no ???) )
+        CTRL -> ANNOUNCE : createRequest(ownerEmail, agent, agency, propertyType, businessType, amount,\n area, contractDuration, streetName, city, district, state, zipCode, basement,\n availableEquipment, inhabitableLoft, parkingSpace, sunExposure,\n numberBedrooms, numberBathrooms, distanceCityCenter, photograph)
 
        activate ANNOUNCE
-            |||
-            ref over ANNOUNCE
-            Create request
 
-            end ref
+        ANNOUNCE -> REQUEST** : createRequest(ownerEmail, agent, agency, propertyType, businessType, amount,\n area, contractDuration, streetName, city, district, state, zipCode, basement,\n availableEquipment, inhabitableLoft, parkingSpace, sunExposure,\n numberBedrooms, numberBathrooms, distanceCityCenter, photograph)
+
+       activate REQUEST
+
+            |||
+           ref over REQUEST
+           Create request
+
+           end ref
+       REQUEST --> ANNOUNCE : request
+       deactivate REQUEST
+
+        |||
+        ANNOUNCE -> ANNOUNCE : addRequest(request)
+
+        activate ANNOUNCE
+
+            ANNOUNCE --> ANNOUNCE : validateRequest(request)
+            activate ANNOUNCE
+
+            ANNOUNCE --> ANNOUNCE
+            deactivate ANNOUNCE
+
+            ANNOUNCE --> ANNOUNCE
+            deactivate ANNOUNCE
 
         ANNOUNCE --> CTRL : request
         deactivate ANNOUNCE
 
-     CTRL --> UI :  request
+        CTRL --> UI : request
     deactivate CTRL
 
      UI --> Owner : displays operation success

@@ -12,7 +12,7 @@ participant "agency\n:Agency" as AGC
 
 autonumber 21
 
--> CTRL : getAgentsFromAgencyID(ID)
+-> CTRL : getAgentsFromAgencyID(id)
 activate CTRL
 
 activate CTRL
@@ -32,13 +32,13 @@ activate CTRL
         PLAT --> CTRL : agencyRepository
 
         deactivate PLAT
-        CTRL -> AgencyRepository : getAgencyByID(ID)
+        CTRL -> AgencyRepository : getAgencyByID(id)
 
        activate AgencyRepository
 
            loop for each Agency
 
-           AgencyRepository -> AGC : anyAgencyHasID(ID)
+           AgencyRepository -> AGC : anyAgencyHasID(id)
 
            activate AGC
 

@@ -158,11 +158,11 @@ activate User
     CTRL -> AGENCYREP : getAnnouncements(announcements, typeProperty)
     activate AGENCYREP
 
-    AGENCYREP -> AGENCY : getAnnouncementsByTypeBusiness(announcementList,\n typeProperty)
+    AGENCYREP -> AGENCY : getAnnouncementsByTypeProperty(announcementList,\n typeProperty)
     activate AGENCY
 
     loop for each announcement
-        AGENCY -> AGENCY : announcementHasTypeBusiness(announcementList,\n typeProperty)
+        AGENCY -> AGENCY : announcementHasTypeProperty(announcementList,\n typeProperty)
         activate AGENCY
 
         AGENCY --> AGENCY: true/false
@@ -207,7 +207,7 @@ activate User
         activate AGENCY
 
         loop for each announcement
-            AGENCY -> AGENCY : announcementHasTypeBusiness(announcementList,\n numberBedrooms)
+            AGENCY -> AGENCY : announcementHasNumberBedrooms(announcementList,\n numberBedrooms)
             activate AGENCY
 
             AGENCY --> AGENCY: true/false
