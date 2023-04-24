@@ -15,10 +15,10 @@ activate Employee
     Employee -> System : asks to register a new employee
     activate System
 
-        System --> Employee : requests data
+        System --> Employee : requests data (name, the contact \ntelephone number, tax number, location, the address email)
     deactivate System
 
-    Employee -> System : types requested data (name, the contact \ntelephone number, tax number, employee's adress, the address email)
+    Employee -> System : types requested data
     activate System
 
         System --> Employee : shows agencies partner list and asks to \n select one
