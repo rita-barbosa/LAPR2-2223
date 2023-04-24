@@ -1,0 +1,65 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+participant "request\n:Request" as REQUEST
+participant "property\n:Property" as PROPERTY
+participant "residence\n:Residence" as RESIDENCE
+participant "house\n:House" as HOUSE
+participant "location\n:Location" as LOCATION
+
+
+autonumber 37
+
+        -> REQUEST** : createRequest(ownerEmail, propertyType,streetName, city, district, state,\nzipCode, distanceCityCenter, price, photograph,numberBedrooms,\nnumberParkingSpaces,existenceBasement,inhabitableLoft, numberBathrooms,\n availableEquipment, sunExposure,area)
+         activate REQUEST
+
+autonumber 37.1
+
+    group Create Request
+
+        alt propertyType = land
+                REQUEST -> PROPERTY** : createProperty(streetName, city, district, state,zipCode,\n distanceCityCenter, area, price, photograph)
+                activate PROPERTY
+
+                PROPERTY -> LOCATION** : createLocation(streetName, city, district, state, zipCode)
+
+                PROPERTY --> REQUEST : property
+                deactivate PROPERTY
+
+        end
+        alt propertyType = apartment
+                REQUEST -> RESIDENCE** : createResidence(streetName, city, district, state,zipCode,\ndistanceCityCenter, area, price, photograph,numberBedrooms,\nnumberParkingSpaces,numberBathrooms,availableEquipment)
+                activate RESIDENCE
+
+                RESIDENCE -> LOCATION** : createLocation(streetName, city, district, state, zipCode)
+
+                RESIDENCE --> REQUEST : property
+                deactivate RESIDENCE
+
+        end
+        alt propertyType = house
+                REQUEST -> HOUSE** : createResidence(streetName, city, district, state,zipCode,\ndistanceCityCenter, area, price, photograph,numberBedrooms,\nnumberParkingSpaces,numberBathrooms,availableEquipment,\nexistenceBasement,inhabitableLoft,sunExposure)
+
+                activate HOUSE
+
+               HOUSE -> LOCATION** : createLocation(streetName, city, district, state, zipCode)
+
+                HOUSE --> REQUEST : property
+                deactivate HOUSE
+        end
+            REQUEST -> REQUEST : getCurrentDate()
+            activate REQUEST
+
+            REQUEST --> REQUEST :
+            deactivate REQUEST
+            |||
+
+    end
+autonumber 38
+        <-- REQUEST : request
+        deactivate REQUEST
+
+
+@enduml

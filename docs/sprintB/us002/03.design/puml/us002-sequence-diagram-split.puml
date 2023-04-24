@@ -11,7 +11,7 @@ participant ":PublishAnnouncementUI" as UI
 participant ":PublishAnnouncementController" as CTRL
 participant "agency\n:Agency" as AGENCY
 participant "announcement\n:Announcement" as AD
-participant "request\n:Request" as REQUEST
+
 
 activate ADM
 
@@ -98,17 +98,7 @@ activate ADM
         ADM -> UI : types requested data (price)
         activate UI
 
-
- alt type of property = residence
-
-        autonumber 30.1
-        UI --> ADM : requests data (number of bedrooms, number of parking spaces)
-        deactivate UI
-
-        ADM -> UI : types requested data
-        activate UI
-
-            UI --> ADM : requests URI photograph of property
+        UI --> ADM : requests URI photograph of property
             deactivate UI
 
 
@@ -127,6 +117,17 @@ activate ADM
                      CTRL --> UI : photograph
                     deactivate CTRL
                 end loop
+
+
+ alt type of property = residence
+
+        autonumber 30.1
+        UI --> ADM : requests data (number of bedrooms, number of parking spaces)
+        deactivate UI
+
+        ADM -> UI : types requested data
+        activate UI
+
 
 
         UI --> ADM : requests number of bathrooms
@@ -157,7 +158,7 @@ activate ADM
                         end loop
                  end opt
 
-else type of property = house
+        alt type of property = house
 
         autonumber 30.1
         UI --> ADM : requests data (existence of basement; inhabitable loft)
@@ -174,7 +175,9 @@ else type of property = house
             activate UI
             end opt
 
-    end
+         end
+     end
+
     autonumber 31
     UI --> ADM : shows all data and asks for confirmation
         deactivate UI
@@ -200,7 +203,7 @@ else type of property = house
           CTRL-> CTRL : getPropertyTypeByDescription(propertyTypeDescription)
                 activate CTRL
                     ref over CTRL
-                    Get Property Type
+                    Get Property Type Object
                     end ref
                 CTRL -->  CTRL: propertyType
                 deactivate CTRL
@@ -209,26 +212,9 @@ else type of property = house
         CTRL -> AD : createRequest( ownerEmail, propertyType,\nstreetName, city, district, state, zipCode, area, distanceCityCentre,\nprice, photograph,numberBedrooms,numberParkingSpaces,\nexistenceBasement,inhabitableLoft, numberBathrooms, availableEquipment, sunExposure)
         activate AD
 
-        AD -> REQUEST** : create(ownerEmail, propertyType,streetName, city, district, state,\n zipCode, distanceCityCentre, price, photograph,\nnumberBedrooms,numberParkingSpaces,existenceBasement,\ninhabitableLoft, numberBathrooms, availableEquipment, sunExposure)
-        activate REQUEST
-            |||
-            ref over REQUEST
-                Create Request
-            end ref
-
-        REQUEST --> AD : request
-        deactivate REQUEST
-
-        AD -> AD : addRequest(request)
-        activate AD
-        AD -> AD : validateRequest(request)
-        activate AD
-
-        AD --> AD :
-        deactivate AD
-
-        AD --> AD :
-        deactivate AD
+        ref over AD
+        Create Request
+        end ref
 
         AD -->CTRL : request
 
@@ -237,7 +223,7 @@ else type of property = house
         CTRL -> CTRL : getCommissionTypeByDescription(commissionTypeDescription)
         activate CTRL
             ref over CTRL
-            Get Commission Type
+            Get Commission Type Object
             end ref
         CTRL --> CTRL : commissionType
         deactivate CTRL
