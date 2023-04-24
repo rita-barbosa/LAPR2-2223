@@ -98,13 +98,17 @@ example received through a phone call.
 
 > The agent should identify, in the system, the owner that wants to sell a property. The agent should use the owner e-mail address to identify the owner. The owner who is contacting the agent (for example, through a phone call) must be registered in the system. The agent that receives the phone call is the property responsible agent.
 
+>**Question:**  In the project description it is mentioned that in the case of a request for the sale of a property, the owner must provide "one or more photographs". Taking that into account, is there a maximum number of photos that can be submitted when publishing an announcement? If so, how many?
+> 
+>**Answer:**  The maximum number of photos is 30.
+
 ### 1.3. Acceptance Criteria
 
 * **AC1:** The type of property must be specified.
 * **AC2:** All the information, except number of bathrooms, available equipment and sun exposure, describing a property has to be submitted.
 * **AC3:** The area of the property needs to be expressed in m<sup>2</sup>.
 * **AC4:** The minimum value of the commission is 0 and there is no maximum.
-* **AC5:** At least one photograph is required.
+* **AC5:** At least one photograph is required and maximum 30 photos.
 * **AC6:** The owner that wants to sell a property must be identified in the system.
 * **AC7:** When publishing an announcement of an already existing property, the system must reject such operation.
 
@@ -120,7 +124,7 @@ example received through a phone call.
     * Commission value
     * Area of the property
     * Location
-    * DCC
+    * Distance from city center
     * Price of the property
     * One or more photographs
     * Number of bedrooms
