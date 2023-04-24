@@ -15,11 +15,6 @@ class SystemAdministrator {}
 
 class Employee {}
 
-class Role{
-Agent
-StoreManager
-NetworkManager
-}
 
 class Agent{
 }
@@ -29,14 +24,20 @@ class StoreManager{
 class NetworkManager{
 }
 
-class Data{
-name
+class Person{
+passportCardNumber
 taxNumber
-address
-emailAddress
-contactNumber
+phoneNumber
 }
 
+
+class Location{
+streetName
+city
+district
+state
+zipCode
+}
 
 class Agency {
 designation
@@ -49,10 +50,10 @@ contactNumber
 SystemAdministrator -|> Employee
 SystemAdministrator "1" -- "*" Employee: registers >
 SystemAdministrator "1" -up- "*" Agency: registers >
-
+Person "1" -- "1" Location: has address >
 Employee "1" -- "1" Agency: works in  >
 Role "1" -- "1" Employee: knows  >
-Data  <|-up-  Employee
+Person  <|-up-  Employee
 Agent  --|> Employee
 StoreManager --|> Employee
 NetworkManager --|> Employee
