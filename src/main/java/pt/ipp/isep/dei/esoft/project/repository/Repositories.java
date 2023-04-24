@@ -6,6 +6,8 @@ public class Repositories {
     TaskCategoryRepository taskCategoryRepository = new TaskCategoryRepository();
     OrganizationRepository organizationRepository = new OrganizationRepository();
     AuthenticationRepository authenticationRepository = new AuthenticationRepository();
+    CommissionTypeRepository commissionTypeRepository = new CommissionTypeRepository();
+    PropertyTypeRepository propertyTypeRepository = new PropertyTypeRepository();
 
     private Repositories() {
     }
@@ -13,15 +15,12 @@ public class Repositories {
     public static Repositories getInstance() {
         return instance;
     }
-
-    public OrganizationRepository getOrganizationRepository() {
-        return organizationRepository;
+    public CommissionTypeRepository getCommissionTypeRepository(){
+        return commissionTypeRepository;
     }
-
-    public TaskCategoryRepository getTaskCategoryRepository() {
-        return taskCategoryRepository;
+    public PropertyTypeRepository getPropertyTypeRepository(){
+        return propertyTypeRepository;
     }
-
     public AuthenticationRepository getAuthenticationRepository() {
         return authenticationRepository;
     }
