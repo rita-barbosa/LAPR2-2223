@@ -5,11 +5,14 @@ import pt.ipp.isep.dei.esoft.project.domain.CommissionType;
 import pt.ipp.isep.dei.esoft.project.domain.PropertyType;
 import pt.ipp.isep.dei.esoft.project.domain.SunExposureTypes;
 import pt.ipp.isep.dei.esoft.project.domain.TaskCategory;
+import pt.ipp.isep.dei.esoft.project.repository.PropertyTypeRepository;
+import pt.ipp.isep.dei.esoft.project.repository.Repositories;
 
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
-public class PublishAnnouncementUI {
+public class PublishAnnouncementUI implements Runnable {
     private final PublishAnnouncementController controller = new PublishAnnouncementController();
 
     private String propertyTypeDesignation;
@@ -24,7 +27,7 @@ public class PublishAnnouncementUI {
     private Double area;
     private Double distanceCityCenter;
     private Double price;
-    private String uri;
+    private List<String> uri;
     private Integer numberBedroom;
     private Integer numberParkingSpace;
     private Integer numberBathroom;
@@ -44,15 +47,57 @@ public class PublishAnnouncementUI {
         commissionValue = requestCommissionValue();
         ownerEmail = requestOwnerEmail();
         propertyTypeDesignation = displayAndSelectPropertyType();
+        System.out.println("" + propertyTypeDesignation);
         requestLocation();
         area = requestArea();
-    //finish the request of other attributes
+        distanceCityCenter = requestDistanceCityCenter();
+        price = requestPrice();
+
+//        uri = requestUri();
+    }
+
+//    private List<String> requestUri(){
+//        Scanner input = new Scanner(System.in);
+//        System.out.println("Photograph Uri:");
+//        do{
+//
+//        }
+//    }
+
+    private Double requestPrice() {
+        Scanner input = new Scanner(System.in);
+        Double value = null;
+        System.out.println("Price:");
+        try {
+            value = input.nextDouble();
+        } catch (InputMismatchException e) {
+            requestPrice();
+        }
+        return value;
+    }
+
+    private Double requestDistanceCityCenter() {
+        Scanner input = new Scanner(System.in);
+        Double value = null;
+        System.out.println("Distance City Center:");
+        try {
+            value = input.nextDouble();
+        } catch (InputMismatchException e) {
+            requestPrice();
+        }
+        return value;
     }
 
     private Double requestArea() {
         Scanner input = new Scanner(System.in);
+        Double value = null;
         System.out.println("Area:");
-        return  input.nextDouble();
+        try {
+            value = input.nextDouble();
+        } catch (InputMismatchException e) {
+            requestPrice();
+        }
+        return value;
     }
 
     private void requestLocation() {
@@ -101,8 +146,14 @@ public class PublishAnnouncementUI {
 
     private Double requestCommissionValue() {
         Scanner input = new Scanner(System.in);
+        Double value = null;
         System.out.println("Commission Value:");
-        return input.nextDouble();
+        try {
+            value = input.nextDouble();
+        } catch (InputMismatchException e) {
+            requestPrice();
+        }
+        return value;
     }
 
     private String displayAndSelectCommissionType() {
@@ -123,16 +174,24 @@ public class PublishAnnouncementUI {
 
     private String displayAndSelectPropertyType() {
         List<PropertyType> propertyTypes = controller.getPropertyTypeList();
-
         int listSize = propertyTypes.size();
         int answer = -1;
+        boolean invalid = true;
         Scanner input = new Scanner(System.in);
-
-        while (answer < 1 || answer > listSize) {
-            displayPropertyTypeOptions(propertyTypes);
-            System.out.println("Select type of property:");
-            answer = input.nextInt();
-        }
+        do
+            try {
+                while (answer < 1 || answer > listSize) {
+                    displayPropertyTypeOptions(propertyTypes);
+                    System.out.println("Select type of property:");
+                    answer = input.nextInt();
+                }
+                invalid = false;
+            } catch (InputMismatchException e) {
+                System.out.println("\nERRO: Option select is invalid"
+                        + " (" + e.getClass().getSimpleName() + ")");
+                input.nextLine();
+            }
+        while (invalid);
         return (propertyTypes.get(answer - 1).getDesignation());
     }
 

@@ -12,6 +12,7 @@ public class PublishAnnouncementController {
     private AuthenticationRepository authenticationRepository = null;
     private PropertyTypeRepository propertyTypeRepository = null;
 
+
     public PublishAnnouncementController() {
         getCommissionTypeRepository();
         getPropertyTypeRepository();
