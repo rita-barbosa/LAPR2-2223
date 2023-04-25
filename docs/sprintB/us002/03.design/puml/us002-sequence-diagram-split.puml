@@ -10,7 +10,7 @@ actor "Agent" as ADM
 participant ":PublishAnnouncementUI" as UI
 participant ":PublishAnnouncementController" as CTRL
 participant "agency\n:Agency" as AGENCY
-participant "announcement\n:Announcement" as AD
+
 
 
 activate ADM
@@ -102,7 +102,7 @@ activate ADM
             deactivate UI
 
 
-                loop  min=1 max=30
+                loop  30 times
 
                     ADM -> UI : types requested data (uri)
                     activate UI
@@ -209,16 +209,16 @@ activate ADM
                 deactivate CTRL
 
         |||
-        CTRL -> AD : createRequest( ownerEmail, propertyType,\nstreetName, city, district, state, zipCode, area, distanceCityCentre,\nprice, photograph,numberBedrooms,numberParkingSpaces,\nexistenceBasement,inhabitableLoft, numberBathrooms, availableEquipment, sunExposure)
-        activate AD
+        CTRL -> AGENCY : createRequest( ownerEmail, propertyType,\nstreetName, city, district, state, zipCode, area, distanceCityCentre,\nprice, photograph,numberBedrooms,numberParkingSpaces,\nexistenceBasement,inhabitableLoft, numberBathrooms, availableEquipment, sunExposure)
+        activate AGENCY
 
-        ref over AD
+        ref over AGENCY
         Create Request
         end ref
 
-        AD -->CTRL : request
+        AGENCY -->CTRL : request
 
-        deactivate AD
+        deactivate AGENCY
 
         CTRL -> CTRL : getCommissionTypeByDescription(commissionTypeDescription)
         activate CTRL

@@ -11,7 +11,12 @@ public class Repositories {
 
     private Repositories() {
     }
-
+    public TaskCategoryRepository getTaskCategoryRepository() {
+        return taskCategoryRepository;
+    }
+    public OrganizationRepository getOrganizationRepository() {
+        return organizationRepository;
+    }
     public static Repositories getInstance() {
         return instance;
     }
