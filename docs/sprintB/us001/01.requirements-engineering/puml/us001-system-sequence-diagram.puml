@@ -42,55 +42,30 @@ activate User
         System --> User : requests data
         deactivate System
 
-        alt propertyType = land
-
         User -> System : selects data (propertyType)
         activate System
 
         System --> User : display all the listed properties, according to the \ncriteria chosen
         deactivate System
 
-        else propertyType = apartment || propertyType = house
-
-         User -> System : selects data (propertyType)
-         activate System
-
-         System --> User : display all the listed properties, according to the \ncriteria chosen
-         deactivate System
-
-         opt number of bedrooms
-
-         User -> System : asks to select number of bedrooms
-         activate System
-
-         System --> User : requests data
-         deactivate System
-
-         User -> System : selects data (numberBedrooms)
-         activate System
-
-         System --> User : display all the listed properties, according to the \ncriteria chosen
-         deactivate System
-
-         end
-
-        end
-
     end
 
-    opt number of bedrooms (numberBedrooms = null && properType != land)
+    alt properType != land
 
-        User -> System : asks to select number of bedrooms
-        activate System
+        opt number of bedrooms
+            User -> System : asks to select number of bedrooms
+            activate System
 
-        System --> User : requests data
-        deactivate System
+            System --> User : requests data
+            deactivate System
 
-        User -> System : selects data (numberBedrooms)
-        activate System
+            User -> System : selects data (numberBedrooms)
+            activate System
 
-        System --> User : display all the listed properties, according to the \ncriteria chosen
-        deactivate System
+            System --> User : display all the listed properties, according to the \ncriteria chosen
+            deactivate System
+
+        end
 
     end
 
