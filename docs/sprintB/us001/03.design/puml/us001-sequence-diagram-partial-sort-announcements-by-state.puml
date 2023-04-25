@@ -9,7 +9,7 @@ autonumber 59
 -> AGENCY : sortAnnouncements(state, typeSorting, announcementList)
 activate AGENCY
 
-autonumber 49.1
+autonumber 59.1
 activate AGENCY
     group Sort Announcements By State
 

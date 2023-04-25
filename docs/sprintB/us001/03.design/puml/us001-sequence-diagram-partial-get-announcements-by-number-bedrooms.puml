@@ -5,11 +5,11 @@ skinparam shadowing false
 
 participant "agency\n: Agency" as AGENCY
 
-autonumber 27
+autonumber 30
 -> AGENCY : getAnnouncementsByNumberBedrooms(announcementList,\n numberBedrooms)
 activate AGENCY
 
-autonumber 27.1
+autonumber 30.1
 activate AGENCY
     group Get Announcements By Number of Bedrooms
 
@@ -34,7 +34,7 @@ activate AGENCY
     |||
     end
 
-    autonumber 28
+    autonumber 31
 
     <-- AGENCY : announcementList
 deactivate AGENCY

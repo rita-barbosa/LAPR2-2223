@@ -8,11 +8,11 @@ skinparam shadowing false
 'hide footbox
 participant "agency\n: Agency" as AGENCY
 
-autonumber 19
+autonumber 21
 -> AGENCY : getAnnouncementsByTypeProperty(announcementList,\n typeProperty)
 activate AGENCY
 
-autonumber 19.1
+autonumber 21.1
 activate AGENCY
     group Get Announcements By Property Type
 
@@ -36,7 +36,7 @@ activate AGENCY
                 |||
     end
 
-    autonumber 20
+    autonumber 22
 
     <-- AGENCY : announcementList
 deactivate AGENCY

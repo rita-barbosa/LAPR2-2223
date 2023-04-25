@@ -5,11 +5,11 @@ skinparam shadowing false
 
 participant "agency\n: Agency" as AGENCY
 
-autonumber 49
+autonumber 50
 -> AGENCY : sortAnnouncements(city, typeSorting, announcementList)
 activate AGENCY
 
-autonumber 49.1
+autonumber 51.1
 activate AGENCY
     group Sort Announcements By City
 
@@ -34,7 +34,7 @@ activate AGENCY
     |||
     end
 
-    autonumber 50
+    autonumber 52
 
     <-- AGENCY : announcementList
 deactivate AGENCY

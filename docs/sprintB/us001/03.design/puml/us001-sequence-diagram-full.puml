@@ -99,25 +99,28 @@ activate User
          CTRL --> UI : filtersList
          deactivate CTRL
 
-    UI --> User : display listed properties by most recent added \nand asks to select data (type of business)
-    deactivate UI
+    UI --> User : display listed properties by most recent added
+
 
     opt type of business
-        User -> UI : selects data (type of business)
+        UI --> User : shows types of business and asks to select one
+        deactivate UI
+
+        User -> UI : selects data (businessType)
         activate UI
 
-        UI -> CTRL :  getAnnouncements(announcements, businessyType)
+        UI -> CTRL :  getAnnouncements(announcements, businessType)
         activate CTRL
 
-        CTRL -> AGENCYREP : getAnnouncements(announcements, businessyType)
+        CTRL -> AGENCYREP : getAnnouncements(announcements, businessType)
         activate AGENCYREP
 
-        AGENCYREP -> AGENCY : getAnnouncementsByBusinessType(announcementList,\n businessyType)
+        AGENCYREP -> AGENCY : getAnnouncementsByBusinessType(announcementList,\n businessType)
         activate AGENCY
 
         loop for each announcement
 
-            AGENCY -> AGENCY : announcementHasBusinessType(announcementList,\n businessyType)
+            AGENCY -> AGENCY : announcementHasBusinessType(announcementList,\n businessType)
             activate AGENCY
 
             AGENCY --> AGENCY: true/false
@@ -142,14 +145,16 @@ activate User
 
         CTRL --> UI : announcementList
         deactivate CTRL
-        |||
+
+        UI --> User : display all the listed properties, according to the \ncriteria chosen
+            |||
     end
 
-    UI --> User : asks to select data (type of property)
-    deactivate UI
-
     opt type of property
-        User -> UI : selects data (type of property)
+        UI --> User : shows types of properties and asks to select one
+        deactivate UI
+
+        User -> UI : selects data (propertyType)
         activate UI
 
     UI -> CTRL :  getAnnouncements(announcements, propertyType)
@@ -187,14 +192,20 @@ activate User
 
         CTRL --> UI : announcementList
         deactivate CTRL
+
+        UI --> User : display all the listed properties, according to the \ncriteria chosen
+
         |||
     end
 
-    UI -> User : asks to select data (number of bedrooms)
-    deactivate UI
-
+    alt propertyType != land
+    |||
     opt number of bedrooms
-        User -> UI : selects data (number of bedrooms)
+
+        UI --> User : shows options for number of bedrooms and asks to select one
+        deactivate UI
+
+        User -> UI : selects data (numberBedrooms)
         activate UI
 
         UI -> CTRL :  getAnnouncements(announcements, numberBedrooms)
@@ -233,6 +244,10 @@ activate User
     CTRL --> UI : announcementList
     deactivate CTRL
 
+    UI --> User : display all the listed properties, according to the \ncriteria chosen
+
+    |||
+    end
     |||
     end
 
@@ -242,26 +257,22 @@ activate User
     UI --> UI
     deactivate UI
 
-    UI --> User : display all the listed properties, according to the \ncriteria chosen and asks to select data (price)
-    deactivate UI
+
 
     opt price
-        User -> UI : selects data (price)
-        activate UI
-
-        UI --> User :  asks to select data (type of sorting)
+        UI --> User : shows options for sort properties by price and asks to select one
         deactivate UI
 
-        User -> UI : select data (type of sorting)
+        User -> UI : select data (sortingType)
         activate UI
 
-        UI -> CTRL : sortAnnouncements(price, typeSorting, announcementList)
+        UI -> CTRL : sortAnnouncements(price, sortingType, announcementList)
         activate CTRL
 
-        CTRL -> AGENCYREP : sortAnnouncements(price, typeSorting, announcementList)
+        CTRL -> AGENCYREP : sortAnnouncements(price, sortingType, announcementList)
         activate AGENCYREP
 
-        AGENCYREP -> AGENCY : sortAnnouncements(price, typeSorting, announcementList)
+        AGENCYREP -> AGENCY : sortAnnouncements(price, sortingType, announcementList)
         activate AGENCY
 
         alt ascending price
@@ -291,29 +302,26 @@ activate User
 
         CTRL --> UI : announcementList
         deactivate CTRL
+
+        UI --> User : display all the listed properties, according to the \ncriteria chosen
+
     |||
     end
 
-    UI --> User : asks to select data (city)
-    deactivate UI
-
     opt city
-        User -> UI : selects data (city)
-        activate UI
-
-        UI --> User :  asks to select data (type of sorting)
+        UI --> User : shows options for sort properties by city and asks to select one
         deactivate UI
 
-        User -> UI : select data (type of sorting)
+        User -> UI : select data (sortingType)
         activate UI
 
-        UI -> CTRL : sortAnnouncements(city, typeSorting, announcementList)
+        UI -> CTRL : sortAnnouncements(city, sortingType, announcementList)
         activate CTRL
 
-        CTRL -> AGENCYREP : sortAnnouncements(city, typeSorting, announcementList)
+        CTRL -> AGENCYREP : sortAnnouncements(city, sortingType, announcementList)
         activate AGENCYREP
 
-        AGENCYREP -> AGENCY : sortAnnouncements(city, typeSorting, announcementList)
+        AGENCYREP -> AGENCY : sortAnnouncements(city, sortingType, announcementList)
         activate AGENCY
 
         alt ascending city
@@ -343,29 +351,26 @@ activate User
 
        CTRL --> UI : announcementList
        deactivate CTRL
+
+       UI --> User : display all the listed properties, according to the \ncriteria chosen
+
     |||
     end
 
-    UI --> User : asks to select data (state)
-    deactivate UI
-
     opt state
-        User -> UI : selects data (state)
-        activate UI
-
-        UI --> User :  asks to select data (type of sorting)
+        UI --> User :  shows options for sort properties by state and asks to select one
         deactivate UI
 
-        User -> UI : select data (type of sorting)
+        User -> UI : select data (sortingType)
         activate UI
 
-        UI -> CTRL : sortAnnouncements(state, typeSorting, announcementList)
+        UI -> CTRL : sortAnnouncements(state, sortingType, announcementList)
         activate CTRL
 
-        CTRL -> AGENCYREP : sortAnnouncements(state, typeSorting, announcementList)
+        CTRL -> AGENCYREP : sortAnnouncements(state, sortingType, announcementList)
         activate AGENCYREP
 
-        AGENCYREP -> AGENCY : sortAnnouncements(state, typeSorting, announcementList)
+        AGENCYREP -> AGENCY : sortAnnouncements(state, sortingType, announcementList)
         activate AGENCY
 
         alt ascending state
@@ -395,11 +400,12 @@ activate User
 
         CTRL --> UI : announcementList
         deactivate CTRL
+
+        UI --> User : display all the listed properties, according to the \ncriteria chosen
+        deactivate UI
     |||
     end
 
-    UI --> User : display all the listed properties, according to the \ncriteria chosen
-    deactivate UI
 
 deactivate User
 

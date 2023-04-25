@@ -43,11 +43,14 @@ activate User
          CTRL --> UI : filtersList
          deactivate CTRL
 
-    UI --> User : display listed properties by most recent added \nand asks to select data (type of business)
-    deactivate UI
+    UI --> User : display listed properties by most recent added
+
 
     opt business type
-        User -> UI : selects data (business type)
+        UI --> User : shows types of business and asks to select one
+        deactivate UI
+
+        User -> UI : selects data (businessType)
         activate UI
 
         UI -> CTRL :  getAnnouncements(announcements, businessType)
@@ -72,13 +75,15 @@ activate User
 
         CTRL --> UI : announcementList
         deactivate CTRL
-        |||
+
+         UI --> User : display all the listed properties, according to the \ncriteria chosen
+         |||
     end
 
-    UI --> User : asks to select data (propertyType)
-    deactivate UI
-
     opt property type
+        UI --> User : shows types of properties and asks to select one
+        deactivate UI
+
         User -> UI : selects data (propertyType)
         activate UI
 
@@ -104,15 +109,19 @@ activate User
 
         CTRL --> UI : announcementList
         deactivate CTRL
+
+        UI --> User : display all the listed properties, according to the \ncriteria chosen
         |||
     end
 
-    UI -> User : asks to select data (number of bedrooms)
-    deactivate UI
-
+    alt propertyType != land
+    |||
     opt number of bedrooms
 
-        User -> UI : selects data (number of bedrooms)
+        UI --> User : shows options for number of bedrooms and asks to select one
+        deactivate UI
+
+        User -> UI : selects data (numberBedrooms)
         activate UI
 
         UI -> CTRL :  getAnnouncements(announcements, numberBedrooms)
@@ -138,6 +147,10 @@ activate User
     CTRL --> UI : announcementList
     deactivate CTRL
 
+    UI --> User : display all the listed properties, according to the \ncriteria chosen
+
+    |||
+    end
     |||
     end
 
@@ -147,17 +160,11 @@ activate User
     UI --> UI
     deactivate UI
 
-    UI --> User : display all the listed properties, according to the \ncriteria chosen and asks to select data (price)
-    deactivate UI
-
     opt price
-        User -> UI : selects data (price)
-        activate UI
-
-        UI --> User :  asks to select data (type of sorting)
+        UI --> User : shows options for sort properties by price and asks to select one
         deactivate UI
 
-        User -> UI : select data (type of sorting)
+        User -> UI : select data (sortingType)
         activate UI
 
         UI -> CTRL : sortAnnouncements(price, typeSorting, announcementList)
@@ -182,21 +189,19 @@ activate User
 
         CTRL --> UI : announcementList
         deactivate CTRL
+
+        UI --> User : display all the listed properties, according to the \ncriteria chosen
+
     |||
     end
 
-    UI --> User : asks to select data (city)
-    deactivate UI
-
     opt city
-        User -> UI : selects data (city)
-        activate UI
-
-        UI --> User :  asks to select data (type of sorting)
+        UI --> User : shows options for sort properties by city and asks to select one
         deactivate UI
 
-        User -> UI : select data (type of sorting)
+        User -> UI : select data (sortingType)
         activate UI
+
 
         UI -> CTRL : sortAnnouncements(city, typeSorting, announcementList)
         activate CTRL
@@ -220,20 +225,18 @@ activate User
 
        CTRL --> UI : announcementList
        deactivate CTRL
+
+       UI --> User : display all the listed properties, according to the \ncriteria chosen
+
     |||
     end
 
-    UI --> User : asks to select data (state)
-    deactivate UI
 
     opt state
-        User -> UI : selects data (state)
-        activate UI
-
-        UI --> User :  asks to select data (type of sorting)
+        UI --> User :  shows options for sort properties by state and asks to select one
         deactivate UI
 
-        User -> UI : select data (type of sorting)
+        User -> UI : select data (sortingType)
         activate UI
 
         UI -> CTRL : sortAnnouncements(state, typeSorting, announcementList)
@@ -258,11 +261,11 @@ activate User
 
         CTRL --> UI : announcementList
         deactivate CTRL
+
+        UI --> User : display all the listed properties, according to the \ncriteria chosen
+        deactivate UI
     |||
     end
-
-    UI --> User : display all the listed properties, according to the \ncriteria chosen
-    deactivate UI
 
 deactivate User
 
