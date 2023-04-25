@@ -15,74 +15,145 @@ activate User
     User -> System : asks to display listed properties
     activate System
 
-    System --> User : display listed properties by most recent added \nand asks to select data (type of business)
+    System --> User : display listed properties by most recent added
     deactivate System
 
     opt type of business
-        User -> System : selects data (type of business)
+
+        User -> System : asks to select type of business
         activate System
+
+        System --> User : requests data
+        deactivate System
+
+        User -> System : selects data (BusinessType)
+        activate System
+
+        System --> User : display all the listed properties, according to the \ncriteria chosen
+        deactivate System
     end
 
-    System --> User : asks to select data (type of property)
-        deactivate System
 
     opt type of property
-        User -> System : selects data (type of property)
-        activate System
-    end
 
-    System --> User : asks to select data (number of bedrooms)
+        User -> System : asks to select type of property
+        activate System
+
+        System --> User : requests data
         deactivate System
 
-    opt number of bedrooms
-        User -> System : selects data (number of bedrooms)
+        alt propertyType = land
+
+        User -> System : selects data (propertyType)
         activate System
+
+        System --> User : display all the listed properties, according to the \ncriteria chosen
+        deactivate System
+
+        else propertyType = apartment || propertyType = house
+
+         User -> System : selects data (propertyType)
+         activate System
+
+         System --> User : display all the listed properties, according to the \ncriteria chosen
+         deactivate System
+
+         opt number of bedrooms
+
+         User -> System : asks to select number of bedrooms
+         activate System
+
+         System --> User : requests data
+         deactivate System
+
+         User -> System : selects data (numberBedrooms)
+         activate System
+
+         System --> User : display all the listed properties, according to the \ncriteria chosen
+         deactivate System
+
+         end
+
+        end
+
     end
 
-    System --> User : display all the listed properties, according to the \ncriteria chosen and asks to select data (price)
+    opt number of bedrooms (numberBedrooms = null && properType != land)
+
+        User -> System : asks to select number of bedrooms
+        activate System
+
+        System --> User : requests data
         deactivate System
+
+        User -> System : selects data (numberBedrooms)
+        activate System
+
+        System --> User : display all the listed properties, according to the \ncriteria chosen
+        deactivate System
+
+    end
 
     opt price
-       User -> System : selects data (price)
-       activate System
 
-       System --> User :  asks to select data (type of sorting)
-       deactivate System
+        User -> System : asks to sort properties by price
+        activate System
 
-       User -> System : select data (type of sorting)
-       activate System
-    end
-
-    System --> User : asks to select data (city)
+        System --> User : request data
         deactivate System
+
+        User -> System : selects data (price)
+        activate System
+
+        System --> User :  asks to select data (sortingType)
+        deactivate System
+
+        User -> System : select data (sortingType)
+        activate System
+
+        System --> User : display all the listed properties, according to the \ncriteria chosen
+        deactivate System
+    end
 
     opt city
-       User -> System : selects data (city)
-       activate System
+        User -> System : asks to sort properties by city
+        activate System
 
-       System --> User :  asks to select data (type of sorting)
-       deactivate System
-
-       User -> System : select data (type of sorting)
-       activate System
-    end
-
-    System --> User : asks to select data (state)
+        System --> User : request data
         deactivate System
+
+        User -> System : selects data (city)
+        activate System
+
+        System --> User :  asks to select data (sortingType)
+        deactivate System
+
+        User -> System : select data (sortingType)
+        activate System
+
+        System --> User : display all the listed properties, according to the \ncriteria chosen
+        deactivate System
+    end
 
     opt state
-       User -> System : selects data (state)
-       activate System
+        User -> System : asks to sort properties by state
+        activate System
 
-       System --> User :  asks to select data (type of sorting)
-       deactivate System
-
-       User -> System : select data (type of sorting)
-       activate System
-    end
-
-    System --> User : display all the listed properties, according to the \ncriteria chosen
+        System --> User : request data
         deactivate System
+
+        User -> System : selects data (state)
+        activate System
+
+        System --> User :  asks to select data (sortingType)
+        deactivate System
+
+        User -> System : select data (sortingType)
+        activate System
+
+        System --> User : display all the listed properties, according to the \ncriteria chosen
+        deactivate System
+    end
 
 
 @enduml
