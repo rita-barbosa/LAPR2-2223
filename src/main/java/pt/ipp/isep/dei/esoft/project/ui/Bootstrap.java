@@ -1,13 +1,8 @@
 package pt.ipp.isep.dei.esoft.project.ui;
 
 import pt.ipp.isep.dei.esoft.project.application.controller.authorization.AuthenticationController;
-import pt.ipp.isep.dei.esoft.project.domain.Employee;
-import pt.ipp.isep.dei.esoft.project.domain.Organization;
-import pt.ipp.isep.dei.esoft.project.domain.TaskCategory;
-import pt.ipp.isep.dei.esoft.project.repository.AuthenticationRepository;
-import pt.ipp.isep.dei.esoft.project.repository.OrganizationRepository;
-import pt.ipp.isep.dei.esoft.project.repository.Repositories;
-import pt.ipp.isep.dei.esoft.project.repository.TaskCategoryRepository;
+import pt.ipp.isep.dei.esoft.project.domain.*;
+import pt.ipp.isep.dei.esoft.project.repository.*;
 
 public class Bootstrap implements Runnable {
 
@@ -16,6 +11,8 @@ public class Bootstrap implements Runnable {
         addTaskCategories();
         addOrganization();
         addUsers();
+        addCommissionTypes();
+        addPropertyTypes();
     }
 
     private void addOrganization() {
@@ -45,6 +42,7 @@ public class Bootstrap implements Runnable {
     private void addUsers() {
         //TODO: add Authentication users here: should be created for each user in the organization
         AuthenticationRepository authenticationRepository = Repositories.getInstance().getAuthenticationRepository();
+
         authenticationRepository.addUserRole(AuthenticationController.ROLE_ADMIN, AuthenticationController.ROLE_ADMIN);
         authenticationRepository.addUserRole(AuthenticationController.ROLE_EMPLOYEE,
                 AuthenticationController.ROLE_EMPLOYEE);
@@ -54,6 +52,19 @@ public class Bootstrap implements Runnable {
 
         authenticationRepository.addUserWithRole("Employee", "employee@this.app", "pwd",
                 AuthenticationController.ROLE_EMPLOYEE);
+    }
+    private void addCommissionTypes(){
+        CommissionTypeRepository commissionTypeRepository = Repositories.getInstance().getCommissionTypeRepository();;
+
+        commissionTypeRepository.add(new CommissionType("Fixed"));
+        commissionTypeRepository.add(new CommissionType("Percentual"));
+    }
+    private void addPropertyTypes(){
+        PropertyTypeRepository propertyTypeRepository = Repositories.getInstance().getPropertyTypeRepository();
+
+        propertyTypeRepository.add(new PropertyType("Land"));
+        propertyTypeRepository.add(new PropertyType("Apartment"));
+        propertyTypeRepository.add(new PropertyType("House"));
     }
 
 
