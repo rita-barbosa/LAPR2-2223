@@ -14,11 +14,11 @@ link as suggested below.**
 
 # Use Cases / User Stories
 
-| UC/US  | Description                                                 |                   
-|:-------|:------------------------------------------------------------|
-| US 001 | [Display listed properties](docs/sprintB/us001/Readme.md)   |
-| US 002 | [Publish an announcement](docs/sprintB/us002/Readme.md)     |
-| US 003 | [Register new employees](docs/sprintB/us003/Readme.md)      |
-| US 004 | [Submit a request](docs/sprintB/us004/Readme.md)            |
-| US 005 | [Register new store](docs/sprintB/us005/Readme.md)          |
-| US 007 | [Register user in the system](docs/sprintB/us007/Readme.md) |
+| UC/US  | Description                                                          |                   
+|:-------|:---------------------------------------------------------------------|
+| US 001 | [Display listed properties](docs/sprintB/us001/Readme.md)            |
+| US 002 | [Publish an announcement](docs/sprintB/us002/Readme.md)              |
+| US 003 | [Register new employees](docs/sprintB/us003/Readme.md)               |
+| US 004 | [Submit a Request for an Announcement](docs/sprintB/us004/Readme.md) |
+| US 005 | [Register new store](docs/sprintB/us005/Readme.md)                   |
+| US 007 | [Register user in the system](docs/sprintB/us007/Readme.md)          |

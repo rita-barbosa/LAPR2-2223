@@ -21,7 +21,7 @@ activate Owner
 
         deactivate System
 
-    Owner -> System : types requested data (price, area, distanceCityCenter, streetName, city,\n district, state, zipCode)
+    Owner -> System : types requested data (amount, area, distanceCityCenter,\n streetName, city, district, state, zipCode)
 
         activate System
 
@@ -62,102 +62,68 @@ activate Owner
 
      deactivate System
 
-     alt House
-         autonumber 8.1
+     alt Property Type = House or Apartment
 
-     Owner -> System : selects requested data (basement, inhabitableLoft, parkingSpace)
-
-         activate System
-
-         System --> Owner : requests data
-         deactivate System
-
-     Owner -> System : types requested data (numberBedrooms)
-
-         activate System
-
-             opt direction of sun exposure
-
-             System --> Owner : request data
-             deactivate System
-
-     Owner -> System : selects requested data (sunExposure)
-             activate System
-
-             end opt
-
-            opt number of bathrooms
-
-             System --> Owner : requests data
-             deactivate System
-
-     Owner -> System : types requested data (numberBathrooms)
-             activate System
-
-            end  opt
-
-            opt list of available equipments
-
-             System --> Owner : request data
-             deactivate System
-
-                 loop availableEquipment
-
-     Owner -> System : types requested data (availableEquipment)
-
-                     activate System
-                 end loop
-
-             end opt
-
-         System --> Owner : requests data
-         deactivate System
-
-     else Apartment
-
-         autonumber 8.1
-
-     Owner -> System : selects requested data (parkingSpace)
-
-         activate System
-
-         System --> Owner : requests data
-
-         deactivate System
-
-     Owner -> System : types requested data (numberBedrooms)
-
-         activate System
-
-        opt number of bathrooms
-
-         System --> Owner : requests data
-         deactivate System
-
-     Owner -> System : types requested data (numberBathrooms)
-
-         activate System
-
-        end  opt
-
-        opt list of available equipments
-
-            System --> Owner : request data
-            deactivate System
-
-             loop availableEquipment
-
-     Owner -> System : types requested data (availableEquipment)
+            Owner -> System : selects requested data (parkingSpace)
 
                  activate System
-             end loop
 
-        end opt
+            System --> Owner : requests data
+                 deactivate System
 
-         System --> Owner : requests data
-         deactivate System
+            Owner -> System : types requested data (numberBedroom)
 
-         end alt
+                activate System
+
+           opt number of bathrooms
+
+                        System --> Owner : requests data
+                        deactivate System
+
+                Owner -> System : types requested data (numberBathroom)
+                        activate System
+
+           end  opt
+
+                       opt list of available equipments
+
+                        System --> Owner : request data
+                        deactivate System
+
+                            loop availableEquipment
+
+                Owner -> System : types requested data (availableEquipment)
+
+                                activate System
+                            end loop
+
+            System --> Owner : requests data
+
+            deactivate System
+
+            end opt
+
+           alt Property Type = House
+
+              Owner -> System : selects requested data (basement, inhabitableLoft)
+
+              activate System
+
+              System --> Owner : requests data
+              deactivate System
+
+              opt direction of sun exposure
+
+                   Owner -> System : selects requested data (sunExposure)
+                   activate System
+              end opt
+
+               System --> Owner : requests data
+               deactivate System
+
+           end alt
+
+     end alt
 
         loop min = 1 & max = 30
 
@@ -175,7 +141,7 @@ activate Owner
 
         activate System
 
-        System --> Owner : shows list of agents in previously chosen agency and asks to select one
+        System --> Owner : shows list of agents in chosen agency and asks to select one
         deactivate System
 
      Owner -> System : selects an agent

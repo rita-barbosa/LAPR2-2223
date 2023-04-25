@@ -19,7 +19,7 @@ left to right direction
         "System Administrator" --> UC3
     usecase "UC5 - Register new store" as UC5
         "System Administrator" --> UC5
-     usecase "UC4 - Submit an announcement" as UC4
+     usecase "UC4 - Submit a Request for\n an Announcement" as UC4
         "Owner" --> UC4
 
 @enduml
