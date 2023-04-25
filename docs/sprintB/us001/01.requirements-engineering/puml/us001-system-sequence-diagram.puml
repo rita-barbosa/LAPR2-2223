@@ -21,7 +21,7 @@ activate User
         System --> User : shows type of business and asks to select one
         deactivate System
 
-        User -> System : selects data (BusinessType)
+        User -> System : selects data (businessType)
         activate System
 
         System --> User : display all the listed properties, according to the \ncriteria chosen
