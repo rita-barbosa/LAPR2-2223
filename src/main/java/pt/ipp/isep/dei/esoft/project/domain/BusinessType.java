@@ -1,41 +1,41 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
-public class PropertyType {
+public class BusinessType {
     /**
-     * The designation of the type of property
+     * The designation of the type of business
      */
     private final String designation;
 
     /**
-     * This method initializes a newly created PropertyType object with the received designation.
+     * This method initializes a newly created BusinessType object with the received designation.
      *
      * @param designation
      */
-    public PropertyType(String designation) {
+    public BusinessType(String designation) {
         this.designation = designation;
     }
 
     /**
-     * This method returns the designation of the property type.
+     * This method returns the designation of the business type.
      *
-     * @return the designation of the property type
+     * @return the designation of the business type
      */
     public String getDesignation() {
         return designation;
     }
 
     /**
-     * This method indicates whether a Property Type is "equal to" another.
+     * This method indicates whether a Business Type is "equal to" another.
      *
-     * @param o -  the property type wih which to compare.
-     * @return {@code true} if the Property Types are the same; {@code false} otherwise.
+     * @param o -  the business type wih which to compare.
+     * @return {@code true} if the Business Types are the same; {@code false} otherwise.
      */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof TaskCategory)) return false;
         try {
-            PropertyType that = (PropertyType) o;
+            BusinessType that = (BusinessType) o;
             return designation.equals(that.designation);
         } catch (ClassCastException e) {
             return false;
@@ -56,7 +56,7 @@ public class PropertyType {
      *
      * @return clone of property type instance.
      */
-    public PropertyType clone() {
-        return new PropertyType(this.designation);
+    public BusinessType clone() {
+        return new BusinessType(this.designation);
     }
 }
