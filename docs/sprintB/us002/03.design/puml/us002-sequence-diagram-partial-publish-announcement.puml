@@ -40,13 +40,12 @@ autonumber 23.1
 
                     AGENCY --> AGENCY
 
-                deactivate AGENCY
-
             deactivate  AGENCY
     end
 
 autonumber 24
 
     <-- AGENCY : announcement
+    deactivate AGENCY
 
 @enduml
