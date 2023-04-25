@@ -2,13 +2,19 @@ package pt.ipp.isep.dei.esoft.project.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class Agency {
     private Integer id;
     private String description;
     private String emailAddress;
     private String phoneNumber;
-    List<Agent> agents;
+    List<Agent> agents = new ArrayList<>();
+
+    /**
+     * Represents the list of announcements associated with the agency.
+     */
+    List<Announcement> announcements = new ArrayList<>();
 
 //    /**
 //     * This method checks if the agency has an employee with the given email.
@@ -26,4 +32,37 @@ public class Agency {
 //        return result;
 //    }
 
+//    private Optional<Agent> getAgentByEmail(String emailAddress) {
+//        Optional<Agent> returnAgent = Optional.empty();
+//        for (Agent agent : agents) {
+//            if (anyAgentHasEmail(emailAddress)) {
+//                returnAgent = Optional.of(agent);
+//            }
+//        }
+//        return returnAgent;
+//    }
+
+//    private boolean addAnnouncement(Announcement announcement) {
+//        boolean success = false;
+//        if (validateAnnouncement(announcement)) {
+//            announcement =announcements.add(announcement.clone());
+//        }
+//        return success;
+//    }
+
+    private boolean validateAnnouncement(Announcement announcement) {
+        return !(announcements.contains(announcement));
+    }
+
+//    public Optional<Announcement> publishAnnouncement(Agent agent,CommissionType commissionType, Double commissionValue, Request request){
+//
+//        Optional<Announcement> optionalValue = Optional.empty();
+//
+//        Announcement announcement = new Announcement(agent,commissionType,commissionValue,request);
+//
+//        if(addAnnouncement(announcement)){
+//            optionalValue= Optional.of(announcement);
+//        }
+//        return  optionalValue;
+//    }
 }
