@@ -7,8 +7,8 @@ skinparam shadowing false
 actor "<b>Owner</b>" as Owner
 participant "<b>:CreateRequestUI</b>" as UI
 participant "<b>:CreateRequestController</b>" as CTRL
-participant "announcement:\nAnnouncement" as ANNOUNCE
-participant "request\n:Request" as REQUEST
+participant "<b>agency</b>\n<b>:Agency </b>" as AGC
+participant "<b>request</b>\n<b>:Request</b>" as REQUEST
 
 autonumber
 
@@ -88,112 +88,80 @@ activate Owner
      UI --> Owner : requests data
      deactivate UI
 
-      alt House
-         autonumber 15.1
-         Owner -> UI : selects requested data (basement, inhabitableLoft, parkingSpace)
-         activate UI
+      alt Property Type = House or Apartment
 
-         UI --> Owner : requests data
-         deactivate UI
+          autonumber 15.1
 
-         Owner -> UI : types requested data (numberBedrooms)
+          Owner -> UI : selects requested data (parkingSpace)
 
-         activate UI
+               activate UI
 
-         opt direction of sun exposure
-         UI --> Owner : request data
-         deactivate UI
+          UI --> Owner : requests data
+               deactivate UI
 
-         Owner -> UI : selects requested data (sunExposure)
-         activate UI
+          Owner -> UI : types requested data (numberBedroom)
 
-         end opt
+              activate UI
 
-        opt number of bathrooms
-         UI --> Owner : requests data
-         deactivate UI
+         opt number of bathrooms
 
-         Owner -> UI : types requested data (numberBathrooms)
-         activate UI
+                      UI --> Owner : requests data
+                      deactivate UI
 
-        end  opt
+              Owner -> UI : types requested data (numberBathroom)
+                      activate UI
 
-        opt list of available equipments
+         end  opt
 
-         UI --> Owner : request data
-         deactivate UI
+             opt list of available equipments
 
-             loop availableEquipment
-                 Owner -> UI : types requested data (availableEquipment)
-                 activate UI
+                  UI --> Owner : request data
+                  deactivate UI
 
-                 UI -> CTRL : addAvailableEquipment(description)
-                 activate CTRL
+                  loop availableEquipment
+                      Owner -> UI : types requested data (availableEquipment)
+                      activate UI
 
-                       ref over CTRL
-                       Add Available Equipment
-                       Description
+                      UI -> CTRL : addAvailableEquipment(description)
+                      activate CTRL
 
-                       end ref
+                            ref over CTRL
+                            Add Available Equipment
+                            Description
 
-                 CTRL --> UI : availableEquipment
-                 deactivate CTRL
-                 |||
-                 end loop
+                            end ref
+
+                      CTRL --> UI : availableEquipment
+                      deactivate CTRL
+                  |||
+                  end loop
              |||
              end opt
 
-             UI --> Owner : requests data
-             deactivate UI
+                 UI --> Owner : requests data
+                 deactivate UI
 
-      else Apartment
-         autonumber 15.1
-         Owner -> UI : selects requested data (parkingSpace)
-         activate UI
+                 alt Property Type = House
 
-         UI --> Owner : requests data
-         deactivate UI
+                    Owner -> UI : selects requested data (basement, inhabitableLoft)
 
+                    activate UI
 
-         Owner -> UI : types requested data (numberBedrooms)
-         activate UI
+                    UI --> Owner : requests data
+                    deactivate UI
 
-        opt number of bathrooms
-         UI --> Owner : requests data
-         deactivate UI
+                    opt direction of sun exposure
 
-         Owner -> UI : types requested data (numberBathrooms)
-         activate UI
-         |||
-        end  opt
+                         Owner -> UI : selects requested data (sunExposure)
+                         activate UI
+                    end opt
 
-        opt list of available equipments
+                     UI --> Owner : requests data
+                     deactivate UI
 
-            UI --> Owner : request data
-            deactivate UI
+                 end alt
 
-             loop availableEquipment
-                 Owner -> UI : types requested data (availableEquipment)
-                 activate UI
-
-                 UI -> CTRL : addAvailableEquipment(description)
-                 activate CTRL
-
-                       ref over CTRL
-                       Add Available Equipment
-                       Description
-
-                       end ref
-
-                 CTRL --> UI : availableEquipment
-                 deactivate CTRL
-             end loop
-        end opt
-
-         UI --> Owner : requests data
-         deactivate UI
-         |||
-         end alt
+           end alt
 
     loop min = 1 & max = 30
     autonumber 16.1
@@ -216,8 +184,9 @@ activate Owner
     autonumber 17
     UI -> CTRL : getAgencies()
     activate CTRL
+
             ref over CTRL
-                Get Agency List
+                Get Agencies List
 
             end ref
     CTRL --> UI : agencyList
@@ -261,7 +230,7 @@ activate Owner
 
            activate UI
 
-            UI -> CTRL : createRequest(propertyTypeDesignation, businessTypeDesignation, amount, area,\n contractDuration, availableEquipments, streetName, city, district, state, zipCode,\n basement, inhabitableLoft, parkingSpace, sunExposure, numberBedrooms,\n numberBathrooms, agent, distanceCityCenter, photograph, agency)
+            UI -> CTRL : createRequest(propertyTypeDesignation, businessTypeDesignation, amount, area,\n contractDuration, availableEquipment, streetName, city, district, state, zipCode,\n basement, inhabitableLoft, parkingSpace, sunExposure, numberBedroom,\n numberBathroom, agent, distanceCityCenter, photograph, agency)
 
             activate CTRL
 
@@ -301,11 +270,11 @@ activate Owner
                 deactivate CTRL
 
         |||
-        CTRL -> ANNOUNCE : createRequest(ownerEmail, agent, agency, propertyType, businessType, amount,\n area, contractDuration, streetName, city, district, state, zipCode, basement,\n availableEquipment, inhabitableLoft, parkingSpace, sunExposure,\n numberBedrooms, numberBathrooms, distanceCityCenter, photograph)
+        CTRL -> AGC : createRequest(ownerEmail, agent, agency, propertyType, businessType, amount,\n area, contractDuration, streetName, city, district, state, zipCode, basement,\n availableEquipment, inhabitableLoft, parkingSpace, sunExposure,\n numberBedroom, numberBathroom, distanceCityCenter, photograph)
 
-       activate ANNOUNCE
+       activate AGC
 
-        ANNOUNCE -> REQUEST** : createRequest(ownerEmail, agent, agency, propertyType, businessType, amount,\n area, contractDuration, streetName, city, district, state, zipCode, basement,\n availableEquipment, inhabitableLoft, parkingSpace, sunExposure,\n numberBedrooms, numberBathrooms, distanceCityCenter, photograph)
+        AGC -> REQUEST** : createRequest(ownerEmail, agent, agency, propertyType, businessType, amount,\n area, contractDuration, streetName, city, district, state, zipCode, basement,\n availableEquipment, inhabitableLoft, parkingSpace, sunExposure,\n numberBedroom, numberBathroom, distanceCityCenter, photograph)
 
        activate REQUEST
 
@@ -314,25 +283,25 @@ activate Owner
            Create request
 
            end ref
-       REQUEST --> ANNOUNCE : request
+       REQUEST --> AGC : request
        deactivate REQUEST
 
         |||
-        ANNOUNCE -> ANNOUNCE : addRequest(request)
+        AGC -> AGC : addRequest(request)
 
-        activate ANNOUNCE
+        activate AGC
 
-            ANNOUNCE --> ANNOUNCE : validateRequest(request)
-            activate ANNOUNCE
+            AGC --> AGC : validateRequest(request)
+            activate AGC
 
-            ANNOUNCE --> ANNOUNCE
-            deactivate ANNOUNCE
+            AGC --> AGC
+            deactivate AGC
 
-            ANNOUNCE --> ANNOUNCE
-            deactivate ANNOUNCE
+            AGC --> AGC
+            deactivate AGC
 
-        ANNOUNCE --> CTRL : request
-        deactivate ANNOUNCE
+        AGC --> CTRL : request
+        deactivate AGC
 
         CTRL --> UI : request
     deactivate CTRL

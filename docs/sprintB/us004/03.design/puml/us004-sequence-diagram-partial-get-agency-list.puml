@@ -16,7 +16,7 @@ autonumber 17
 activate CTRL
 autonumber 17.1
 
-    group Get Agency List
+    group Get Agencies List
 
 CTRL -> RepositorySingleton : getInstance()
 

@@ -26,7 +26,7 @@ class CreateRequestController {
     + addPhotographUri(uri)
     + getAgencies()
     + getAgentsFromAgencyID(id)
-    + createRequest(ownerEmail, propertyTypeDesignation, businessTypeDesignation,\n amount, area, contractDuration, availableEquipments, streetName, city, district, state,\n zipCode, basement, inhabitableLoft, parkingSpace, sunExposure, numberBedrooms,\n numberBathrooms, agent, distanceCityCenter, photograph, agency)
+    + createRequest(ownerEmail, propertyTypeDesignation, businessTypeDesignation,\n amount, area, contractDuration, availableEquipment, streetName, city, district, state,\n zipCode, basement, inhabitableLoft, parkingSpace, sunExposure, numberBedroom,\n numberBathroom, agent, distanceCityCenter, photograph, agency)
     - getBusinessTypeByDesignation(businessTypeDesignation)
     - getPropertyTypeByDesignation(propertyTypeDesignation)
     - getOwnerEmail()
@@ -68,7 +68,7 @@ class BusinessType {
 }
 
 class AgencyRepository {
-    + getAgencyByID(ID)
+    + getAgencyByID(id)
 }
 note right of AgencyRepository
     - used for displaying
@@ -115,9 +115,9 @@ class Property {
     - boolean inhabitableLoft
     - boolean parkingSpace
     - String sunExposure
-    - int numberBedrooms
-    - int numberBathrooms
-    + Property(streetName, city, district, state, zipCode, propertyType,\n area, basement, availableEquipment, inhabitableLoft, parkingSpace,\n sunExposure, numberBedrooms, numberBathrooms, distanceCityCenter,\n photograph)
+    - int numberBedroom
+    - int numberBathroom
+    + Property(streetName, city, district, state, zipCode, propertyType,\n area, basement, availableEquipment, inhabitableLoft, parkingSpace,\n sunExposure, numberBedroom, numberBathroom, distanceCityCenter,\n photograph)
     }
 
 class Location {
@@ -141,15 +141,8 @@ class AvailableEquipment{
 
 class Request{
     - String requestDate
-    + Request(agency, agent, ownerEmail, businessType, propertyType, area,\n streetName, city, district, state, zipCode, basement, availableEquipment,\n inhabitableLoft, parkingSpace, sunExposure, numberBedrooms,\n numberBathrooms, distanceCityCenter, contractDuration, photograph)
+    + Request(agency, agent, ownerEmail, businessType, propertyType, area,\n streetName, city, district, state, zipCode, basement, availableEquipment,\n inhabitableLoft, parkingSpace, sunExposure, numberBedroom,\n numberBathroom, distanceCityCenter, contractDuration, photograph)
     - getCurrentDate()
-}
-
-class Announcement{
-    - String acceptanceDate
-    + createRequest(ownerEmail, propertyType, businessType, amount, area,\n contractDuration, availableEquipments, streetName, city, district, state, zipCode,\n basement, inhabitableLoft, parkingSpace, sunExposure, numberBedrooms,\n numberBathrooms, agent, distanceCityCenter, photograph, agency)
-    - addRequest(request)
-    - validateRequest(request)
 }
 
 class Business{
@@ -200,8 +193,6 @@ PropertyTypeRepository "1" -down-> "*" PropertyType : aggregates
 
 Agency "1" -right-> "*" Agent : employs
 
-Agent "1" -left-> "*" Announcement : publishes
-
 Request "1" --> "1" Property : has information about
 
 Property "1" --> "1" Location : has address on
@@ -212,20 +203,18 @@ Property "1" -left-> "1" Owner : belongs to
 
 Owner "1" -up-> "*" Request : submits
 
-Request "1" -up-> "1" Announcement : is based on
-
-Agency "1" --> "*" Announcement : owns
-
 Property "1" --> "1" Photograph : contains
 
 Property "1" --> "1" AvailableEquipment : contains
-
-CreateRequestController .> "1" Announcement
 
 PropertyType "1" --> "1" Property : is a description of
 
 BusinessType "1" --> Business : describes
 
 Request "1" -right-> Business : is described by
+
+Agency "1" --> "*" Request : manages
+
+Agent "1" --> "*" Request : is responsible
 
 @enduml

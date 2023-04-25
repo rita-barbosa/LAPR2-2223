@@ -1,90 +1,113 @@
-# US 006 - To create a Task
+# US 004 - To submit a Request for an Announcement
 
 ## 3. Design - User Story Realization
 
 ### 3.1. Rationale
 
-**SSD - Alternative 1 is adopted.**
+| Interaction ID                                     | Question: Which class is responsible for...                            | Answer                  | Justification (with patterns)                                                                                 |
+|:---------------------------------------------------|:-----------------------------------------------------------------------|:------------------------|:--------------------------------------------------------------------------------------------------------------|
+| Step 1 : asks to create a new Request  	           | ... interacting with the actor?                                        | CreateRequestUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model. |
+| 			  		                                            | ... coordinating the US?                                               | CreateRequestController | Controller.                                                                                                   |
+| 			  		                                            | ... instantiating a new request?                                       | Announcement            | Creator (Rule 1): in the DM, Announcement has an Request.                                                     |
+| 			  		                                            | ... knowing the user using the system?                                 | UserSession             | IE: cf. A&A component documentation.                                                                          |
+|                                                    |                                                                        | Owner                   | IE: knows its own data (e.g. email).                                                                          |
+|                                                    | ... obtaining the business types?                                      | BusinessTypeRepository  | IE: the types of business are the same for all requests; Pure Fabrication.                                    |
+| Step 2 : shows business types 		                   | ... displaying the business types?			                                  | CreateRequestUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model. |
+| Step 3 : selects business type 		                  | ... temporarily keeping input data?                                    | CreateRequestUI         | IE: the types of property are the same for all requests; Pure Fabrication.                                    |
+|                                                    | ... validating input data?                                             | CreateRequestUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model. |
+|                                                    | ... obtaining the property types?                                      | BusinessTypeRepository  | IE: the types of business are the same for all requests; Pure Fabrication.                                    |
+| Step 4 : shows property types 		                   | ... displaying the property types?	                                    | PropertyTypeRepository  | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model. |
+| Step 5 : selects property type 		                  | ... temporarily keeping input data?                                    | CreateRequestUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model. |
+|                                                    | ... validating input data?                                             | CreateRequestUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model. |
+| Step 6 : requests data                             | ... displaying the UI for the actor to input data?                     | CreateRequestUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model. |
+| Step 7 : types requested data                      | ... validating input data?                                             | CreateRequestUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model. |
+|                                                    | ... temporarily keeping input data?                                    | CreateRequestUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model. |
+| Step 8 : requests data                             | ... displaying the UI for the actor to input data?                     | CreateRequestUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model. |
+| Step 9 : selects requested data                    | ... validating input data?                                             | CreateRequestUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model. |
+|                                                    | ... temporarily keeping input data?                                    | CreateRequestUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model. |
+|                                                    | ... obtaining the agencies list?                                       | AgencyRepository        | IE: one of all agencies can be chosen for all requests; Pure Fabrication.                                     |
+| Step 10 : shows agencies 		                        | ... displayingthe agencies list?	                                      | CreateRequestUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model. |
+| Step 11 : selects an agency 		                     | ... temporarily keeping input data?                                    | CreateRequestUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model. |
+|                                                    | ... validating input data?                                             | CreateRequestUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model. |
+|                                                    | ... obtaining the agents list?                                         | Agency                  | IE: knows all its agents.                                                                                     |
+| Step 12 : shows agents list of choosen agency      | ... displaying the property types?	                                    | CreateRequestUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model. |
+| Step 13 : selects an agent 		                      | ... temporarily keeping input data?                                    | CreateRequestUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model. |
+| Step 14 : shows all data and requests confirmation | ... display all the information before submitting?                     | CreateRequestUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model. |
+| Step 15 : submits data                             | ... creating the Request object?                                       | Agency                  | Creator (Rule 1): in the DM, Agency has a Request.                                                            |
+|                                                    | ... validating the data locally (mandatory data)?                      | Request                 | IE: owns its data.                                                                                            |
+| Step 16 : create a new property                    | ... instantiating a new Property?                                      | Request                 | Creator (Rule 1): in the DM, Request has Property.                                                            |
+|                                                    | ... validating local data?                                             | Property                | IE: owns its data.                                                                                            |
+| Step 17 : create a new location                    | ... instantiating a new Location?                                      | Property                | Creator (Rule 1): in the DM, Request has Property.                                                            |
+|                                                    | ... validating local data?                                             | Location                | IE: owns its data.                                                                                            |
+|                                                    | ... adding to a collection and globally validating duplicated records? | Agency                  | Creator (Rule 3): in the DM, Property closely uses Location.                                                  |
+| Step 18 : displays operation success               | ... informing operation success?                                       | CreateRequestUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model. |
 
-| Interaction ID                                     | Question: Which class is responsible for...                            | Answer                       | Justification (with patterns)                                                                                                                                                               |
-|:---------------------------------------------------|:-----------------------------------------------------------------------|:-----------------------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Step 1 : asks to create a new Announcement  	      | ... interacting with the actor?                                        | CreateAnnouncementUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model.                                                                               |
-| 			  		                                            | ... coordinating the US?                                               | CreateAnnouncementController | Controller                                                                                                                                                                                  |
-| 			  		                                            | ... instantiating a new Announcement?                                  | Agency                       | Creator (Rule 1): in the DM, Agency has an Announcement.                                                                                                                                    |
-| 			  		                                            | ... knowing the user using the system?                                 | UserSession                  | IE: cf. A&A component documentation.                                                                                                                                                        |
-|                                                    | ... obtaining the transaction types?                                   | TransactionTypeRepository    | IE/Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model. It has the most knowledge about how to manage and store the announcements. |
-| Step 2 : shows transaction types 		                | ... displaying the transaction types?			                               | CreateAnnouncementUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model.                                                                               |
-|                                                    | ... knowing the transaction types to show?                             | System                       | I/E: Transaction types are defined by the System Administrators.                                                                                                                            |
-| Step 3 : selects transaction type 		               | ... temporarily keeping input data?                                    | CreateAnnouncementUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model.                                                                               |
-|                                                    | ... validating input data?                                             | CreateAnnouncementUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model.                                                                               |
-| Step 4 : create a new property                     | ... interacting with the actor?                                        | CreateAnnouncementUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model.                                                                               |
-|                                                    | ... instantiating a new Property?                                      | Announcement                 | Creator (Rule 1): in the DM, Announcement has  Property.                                                                                                                                    |
-|                                                    | ... obtaining the property types?                                      | PropertyTypeRepository       | Pure Fabrication / IE:  there is no reason to assign this responsibility to any existing class in the Domain Model. It has the most knowledge about how to manage and store the properties. |
-| Step 5 : shows property types 		                   | ... displaying the property types?	                                    | CreateAnnouncementUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model.                                                                               |
-| 		                                                 | 	... knowing the property types to show?                               | System                       | I/E: Property types are defined by the System Administrators.                                                                                                                               |
-| Step 6 : selects property types                    | ... temporarily keeping input data?                                    | CreateAnnouncementUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model.                                                                               |
-|                                                    | ... validating input data?                                             | CreateAnnouncementUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model.                                                                               |
-| Step 7 : requests data                             | 	... displaying the UI for the actor to input data?				                | CreateAnnouncementUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model.                                                                               |
-| Step 8 : types requested data                      | 	... validating all property's data (local validation)?                | Property                     | IE: owns its data.                                                                                                                                                                          | 
-| 			  ??????????		                                  | 	... validating all data (global validation)?                          | ???? Agency                  | IE: knows all its annoucements instances.                                                                                                                                                   | 
-| Step 9 : requests data	                            | ... displaying the UI for the actor to input data?                     | CreateAnnouncementUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model.                                                                               | 
-| ?????                                              | ... obtaining the selected data types?                                 | ????                         | ????                                                                                                                                                                                        |
-| Step 10 : selects requested data                   | ... validating input data?                                             | CreateAnnouncementUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model.                                                                               |
-|                                                    | ... temporarily keeping input data?                                    | CreateAnnouncementUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model.                                                                               |
-| Step 11 : shows all data and requests confirmation | ... display all the information before submitting?                     | CreateAnnouncementUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model.                                                                               |
-| ???????????                                        | ... validating the data locally (mandatory data)?                      | Announcement                 | IE: owns its data                                                                                                                                                                           |
-| Step 12 : submits data                             | ... creating the property object?                                      | Announcement                 | Creator (Rule 1) : in the DM, Announcement has a Property.                                                                                                                                  |
-|                                                    | ... creating the announcement object?                                  | Agency                       | IE: knows all its Announcement instances.                                                                                                                                                   |
-|                                                    | ... adding to a collection and globally validating duplicated records? | Agency                       | Creator (Rule 1) : in the DM, Agency has an Announcement.                                                                                                                                   |
-| Step 13 : displays operation success               | ... informing operation success?                                       | CreateAnnouncementUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model.                                                                               |
-
-FALTA AINDA O REPOSITORIO DOS AGENTS e AGENCIES
 
 ### Systematization ##
 
 According to the taken rationale, the conceptual classes promoted to software classes are:
 
-* Organization
-* Task
+* Request
+* Agency
+* Property
+* Location
 
 Other software classes (i.e. Pure Fabrication) identified:
 
-* CreateTaskUI
-* CreateTaskController
+* CreateRequestUI
+* CreateRequestController
 
 ## 3.2. Sequence Diagram (SD)
 
-### Alternative 1 - Full Diagram
+### Split Diagram
 
-This diagram shows the full sequence of interactions between the classes involved in the realization of this user story.
-
-![Sequence Diagram - Full](svg/us006-sequence-diagram-full.svg)
-
-### Alternative 2 - Split Diagram
-
-This diagram shows the same sequence of interactions between the classes involved in the realization of this user story,
-but it is split in partial diagrams to better illustrate the interactions between the classes.
+This diagram shows the sequence of interactions between the classes involved in the realization of this user story. It
+is split in partial diagrams to better illustrate the interactions between the classes.
 
 It uses interaction ocurrence.
 
-![Sequence Diagram - split](svg/us006-sequence-diagram-split.svg)
+![Sequence Diagram - split](svg/us004-sequence-diagram-slip.svg)
 
-**Get Task Category List Partial SD**
+**Get Business Type List - Partial SD**
 
-![Sequence Diagram - Partial - Get Task Category List](svg/us006-sequence-diagram-partial-get-task-category-list.svg)
+![Sequence Diagram - Partial - Get Business Type List](svg/us004-sequence-diagram-partial-get-business-type-list.svg)
 
-**Get Task Category Object**
+**Get Business Type Object - Partial SD**
 
-![Sequence Diagram - Partial - Get Task Category Object](svg/us006-sequence-diagram-partial-get-task-category.svg)
+![Sequence Diagram - Partial - Get Business Type Object](svg/us004-sequence-diagram-partial-get-business-type-object.svg)
 
-**Get Employee**
+**Get Property Type List - Partial SD**
 
-![Sequence Diagram - Partial - Get Employee](svg/us006-sequence-diagram-partial-get-employee.svg)
+![Sequence Diagram - Partial - Get Property Type List](svg/us004-sequence-diagram-partial-get-property-type-list.svg)
 
-**Create Task**
+**Get Property Type Object - Partial SD**
 
-![Sequence Diagram - Partial - Create Task](svg/us006-sequence-diagram-partial-create-task.svg)
+![Sequence Diagram - Partial - Get Property Type Object](svg/us004-sequence-diagram-partial-get-property-type-object.svg)
+
+**Add Available Equipment Description - Partial SD** 
+
+![Sequence Diagram - Partial - Add Available Equipment](svg/us004-sequence-diagram-partial-add-available-equipment-description.svg)
+
+**Add Photograph Uri - Partial SD**
+
+![Sequence Diagram - Partial - Add Photograph](svg/us004-sequence-diagram-partial-add-photograph-uri.svg) 
+
+**Get Agencies List - Partial SD**
+
+![Sequence Diagram - Partial - Get Agencies List](svg/us004-sequence-diagram-partial-get-agency-list.svg)
+
+**Get Agents List - Partial SD**
+
+![Sequence Diagram - Partial - Get Agents List](svg/us004-sequence-diagram-partial-get-agents-list.svg)
+
+**Get Owner Email - Partial SD**
+
+![Sequence Diagram - Partial - Get Owner Email](svg/us004-sequence-diagram-partial-get-owner-email.svg)
+
+**Create Request - Partial SD**
+
+![Sequence Diagram - Partial - Create Request](svg/us004-sequence-diagram-partial-create-request.svg)
 
 ## 3.3. Class Diagram (CD)
 
-![Class Diagram](svg/us006-class-diagram.svg)
+![Class Diagram](svg/us004-class-diagram.svg)
