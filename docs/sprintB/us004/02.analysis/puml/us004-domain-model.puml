@@ -14,24 +14,28 @@ title Domain Model - US004
 
 class Property {
     area
-    DCC
+    distanceCityCenter
 }
 
 class Photograph{
     url
 }
 
-class Lease extends Price{
+class Lease{
     contractDuration
 }
 
-class Price {
-    price
+class Business {
+    amount
 }
 
-class Residence extends Property{
-    numberBedrooms
-    numberBathrooms
+class BusinessType{
+    designation
+}
+
+class Residence{
+    numberBedroom
+    numberBathroom
     parkingSpace
 
 }
@@ -44,15 +48,15 @@ class Location{
     zipCode
 }
 
-class TypeResidence{
+class ResidenceType{
     designation
 }
 
-class TypeProperty{
+class PropertyType{
     designation
 }
 
-class House extends Residence{
+class House{
     basement
     inhabitableLoft
     sunExposure
@@ -62,7 +66,11 @@ class AvailableEquipment{
     description
 }
 
-class Agent extends Employee{}
+class Agent{
+    passportCardNumber
+    taxNumber
+    phoneNumber
+}
 
 class Agency {
     ID
@@ -70,7 +78,6 @@ class Agency {
     emailAddress
     contactNumber
 }
-class Employee{}
 
 class Owner {
     name
@@ -81,16 +88,27 @@ class Owner {
     telephone number
 }
 
+class Request{
+    request date
+}
 
-Employee "1" -- "1" Agency: works in  >
-Agency "1" -- "1" Location : contains >
-TypeProperty "1" -- "*" Property : classifies >
-Price "1" -left- "1" Property : contains <
-Property "1" -up- "1" Owner : belongs to >
-Agent "1" -down- "*" Property : < advertised by
-Photograph "1..*" -up- "1" Property : contains <
-Location "1" -right- "1" Property : contains <
+
+Agent "1" -up- "1" Agency: works in  >
+Agency "1" - "1" Location : contains >
+PropertyType "1" -- "*" Property : classifies >
+Property "1" -- "1" Owner : belongs to >
+Agent "1" -up- "*" Property : < advertised by
+Photograph "1*" -- "1" Property : contains <
+Location "1" -- "1" Property : contains <
 Residence "1" -- "*" AvailableEquipment : contains >
-TypeResidence "1" -- "1" Residence: classifies >
+ResidenceType "1" -- "1" Residence: classifies >
+Request "1" - "1" Property : has information about >
+Request "1" -- "1" Business: is described by >
+BusinessType "1" - "1" Business : describes >
+Agent "1" -- "1" Request : is assigned to
+Business <|-- Lease
+Residence <|-left- Property
+House <|-- Residence
+Owner "1" -- "*" Request : submits
 
 @enduml
