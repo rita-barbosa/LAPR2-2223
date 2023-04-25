@@ -1,17 +1,16 @@
-# US 004 - To submit an announcement
+# US 004 - To submit a Request for an Announcement
 
 ## 1. Requirements Engineering
 
 ### 1.1. User Story Description
 
-As an owner, I intend to submit a request for listing a property sale or rent,
-choosing the responsible agent.
+As an owner, I intend to submit a request for listing a property for sale or rent, choosing the responsible agent.
 
 ### 1.2. Customer Specifications and Clarifications
 
 **From the specifications document:**
 
-Each announcement lists a property for sale or/and rent, and it is assigned to an agent.
+Each request lists a property for sale or/and rent, and it is assigned to an agent.
 
 The sale's standard information is the property's listing, the price/rent, the renting contract's duration (when applicable),
 area, location, distance from the City Center, and one or more photographs.
@@ -28,7 +27,7 @@ The request for sale's additional information is based on the property's type, a
 |  Inhabitable Loft   |          Yes / No           |     -     |
 |    Sun Exposure     | North / South / West / East |     -     |
 
-As long as it is not announced, access to the announcement is exclusive to the owner and respectively assigned agent.
+The access to the request is exclusive to the owner and respectively assigned agent.
 
 **From the client clarifications:**
 
