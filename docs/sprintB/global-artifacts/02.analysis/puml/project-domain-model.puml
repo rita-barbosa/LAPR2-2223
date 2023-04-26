@@ -29,15 +29,7 @@ passportCardNumber
 taxNumber
 phoneNumber
 }
-class User{
-name
-email
-password
-}
-class Role{
-id
-description
-}
+
 class Owner{
 }
 
@@ -154,8 +146,6 @@ Request "1" -- "1" Business: is described by >
 Business <|-- Lease
 BusinessType "1" -- "1" Business : describes >
 Announcement "1" - "1" Request : is  based on >
-Person "1" - "1" User : is represented by >
-User "*" -- "*" Role : plays >
 Commission "*" - "1" CommissionType : is categorized in >
 Agency "1" --- "*" Request : is assigned to >
 Agent "1" --- "*" Request : is responsible for >

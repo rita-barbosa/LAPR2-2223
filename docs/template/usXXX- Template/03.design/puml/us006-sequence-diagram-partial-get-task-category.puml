@@ -3,40 +3,40 @@ skinparam monochrome true
 skinparam packageStyle rectangle
 skinparam shadowing false
 
-participant ":CreateTaskController" as CTRL
+participant ":RegisterEmployeeController" as CTRL
 participant ":Repositories" as RepositorySingleton
 participant "repositories\n:Repositories" as PLAT
-participant "taskCategoryRepository:\nTaskCategoryRepository" as TaskCategoryRepository
+participant "agencyRepository:\nAgencyRepository" as AgencyRepository
 
 autonumber 12
--> CTRL : getTaskCategoryByDescription(taskCategoryDescription)
+-> CTRL : getAgencyByDescription(agencyByDescription)
 
 autonumber 12.1
 
 activate CTRL
-    group Get Task Category
+    group Get Agency
         CTRL -> RepositorySingleton : getInstance()
         activate RepositorySingleton
 
             RepositorySingleton --> CTRL: repositories
         deactivate RepositorySingleton
 
-        CTRL -> PLAT : getTaskCategoryRepository()
+        CTRL -> PLAT : getAgencyRepository()
         activate PLAT
 
-            PLAT -> CTRL : taskCategoryRepository
+            PLAT -> CTRL : agencyRepository
         deactivate PLAT
 
-        CTRL -> TaskCategoryRepository : getTaskCategoryByDescription(taskCategoryDescription)
-        activate TaskCategoryRepository
+        CTRL -> AgencyRepository : getAgencyByDescription(agencyByDescription)
+        activate AgencyRepository
 
-            TaskCategoryRepository --> CTRL : taskCategory
-        deactivate TaskCategoryRepository
+            AgencyRepository --> CTRL : agency
+        deactivate AgencyRepository
 
     end group
 
     autonumber 13
-    <-- CTRL : taskCategory
+    <-- CTRL : agency
 
 deactivate CTRL
 
