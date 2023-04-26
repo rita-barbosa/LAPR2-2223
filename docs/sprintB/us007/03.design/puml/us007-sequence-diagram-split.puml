@@ -12,16 +12,20 @@ participant ":RegisterUserController" as CTRL
 participant ":Repositories" as RepositorySingleton
 participant "repositories\n:Repositories" as PLAT
 participant "roleRepository\n:roleRepository" as RoleRepository
-participant "user\n:User" as USER
+participant "personRepository\n:PersonRepository" as PERSONREP
 participant "person\n:Person" as PERSON
-participant "authenticationRepository\n:authenticationRepository" as AUTHREP
 participant "location\n:Location" as LOCATION
+participant "authenticationRepository\n:authenticationRepository" as AUTHREP
+participant "authFacade\n:AuthFacade"  as AUTHFACADE
+
 
 
 activate ADM
 
     ADM -> UI : asks to register in the system to buy,sell and rent properties
     activate UI
+
+    UI -> CTRL**: create
 
     UI --> ADM : requests data (name, passportCardNumber, tax number,\n emailAddress, phoneNumber, password)
     deactivate UI
@@ -43,7 +47,7 @@ activate ADM
     ADM -> UI : submits data
     activate UI
 
-    UI -> CTRL : registerUser(roles, name, passportCardNumber, tax number,\n emailAddress, phoneNumber, password, streetName,\n city, district, state, zipcode)
+    UI -> CTRL : registerUser(name, passportCardNumber, tax number,\n emailAddress, phoneNumber, password, streetName,\n city, district, state, zipcode)
     activate CTRL
 
     CTRL -> RepositorySingleton : getInstance()
@@ -58,12 +62,62 @@ activate ADM
                 PLAT -> CTRL : roleRepository
             deactivate PLAT
 
-            CTRL -> RoleRepository : getUserRoles()
+
+            CTRL -> RoleRepository : getClientRoles()
             activate RoleRepository
 
                 RoleRepository --> CTRL : roles
             deactivate RoleRepository
 
+            CTRL -> PLAT : getPersonRepository()
+            activate PLAT
+
+            PLAT --> CTRL : personRepository
+            deactivate PLAT
+
+            CTRL -> PERSONREP : createPerson(name, passportCardNumber, tax number,\n emailAddress, phoneNumber, streetName,\n city, district, state, zipcode)
+           activate PERSONREP
+
+            PERSONREP -> PERSON** : create(name, passportCardNumber, tax number,\n emailAddress, phoneNumber, streetName,\n city, district, state, zipcode)
+            activate PERSON
+
+            PERSON -> LOCATION** : createLocation(streetName, city, \ndistrict, state, zipcode)
+            deactivate PERSON
+
+            PERSONREP -> PERSONREP: addPerson(person)
+            activate PERSONREP
+
+                PERSONREP -> PERSONREP: validatePerson(person)
+                activate PERSONREP
+
+                PERSONREP --> PERSONREP :
+                deactivate PERSONREP
+
+            PERSONREP --> PERSONREP :
+            deactivate PERSONREP
+
+            PERSONREP --> CTRL : person
+            deactivate PERSONREP
+
+            CTRL -> PLAT : getAuthenticationRepository()
+            activate PLAT
+
+            PLAT --> CTRL: authenticationRepository
+            deactivate PLAT
+
+            CTRL -> AUTHREP : addUserWithRoles(name,emailAddress,password,roles)
+            activate AUTHREP
+
+            AUTHREP -> AUTHFACADE: addUserWithRoles(name,emailAddress,password,roles)
+            activate AUTHFACADE
+
+            AUTHFACADE --> AUTHREP: success
+            deactivate AUTHFACADE
+
+            AUTHREP --> CTRL : success
+
+            CTRL --> UI :success
+            deactivate CTRL
 
     UI --> ADM : displays operation success
     deactivate UI
