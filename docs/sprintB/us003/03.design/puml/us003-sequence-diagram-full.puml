@@ -132,11 +132,11 @@ UI -> CTRL : getRole()
             activate PERSON
 
                 PERSON -> AGENCY**: register(name, citizen card \nnumber, tax number, address,\n email address, contact number)
-                PERSON -> PERSON: addData (register)
+                PERSON -> PERSON: addPerson (person)
 
 
                 activate PERSON
-                    PERSON -> PERSON: validateData (register)
+                    PERSON -> PERSON: validatePerson (person)
                     activate PERSON
                         PERSON --> PERSON
                     deactivate PERSON
