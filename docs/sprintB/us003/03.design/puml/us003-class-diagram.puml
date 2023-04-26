@@ -9,34 +9,27 @@ skinparam classAttributeIconSize 0
 
 'left to right direction
 
-class ApplicationSession
-{
-    + static getInstance()
-    + getCurrentSession()
-}
-
-class UserSession
-{
-    + getUserEmail()
-}
 
 class Employee {
     - name
     - email
-    - position
+    - role
     - phone
 }
 
-class Agency {
-    - String reference
-    - String description
-    - String informalDescription
-    - String technicalDescription
-    - Integer duration
-    - Double cost
+class Person {
+ - passportCardNumber
+ - taxNumber
+ - phoneNumber
 
-    + Agency(reference, description,\ninformalDescription, technicalDescription,\nduration, cost, createdBy, agency)
+  - addPerson(person)
+     - validatePerson(person)
+     + Role(Agent, StoreManager, NetworkManager)
+     + registerEmployee(name, passportCardNumber,\n taxNumber, location, email, phoneNumber)
+
+ '  +saveTask(task)
 }
+
 
 class Agency {
     - String description
@@ -45,24 +38,15 @@ class Agency {
 }
 
 class Role {
-    - String name
-    - String vatNumber
-    - String website
-    - String phone
-    - String email
-
-    - addTask(task)
-    - validateTask(task)
-    + anyEmployeeHasEmail(email)
-    + Role(name, vatNumber, webSite, phone, email, postalAddress, manager)
-    + createTask(reference, description, informalDesccription,\ntechnicalDescription, duration, cost, taskCategoryDescription)
-    - getEmployeeByEmail(email)
-
-'  +saveTask(task)
+    - String Agent
+    - String StoreManager
+    - String NetworkManager
 }
 
 class AgencyRepository {
-    + getTaskCategoryByDescription(description)
+}
+
+class RoleRepository{
 }
 
 
@@ -75,22 +59,23 @@ class Repositories {
 
 class RegisterEmployeeController {
     + RegisterEmployeeController(roleRepository, agencyRepository)
-    + getTaskCategories()
-    + createTask(userEmail, reference, description,\ninformalDescription, technicalDescription,\nduration, cost, categoryDescription)
-    - getTaskCategoryByDescription(taskCategoryDescription)
-    - getEmployeeFromSession()
+    + getAgency()
+    + getRole()
+    + registerEmployee(agencyByDescription)
+    - getAgencyByDescription(agencyByDescription)
+
 }
 
-note right of RegisterEmployeeController
-    - userEmail is obtained
-    from the user session
-    - categoryDescription
-    is retrieved from selected data
-end note
+
 
 note bottom of AgencyRepository
     - used for displaying
     the agency list
+end note
+
+note bottom of RoleRepository
+ - used for displaying
+ the role list
 end note
 
 class RegisterEmployeeUI {
