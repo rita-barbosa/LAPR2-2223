@@ -1,0 +1,63 @@
+@startuml
+'skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam linetype polyline
+'skinparam linetype orto
+
+skinparam classAttributeIconSize 0
+
+class RegisterUserUI
+{
+
+}
+class RegisterUserController
+{
++ registerUser(name, passportCardNumber, tax number,\n emailAddress, phoneNumber, password, streetName,\n city, district, state, zipcode)
+}
+class AuthenticationRepository
+{
++ addUserWithRoles(name,emailAddress,password,roles)
+}
+class Person
+{
++ Person(name, passportCardNumber, tax number,\n emailAddress, phoneNumber, streetName,\n city, district, state, zipcode)
+
+}
+class PersonRepository
+{
++ createPerson(name, passportCardNumber, tax number,\n emailAddress, phoneNumber, streetName,\n city, district, state, zipcode)
++ addPerson(person)
++ validatePerson(person)
+}
+class AuthFacade
+{
++ addUserWithRoles(name,emailAddress,password,roles)
+}
+class Repositories
+{
+ - Repositories()
+ + getInstance()
+ + getRoleRepository()
+ + getPersonRepository()
+ + getAuthenticationRepository()
+}
+class Location
+{
++ Location(streetName, city, district,\n state, zipcode)
+}
+class RoleRepository
+{
++ getClientRoles()
+}
+
+RegisterUserUI .> RegisterUserController
+RegisterUserController .> Repositories : repositories
+RegisterUserController .--> PersonRepository
+RegisterUserController .--> RoleRepository
+RegisterUserController .-> AuthenticationRepository
+
+PersonRepository  --> "*" Person
+Person --> "1" Location : hasAddress
+AuthenticationRepository --> "1" AuthFacade
+@enduml
