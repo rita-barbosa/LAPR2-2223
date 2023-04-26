@@ -21,5 +21,6 @@ left to right direction
         "System Administrator" --> UC5
      usecase "UC4 - Submit a Request for\n an Announcement" as UC4
         "Owner" --> UC4
-
+    usecase "UC7 - Register a user in the system" as UC7
+        "Unregistered User" --> UC7
 @enduml
