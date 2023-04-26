@@ -92,7 +92,7 @@ UI -> CTRL : getRole()
         UI --> ADM : requests data
     deactivate UI
 
-    ADM -> UI : types requested data (name, citizen \ncard number, tax number, location,\n email address, contact number)
+    ADM -> UI : types requested data (name, passport \ncard number, tax number, location,\n email address, contact number)
     activate UI
 
         UI --> ADM : shows selected agency, role and requested data
@@ -101,37 +101,11 @@ UI -> CTRL : getRole()
     ADM -> UI : submits data
     activate UI
 
-        UI -> CTRL : RegisterEmployee (person, agencyByDescription)
-        activate CTRL
-
-            CTRL -> CTRL : getAgencyByDescription(agencyByDescription)
-            activate CTRL
-
-                CTRL -> RepositorySingleton : getInstance()
-                activate RepositorySingleton
-
-                    RepositorySingleton --> CTRL: repositories
-                deactivate RepositorySingleton
-
-                CTRL -> PLAT : getAgencyRepository()
-                activate PLAT
-
-                    PLAT -> CTRL : agencyRepository
-                deactivate PLAT
-
-                CTRL -> AgencyRepository : getAgencyByDescription(agencyByDescription)
-                activate AgencyRepository
-
-                    AgencyRepository --> CTRL : agency
-                deactivate AgencyRepository
-                    CTRL --> CTRL : agency
-            deactivate CTRL
-
             |||
-            CTRL -> PERSON: registerEmployee(name, citizen card number,\n tax number, location, email address, contact\n number)
+            CTRL -> PERSON: registerEmployee(name, passport card number,\n tax number, location, email address, contact\n number)
             activate PERSON
 
-                PERSON -> AGENCY**: register(name, citizen card \nnumber, tax number, address,\n email address, contact number)
+                PERSON -> AGENCY**: register(name, passport card \nnumber, tax number, address,\n email address, contact number)
                 PERSON -> PERSON: addPerson (person)
 
 
