@@ -15,7 +15,7 @@ activate Employee
     Employee -> System : asks to register a new employee
     activate System
 
-        System --> Employee : requests data (name, the contact \ntelephone number, tax number, location, the address email)
+        System --> Employee : requests data (name, passport card number,\nphone number, tax number, location, email)
     deactivate System
 
     Employee -> System : types requested data

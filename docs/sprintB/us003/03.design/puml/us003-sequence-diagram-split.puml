@@ -8,8 +8,8 @@ autonumber
 'hide footbox
 actor "System Administrator" as ADM
 participant ":RegisterEmployeeUI" as UI
-participant ":RegisterEmployeeController" as CTRL
-participant "Person\n:Person" as PERSON
+participant ":registerEmployeeController" as CTRL
+participant "person\n:Person" as PERSON
 
 activate ADM
 
@@ -52,7 +52,7 @@ activate ADM
         ADM -> UI : selects a role
         activate UI
 
-        UI --> ADM : requests person (name, passport \ncard number, tax number, location,\n email address, contact number)
+        UI --> ADM : requests person (name, passport \ncard number, tax number, location,\n email, phone number)
     deactivate UI
 
     ADM -> UI : types requested person
@@ -64,7 +64,7 @@ activate ADM
         ADM -> UI : submits person
         activate UI
 
-        UI -> CTRL : RegisterEmployee(name, passport \ncard number, tax number, location,\n email address, contact number)
+        UI -> CTRL : RegisterEmployee(name, passport \ncard number, tax number, location,\n email, phone number)
         activate CTRL
 
             CTRL -> CTRL : getPerson(person)
@@ -79,7 +79,7 @@ activate ADM
             deactivate CTRL
 
 
-            CTRL -> PERSON: person(name, passport \ncard number, tax number, address,\n email address, contact number)
+            CTRL -> PERSON: person(name, passport \ncard number, tax number, address,\n email, phone number)
             activate PERSON
 
                 ref over PERSON

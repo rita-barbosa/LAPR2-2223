@@ -10,8 +10,7 @@ autonumber
 participant ":RegisterEmployeeController" as CTRL
 participant ":Repositories" as RepositorySingleton
 participant "repositories\n:Repositories" as PLAT
-participant "AgencyRepository:\nAgencyRepository" as AgencyRepository
-participant "AgencyRepository:\nAgencyRepository" as AgencyRepository
+participant "agencyRepository:\nAgencyRepository" as AgencyRepository
 
 autonumber 3
 
