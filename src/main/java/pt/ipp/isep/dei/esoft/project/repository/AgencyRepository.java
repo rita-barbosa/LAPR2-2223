@@ -54,11 +54,25 @@ public class AgencyRepository {
     /**
      * This method verifies if the agency received is already present in the list of agencies.
      *
-     * @param agency  - the agency to be validated
+     * @param agency - the agency to be validated
      * @return {@code true} if the list of agencies does not contain the received agency; {@code false} otherwise.
      */
-        private boolean validateAgency(Agency agency) {
-        return(!agencies.contains(agency));
+    private boolean validateAgency(Agency agency) {
+        return (!agencies.contains(agency));
     }
 
+    /**
+     * This method goes through all the agencies in the list and finds the one whose id is the same.
+     * @param id - identifier of a specific agency
+     * @return agency that has that id
+     */
+    public Agency getAgencyByID(int id) {
+        Agency agencyWithId = null;
+        for (Agency agency : agencies) {
+            if (agency.getId() == id) {
+                agencyWithId = agency;
+            }
+        }
+        return agencyWithId;
+    }
 }

@@ -8,6 +8,9 @@ public class Repositories {
     AuthenticationRepository authenticationRepository = new AuthenticationRepository();
     CommissionTypeRepository commissionTypeRepository = new CommissionTypeRepository();
     PropertyTypeRepository propertyTypeRepository = new PropertyTypeRepository();
+    BusinessTypeRepository businessTypeRepository = new BusinessTypeRepository();
+    AgencyRepository agencyRepository = new AgencyRepository();
+
 
     private Repositories() {
     }
@@ -28,6 +31,12 @@ public class Repositories {
     }
     public AuthenticationRepository getAuthenticationRepository() {
         return authenticationRepository;
+    }
+    public BusinessTypeRepository getBusinessTypeRepository(){
+        return businessTypeRepository;
+    }
+    public AgencyRepository getAgencyRepository(){
+        return agencyRepository;
     }
 
 

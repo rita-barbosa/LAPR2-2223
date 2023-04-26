@@ -20,9 +20,7 @@ public class BusinessType {
      *
      * @return the designation of the business type
      */
-    public String getDesignation() {
-        return designation;
-    }
+    public String getDesignation() { return designation; }
 
     /**
      * This method indicates whether a Business Type is "equal to" another.

@@ -1,5 +1,7 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
+import pt.ipp.isep.dei.esoft.project.repository.AgencyRepository;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -54,6 +56,10 @@ public class Agency {
         return !(announcements.contains(announcement));
     }
 
+    public Integer getId() {
+        return id;
+    }
+
 //    public Optional<Announcement> publishAnnouncement(Agent agent,CommissionType commissionType, Double commissionValue, Request request){
 //
 //        Optional<Announcement> optionalValue = Optional.empty();
@@ -65,4 +71,6 @@ public class Agency {
 //        }
 //        return  optionalValue;
 //    }
+
+
 }
