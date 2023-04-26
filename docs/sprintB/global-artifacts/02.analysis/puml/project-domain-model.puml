@@ -91,7 +91,7 @@ state
 zipCode
 }
 class Business{
-amount
+price
 }
 class BusinessType{
 designation
@@ -144,7 +144,7 @@ Agency "1" --- "*" Announcement: owns >
 Property "1" -up--- "1" Request : < has information about
 Request "1" -- "1" Business: is described by >
 Business <|-- Lease
-BusinessType "1" -- "1" Business : describes >
+BusinessType "1" - "1" Business : describes >
 Announcement "1" - "1" Request : is  based on >
 Commission "*" - "1" CommissionType : is categorized in >
 Agency "1" --- "*" Request : is assigned to >
