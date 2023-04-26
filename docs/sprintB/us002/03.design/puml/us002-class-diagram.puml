@@ -17,12 +17,6 @@ class ApplicationSession
 class Property
 {
     - Double distanceCityCentre
-    - Integer numberBathroom
-    - Integer numberBedroom
-    - Integer numberParkingSpace
-    - Boolean existenceBasement
-    - Boolean inhabitableLoft
-    - String sunExposure
     + Property(propertyType,streetName, city, district, state,\nzipCode, distanceCityCentre, price, photograph,numberBedroom,\nnumberParkingSpace,existenceBasement,inhabitableLoft, numberBathroom,\n availableEquipment, sunExposure)
 }
 class Location
@@ -36,13 +30,13 @@ class Location
 }
 class Photograph
 {
-    - String uri
-    - addPhotographUri(uri)
+    - List<String> uri
+    + Photograph(uriList)
 }
 class AvailableEquipment
 {
-    - String description
-    - addAvailableEquipment(description)
+    - List<String> description
+    - addAvailableEquipment(availableEquipmentList)
 }
 
 class UserSession
@@ -67,15 +61,12 @@ class Commission {
     - double commissionValue
     + Commission(commissionValue,commissionType)
 }
-class CommissionType
-{
-    - String description
-}
 class Request
 {
     - String requestDate
+    - String ownerEmail
     + Request(ownerEmail, propertyType,streetName, city, district, state,\nzipCode, distanceCityCentre, price, photograph,numberBedroom,\nnumberParkingSpace,existenceBasement,inhabitableLoft, numberBathroom,\n availableEquipment, sunExposure)
-    - getCurrentDate()
+
 }
 class Agency {
     - integer id
@@ -120,8 +111,6 @@ class PublishAnnouncementController {
     + createCommission(commissionType,commissionValue)
     + getCommissionTypeList()
     + getPropertyTypeList()
-    + addPhotographUri()
-    + addAvailableEquipment()
     - getAgentFromSession()
     - getPropertyTypeByDesignation(designation)
     - getCommissionTypeByDesignation(designation)
@@ -138,14 +127,33 @@ class CommissionType
 }
 class PublishAnnouncementUI {
 }
-
-
-
+class Business
+{
+    - Double price
+}
+class Residence
+{
+    - Integer numberBathroom
+    - Integer numberBedroom
+    - Integer numberParkingSpace
+}
+class House
+{
+    - Boolean existenceBasement
+    - Boolean inhabitableLoft
+}
+enum SunExposure
+{
+NORTH
+SOUTH
+WEST
+EAST
+}
     PublishAnnouncementUI .> PublishAnnouncementController
     PublishAnnouncementController .-> UserSession
-    PublishAnnouncementController .-> AplicationSession
-    AplicationSession -> AplicationSession : instance
-    AplicationSession --> "1" UserSession
+    PublishAnnouncementController .-> ApplicationSession
+    ApplicationSession -> ApplicationSession : instance
+    ApplicationSession --> "1" UserSession
     PublishAnnouncementController .--> Repositories
     PublishAnnouncementController .-> PropertyTypeRepository
     PublishAnnouncementController .-> CommissionTypeRepository
@@ -159,17 +167,21 @@ class PublishAnnouncementUI {
     Agency "1" ----> "*" Announcement
 
     Announcement "*" --> "1" Agent : responsibleFor
-    CommissionTypeRepository "1" ---> "*" CommissionType
+    CommissionTypeRepository ---> "*" CommissionType
     CommissionType "1" <-- Commission : isCategorized
-    Announcement "1" --> "1" Commission
-    Request "1" <-- "1" Announcement : isBasedOn
-    Request "1" ---> "1" Property
+    Announcement  --> "1" Commission
+    Request "1" <-- Announcement : isBasedOn
+    Request  ---> "1" Property
     Agency ----> Agent
     PropertyTypeRepository "1" --> "*" PropertyType
     PropertyType "1" <-- "*" Property
-    Property "1" --> "1" Location : hasAddress
-    Property "1" --> "1" Photograph : isVisualized
-    Property "1" --> "1" AvailableEquipment : includes
-
+    Property  --> "1" Location : hasAddress
+    Property  --> "1" Photograph : isVisualized
+    Property  --> "1" AvailableEquipment : includes
+    Agency --> "*" Request : isAssignedTo
+    Request -> "1" Business
+    Residence --|> Property
+    House --|> Residence
+    House -> "1" SunExposure
 
 @enduml

@@ -8,10 +8,10 @@ participant ":Repositories" as RepositorySingleton
 participant "repositories\n:Repositories" as PLAT
 participant "commissionTypeRepository:\nCommissionTypeRepository" as CommissionTypeRepository
 
-autonumber 12
+autonumber 40
 -> CTRL : getCommissionTypeByDesignation(designation)
 
-autonumber 12.1
+autonumber 40.1
 
 activate CTRL
     group Get Commission Type
@@ -35,7 +35,7 @@ activate CTRL
 
     end group
 
-    autonumber 13
+    autonumber 41
     <-- CTRL : commissionType
 
 deactivate CTRL

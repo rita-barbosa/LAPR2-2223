@@ -15,12 +15,12 @@ participant "agencyRepository\n:AgencyRepository" as AgencyRepository
 participant "agency\n:Agency" as AGENCY
 
 
-autonumber 21
+autonumber 34
 
              -> CTRL : getAgentFromSession()
              activate CTRL
 
-autonumber 21.1
+autonumber 34.1
 
     group Get Agent
 
@@ -74,7 +74,7 @@ autonumber 21.1
 
     end
 
-autonumber 22
+autonumber 35
 
     <-- CTRL : agent
 

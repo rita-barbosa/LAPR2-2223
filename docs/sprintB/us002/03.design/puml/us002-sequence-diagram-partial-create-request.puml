@@ -9,55 +9,60 @@ participant "property\n:Property" as PROPERTY
 participant "residence\n:Residence" as RESIDENCE
 participant "house\n:House" as HOUSE
 participant "location\n:Location" as LOCATION
+participant "availableEquipment\n:AvailableEquipment" as AEQUIP
+participant "photograph\n:Photograph" as PHOTO
+participant "business\n:Business" as BUSINESS
 
 
-autonumber 37
+autonumber 42
 
-        -> AGENCY: createRequest(ownerEmail, propertyType,streetName, city, district, state,\nzipCode, distanceCityCenter, price, photograph,numberBedrooms,\nnumberParkingSpaces,existenceBasement,inhabitableLoft, numberBathrooms,\n availableEquipment, sunExposure,area)
+        -> AGENCY: createRequest(agent,agency,ownerEmail,propertyType,streetName, city, district, state,\nzipCode, distanceCityCenter, price, numberBedrooms,\nnumberParkingSpaces,existenceBasement,inhabitableLoft, numberBathrooms,\n availableEquipmentList,uriList,sunExposure,area)
          activate AGENCY
 
-autonumber 37.1
+autonumber 42.1
 
     group Create Request
 
-        AGENCY -> REQUEST **: createRequest(ownerEmail, propertyType,streetName, city, district, state,\nzipCode, distanceCityCenter, price, photograph,numberBedrooms,\nnumberParkingSpaces,existenceBasement,inhabitableLoft, numberBathrooms,\n availableEquipment, sunExposure,area)
+        AGENCY -> REQUEST **: createRequest(ownerEmail, propertyType,streetName, city, district, state,\nzipCode, distanceCityCenter, price,numberBedrooms,\nnumberParkingSpaces,existenceBasement,inhabitableLoft, numberBathrooms,\n availableEquipmentList,uriList,sunExposure,area)
         activate REQUEST
+
+
         alt propertyType = land
-                REQUEST -> PROPERTY** : createProperty(streetName, city, district, state,zipCode,\n distanceCityCenter, area, price, photograph)
+                REQUEST -> PROPERTY** : createProperty(price,streetName, city, district, state,zipCode,\n distanceCityCenter, area, uriList)
                 activate PROPERTY
 
                 PROPERTY -> LOCATION** : createLocation(streetName, city, district, state, zipCode)
-
+                PROPERTY -> BUSINESS** : createBusiness(price)
+                PROPERTY -> PHOTO** : createPhotograph(uriList)
+                PROPERTY -> AEQUIP** : createAvailableEquipment(availableEquipmentList)
                 PROPERTY --> REQUEST : property
                 deactivate PROPERTY
 
         end
         alt propertyType = apartment
-                REQUEST -> RESIDENCE** : createResidence(streetName, city, district, state,zipCode,\ndistanceCityCenter, area, price, photograph,numberBedrooms,\nnumberParkingSpaces,numberBathrooms,availableEquipment)
+
+                REQUEST -> RESIDENCE** : createResidence(price,streetName, city, district, state,zipCode,\ndistanceCityCenter, area, price, uriList,numberBedrooms,\nnumberParkingSpaces,numberBathrooms,availableEquipmentList)
                 activate RESIDENCE
 
                 RESIDENCE -> LOCATION** : createLocation(streetName, city, district, state, zipCode)
-
+                RESIDENCE -> BUSINESS** : createBusiness(price)
+                RESIDENCE -> PHOTO** : createPhotograph(uriList)
+                RESIDENCE -> AEQUIP** : createAvailableEquipment(availableEquipmentList)
                 RESIDENCE --> REQUEST : property
-                deactivate RESIDENCE
+                deactivate RESIDENCE\
 
         end
         alt propertyType = house
-                REQUEST -> HOUSE** : createResidence(streetName, city, district, state,zipCode,\ndistanceCityCenter, area, price, photograph,numberBedrooms,\nnumberParkingSpaces,numberBathrooms,availableEquipment,\nexistenceBasement,inhabitableLoft,sunExposure)
-
+                REQUEST -> HOUSE** : createResidence(price,streetName, city, district, state,zipCode,\ndistanceCityCenter, area, price, uriList,numberBedrooms,\nnumberParkingSpaces,numberBathrooms,availableEquipmentList,\nexistenceBasement,inhabitableLoft,sunExposure)
                 activate HOUSE
 
-               HOUSE -> LOCATION** : createLocation(streetName, city, district, state, zipCode)
-
+                HOUSE -> LOCATION** : createLocation(streetName, city, district, state, zipCode)
+                HOUSE -> BUSINESS** : createBusiness(price)
+                HOUSE -> PHOTO** : createPhotograph(uriList)
+                HOUSE -> AEQUIP** : createAvailableEquipment(availableEquipmentList)
                 HOUSE --> REQUEST : property
                 deactivate HOUSE
         end
-            REQUEST -> REQUEST : getCurrentDate()
-            activate REQUEST
-
-            REQUEST --> REQUEST :
-            deactivate REQUEST
-            |||
 
             REQUEST --> AGENCY: request
             deactivate REQUEST
@@ -75,7 +80,7 @@ autonumber 37.1
     |||
     end
 
-autonumber 38
+autonumber 43
         <-- AGENCY: request
         deactivate AGENCY
 

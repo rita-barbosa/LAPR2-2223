@@ -8,10 +8,10 @@ participant ":Repositories" as RepositorySingleton
 participant "repositories\n:Repositories" as PLAT
 participant "propertyTypeRepository:\nPropertyTypeRepository" as PropertyTypeRepository
 
-autonumber 12
+autonumber 36
 -> CTRL : getPropertyTypeByDesignation(designation)
 
-autonumber 12.1
+autonumber 36.1
 
 activate CTRL
     group Get Property Type
@@ -35,7 +35,7 @@ activate CTRL
 
     end group
 
-    autonumber 13
+    autonumber 37
     <-- CTRL : propertyType
 
 deactivate CTRL

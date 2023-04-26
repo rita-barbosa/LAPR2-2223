@@ -89,7 +89,7 @@ activate ADM
         UI --> ADM :  requests distance from city center of the property
         deactivate UI
 
-        ADM -> UI : types requested data (distanceCityCentre)
+        ADM -> UI : types requested data (distanceCityCenter)
         activate UI
 
         UI --> ADM :  requests price of the property
@@ -98,25 +98,14 @@ activate ADM
         ADM -> UI : types requested data (price)
         activate UI
 
-        UI --> ADM : requests URI photograph of property
-            deactivate UI
 
+        loop  30 times
+            UI --> ADM : requests URI photograph of property
+                deactivate UI
 
-                loop  30 times
-
-                    ADM -> UI : types requested data (uri)
-                    activate UI
-
-                    UI -> CTRL : addPhotographUri(uri)
-                    activate CTRL
-
-                    ref over CTRL
-                        Add Photograph Uri
-                    end ref
-
-                     CTRL --> UI : photograph
-                    deactivate CTRL
-                end loop
+            ADM -> UI : types requested data (uri)
+            activate UI
+        end loop
 
 
  alt type of property = residence
@@ -145,16 +134,6 @@ activate ADM
                         loop availableEquipment
                             ADM -> UI : types requested data (availableEquipment)
                             activate UI
-
-                            UI -> CTRL : addAvailableEquipment(description)
-                            activate CTRL
-
-                                ref over CTRL
-                                Add Available Equipment Description
-                                end
-
-                            CTRL --> UI : availableEquipment
-                            deactivate CTRL
                         end loop
                  end opt
 
@@ -185,7 +164,7 @@ activate ADM
     ADM -> UI : submits data
     activate UI
 
-        UI -> CTRL : publishAnnouncement(commissionValue, commissionTypeDescription, ownerEmail, propertyTypeDescription,\nstreetName, city, district, state, zipCode, area, distanceCityCentre,\nprice, photograph,numberBedrooms,numberParkingSpaces,\nexistenceBasement,inhabitableLoft, numberBathrooms, availableEquipment, sunExposure)
+        UI -> CTRL : publishAnnouncement(commissionValue, commissionTypeDesignation, ownerEmail, propertyTypeDesignation,\nstreetName, city, district, state, zipCode, area, distanceCityCenter,\nprice,numberBedroom,numberParkingSpace,\nexistenceBasement,inhabitableLoft, numberBathroom, availableEquipmentDescriptionList, uriList, sunExposure)
         activate CTRL
 
         CTRL -> CTRL : getAgentFromSession()
@@ -200,7 +179,7 @@ activate ADM
         deactivate CTRL
 
             |||
-          CTRL-> CTRL : getPropertyTypeByDescription(propertyTypeDescription)
+          CTRL-> CTRL : getPropertyTypeByDescription(propertyTypeDesignation)
                 activate CTRL
                     ref over CTRL
                     Get Property Type Object
@@ -209,7 +188,7 @@ activate ADM
                 deactivate CTRL
 
         |||
-        CTRL -> AGENCY : createRequest( ownerEmail, propertyType,\nstreetName, city, district, state, zipCode, area, distanceCityCentre,\nprice, photograph,numberBedrooms,numberParkingSpaces,\nexistenceBasement,inhabitableLoft, numberBathrooms, availableEquipment, sunExposure)
+        CTRL -> AGENCY : createRequest( ownerEmail, propertyType,\nstreetName, city, district, state, zipCode, area, distanceCityCenter,\nprice,numberBedroom,numberParkingSpace,\nexistenceBasement,inhabitableLoft, numberBathroom, availableEquipmentDescriptionList,uriList, sunExposure)
         activate AGENCY
 
         ref over AGENCY
@@ -220,7 +199,7 @@ activate ADM
 
         deactivate AGENCY
 
-        CTRL -> CTRL : getCommissionTypeByDescription(commissionTypeDescription)
+        CTRL -> CTRL : getCommissionTypeByDescription(commissionTypeDesignation)
         activate CTRL
             ref over CTRL
             Get Commission Type Object
