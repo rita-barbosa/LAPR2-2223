@@ -25,11 +25,11 @@
 | Step 9: types requested data                      | ... validating input data?                               | PublishAnnouncementUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model. |
 |                                                   | ... temporarily keeping input data?                      | PublishAnnouncementUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model. |
 | Step 10: shows all data and requests confirmation | ... display all the information before submitting?       | PublishAnnouncementUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model. |
-| Step 11: submits data                             | ... creating announcement object?                        | Agency                        | Creator: (Rule 2) in the DM Agent is the one that publishes (records) an announcement.                        |
+| Step 11: submits data                             | ... creating announcement object?                        | Agency                        | Creator: (Rule 1) in the Domain Model Agency owns Announcements.                                              |
 |                                                   | ... validating all the mandatory data (local data)?      | Announcement                  | Information Expert: owns its data.                                                                            |
 |                                                   | ... globally validating duplicated records?              | Agency                        | Information Expert: knows all announcements instances.                                                        |
+|                                                   | ... instantiating a new request?                         | Agency                        | Creator: (Rule 1) in the Domain Model Agency is assigned (contains) Requests.                                 |
 | Step 12: displays operation success 	             | ... informing operation success?	                        | PublishAnnouncementUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model. |
-
 
 ### Systematization ##
 
@@ -37,21 +37,18 @@ According to the taken rationale, the conceptual classes promoted to software cl
 
 * Agency
 * Announcement
+* Request
 
 Other software classes (i.e. Pure Fabrication) identified:
 
 * PublishAnnouncementUI
 * PublishAnnouncementController
+* PropertyTypeRepository
+* CommissionTypeRepository
 
 ## 3.2. Sequence Diagram (SD)
 
-### Alternative 1 - Full Diagram
-
-This diagram shows the full sequence of interactions between the classes involved in the realization of this user story.
-
-![Sequence Diagram - Full](svg/us006-sequence-diagram-full.svg)
-
-### Alternative 2 - Split Diagram
+### Alternative 1 - Split Diagram
 
 This diagram shows the same sequence of interactions between the classes involved in the realization of this user story,
 but it is split in partial diagrams to better illustrate the interactions between the classes.
@@ -62,15 +59,27 @@ It uses interaction occurrence.
 
 **Get Commission Type List - Partial SD**
 
+![Sequence Diagram - Partial - Get Commission Type List ](svg/us002-sequence-diagram-partial-get-commission-type-list.svg)
+
+**Get Commission Type Object - Partial SD**
+
 ![Sequence Diagram - Partial - Get Commission Type List ](svg/us002-sequence-diagram-partial-get-commission-type.svg)
 
 **Get Property Type List - Partial SD**
 
 ![Sequence Diagram - Partial - Get Property Type List](svg/us002-sequence-diagram-partial-get-property-type-list.svg)
 
+**Get Property Type Object - Partial SD**
+
+![Sequence Diagram - Partial - Get Property Type List](svg/us002-sequence-diagram-partial-get-property-type.svg)
+
 **Get Agent - Partial SD**
 
 ![Sequence Diagram - Partial - Get Agent](svg/us002-sequence-diagram-partial-get-agent.svg)
+
+**Create Request - Partial SD**
+
+![Sequence Diagram - Partial - Get Commission Type List ](svg/us002-sequence-diagram-create-request.svg)
 
 **Publish Announcement - Partial SD**
 
