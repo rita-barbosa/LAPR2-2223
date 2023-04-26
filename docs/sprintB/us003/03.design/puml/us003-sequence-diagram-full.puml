@@ -128,58 +128,6 @@ UI -> CTRL : getRole()
             deactivate CTRL
 
             |||
-            CTRL -> CTRL : getEmployeeFromSession()
-            activate CTRL
-
-                CTRL -> _APP: getInstance()
-                activate _APP
-                    _APP -> CTRL: appSession
-                deactivate _APP
-
-
-                CTRL -> APP: getCurrentSession()
-                activate APP
-
-                    APP --> CTRL: currentSession
-                deactivate APP
-
-                CTRL -> SESSAO: email = getEmployeeEmail()
-                activate SESSAO
-
-                    SESSAO --> CTRL: email
-                deactivate SESSAO
-
-
-                CTRL -> PLAT: getAgencyRepository(email)
-                activate PLAT
-
-                    PLAT --> CTRL: personRepository
-                deactivate PLAT
-
-
-                CTRL -> personRepository: getPersonByEmployeeEmail(email)
-                activate personRepository
-
-                    loop [for each data
-                        AgencyRepository -> PERSON : anyEmployeeHasEmail(email)
-                        activate PERSON
-
-                             PERSON --> AgencyRepository : true/false
-                        deactivate PERSON
-                    end
-                    AgencyRepository --> CTRL : data
-                deactivate AgencyRepository
-
-                CTRL -> PERSON: getEmployeeByEmail(email)
-                activate PERSON
-
-                    PERSON --> CTRL : employee
-                deactivate PERSON
-
-                CTRL --> CTRL : employee
-            deactivate CTRL
-
-            |||
             CTRL -> PERSON: registerEmployee(name, citizen card number,\n tax number, address, email address, contact\n number)
             activate PERSON
 
