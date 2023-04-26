@@ -76,7 +76,7 @@ public class Agency {
     public Optional<Request> createRequest(String ownerEmail, PropertyType propertyType, BusinessType businessType,
                                            double amount, double area, int contractDuration, Optional<ArrayList<AvailableEquipment>> availableEquipment,
                                            String streetName, String city, String district, String state, String zipCode,
-                                           boolean basement, boolean inhabitableLoft, int parkingSpace, Optional<String> sunExposure,
+                                           boolean basement, boolean inhabitableLoft, int parkingSpace, Optional<Enum<SunExposureTypes>> sunExposure,
                                            int numberBedroom, Optional<Integer> numberBathroom, Agent agent, double distanceCityCenter,
                                            ArrayList<Photograph> photograph) {
 
