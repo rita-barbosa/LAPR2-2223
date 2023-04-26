@@ -1,0 +1,20 @@
+package pt.ipp.isep.dei.esoft.project.domain;
+
+import java.util.Optional;
+
+public class Lease extends Business{
+    private Integer contractDuration;
+
+    public Lease(Integer contractDuration, BusinessType businessType, Double amount) {
+        super(businessType, amount);
+        this.contractDuration = contractDuration;
+    }
+
+    public Integer getContractDuration() {
+        return contractDuration;
+    }
+
+    public void setContractDuration(Integer contractDuration) {
+        this.contractDuration = contractDuration;
+    }
+}
