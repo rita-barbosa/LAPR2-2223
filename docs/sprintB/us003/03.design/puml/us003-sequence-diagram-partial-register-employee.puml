@@ -7,13 +7,13 @@ participant "person\n:Person" as PERSON
 participant "agency\n:Agency" as AGENCY
 
 autonumber 16
--> PERSON: registerEmployee(name, citizen card \nnumber, tax number, location,\n email address, contact number)
+-> PERSON: registerEmployee(name, passport card \nnumber, tax number, location,\n email address, contact number)
 
 autonumber 16.1
 activate PERSON
     group Register Employee
 
-        PERSON -> AGENCY**: register(name, citizen card \nnumber, tax number, location,\n email address, contact number)
+        PERSON -> AGENCY**: register(name, passport card \nnumber, tax number, location,\n email address, contact number)
         PERSON -> PERSON: addEmployee (employee)
 
         activate PERSON
