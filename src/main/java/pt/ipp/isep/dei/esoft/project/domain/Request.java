@@ -1,14 +1,16 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
+import pt.isep.lei.esoft.auth.domain.model.Email;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Optional;
 
 public class Request {
 
-    private LocalDate requestDate;
-    private Agent agent;
-    private Business business;
+    private final LocalDate requestDate;
+    private final Agent agent;
+    private final Business business;
     private Optional<Lease> lease;
     private Property property;
     private String ownerEmail;
@@ -17,7 +19,7 @@ public class Request {
     public Request(String ownerEmail, PropertyType propertyType, BusinessType businessType, Double amount,
                    Double area, Integer contractDuration, Optional<ArrayList<AvailableEquipment>> availableEquipment,
                    String streetName, String city, String district, String state, String zipCode,
-                   Boolean basement, Boolean inhabitableLoft, Integer parkingSpace, Optional<String> sunExposure,
+                   Boolean basement, Boolean inhabitableLoft, Integer parkingSpace, Optional<Enum<SunExposureTypes>> sunExposure,
                    Integer numberBedroom, Optional<Integer> numberBathroom, Agent agent, Double distanceCityCenter,
                    ArrayList<Photograph> photograph) {
         this.ownerEmail = ownerEmail;

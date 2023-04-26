@@ -63,26 +63,19 @@ public class CreateRequestController {
 
     // AUTHENTICATION REPOSITORY?????????
 
-    public Optional<Request> createRequest(String propertyTypeDesignation, String businessTypeDesignation, double amount,
-                                           double area, int contractDuration, Optional<ArrayList<AvailableEquipment>> availableEquipment,
+    public Optional<Request> createRequest(String propertyTypeDesignation, String businessTypeDesignation, Double amount,
+                                           Double area, Integer contractDuration, Optional<ArrayList<AvailableEquipment>> availableEquipment,
                                            String streetName, String city, String district, String state, String zipCode,
-                                           boolean basement, boolean inhabitableLoft, int parkingSpace, Optional<String> sunExposure,
-                                           int numberBedroom, Optional<Integer> numberBathroom, Agent agent, double distanceCityCenter,
-                                           ArrayList<Photograph> photograph, int agencyID) {
-
+                                           Boolean basement, Boolean inhabitableLoft, Integer parkingSpace, Optional<Enum<SunExposureTypes>> sunExposure,
+                                           Integer numberBedroom, Optional<Integer> numberBathroom, Agent agent, Double distanceCityCenter,
+                                           ArrayList<Photograph> photograph, Integer agencyID) {
 
         String ownerEmail = getOwnerEmail();
 
         PropertyType propertyType = getPropertyTypeByDesignation(propertyTypeDesignation);
         BusinessType businessType = getBusinessTypeByDesignation(businessTypeDesignation);
 
-        // CRIO UMA CLASS OWNER?????
-
-        // Owner owner = getUserFromSession();
-
         Optional<Request> newRequest = Optional.empty();
-
-        // CHANGE METHOD OF COMPARISSON
 
         Optional<Agency> agency = Optional.of(getAgencyRepository().getAgencyByID(agencyID));
 
@@ -114,7 +107,7 @@ public class CreateRequestController {
         return businessTypeByDesignation;
     }
 
-    private Agency getAgencyByID(int id) {
+    private Agency getAgencyByID(Integer id) {
         AgencyRepository agencyRepository = getAgencyRepository();
         //Get the Agency by its id
         return agencyRepository.getAgencyByID(id);
@@ -124,7 +117,7 @@ public class CreateRequestController {
         return userSession.getUserEmail();
     }
 
-    private List<Agent> getAgents(int id){
+    private List<Agent> getAgents(Integer id){
         return getAgencyByID(id).getAgentList();
     }
 
