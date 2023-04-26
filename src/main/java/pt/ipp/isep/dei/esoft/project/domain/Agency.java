@@ -17,6 +17,8 @@ public class Agency {
      * Represents the list of announcements associated with the agency.
      */
     List<Announcement> announcements = new ArrayList<>();
+    List<Request> requests = new ArrayList<>();
+
 
 //    /**
 //     * This method checks if the agency has an employee with the given email.
@@ -52,12 +54,52 @@ public class Agency {
 //        return success;
 //    }
 
+    public Optional<Request> createRequest(String ownerEmail, PropertyType propertyType, BusinessType businessType,
+                                           double amount, double area, int contractDuration, Optional<ArrayList<AvailableEquipment>> availableEquipment,
+                                           String streetName, String city, String district, String state, String zipCode,
+                                           boolean basement, boolean inhabitableLoft, int parkingSpace, Optional<String> sunExposure,
+                                           int numberBedroom, Optional<Integer> numberBathroom, Agent agent, double distanceCityCenter,
+                                           ArrayList<Photograph> photograph) {
+
+        //TODO: we could also check if the employee works for the organization before proceeding
+        //checkIfEmployeeWorksForOrganization(employee);
+
+        // When a Task is added, it should fail if the Task already exists in the list of Tasks.
+        // In order to not return null if the operation fails, we use the Optional class.
+        Optional<Request> optionalValue = Optional.empty();
+
+        Request request = new Request(ownerEmail, propertyType, businessType, amount, area, contractDuration, availableEquipment,
+                streetName, city, district, state, zipCode, basement, inhabitableLoft, parkingSpace, sunExposure,
+                numberBedroom, numberBathroom, agent, distanceCityCenter, photograph);
+
+        if (addRequest(request)) {
+            optionalValue = Optional.of(request);
+        }
+        return optionalValue;
+    }
+
+    private boolean addRequest(Request request) {
+        boolean success = false;
+        if (validateRequest(request)) {
+            success = requests.add(request.clone());
+        }
+        return success;
+    }
+
     private boolean validateAnnouncement(Announcement announcement) {
         return !(announcements.contains(announcement));
     }
 
+    private boolean validateRequest(Request request) {
+        return !(requests.contains(request));
+    }
+
     public Integer getId() {
         return id;
+    }
+
+    public List<Agent> getAgentList() {
+        return this.agents;
     }
 
 //    public Optional<Announcement> publishAnnouncement(Agent agent,CommissionType commissionType, Double commissionValue, Request request){

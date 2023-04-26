@@ -65,6 +65,7 @@ public class AgencyRepository {
      * This method goes through all the agencies in the list and finds the one whose id is the same.
      * @param id - identifier of a specific agency
      * @return agency that has that id
+     * @throws IllegalArgumentException
      */
     public Agency getAgencyByID(int id) {
         Agency agencyWithId = null;
@@ -72,6 +73,9 @@ public class AgencyRepository {
             if (agency.getId() == id) {
                 agencyWithId = agency;
             }
+        }
+        if (agencyWithId == null) {
+            throw new IllegalArgumentException("Agency requested with id -" + id + "- does not exist.");
         }
         return agencyWithId;
     }
