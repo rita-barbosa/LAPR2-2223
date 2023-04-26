@@ -60,9 +60,54 @@ autonumber 35
                                REQUEST --> REQUEST :
                                deactivate REQUEST
                 |||
-                else
+                else Property Type = Apartment
 
                 autonumber 35.1
+
+                REQUEST -> PROPERTY** : createProperty(propertyType, area, streetName, city, district, state,\n zipCode, availableEquipment, parkingSpace, numberBedroom,\n numberBathroom, photograph, distanceCityCenter)
+
+                activate PROPERTY
+
+               PROPERTY -> LOCATION** : createLocation(streetName, city, district, state, zipCode)
+
+               activate LOCATION
+
+               LOCATION -> LOCATION : validateLocation(location)
+
+                   activate LOCATION
+
+                   LOCATION --> LOCATION
+
+                   deactivate LOCATION
+
+               LOCATION --> PROPERTY : location
+
+               deactivate LOCATION
+
+               |||
+               PROPERTY -> PROPERTY : validateProperty(property)
+
+                    activate PROPERTY
+
+                    PROPERTY --> PROPERTY
+
+                    deactivate PROPERTY
+
+               PROPERTY --> REQUEST : property
+
+               deactivate PROPERTY
+
+                |||
+               REQUEST -> REQUEST : getCurrentDate()
+               activate REQUEST
+
+               REQUEST --> REQUEST :
+               deactivate REQUEST
+
+            |||
+            else Property Type = House
+
+            autonumber 35.1
 
                 REQUEST -> PROPERTY** : createProperty(propertyType, area, streetName, city, district, state,\n zipCode, basement, availableEquipment, inhabitableLoft, parkingSpace,\n sunExposure, numberBedroom, numberBathroom, photograph,\n distanceCityCenter)
 
@@ -103,7 +148,6 @@ autonumber 35
 
                REQUEST --> REQUEST :
                deactivate REQUEST
-
             |||
             end alt
 
