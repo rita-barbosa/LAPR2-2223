@@ -6,6 +6,8 @@ skinparam shadowing false
 
 actor "<b>Owner</b>" as Owner
 participant "<b>:CreateRequestUI</b>" as UI
+participant "<b>Photograph</b>\n<b>:ArrayList<uri></b>" as PHOTOLIST
+participant "<b>AvailableEquipment</b>\n<b>:ArrayList<availableEquipment></b>" as AELIST
 participant "<b>:CreateRequestController</b>" as CTRL
 participant "<b>agency</b>\n<b>:Agency </b>" as AGC
 participant "<b>request</b>\n<b>:Request</b>" as REQUEST
@@ -116,23 +118,24 @@ activate Owner
              opt list of available equipments
 
                   UI --> Owner : request data
+                  UI -> AELIST** : availableEquipmentList = create()
+                  activate AELIST
+
                   deactivate UI
 
                   loop availableEquipment
                       Owner -> UI : types requested data (availableEquipment)
                       activate UI
+                        UI -> AELIST : addAvailableEquipment(description)
 
-                      UI -> CTRL : addAvailableEquipment(description)
-                      activate CTRL
-
-                            ref over CTRL
+                            ref over AELIST
                             Add Available Equipment
                             Description
 
                             end ref
 
-                      CTRL --> UI : availableEquipment
-                      deactivate CTRL
+                      AELIST --> UI : availableEquipment
+                      deactivate AELIST
                   |||
                   end loop
              |||

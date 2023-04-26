@@ -64,7 +64,7 @@ class PropertyType {
 
 class BusinessType {
     - businessTypeDesignation
-    + PropertyType(businessTypeDesignation)
+    + BusinessType(businessTypeDesignation)
 }
 
 class AgencyRepository {
