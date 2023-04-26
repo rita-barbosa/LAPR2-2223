@@ -25,7 +25,7 @@ activate ADM
 
         activate UI
 
-'            UI --> ADM : requests data (name, citizen card number, tax number, address, email address, contact number)
+'            UI --> ADM : requests data (name, citizen card number, tax number, address, email)
             'create CTRL
             UI -> CTRL** : register
 
@@ -92,7 +92,7 @@ UI -> CTRL : getRole()
         UI --> ADM : requests data
     deactivate UI
 
-    ADM -> UI : types requested data (name, citizen \ncard number, tax number, address,\n email address, contact number)
+    ADM -> UI : types requested data (name, citizen \ncard number, tax number, location,\n email address, contact number)
     activate UI
 
         UI --> ADM : shows selected agency, role and requested data
@@ -101,10 +101,10 @@ UI -> CTRL : getRole()
     ADM -> UI : submits data
     activate UI
 
-        UI -> CTRL : RegisterEmployee (name,\n citizen card number, tax \n number, address, email \naddress, contact number)
+        UI -> CTRL : RegisterEmployee (person, agencyByDescription)
         activate CTRL
 
-            CTRL -> CTRL : getPerson(person)
+            CTRL -> CTRL : getAgencyByDescription(agencyByDescription)
             activate CTRL
 
                 CTRL -> RepositorySingleton : getInstance()
@@ -116,19 +116,19 @@ UI -> CTRL : getRole()
                 CTRL -> PLAT : getAgencyRepository()
                 activate PLAT
 
-                    PLAT -> CTRL : personRepository
+                    PLAT -> CTRL : agencyRepository
                 deactivate PLAT
 
-                CTRL -> AgencyRepository : getAgencyRepository
+                CTRL -> AgencyRepository : getAgencyByDescription(agencyByDescription)
                 activate AgencyRepository
 
-                    AgencyRepository --> CTRL : data
+                    AgencyRepository --> CTRL : agency
                 deactivate AgencyRepository
-                    CTRL --> CTRL : data
+                    CTRL --> CTRL : agency
             deactivate CTRL
 
             |||
-            CTRL -> PERSON: registerEmployee(name, citizen card number,\n tax number, address, email address, contact\n number)
+            CTRL -> PERSON: registerEmployee(name, citizen card number,\n tax number, location, email address, contact\n number)
             activate PERSON
 
                 PERSON -> AGENCY**: register(name, citizen card \nnumber, tax number, address,\n email address, contact number)
