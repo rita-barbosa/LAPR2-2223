@@ -9,7 +9,7 @@ autonumber
 actor "System Administrator" as ADM
 participant ":RegisterEmployeeUI" as UI
 participant ":RegisterEmployeeController" as CTRL
-participant "data\n:Data" as DATA
+participant "Person\n:Person" as PERSON
 
 activate ADM
 
@@ -52,52 +52,43 @@ activate ADM
         ADM -> UI : selects a role
         activate UI
 
-        UI --> ADM : requests data
+        UI --> ADM : requests person (name, citizen \ncard number, tax number, location,\n email address, contact number)
     deactivate UI
 
-    ADM -> UI : types requested data (name, citizen \ncard number, tax number, address,\n email address, contact number)
+    ADM -> UI : types requested person
         activate UI
 
-            UI --> ADM : shows selected agency, role and requested data
+            UI --> ADM : shows selected agency, role and requested person
         deactivate UI
 
-        ADM -> UI : submits data
+        ADM -> UI : submits person
         activate UI
 
-        UI -> CTRL : RegisterEmployee(name, citizen \ncard number, tax number, address,\n email address, contact number)
+        UI -> CTRL : RegisterEmployee(name, citizen \ncard number, tax number, location,\n email address, contact number)
         activate CTRL
 
-            CTRL -> CTRL : getData(data)
+            CTRL -> CTRL : getPerson(person)
             activate CTRL
 
                 ref over CTRL
-                    Get Data Object
+                    Get Person Object
 
                 end ref
 
-                CTRL --> CTRL : data
+                CTRL --> CTRL : person
             deactivate CTRL
 
-            CTRL -> CTRL : getEmployeeFromSession()
-            activate CTRL
 
-                ref over CTRL
-                    Get Employee
+            CTRL -> PERSON: person(name, citizen \ncard number, tax number, address,\n email address, contact number)
+            activate PERSON
 
-                end ref
-                CTRL -> CTRL : employee
-            deactivate CTRL
-
-            CTRL -> DATA: data(name, citizen \ncard number, tax number, address,\n email address, contact number)
-            activate DATA
-
-                ref over DATA
+                ref over PERSON
                     Register Employee
 
                 end
 
-                DATA --> CTRL : register
-            deactivate DATA
+                PERSON --> CTRL : register
+            deactivate PERSON
 
             CTRL --> UI: register
             deactivate CTRL
