@@ -2,6 +2,7 @@ package pt.ipp.isep.dei.esoft.project.repository;
 
 import pt.ipp.isep.dei.esoft.project.domain.Agency;
 import pt.ipp.isep.dei.esoft.project.domain.CommissionType;
+import pt.ipp.isep.dei.esoft.project.domain.Employee;
 import pt.ipp.isep.dei.esoft.project.domain.Organization;
 
 import javax.print.attribute.standard.MediaSize;
@@ -21,16 +22,24 @@ public class AgencyRepository {
      * @param emailAddress - the email address of an Agent
      * @return the agency where the agent(that has the given email address) works in
      */
-//    public Optional<Agency> getAgencyByAgentEmail(String emailAddress){
-//        Optional<Agency> returnAgency = Optional.empty();
-//            for (Agency agency: agencies) {
-//                if (agency.anyAgentHasEmail(emailAddress)){
-//                    returnAgency = Optional.of(agency);
-//                }
-//            }
-//        return returnAgency;
-//    }
-
+    public Optional<Agency> getAgencyByEmployeeEmail(String emailAddress){
+        Optional<Agency> returnAgency = Optional.empty();
+            for (Agency agency: agencies) {
+                if (agency.anyAgentHasEmail(emailAddress)){
+                    returnAgency = Optional.of(agency);
+                }
+            }
+        return returnAgency;
+    }
+    public Optional<Agency> getAgencyByEmployee(Employee employee){
+        Optional<Agency> returnAgency = Optional.empty();
+        for (Agency agency: agencies) {
+            if (agency.employs(employee)){
+                returnAgency = Optional.of(agency);
+            }
+        }
+        return returnAgency;
+    }
     /**
      * This method adds a new agency to the list of agencies.
      *

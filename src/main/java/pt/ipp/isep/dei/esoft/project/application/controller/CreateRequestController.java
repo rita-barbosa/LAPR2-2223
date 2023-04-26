@@ -124,8 +124,8 @@ public class CreateRequestController {
         return userSession.getUserEmail();
     }
 
-    private List<Agent> getAgents(int id){
-        return getAgencyByID(id).getAgentList();
+    private List<Employee> getAgents(int id){
+        return getAgencyByID(id).getEmployeeList();
     }
 
 
