@@ -66,11 +66,11 @@ public class Agency {
     }
 
     public Optional<Request> createRequest(String ownerEmail, PropertyType propertyType, BusinessType businessType,
-                                           Double amount, Double area, Integer contractDuration, ArrayList<AvailableEquipment> availableEquipment,
+                                           Double amount, Double area, Integer contractDuration, List<String> availableEquipmentDescription,
                                            String streetName, String city, String district, String state, String zipCode,
                                            Boolean basement, Boolean inhabitableLoft, Integer parkingSpace, Enum<SunExposureTypes> sunExposure,
                                            Integer numberBedroom, Integer numberBathroom, Agent agent, Double distanceCityCenter,
-                                           ArrayList<Photograph> photograph) {
+                                           List<String> uri) {
 
         //TODO: we could also check if the employee works for the agency before proceeding
         //checkIfEmployeeWorksForAgency(employee);
@@ -82,13 +82,13 @@ public class Agency {
         Request request;
 
         if (businessType.toString().equals("Lease")) {
-            request = new Request(ownerEmail, propertyType, businessType, amount, area, contractDuration, availableEquipment,
+            request = new Request(ownerEmail, propertyType, businessType, amount, area, contractDuration, availableEquipmentDescription,
                     streetName, city, district, state, zipCode, basement, inhabitableLoft, parkingSpace, sunExposure,
-                    numberBedroom, numberBathroom, agent, distanceCityCenter, photograph);
+                    numberBedroom, numberBathroom, agent, distanceCityCenter, uri);
         } else {
-            request = new Request(ownerEmail, propertyType, businessType, amount, area, availableEquipment, streetName,
+            request = new Request(ownerEmail, propertyType, businessType, amount, area, availableEquipmentDescription, streetName,
                     city, district, state, zipCode, basement, inhabitableLoft, parkingSpace, sunExposure, numberBedroom,
-                    numberBathroom, agent, distanceCityCenter, photograph);
+                    numberBathroom, agent, distanceCityCenter, uri);
         }
 
         if (addRequest(request)) {
