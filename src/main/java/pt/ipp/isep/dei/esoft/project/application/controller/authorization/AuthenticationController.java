@@ -1,19 +1,25 @@
 package pt.ipp.isep.dei.esoft.project.application.controller.authorization;
 
+import pt.ipp.isep.dei.esoft.project.domain.Request;
 import pt.ipp.isep.dei.esoft.project.repository.AuthenticationRepository;
 import pt.ipp.isep.dei.esoft.project.repository.Repositories;
 import pt.isep.lei.esoft.auth.mappers.dto.UserRoleDTO;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Paulo Maio pam@isep.ipp.pt
  */
 public class AuthenticationController {
 
-    public static final String ROLE_ADMIN = "ADMINISTRATOR";
+    public static final String ROLE_ADMIN = "SYSTEM ADMINISTRATOR";
     public static final String ROLE_EMPLOYEE = "EMPLOYEE";
     public static final String ROLE_CLIENT = "CLIENT";
+    public static final String ROLE_STORE_MANAGER = "STORE MANAGER";
+
+    public static final String ROLE_NETWORK_MANAGER = "NETWORK MANAGER";
+
 
     //private final ApplicationSession applicationSession;
     private final AuthenticationRepository authenticationRepository;
