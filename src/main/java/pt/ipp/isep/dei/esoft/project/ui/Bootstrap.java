@@ -1,14 +1,16 @@
 package pt.ipp.isep.dei.esoft.project.ui;
 
-import pt.ipp.isep.dei.esoft.project.application.controller.authorization.AuthenticationController;
-import pt.ipp.isep.dei.esoft.project.domain.*;
+import pt.ipp.isep.dei.esoft.project.application.controller.authorization.*;
+import pt.ipp.isep.dei.esoft.project.domain.CommissionType;
+import pt.ipp.isep.dei.esoft.project.domain.Employee;
+import pt.ipp.isep.dei.esoft.project.domain.Organization;
+import pt.ipp.isep.dei.esoft.project.domain.PropertyType;
 import pt.ipp.isep.dei.esoft.project.repository.*;
 
 public class Bootstrap implements Runnable {
 
     //Add some task categories to the repository as bootstrap
     public void run() {
-        addTaskCategories();
         addOrganization();
         addUsers();
         addCommissionTypes();
@@ -25,41 +27,33 @@ public class Bootstrap implements Runnable {
         organizationRepository.add(organization);
     }
 
-    private void addTaskCategories() {
-        //TODO: add bootstrap Task Categories here
-
-        //get task category repository
-        TaskCategoryRepository taskCategoryRepository = Repositories.getInstance().getTaskCategoryRepository();
-        taskCategoryRepository.add(new TaskCategory("Analysis"));
-        taskCategoryRepository.add(new TaskCategory("Design"));
-        taskCategoryRepository.add(new TaskCategory("Implementation"));
-        taskCategoryRepository.add(new TaskCategory("Development"));
-        taskCategoryRepository.add(new TaskCategory("Testing"));
-        taskCategoryRepository.add(new TaskCategory("Deployment"));
-        taskCategoryRepository.add(new TaskCategory("Maintenance"));
-    }
-
     private void addUsers() {
-        //TODO: add Authentication users here: should be created for each user in the organization
         AuthenticationRepository authenticationRepository = Repositories.getInstance().getAuthenticationRepository();
 
         authenticationRepository.addUserRole(AuthenticationController.ROLE_ADMIN, AuthenticationController.ROLE_ADMIN);
-        authenticationRepository.addUserRole(AuthenticationController.ROLE_EMPLOYEE,
-                AuthenticationController.ROLE_EMPLOYEE);
+        authenticationRepository.addUserRole(AuthenticationController.ROLE_AGENT,
+                AuthenticationController.ROLE_AGENT);
+        authenticationRepository.addUserRole(AuthenticationController.ROLE_NETWORK_MANAGER,AuthenticationController.ROLE_NETWORK_MANAGER);
+        authenticationRepository.addUserRole(AuthenticationController.ROLE_CLIENT, AuthenticationController.ROLE_CLIENT);
+        authenticationRepository.addUserRole(AuthenticationController.ROLE_STORE_MANAGER,AuthenticationController.ROLE_STORE_MANAGER);
+
 
         authenticationRepository.addUserWithRole("Main Administrator", "admin@this.app", "admin",
                 AuthenticationController.ROLE_ADMIN);
 
-        authenticationRepository.addUserWithRole("Employee", "employee@this.app", "pwd",
-                AuthenticationController.ROLE_EMPLOYEE);
+        authenticationRepository.addUserWithRole("Agent", "employee@this.app", "pwd",
+                AuthenticationController.ROLE_AGENT);
     }
-    private void addCommissionTypes(){
-        CommissionTypeRepository commissionTypeRepository = Repositories.getInstance().getCommissionTypeRepository();;
+
+    private void addCommissionTypes() {
+        CommissionTypeRepository commissionTypeRepository = Repositories.getInstance().getCommissionTypeRepository();
+        ;
 
         commissionTypeRepository.add(new CommissionType("Fixed"));
         commissionTypeRepository.add(new CommissionType("Percentual"));
     }
-    private void addPropertyTypes(){
+
+    private void addPropertyTypes() {
         PropertyTypeRepository propertyTypeRepository = Repositories.getInstance().getPropertyTypeRepository();
 
         propertyTypeRepository.add(new PropertyType("Land"));
