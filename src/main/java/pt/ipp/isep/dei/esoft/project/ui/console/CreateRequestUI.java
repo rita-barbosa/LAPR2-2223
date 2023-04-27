@@ -9,11 +9,14 @@ public class CreateRequestUI implements Runnable {
 
     private final CreateRequestController controller = new CreateRequestController();
     private String propertyTypeDesignation;
+    public static final String LEASE_BUSINESSTYPE = "Lease";
+    public static final Integer PHOTOGRAPH_SIZE_LIMIT = 30;
     private String businessTypeDesignation;
+    public static final String HOUSE_PROPERTYTYPE = "House";
     private Double amount;
     private Double area;
     private Integer contractDuration;
-    private ArrayList<AvailableEquipment> availableEquipment;
+    private List<String> availableEquipmentDescription;
     private String streetName;
     private String city;
     private String district;
@@ -25,10 +28,10 @@ public class CreateRequestUI implements Runnable {
     private Enum<SunExposureTypes> sunExposure;
     private Integer numberBedroom;
     private Integer numberBathroom;
-    private Agent agent;
+    private Employee agent;
     private Agency agency;
     private Double distanceCityCenter;
-    private ArrayList<Photograph> photograph;
+    private List<String> uri;
 
     private CreateRequestController getController() {
         return controller;
@@ -39,9 +42,11 @@ public class CreateRequestUI implements Runnable {
 
         businessTypeDesignation = displayAndSelectBusinessType();
 
-        propertyTypeDesignation = displayAndSelectPropertyType();
+        if (businessTypeDesignation.equalsIgnoreCase(LEASE_BUSINESSTYPE)) {
+            contractDuration = requestRequestContractDuration();
+        }
 
-        // LEASE INFO
+        propertyTypeDesignation = displayAndSelectPropertyType();
 
         requestData();
 
@@ -54,8 +59,8 @@ public class CreateRequestUI implements Runnable {
 
     private void submitData() {
         Optional<Request> request = getController().createRequest(propertyTypeDesignation, businessTypeDesignation, amount,
-                area, contractDuration, availableEquipment, streetName, city, district, state, zipCode, basement, inhabitableLoft,
-                parkingSpace, sunExposure, numberBedroom, numberBathroom, agent, distanceCityCenter, photograph, agency);
+                area, contractDuration, availableEquipmentDescription, streetName, city, district, state, zipCode, basement, inhabitableLoft,
+                parkingSpace, sunExposure, numberBedroom, numberBathroom, agent, distanceCityCenter, uri, agency);
 
         if (request.isPresent()) {
             System.out.println("Request successfully created!");
@@ -96,11 +101,15 @@ public class CreateRequestUI implements Runnable {
         //Request the Request's numberBedroom from the console
         numberBedroom = requestRequestNumberBedroom();
 
-        //Request the Request's numberBathroom from the console
-        numberBathroom = requestRequestNumberBathroom();
+        if (askOptionalData("number of bathrooms")) {
+            //Request the Request's numberBathroom from the console
+            numberBathroom = requestRequestNumberBathroom();
+        }
 
-        //Request the Request's availableEquipment from the console
-        availableEquipment = requestRequestAvailableEquipment();
+        if (askOptionalData("available equipments")) {
+            //Request the Request's availableEquipment from the console
+            availableEquipmentDescription = requestRequestAvailableEquipmentDescription();
+        }
 
         //Request the Request's inhabitableLoft from the console
         basement = requestRequestInhabitableLoft();
@@ -108,22 +117,46 @@ public class CreateRequestUI implements Runnable {
         //Request the Request's basement from the console
         inhabitableLoft = requestRequestBasement();
 
-        //Request the Request's sunExposure from the console
-        sunExposure = requestRequestSunExposure();
+        if (businessTypeDesignation.equalsIgnoreCase(HOUSE_PROPERTYTYPE) && askOptionalData("sun exposure")) {
+            //Request the Request's sunExposure from the console
+            sunExposure = requestRequestSunExposure();
+        }
 
         //Request the Request's photograph from the console
-        photograph = requestRequestPhotograph();
+        uri = requestRequestPhotographURI();
+
     }
+
+    private boolean askOptionalData(String optionalData) {
+        System.out.printf("Would you like to provide data about the Property's %s%n1. Yes%n2. No%n", optionalData);
+        Scanner input = new Scanner(System.in);
+        int inputDataOption = 0;
+        while (inputDataOption != 1 && inputDataOption != 2) {
+            inputDataOption = input.nextInt();
+            if (inputDataOption != 1 && inputDataOption != 2) {
+                throw new InputMismatchException("Please select 1 (Yes) or 2 (No)%n");
+            }
+        }
+        input.close();
+        return inputDataOption == 1;
+    }
+
+    private Integer requestRequestContractDuration() {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Rental Contact's durantion (in months):");
+        return input.nextInt();
+    }
+
 
     private Double requestRequestAmount() {
         Scanner input = new Scanner(System.in);
-        System.out.println("Property price:");
+        System.out.println("Property price (in american dollars):");
         return input.nextDouble();
     }
 
     private Double requestRequestArea() {
         Scanner input = new Scanner(System.in);
-        System.out.println("Property area:");
+        System.out.println("Property area (in squared meters):");
         return input.nextDouble();
     }
 
@@ -183,36 +216,29 @@ public class CreateRequestUI implements Runnable {
 
     private Boolean requestRequestInhabitableLoft() {
         Scanner input = new Scanner(System.in);
-        System.out.printf("Does your property have an inhabitable loft?%n1. Yes%n2. No)%n");
-        int inputOption;
-        do {
+        System.out.printf("Does your property have an inhabitable loft?%n1. Yes%n2. No%n");
+        int inputOption = 0;
+        while (inputOption != 1 && inputOption != 2) {
             inputOption = input.nextInt();
-            ;
-            if (inputOption == 1) {
-                return true;
+            if (inputOption != 1 && inputOption != 2) {
+                throw new InputMismatchException("Please select 1 (Yes) or 2 (No)%n");
             }
-            if (inputOption == 2) {
-                return false;
-            }
-            throw new InputMismatchException("Please select 1 (Yes) or 2 (No)%n");
-        } while (!(inputOption != 1 & inputOption != 2));
+        }
+        return inputOption == 1;
     }
 
     private Boolean requestRequestBasement() {
         Scanner input = new Scanner(System.in);
-        System.out.printf("Does your property have a basement?%n1. Yes%n2. No)%n");
-        int inputOption;
-        do {
-            inputOption = input.nextInt();
-            ;
-            if (inputOption == 1) {
-                return true;
+        System.out.printf("Does your property have a basement?%n1. Yes%n2. No%n");
+        int inputBasementOption = 0;
+        while (inputBasementOption != 1 && inputBasementOption != 2) {
+            inputBasementOption = input.nextInt();
+            if (inputBasementOption != 1 && inputBasementOption != 2) {
+                throw new InputMismatchException("Please select 1 (Yes) or 2 (No)%n");
             }
-            if (inputOption == 2) {
-                return false;
-            }
-            throw new InputMismatchException("Please select 1 (Yes) or 2 (No)%n");
-        } while (!(inputOption != 1 & inputOption != 2));
+        }
+        input.close();
+        return inputBasementOption == 1;
     }
 
     private Enum<SunExposureTypes> requestRequestSunExposure() {
@@ -239,20 +265,30 @@ public class CreateRequestUI implements Runnable {
     }
 
 
-    private ArrayList<AvailableEquipment> requestRequestAvailableEquipment() {
-//        Scanner input = new Scanner(System.in);
-//        System.out.println("Property's number of bathrooms:");
-//        return input.nextInt();
-        ArrayList<AvailableEquipment> availableEquipment = new ArrayList<>();
+    private List<String> requestRequestAvailableEquipmentDescription() {
+        List<String> availableEquipment = new ArrayList<>();
+        Scanner input = new Scanner(System.in);
+        System.out.println("Property's available equipements: (when you are done, type DONE)");
+        String equipment;
+        do {
+            equipment = input.nextLine();
+            availableEquipment.add(equipment);
+        } while (equipment.equalsIgnoreCase("DONE"));
+        input.nextLine();
         return availableEquipment;
     }
 
-    private ArrayList<Photograph> requestRequestPhotograph() {
-//        Scanner input = new Scanner(System.in);
-//        System.out.println("Property's number of bathrooms:");
-//        return input.nextInt();
-        ArrayList<Photograph> photograph = new ArrayList<>();
-        return photograph;
+    private List<String> requestRequestPhotographURI() {
+        List<String> uri = new ArrayList<>();
+        Scanner uriInput = new Scanner(System.in);
+        System.out.println("Property photographs' uri: (when you are done, type DONE)");
+        String typedUri = "";
+        while (!(typedUri.equalsIgnoreCase("DONE") || uri.size() == PHOTOGRAPH_SIZE_LIMIT)) {
+            typedUri = uriInput.nextLine();
+            uri.add(typedUri);
+        }
+        uriInput.close();
+        return uri;
     }
 
     private String displayAndSelectBusinessType() {
@@ -306,9 +342,9 @@ public class CreateRequestUI implements Runnable {
         return agencies.get(answer - 1);
     }
 
-    private Agent displayAndSelectAgentsList(Agency agency) {
+    private Employee displayAndSelectAgentsList(Agency agency) {
         //Display the list of agents in previously chosen agency
-        List<Agent> agents = controller.getAgents(agency.getId());
+        List<Employee> agents = controller.getAgents(agency);
 
         int listSize = agents.size();
         int answer = -1;
@@ -350,12 +386,12 @@ public class CreateRequestUI implements Runnable {
         }
     }
 
-    private void displayAgentsListOptions(List<Agent> agents) {
-//        //display the agencies as a menu with number options to select
-//        int i = 1;
-//        for (Agent agent : agents) {
-//            System.out.println(i + " - " + agents.getDescription());
-//            i++;
-//        }
+    private void displayAgentsListOptions(List<Employee> agents) {
+        //display the agents of chosen agency as a menu with number options to select
+        int i = 1;
+        for (Employee agent : agents) {
+            System.out.println(i + " - " + agent.getName());
+            i++;
+        }
     }
 }
