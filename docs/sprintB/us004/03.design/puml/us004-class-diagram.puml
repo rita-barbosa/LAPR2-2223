@@ -14,6 +14,7 @@ class Owner {
     - int passportCardNumber
     - int taxNumber
     - int phoneNumber
+    - email
 }
 
 class CreateRequestUI {}
@@ -81,12 +82,15 @@ class Agency {
     - String emailAddress
     - int phoneNumber
     + getAgents()
+    + addRequest(request)
+    + validateRequest(request))
 }
 
 class Agent {
     - int passportCardNumber
     - int taxNumber
     - int phoneNumber
+    - email
 }
 
 class Repositories {
@@ -141,6 +145,11 @@ class AvailableEquipment{
 
 class Request{
     - String requestDate
+    - Agent agent
+    - String ownerEmail
+    - Business business
+    - Lease lease
+    - Property property
     + Request(agency, agent, ownerEmail, businessType, propertyType, area,\n streetName, city, district, state, zipCode, basement, availableEquipment,\n inhabitableLoft, parkingSpace, sunExposure, numberBedroom,\n numberBathroom, distanceCityCenter, contractDuration, photograph)
     - getCurrentDate()
 }
