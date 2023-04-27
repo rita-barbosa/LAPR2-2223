@@ -10,15 +10,7 @@ skinparam classAttributeIconSize 0
 hide circle
 hide methods
 
-class User{
-name
-email
-password
-}
-class Role{
-id
-description
-}
+
 class Customer{
 }
 class Owner{
@@ -28,13 +20,12 @@ passportCardNumber
 taxNumber
 phoneNumber
 name
-emailAdress
+email
 }
 
-User "*" -- "*" Role : plays >
-Customer -up-|> Person
-Owner -left--|> Person
-Person -- User : is represented by >
+Customer "1 "-- "1" Person : represented in
+Owner -- Person
+Owner "0..*" - Customer: plays a <
 
 
 @enduml
