@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * A repository for storing and retrieving agencies.
+ */
 public class AgencyRepository {
     /**
      * The list with existent agencies.
@@ -28,6 +31,12 @@ public class AgencyRepository {
         return returnAgency;
     }
 
+    /**
+     * This method returns an agency that has the specified id.
+     *
+     * @param id - the id of the agency we intend to get.
+     * @return an Optional object of Agency, allowing the calling code to handle the possibility of null values without the need for explicit null checks.
+     */
     public Optional<Agency> getAgencyByID(Integer id) {
         Optional<Agency> returnAgency = Optional.empty();
         for (Agency agency : agencies) {
@@ -37,15 +46,7 @@ public class AgencyRepository {
         }
         return returnAgency;
     }
-//    public Optional<Agency> getAgencyByEmployee(Employee employee){
-//        Optional<Agency> returnAgency = Optional.empty();
-//        for (Agency agency: agencies) {
-//            if (agency.employs(employee)){
-//                returnAgency = Optional.of(agency);
-//            }
-//        }
-//        return returnAgency;
-//    }
+
 //    /**
 //     * This method adds a new agency to the list of agencies.
 //     *
@@ -63,9 +64,13 @@ public class AgencyRepository {
 //            newAgency = Optional.empty();
 //        }
 //        return newAgency;
-//
 //    }
 
+    /**
+     * This method returns a copy of the list of agencies.
+     *
+     * @return a copy of the list of agencies.
+     */
     public List<Agency> getAgenciesList() {
         return List.copyOf(agencies);
     }
