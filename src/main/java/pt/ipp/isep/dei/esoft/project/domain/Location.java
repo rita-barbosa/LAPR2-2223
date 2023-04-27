@@ -20,15 +20,15 @@ public class Location {
         } else {
             System.out.println("Location is not correct. Please submit new data.");
         }
-
     }
 
     private boolean validateLocation(String streetName, String city, String district, String state, String zipCode) {
-        if (streetName.equals(null) || city.equals(null) || district.equals(null) || state.equals(null) || zipCode.equals(null)) {
+        if (streetName.isEmpty() || city.isEmpty() || district.isEmpty() || state.isEmpty() || zipCode.isEmpty()){
             return false;
-        } else {
-            return true;
+        } else if (streetName.isBlank() || city.isBlank() || district.isBlank() || state.isBlank() || zipCode.isBlank()) {
+            return false;
         }
+        return true;
     }
 
     /**

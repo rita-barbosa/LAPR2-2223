@@ -1,16 +1,15 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
 import java.util.ArrayList;
-import java.util.Optional;
 
 public class Property {
 
-    private PropertyType propertyType;
-    private Double area;
-    private Double distanceCityCenter;
-    private Location location;
+    private final PropertyType propertyType;
+    private final Double area;
+    private final Double distanceCityCenter;
+    private final Location location;
 
-    private ArrayList<Photograph> photograph;
+    private final ArrayList<Photograph> photograph;
 
     public Property(PropertyType propertyType, Double area, Double distanceCityCenter, ArrayList<Photograph> photograph, String streetName,
                     String city, String district, String state, String zipCode) {
