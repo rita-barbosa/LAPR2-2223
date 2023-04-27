@@ -12,13 +12,15 @@ As an owner, I intend to submit a request for listing a property for sale or ren
 
 Each request lists a property for sale or/and rent, and it is assigned to an agent.
 
-The sale's standard information is the property's listing, the price/rent, the renting contract's duration (when applicable),
+The sale's standard information is the property's listing, the amount (representing price or rent), the renting contract's duration (when
+applicable),
 area, location, distance from the City Center, and one or more photographs.
 
 The request for sale's additional information is based on the property's type, as seen in the table below.
 
 |     Information     |            House            | Apartment |
 |:-------------------:|:---------------------------:|:---------:|
+|   Parking Spaces    |           0 or +            |  0 or +   |
 | Number of Bedrooms  |           0 or +            |  0 or +   |
 | Number of Bathrooms |           0 or +            |  0 or +   |
 |   Central Heating   |          Yes / No           | Yes / No  |
@@ -33,12 +35,14 @@ The access to the request is exclusive to the owner and respectively assigned ag
 
 > **Question:** What are the attributes of the Owner?
 >
-> **Answer:**  The Owner's attributes are: name, citizen's card number, tax number, address, email address, and telephone number.
+> **Answer:**  The Owner's attributes are: name, citizen's card number, tax number, address, email address, and
+> telephone number.
 
 
 > **Question:** What are the attributes of the Agent?
 >
-> **Answer:**  The Agent's attributes are: name, citizen's card number, tax number, email address, contact telephone number, and the agency to which they are assigned.
+> **Answer:**  The Agent's attributes are: name, citizen's card number, tax number, email address, contact telephone
+> number, and the agency to which they are assigned.
 
 
 > **Question:** What are the attributes of the location?
@@ -48,7 +52,8 @@ The access to the request is exclusive to the owner and respectively assigned ag
 
 > **Question:** Does an Owner need to be registered in the system to submit a request for a property listing?
 >
-> **Answer:**  No. When making the request to list a property, the owner should introduce his own data (attributes + property's data).
+> **Answer:**  No. When making the request to list a property, the owner should introduce his own data (attributes +
+> property's data).
 
 
 > **Question:** Is the Owner the only actor that can submit a request and assign an agent?
@@ -56,7 +61,8 @@ The access to the request is exclusive to the owner and respectively assigned ag
 > **Answer:**  No. The agency's personnel that registers the information in the system can choose to assign any agent.
 
 
-> **Question:** If the Owner does not choose an agent, will the application/agency randomly assign an agent to the property?
+> **Question:** If the Owner does not choose an agent, will the application/agency randomly assign an agent to the
+> property?
 >
 > **Answer:**  Yes.
 
@@ -91,13 +97,14 @@ The access to the request is exclusive to the owner and respectively assigned ag
 > **Answer:** Yes.
 
 
-> **Question:** Is the agent essential for the submission of a request? If the owner does not choose any agent, will the platform randomly assign a respective agent?
+> **Question:** Is the agent essential for the submission of a request? If the owner does not choose any agent, will the
+> platform randomly assign a respective agent?
 >
 > **Answer:** Yes.
 
 
 > **Question:** Must all the request's data slots be filled, according to the property's type and listing?
-> 
+>
 > **Answer:** Yes.
 
 
@@ -105,11 +112,9 @@ The access to the request is exclusive to the owner and respectively assigned ag
 >
 > **Answer:** No.
 
-
-
 ### 1.3. Acceptance Criteria
 
-* **AC1:** The currency used for the property's price or rent is US Dollars (USD - $)
+* **AC1:** The currency used for the property's amount is US Dollars (USD - $)
 * **AC2:** The property's area is measured in square meters (m<sup>2</sup>)
 
 ### 1.4. Found out Dependencies
@@ -123,51 +128,50 @@ The access to the request is exclusive to the owner and respectively assigned ag
 
 * Typed data:
     * name
-    * price (price and/or rent)
-    * Contract's duration
+    * amount
+    * contractDuration
     * area
-    * Available equipment
+    * availableEquipment
+    * parkingSpace
     * location
-        * street name
+        * streetName
         * city
         * district
         * state
-        * Zip Code
-    * distance from the city center (DCC)
-    * photographs' URL
+        * zipCode
+    * distanceCityCenter
+    * photograph
     * Owner's data
         * name
-        * citizen's card number
-        * tax number
-        * address
-        * email address
+        * passportCardNumber
+        * taxNumber
+        * location
+        * email
         * telephone number
-    
+    * numberBedrooms
+    * numberBathrooms
+
 </p>
 <p>
 
 * Selected data:
-    * property's listing 
-    * property's type
+    * BusinessType
+    * propertyType
     * basement
-    * number of Bedrooms
-    * number of Bathrooms
-    * inhabitable loft
-    * sun exposure
+    * inhabitableLoft
+    * sunExposure
     * agency
-        * agent
+    * agent
+
 </p>
 
 **Output Data:**
 
-* List of request's listings
-* List of property's types
-* List of number of bedrooms
-* List of number of Bathrooms
-* List of existing/available agencies
-* List of existing/available agents
+* List of business types
+* List of property types
+* List of agencies
+* List of agents
 * (In)Success of the operation
-
 
 ### 1.6. System Sequence Diagram (SSD)
 
@@ -176,4 +180,5 @@ The access to the request is exclusive to the owner and respectively assigned ag
 ![System Sequence Diagram - US004](svg/us004-system-sequence-diagram.svg)
 
 ### 1.7 Other Relevant Remarks
+
 n/a
