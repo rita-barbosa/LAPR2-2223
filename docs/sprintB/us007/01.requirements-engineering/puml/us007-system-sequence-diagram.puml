@@ -21,15 +21,15 @@ activate User
     User -> System : types requested data (name, passportCardNumber,taxNumber,\n emailAddress, phoneNumber, password)
     activate System
 
-    System --> User : requests data (location)
+    opt user location
+    System --> User : requests data (streetName, city, district, state, zipCode)
     deactivate System
 
-    opt
-    User -> System : types requested data (location)
+    User -> System : types requested data (streetName, city, district, state, zipCode)
     activate System
     end opt
 
-    System --> User : shows all data and asks for confirmation.
+    System --> User : shows all data and asks to submit data
     deactivate System
 
     User -> System : submits data
