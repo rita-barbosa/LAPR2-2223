@@ -1,12 +1,7 @@
 package pt.ipp.isep.dei.esoft.project.repository;
 
 import pt.ipp.isep.dei.esoft.project.domain.Agency;
-import pt.ipp.isep.dei.esoft.project.domain.BusinessType;
-import pt.ipp.isep.dei.esoft.project.domain.CommissionType;
-import pt.ipp.isep.dei.esoft.project.domain.Employee;
-import pt.ipp.isep.dei.esoft.project.domain.Organization;
 
-import javax.print.attribute.standard.MediaSize;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -23,7 +18,7 @@ public class AgencyRepository {
      * @param emailAddress - the email address of an Agent
      * @return the agency where the agent(that has the given email address) works in
      */
-    public Optional<Agency> getAgencyByEmployeeEmail(String emailAddress) {
+    public Optional<Agency> getAgencyByEmail(String emailAddress) {
         Optional<Agency> returnAgency = Optional.empty();
         for (Agency agency : agencies) {
             if (agency.anyAgentHasEmail(emailAddress)) {

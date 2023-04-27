@@ -54,20 +54,26 @@ public class PublishAnnouncementController {
         PropertyTypeRepository propertyTypeRepository = getPropertyTypeRepository();
         return propertyTypeRepository.getPropertyTypeList();
     }
+    public PropertyType getPropertyTypeByDesignation(String designation){
+        return getPropertyTypeRepository().getPropertyTypeByDesignation(designation);
+    }
 
+    public CommissionType getCommissionTypeByDesignation(String designation){
+        return getCommissionTypeRepository().getCommissionTypeByDesignation(designation);
+    }
 
     public Optional<Announcement> publishAnnouncement(Double commissionValue, String commissionTypeDesignation, String ownerEmail, String propertyTypeDesignation, String streetName, String city, String district, String state, String zipCode, Double area, Double distanceCityCenter, Double price, Integer numberBedroom, Integer numberParkingSpace, Boolean existenceBasement, Boolean inhabitableLoft, Integer numberBathroom, List<String> availableEquipmentDescriptionList, List<String> uriList, SunExposureTypes sunExposure) {
 
-        String email = getEmployeeEmail();
-        Optional<Agency> agency = getAgencyFromEmail(email);
-        Employee agent = getAgentFromSession(email, agency);
+        String email = getEmailFromSession();
+        Optional<Agency> agency = getAgencyByEmail(email);
+        Employee agent = getAgentByEmail(email, agency);
 
-        PropertyType propertyType = getPropertyTypeRepository().getPropertyTypeByDesignation(propertyTypeDesignation);
+        PropertyType propertyType = getPropertyTypeByDesignation(propertyTypeDesignation);
 
-        Optional<Request> newRequest = Optional.empty();
+        Optional<Request> newRequest;
         Optional<Announcement> newAnnouncement = Optional.empty();
 
-        CommissionType commissionType = getCommissionTypeRepository().getCommissionTypeByDesignation(commissionTypeDesignation);
+        CommissionType commissionType = getCommissionTypeByDesignation(commissionTypeDesignation);
 
         if (agency.isPresent()) {
             newRequest = agency.get().createSaleRequest(ownerEmail, propertyType, "sale", price, area, availableEquipmentDescriptionList, streetName, city, district, state,
@@ -81,11 +87,11 @@ public class PublishAnnouncementController {
     }
 
 
-    private Optional<Agency> getAgencyFromEmail(String email) {
-        return getAgencyRepository().getAgencyByEmployeeEmail(email);
+    private Optional<Agency> getAgencyByEmail(String email) {
+        return getAgencyRepository().getAgencyByEmail(email);
     }
 
-    private String getEmployeeEmail() {
+    private String getEmailFromSession() {
         return ApplicationSession.getInstance().getCurrentSession().getUserEmail();
     }
 
@@ -97,7 +103,7 @@ public class PublishAnnouncementController {
         return agencyRepository;
     }
 
-    private Employee getAgentFromSession(String email, Optional<Agency> agency) {
+    private Employee getAgentByEmail(String email, Optional<Agency> agency) {
         if (agency.isPresent()) {
             return agency.get().getAgentByEmail(email);
         } else {
