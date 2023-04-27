@@ -11,17 +11,21 @@ public class Agency {
     private final String phoneNumber;
     List<Agent> agents = new ArrayList<>();
 
+    private Location location;
+
     /**
      * Represents the list of announcements associated with the agency.
      */
     List<Announcement> announcements = new ArrayList<>();
     List<Request> requests = new ArrayList<>();
 
-    public Agency(Integer id, String description, String emailAddress, String phoneNumber, List<Agent> agents, List<Announcement> announcements, List<Request> requests) {
+    public Agency(Integer id, String description, String emailAddress, String phoneNumber, Location location,
+                  List<Agent> agents, List<Announcement> announcements, List<Request> requests) {
         this.id = id;
         this.description = description;
         this.emailAddress = emailAddress;
         this.phoneNumber = phoneNumber;
+        this.location = location;
         this.agents = agents;
         this.announcements = announcements;
         this.requests = requests;
@@ -116,6 +120,10 @@ public class Agency {
 
     public List<Agent> getAgentList() {
         return this.agents;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
 //    public Optional<Announcement> publishAnnouncement(Agent agent,CommissionType commissionType, Double commissionValue, Request request){
