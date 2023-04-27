@@ -27,6 +27,16 @@ public class AgencyRepository {
         }
         return returnAgency;
     }
+
+    public Optional<Agency> getAgencyByID(Integer id) {
+        Optional<Agency> returnAgency = Optional.empty();
+        for (Agency agency : agencies) {
+            if (agency.getId() == id) {
+                returnAgency = Optional.of(agency);
+            }
+        }
+        return returnAgency;
+    }
 //    public Optional<Agency> getAgencyByEmployee(Employee employee){
 //        Optional<Agency> returnAgency = Optional.empty();
 //        for (Agency agency: agencies) {
@@ -71,23 +81,4 @@ public class AgencyRepository {
         return (!agencies.contains(agency));
     }
 
-    /**
-     * This method goes through all the agencies in the list and finds the one whose id is the same.
-     *
-     * @param id - identifier of a specific agency
-     * @return agency that has that id
-     * @throws IllegalArgumentException
-     */
-    public Agency getAgencyByID(int id) {
-        Agency agencyWithId = null;
-        for (Agency agency : agencies) {
-            if (agency.getId() == id) {
-                agencyWithId = agency;
-            }
-        }
-        if (agencyWithId == null) {
-            throw new IllegalArgumentException("Agency requested with id -" + id + "- does not exist.");
-        }
-        return agencyWithId;
-    }
 }

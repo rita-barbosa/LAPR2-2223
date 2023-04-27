@@ -9,6 +9,7 @@ public class Agency {
     private final String description;
     private final String emailAddress;
     private final String phoneNumber;
+    public static final String LEASE_BUSINESSTYPE = "Lease";
     List<Employee> employees;
 
     private Location location;
@@ -69,7 +70,7 @@ public class Agency {
                                            Double amount, Double area, Integer contractDuration, List<String> availableEquipmentDescription,
                                            String streetName, String city, String district, String state, String zipCode,
                                            Boolean basement, Boolean inhabitableLoft, Integer parkingSpace, Enum<SunExposureTypes> sunExposure,
-                                           Integer numberBedroom, Integer numberBathroom, Agent agent, Double distanceCityCenter,
+                                           Integer numberBedroom, Integer numberBathroom, Employee agent, Double distanceCityCenter,
                                            List<String> uri) {
 
         //TODO: we could also check if the employee works for the agency before proceeding
@@ -81,14 +82,14 @@ public class Agency {
 
         Request request;
 
-        if (businessType.toString().equals("Lease")) {
+        if (businessType.getDesignation().equalsIgnoreCase(LEASE_BUSINESSTYPE)) {
             request = new Request(ownerEmail, propertyType, businessType, amount, area, contractDuration, availableEquipmentDescription,
                     streetName, city, district, state, zipCode, basement, inhabitableLoft, parkingSpace, sunExposure,
                     numberBedroom, numberBathroom, agent, distanceCityCenter, uri);
         } else {
-            request = new Request(ownerEmail, propertyType, businessType, amount, area, availableEquipmentDescription, streetName,
-                    city, district, state, zipCode, basement, inhabitableLoft, parkingSpace, sunExposure, numberBedroom,
-                    numberBathroom, agent, distanceCityCenter, uri);
+            request = new Request(ownerEmail, propertyType, businessType, amount, area, availableEquipmentDescription,
+                    streetName, city, district, state, zipCode, basement, inhabitableLoft, parkingSpace, sunExposure,
+                    numberBedroom, numberBathroom, agent, distanceCityCenter, uri);
         }
 
         if (addRequest(request)) {
@@ -136,15 +137,15 @@ public class Agency {
         return id;
     }
 
-//    public List<Employee> getAgentList() {
-//        List<Employee> agents = new ArrayList<>();
-//        for (Employee employee : employees) {
-//            if (employee.isAgent()) {
-//                agents.add(employee);
-//            }
-//        }
-//        return agents;
-//    }
+    public List<Employee> getAgentList() {
+        List<Employee> agents = new ArrayList<>();
+        for (Employee employee : employees) {
+            if (employee.isAgent()) {
+                agents.add(employee);
+            }
+        }
+        return agents;
+    }
 
     public String getDescription() {
         return description;
