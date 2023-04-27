@@ -4,67 +4,66 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class Agency{
+public class Agency {
     private final Integer id;
     private final String description;
     private final String emailAddress;
     private final String phoneNumber;
-    List<Agent> agents = new ArrayList<>();
+    List<Employee> employees;
 
     private Location location;
 
     /**
      * Represents the list of announcements associated with the agency.
      */
-    List<Announcement> announcements = new ArrayList<>();
-    List<Request> requests = new ArrayList<>();
+    List<Announcement> announcements;
+    List<Request> requests;
 
-    public Agency(Integer id, String description, String emailAddress, String phoneNumber, Location location,
-                  List<Agent> agents, List<Announcement> announcements, List<Request> requests) {
+    public Agency(Integer id, String description, String emailAddress, String phoneNumber, Location location) {
         this.id = id;
         this.description = description;
         this.emailAddress = emailAddress;
         this.phoneNumber = phoneNumber;
         this.location = location;
-        this.agents = agents;
-        this.announcements = announcements;
-        this.requests = requests;
+        this.employees = new ArrayList<>();
+        this.announcements = new ArrayList<>();
+        this.requests = new ArrayList<>();
     }
 
 
-//    /**
-//     * This method checks if the agency has an employee with the given email.
-//     *
-//     * @param email The email to be checked.
-//     * @return True if the agency has an employee with the given email.
-//     */
-//    public Boolean anyAgentHasEmail(String email) {
-//        Boolean result = false;
-//        for (Agent agent : agents) {
-//            if (agent.hasEmail(email)) {
-//                result = true;
-//            }
-//        }
-//        return result;
-//    }
+    /**
+     * This method checks if the agency has an employee with the given email.
+     *
+     * @param email The email to be checked.
+     * @return True if the agency has an employee with the given email.
+     */
+    public Boolean anyAgentHasEmail(String email) {
+        Boolean result = false;
+        for (Employee employee : employees) {
+            if (employee.hasEmail(email)) {
+                result = true;
+            }
+        }
+        return result;
+    }
 
-//    private Optional<Agent> getAgentByEmail(String emailAddress) {
-//        Optional<Agent> returnAgent = Optional.empty();
-//        for (Agent agent : agents) {
-//            if (anyAgentHasEmail(emailAddress)) {
-//                returnAgent = Optional.of(agent);
-//            }
-//        }
-//        return returnAgent;
-//    }
+    public Employee getAgentByEmail(String emailAddress) {
+        Employee returnEmployee = null;
+        for (Employee employee : employees) {
+            if (anyAgentHasEmail(emailAddress)) {
+                returnEmployee = employee;
+            }
+        }
+        return returnEmployee;
+    }
 
-//    private Boolean addAnnouncement(Announcement announcement) {
-//        Boolean success = false;
-//        if (validateAnnouncement(announcement)) {
-//            announcement =announcements.add(announcement.clone());
-//        }
-//        return success;
-//    }
+    private Boolean addAnnouncement(Announcement announcement) {
+        Boolean success = false;
+        if (validateAnnouncement(announcement)) {
+            announcements.add(announcement.clone());
+        }
+        return success;
+    }
 
     public Optional<Request> createRequest(String ownerEmail, PropertyType propertyType, BusinessType businessType,
                                            Double amount, Double area, Integer contractDuration, ArrayList<AvailableEquipment> availableEquipment,
@@ -98,6 +97,25 @@ public class Agency{
         return optionalValue;
     }
 
+    public Optional<Request> createSaleRequest(String ownerEmail, PropertyType propertyType, String businessType,
+                                               Double amount, Double area, List<String> availableEquipment,
+                                               String streetName, String city, String district, String state, String zipCode,
+                                               Boolean basement, Boolean inhabitableLoft, Integer parkingSpace, Enum<SunExposureTypes> sunExposure,
+                                               Integer numberBedroom, Integer numberBathroom, Employee agent, Double distanceCityCenter,
+                                               List<String> photograph) {
+
+        Optional<Request> optionalValue = Optional.empty();
+        Request request;
+//        request = new Request(ownerEmail, propertyType, businessType, amount, area, availableEquipment, streetName,
+//                city, district, state, zipCode, basement, inhabitableLoft, parkingSpace, sunExposure, numberBedroom,
+//                numberBathroom, agent, distanceCityCenter, photograph);
+//
+//        if (addRequest(request)) {
+//            optionalValue = Optional.of(request);
+//        }
+        return optionalValue;
+    }
+
     private Boolean addRequest(Request request) {
         Boolean success = false;
         if (validateRequest(request)) {
@@ -118,25 +136,31 @@ public class Agency{
         return id;
     }
 
-    public List<Agent> getAgentList() {
-        return this.agents;
-    }
+//    public List<Employee> getAgentList() {
+//        List<Employee> agents = new ArrayList<>();
+//        for (Employee employee : employees) {
+//            if (employee.isAgent()) {
+//                agents.add(employee);
+//            }
+//        }
+//        return agents;
+//    }
 
     public String getDescription() {
         return description;
     }
 
-//    public Optional<Announcement> publishAnnouncement(Agent agent,CommissionType commissionType, Double commissionValue, Request request){
-//
-//        Optional<Announcement> optionalValue = Optional.empty();
-//
-//        Announcement announcement = new Announcement(agent,commissionType,commissionValue,request);
-//
-//        if(addAnnouncement(announcement)){
-//            optionalValue= Optional.of(announcement);
-//        }
-//        return  optionalValue;
-//    }
+    public Optional<Announcement> publishAnnouncement(Employee agent, CommissionType commissionType, Double commissionValue, Request request) {
+
+        Optional<Announcement> optionalValue = Optional.empty();
+
+        Announcement announcement = new Announcement(agent, commissionType, commissionValue, request);
+
+        if (addAnnouncement(announcement)) {
+            optionalValue = Optional.of(announcement);
+        }
+        return optionalValue;
+    }
 
 
 }
