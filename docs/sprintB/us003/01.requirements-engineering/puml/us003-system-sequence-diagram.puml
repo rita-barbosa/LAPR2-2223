@@ -15,7 +15,7 @@ activate Employee
     Employee -> System : asks to register a new employee
     activate System
 
-        System --> Employee : requests data (name, passport card number,\nphone number, tax number, location, email)
+        System --> Employee : requests data (name, passport card number,\nphone number, tax number, street name, city,\n district, state, zip code, email)
     deactivate System
 
     Employee -> System : types requested data
@@ -27,13 +27,11 @@ activate Employee
     Employee -> System : selects an agency
     activate System
 
-
+    group Role
     System --> Employee : shows role and asks to select one
-        deactivate System
-
+    loop 3 times
     Employee -> System : selects a role
-            activate System
-
+    end
 
         System --> Employee : shows selected role, agency and requested \n data
     deactivate System

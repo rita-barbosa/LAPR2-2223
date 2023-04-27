@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class Agency {
+public class Agency{
     private final Integer id;
     private final String description;
     private final String emailAddress;
@@ -73,10 +73,10 @@ public class Agency {
                                            Integer numberBedroom, Integer numberBathroom, Agent agent, Double distanceCityCenter,
                                            ArrayList<Photograph> photograph) {
 
-        //TODO: we could also check if the employee works for the organization before proceeding
-        //checkIfEmployeeWorksForOrganization(employee);
+        //TODO: we could also check if the employee works for the agency before proceeding
+        //checkIfEmployeeWorksForAgency(employee);
 
-        // When a Task is added, it should fail if the Task already exists in the list of Tasks.
+        // When a Request is added, it should fail if the Request already exists in the list of Request.
         // In order to not return null if the operation fails, we use the Optional class.
         Optional<Request> optionalValue = Optional.empty();
 

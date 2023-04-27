@@ -89,10 +89,10 @@ UI -> CTRL : getRole()
     ADM -> UI : selects a role
     activate UI
 
-        UI --> ADM : requests data
+        UI --> ADM : requests data (name, passport \ncard number, tax number, location,\n email, phone number)
     deactivate UI
 
-    ADM -> UI : types requested data (name, passport \ncard number, tax number, location,\n email, phone number)
+    ADM -> UI : types requested data
     activate UI
 
         UI --> ADM : shows selected agency, role and requested data
@@ -105,7 +105,7 @@ UI -> CTRL : getRole()
             CTRL -> PERSON: registerEmployee(name, passport card number,\n tax number, location, email, phone\n number)
             activate PERSON
 
-                PERSON -> AGENCY**: register(name, passport card \nnumber, tax number, address,\n email, phone number)
+                PERSON -> AGENCY**: register(name, passport card \nnumber, tax number, location,\n email, phone number)
                 PERSON -> PERSON: addPerson (person)
 
 

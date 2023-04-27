@@ -2,7 +2,7 @@ package pt.ipp.isep.dei.esoft.project.domain;
 
 import java.util.Objects;
 
-public class Employee {
+public class Employee extends Person {
     private final String email;
     private String name;
     private String position;

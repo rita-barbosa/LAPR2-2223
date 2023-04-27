@@ -10,8 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class CreateRequestController {
-    private UserSession userSession = new UserSession(new pt.isep.lei.esoft.auth.UserSession());
-
+    private UserSession userSession;
     private AgencyRepository agencyRepository = null;
     private PropertyTypeRepository propertyTypeRepository = null;
     private BusinessTypeRepository businessTypeRepository = null;
@@ -67,7 +66,7 @@ public class CreateRequestController {
                                            String streetName, String city, String district, String state, String zipCode,
                                            Boolean basement, Boolean inhabitableLoft, Integer parkingSpace, Enum<SunExposureTypes> sunExposure,
                                            Integer numberBedroom, Integer numberBathroom, Agent agent, Double distanceCityCenter,
-                                           ArrayList<Photograph> photograph, Integer agencyID) {
+                                           ArrayList<Photograph> photograph, Agency agency) {
 
         String ownerEmail = getOwnerEmail();
 
@@ -76,13 +75,12 @@ public class CreateRequestController {
 
         Optional<Request> newRequest = Optional.empty();
 
-        Optional<Agency> agency = Optional.of(getAgencyRepository().getAgencyByID(agencyID));
+        Optional<Agency> newAgency = Optional.of(getAgencyRepository().getAgencyByID(agency.getId()));
 
-        newRequest = agency.get()
+        newRequest = newAgency.get()
                 .createRequest(ownerEmail, propertyType, businessType, amount, area, contractDuration,
                         availableEquipment, streetName, city, district, state, zipCode, basement, inhabitableLoft,
                         parkingSpace, sunExposure, numberBedroom, numberBathroom, agent, distanceCityCenter, photograph);
-
         return newRequest;
     }
 
@@ -106,37 +104,39 @@ public class CreateRequestController {
         return businessTypeByDesignation;
     }
 
-    //return the list of business types
+    //returns the list of business types
     public List<BusinessType> getBusinessTypes() {
         BusinessTypeRepository businessTypeRepository = getBusinessTypeRepository();
         return businessTypeRepository.getBusinessTypeList();
     }
 
-    //return the list of property types
+    //returns the list of property types
     public List<PropertyType> getPropertyTypes() {
         PropertyTypeRepository propertyTypeRepository = getPropertyTypeRepository();
         return propertyTypeRepository.getPropertyTypeList();
     }
 
-    //return the list of business types
+    //returns the list of agencies
     public List<Agency> getAgenciesList() {
         AgencyRepository agencyRepository = getAgencyRepository();
         return agencyRepository.getAgenciesList();
     }
 
+    //returns the agency that has the given id
     private Agency getAgencyByID(Integer id) {
         AgencyRepository agencyRepository = getAgencyRepository();
         //Get the Agency by its id
         return agencyRepository.getAgencyByID(id);
     }
 
+    //returns the Owner's email
     private String getOwnerEmail() {
+        this.userSession = new UserSession(new pt.isep.lei.esoft.auth.UserSession());
         return userSession.getUserEmail();
     }
 
-    private List<Agent> getAgents(Integer id){
+    //returns the list of agents
+    public List<Agent> getAgents(Integer id){
         return getAgencyByID(id).getAgentList();
     }
-
-
 }

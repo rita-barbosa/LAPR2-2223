@@ -25,6 +25,8 @@ class Employee {
 }
 
 class Person{
+name
+email
 passportCardNumber
 taxNumber
 phoneNumber
