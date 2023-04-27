@@ -17,36 +17,36 @@ public class AgencyRepository {
      */
     private final List<Agency> agencies = new ArrayList<>();
 
-    /**
-     * This method returns an Agency that has an Agent with the given email address.
-     *
-     * @param emailAddress - the email address of an Agent
-     * @return the agency where the agent(that has the given email address) works in
-     */
-    public Optional<Agency> getAgencyByEmployeeEmail(String emailAddress){
-        Optional<Agency> returnAgency = Optional.empty();
-            for (Agency agency: agencies) {
-                if (agency.anyAgentHasEmail(emailAddress)){
-                    returnAgency = Optional.of(agency);
-                }
-            }
-        return returnAgency;
-    }
-    public Optional<Agency> getAgencyByEmployee(Employee employee){
-        Optional<Agency> returnAgency = Optional.empty();
-        for (Agency agency: agencies) {
-            if (agency.employs(employee)){
-                returnAgency = Optional.of(agency);
-            }
-        }
-        return returnAgency;
-    }
-    /**
-     * This method adds a new agency to the list of agencies.
-     *
-     * @param agency - the agency to be
-     * @return the agency that was added to the list
-     */
+//    /**
+//     * This method returns an Agency that has an Agent with the given email address.
+//     *
+//     * @param emailAddress - the email address of an Agent
+//     * @return the agency where the agent(that has the given email address) works in
+//     */
+//    public Optional<Agency> getAgencyByEmployeeEmail(String emailAddress){
+//        Optional<Agency> returnAgency = Optional.empty();
+//            for (Agency agency: agencies) {
+//                if (agency.anyAgentHasEmail(emailAddress)){
+//                    returnAgency = Optional.of(agency);
+//                }
+//            }
+//        return returnAgency;
+//    }
+//    public Optional<Agency> getAgencyByEmployee(Employee employee){
+//        Optional<Agency> returnAgency = Optional.empty();
+//        for (Agency agency: agencies) {
+//            if (agency.employs(employee)){
+//                returnAgency = Optional.of(agency);
+//            }
+//        }
+//        return returnAgency;
+//    }
+//    /**
+//     * This method adds a new agency to the list of agencies.
+//     *
+//     * @param agency - the agency to be
+//     * @return the agency that was added to the list
+//     */
 //    public Optional<Agency> add(Agency agency) {
 //        Optional<Agency> newAgency = Optional.empty();
 //        boolean success = false;
