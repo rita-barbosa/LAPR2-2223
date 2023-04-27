@@ -2,11 +2,11 @@
 
 # 4. Tests 
 
-**Test 1:** Check that it is not possible to create an instance of the Task class with null values. 
+**Test 1:** Check that it is not possible to create an instance of the RegisterEmployee class with null values. 
 
 	@Test(expected = IllegalArgumentException.class)
 		public void ensureNullIsNotAllowed() {
-		Task instance = new Task(null, null, null, null, null, null, null);
+		RegisterEmployee instance = new Employee (null, null, null, null, null, null, null);
 	}
 	
 
@@ -25,39 +25,53 @@
 # 5. Construction (Implementation)
 
 
-## Class CreateTaskController 
+## Class RegisterEmployeeController 
 
 ```java
-public Task createTask(String reference, String description, String informalDescription,
-								 String technicalDescription, Integer duration, Double cost,
-								 String taskCategoryDescription) {
-
-	TaskCategory taskCategory = getTaskCategoryByDescription(taskCategoryDescription);
-
-	Employee employee = getEmployeeFromSession();
-	Organization organization = getOrganizationRepository().getOrganizationByEmployee(employee);
-
-	newTask = organization.createTask(reference, description, informalDescription, technicalDescription, 
-			duration, cost,taskCategory, employee);
+public class registerEmployee(roleRepository, agencyRepository) {
     
-	return newTask;
+	Agency agency = getAgencyRepository();
+    Role role = getRoleRepository();
+
+	newEmployee = registerEmployee.registerEmployee(name, location, passportCardNumber, phoneNumber, taxNumber);
+    
+	return newEmployee;
 }
 ```
-
-
-## Class Organization
+## Class Employee
 
 ```java
-public Optional<Task> createTask(String reference, String description, String informalDescription,
-                                     String technicalDescription, Integer duration, Double cost,
-                                     TaskCategory taskCategory, Employee employee) {
-    
-        Task task = new Task(reference, description, informalDescription, technicalDescription, duration, cost,
-                taskCategory, employee);
+public class Employee (name, role, phoneNumber, email) extends Person {
+}
 
-        addTask(task);
+```
+
+## Class Agency
+
+```java
+public class Agency {
+}
+
+```
+
+## Class Role
+
+```java
+public class Role (String Agent, String StoreManager, String NetworkManager) {
+}
+
+```
+
+## Class Person
+
+```java
+public class Person (String name, int phoneNumber, int taxNumber, String location, String email, String passportCardNumber) {
+    
+      
+
+        addPerson(person);
         
-        return task;
+        return person;
     }
 ```
 

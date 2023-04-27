@@ -97,9 +97,10 @@ As a system administrator, I want to register a new employee.
 * Typed data:
 	* a name,
 	* a tax number,
+    * a passaport card number,
 	* an email address,
 	* a contact telephone number,
-    * an address
+    * a location
 * Selected data:
 	* Agency to which is assigned
     * Role 
