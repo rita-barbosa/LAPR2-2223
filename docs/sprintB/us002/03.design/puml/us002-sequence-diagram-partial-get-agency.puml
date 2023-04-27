@@ -6,9 +6,6 @@ skinparam shadowing false\
 
 
 participant ":PublishAnnouncementController" as CTRL
-participant ":ApplicationSession" as _APP
-participant "appSession\n:ApplicationSession" as APP
-participant "currentSession\n:UserSession" as SESSION
 participant ":Repositories" as RepositorySingleton
 participant "repositories\n:Repositories" as PLAT
 participant "agencyRepository\n:AgencyRepository" as AgencyRepository
@@ -17,36 +14,24 @@ participant "agency\n:Agency" as AGENCY
 
 autonumber 34
 
-             -> CTRL : getAgentFromSession()
+             -> CTRL : getAgencyByUserEmail(email)
              activate CTRL
 
 autonumber 34.1
 
-    group Get Agent
+    group Get Agency
 
-             CTRL -> _APP: getInstance()
-             activate _APP
-             _APP -> CTRL: appSession
-             deactivate _APP
+             CTRL-> RepositorySingleton : getInstance();
+             activate RepositorySingleton
 
-
-             CTRL -> APP: getCurrentSession()
-             activate APP
-
-                 APP --> CTRL: currentSession
-             deactivate APP
-
-             CTRL -> SESSION: getUserEmail()
-             activate SESSION
-
-                 SESSION --> CTRL: email
-             deactivate SESSION
+             RepositorySingleton --> CTRL: repositories
+             deactivate RepositorySingleton
 
 
              CTRL -> PLAT: getAgencyRepository()
              activate PLAT
 
-                 PLAT --> CTRL: agencyRepository
+             PLAT --> CTRL: agencyRepository
              deactivate PLAT
 
 
@@ -62,20 +47,10 @@ autonumber 34.1
                  end
                  AgencyRepository --> CTRL : agency
              deactivate AgencyRepository
-
-             CTRL -> AGENCY: getAgentByEmail(email)
-             activate AGENCY
-
-                 AGENCY --> CTRL : agent
-             deactivate AGENCY
-
-
-
-
     end
 
 autonumber 35
 
-    <-- CTRL : agent
+    <-- CTRL : agency
 
 @enduml

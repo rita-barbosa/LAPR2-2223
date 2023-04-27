@@ -23,10 +23,6 @@ autonumber 23.1
 
                 AD -> COMMISSION** : create(commissionValue,commissionType)
 
-                AD -> AD : getCurrentDate()
-                activate AD
-                AD --> AD :
-               deactivate AD
                 |||
                 deactivate AD
 

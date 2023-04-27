@@ -39,7 +39,7 @@ activate Employee
     Employee -> System : selects a type of property
     activate System
 
-    System --> Employee : requests location of the property
+    System --> Employee : requests streetName, city, district, state and zipCode of the property
     deactivate System
 
     Employee -> System : types requested data (streetName, city, district, state, zipCode)
@@ -63,13 +63,12 @@ activate Employee
     Employee -> System : types requested data (price)
     activate System
 
-    System --> Employee : requests the photograph URI of the property
+        loop 30 times
+        System --> Employee : requests the photograph URI of the property
         deactivate System
-
-            loop 30 times
-            Employee -> System : types requested data (uri)
-            activate System
-            end loop
+        Employee -> System : types requested data (uri)
+        activate System
+        end loop
 
 
     alt propertyType = apartment || propertyType = house
@@ -90,15 +89,14 @@ activate Employee
             activate System
             end opt
 
+        loop availableEquipment
         System --> Employee : requests available equipment
         deactivate System
-
             opt availableEquipment
-                loop availableEquipment
                 Employee -> System : types requested data (availableEquipment)
                 activate System
-                end loop
             end opt
+        end loop
 
         alt type of property = house
 

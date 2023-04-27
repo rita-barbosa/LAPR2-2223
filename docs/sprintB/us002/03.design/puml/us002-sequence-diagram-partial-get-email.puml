@@ -1,0 +1,45 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false\
+
+
+
+participant ":PublishAnnouncementController" as CTRL
+participant ":ApplicationSession" as _APP
+participant "appSession\n:ApplicationSession" as APP
+participant "currentSession\n:UserSession" as SESSION
+
+autonumber 34
+
+             -> CTRL : getEmailFromSession()
+             activate CTRL
+
+autonumber 34.1
+
+    group Get Email
+
+             CTRL -> _APP: getInstance()
+             activate _APP
+             _APP -> CTRL: appSession
+             deactivate _APP
+
+
+             CTRL -> APP: getCurrentSession()
+             activate APP
+
+                 APP --> CTRL: currentSession
+             deactivate APP
+
+             CTRL -> SESSION: getUserEmail()
+             activate SESSION
+
+                 SESSION --> CTRL: email
+             deactivate SESSION
+    end
+
+autonumber 35
+
+    <-- CTRL : email
+
+@enduml
