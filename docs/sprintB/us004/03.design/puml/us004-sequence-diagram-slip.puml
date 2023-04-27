@@ -225,7 +225,7 @@ activate Owner
 
             activate UI
 
-            UI --> Owner : shows all data and asks for confirmation
+            UI --> Owner : shows all data and asks to submit
 
             deactivate UI
 
