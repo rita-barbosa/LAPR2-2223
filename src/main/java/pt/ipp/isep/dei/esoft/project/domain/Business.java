@@ -4,13 +4,14 @@ public class Business {
     private BusinessType businessType;
     private Double amount;
 
+    public Business() {
+    }
+
     public Business(BusinessType businessType, Double amount) {
         this.businessType = businessType;
         this.amount = amount;
     }
 
-    public Business() {
-    }
 
     public BusinessType getBusinessType() {
         return businessType;
