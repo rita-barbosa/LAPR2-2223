@@ -47,14 +47,14 @@ public class CreateRequestUI implements Runnable {
     }
 
     private void submitData() {
-        Optional<Task> task = getController().createTask(taskReference, taskDescription, taskInformalDescription,
-                taskTechnicalDescription, taskDuration, taskCost, taskCategoryDescription);
-
-        if (task.isPresent()) {
-            System.out.println("Task successfully created!");
-        } else {
-            System.out.println("Task not created!");
-        }
+//        Optional<Task> task = getController().createTask(taskReference, taskDescription, taskInformalDescription,
+//                taskTechnicalDescription, taskDuration, taskCost, taskCategoryDescription);
+//
+//        if (task.isPresent()) {
+//            System.out.println("Task successfully created!");
+//        } else {
+//            System.out.println("Task not created!");
+//        }
     }
 
     private void requestData() {
@@ -178,7 +178,7 @@ public class CreateRequestUI implements Runnable {
 
     private Boolean requestRequestInhabitableLoft() {
         Scanner input = new Scanner(System.in);
-        System.out.printf("Does your property have an inhabitable loft?%n1.Yes%n2.No)%n");
+        System.out.printf("Does your property have an inhabitable loft?%n1. Yes%n2. No)%n");
         int inputOption;
         do {
             inputOption = input.nextInt();;
@@ -194,7 +194,7 @@ public class CreateRequestUI implements Runnable {
 
     private Boolean requestRequestBasement() {
         Scanner input = new Scanner(System.in);
-        System.out.printf("Does your property have a basement?%n1.Yes%n2.No)%n");
+        System.out.printf("Does your property have a basement?%n1. Yes%n2. No)%n");
         int inputOption;
         do {
             inputOption = input.nextInt();;
@@ -209,20 +209,27 @@ public class CreateRequestUI implements Runnable {
     }
 
     private Enum<SunExposureTypes> requestRequestSunExposure() {
-        Scanner input = new Scanner(System.in);
-        System.out.printf("Please sele");
-        int inputOption;
-        do {
-            inputOption = input.nextInt();;
-            if (inputOption == 1) {
-                return true;
-            }
-            if (inputOption == 2) {
-                return false;
-            }
-            throw new InputMismatchException("Please select 1 (Yes) or 2 (No)");
-        }while (!(inputOption != 1 & inputOption != 2));
-    }
+            Scanner input = new Scanner(System.in);
+            System.out.printf("Please select the sun exposure direction:%n1. North%n2. South%n3. West%n4. East%n");
+            int inputOption;
+            do {
+                System.out.println("1. North\n2. South\n3. West\n4. East");
+                inputOption = input.nextInt();
+                switch(inputOption) {
+                    case 1:
+                        return SunExposureTypes.NORTH;
+                    case 2:
+                        return SunExposureTypes.SOUTH;
+                    case 3:
+                        return SunExposureTypes.WEST;
+                    case 4:
+                        return SunExposureTypes.EAST;
+                    default:
+                        System.out.println("Invalid input. Please select a valid option.");
+                        break;
+                }
+            } while (true);
+        }
 
 
 //     private ArrayList<AvailableEquipment> requestRequestParkingSpace() {
@@ -268,25 +275,25 @@ public class CreateRequestUI implements Runnable {
         return input.nextLine();
     }
 
-    private String displayAndSelectTaskCategory() {
-        //Display the list of task categories
-        List<TaskCategory> taskCategories = controller.getTaskCategories();
+//    private String displayAndSelectTaskCategory() {
+//        //Display the list of task categories
+//        List<TaskCategory> taskCategories = controller.getTaskCategories();
+//
+//        int listSize = taskCategories.size();
+//        int answer = -1;
+//
+//        Scanner input = new Scanner(System.in);
+//
+//        while (answer < 1 || answer > listSize) {
+//            displayTaskCategoryOptions(taskCategories);
+//            System.out.println("Select a task category:");
+//            answer = input.nextInt();
+//        }
+//
+//        String description = taskCategories.get(answer - 1).getDescription();
+//        return description;
+//    }
 
-        int listSize = taskCategories.size();
-        int answer = -1;
-
-        Scanner input = new Scanner(System.in);
-
-        while (answer < 1 || answer > listSize) {
-            displayTaskCategoryOptions(taskCategories);
-            System.out.println("Select a task category:");
-            answer = input.nextInt();
-        }
-
-        String description = taskCategories.get(answer - 1).getDescription();
-        return description;
-
-    }
 
     private String displayAndSelectBusinessType() {
         //Display the list of business types
