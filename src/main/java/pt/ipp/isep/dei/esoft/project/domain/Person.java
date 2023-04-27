@@ -12,7 +12,6 @@ public class Person {
     private String emailAddress;
     private String phoneNumber;
     private String passportCardNumber;
-
     private Role role;
 
     /**
