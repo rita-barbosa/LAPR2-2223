@@ -32,7 +32,7 @@ public class PublishAnnouncementUI implements Runnable {
     private Boolean existenceBasement;
     private Boolean inhabitableLoft;
     private SunExposureTypes sunExposure;
-    private final int MAX_URIS = 30;
+    private final Integer MAX_URIS = 30;
 
     private PublishAnnouncementController getController() {
         return controller;
@@ -57,22 +57,67 @@ public class PublishAnnouncementUI implements Runnable {
         existenceBasement = requestExistenceBasement();
         inhabitableLoft = requestInhabitableLoft();
         sunExposure = requestSunExposure(); // optional
-//        requestConfirmation();
 
-        submitData();
+        if (requestConfirmation()) {
+            submitData();
+        }
     }
 
     private void submitData() {
-//        Optional<Announcement> announcement = getController().publishAnnoucement(commissionValue, commissionTypeDesignation, ownerEmail, propertyTypeDesignation,streetName, city, district, state, zipCode, area, distanceCityCenter,price,numberBedroom,numberParkingSpace,existenceBasement,inhabitableLoft, numberBathroom, availableEquipmentDescriptionList, uriList, sunExposure);
+
+        Optional<Announcement> announcement = getController().publishAnnouncement(commissionValue, commissionTypeDesignation, ownerEmail, propertyTypeDesignation, streetName, city, district, state, zipCode, area, distanceCityCenter, price, numberBedroom, numberParkingSpace, existenceBasement, inhabitableLoft, numberBathroom, availableEquipmentDescriptionList, uriList, sunExposure);
+
+        if (announcement.isPresent()) {
+            System.out.println("\nAnnouncement published successfully.");
+        } else {
+            System.out.println("\nERROR: announcement was not published.");
+        }
+
     }
 
-//    private void requestConfirmation();
-//            showData();
-//    }
-//
-//    private void showsData() {
-//
-//    }
+    private boolean requestConfirmation() {
+        Scanner input = new Scanner(System.in);
+        Boolean value = null;
+        showData();
+
+        System.out.println("\n Do you want to submit the information (Y/N)?");
+        String answer = input.nextLine();
+        while (value == null) {
+            if (answer.equalsIgnoreCase("y")) {
+                value = true;
+            } else if (answer.equalsIgnoreCase("n")) {
+                value = false;
+            } else {
+                System.out.println("\nERROR: The input provided is not valid. Please try again.");
+                answer = input.nextLine();
+            }
+        }
+        return value;
+    }
+
+
+    public void showData() {
+        System.out.println("Property Type Designation: " + propertyTypeDesignation);
+        System.out.println("Commission Type Designation: " + commissionTypeDesignation);
+        System.out.println("Commission Value: " + commissionValue);
+        System.out.println("Owner Email: " + ownerEmail);
+        System.out.println("Street Name: " + streetName);
+        System.out.println("City: " + city);
+        System.out.println("District: " + district);
+        System.out.println("State: " + state);
+        System.out.println("Zip Code: " + zipCode);
+        System.out.println("Area: " + area);
+        System.out.println("Distance from City Center: " + distanceCityCenter);
+        System.out.println("Price: " + price);
+        System.out.println("URI List: " + uriList);
+        System.out.println("Number of Bedrooms: " + numberBedroom);
+        System.out.println("Number of Parking Spaces: " + numberParkingSpace);
+        System.out.println("Number of Bathrooms: " + numberBathroom);
+        System.out.println("Available Equipment Description List: " + availableEquipmentDescriptionList);
+        System.out.println("Existence of Basement: " + existenceBasement);
+        System.out.println("Inhabitable Loft: " + inhabitableLoft);
+        System.out.println("Sun Exposure: " + sunExposure);
+    }
 
 
     private Integer requestNumberParkingSpace() {
@@ -291,7 +336,7 @@ public class PublishAnnouncementUI implements Runnable {
         do {
             try {
                 answer = input.nextLine();
-               Integer value = Integer.parseInt(answer);
+                Integer value = Integer.parseInt(answer);
                 invalid = false;
             } catch (NumberFormatException e) {
                 System.out.println("\nERROR: Value typed is invalid"

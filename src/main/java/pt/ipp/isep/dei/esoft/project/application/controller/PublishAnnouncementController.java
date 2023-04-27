@@ -3,7 +3,6 @@ package pt.ipp.isep.dei.esoft.project.application.controller;
 import pt.ipp.isep.dei.esoft.project.application.session.ApplicationSession;
 import pt.ipp.isep.dei.esoft.project.domain.*;
 import pt.ipp.isep.dei.esoft.project.repository.*;
-import pt.isep.lei.esoft.auth.domain.model.Email;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,7 +13,7 @@ public class PublishAnnouncementController {
     private PropertyTypeRepository propertyTypeRepository = null;
 
     private AgencyRepository agencyRepository = null;
-    private final BusinessType businessType = new BusinessType("Sale");
+
 
     public PublishAnnouncementController() {
         getCommissionTypeRepository();
@@ -57,20 +56,38 @@ public class PublishAnnouncementController {
     }
 
 
-//    public Optional<Announcement> publishAnnoucement(Double commissionValue, String commissionTypeDesignation, String ownerEmail, String propertyTypeDesignation, String streetName, String city, String district, String state, String zipCode, Double area, Double distanceCityCenter, Double price, Integer numberBedroom, Integer numberParkingSpace, Boolean existenceBasement, Boolean inhabitableLoft, Integer numberBathroom, List<String> availableEquipmentDescriptionList, List<String> uriList, SunExposureTypes sunExposure) {
-//
-//        Employee employee = getAgentFromSession();
-//        Optional<Agency> agency = getAgencyRepository().getAgencyByEmployee(employee);
-//
-//        PropertyType propertyType = getPropertyTypeRepository().getPropertyTypeByDesignation(propertyTypeDesignation);
-//        Optional<Request> newRequest = Optional.empty();
-//
-//        CommissionType commissionType = getCommissionTypeRepository().getCommissionTypeByDesignation(commissionTypeDesignation);
-//
-//        if (agency.isPresent()) {
-//           newRequest = agency.get().createRequest();
-//        }
-//    }
+    public Optional<Announcement> publishAnnouncement(Double commissionValue, String commissionTypeDesignation, String ownerEmail, String propertyTypeDesignation, String streetName, String city, String district, String state, String zipCode, Double area, Double distanceCityCenter, Double price, Integer numberBedroom, Integer numberParkingSpace, Boolean existenceBasement, Boolean inhabitableLoft, Integer numberBathroom, List<String> availableEquipmentDescriptionList, List<String> uriList, SunExposureTypes sunExposure) {
+
+        String email = getEmployeeEmail();
+        Optional<Agency> agency = getAgencyFromEmail(email);
+        Employee agent = getAgentFromSession(email, agency);
+
+        PropertyType propertyType = getPropertyTypeRepository().getPropertyTypeByDesignation(propertyTypeDesignation);
+
+        Optional<Request> newRequest = Optional.empty();
+        Optional<Announcement> newAnnouncement = Optional.empty();
+
+        CommissionType commissionType = getCommissionTypeRepository().getCommissionTypeByDesignation(commissionTypeDesignation);
+
+        if (agency.isPresent()) {
+            newRequest = agency.get().createSaleRequest(ownerEmail, propertyType, "sale", price, area, availableEquipmentDescriptionList, streetName, city, district, state,
+                    zipCode, existenceBasement, inhabitableLoft, numberParkingSpace, sunExposure, numberBedroom, numberBathroom, agent, distanceCityCenter, uriList);
+            if (newRequest.isPresent()) {
+                newAnnouncement = agency.get().publishAnnouncement(agent, commissionType, commissionValue, newRequest.get());
+            }
+        }
+        return newAnnouncement;
+
+    }
+
+
+    private Optional<Agency> getAgencyFromEmail(String email) {
+        return getAgencyRepository().getAgencyByEmployeeEmail(email);
+    }
+
+    private String getEmployeeEmail() {
+        return ApplicationSession.getInstance().getCurrentSession().getUserEmail();
+    }
 
     private AgencyRepository getAgencyRepository() {
         if (agencyRepository == null) {
@@ -80,8 +97,11 @@ public class PublishAnnouncementController {
         return agencyRepository;
     }
 
-    private Employee getAgentFromSession() {
-        Email email = getAuthenticationRepository().getCurrentUserSession().getUserId();
-        return new Employee(email.getEmail());
+    private Employee getAgentFromSession(String email, Optional<Agency> agency) {
+        if (agency.isPresent()) {
+            return agency.get().getAgentByEmail(email);
+        } else {
+            throw new RuntimeException("Agency not found for email: " + email);
+        }
     }
 }
