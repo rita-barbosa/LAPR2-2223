@@ -95,6 +95,9 @@ If the client does not select the type of business, the type of property and the
 >
 > **Answer:** The client should be able to sort (ascending or descending) properties by price, city and state. I do not want the filters that you are suggesting.
 
+> **Question:** Can a land be rented?
+>
+> **Answer:** Yes. Please read the Project Description carefully.
 
 
 
