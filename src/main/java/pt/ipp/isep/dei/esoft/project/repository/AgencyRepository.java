@@ -1,6 +1,7 @@
 package pt.ipp.isep.dei.esoft.project.repository;
 
 import pt.ipp.isep.dei.esoft.project.domain.Agency;
+import pt.ipp.isep.dei.esoft.project.domain.BusinessType;
 import pt.ipp.isep.dei.esoft.project.domain.CommissionType;
 import pt.ipp.isep.dei.esoft.project.domain.Employee;
 import pt.ipp.isep.dei.esoft.project.domain.Organization;
@@ -59,6 +60,11 @@ public class AgencyRepository {
 //        return newAgency;
 //
 //    }
+
+    public List<Agency> getAgenciesList() {
+        return List.copyOf(agencies);
+    }
+
 
     /**
      * This method verifies if the agency received is already present in the list of agencies.
