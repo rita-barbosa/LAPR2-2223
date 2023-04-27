@@ -8,9 +8,10 @@ public class Employee extends Person {
     private String position;
     private String phone;
 
-    public Employee(String email) {
-        this.email = email;
-    }
+   public Employee(String email) {
+       super();
+       this.email = email;
+   }
 
     @Override
     public boolean equals(Object o) {
