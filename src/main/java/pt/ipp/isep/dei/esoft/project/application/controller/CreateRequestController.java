@@ -5,7 +5,6 @@ import pt.ipp.isep.dei.esoft.project.application.session.UserSession;
 import pt.ipp.isep.dei.esoft.project.domain.*;
 import pt.ipp.isep.dei.esoft.project.repository.*;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -63,26 +62,19 @@ public class CreateRequestController {
 
     // AUTHENTICATION REPOSITORY?????????
 
-    public Optional<Request> createRequest(String propertyTypeDesignation, String businessTypeDesignation, double amount,
-                                           double area, int contractDuration, Optional<ArrayList<AvailableEquipment>> availableEquipment,
+    public Optional<Request> createRequest(String propertyTypeDesignation, String businessTypeDesignation, Double amount,
+                                           Double area, Integer contractDuration, ArrayList<AvailableEquipment> availableEquipment,
                                            String streetName, String city, String district, String state, String zipCode,
-                                           boolean basement, boolean inhabitableLoft, int parkingSpace, Optional<Enum<SunExposureTypes>> sunExposure,
-                                           int numberBedroom, Optional<Integer> numberBathroom, Agent agent, double distanceCityCenter,
-                                           ArrayList<Photograph> photograph, int agencyID) {
-
+                                           Boolean basement, Boolean inhabitableLoft, Integer parkingSpace, Enum<SunExposureTypes> sunExposure,
+                                           Integer numberBedroom, Integer numberBathroom, Agent agent, Double distanceCityCenter,
+                                           ArrayList<Photograph> photograph, Integer agencyID) {
 
         String ownerEmail = getOwnerEmail();
 
         PropertyType propertyType = getPropertyTypeByDesignation(propertyTypeDesignation);
         BusinessType businessType = getBusinessTypeByDesignation(businessTypeDesignation);
 
-        // CRIO UMA CLASS OWNER?????
-
-        // Owner owner = getUserFromSession();
-
         Optional<Request> newRequest = Optional.empty();
-
-        // CHANGE METHOD OF COMPARISSON
 
         Optional<Agency> agency = Optional.of(getAgencyRepository().getAgencyByID(agencyID));
 
@@ -114,7 +106,25 @@ public class CreateRequestController {
         return businessTypeByDesignation;
     }
 
-    private Agency getAgencyByID(int id) {
+    //return the list of business types
+    public List<BusinessType> getBusinessTypes() {
+        BusinessTypeRepository businessTypeRepository = getBusinessTypeRepository();
+        return businessTypeRepository.getBusinessTypeList();
+    }
+
+    //return the list of property types
+    public List<PropertyType> getPropertyTypes() {
+        PropertyTypeRepository propertyTypeRepository = getPropertyTypeRepository();
+        return propertyTypeRepository.getPropertyTypeList();
+    }
+
+    //return the list of business types
+    public List<Agency> getAgenciesList() {
+        AgencyRepository agencyRepository = getAgencyRepository();
+        return agencyRepository.getAgenciesList();
+    }
+
+    private Agency getAgencyByID(Integer id) {
         AgencyRepository agencyRepository = getAgencyRepository();
         //Get the Agency by its id
         return agencyRepository.getAgencyByID(id);
@@ -124,8 +134,8 @@ public class CreateRequestController {
         return userSession.getUserEmail();
     }
 
-    private List<Employee> getAgents(int id){
-        return getAgencyByID(id).getEmployeeList();
+    private List<Agent> getAgents(Integer id){
+        return getAgencyByID(id).getAgentList();
     }
 
 
