@@ -10,7 +10,7 @@ import pt.ipp.isep.dei.esoft.project.domain.SunExposureTypes;
 import java.util.*;
 
 public class PublishAnnouncementUI implements Runnable {
-    private final PublishAnnouncementController controller = new PublishAnnouncementController();
+    private final PublishAnnouncementController controller;
 
     private String propertyTypeDesignation;
     private String commissionTypeDesignation;
@@ -33,6 +33,10 @@ public class PublishAnnouncementUI implements Runnable {
     private Boolean inhabitableLoft;
     private SunExposureTypes sunExposure;
     private final Integer MAX_URIS = 30;
+
+    public PublishAnnouncementUI() {
+        this.controller = new PublishAnnouncementController();
+    }
 
     private PublishAnnouncementController getController() {
         return controller;
@@ -180,7 +184,7 @@ public class PublishAnnouncementUI implements Runnable {
         Scanner input = new Scanner(System.in);
         String answer;
         while (true) {
-            System.out.print("Enter a description for an available equipment (or 'quit' to exit): ");
+            System.out.print("Enter a description for an available equipment (or 'quit' to skip): ");
             answer = input.nextLine();
             if (answer.equalsIgnoreCase("quit")) {
                 break;
