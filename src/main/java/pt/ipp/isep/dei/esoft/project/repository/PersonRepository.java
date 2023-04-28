@@ -2,6 +2,7 @@ package pt.ipp.isep.dei.esoft.project.repository;
 
 
 import pt.ipp.isep.dei.esoft.project.domain.Agency;
+import pt.ipp.isep.dei.esoft.project.domain.Organization;
 import pt.ipp.isep.dei.esoft.project.domain.Person;
 
 import java.util.ArrayList;
@@ -25,7 +26,6 @@ public class PersonRepository {
         return newPerson;
     }
 
-
     public Optional<Person> getPersonByEmail(String emailAddress) {
         Optional<Person> returnPerson = Optional.empty();
         for (Person person : people) {
@@ -35,7 +35,6 @@ public class PersonRepository {
         }
         return returnPerson;
     }
-
 
     private boolean validatePerson(Person person) {
         return (!people.contains(person));
