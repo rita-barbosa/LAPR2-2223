@@ -47,24 +47,24 @@ public class AgencyRepository {
         return returnAgency;
     }
 
-//    /**
-//     * This method adds a new agency to the list of agencies.
-//     *
-//     * @param agency - the agency to be
-//     * @return the agency that was added to the list
-//     */
-//    public Optional<Agency> add(Agency agency) {
-//        Optional<Agency> newAgency = Optional.empty();
-//        boolean success = false;
-//        if (validateAgency(agency)) {
-//            newAgency = Optional.of(agency.clone());
-//            success = agencies.add(newAgency.get());
-//        }
-//        if (!success) {
-//            newAgency = Optional.empty();
-//        }
-//        return newAgency;
-//    }
+    /**
+     * This method adds a new agency to the list of agencies.
+     *
+     * @param agency - the agency to be
+     * @return the agency that was added to the list
+     */
+    public Optional<Agency> add(Agency agency) {
+        Optional<Agency> newAgency = Optional.empty();
+        boolean success = false;
+        if (validateAgency(agency)) {
+            newAgency = Optional.of(agency.clone());
+            success = agencies.add(newAgency.get());
+        }
+        if (!success) {
+            newAgency = Optional.empty();
+        }
+        return newAgency;
+    }
 
     /**
      * This method returns a copy of the list of agencies.

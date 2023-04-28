@@ -11,19 +11,19 @@ public class Agency {
     /**
      * The id of the agency;
      */
-    private final Integer id;
+    private Integer id;
     /**
      * The description of the agency;
      */
-    private final String description;
+    private String description;
     /**
      * The email address of the agency;
      */
-    private final String emailAddress;
+    private String emailAddress;
     /**
      * The phone number of the agency.
      */
-    private final String phoneNumber;
+    private String phoneNumber;
     /**
      * The business type designation of a lease
      */
@@ -69,6 +69,9 @@ public class Agency {
         this.requests = new ArrayList<>();
     }
 
+    public Agency(Integer id) {
+        this.id = id;
+    }
 
     /**
      * This method checks if the agency has an employee with the given email.
@@ -142,12 +145,7 @@ public class Agency {
      * @param uri
      * @return an Optional object of Request, allowing the calling code to handle the possibility of null values without the need for explicit null checks.
      */
-    public Optional<Request> createRequest(String ownerEmail, PropertyType propertyType, BusinessType businessType,
-                                           Double amount, Double area, Integer contractDuration, List<String> availableEquipmentDescription,
-                                           String streetName, String city, String district, String state, String zipCode,
-                                           Boolean basement, Boolean inhabitableLoft, Integer parkingSpace, Enum<SunExposureTypes> sunExposure,
-                                           Integer numberBedroom, Integer numberBathroom, Employee agent, Double distanceCityCenter,
-                                           List<String> uri) {
+    public Optional<Request> createRequest(String ownerEmail, PropertyType propertyType, BusinessType businessType, Double amount, Double area, Integer contractDuration, List<String> availableEquipmentDescription, String streetName, String city, String district, String state, String zipCode, Boolean basement, Boolean inhabitableLoft, Integer parkingSpace, Enum<SunExposureTypes> sunExposure, Integer numberBedroom, Integer numberBathroom, Employee agent, Double distanceCityCenter, List<String> uri) {
 
         // When a Request is added, it should fail if the Request already exists in the list of Request.
         // In order to not return null if the operation fails, we use the Optional class.
@@ -156,13 +154,9 @@ public class Agency {
         Request request;
 
         if (businessType.getDesignation().equalsIgnoreCase(LEASE_BUSINESSTYPE)) {
-            request = new Request(ownerEmail, propertyType, businessType, amount, area, contractDuration, availableEquipmentDescription,
-                    streetName, city, district, state, zipCode, basement, inhabitableLoft, parkingSpace, sunExposure,
-                    numberBedroom, numberBathroom, agent, distanceCityCenter, uri);
+            request = new Request(ownerEmail, propertyType, businessType, amount, area, contractDuration, availableEquipmentDescription, streetName, city, district, state, zipCode, basement, inhabitableLoft, parkingSpace, sunExposure, numberBedroom, numberBathroom, agent, distanceCityCenter, uri);
         } else {
-            request = new Request(ownerEmail, propertyType, businessType, amount, area, availableEquipmentDescription,
-                    streetName, city, district, state, zipCode, basement, inhabitableLoft, parkingSpace, sunExposure,
-                    numberBedroom, numberBathroom, agent, distanceCityCenter, uri);
+            request = new Request(ownerEmail, propertyType, businessType, amount, area, availableEquipmentDescription, streetName, city, district, state, zipCode, basement, inhabitableLoft, parkingSpace, sunExposure, numberBedroom, numberBathroom, agent, distanceCityCenter, uri);
         }
 
         if (addRequest(request)) {
@@ -196,12 +190,7 @@ public class Agency {
      * @param photograph
      * @return an Optional object of Request, allowing the calling code to handle the possibility of null values without the need for explicit null checks.
      */
-    public Optional<Request> createSaleRequest(String ownerEmail, PropertyType propertyType, String businessType,
-                                               Double amount, Double area, List<String> availableEquipment,
-                                               String streetName, String city, String district, String state, String zipCode,
-                                               Boolean basement, Boolean inhabitableLoft, Integer parkingSpace, Enum<SunExposureTypes> sunExposure,
-                                               Integer numberBedroom, Integer numberBathroom, Employee agent, Double distanceCityCenter,
-                                               List<String> photograph) {
+    public Optional<Request> createSaleRequest(String ownerEmail, PropertyType propertyType, String businessType, Double amount, Double area, List<String> availableEquipment, String streetName, String city, String district, String state, String zipCode, Boolean basement, Boolean inhabitableLoft, Integer parkingSpace, Enum<SunExposureTypes> sunExposure, Integer numberBedroom, Integer numberBathroom, Employee agent, Double distanceCityCenter, List<String> photograph) {
 
         Optional<Request> optionalValue = Optional.empty();
         Request request;
@@ -303,5 +292,24 @@ public class Agency {
         return optionalValue;
     }
 
+    public Agency clone() {
 
+        Agency clone = new Agency(this.id);
+        clone.description = (this.description);
+        clone.phoneNumber = (this.phoneNumber);
+        clone.emailAddress = (this.emailAddress);
+        clone.location = (this.location);
+        for (Employee in : this.employees) {
+            clone.employees.add(in.clone());
+        }
+        for (Announcement in :
+                this.announcements) {
+            clone.announcements.add(in.clone());
+        }
+        for (Request in :
+                this.requests) {
+            clone.requests.add(in.clone());
+        }
+        return clone;
+    }
 }
