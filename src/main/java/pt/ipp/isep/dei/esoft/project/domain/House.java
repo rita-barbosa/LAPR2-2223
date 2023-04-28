@@ -19,4 +19,8 @@ public class House extends Residence {
         this.inhabitableLoft = inhabitableLoft;
         this.sunExposure = sunExposure;
     }
+
+    public String toString(){
+        return super.toString() + String.format("Basement: %b\n Inhabitable Loft: %b\n Sun Exposure: %s\n", basement, inhabitableLoft, sunExposure);
+    }
 }

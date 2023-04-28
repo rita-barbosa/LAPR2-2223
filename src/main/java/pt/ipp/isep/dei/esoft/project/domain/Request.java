@@ -86,28 +86,22 @@ public class Request {
     }
 
     public String toString(){
-        return Residence.toString() + String.format("a"); //fix
-        String announcementInfo = property.toString();
-        if (property.toString() != "land"){
-            announcementInfo = announcementInfo + String.format("\n Available Equipment %s" + )
+        String request;
+        if (business instanceof Lease) {
+            request = business.toString();
+        } else {
+            request = business.toString();
         }
 
-//                break;
-//            case "Apartment":
-//                this.property = new Residence( availableEquipmentDescription,  parkingSpace, numberBedroom, numberBathroom,  );
-//                break;
-//            case "House":
-//                this.property = new House( availableEquipmentDescription,   basement, inhabitableLoft, parkingSpace, sunExposure, numberBedroom, numberBathroom,
-//                       );
-//                break;
-//            default:
-//                break;
+        if (property instanceof House){
+            request = request + property.toString();
+        } else if (property instanceof Residence) {
+            request = request + property.toString();
+        } else {
+            request = property.toString();
         }
 
-
-
-
-
+        return request;
 
     }
 }

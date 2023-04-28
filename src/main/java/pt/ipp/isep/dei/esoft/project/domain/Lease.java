@@ -17,4 +17,9 @@ public class Lease extends Business{
     public void setContractDuration(Integer contractDuration) {
         this.contractDuration = contractDuration;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + String.format("Contract Duration: %d\n", contractDuration);
+    }
 }

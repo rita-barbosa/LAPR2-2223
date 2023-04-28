@@ -20,4 +20,10 @@ public class Business {
     public Double getAmount() {
         return amount;
     }
+
+
+    @Override
+    public String toString() {
+        return String.format("Type of Business: %s\nPrice: %f\n", businessType, amount);
+    }
 }
