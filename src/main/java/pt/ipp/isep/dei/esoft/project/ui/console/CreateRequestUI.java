@@ -9,10 +9,10 @@ public class CreateRequestUI implements Runnable {
 
     private final CreateRequestController controller = new CreateRequestController();
     private String propertyTypeDesignation;
-    public static final String LEASE_BUSINESSTYPE = "Lease";
+    public static final String LEASE_BUSINESS_TYPE = "Lease";
     public static final Integer PHOTOGRAPH_SIZE_LIMIT = 30;
     private String businessTypeDesignation;
-    public static final String HOUSE_PROPERTYTYPE = "House";
+    public static final String HOUSE_PROPERTY_TYPE = "House";
     private Double amount;
     private Double area;
     private Integer contractDuration;
@@ -42,7 +42,7 @@ public class CreateRequestUI implements Runnable {
 
         businessTypeDesignation = displayAndSelectBusinessType();
 
-        if (businessTypeDesignation.equalsIgnoreCase(LEASE_BUSINESSTYPE)) {
+        if (businessTypeDesignation.equalsIgnoreCase(LEASE_BUSINESS_TYPE)) {
             contractDuration = requestRequestContractDuration();
         }
 
@@ -54,7 +54,51 @@ public class CreateRequestUI implements Runnable {
 
         agent = displayAndSelectAgentsList(agency);
 
+        displaysData();
+
         submitData();
+    }
+
+    private void displaysData() {
+        String amountString = "";
+        String numberBathroomString = "";
+        String sunExposureString = "";
+        if (businessTypeDesignation.equalsIgnoreCase("Lease")) {
+            amountString = String.format("Rent: %f", amount);
+        } else {
+            amountString = String.format("Price: %f", amount);
+        }
+        if (sunExposure != null) {
+            sunExposureString = String.format("Sun exposure direction: %s", sunExposure);
+        }
+        if (numberBathroom != null) {
+            numberBathroomString = String.format("Number of bathrooms: %d", numberBathroom);
+        }
+        System.out.printf("###Property Data###%n** General Data **%n%s%nArea: %f%nDistance from City Center: %f%n" +
+                        "** Location Data **%nStreet Name: %s%nCity: %s%nDistrict:  %s%nState:  %s%nZip Code: %s%n" +
+                        "** Other Data **%nParking Spaces: %d%nNumber of Bedrooms: %d%n%s%nBasement: %s%nInhabitable Loft: %s%n%s%n",
+                amountString, area, distanceCityCenter, streetName, city, district, state, zipCode, parkingSpace, numberBedroom,
+                numberBathroomString, getStringFromBoolean(basement), getStringFromBoolean(inhabitableLoft), sunExposureString);
+        if (availableEquipmentDescription != null) {
+            displayListContent(availableEquipmentDescription, "available equipments");
+        }
+        displayListContent(uri, "photographs uris");
+
+    }
+
+    private void displayListContent(List<String> list, String attribute) {
+        System.out.printf("** Property's %s list **", attribute);
+        int i=0;
+        for (String listItem : list) {
+            System.out.printf("%d. %s%n", i++, listItem);
+        }
+    }
+
+    private String getStringFromBoolean(Boolean booleanVar) {
+        if (booleanVar) {
+            return "Yes";
+        }
+        return "No";
     }
 
     private void submitData() {
@@ -70,61 +114,28 @@ public class CreateRequestUI implements Runnable {
     }
 
     private void requestData() {
-
-        //Request the Request amount from the console
         amount = requestRequestAmount();
-
-        //Request the Request area from the console
         area = requestRequestArea();
-
-        //Request the Request's distanceCityCenter from the console
         distanceCityCenter = requestRequestDistanceCityCenter();
-
-        //Request the Request's streetName from the console
         streetName = requestRequestStreetName();
-
-        //Request the Request's city from the console
         city = requestRequestCity();
-
-        //Request the Request's district from the console
         district = requestRequestDistrict();
-
-        //Request the Request's state from the console
         state = requestRequestState();
-
-        //Request the Request's zipcode from the console
         zipCode = requestRequestZipCode();
-
-        //Request the Request's parkingSpace from the console
         parkingSpace = requestRequestParkingSpace();
-
-        //Request the Request's numberBedroom from the console
         numberBedroom = requestRequestNumberBedroom();
-
         if (askOptionalData("number of bathrooms")) {
-            //Request the Request's numberBathroom from the console
             numberBathroom = requestRequestNumberBathroom();
         }
-
         if (askOptionalData("available equipments")) {
-            //Request the Request's availableEquipment from the console
             availableEquipmentDescription = requestRequestAvailableEquipmentDescription();
         }
-
-        //Request the Request's inhabitableLoft from the console
         basement = requestRequestInhabitableLoft();
-
-        //Request the Request's basement from the console
         inhabitableLoft = requestRequestBasement();
-
-        if (businessTypeDesignation.equalsIgnoreCase(HOUSE_PROPERTYTYPE) && askOptionalData("sun exposure")) {
-            //Request the Request's sunExposure from the console
+        if (businessTypeDesignation.equalsIgnoreCase(HOUSE_PROPERTY_TYPE) && askOptionalData("sun exposure")) {
             sunExposure = requestRequestSunExposure();
         }
-
-        //Request the Request's photograph from the console
         uri = requestRequestPhotographURI();
-
     }
 
     private boolean askOptionalData(String optionalData) {
@@ -274,7 +285,7 @@ public class CreateRequestUI implements Runnable {
             equipment = input.nextLine();
             availableEquipment.add(equipment);
         } while (equipment.equalsIgnoreCase("DONE"));
-        input.nextLine();
+        input.close();
         return availableEquipment;
     }
 
@@ -292,70 +303,98 @@ public class CreateRequestUI implements Runnable {
     }
 
     private String displayAndSelectBusinessType() {
-        //Display the list of business types
         List<BusinessType> businessTypes = controller.getBusinessTypes();
-
         int listSize = businessTypes.size();
         int answer = -1;
-
+        boolean invalid = true;
         Scanner input = new Scanner(System.in);
-
-        while (answer < 1 || answer > listSize) {
-            displayBusinessTypeOptions(businessTypes);
-            System.out.println("Select a business type:");
-            answer = input.nextInt();
-        }
+        do {
+            try {
+                while (answer < 1 || answer > listSize) {
+                    displayBusinessTypeOptions(businessTypes);
+                    System.out.println("Select a business type:");
+                    answer = input.nextInt();
+                }
+                invalid = false;
+            } catch (InputMismatchException e) {
+                System.out.println("\nERROR: Option selected is invalid"
+                        + " (" + e.getClass().getSimpleName() + ")");
+                input.nextLine();
+            }
+        } while (invalid);
+        input.close();
         return businessTypes.get(answer - 1).getDesignation();
     }
 
     private String displayAndSelectPropertyType() {
-        //Display the list of property types
         List<PropertyType> propertyTypes = controller.getPropertyTypes();
-
         int listSize = propertyTypes.size();
         int answer = -1;
-
+        boolean invalid = true;
         Scanner input = new Scanner(System.in);
-
-        while (answer < 1 || answer > listSize) {
-            displayPropertyTypeOptions(propertyTypes);
-            System.out.println("Select a property type:");
-            answer = input.nextInt();
-        }
-        return propertyTypes.get(answer - 1).getDesignation();
+        do {
+            try {
+                while (answer < 1 || answer > listSize) {
+                    displayPropertyTypeOptions(propertyTypes);
+                    System.out.println("Select type of property:");
+                    answer = input.nextInt();
+                }
+                invalid = false;
+            } catch (InputMismatchException e) {
+                System.out.println("\nERROR: Option selected is invalid"
+                        + " (" + e.getClass().getSimpleName() + ")");
+                input.nextLine();
+            }
+        } while (invalid);
+        input.close();
+        return (propertyTypes.get(answer - 1).getDesignation());
     }
 
     private Agency displayAndSelectAgenciesList() {
-        //Display the list of agencies
         List<Agency> agencies = controller.getAgenciesList();
-
         int listSize = agencies.size();
         int answer = -1;
-
+        boolean invalid = true;
         Scanner input = new Scanner(System.in);
-
-        while (answer < 1 || answer > listSize) {
-            displayAgenciesListOptions(agencies);
-            System.out.println("Select an agency:");
-            answer = input.nextInt();
-        }
+        do {
+            try {
+                while (answer < 1 || answer > listSize) {
+                    displayAgenciesListOptions(agencies);
+                    System.out.println("Select an agency:");
+                    answer = input.nextInt();
+                }
+                invalid = false;
+            } catch (InputMismatchException e) {
+                System.out.println("\nERROR: Option selected is invalid"
+                        + " (" + e.getClass().getSimpleName() + ")");
+                input.nextLine();
+            }
+        } while (invalid);
+        input.close();
         return agencies.get(answer - 1);
     }
 
     private Employee displayAndSelectAgentsList(Agency agency) {
-        //Display the list of agents in previously chosen agency
         List<Employee> agents = controller.getAgents(agency);
-
         int listSize = agents.size();
         int answer = -1;
-
+        boolean invalid = true;
         Scanner input = new Scanner(System.in);
-
-        while (answer < 1 || answer > listSize) {
-            displayAgentsListOptions(agents);
-            System.out.println("Select an agent of previously chosen agency:");
-            answer = input.nextInt();
-        }
+        do {
+            try {
+                while (answer < 1 || answer > listSize) {
+                    displayAgentsListOptions(agents);
+                    System.out.println("Select an agent of previously chosen agency:");
+                    answer = input.nextInt();
+                }
+                invalid = false;
+            } catch (InputMismatchException e) {
+                System.out.println("\nERROR: Option selected is invalid"
+                        + " (" + e.getClass().getSimpleName() + ")");
+                input.nextLine();
+            }
+        } while (invalid);
+        input.close();
         return agents.get(answer - 1);
     }
 

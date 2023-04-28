@@ -69,9 +69,6 @@ public class Agency {
 
     public Agency(Integer id) {
         this.id = id;
-        this.employees = new ArrayList<>();
-        this.announcements = new ArrayList<>();
-        this.requests = new ArrayList<>();
     }
 
     /**
@@ -80,7 +77,7 @@ public class Agency {
      * @param email The email to be checked.
      * @return True if the agency has an employee with the given email.
      */
-    public Boolean anyEmployeeHasEmail(String email) {
+    public Boolean anyAgentHasEmail(String email) {
         Boolean result = false;
         for (Employee employee : employees) {
             if (employee.hasEmail(email)) {
@@ -99,7 +96,7 @@ public class Agency {
     public Employee getAgentByEmail(String emailAddress) {
         Employee returnEmployee = null;
         for (Employee employee : employees) {
-            if (employee.isAgent() && anyEmployeeHasEmail(emailAddress)) {
+            if (anyAgentHasEmail(emailAddress)) {
                 returnEmployee = employee;
             }
         }
@@ -125,7 +122,7 @@ public class Agency {
      *
      * @param ownerEmail
      * @param propertyType
-     * @param businessType
+     * @param businessTypeDesignation
      * @param amount
      * @param area
      * @param contractDuration
@@ -146,25 +143,25 @@ public class Agency {
      * @param uri
      * @return an Optional object of Request, allowing the calling code to handle the possibility of null values without the need for explicit null checks.
      */
-//    public Optional<Request> createRequest(String ownerEmail, PropertyType propertyType, BusinessType businessType, Double amount, Double area, Integer contractDuration, List<String> availableEquipmentDescription, String streetName, String city, String district, String state, String zipCode, Boolean basement, Boolean inhabitableLoft, Integer parkingSpace, Enum<SunExposureTypes> sunExposure, Integer numberBedroom, Integer numberBathroom, Employee agent, Double distanceCityCenter, List<String> uri) {
-//
-//        // When a Request is added, it should fail if the Request already exists in the list of Request.
-//        // In order to not return null if the operation fails, we use the Optional class.
-//        Optional<Request> optionalValue = Optional.empty();
-//
-//        Request request;
-//
-//        if (businessType.getDesignation().equalsIgnoreCase(LEASE_BUSINESSTYPE)) {
-//            request = new Request(ownerEmail, propertyType, businessType, amount, area, contractDuration, availableEquipmentDescription, streetName, city, district, state, zipCode, basement, inhabitableLoft, parkingSpace, sunExposure, numberBedroom, numberBathroom, agent, distanceCityCenter, uri);
-//        } else {
-//            request = new Request(ownerEmail, propertyType, businessType, amount, area, availableEquipmentDescription, streetName, city, district, state, zipCode, basement, inhabitableLoft, parkingSpace, sunExposure, numberBedroom, numberBathroom, agent, distanceCityCenter, uri);
-//        }
-//
-//        if (addRequest(request)) {
-//            optionalValue = Optional.of(request);
-//        }
-//        return optionalValue;
-//    }
+    public Optional<Request> createRequest(String ownerEmail, PropertyType propertyType, String businessTypeDesignation, Double amount, Double area, Integer contractDuration, List<String> availableEquipmentDescription, String streetName, String city, String district, String state, String zipCode, Boolean basement, Boolean inhabitableLoft, Integer parkingSpace, Enum<SunExposureTypes> sunExposure, Integer numberBedroom, Integer numberBathroom, Employee agent, Double distanceCityCenter, List<String> uri) {
+
+        // When a Request is added, it should fail if the Request already exists in the list of Request.
+        // In order to not return null if the operation fails, we use the Optional class.
+        Optional<Request> optionalValue = Optional.empty();
+
+        Request request;
+
+        if (businessTypeDesignation.equalsIgnoreCase(LEASE_BUSINESSTYPE)) {
+            request = new Request(ownerEmail, propertyType, businessTypeDesignation, amount, area, contractDuration, availableEquipmentDescription, streetName, city, district, state, zipCode, basement, inhabitableLoft, parkingSpace, sunExposure, numberBedroom, numberBathroom, agent, distanceCityCenter, uri);
+        } else {
+            request = new Request(ownerEmail, propertyType, businessTypeDesignation, amount, area, availableEquipmentDescription, streetName, city, district, state, zipCode, basement, inhabitableLoft, parkingSpace, sunExposure, numberBedroom, numberBathroom, agent, distanceCityCenter, uri);
+        }
+
+        if (addRequest(request)) {
+            optionalValue = Optional.of(request);
+        }
+        return optionalValue;
+    }
 
     /**
      * This method creates a new sale Request instance, and adds it to the list of requests already existent.
@@ -195,13 +192,13 @@ public class Agency {
 
         Optional<Request> optionalValue = Optional.empty();
         Request request;
-        request = new Request(ownerEmail, propertyType, businessType, amount, area, availableEquipment, streetName,
-                city, district, state, zipCode, basement, inhabitableLoft, parkingSpace, sunExposure, numberBedroom,
-                numberBathroom, agent, distanceCityCenter, photograph);
-
-        if (addRequest(request)) {
-            optionalValue = Optional.of(request);
-        }
+//        request = new Request(ownerEmail, propertyType, businessType, amount, area, availableEquipment, streetName,
+//                city, district, state, zipCode, basement, inhabitableLoft, parkingSpace, sunExposure, numberBedroom,
+//                numberBathroom, agent, distanceCityCenter, photograph);
+//
+//        if (addRequest(request)) {
+//            optionalValue = Optional.of(request);
+//        }
         return optionalValue;
     }
 
@@ -219,14 +216,6 @@ public class Agency {
         return success;
     }
 
-    public Boolean addEmployee(Employee employee) {
-        Boolean success = false;
-        if (validateEmployee(employee)) {
-            success = employees.add(employee.clone());
-        }
-        return success;
-    }
-
     /**
      * This method checks if the list of announcements already contains the announcement received.
      *
@@ -234,17 +223,7 @@ public class Agency {
      * @return {@code true} if the announcement isn't in the list of announcements; {@code false} otherwise;
      */
     private Boolean validateAnnouncement(Announcement announcement) {
-        return announcements != null && !(announcements.contains(announcement));
-    }
-
-    /**
-     * This method checks if the list of requests already contains the employee received.
-     *
-     * @param employee - employee intended to be checked.
-     * @return {@code true} if the employee isn't in the list of employees; {@code false} otherwise;
-     */
-    private Boolean validateEmployee(Employee employee) {
-        return employees != null && !(employees.contains(employee));
+        return !(announcements.contains(announcement));
     }
 
     /**
@@ -254,7 +233,7 @@ public class Agency {
      * @return {@code true} if the request isn't in the list of requests; {@code false} otherwise;
      */
     private Boolean validateRequest(Request request) {
-        return requests != null & !(requests.contains(request));
+        return !(requests.contains(request));
     }
 
     /**
@@ -348,31 +327,7 @@ public class Agency {
      *
      * @return the list of announcements for this agency.
      */
-    public List<Announcement> getAnnouncements() {
+    public List<Announcement> getAnnouncements(){
         return this.announcements;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof Agency)) {
-            return false;
-        }
-        Agency that = (Agency) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(description, that.description) &&
-                Objects.equals(emailAddress, that.emailAddress) &&
-                Objects.equals(phoneNumber, that.phoneNumber) &&
-                Objects.equals(location, that.location) &&
-                Objects.equals(employees, that.employees) &&
-                Objects.equals(announcements, that.announcements) &&
-                Objects.equals(requests, that.requests);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, description, emailAddress, phoneNumber, location, employees, announcements, requests);
     }
 }

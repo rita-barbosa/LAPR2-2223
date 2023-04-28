@@ -67,7 +67,7 @@ public class CreateRequestController {
         String ownerEmail = getOwnerEmail();
 
         PropertyType propertyType = getPropertyTypeByDesignation(propertyTypeDesignation);
-        BusinessType businessType = getBusinessTypeByDesignation(businessTypeDesignation);
+
 
         Optional<Request> newRequest = Optional.empty();
 
@@ -75,7 +75,7 @@ public class CreateRequestController {
 
         if (newAgency.isPresent()){
             newRequest = newAgency.get()
-                    .createRequest(ownerEmail, propertyType, businessType, amount, area, contractDuration,
+                    .createRequest(ownerEmail, propertyType, businessTypeDesignation, amount, area, contractDuration,
                             availableEquipmentDescription, streetName, city, district, state, zipCode, basement, inhabitableLoft,
                             parkingSpace, sunExposure, numberBedroom, numberBathroom, agent, distanceCityCenter, photograph);
             return newRequest;

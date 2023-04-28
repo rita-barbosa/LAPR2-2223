@@ -1,6 +1,6 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
-import javax.management.relation.Role;
+import java.util.Scanner;
 
 public class Person {
     private String name;
@@ -10,6 +10,18 @@ public class Person {
     private String passportCardNumber;
     private String role;
     private Location location;
+    private final Integer PASSPORT_CARD_NUMBER_LENGTH = 9;
+    private final String PASSPORT_FIRST_CHARACTER = "C";
+    private final Integer TAX_NUMBER_LENGTH = 11;
+    private final Integer NUMBER_OF_SEGMENTS_TAXES = 3;
+    private final Integer FIRST_SEGMENT_TAX_NUMBER_LENGTH = 3;
+    private final Integer SECOND_SEGMENT_TAX_NUMBER_LENGTH = 3;
+    private final Integer THIRD_SEGMENT_TAX_NUMBER_LENGTH = 3;
+    private final Integer THREE_DIGIT_SEGMENT_PHONE_NUMBER = 3;
+    private final Integer FOUR_DIGIT_SEGMENT_PHONE_NUMBER = 4;
+
+
+    private final Integer PHONE_NUMBER_LENGTH = 14;
 
     /**
      * Creates a Person object with the given parameters.
@@ -27,6 +39,16 @@ public class Person {
      */
     public Person(String name, String passportCardNumber, String taxNumber, String emailAddress, String phoneNumber,
                   String role, String streetName, String city, String district, String state, String zipCode) {
+        if (!(validatePerson(name, passportCardNumber, taxNumber, emailAddress, phoneNumber, role))) {
+            System.out.println("Your Data is not correct. Please submit new data.");
+            String[] newValues = getNewData(name, passportCardNumber, taxNumber, emailAddress, phoneNumber, role);
+            name = newValues[0];
+            passportCardNumber = newValues[1];
+            taxNumber = newValues[2];
+            emailAddress = newValues[3];
+            phoneNumber = newValues[4];
+            role = newValues[5];
+        }
         this.name = name;
         this.passportCardNumber = passportCardNumber;
         this.taxNumber = taxNumber;
@@ -34,6 +56,126 @@ public class Person {
         this.emailAddress = emailAddress;
         this.phoneNumber = phoneNumber;
         this.role = role;
+    }
+
+    private boolean validatePerson(String name, String passportCardNumber, String taxNumber, String emailAddress, String phoneNumber, String role) {
+        if ((name.isBlank() || name.isEmpty()) && (passportCardNumber.isBlank() || passportCardNumber.isEmpty()) && (taxNumber.isBlank() || taxNumber.isEmpty()) &&
+                (emailAddress.isBlank() || emailAddress.isEmpty()) && (phoneNumber.isBlank() || phoneNumber.isEmpty()) && (role.isBlank() || role.isEmpty())) {
+            return false;
+        }
+        return validateTaxNumber(taxNumber) && validatePhoneNumber(phoneNumber) && validatePassportCardNumber(passportCardNumber);
+    }
+
+    private String[] getNewData(String name, String passportCardNumber, String taxNumber, String emailAddress, String phoneNumber, String role) {
+        String[] newValues = {name, passportCardNumber, taxNumber, emailAddress, phoneNumber, role};
+        Scanner input = new Scanner(System.in);
+        while (name.isBlank()) {
+            System.out.println("Invalid Name. Provide a new one.");
+            name = input.nextLine();
+        }
+        while (!validatePassportCardNumber(passportCardNumber)) {
+            System.out.println("Invalid Passport Card Number. Provide a new one.");
+            passportCardNumber = input.nextLine();
+        }
+        while (!validateTaxNumber(taxNumber)) {
+            System.out.println("Invalid Tax Number. Provide a new one.");
+            taxNumber = input.nextLine();
+        }
+        while (emailAddress.isBlank()) {
+            System.out.println("Invalid Email. Provide a new one.");
+            emailAddress = input.nextLine();
+        }
+        while (!validatePhoneNumber(phoneNumber)) {
+            System.out.println("Invalid Phone Number. Provide a new one.");
+            phoneNumber = input.nextLine();
+        }
+        while (role.isBlank()) {
+            System.out.println("Invalid Role. Provide a new one.");
+            role = input.nextLine();
+        }
+        return newValues;
+    }
+
+
+    private boolean validatePassportCardNumber(String passportCardNumber) {
+        if (passportCardNumber.length() == PASSPORT_CARD_NUMBER_LENGTH) {
+            String[] passp = passportCardNumber.split("");
+            if (passp[0].equals(PASSPORT_FIRST_CHARACTER)) {
+                for (String digit : passp) {
+                    try {
+                        Integer.parseInt(digit);
+                    } catch (NumberFormatException e) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean validatePhoneNumber(String phoneNumber) {
+        //Phone Number:  NXX NXX-XXXX, where the Ns denote any of the digits 2–9, and the Xs denote any digit 0–9.
+        //exemplo (907) 488-6419
+        if (phoneNumber.length() == PHONE_NUMBER_LENGTH) {
+            String[] phone = phoneNumber.split(" ");
+            String firstSegment = phone[0];
+            String[] phoneSecondPart = phone[1].split("-");
+            String secondSegment = phoneSecondPart[0];
+            String thirdSegment = phoneSecondPart[1];
+            return getThreeDigitSegmentValidation(firstSegment) && getThreeDigitSegmentValidation(secondSegment) &&
+                    getFourDigitSegmentValidation(thirdSegment);
+        }
+        return false;
+    }
+
+    private boolean getFourDigitSegmentValidation(String phoneSegment) {
+        if (phoneSegment.length() == FOUR_DIGIT_SEGMENT_PHONE_NUMBER) {
+            String[] segmentDigits = phoneSegment.split("");
+            for (String digit : segmentDigits) {
+                try {
+                    Integer.parseInt(digit);
+                } catch (NumberFormatException e) {
+                    return false;
+                }
+                if (!(Integer.parseInt(digit) >= 0 && Integer.parseInt(digit) <= 9)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    private boolean getThreeDigitSegmentValidation(String phoneSegment) {
+        if (phoneSegment.length() == THREE_DIGIT_SEGMENT_PHONE_NUMBER) {
+            String[] segmentDigits = phoneSegment.split("");
+            for (String digit : segmentDigits) {
+                try {
+                    Integer.parseInt(digit);
+                } catch (NumberFormatException e) {
+                    return false;
+                }
+                if (!(Integer.parseInt(segmentDigits[0]) >= 2 && Integer.parseInt(segmentDigits[0]) <= 9)) {
+                    return false;
+                } else if (!(Integer.parseInt(digit) >= 0 && Integer.parseInt(digit) <= 9)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    private boolean validateTaxNumber(String taxNumber) {
+        if (taxNumber.length() == TAX_NUMBER_LENGTH) {
+            String[] tax = taxNumber.split("-");
+            return tax.length == NUMBER_OF_SEGMENTS_TAXES
+                    && tax[0].length() == FIRST_SEGMENT_TAX_NUMBER_LENGTH
+                    && tax[1].length() == SECOND_SEGMENT_TAX_NUMBER_LENGTH
+                    && tax[2].length() == THIRD_SEGMENT_TAX_NUMBER_LENGTH;
+        }
+        return false;
     }
 
     public Person(String emailAddress) {

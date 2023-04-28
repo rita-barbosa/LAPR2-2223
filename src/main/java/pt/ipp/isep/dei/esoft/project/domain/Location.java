@@ -1,8 +1,12 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
+import java.util.InputMismatchException;
 import java.util.Objects;
+import java.util.Scanner;
 
 public class Location {
+    private final Integer STATE_STRING_MAX_LENGTH = 6;
+    private final Integer ZIPCODE_STRING_MAX_LENGTH = 5;
 
     private String streetName;
     private String city;
@@ -11,28 +15,71 @@ public class Location {
     private String zipCode;
 
     public Location(String streetName, String city, String district, String state, String zipCode) {
-        if (validateLocation(streetName, city, district, state, zipCode)) {
-            this.streetName = streetName;
-            this.city = city;
-            this.district = district;
-            this.state = state;
-            this.zipCode = zipCode;
-        } else {
-            System.out.println("Location is not correct. Please submit new data.");
+
+        if (!(validateLocation(streetName, city, district, state, zipCode))) {
+            System.out.println("Location is not correct. Please submit new data. Zip Code (5 caracters) | State (max. 6 characters)");
+            String[] newValues = getNewLocation(streetName, city, district, state, zipCode);
+            streetName = newValues[0];
+            city = newValues[1];
+            district = newValues[2];
+            state = newValues[3];
+            zipCode = newValues[4];
         }
+
+        this.streetName = streetName;
+        this.city = city;
+        this.district = district;
+        this.state = state;
+        this.zipCode = zipCode;
+    }
+
+    private String[] getNewLocation(String streetName, String city, String district, String state, String zipCode) {
+        String[] newValues = {streetName, city, district, state, zipCode};
+        Scanner input = new Scanner(System.in);
+        while (streetName.isBlank()) {
+            System.out.println("Invalid Street Name. Provide a new one.");
+            streetName = input.nextLine();
+        }
+        while (city.isBlank()) {
+            System.out.println("Invalid City. Provide a new one.");
+            city = input.nextLine();
+        }
+        while (district.isBlank()) {
+            System.out.println("Invalid District. Provide a new one.");
+            district = input.nextLine();
+        }
+        while (!validateState(state)) {
+            System.out.println("Invalid State Abbreviation. Provide a new one.");
+            state = input.nextLine();
+        }
+        while (!validateZipCode(zipCode)) {
+            System.out.println("Invalid Zip Code. Provide a new one.");
+            zipCode = input.nextLine();
+        }
+        return newValues;
     }
 
     private boolean validateLocation(String streetName, String city, String district, String state, String zipCode) {
-        if (streetName.isEmpty() || city.isEmpty() || district.isEmpty() || state.isEmpty() || zipCode.isEmpty()){
+        if (streetName.isBlank() && city.isBlank() && district.isBlank() && state.isBlank() && zipCode.isBlank()){
             return false;
-        } else if (streetName.isBlank() || city.isBlank() || district.isBlank() || state.isBlank() || zipCode.isBlank()) {
-            return false;
+        }else if (streetName.isEmpty() && city.isEmpty() && district.isEmpty() && state.isEmpty() && zipCode.isEmpty()){
+            return true;
         }
-        return true;
+        return validateZipCode(zipCode) && validateState(state);
+    }
+
+
+    private boolean validateZipCode(String zipCode) {
+        return zipCode.length() == ZIPCODE_STRING_MAX_LENGTH;
+    }
+
+    private boolean validateState(String state) {
+        return state.length() > STATE_STRING_MAX_LENGTH;
     }
 
     /**
      * This method converts to string an instance of location.
+     *
      * @return a string with said location attributes.
      */
     @Override
