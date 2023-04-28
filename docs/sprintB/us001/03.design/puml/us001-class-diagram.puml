@@ -8,34 +8,37 @@ skinparam linetype polyline
 skinparam classAttributeIconSize 0
 
 class DisplayPropertiesUI {
-+sortingList
 }
 
 class DisplayPropertiesController {
-+announcementList
+-announcementList
 
 +sortByMostRecentAdded(announcementList)
++getAgency()
++getAnnouncementList()
++getAnnouncementsByBusinessType(announcementList, businessType)
++getAnnouncementsByPropertyType(announcementList, propertyType)
++getAnnouncementsByNumberBedrooms(announcementList, numberBedrooms)
++getAnnouncementsByPrice(sortingType, announcementList)
++getAnnouncementsByCity(sortingType, announcementList)
++getAnnouncementsByState(sortingType, announcementList)
 }
 
 class Repositories {
     - Repositories()
     + getInstance() : Repositories
-    + getFiltersRepository()
-    + getAgencyRepository()
-    + getAnnouncementList()
+    - getCriteriaRepository()
+    - getAgencyRepository()
+    - getAnnouncementList()
 
 }
 
-class FiltersRepository {
-+filtersList
+class CriteriaRepository {
++criteriaList
 }
 
 class AgencyRepository{
-+agency
-
-+getAnnouncementsByBusinessType(announcementList, businessType)
-+getAnnouncementsByPropertyType(announcementList, propertyType)
-+getAnnouncementsByNumberBedrooms(announcementList, numberBedrooms)
++agenciesList()
 
 }
 
@@ -44,18 +47,18 @@ class Agency{
 +announcementHasTypeProperties(announcementList, propertyType)
 +announcementHasNumberBedrooms(announcementList, numberBedrooms)
 +removeAnnouncement(announcementList)
--sortAnnouncementsByAscendingPrice(announcementList)
--sortAnnouncementsByDescendingPrice(announcementList)
--sortAnnouncementsByAscendingCity(announcementList)
--sortAnnouncementsByDescendingCity(announcementList)
--sortAnnouncementsByAscendingState(announcementList)
--sortAnnouncementsByDescendingState(announcementList)
++sortAnnouncementsByAscendingPrice(announcementList)
++sortAnnouncementsByDescendingPrice(announcementList)
++sortAnnouncementsByAscendingCity(announcementList)
++sortAnnouncementsByDescendingCity(announcementList)
++sortAnnouncementsByAscendingState(announcementList)
++sortAnnouncementsByDescendingState(announcementList)
 }
 
 
 DisplayPropertiesUI .> DisplayPropertiesController
 DisplayPropertiesController ..> Repositories
-DisplayPropertiesController ..> FiltersRepository
+DisplayPropertiesController ..> CriteriaRepository
 DisplayPropertiesController ..> AgencyRepository
 DisplayPropertiesController ..> Agency
 

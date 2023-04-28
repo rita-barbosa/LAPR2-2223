@@ -250,10 +250,10 @@ activate User
         User -> UI : select data (sortingType)
         activate UI
 
-        UI -> CTRL : sortAnnouncementsByPrice(price, sortingType, announcementList)
+        UI -> CTRL : getAnnouncementsByPrice(sortingType, announcementList)
         activate CTRL
 
-        CTRL -> AGENCY : sortAnnouncementsByPrice(price, sortingType, announcementList)
+        CTRL -> AGENCY : getAnnouncementsByPrice(sortingType, announcementList)
         activate AGENCY
 
 
@@ -298,10 +298,10 @@ activate User
         User -> UI : select data (sortingType)
         activate UI
 
-        UI -> CTRL : sortAnnouncementsByCity(city, sortingType, announcementList)
+        UI -> CTRL : getAnnouncementsByCity(sortingType, announcementList)
         activate CTRL
 
-        CTRL -> AGENCY : sortAnnouncementsByCity(city, sortingType, announcementList)
+        CTRL -> AGENCY : getAnnouncementsByCity(sortingType, announcementList)
         activate AGENCY
 
         alt ascending city
@@ -345,10 +345,10 @@ activate User
         User -> UI : select data (sortingType)
         activate UI
 
-        UI -> CTRL : sortAnnouncements(state, sortingType, announcementList)
+        UI -> CTRL : getAnnouncementsByState(sortingType, announcementList)
         activate CTRL
 
-        CTRL -> AGENCY : sortAnnouncements(state, sortingType, announcementList)
+        CTRL -> AGENCY : getAnnouncementsByState(sortingType, announcementList)
         activate AGENCY
 
 
