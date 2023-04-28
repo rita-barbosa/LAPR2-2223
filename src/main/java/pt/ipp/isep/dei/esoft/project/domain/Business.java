@@ -7,8 +7,8 @@ public class Business {
     public Business() {
     }
 
-    public Business(BusinessType businessType, Double amount) {
-        this.businessType = businessType;
+    public Business(String businessTypeDesignation, Double amount) {
+        this.businessType = new BusinessType(businessTypeDesignation);
         this.amount = amount;
     }
 
