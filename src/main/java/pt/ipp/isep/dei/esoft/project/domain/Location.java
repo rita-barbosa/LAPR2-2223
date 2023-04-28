@@ -99,4 +99,12 @@ public class Location {
     public int hashCode() {
         return Objects.hash(streetName, city, district, state, zipCode);
     }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getState() {
+        return state;
+    }
 }

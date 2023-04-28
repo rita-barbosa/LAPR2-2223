@@ -2,14 +2,14 @@ package pt.ipp.isep.dei.esoft.project.domain;
 
 public class Business {
     private BusinessType businessType;
-    private Double amount;
+    private Double price;
 
     public Business() {
     }
 
     public Business(String businessTypeDesignation, Double amount) {
         this.businessType = new BusinessType(businessTypeDesignation);
-        this.amount = amount;
+        this.price = amount;
     }
 
 
@@ -17,13 +17,13 @@ public class Business {
         return businessType;
     }
 
-    public Double getAmount() {
-        return amount;
+    public Double getPrice() {
+        return price;
     }
 
 
     @Override
     public String toString() {
-        return String.format("Type of Business: %s\nPrice: %f\n", businessType, amount);
+        return String.format("Type of Business: %s\nPrice: %f\n", businessType, price);
     }
 }
