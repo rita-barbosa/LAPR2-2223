@@ -123,6 +123,11 @@ As an agent, I can publish any sale announcement on the system, for example rece
     * Commission value
     * Area of the property
     * Location
+        * Street Name
+        * City
+        * District
+        * State
+        * Zip Code
     * Distance from city center
     * Price of the property
     * One or more photographs
