@@ -75,20 +75,24 @@ activate Owner
 
                 activate System
 
+                System --> Owner : requests data
+                deactivate System
+
            opt number of bathrooms
 
-                        System --> Owner : requests data
-                        deactivate System
+
 
                 Owner -> System : types requested data (numberBathroom)
                         activate System
 
            end  opt
 
+           System --> Owner : request data
+           deactivate System
+
                        opt list of available equipments
 
-                        System --> Owner : request data
-                        deactivate System
+
 
                             loop availableEquipment
 
@@ -97,11 +101,13 @@ activate Owner
                                 activate System
                             end loop
 
-            System --> Owner : requests data
+                end opt
 
             deactivate System
 
-            end opt
+            System --> Owner : requests data
+
+
 
            alt Property Type = House
 
