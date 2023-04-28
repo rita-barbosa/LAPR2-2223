@@ -46,6 +46,7 @@ class UserSession
 }
 
 class Employee {
+- String agency;
 }
 
 class Announcement {
@@ -132,6 +133,14 @@ class BusinessType
 - String designation
 + BusinessType(designation)
 }
+class Person{
+- String name
+- String passportCardNumber
+- String phoneNumber
+- List<String> roles
+- String taxNumber
+- String emailAddress
+}
 class Residence
 {
     - Integer numberBathroom
@@ -188,5 +197,5 @@ EAST
     Residence --|> Property
     House --|> Residence
     House -> "1" SunExposure
-
+    Person "1" <-- "1" Employee
 @enduml
