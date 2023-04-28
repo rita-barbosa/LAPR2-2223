@@ -97,8 +97,11 @@ If the client does not select the type of business, the type of property and the
 
 > **Question:** Can a land be rented?
 >
-> **Answer:** Yes. Please read the Project Description carefully.
+> **Answer:** Yes. Please read the Project Description carefully. 
 
+> **Question:** What are the attributes of an announcement? Should the announcement have a publication date, and a defined type of announcement embeded (sale or rent)?
+>
+> **Answer:** Please check the project description available in moodle. Please show the publication date.
 
 
 ### 1.3. Acceptance Criteria
