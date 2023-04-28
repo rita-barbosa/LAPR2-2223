@@ -36,6 +36,10 @@ public class Person {
         this.role = role;
     }
 
+    public Person(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
+
     public Person(String name, String passportCardNumber, String taxNumber, String emailAddress, String phoneNumber,
                   String role, Location location) {
         this.name = name;
@@ -56,7 +60,7 @@ public class Person {
     public boolean validateEmployee(Employee employee) {
         if (employee.getName().isEmpty() ||
                 employee.getTaxNumber().isEmpty() ||
-                employee.getLocation().equals("")||
+                employee.getLocation().equals("") ||
                 employee.getEmailAddress().isEmpty() ||
                 employee.getPhoneNumber().isEmpty() ||
                 employee.getRole() == null) {
@@ -125,6 +129,7 @@ public class Person {
 
     /**
      * Returns the location of the person.
+     *
      * @return the location of the person.
      */
     public Location getLocation() {
@@ -133,6 +138,7 @@ public class Person {
 
     /**
      * Sets the location of the person.
+     *
      * @param location the location of the person
      */
     public void setLocation(Location location) {

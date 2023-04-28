@@ -18,6 +18,9 @@ public class Employee extends Person {
         super(name, passportCardNumber, taxNumber, emailAddress, phoneNumber, role, location);
         this.agencyId = agencyId;
     }
+    public Employee(String email) {
+        super(email);
+    }
 
     @Override
     public boolean equals(Object o) {
