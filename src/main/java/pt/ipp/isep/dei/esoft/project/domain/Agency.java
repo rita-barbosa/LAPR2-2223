@@ -292,24 +292,35 @@ public class Agency {
         return optionalValue;
     }
 
+    /**
+     * Creates a new copy of this Agency object.
+     *
+     * @return A new copy of this Agency object.
+     */
     public Agency clone() {
-
         Agency clone = new Agency(this.id);
         clone.description = (this.description);
         clone.phoneNumber = (this.phoneNumber);
         clone.emailAddress = (this.emailAddress);
         clone.location = (this.location);
-        for (Employee in : this.employees) {
-            clone.employees.add(in.clone());
+        if (!(employees.isEmpty())) {
+            for (Employee in : this.employees) {
+                clone.employees.add(in.clone());
+            }
         }
-        for (Announcement in :
-                this.announcements) {
-            clone.announcements.add(in.clone());
+        if (!(announcements.isEmpty())) {
+            for (Announcement in :
+                    this.announcements) {
+                clone.announcements.add(in.clone());
+            }
         }
-        for (Request in :
-                this.requests) {
-            clone.requests.add(in.clone());
+        if (!(requests.isEmpty())) {
+            for (Request in :
+                    this.requests) {
+                clone.requests.add(in.clone());
+            }
         }
         return clone;
+
     }
 }

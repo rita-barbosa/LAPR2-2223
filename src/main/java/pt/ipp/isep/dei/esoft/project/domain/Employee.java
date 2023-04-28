@@ -1,13 +1,22 @@
 package pt.ipp.isep.dei.esoft.project.domain;
+
 import java.util.Objects;
 
 public class Employee extends Person {
-    private final String email;
+    private String agencyId;
 
-    public Employee(String email, String name, String passportCardNumber, String taxNumber, String emailAddress, String role,
+    public Employee(String agencyId, String name, String passportCardNumber, String taxNumber, String emailAddress, String role,
                     String phoneNumber, String city, String district, String state, String zipCode, String streetName) {
+
         super(name, passportCardNumber, taxNumber, emailAddress, phoneNumber, role, streetName, city, district, state, zipCode);
-        this.email = email;
+        this.agencyId = agencyId;
+    }
+
+    public Employee(String agencyId, String name, String passportCardNumber, String taxNumber, String emailAddress, String role,
+                    String phoneNumber, Location location) {
+
+        super(name, passportCardNumber, taxNumber, emailAddress, phoneNumber, role, location);
+        this.agencyId = agencyId;
     }
 
     @Override
@@ -19,28 +28,26 @@ public class Employee extends Person {
             return false;
         }
         Employee employee = (Employee) o;
-        return email.equals(employee.email);
+        return this.getEmailAddress().equals(employee.getEmailAddress());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(email);
+        return Objects.hash(getEmailAddress());
     }
 
     public boolean hasEmail(String email) {
-        return this.email.equals(email);
+        return this.getEmailAddress().equals(email);
     }
 
+    public Employee clone() {
+        return new Employee(agencyId, this.getName(), this.getPassportCardNumber(), this.getTaxNumber(), this.getEmailAddress(), this.getRole(),
+                this.getPhoneNumber(), this.getLocation());
+    }
 
-    /**
-     * Clone method.
-     *
-     * @return A clone of the current instance.
-     */
-//    public Employee clone() {
-//        return new Employee(this.email);
-//    }
     public boolean isAgent() {
         return this.getRole().equalsIgnoreCase("Agent");
     }
+
+
 }

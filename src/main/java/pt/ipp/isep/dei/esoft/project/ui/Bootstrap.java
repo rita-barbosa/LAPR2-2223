@@ -8,9 +8,21 @@ public class Bootstrap implements Runnable {
 
     public void run() {
         addOrganization();
+        addUserRoles();
         addUsers();
         addCommissionTypes();
         addPropertyTypes();
+    }
+
+    private void addUserRoles() {
+        AuthenticationRepository authenticationRepository = Repositories.getInstance().getAuthenticationRepository();
+
+        authenticationRepository.addUserRole(AuthenticationController.ROLE_ADMIN, AuthenticationController.ROLE_ADMIN);
+        authenticationRepository.addUserRole(AuthenticationController.ROLE_AGENT,
+                AuthenticationController.ROLE_AGENT);
+        authenticationRepository.addUserRole(AuthenticationController.ROLE_NETWORK_MANAGER, AuthenticationController.ROLE_NETWORK_MANAGER);
+        authenticationRepository.addUserRole(AuthenticationController.ROLE_CLIENT, AuthenticationController.ROLE_CLIENT);
+        authenticationRepository.addUserRole(AuthenticationController.ROLE_STORE_MANAGER, AuthenticationController.ROLE_STORE_MANAGER);
     }
 
     private void addOrganization() {
@@ -27,14 +39,6 @@ public class Bootstrap implements Runnable {
     private void addUsers() {
         AuthenticationRepository authenticationRepository = Repositories.getInstance().getAuthenticationRepository();
 
-        authenticationRepository.addUserRole(AuthenticationController.ROLE_ADMIN, AuthenticationController.ROLE_ADMIN);
-        authenticationRepository.addUserRole(AuthenticationController.ROLE_AGENT,
-                AuthenticationController.ROLE_AGENT);
-        authenticationRepository.addUserRole(AuthenticationController.ROLE_NETWORK_MANAGER, AuthenticationController.ROLE_NETWORK_MANAGER);
-        authenticationRepository.addUserRole(AuthenticationController.ROLE_CLIENT, AuthenticationController.ROLE_CLIENT);
-        authenticationRepository.addUserRole(AuthenticationController.ROLE_STORE_MANAGER, AuthenticationController.ROLE_STORE_MANAGER);
-
-
         authenticationRepository.addUserWithRole("Main Administrator", "admin@this.app", "admin",
                 AuthenticationController.ROLE_ADMIN);
 
@@ -44,7 +48,6 @@ public class Bootstrap implements Runnable {
 
     private void addCommissionTypes() {
         CommissionTypeRepository commissionTypeRepository = Repositories.getInstance().getCommissionTypeRepository();
-        ;
 
         commissionTypeRepository.add(new CommissionType("Fixed"));
         commissionTypeRepository.add(new CommissionType("Percentual"));
