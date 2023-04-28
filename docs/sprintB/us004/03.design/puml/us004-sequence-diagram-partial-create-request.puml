@@ -5,12 +5,16 @@ skinparam packageStyle rectangle
 skinparam shadowing false
 
 participant "request\n:Request" as REQUEST
+participant "house\n:House" as HOUSE
+participant "residence\n:Residence" as RESIDENCE
+participant "availableEquipment\n:List<AvailableEquipment>" as AEQUIP
 participant "property\n:Property" as PROPERTY
+participant "photograph\n:List<Photograph>" as PHOTO
 participant "location\n:Location" as LOCATION
 
 autonumber 35
 
-        -> REQUEST: createRequest(agent, agency, ownerEmail, propertyType, businessType, amount, area,\n contractDuration, availableEquipment, streetName, city, district, state, zipCode,\n basement, inhabitableLoft, parkingSpace, sunExposure, numberBedroom,\n numberBathroom, distanceCityCenter, photograph)
+         -> REQUEST : createRequest(ownerEmail, agent, agency, propertyType, businessType, amount,\n area, contractDuration, streetName, city, district, state, zipCode, basement,\n availableEquipmentDesignationList, inhabitableLoft, parkingSpace, sunExposure,\n numberBedroom, numberBathroom, distanceCityCenter, photographUriList)
         activate REQUEST
 
             group Create Request
@@ -20,53 +24,78 @@ autonumber 35
 
                 autonumber 35.1
 
-                REQUEST -> PROPERTY** : createProperty(propertyType, area, streetName, city, district, state,\n zipCode, distanceCityCenter, photograph)
+                REQUEST -> PROPERTY** : Property(propertyType, area, streetName, city, district, state,\n zipCode, distanceCityCenter, photographUriList)
 
-                                activate PROPERTY
+                    activate PROPERTY
 
-                               PROPERTY -> LOCATION** : createLocation(streetName, city, district, state, zipCode)
+                    PROPERTY -> PHOTO** : photographList = fillPhotographList(photographUriList)
 
-                               activate LOCATION
+                    activate PHOTO
 
-                               LOCATION -> LOCATION : validateLocation(location)
+                    PHOTO --> PROPERTY : photographList
+                    deactivate PHOTO
 
-                                   activate LOCATION
+                    |||
 
-                                   LOCATION --> LOCATION
+                   PROPERTY -> LOCATION** : createLocation(streetName, city, district, state, zipCode)
 
-                                   deactivate LOCATION
+                   activate LOCATION
 
-                               LOCATION --> PROPERTY : location
+                   LOCATION -> LOCATION : validateLocation(location)
 
-                               deactivate LOCATION
+                       activate LOCATION
 
-                               |||
-                               PROPERTY -> PROPERTY : validateProperty(property)
+                       LOCATION --> LOCATION
 
-                                    activate PROPERTY
+                       deactivate LOCATION
 
-                                    PROPERTY --> PROPERTY
+                   LOCATION --> PROPERTY : location
 
-                                    deactivate PROPERTY
+                   deactivate LOCATION
 
-                               PROPERTY --> REQUEST : property
+                   |||
+                   PROPERTY -> PROPERTY : validateProperty(property)
 
-                               deactivate PROPERTY
+                        activate PROPERTY
 
-                                |||
-                               REQUEST -> REQUEST : getCurrentDate()
-                               activate REQUEST
+                        PROPERTY --> PROPERTY
 
-                               REQUEST --> REQUEST :
-                               deactivate REQUEST
+                        deactivate PROPERTY
+
+                   PROPERTY --> REQUEST : property
+
+                   deactivate PROPERTY
+
                 |||
                 else Property Type = Apartment
 
                 autonumber 35.1
 
-                REQUEST -> PROPERTY** : createProperty(propertyType, area, streetName, city, district, state,\n zipCode, availableEquipment, parkingSpace, numberBedroom,\n numberBathroom, photograph, distanceCityCenter)
+                REQUEST -> RESIDENCE** : Residence(propertyType, area, streetName, city, district, state,\n zipCode, availableEquipmentDesignationList, parkingSpace,\n numberBedroom, numberBathroom photographUriList, distanceCityCenter)
+
+                activate RESIDENCE
+
+                RESIDENCE -> AEQUIP** : availableEquipmentList = fillAvailableEquipmentList(availableEquipmentDesignationList)
+
+                activate AEQUIP
+
+                AEQUIP --> RESIDENCE : availableEquipmentList
+
+                deactivate AEQUIP
+
+                |||
+                RESIDENCE -> PROPERTY** : super(propertyType, area, distanceCityCenter, photographUriList, streetName, city, district, state, zipCode)
 
                 activate PROPERTY
+
+                PROPERTY -> PHOTO** : photographList = fillPhotographList(photographUriList)
+
+                activate PHOTO
+
+                PHOTO --> PROPERTY : photographList
+                deactivate PHOTO
+
+                |||
 
                PROPERTY -> LOCATION** : createLocation(streetName, city, district, state, zipCode)
 
@@ -93,25 +122,46 @@ autonumber 35
 
                     deactivate PROPERTY
 
-               PROPERTY --> REQUEST : property
+               PROPERTY --> RESIDENCE : property
 
                deactivate PROPERTY
 
-                |||
-               REQUEST -> REQUEST : getCurrentDate()
-               activate REQUEST
+               RESIDENCE --> REQUEST : residence
 
-               REQUEST --> REQUEST :
-               deactivate REQUEST
+               deactivate RESIDENCE
 
             |||
             else Property Type = House
+                autonumber 35.1
 
-            autonumber 35.1
+               REQUEST -> HOUSE** : House(propertyType, availableEquipmentDesignationList, area, streetName,\n city, district, state, zipCode, basement, inhabitableLoft, parkingSpace,\n sunExposure, numberBedroom, numberBathroom, distanceCityCenter,\n photographUriList)
 
-                REQUEST -> PROPERTY** : createProperty(propertyType, area, streetName, city, district, state,\n zipCode, basement, availableEquipment, inhabitableLoft, parkingSpace,\n sunExposure, numberBedroom, numberBathroom, photograph,\n distanceCityCenter)
+               activate HOUSE
+
+               HOUSE -> RESIDENCE** : super(propertyType, area, availableEquipmentDesignationList,\n streetName, city, district, state, zipCode, parkingSpace,\n numberBedroom, numberBathroom, distanceCityCenter,\n photographUriList)
+                activate RESIDENCE
+
+                RESIDENCE -> AEQUIP** : availableEquipmentList = fillAvailableEquipmentList(availableEquipmentDesignationList)
+
+                activate AEQUIP
+
+                AEQUIP --> RESIDENCE : availableEquipmentList
+
+                deactivate AEQUIP
+
+                |||
+                RESIDENCE -> PROPERTY** : super(propertyType, area, distanceCityCenter, photographUriList, streetName, city, district, state, zipCode)
 
                 activate PROPERTY
+
+                PROPERTY -> PHOTO** : photographList = fillPhotographList(photographUriList)
+
+                activate PHOTO
+
+                PHOTO --> PROPERTY : photographList
+                deactivate PHOTO
+
+                |||
 
                PROPERTY -> LOCATION** : createLocation(streetName, city, district, state, zipCode)
 
@@ -138,16 +188,16 @@ autonumber 35
 
                     deactivate PROPERTY
 
-               PROPERTY --> REQUEST : property
+               PROPERTY --> RESIDENCE : property
 
                deactivate PROPERTY
 
-                |||
-               REQUEST -> REQUEST : getCurrentDate()
-               activate REQUEST
+               RESIDENCE --> HOUSE : residence
 
-               REQUEST --> REQUEST :
-               deactivate REQUEST
+               deactivate RESIDENCE
+
+           HOUSE --> REQUEST : house
+           deactivate HOUSE
             |||
             end alt
 
