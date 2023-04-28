@@ -53,10 +53,13 @@ class Location
 }
 
 
-RegisterUserUI .> RegisterUserController
+RegisterUserUI .left> RegisterUserController
 RegisterUserController .> Repositories : repositories
 RegisterUserController .--> "1" PersonRepository
 RegisterUserController .-> AuthenticationRepository
+
+Repositories "1" -> "1" PersonRepository
+Repositories "1" -> "1" AuthenticationRepository
 
 PersonRepository  --> "*" Person
 Person --> "1" Location : hasAddress

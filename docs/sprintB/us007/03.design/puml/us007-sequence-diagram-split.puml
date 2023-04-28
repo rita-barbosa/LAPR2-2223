@@ -59,7 +59,7 @@ activate ADM
     CTRL -> PERSONREP : createPerson(name, passportCardNumber, tax number,\n emailAddress, phoneNumber, streetName,\n city, district, state, zipcode,clientRole)
    activate PERSONREP
 
-    PERSONREP -> PERSON** : create(name, passportCardNumber, tax number,\n emailAddress, phoneNumber, streetName,\n city, district, state, zipcode,clietnRole)
+    PERSONREP -> PERSON** : create(name, passportCardNumber, tax number,\n emailAddress, phoneNumber, streetName,\n city, district, state, zipcode,clientRole)
     activate PERSON
 
     PERSON -> LOCATION** : createLocation(streetName, city, \ndistrict, state, zipcode)
