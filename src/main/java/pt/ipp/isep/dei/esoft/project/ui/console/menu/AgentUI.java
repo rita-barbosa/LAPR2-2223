@@ -11,8 +11,7 @@ public class AgentUI implements Runnable {
     @Override
     public void run() {
         List<MenuItem> options = new ArrayList<MenuItem>();
-
-        options.add(new MenuItem("Publish Announcement", new PublishAnnouncementUI()));
+        options.add(new MenuItem("Publish a sale announcement", new PublishAnnouncementUI()));
         int option = 0;
         do {
             option = Utils.showAndSelectIndex(options, "\n\nAgent Menu:");
