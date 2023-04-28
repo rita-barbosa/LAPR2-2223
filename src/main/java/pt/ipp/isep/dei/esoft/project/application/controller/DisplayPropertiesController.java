@@ -23,7 +23,7 @@ public class DisplayPropertiesController {
         getAgencyRepository();
         getAgenciesList();
         announcementList = getAnnouncementsList();
-        //List<Announcement> clonedAnnouncementList = new ArrayList<>(announcementList);
+        List<Announcement> clonedAnnouncementList = new ArrayList<>(announcementList);
         //sortAnnouncementsByMostRecentAdded(clonedAnnouncementList);
         sortAnnouncementsByMostRecentAdded();
         getCriteriaRepository();
@@ -38,7 +38,6 @@ public class DisplayPropertiesController {
         return agencyRepository;
     }
 
-
     public List<Agency> getAgenciesList() {
         AgencyRepository agencyRepository = getAgencyRepository();
         return agencyRepository.getAgenciesList();
@@ -47,30 +46,40 @@ public class DisplayPropertiesController {
     public List<Announcement> getAnnouncementsList(){
         List<Announcement> announcementList = new ArrayList<>();
         List<Agency> agencies = getAgenciesList();
-
-        for (Agency agency: getAgencyRepository().getAgenciesList()) {
-            //for (Agency agency: agencies) { check which one is correct
-            announcementList.addAll(agencies.getAnnouncementList()); //check it again
+            for (Agency agency: agencies) {
+            announcementList.addAll(agency.getAnnouncements());
         }
-
         return announcementList;
     }
 
     public List<Announcement> sortAnnouncementsByMostRecentAdded(){
         List<Announcement> clonedAnnouncementList = new ArrayList<>(announcementList);
-        Collections.sort(clonedAnnouncementList, new Comparator<Announcement>() {
-            @Override
-            public int compare(Announcement o1, Announcement o2) {
-                LocalDate o1AcceptanceDate = o1.getAcceptanceDate();
-                LocalDate o2AcceptanceDate = o2.getAcceptanceDate();
 
-                return o1AcceptanceDate.compareTo(o2AcceptanceDate);
+        Comparator<Announcement> acceptanceDate = new Comparator<Announcement>() {
+            public int compare(Announcement a1, Announcement a2){
+                LocalDate a1AcceptanceDate = a1.getAcceptanceDate();
+                LocalDate a2AcceptanceDate = a2.getAcceptanceDate();
+
+                return a1AcceptanceDate.compareTo(a2AcceptanceDate);
             }
-        });
+        };
+
+        Collections.sort(clonedAnnouncementList, Collections.reverseOrder(acceptanceDate));
         return clonedAnnouncementList;
+
+//        Collections.sort(clonedAnnouncementList, Collections.reverseOrder(new Comparator<Announcement>() {
+//            @Override
+//            public int compare(Announcement o1, Announcement o2) {
+//                LocalDate o1AcceptanceDate = o1.getAcceptanceDate();
+//                LocalDate o2AcceptanceDate = o2.getAcceptanceDate();
+//
+//                return o1AcceptanceDate.compareTo(o2AcceptanceDate);
+//            }
+//        }));
+//        return clonedAnnouncementList;
     }
 
-    private CriteriaRepository getCriteriaRepository() {
+    public CriteriaRepository getCriteriaRepository() {
         if (criteriaRepository == null) {
             Repositories repositories = Repositories.getInstance();
             criteriaRepository = repositories.getCriteriaRepository();
