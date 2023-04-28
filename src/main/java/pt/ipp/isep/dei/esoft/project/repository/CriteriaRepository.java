@@ -7,26 +7,19 @@ import java.util.Optional;
 
 public class CriteriaRepository {
 
-    private List<Criteria> criteria = new ArrayList<>();
+    public List<String> criteria = new ArrayList<>();
 
-//    public Optional<Criteria> add(Criteira criteria) {
-//        Optional<Criteria> newCriteria = Optional.empty();
-//        boolean success = false;
-//
-//        if (validateCriteria(criteria)) {
-//            newCriteria = Optional.of(criteria.clone());
-//            success = criterias.add(newCriteria.get());
-//        }
-//
-//        if (!success) {
-//            newCriteira = Optional.empty();
-//        }
-//
-//        return newCriteria;
-//    }
-//
-//    private boolean validateCriteria(Criteira criteria) {
-//        return (!(criterias.contains(criterias)));
-//    }
+    public CriteriaRepository(){
+        this.criteria.add("Type of Business");
+        this.criteria.add("Type of Property");
+        this.criteria.add("Number of Bedrooms");
+        this.criteria.add("Price");
+        this.criteria.add("City");
+        this.criteria.add("State");
+    }
+
+    public List<String> getCriteriaList(){
+        return List.copyOf(criteria);
+    }
 
 }
