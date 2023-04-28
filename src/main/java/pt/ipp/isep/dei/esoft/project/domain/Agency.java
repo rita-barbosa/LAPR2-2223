@@ -48,9 +48,9 @@ public class Agency {
     List<Request> requests;
 
     /**
-     * Construts a new Agency object with the specified id, description, email address, phone number and location.
+     * Constructs a new Agency object with the specified id, description, email address, phone number and location.
      *
-     * @param id           he unique identifier of the agency.
+     * @param id           the unique identifier of the agency.
      * @param description  the description of the agency.
      * @param emailAddress the email address of the agency.
      * @param phoneNumber  the phone number of the agency.
@@ -67,9 +67,18 @@ public class Agency {
         this.requests = new ArrayList<>();
     }
 
+    /**
+     * Constructs a new Agency object with the specified id.
+     *
+     * @param id -  the unique identifier of the agency.
+     */
     public Agency(Integer id) {
         this.id = id;
+        this.employees = new ArrayList<>();
+        this.announcements = new ArrayList<>();
+        this.requests = new ArrayList<>();
     }
+
 
     /**
      * This method checks if the agency has an employee with the given email.
@@ -96,12 +105,29 @@ public class Agency {
     public Employee getAgentByEmail(String emailAddress) {
         Employee returnEmployee = null;
         for (Employee employee : employees) {
-            if (anyAgentHasEmail(emailAddress)) {
+            if (employee.isAgent() && anyEmployeeHasEmail(emailAddress)) {
                 returnEmployee = employee;
             }
         }
         return returnEmployee;
     }
+
+    /**
+     * This method checks if the agency has any Employee with the specified email.
+     *
+     * @param email - the employee email address.
+     * @return {@code true} if the belongs to the agency; {@code false} otherwise;
+     */
+    public Boolean anyEmployeeHasEmail(String email) {
+        Boolean result = false;
+        for (Employee employee : employees) {
+            if (employee.hasEmail(email)) {
+                result = true;
+            }
+        }
+        return result;
+    }
+
 
     /**
      * This method adds an announcement to the existent list of announcements.
@@ -163,6 +189,7 @@ public class Agency {
         return optionalValue;
     }
 
+
     /**
      * This method creates a new sale Request instance, and adds it to the list of requests already existent.
      *
@@ -192,13 +219,13 @@ public class Agency {
 
         Optional<Request> optionalValue = Optional.empty();
         Request request;
-//        request = new Request(ownerEmail, propertyType, businessType, amount, area, availableEquipment, streetName,
-//                city, district, state, zipCode, basement, inhabitableLoft, parkingSpace, sunExposure, numberBedroom,
-//                numberBathroom, agent, distanceCityCenter, photograph);
-//
-//        if (addRequest(request)) {
-//            optionalValue = Optional.of(request);
-//        }
+        request = new Request(ownerEmail, propertyType, businessType, amount, area, availableEquipment, streetName,
+                city, district, state, zipCode, basement, inhabitableLoft, parkingSpace, sunExposure, numberBedroom,
+                numberBathroom, agent, distanceCityCenter, photograph);
+
+        if (addRequest(request)) {
+            optionalValue = Optional.of(request);
+        }
         return optionalValue;
     }
 
@@ -223,7 +250,25 @@ public class Agency {
      * @return {@code true} if the announcement isn't in the list of announcements; {@code false} otherwise;
      */
     private Boolean validateAnnouncement(Announcement announcement) {
-        return !(announcements.contains(announcement));
+        return announcements != null && !(announcements.contains(announcement));
+    }
+
+    public Boolean addEmployee(Employee employee) {
+        Boolean success = false;
+        if (validateEmployee(employee)) {
+            success = employees.add(employee.clone());
+        }
+        return success;
+    }
+
+    /**
+     * This method checks if the list of requests already contains the employee received.
+     *
+     * @param employee - employee intended to be checked.
+     * @return {@code true} if the employee isn't in the list of employees; {@code false} otherwise;
+     */
+    private Boolean validateEmployee(Employee employee) {
+        return employees != null && !(employees.contains(employee));
     }
 
     /**
@@ -233,7 +278,7 @@ public class Agency {
      * @return {@code true} if the request isn't in the list of requests; {@code false} otherwise;
      */
     private Boolean validateRequest(Request request) {
-        return !(requests.contains(request));
+        return requests != null & !(requests.contains(request));
     }
 
     /**
@@ -323,11 +368,47 @@ public class Agency {
     }
 
     /**
+     * Compares this Agency object to the specified object.
+     *
+     * @param o - the object to compare to.
+     * @return {@code true} if the objects are equal,{@code false} otherwise;
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Agency)) {
+            return false;
+        }
+        Agency that = (Agency) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(description, that.description) &&
+                Objects.equals(emailAddress, that.emailAddress) &&
+                Objects.equals(phoneNumber, that.phoneNumber) &&
+                Objects.equals(location, that.location) &&
+                Objects.equals(employees, that.employees) &&
+                Objects.equals(announcements, that.announcements) &&
+                Objects.equals(requests, that.requests);
+    }
+
+    /**
+     * Generates a hash code for this Agency object.
+     *
+     * @return The hash code of the Agency object.
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, description, emailAddress, phoneNumber, location, employees, announcements, requests);
+    }
+
+    /**
      * Returns the list of announcements for this agency.
      *
      * @return the list of announcements for this agency.
      */
-    public List<Announcement> getAnnouncements(){
+    public List<Announcement> getAnnouncements() {
         return this.announcements;
     }
+
 }
