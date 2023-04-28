@@ -146,13 +146,13 @@ class Residence
     - Integer numberBathroom
     - Integer numberBedroom
     - Integer numberParkingSpace
-    Residence(propertyType, area, availableEquipment, streetName, \ncity, district, state,zipCode, parkingSpace, numberBedroom,\n numberBathroom, distanceCityCenter, photograph)
+    + Residence(propertyType, area, availableEquipment, streetName, \ncity, district, state,zipCode, parkingSpace, numberBedroom,\n numberBathroom, distanceCityCenter, photograph)
 }
 class House
 {
     - Boolean existenceBasement
     - Boolean inhabitableLoft
-    House(propertyType, availableEquipment, area, streetName, \ncity, district, state, zipCode, basement, inhabitableLoft,\n parkingSpace, sunExposure, numberBedroom,\n numberBathroom,distanceCityCenter, photograph)
+    + House(propertyType, availableEquipment, area, streetName, \ncity, district, state, zipCode, basement, inhabitableLoft,\n parkingSpace, sunExposure, numberBedroom,\n numberBathroom,distanceCityCenter, photograph)
 }
 enum SunExposure
 {
