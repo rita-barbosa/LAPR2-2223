@@ -1,14 +1,12 @@
 package pt.ipp.isep.dei.esoft.project.domain;
-
-import javax.management.relation.Role;
 import java.util.Objects;
 
 public class Employee extends Person {
     private final String email;
 
-    public Employee(String email, String name, String passportCardNumber, String taxNumber, String emailAddress, Role role,
-                    String phoneNumber, String city, String state, String zipCode, String streetName) {
-        super(name, passportCardNumber, taxNumber, emailAddress, phoneNumber, role, city, state, zipCode, streetName);
+    public Employee(String email, String name, String passportCardNumber, String taxNumber, String emailAddress, String role,
+                    String phoneNumber, String city, String district, String state, String zipCode, String streetName) {
+        super(name, passportCardNumber, taxNumber, emailAddress, phoneNumber, role, streetName, city, district, state, zipCode);
         this.email = email;
     }
 
@@ -42,8 +40,7 @@ public class Employee extends Person {
 //    public Employee clone() {
 //        return new Employee(this.email);
 //    }
-
     public boolean isAgent() {
-        return this.getRole().getRoleName().equalsIgnoreCase("Agent");
+        return this.getRole().equalsIgnoreCase("Agent");
     }
 }
