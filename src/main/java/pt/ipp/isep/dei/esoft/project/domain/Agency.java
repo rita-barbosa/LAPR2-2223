@@ -122,7 +122,7 @@ public class Agency {
      *
      * @param ownerEmail
      * @param propertyType
-     * @param businessType
+     * @param businessTypeDesignation
      * @param amount
      * @param area
      * @param contractDuration
@@ -143,7 +143,7 @@ public class Agency {
      * @param uri
      * @return an Optional object of Request, allowing the calling code to handle the possibility of null values without the need for explicit null checks.
      */
-    public Optional<Request> createRequest(String ownerEmail, PropertyType propertyType, BusinessType businessType, Double amount, Double area, Integer contractDuration, List<String> availableEquipmentDescription, String streetName, String city, String district, String state, String zipCode, Boolean basement, Boolean inhabitableLoft, Integer parkingSpace, Enum<SunExposureTypes> sunExposure, Integer numberBedroom, Integer numberBathroom, Employee agent, Double distanceCityCenter, List<String> uri) {
+    public Optional<Request> createRequest(String ownerEmail, PropertyType propertyType, String businessTypeDesignation, Double amount, Double area, Integer contractDuration, List<String> availableEquipmentDescription, String streetName, String city, String district, String state, String zipCode, Boolean basement, Boolean inhabitableLoft, Integer parkingSpace, Enum<SunExposureTypes> sunExposure, Integer numberBedroom, Integer numberBathroom, Employee agent, Double distanceCityCenter, List<String> uri) {
 
         // When a Request is added, it should fail if the Request already exists in the list of Request.
         // In order to not return null if the operation fails, we use the Optional class.
@@ -151,10 +151,10 @@ public class Agency {
 
         Request request;
 
-        if (businessType.getDesignation().equalsIgnoreCase(LEASE_BUSINESSTYPE)) {
-            request = new Request(ownerEmail, propertyType, businessType, amount, area, contractDuration, availableEquipmentDescription, streetName, city, district, state, zipCode, basement, inhabitableLoft, parkingSpace, sunExposure, numberBedroom, numberBathroom, agent, distanceCityCenter, uri);
+        if (businessTypeDesignation.equalsIgnoreCase(LEASE_BUSINESSTYPE)) {
+            request = new Request(ownerEmail, propertyType, businessTypeDesignation, amount, area, contractDuration, availableEquipmentDescription, streetName, city, district, state, zipCode, basement, inhabitableLoft, parkingSpace, sunExposure, numberBedroom, numberBathroom, agent, distanceCityCenter, uri);
         } else {
-            request = new Request(ownerEmail, propertyType, businessType, amount, area, availableEquipmentDescription, streetName, city, district, state, zipCode, basement, inhabitableLoft, parkingSpace, sunExposure, numberBedroom, numberBathroom, agent, distanceCityCenter, uri);
+            request = new Request(ownerEmail, propertyType, businessTypeDesignation, amount, area, availableEquipmentDescription, streetName, city, district, state, zipCode, basement, inhabitableLoft, parkingSpace, sunExposure, numberBedroom, numberBathroom, agent, distanceCityCenter, uri);
         }
 
         if (addRequest(request)) {
