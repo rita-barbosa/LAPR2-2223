@@ -11,8 +11,6 @@ public class Person {
     private String role;
     private Location location;
 
-
-
     /**
      * Creates a Person object with the given parameters.
      *
