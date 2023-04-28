@@ -51,6 +51,11 @@ public class Person {
         this.role = role;
     }
 
+    public Person(String email, String roleId) {
+        this.emailAddress = email;
+        this.role = roleId;
+    }
+
     /**
      * Validates the Employee object by checking if any of its required fields are empty.
      *

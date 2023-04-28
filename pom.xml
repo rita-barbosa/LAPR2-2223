@@ -37,7 +37,7 @@
 
         <!-- Mockito Version Configuration -->
         <mockito-all>1.10.19</mockito-all>
-        <mockito-core>5.1.1</mockito-core>
+        <mockito-core>5.2.0</mockito-core>
 
     </properties>
 

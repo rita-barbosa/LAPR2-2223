@@ -18,6 +18,11 @@ public class Employee extends Person {
         super(name, passportCardNumber, taxNumber, emailAddress, phoneNumber, role, location);
         this.agencyId = agencyId;
     }
+
+    public Employee(String email, String roleId) {
+        super(email,roleId);
+    }
+
     public Employee(String email) {
         super(email);
     }
