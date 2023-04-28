@@ -1,11 +1,7 @@
 package pt.ipp.isep.dei.esoft.project.ui.console;
 
 import pt.ipp.isep.dei.esoft.project.application.controller.RegisterUserController;
-import pt.ipp.isep.dei.esoft.project.application.controller.authorization.AuthenticationController;
-import pt.ipp.isep.dei.esoft.project.domain.Person;
-import pt.ipp.isep.dei.esoft.project.domain.Request;
 
-import java.util.Optional;
 import java.util.Scanner;
 
 public class RegisterUserUI implements Runnable {
