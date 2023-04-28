@@ -1,8 +1,6 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * The Agency class represents a real estate agency that contains information about employees, announcements, and requests.
@@ -322,5 +320,14 @@ public class Agency {
         }
         return clone;
 
+    }
+
+    /**
+     * Returns the list of announcements for this agency.
+     *
+     * @return the list of announcements for this agency.
+     */
+    public List<Announcement> getAnnouncements(){
+        return this.announcements;
     }
 }
