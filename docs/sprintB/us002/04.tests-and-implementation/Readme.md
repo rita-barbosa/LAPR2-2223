@@ -20,8 +20,6 @@
         Announcement announcement = new Announcement(employee, commissionType, 234.0, request);
     }
 ```
-**Test 2:** Checks if an Announcement is successfully created.
-
 
 *It is also recommended to organize this content by subsections.* 
 
