@@ -61,12 +61,10 @@ public class RegisterUserUI implements Runnable {
         Scanner input = new Scanner(System.in);
         String answer = null;
         Boolean invalid = true;
-        System.out.println("Password (Format: 7 alphanumeric characters, including 3 capital letters and 2 digits)\nor press enter to skip (Generated password will be sent to the introduced email):");
+        System.out.println("Password (Format: 7 alphanumeric characters, including 3 capital letters and 2 digits)");
         while (invalid) {
             answer = input.nextLine().trim();
-            if (answer.isEmpty()) {
-                return null;
-            } else if (answer.length() != PASSWORD_LENGHT) {
+           if (answer.length() != PASSWORD_LENGHT) {
                 System.out.println("ERROR: Password must have 7 alphanumeric characters.");
             } else {
                 invalid = false;
