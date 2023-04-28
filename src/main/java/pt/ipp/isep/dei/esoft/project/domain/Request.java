@@ -104,4 +104,8 @@ public class Request {
         return request;
 
     }
+
+    public Business getBusiness() {
+        return this.business;
+    }
 }
