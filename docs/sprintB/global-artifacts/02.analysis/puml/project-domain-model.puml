@@ -116,7 +116,6 @@ SystemAdministrator "0..*" -- Employee: plays as <
 SystemAdministrator "1" --- "*" Employee: registers >
 SystemAdministrator "1" -- "*" Agency: registers >
 Person "1" -- "1" Employee: represented in <
-Person -- Owner
 Customer "1"  --- "1" Person: represented in >
 Owner "0..*" -- Customer: plays as <
 Agent "0..*" ---- "1" Employee: plays as <
@@ -132,11 +131,11 @@ Request "*" -- "1" Owner: submits <
 Visit "1" -- "1" Property: done to >
 Residence  ---|>  Property
 House --|> Residence
-Visit "1" --- "1"  VisitReport: is as description of <
+Visit "1" --- "1"  VisitReport: is a description of <
 Agent "1" -- "*" VisitReport: registers >
 Employee "1" ----- "1" Agency: works in  >
-PropertyType "1" -- "1" Property: is as description of >
-ResidenceType "1" -- "1" Residence: is as description of >
+PropertyType "1" -- "1" Property: is a description of >
+ResidenceType "1" -- "1" Residence: is a description of >
 Property "1" -- "1..*" Photograph: is visualized in >
 Property "1"--"1" Location: has address >
 Person "1" -- "1" Location: has address >
