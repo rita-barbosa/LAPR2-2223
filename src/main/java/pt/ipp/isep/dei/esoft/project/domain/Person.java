@@ -11,17 +11,17 @@ public class Person {
     private String role;
     private Location location;
     private final Integer PASSPORT_CARD_NUMBER_LENGTH = 9;
-    private final String PASSPORT_FIRST_CHARACTER = "C";
+    private final char PASSPORT_FIRST_CHARACTER = 'C';
     private final Integer TAX_NUMBER_LENGTH = 11;
     private final Integer NUMBER_OF_SEGMENTS_TAXES = 3;
     private final Integer FIRST_SEGMENT_TAX_NUMBER_LENGTH = 3;
-    private final Integer SECOND_SEGMENT_TAX_NUMBER_LENGTH = 3;
-    private final Integer THIRD_SEGMENT_TAX_NUMBER_LENGTH = 3;
+    private final Integer SECOND_SEGMENT_TAX_NUMBER_LENGTH = 2;
+    private final Integer THIRD_SEGMENT_TAX_NUMBER_LENGTH = 4;
     private final Integer THREE_DIGIT_SEGMENT_PHONE_NUMBER = 3;
     private final Integer FOUR_DIGIT_SEGMENT_PHONE_NUMBER = 4;
 
 
-    private final Integer PHONE_NUMBER_LENGTH = 14;
+    private final Integer PHONE_NUMBER_LENGTH = 12;
 
     /**
      * Creates a Person object with the given parameters.
@@ -52,7 +52,9 @@ public class Person {
         this.name = name;
         this.passportCardNumber = passportCardNumber;
         this.taxNumber = taxNumber;
-        this.location = new Location(streetName, city, district, state, zipCode);
+        if(streetName != null){
+            this.location = new Location(streetName, city, district, state, zipCode);
+        }
         this.emailAddress = emailAddress;
         this.phoneNumber = phoneNumber;
         this.role = role;
@@ -63,7 +65,7 @@ public class Person {
                 (emailAddress.isBlank() || emailAddress.isEmpty()) && (phoneNumber.isBlank() || phoneNumber.isEmpty()) && (role.isBlank() || role.isEmpty())) {
             return false;
         }
-        return validateTaxNumber(taxNumber) && validatePhoneNumber(phoneNumber) && validatePassportCardNumber(passportCardNumber);
+        return validateTaxNumber(taxNumber) && validatePhone(phoneNumber) && validatePassportCardNumber(passportCardNumber);
     }
 
     private String[] getNewData(String name, String passportCardNumber, String taxNumber, String emailAddress, String phoneNumber, String role) {
@@ -85,7 +87,7 @@ public class Person {
             System.out.println("Invalid Email. Provide a new one.");
             emailAddress = input.nextLine();
         }
-        while (!validatePhoneNumber(phoneNumber)) {
+        while (!validatePhone(phoneNumber)) {
             System.out.println("Invalid Phone Number. Provide a new one.");
             phoneNumber = input.nextLine();
         }
@@ -98,84 +100,101 @@ public class Person {
 
 
     private boolean validatePassportCardNumber(String passportCardNumber) {
-        if (passportCardNumber.length() == PASSPORT_CARD_NUMBER_LENGTH) {
+        if (passportCardNumber.length() == PASSPORT_CARD_NUMBER_LENGTH && (passportCardNumber.charAt(0) == PASSPORT_FIRST_CHARACTER)) {
             String[] passp = passportCardNumber.split("");
-            if (passp[0].equals(PASSPORT_FIRST_CHARACTER)) {
-                for (String digit : passp) {
-                    try {
-                        Integer.parseInt(digit);
-                    } catch (NumberFormatException e) {
-                        return false;
-                    }
+            for (int i = 1; i < passp.length - 1; i++) {
+                try {
+                    Integer.parseInt(passp[i]);
+                } catch (NumberFormatException e) {
+                    return false;
                 }
-                return true;
             }
+            return true;
         }
         return false;
     }
 
-    private boolean validatePhoneNumber(String phoneNumber) {
-        //Phone Number:  NXX NXX-XXXX, where the Ns denote any of the digits 2–9, and the Xs denote any digit 0–9.
-        //exemplo (907) 488-6419
+//    private boolean validatePhoneNumber(String phoneNumber) {
+//        //Phone Number:  NXX NXX-XXXX, where the Ns denote any of the digits 2–9, and the Xs denote any digit 0–9.
+//        //exemplo (907) 488-6419
+//        if (phoneNumber.length() == PHONE_NUMBER_LENGTH) {
+//            String[] phone = phoneNumber.split(" ");
+//            String firstSegment = phone[0];
+//            String[] phoneSecondPart = phone[1].split("-");
+//            String secondSegment = phoneSecondPart[0];
+//            String thirdSegment = phoneSecondPart[1];
+//            if (!getThreeDigitSegmentValidation(firstSegment)) {
+//                return false;
+//            }
+//            if (!getThreeDigitSegmentValidation(secondSegment)) {
+//                return false;
+//            }
+//            if (!validation(thirdSegment)) {
+//                return false;
+//            }
+//            return true;
+//        }
+//        return false;
+//    }
+
+    private boolean validatePhone(String phoneNumber) {
+
         if (phoneNumber.length() == PHONE_NUMBER_LENGTH) {
             String[] phone = phoneNumber.split(" ");
-            String firstSegment = phone[0];
-            String[] phoneSecondPart = phone[1].split("-");
-            String secondSegment = phoneSecondPart[0];
-            String thirdSegment = phoneSecondPart[1];
-            return getThreeDigitSegmentValidation(firstSegment) && getThreeDigitSegmentValidation(secondSegment) &&
-                    getFourDigitSegmentValidation(thirdSegment);
-        }
-        return false;
-    }
-
-    private boolean getFourDigitSegmentValidation(String phoneSegment) {
-        if (phoneSegment.length() == FOUR_DIGIT_SEGMENT_PHONE_NUMBER) {
-            String[] segmentDigits = phoneSegment.split("");
-            for (String digit : segmentDigits) {
-                try {
-                    Integer.parseInt(digit);
-                } catch (NumberFormatException e) {
-                    return false;
-                }
-                if (!(Integer.parseInt(digit) >= 0 && Integer.parseInt(digit) <= 9)) {
-                    return false;
-                }
+            String[] firstSegment = phone[0].split("");
+            String[] secondSegment = phone[1].split("");
+            String[] thirdSegment = phone[2].split("");
+            if ((Integer.parseInt(firstSegment[0]) < 2) || (Integer.parseInt(secondSegment[0]) < 2)) {
+                return false;
+            }
+            if (!validation(firstSegment)) {
+                return false;
+            }
+            if (!validation(secondSegment)) {
+                return false;
+            }
+            if (!validation(thirdSegment)) {
+                return false;
             }
             return true;
         }
         return false;
     }
 
-    private boolean getThreeDigitSegmentValidation(String phoneSegment) {
-        if (phoneSegment.length() == THREE_DIGIT_SEGMENT_PHONE_NUMBER) {
-            String[] segmentDigits = phoneSegment.split("");
-            for (String digit : segmentDigits) {
-                try {
-                    Integer.parseInt(digit);
-                } catch (NumberFormatException e) {
-                    return false;
-                }
-                if (!(Integer.parseInt(segmentDigits[0]) >= 2 && Integer.parseInt(segmentDigits[0]) <= 9)) {
-                    return false;
-                } else if (!(Integer.parseInt(digit) >= 0 && Integer.parseInt(digit) <= 9)) {
-                    return false;
-                }
+    private boolean validation(String[] segmentDigits) {
+        for (int i = 0; i < segmentDigits.length; i++) {
+            try {
+                Integer.parseInt(segmentDigits[i]);
+            } catch (NumberFormatException e) {
+                return false;
             }
-            return true;
+            if (!(Integer.parseInt(segmentDigits[i]) >= 0 && Integer.parseInt(segmentDigits[i]) <= 9)) {
+                return false;
+            }
         }
-        return false;
+        return true;
     }
+
+
 
     private boolean validateTaxNumber(String taxNumber) {
-        if (taxNumber.length() == TAX_NUMBER_LENGTH) {
-            String[] tax = taxNumber.split("-");
-            return tax.length == NUMBER_OF_SEGMENTS_TAXES
-                    && tax[0].length() == FIRST_SEGMENT_TAX_NUMBER_LENGTH
-                    && tax[1].length() == SECOND_SEGMENT_TAX_NUMBER_LENGTH
-                    && tax[2].length() == THIRD_SEGMENT_TAX_NUMBER_LENGTH;
+        String[] segments = taxNumber.split("-");
+        if (taxNumber == null || taxNumber.isEmpty()) {
+            return false;
         }
-        return false;
+        if (segments.length != NUMBER_OF_SEGMENTS_TAXES) {
+            return false;
+        }
+        if (segments[0].length() != FIRST_SEGMENT_TAX_NUMBER_LENGTH) {
+            return false;
+        }
+        if (segments[1].length() != SECOND_SEGMENT_TAX_NUMBER_LENGTH) {
+            return false;
+        }
+        if (segments[2].length() != THIRD_SEGMENT_TAX_NUMBER_LENGTH) {
+            return false;
+        }
+        return true;
     }
 
     public Person(String emailAddress) {
