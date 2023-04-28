@@ -1,5 +1,6 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
+import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -74,6 +75,12 @@ public class Agency {
      */
     public Agency(Integer id) {
         this.id = id;
+        this.employees = new ArrayList<>();
+        this.announcements = new ArrayList<>();
+        this.requests = new ArrayList<>();
+    }
+
+    public Agency(){
         this.employees = new ArrayList<>();
         this.announcements = new ArrayList<>();
         this.requests = new ArrayList<>();
@@ -407,8 +414,133 @@ public class Agency {
      *
      * @return the list of announcements for this agency.
      */
-    public List<Announcement> getAnnouncements() {
+    public List<Announcement> getAnnouncementsList() {
         return this.announcements;
     }
+
+    public List<Announcement> announcementHasBusinessType(List<Announcement> announcementList, String businessType){
+        for (Announcement announcement : announcementList) {
+            if (!(announcement.getRequest().getBusiness().getBusinessType().equals(businessType))){
+                announcementList.remove(announcement);
+            }
+        }
+        return announcementList;
+    }
+
+    public List<Announcement> announcementHasPropertyType(List<Announcement> announcementList, String propertyType){
+        for (Announcement announcement : announcementList) {
+            if (!(announcement.getRequest().getProperty().getPropertyType().equals(propertyType))){
+                announcementList.remove(announcement);
+            }
+        }
+        return announcementList;
+    }
+
+    public List<Announcement> announcementHasNumberBedrooms(List<Announcement> announcementList, Integer numberBedrooms){
+//        for (Announcement announcement : announcementList) {
+//            if (!(announcement.getRequest().getProperty().getPropertyType().getNumberBedrooms().equals(numberBedrooms))){
+//                announcementList.remove(announcement);
+//            }
+//        }
+//        return announcementList;
+        return announcementList;
+    }
+
+    public List<Announcement> sortAnnouncementsByAscendingPrice(List<Announcement> announcementList){
+//        List<Announcement> clonedAnnouncementList = new ArrayList<>(announcementList);
+//        Comparator<Announcement> acceptanceDate = new Comparator<Announcement>() {
+//            public int compare(Announcement a1, Announcement a2){
+//                LocalDate a1AcceptanceDate = a1.getAcceptanceDate();
+//                LocalDate a2AcceptanceDate = a2.getAcceptanceDate();
+//
+//                return a1AcceptanceDate.compareTo(a2AcceptanceDate);
+//            }
+//        };
+//
+//        Collections.sort(clonedAnnouncementList);
+//        return clonedAnnouncementList;
+        return announcementList;
+    }
+
+    public List<Announcement> sortAnnouncementsByDescendingPrice(List<Announcement> announcementList){
+        List<Announcement> clonedAnnouncementList = new ArrayList<>(announcementList);
+
+        Comparator<Announcement> acceptanceDate = new Comparator<Announcement>() {
+            public int compare(Announcement a1, Announcement a2){
+                LocalDate a1AcceptanceDate = a1.getAcceptanceDate();
+                LocalDate a2AcceptanceDate = a2.getAcceptanceDate();
+
+                return a1AcceptanceDate.compareTo(a2AcceptanceDate);
+            }
+        };
+
+        Collections.sort(clonedAnnouncementList, Collections.reverseOrder(acceptanceDate));
+        return clonedAnnouncementList;
+
+    }
+
+    public List<Announcement> sortAnnouncementsByAscendingCity(List<Announcement> announcementList){
+//        List<Announcement> clonedAnnouncementList = new ArrayList<>(announcementList);
+//        Comparator<Announcement> acceptanceDate = new Comparator<Announcement>() {
+//            public int compare(Announcement a1, Announcement a2){
+//                LocalDate a1AcceptanceDate = a1.getAcceptanceDate();
+//                LocalDate a2AcceptanceDate = a2.getAcceptanceDate();
+//
+//                return a1AcceptanceDate.compareTo(a2AcceptanceDate);
+//            }
+//        };
+//
+//        Collections.sort(clonedAnnouncementList);
+//        return clonedAnnouncementList;
+        return announcementList;
+    }
+
+    public List<Announcement> sortAnnouncementsByDescendingCity(List<Announcement> announcementList){
+        List<Announcement> clonedAnnouncementList = new ArrayList<>(announcementList);
+        Comparator<Announcement> acceptanceDate = new Comparator<Announcement>() {
+            public int compare(Announcement a1, Announcement a2){
+                LocalDate a1AcceptanceDate = a1.getAcceptanceDate();
+                LocalDate a2AcceptanceDate = a2.getAcceptanceDate();
+
+                return a1AcceptanceDate.compareTo(a2AcceptanceDate);
+            }
+        };
+
+        Collections.sort(clonedAnnouncementList, Collections.reverseOrder(acceptanceDate));
+        return clonedAnnouncementList;
+    }
+
+    public List<Announcement> sortAnnouncementsByAscendingState(List<Announcement> announcementList){
+//        List<Announcement> clonedAnnouncementList = new ArrayList<>(announcementList);
+//        Comparator<Announcement> acceptanceDate = new Comparator<Announcement>() {
+//            public int compare(Announcement a1, Announcement a2){
+//                LocalDate a1AcceptanceDate = a1.getAcceptanceDate();
+//                LocalDate a2AcceptanceDate = a2.getAcceptanceDate();
+//
+//                return a1AcceptanceDate.compareTo(a2AcceptanceDate);
+//            }
+//        };
+//
+//        Collections.sort(clonedAnnouncementList);
+//        return clonedAnnouncementList;
+        return announcementList;
+    }
+
+    public List<Announcement> sortAnnouncementsByDesscendingState(List<Announcement> announcementList){
+        List<Announcement> clonedAnnouncementList = new ArrayList<>(announcementList);
+        Comparator<Announcement> acceptanceDate = new Comparator<Announcement>() {
+            public int compare(Announcement a1, Announcement a2){
+                LocalDate a1AcceptanceDate = a1.getAcceptanceDate();
+                LocalDate a2AcceptanceDate = a2.getAcceptanceDate();
+
+                return a1AcceptanceDate.compareTo(a2AcceptanceDate);
+            }
+        };
+
+        Collections.sort(clonedAnnouncementList, Collections.reverseOrder(acceptanceDate));
+        return clonedAnnouncementList;
+    }
+
+
 
 }
