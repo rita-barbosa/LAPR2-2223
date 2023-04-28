@@ -84,4 +84,30 @@ public class Request {
     public Request clone() {
         return new Request(this.ownerEmail, this.property, this.business, this.requestDate, this.agent);
     }
+
+    public String toString(){
+        return Residence.toString() + String.format("a"); //fix
+        String announcementInfo = property.toString();
+        if (property.toString() != "land"){
+            announcementInfo = announcementInfo + String.format("\n Available Equipment %s" + )
+        }
+
+//                break;
+//            case "Apartment":
+//                this.property = new Residence( availableEquipmentDescription,  parkingSpace, numberBedroom, numberBathroom,  );
+//                break;
+//            case "House":
+//                this.property = new House( availableEquipmentDescription,   basement, inhabitableLoft, parkingSpace, sunExposure, numberBedroom, numberBathroom,
+//                       );
+//                break;
+//            default:
+//                break;
+        }
+
+
+
+
+
+
+    }
 }
