@@ -4,8 +4,7 @@
 
 ### 1.1. User Story Description
 
-As an agent, I can publish any sale announcement on the system, for
-example received through a phone call.
+As an agent, I can publish any sale announcement on the system, for example received through a phone call.
 
 ### 1.2. Customer Specifications and Clarifications
 
@@ -109,7 +108,7 @@ example received through a phone call.
 * **AC3:** The area of the property needs to be expressed in m<sup>2</sup>.
 * **AC4:** The minimum value of the commission is 0 and there is no maximum.
 * **AC5:** At least one photograph is required and maximum 30 photos.
-* **AC6:** The owner that wants to sell a property must be identified in the system.
+* **AC6:** The owner that wants to sell a property must be identified in the system, by its email.
 * **AC7:** When publishing an announcement of an already existing property, the system must reject such operation.
 
 ### 1.4. Found out Dependencies
@@ -153,4 +152,4 @@ example received through a phone call.
 ### 1.7 Other Relevant Remarks
 
 * All registered information, except the agent commission, can be accessed by the client who intends to
-  buy or rent the property.
+  buy the property.

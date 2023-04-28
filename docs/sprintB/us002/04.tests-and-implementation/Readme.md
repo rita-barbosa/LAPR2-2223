@@ -2,7 +2,26 @@
 
 # 4. Tests 
 
-**Yet to be developed**  
+**Test 1:** Checks if an Announcement is successfully created.  
+```java
+ @Test
+    void ensureAnnouncementIsCreatedSuccessfully() {
+        String ownerEmail = "owner@email.com";
+        Employee employee = new Employee("employee@this.app.com", "Agent");
+        CommissionType commissionType = new CommissionType("Commission Type");
+        List<String> uriList = new ArrayList<>();
+        uriList.add("https://www.example.com/images/photo.jpg");
+
+
+        Property property = new Property(new PropertyType("land"), (35.5), (89.3),
+                uriList, "street", "city", "district", "state", "12345");
+        Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
+
+        Announcement announcement = new Announcement(employee, commissionType, 234.0, request);
+    }
+```
+**Test 2:** Checks if an Announcement is successfully created.
+
 
 *It is also recommended to organize this content by subsections.* 
 
