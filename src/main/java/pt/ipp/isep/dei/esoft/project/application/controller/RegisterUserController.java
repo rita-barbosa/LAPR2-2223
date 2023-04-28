@@ -39,16 +39,22 @@ public class RegisterUserController {
         return personRepository;
     }
 
-    public Optional<Person> createPerson(String name, String passportCardNumber, String taxNumber, String emailAddress,
-                                         String phoneNumber, String streetName, String city, String district, String state,
-                                         String zipcode, String clientRole) {
+    public boolean createPerson(String name, String passportCardNumber, String taxNumber, String emailAddress,
+                                         String phoneNumber, String password, String streetName, String city, String district, String state,
+                                         String zipcode) {
 
-        return personRepository.add(new Person(name, passportCardNumber, taxNumber, emailAddress,
-                phoneNumber, clientRole, streetName, city, district, state, zipcode));
-    }
+        PersonRepository newPersonRepository = getPersonRepository();
 
-    public boolean addUserWithRole(String name, String emailAddress, String password, String clientRole) {
-        return authenticationRepository.addUserWithRole(name, emailAddress, password, clientRole);
+        Person person = new Person(name, passportCardNumber, taxNumber, emailAddress, phoneNumber, AuthenticationController.ROLE_CLIENT,
+                streetName, city, district, state, zipcode);
+
+        newPersonRepository.add(person);
+
+        AuthenticationRepository newAuthenticationRepository = getAuthenticationRepository();
+
+        Boolean success = newAuthenticationRepository.addUserWithRole(name, emailAddress, password, AuthenticationController.ROLE_CLIENT);
+
+        return success;
     }
 
 }

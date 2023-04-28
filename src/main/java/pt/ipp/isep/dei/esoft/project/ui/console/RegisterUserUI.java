@@ -48,12 +48,10 @@ public class RegisterUserUI implements Runnable {
     }
 
     private void submitData() {
-        Optional<Person> person = getController().createPerson(name, passportCardNumber, taxNumber, emailAddress,
-                phoneNumber, streetName, city, district, state, zipCode, AuthenticationController.ROLE_CLIENT);
-        if (person.isPresent()) {
-            if (controller.addUserWithRole(name, emailAddress, password, AuthenticationController.ROLE_CLIENT)){
+        Boolean success = getController().createPerson(name, passportCardNumber, taxNumber, emailAddress,
+                phoneNumber, password, streetName, city, district, state, zipCode);
+        if (success) {
                 System.out.println("Successfull registration!");
-            }
         } else {
             System.out.println("Failed to registrate!");
         }
