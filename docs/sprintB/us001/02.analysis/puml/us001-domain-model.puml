@@ -55,7 +55,7 @@ state
 zipCode
 }
 class Business{
-amount
+price
 }
 class BusinessType{
 designation
