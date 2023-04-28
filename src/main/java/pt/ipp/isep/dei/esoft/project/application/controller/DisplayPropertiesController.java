@@ -6,23 +6,27 @@ import pt.ipp.isep.dei.esoft.project.repository.AgencyRepository;
 import pt.ipp.isep.dei.esoft.project.repository.CriteriaRepository;
 import pt.ipp.isep.dei.esoft.project.repository.Repositories;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class DisplayPropertiesController {
 
     //public Announcement announcementList;
-    
+    private List<Announcement> announcementList = null;
     private AgencyRepository agencyRepository = null;
     private CriteriaRepository criteriaRepository = null;
 
     public DisplayPropertiesController(){
         getAgencyRepository();
         getAgenciesList();
-        List<Announcement> announcementList = getAnnouncementsList();
-        sortAnnouncementsByMostRecentAdded(announcementList);
+        announcementList = getAnnouncementsList();
+        //List<Announcement> clonedAnnouncementList = new ArrayList<>(announcementList);
+        //sortAnnouncementsByMostRecentAdded(clonedAnnouncementList);
+        sortAnnouncementsByMostRecentAdded();
         getCriteriaRepository();
-
 
     }
 
@@ -45,14 +49,25 @@ public class DisplayPropertiesController {
         List<Agency> agencies = getAgenciesList();
 
         for (Agency agency: getAgencyRepository().getAgenciesList()) {
+            //for (Agency agency: agencies) { check which one is correct
             announcementList.addAll(agencies.getAnnouncementList()); //check it again
         }
 
         return announcementList;
     }
 
-    public List<Announcement> sortAnnouncementsByMostRecentAdded(List<Announcement> announcementList){
-        return announcementList; //check it again
+    public List<Announcement> sortAnnouncementsByMostRecentAdded(){
+        List<Announcement> clonedAnnouncementList = new ArrayList<>(announcementList);
+        Collections.sort(clonedAnnouncementList, new Comparator<Announcement>() {
+            @Override
+            public int compare(Announcement o1, Announcement o2) {
+                LocalDate o1AcceptanceDate = o1.getAcceptanceDate();
+                LocalDate o2AcceptanceDate = o2.getAcceptanceDate();
+
+                return o1AcceptanceDate.compareTo(o2AcceptanceDate);
+            }
+        });
+        return clonedAnnouncementList;
     }
 
     private CriteriaRepository getCriteriaRepository() {

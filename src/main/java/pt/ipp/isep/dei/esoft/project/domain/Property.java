@@ -47,4 +47,16 @@ public class Property {
         return !this.photograph.contains(photo);
     }
 
+    public String toString(){ //fix
+        String announcementInfo = String.format("Property Type: %s\n Area: %f m²\n Distance from city center: %f m\n %s\n", propertyType, area, distanceCityCenter, location.toString());
+        if (propertyType.toString() != "land/Land"){ //check this
+            announcementInfo = announcementInfo + String.format("Available Equipment: %s", Residence.getClass().)
+
+        }
+
+        return announcementInfo + super.toString();
+
+      //return String.format("Property Type: %s\n Area: %f m²\n Distance from city center: %f m\n %s", propertyType, area, distanceCityCenter, location.toString());
+    }
+
 }

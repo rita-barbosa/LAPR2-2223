@@ -104,5 +104,9 @@ public class Announcement {
         return new Announcement(this.responsibleFor,this.commission,this.isBasedOn);
     }
 
+    public String toString(){
+        return getRequest().toString(); //fix
+    }
+
 
 }

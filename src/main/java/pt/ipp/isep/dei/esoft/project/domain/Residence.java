@@ -59,4 +59,8 @@ public class Residence extends Property {
     public Integer getParkingSpace() {
         return parkingSpace;
     }
+
+    public String toString(){ //fix
+        return "a";
+    }
 }
