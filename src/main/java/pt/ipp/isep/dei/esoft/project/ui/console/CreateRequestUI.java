@@ -156,7 +156,7 @@ public class CreateRequestUI implements Runnable {
 
     private Double requestRequestArea() {
         Scanner input = new Scanner(System.in);
-        System.out.println("Property area (in squared meters):");
+        System.out.println("Property area (in m²):");
         return input.nextDouble();
     }
 
