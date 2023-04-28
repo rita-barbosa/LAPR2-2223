@@ -5,8 +5,8 @@ import java.util.Optional;
 public class Lease extends Business{
     private Integer contractDuration;
 
-    public Lease(Integer contractDuration, BusinessType businessType, Double amount) {
-        super(businessType, amount);
+    public Lease(Integer contractDuration, String businessTypeDesignation, Double amount) {
+        super(businessTypeDesignation, amount);
         this.contractDuration = contractDuration;
     }
 

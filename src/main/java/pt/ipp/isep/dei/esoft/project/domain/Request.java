@@ -12,7 +12,7 @@ public class Request {
     private final String ownerEmail;
 
 
-    public Request(String ownerEmail, PropertyType propertyType, BusinessType businessType, Double amount,
+    public Request(String ownerEmail, PropertyType propertyType, String businessTypeDesignation, Double amount,
                    Double area, Integer contractDuration, List<String> availableEquipmentDescription,
                    String streetName, String city, String district, String state, String zipCode, Boolean basement,
                    Boolean inhabitableLoft, Integer parkingSpace, Enum<SunExposureTypes> sunExposure,
@@ -21,7 +21,7 @@ public class Request {
 
         this.ownerEmail = ownerEmail;
         this.requestDate = LocalDate.now();
-        this.business = new Lease(contractDuration, businessType, amount);
+        this.business = new Lease(contractDuration, businessTypeDesignation, amount);
 
         this.agent = agent;
 
@@ -44,14 +44,14 @@ public class Request {
         }
     }
 
-    public Request(String ownerEmail, PropertyType propertyType, BusinessType businessType, Double amount, Double area,
+    public Request(String ownerEmail, PropertyType propertyType, String businessTypeDesignation, Double amount, Double area,
                    List<String> availableEquipment, String streetName, String city, String district,
                    String state, String zipCode, Boolean basement, Boolean inhabitableLoft, Integer parkingSpace,
                    Enum<SunExposureTypes> sunExposure, Integer numberBedroom, Integer numberBathroom, Employee agent,
                    Double distanceCityCenter, List<String> uri) {
         this.ownerEmail = ownerEmail;
         this.requestDate = LocalDate.now();
-        this.business = new Business(businessType, amount);
+        this.business = new Business(businessTypeDesignation, amount);
         this.agent = agent;
 
         switch (propertyType.toString().toLowerCase()) {
