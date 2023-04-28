@@ -21,10 +21,10 @@ public class AgencyRepository {
      * @param emailAddress - the email address of an Agent
      * @return the agency where the agent(that has the given email address) works in
      */
-    public Optional<Agency> getAgencyByEmail(String emailAddress) {
+    public Optional<Agency> getAgencyByEmployeeEmail(String emailAddress) {
         Optional<Agency> returnAgency = Optional.empty();
         for (Agency agency : agencies) {
-            if (agency.anyAgentHasEmail(emailAddress)) {
+            if (agency.anyEmployeeHasEmail(emailAddress)) {
                 returnAgency = Optional.of(agency);
             }
         }

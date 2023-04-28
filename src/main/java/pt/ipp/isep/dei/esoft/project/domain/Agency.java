@@ -80,7 +80,7 @@ public class Agency {
      * @param email The email to be checked.
      * @return True if the agency has an employee with the given email.
      */
-    public Boolean anyAgentHasEmail(String email) {
+    public Boolean anyEmployeeHasEmail(String email) {
         Boolean result = false;
         for (Employee employee : employees) {
             if (employee.hasEmail(email)) {
@@ -99,7 +99,7 @@ public class Agency {
     public Employee getAgentByEmail(String emailAddress) {
         Employee returnEmployee = null;
         for (Employee employee : employees) {
-            if (anyAgentHasEmail(emailAddress)) {
+            if (employee.isAgent() && anyEmployeeHasEmail(emailAddress)) {
                 returnEmployee = employee;
             }
         }
@@ -254,7 +254,7 @@ public class Agency {
      * @return {@code true} if the request isn't in the list of requests; {@code false} otherwise;
      */
     private Boolean validateRequest(Request request) {
-        return requests!= null & !(requests.contains(request));
+        return requests != null & !(requests.contains(request));
     }
 
     /**
@@ -350,5 +350,29 @@ public class Agency {
      */
     public List<Announcement> getAnnouncements() {
         return this.announcements;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Agency)) {
+            return false;
+        }
+        Agency that = (Agency) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(description, that.description) &&
+                Objects.equals(emailAddress, that.emailAddress) &&
+                Objects.equals(phoneNumber, that.phoneNumber) &&
+                Objects.equals(location, that.location) &&
+                Objects.equals(employees, that.employees) &&
+                Objects.equals(announcements, that.announcements) &&
+                Objects.equals(requests, that.requests);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, description, emailAddress, phoneNumber, location, employees, announcements, requests);
     }
 }

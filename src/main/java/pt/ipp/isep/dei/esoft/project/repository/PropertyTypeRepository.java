@@ -19,7 +19,7 @@ public class PropertyTypeRepository {
      * @return The list with existent property types.
      */
     public List<PropertyType> getPropertyTypeList() {
-        return List.copyOf(propertyTypes);
+        return propertyTypes;
     }
 
     /**
@@ -52,7 +52,7 @@ public class PropertyTypeRepository {
         boolean success = false;
 
         if (validatePropertyType(propertyType)) {
-            newPropertyType = Optional.of(propertyType.clone());
+            newPropertyType = Optional.of(propertyType);
             success = propertyTypes.add(newPropertyType.get());
         }
 

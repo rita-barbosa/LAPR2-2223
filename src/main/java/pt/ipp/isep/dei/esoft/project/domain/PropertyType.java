@@ -2,6 +2,7 @@ package pt.ipp.isep.dei.esoft.project.domain;
 
 import java.util.Objects;
 
+
 public class PropertyType {
     /**
      * The designation of the type of property
@@ -35,7 +36,7 @@ public class PropertyType {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof TaskCategory)) return false;
+        if (!(o instanceof PropertyType)) return false;
         try {
             PropertyType that = (PropertyType) o;
             return designation.equals(that.designation);
