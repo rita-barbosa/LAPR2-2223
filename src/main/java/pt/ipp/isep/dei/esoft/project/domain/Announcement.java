@@ -18,11 +18,11 @@ public class Announcement {
     /**
      * The request based on which the announcement is made.
      */
-    private Request isBasedOn;
+    private Request request;
     /**
      * The agent responsible for the announcement.
      */
-    private Employee responsibleFor;
+    private Employee agent;
 
     /**
      * Constructs an Announcement object with the specified agent, commission type,
@@ -35,8 +35,8 @@ public class Announcement {
      */
     public Announcement(Employee agent, CommissionType commissionType, Double commissionValue, Request request) {
         this.commission = new Commission(commissionType, commissionValue);
-        this.responsibleFor = agent;
-        this.isBasedOn = request;
+        this.agent = agent;
+        this.request = request;
         this.acceptanceDate = LocalDate.now();
     }
 
@@ -44,14 +44,21 @@ public class Announcement {
      * Constructs an Announcement object with the specified responsible agent,
      * commission, and request.
      *
-     * @param responsibleFor The agent responsible for the announcement
+     * @param agent The agent responsible for the announcement
      * @param commission     The commission for the announcement
-     * @param isBasedOn      The request based on which the announcement is made
+     * @param request      The request based on which the announcement is made
      */
-    public Announcement(Employee responsibleFor,Commission commission, Request isBasedOn) {
+    public Announcement(Employee agent, Commission commission, Request request) {
         this.commission = commission;
-        this.isBasedOn = isBasedOn;
-        this.responsibleFor = responsibleFor;
+        this.request = request;
+        this.agent = agent;
+    }
+
+    public Announcement(Employee agent, Commission commission, Request request, LocalDate acceptanceDate) {
+        this.commission = commission;
+        this.agent = agent;
+        this.request = request;
+        this.acceptanceDate = acceptanceDate;
     }
 
     /**
@@ -68,7 +75,9 @@ public class Announcement {
      *
      * @return The request based on which the announcement is made
      */
-    public Request getRequest(){return isBasedOn;}
+    public Request getRequest() {
+        return request;
+    }
 
     /**
      * Compares this Announcement object to the specified object.
@@ -79,10 +88,10 @@ public class Announcement {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Announcement)) return false;
         Announcement that = (Announcement) o;
         return Objects.equals(acceptanceDate, that.acceptanceDate) && Objects.equals(commission, that.commission)
-                && Objects.equals(isBasedOn, that.isBasedOn) && Objects.equals(responsibleFor, that.responsibleFor);
+                && Objects.equals(request, that.request) && Objects.equals(agent, that.agent);
     }
 
     /**
@@ -92,7 +101,7 @@ public class Announcement {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(acceptanceDate, commission, isBasedOn, responsibleFor);
+        return Objects.hash(acceptanceDate, commission, request, agent);
     }
 
     /**
@@ -100,11 +109,11 @@ public class Announcement {
      *
      * @return A new copy of this Announcement object
      */
-    public Announcement clone(){
-        return new Announcement(this.responsibleFor,this.commission,this.isBasedOn);
+    public Announcement clone() {
+        return new Announcement(this.agent, this.commission, this.request, this.acceptanceDate);
     }
 
-    public String toString(){
+    public String toString() {
         return getRequest().toString() + String.format("Acceptance Date: %s\n", acceptanceDate);
     }
 

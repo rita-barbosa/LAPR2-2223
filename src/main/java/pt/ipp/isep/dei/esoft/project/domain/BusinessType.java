@@ -1,5 +1,7 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
+import java.util.Objects;
+
 public class BusinessType {
     /**
      * The designation of the type of business
@@ -31,7 +33,7 @@ public class BusinessType {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof TaskCategory)) return false;
+        if (!(o instanceof BusinessType)) return false;
         try {
             BusinessType that = (BusinessType) o;
             return designation.equals(that.designation);
@@ -40,14 +42,14 @@ public class BusinessType {
         }
     }
 
-//    /**
-//     *
-//     * @return
-//     */
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(designation);
-//    }
+    /**
+     *
+     * @return
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(designation);
+    }
 
     /**
      * This method creates and returns a copy of a property type instance.

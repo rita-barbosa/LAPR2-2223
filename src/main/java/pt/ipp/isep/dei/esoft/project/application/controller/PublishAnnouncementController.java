@@ -8,11 +8,11 @@ import java.util.List;
 import java.util.Optional;
 
 public class PublishAnnouncementController {
-    private CommissionTypeRepository commissionTypeRepository = null;
-    private AuthenticationRepository authenticationRepository = null;
-    private PropertyTypeRepository propertyTypeRepository = null;
+    private CommissionTypeRepository commissionTypeRepository;
+    private AuthenticationRepository authenticationRepository;
+    private PropertyTypeRepository propertyTypeRepository;
 
-    private AgencyRepository agencyRepository = null;
+    private AgencyRepository agencyRepository;
 
 
     public PublishAnnouncementController() {
@@ -20,6 +20,29 @@ public class PublishAnnouncementController {
         getPropertyTypeRepository();
         getAuthenticationRepository();
     }
+
+    public PublishAnnouncementController(CommissionTypeRepository commissionTypeRepository,
+                                         AuthenticationRepository authenticationRepository,
+                                         PropertyTypeRepository propertyTypeRepository,
+                                         AgencyRepository agencyRepository) {
+        this.commissionTypeRepository = commissionTypeRepository;
+        this.authenticationRepository = authenticationRepository;
+        this.propertyTypeRepository = propertyTypeRepository;
+        this.agencyRepository = agencyRepository;
+    }
+
+    public PublishAnnouncementController(AgencyRepository agencyRepository, PropertyTypeRepository propertyTypeRepository, AuthenticationRepository authenticationRepository) {
+        this.authenticationRepository = authenticationRepository;
+        this.propertyTypeRepository = propertyTypeRepository;
+        this.agencyRepository = agencyRepository;
+    }
+
+    public PublishAnnouncementController(AgencyRepository agencyRepository, CommissionTypeRepository commissionTypeRepository, AuthenticationRepository authenticationRepository) {
+        this.commissionTypeRepository = commissionTypeRepository;
+        this.authenticationRepository = authenticationRepository;
+        this.agencyRepository = agencyRepository;
+    }
+
 
     private PropertyTypeRepository getPropertyTypeRepository() {
         if (propertyTypeRepository == null) {
@@ -54,11 +77,12 @@ public class PublishAnnouncementController {
         PropertyTypeRepository propertyTypeRepository = getPropertyTypeRepository();
         return propertyTypeRepository.getPropertyTypeList();
     }
-    public PropertyType getPropertyTypeByDesignation(String designation){
+
+    private PropertyType getPropertyTypeByDesignation(String designation) {
         return getPropertyTypeRepository().getPropertyTypeByDesignation(designation);
     }
 
-    public CommissionType getCommissionTypeByDesignation(String designation){
+    private CommissionType getCommissionTypeByDesignation(String designation) {
         return getCommissionTypeRepository().getCommissionTypeByDesignation(designation);
     }
 
@@ -88,7 +112,7 @@ public class PublishAnnouncementController {
 
 
     private Optional<Agency> getAgencyByEmail(String email) {
-        return getAgencyRepository().getAgencyByEmail(email);
+        return getAgencyRepository().getAgencyByEmployeeEmail(email);
     }
 
     private String getEmailFromSession() {
