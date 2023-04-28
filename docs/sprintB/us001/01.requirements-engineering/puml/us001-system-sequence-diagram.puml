@@ -16,68 +16,87 @@ activate User
     activate System
 
     System --> User : display listed properties by most recent added
+    deactivate System
 
     opt type of business
-        System --> User : shows type of business and asks to select one
+        User -> System : asks to select type of business
+        activate System
+
+        System --> User : shows types of business and request data
         deactivate System
 
         User -> System : selects data (businessType)
         activate System
 
         System --> User : display all the listed properties, according to the \ncriteria chosen
-
+        deactivate System
     end
 
     opt type of property
-        System --> User : shows types of properties and asks to select one
+        User -> System : asks to select type of property
+        activate System
+
+        System --> User : shows types of properties and request data
         deactivate System
 
         User -> System : selects data (propertyType)
         activate System
 
         System --> User : display all the listed properties, according to the \ncriteria chosen
-
+        deactivate System
     end
 
     alt properType != land
 
         opt number of bedrooms
-            System --> User : shows options for number of bedrooms and asks to select one
+            User -> System : asks to select number of bedrooms
+            activate System
+
+            System --> User : shows options for number of bedrooms and request data
             deactivate System
 
             User -> System : selects data (numberBedrooms)
             activate System
 
             System --> User : display all the listed properties, according to the \ncriteria chosen
-
+            deactivate System
         end
 
     end
 
     opt price
-        System --> User : shows options for sort properties by price and asks to select one
+        User -> System : asks to sort announcements by price
+        activate System
+
+        System --> User : shows options for sort announcements by price and request data
         deactivate System
 
         User -> System : select data (sortingType)
         activate System
 
         System --> User : display all the listed properties, according to the \ncriteria chosen
-
+        deactivate System
     end
 
     opt city
-        System --> User : shows options for sort properties by city and asks to select one
+        User -> System : asks to sort announcements by city
+        activate System
+
+        System --> User : shows options for sort announcements by city and request data
         deactivate System
 
         User -> System : select data (sortingType)
         activate System
 
         System --> User : display all the listed properties, according to the \ncriteria chosen
-
+        deactivate System
     end
 
     opt state
-        System --> User :  shows options for sort properties by state and asks to select one
+        User -> System : asks to sort announcements by state
+        activate System
+
+        System --> User :  shows options for sort announcements by state and request data
         deactivate System
 
         User -> System : select data (sortingType)

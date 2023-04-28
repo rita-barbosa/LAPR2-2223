@@ -31,11 +31,6 @@ As an unregistered user, I want to display listed properties.
 > **Question:** The properties can be in sale and lease at the same time?
 >  
 > **Answer:** No.
- 
-
-> **Question:** The properties have always a sale price, even if they are at lease?
->
-> **Answer:** ***WAITING FOR AN ANSWER***
 
 
 > **Question:** In the project description it is stated that "the client is, then, responsible for being able to consult the properties by type, number of rooms, and sort by criteria such as price or the parish where the property is located.". Is the client able to sort properties by only these 4 criteria or is he able to sort properties by any of the properties' characteristics?
