@@ -105,7 +105,7 @@ public class Announcement {
     }
 
     public String toString(){
-        return getRequest().toString(); //fix
+        return getRequest().toString() + String.format("Acceptance Date: %s\n", acceptanceDate);
     }
 
 
