@@ -2,6 +2,7 @@ package pt.ipp.isep.dei.esoft.project.domain;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 public class Request {
 
@@ -107,5 +108,22 @@ public class Request {
 
     public Business getBusiness() {
         return this.business;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Request request = (Request) o;
+        return Objects.equals(requestDate, request.requestDate) && Objects.equals(agent, request.agent) && Objects.equals(business, request.business) && Objects.equals(property, request.property) && Objects.equals(ownerEmail, request.ownerEmail);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(requestDate, agent, business, property, ownerEmail);
+    }
+
+    public Property getProperty() {
+        return property;
     }
 }

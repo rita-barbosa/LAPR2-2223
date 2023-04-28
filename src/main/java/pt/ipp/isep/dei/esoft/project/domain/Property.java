@@ -56,4 +56,11 @@ public class Property {
         return request.toString();
     }
 
+    public PropertyType getPropertyType() {
+        return propertyType;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
 }

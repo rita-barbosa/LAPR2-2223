@@ -154,6 +154,22 @@ class Request{
     - getCurrentDate()
 }
 
+class Residence extends Property{
+    - numberBedrooms
+    - numberBathrooms
+    - parkingSpace
+    + Residence(propertyType, area, availableEquipment, streetName, city,\n district, state, zipCode, parkingSpace, numberBedroom, numberBathroom,\n distanceCityCenter, photograph)
+    + fillAvailableEquipmentList(availableEquipment)
+
+}
+
+class House extends Residence{
+     - basement
+     - inhabitableLoft
+     - sunExposure
+     + House(propertyType, availableEquipment, area, streetName, city,\n district, state, zipCode, basement, inhabitableLoft, parkingSpace,\n sunExposure, numberBedroom, numberBathroom, distanceCityCenter,\n photograph)
+}
+
 class Business{
     - double amount
 }
@@ -162,7 +178,27 @@ class Lease extends Business{
     - int contractDuration
 }
 
+class Person{
+    - String name
+    email
+    passportCardNumber
+    taxNumber
+    phoneNumber
+}
+
+class Employee{
+ - String agencyId;
+}
+
 'RELATIONS
+
+Employee "1" -left- "0.*" Agent
+
+Person "1" -- "1" Location: has address >
+
+Employee "1" -- "1" Person: represents a
+
+Owner "1"  -- "1" Person: represented in >
 
 Repositories -> Repositories : instance
 
@@ -214,7 +250,7 @@ Owner "1" -up-> "*" Request : submits
 
 Property "1" --> "1" Photograph : contains
 
-Property "1" --> "1" AvailableEquipment : contains
+Residence "1" -left-> "1" AvailableEquipment : contains
 
 PropertyType "1" --> "1" Property : is a description of
 

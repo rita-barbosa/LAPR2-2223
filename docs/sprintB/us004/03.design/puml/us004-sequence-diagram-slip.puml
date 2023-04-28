@@ -6,8 +6,6 @@ skinparam shadowing false
 
 actor "<b>Owner</b>" as Owner
 participant "<b>:CreateRequestUI</b>" as UI
-participant "<b>Photograph</b>\n<b>:ArrayList<uri></b>" as PHOTOLIST
-participant "<b>AvailableEquipment</b>\n<b>:ArrayList<availableEquipment></b>" as AELIST
 participant "<b>:CreateRequestController</b>" as CTRL
 participant "<b>agency</b>\n<b>:Agency </b>" as AGC
 participant "<b>request</b>\n<b>:Request</b>" as REQUEST
@@ -105,40 +103,29 @@ activate Owner
 
               activate UI
 
-         opt number of bathrooms
+               UI --> Owner : requests data
+                deactivate UI
 
-                      UI --> Owner : requests data
-                      deactivate UI
+         opt number of bathrooms
 
               Owner -> UI : types requested data (numberBathroom)
                       activate UI
 
          end  opt
 
+         UI --> Owner : request data
+
+           deactivate UI
+
              opt list of available equipments
 
-                  UI --> Owner : request data
-                  UI -> AELIST** : availableEquipmentList = create()
-                  activate AELIST
-
-                  deactivate UI
 
                   loop availableEquipment
                       Owner -> UI : types requested data (availableEquipment)
                       activate UI
-                        UI -> AELIST : addAvailableEquipment(description)
 
-                            ref over AELIST
-                            Add Available Equipment
-                            Description
-
-                            end ref
-
-                      AELIST --> UI : availableEquipment
-                      deactivate AELIST
-                  |||
                   end loop
-             |||
+
              end opt
 
                  UI --> Owner : requests data
@@ -157,31 +144,24 @@ activate Owner
 
                          Owner -> UI : selects requested data (sunExposure)
                          activate UI
+                         |||
                     end opt
-
-                     UI --> Owner : requests data
-                     deactivate UI
 
                  end alt
 
            end alt
 
+
+
     loop min = 1 & max = 30
+
     autonumber 16.1
+
+    UI --> Owner : requests data
+            deactivate UI
     Owner -> UI : types requested data (uri)
     activate UI
 
-    UI -> CTRL : addPhotographUri(uri)
-    activate CTRL
-
-        ref over CTRL
-            Add Photograph Uri
-
-        end ref
-
-    CTRL --> UI : photograph
-
-    deactivate CTRL
     end loop
 
     autonumber 17
@@ -233,7 +213,7 @@ activate Owner
 
            activate UI
 
-            UI -> CTRL : createRequest(propertyTypeDesignation, businessTypeDesignation, amount, area,\n contractDuration, availableEquipment, streetName, city, district, state, zipCode,\n basement, inhabitableLoft, parkingSpace, sunExposure, numberBedroom,\n numberBathroom, agent, distanceCityCenter, photograph, agency)
+            UI -> CTRL : createRequest(propertyTypeDesignation, businessTypeDesignation, amount, area,\n contractDuration, availableEquipmentDesignationList, streetName, city, district, state,\n zipCode, basement, inhabitableLoft, parkingSpace, sunExposure, numberBedroom,\n numberBathroom, agent, distanceCityCenter, photographUriList, agency)
 
             activate CTRL
 
@@ -273,17 +253,17 @@ activate Owner
                 deactivate CTRL
 
         |||
-        CTRL -> AGC : createRequest(ownerEmail, agent, agency, propertyType, businessType, amount,\n area, contractDuration, streetName, city, district, state, zipCode, basement,\n availableEquipment, inhabitableLoft, parkingSpace, sunExposure,\n numberBedroom, numberBathroom, distanceCityCenter, photograph)
+        CTRL -> AGC : createRequest(ownerEmail, agent, agency, propertyType, businessType, amount,\n area, contractDuration, streetName, city, district, state, zipCode, basement,\n availableEquipmentDesignationList, inhabitableLoft, parkingSpace, sunExposure,\n numberBedroom, numberBathroom, distanceCityCenter, photographUriList)
 
        activate AGC
 
-        AGC -> REQUEST** : createRequest(ownerEmail, agent, agency, propertyType, businessType, amount,\n area, contractDuration, streetName, city, district, state, zipCode, basement,\n availableEquipment, inhabitableLoft, parkingSpace, sunExposure,\n numberBedroom, numberBathroom, distanceCityCenter, photograph)
+        AGC -> REQUEST** : createRequest(ownerEmail, agent, agency, propertyType, businessType, amount,\n area, contractDuration, streetName, city, district, state, zipCode, basement,\n availableEquipmentDesignationList, inhabitableLoft, parkingSpace, sunExposure,\n numberBedroom, numberBathroom, distanceCityCenter, photographUriList)
 
        activate REQUEST
 
             |||
            ref over REQUEST
-           Create request
+           Create Request
 
            end ref
        REQUEST --> AGC : request

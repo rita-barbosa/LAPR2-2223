@@ -107,8 +107,8 @@ Request "1" -- "1" Business: is described by >
 BusinessType "1" - "1" Business : describes >
 Agent "1" -- "1" Request : is assigned to
 Business <|-- Lease
-Residence <|-left- Property
-House <|-- Residence
+Property <|-RIGHT- Residence
 Owner "1" -- "*" Request : submits
+Residence <|-- House
 
 @enduml
