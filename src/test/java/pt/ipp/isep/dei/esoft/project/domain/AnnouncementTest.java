@@ -113,7 +113,7 @@ class AnnouncementTest {
         uriList.add("https://www.example.com/images/photo.jpg");
 
         Property property = new Property(new PropertyType("land"), 35.5, 89.3,
-                uriList, "street", "city", "district", "state", "12345");
+                uriList, "street", "city", "district", "AK", "123");
         Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         Announcement announcement = new Announcement(employee, commissionType, 234.0, request);

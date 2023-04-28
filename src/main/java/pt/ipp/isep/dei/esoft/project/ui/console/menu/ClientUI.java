@@ -10,8 +10,7 @@ public class ClientUI implements Runnable{
     @Override
     public void run() {
         List<MenuItem> options = new ArrayList<MenuItem>();
-        options.add(new MenuItem("Create Request", new CreateRequestUI()));
-
+        options.add(new MenuItem("Create a property request", new CreateRequestUI()));
         int option = 0;
         do {
             option = Utils.showAndSelectIndex(options, "\n\nClient Menu:");

@@ -1,6 +1,6 @@
 package pt.ipp.isep.dei.esoft.project.application.controller;
 
-import pt.ipp.isep.dei.esoft.project.application.controller.authorization.AuthenticationController;
+import pt.ipp.isep.dei.esoft.project.application.controller.authorization.*;
 import pt.ipp.isep.dei.esoft.project.domain.*;
 import pt.ipp.isep.dei.esoft.project.repository.*;
 
@@ -40,8 +40,8 @@ public class RegisterUserController {
     }
 
     public boolean createPerson(String name, String passportCardNumber, String taxNumber, String emailAddress,
-                                         String phoneNumber, String password, String streetName, String city, String district, String state,
-                                         String zipcode) {
+                                String phoneNumber, String password, String streetName, String city, String district, String state,
+                                String zipcode) {
 
         PersonRepository newPersonRepository = getPersonRepository();
 
