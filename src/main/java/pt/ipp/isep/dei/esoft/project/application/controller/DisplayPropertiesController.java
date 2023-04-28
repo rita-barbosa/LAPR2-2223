@@ -14,8 +14,7 @@ import java.util.List;
 
 public class DisplayPropertiesController {
 
-    //public Announcement announcementList;
-    private List<Announcement> announcementList = null;
+    private List<Announcement> announcementList;
     private AgencyRepository agencyRepository = null;
     private CriteriaRepository criteriaRepository = null;
 
@@ -24,7 +23,6 @@ public class DisplayPropertiesController {
         getAgenciesList();
         announcementList = getAnnouncementsList();
         List<Announcement> clonedAnnouncementList = new ArrayList<>(announcementList);
-        //sortAnnouncementsByMostRecentAdded(clonedAnnouncementList);
         sortAnnouncementsByMostRecentAdded();
         getCriteriaRepository();
 
@@ -47,7 +45,7 @@ public class DisplayPropertiesController {
         List<Announcement> announcementList = new ArrayList<>();
         List<Agency> agencies = getAgenciesList();
             for (Agency agency: agencies) {
-            announcementList.addAll(agency.getAnnouncements());
+            announcementList.addAll(agency.getAnnouncementsList());
         }
         return announcementList;
     }
@@ -67,16 +65,6 @@ public class DisplayPropertiesController {
         Collections.sort(clonedAnnouncementList, Collections.reverseOrder(acceptanceDate));
         return clonedAnnouncementList;
 
-//        Collections.sort(clonedAnnouncementList, Collections.reverseOrder(new Comparator<Announcement>() {
-//            @Override
-//            public int compare(Announcement o1, Announcement o2) {
-//                LocalDate o1AcceptanceDate = o1.getAcceptanceDate();
-//                LocalDate o2AcceptanceDate = o2.getAcceptanceDate();
-//
-//                return o1AcceptanceDate.compareTo(o2AcceptanceDate);
-//            }
-//        }));
-//        return clonedAnnouncementList;
     }
 
     public CriteriaRepository getCriteriaRepository() {
@@ -87,4 +75,64 @@ public class DisplayPropertiesController {
         return criteriaRepository;
     }
 
-}
+
+    public List<Announcement> getAnnouncementsByBusinessType(List<Announcement> announcementList, String businessType){
+        Agency agency = new Agency();
+        announcementList = agency.announcementHasBusinessType(announcementList, businessType);
+
+        return announcementList;
+    }
+
+    public List<Announcement> getAnnouncementsByPropertyType(List<Announcement> announcementList, String propertyType){
+        Agency agency = new Agency();
+        announcementList = agency.announcementHasPropertyType(announcementList, propertyType);
+
+        return announcementList;
+    }
+
+    public List<Announcement> getAnnouncementsByNumberBedrooms(List<Announcement> announcementList, Integer numberBedrooms){
+        Agency agency = new Agency();
+        announcementList = agency.announcementHasNumberBedrooms(announcementList, numberBedrooms);
+
+        return announcementList;
+    }
+
+    public List<Announcement> getAnnouncementsByPrice(List<Announcement> announcementList, String priceSorting){
+        if (priceSorting.equals("Ascending")){
+            Agency agency = new Agency();
+            announcementList = agency.sortAnnouncementsByAscendingPrice(announcementList);
+            return announcementList;
+        } else {
+            Agency agency = new Agency();
+            announcementList = agency.sortAnnouncementsByDescendingPrice(announcementList);
+            return announcementList;
+        }
+    }
+
+    public List<Announcement> getAnnouncementsByCity(List<Announcement> announcementList, String citySorting){
+        if (citySorting.equals("Ascending")){
+            Agency agency = new Agency();
+            announcementList = agency.sortAnnouncementsByAscendingCity(announcementList);
+            return announcementList;
+        } else {
+            Agency agency = new Agency();
+            announcementList = agency.sortAnnouncementsByDescendingCity(announcementList);
+            return announcementList;
+
+        }
+    }
+
+    public List<Announcement> getAnnouncementsByState(List<Announcement> announcementList, String stateSorting){
+        if (stateSorting.equals("Ascending")){
+            Agency agency = new Agency();
+            announcementList = agency.sortAnnouncementsByAscendingState(announcementList);
+            return announcementList;
+
+        } else {
+            Agency agency = new Agency();
+            announcementList = agency.sortAnnouncementsByDesscendingState(announcementList);
+            return announcementList;
+        }
+
+        }
+    }
