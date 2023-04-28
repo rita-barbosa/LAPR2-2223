@@ -69,7 +69,7 @@ It uses interaction occurrence.
 
 **Get Commission Type Object - Partial SD**
 
-![Sequence Diagram - Partial - Get Commission Type List ](svg/us002-sequence-diagram-partial-get-commission-type.svg)
+![Sequence Diagram - Partial - Get Commission Type Object](svg/us002-sequence-diagram-partial-get-commission-type.svg)
 
 **Get Property Type List - Partial SD**
 
@@ -77,15 +77,19 @@ It uses interaction occurrence.
 
 **Get Property Type Object - Partial SD**
 
-![Sequence Diagram - Partial - Get Property Type List](svg/us002-sequence-diagram-partial-get-property-type.svg)
+![Sequence Diagram - Partial - Get Property Type Object](svg/us002-sequence-diagram-partial-get-property-type.svg)
 
-**Get Agent - Partial SD**
+**Get Agency - Partial SD**
 
-![Sequence Diagram - Partial - Get Agent](svg/us002-sequence-diagram-partial-get-agent.svg)
+![Sequence Diagram - Partial - Get Agency](svg/us002-sequence-diagram-partial-get-agency.svg)
 
-**Create Request - Partial SD**
+**Get Email - Partial SD**
 
-![Sequence Diagram - Partial - Get Commission Type List ](svg/us002-sequence-diagram-create-request.svg)
+![Sequence Diagram - Partial - Get Email](svg/us002-sequence-diagram-partial-get-email.svg)
+
+**Create Sale Request - Partial SD**
+
+![Sequence Diagram - Partial - Create Sale Request ](svg/us002-sequence-diagram-partial-create-sale-request.svg)
 
 **Publish Announcement - Partial SD**
 
