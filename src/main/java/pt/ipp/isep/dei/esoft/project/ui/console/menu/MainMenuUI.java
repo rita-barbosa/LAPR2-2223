@@ -28,7 +28,7 @@ public class MainMenuUI implements Runnable {
     public void run() {
         List<MenuItem> options = new ArrayList<MenuItem>();
         options.add(new MenuItem("Do Login", new AuthenticationUI()));
-        options.add(new MenuItem("Know the Development Team", new DevTeamUI()));
+       // options.add(new MenuItem("Know the Development Team", new DevTeamUI()));
         options.add(new MenuItem("Sign up", new RegisterUserUI()));
         options.add(new MenuItem("Create a Property Request", new CreateRequestUI()));
 
