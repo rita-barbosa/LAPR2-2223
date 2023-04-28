@@ -10,6 +10,7 @@ public class Repositories {
     PropertyTypeRepository propertyTypeRepository = new PropertyTypeRepository();
     BusinessTypeRepository businessTypeRepository = new BusinessTypeRepository();
     AgencyRepository agencyRepository = new AgencyRepository();
+    PersonRepository personRepository = new PersonRepository();
     CriteriaRepository criteriaRepository = new CriteriaRepository();
 
 
@@ -38,6 +39,9 @@ public class Repositories {
     }
     public AgencyRepository getAgencyRepository(){
         return agencyRepository;
+    }
+    public PersonRepository getPersonRepository(){
+        return personRepository;
     }
     public CriteriaRepository getCriteriaRepository(){
         return criteriaRepository;
