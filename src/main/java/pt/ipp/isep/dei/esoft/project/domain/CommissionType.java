@@ -44,14 +44,15 @@ public class CommissionType {
             return false;
         }
     }
-
-//    /**
-//     * @return
-//     */
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(designation);
-//    }
+    /**
+     * Returns a hash code value for the object.
+     *
+     * @return a hash code value for the object.
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(designation);
+    }
 
 
     /**

@@ -1,76 +1,72 @@
-# US 006 - To create a Task 
+# US 002 - Publish an announcement
 
 # 4. Tests 
 
-**Test 1:** Check that it is not possible to create an instance of the Task class with null values. 
-
-	@Test(expected = IllegalArgumentException.class)
-		public void ensureNullIsNotAllowed() {
-		Task instance = new Task(null, null, null, null, null, null, null);
-	}
-	
-
-**Test 2:** Check that it is not possible to create an instance of the Task class with a reference containing less than five chars - AC2. 
-
-	@Test(expected = IllegalArgumentException.class)
-		public void ensureReferenceMeetsAC2() {
-		Category cat = new Category(10, "Category 10");
-		
-		Task instance = new Task("Ab1", "Task Description", "Informal Data", "Technical Data", 3, 3780, cat);
-	}
-
+**Yet to be developed**  
 
 *It is also recommended to organize this content by subsections.* 
 
 # 5. Construction (Implementation)
 
 
-## Class CreateTaskController 
+## Class PublishAnnouncementController
 
 ```java
-public Task createTask(String reference, String description, String informalDescription,
-								 String technicalDescription, Integer duration, Double cost,
-								 String taskCategoryDescription) {
+public Optional<Announcement> publishAnnouncement(Double commissionValue, String commissionTypeDesignation, String ownerEmail, String propertyTypeDesignation,
+        String streetName, String city, String district, String state, String zipCode, Double area, Double distanceCityCenter, Double price, Integer numberBedroom,
+        Integer numberParkingSpace, Boolean existenceBasement, Boolean inhabitableLoft, Integer numberBathroom, List<String> availableEquipmentDescriptionList,
+        List<String> uriList, SunExposureTypes sunExposure) {
 
-	TaskCategory taskCategory = getTaskCategoryByDescription(taskCategoryDescription);
+        String email = getEmailFromSession();
+        Optional<Agency> agency = getAgencyByEmail(email);
+        Employee agent = getAgentByEmail(email, agency);
 
-	Employee employee = getEmployeeFromSession();
-	Organization organization = getOrganizationRepository().getOrganizationByEmployee(employee);
+        PropertyType propertyType = getPropertyTypeByDesignation(propertyTypeDesignation);
 
-	newTask = organization.createTask(reference, description, informalDescription, technicalDescription, 
-			duration, cost,taskCategory, employee);
-    
-	return newTask;
-}
+        Optional<Request> newRequest;
+        Optional<Announcement> newAnnouncement = Optional.empty();
+
+        CommissionType commissionType = getCommissionTypeByDesignation(commissionTypeDesignation);
+
+        if (agency.isPresent()) {
+        newRequest = agency.get().createSaleRequest(ownerEmail, propertyType, "sale", price, area, availableEquipmentDescriptionList, streetName, city, district, state,
+        zipCode, existenceBasement, inhabitableLoft, numberParkingSpace, sunExposure, numberBedroom, numberBathroom, agent, distanceCityCenter, uriList);
+        if (newRequest.isPresent()) {
+        newAnnouncement = agency.get().publishAnnouncement(agent, commissionType, commissionValue, newRequest.get());
+        }
+        }
+        return newAnnouncement;
+
+        }
 ```
 
 
-## Class Organization
+## Class Agency
 
 ```java
-public Optional<Task> createTask(String reference, String description, String informalDescription,
-                                     String technicalDescription, Integer duration, Double cost,
-                                     TaskCategory taskCategory, Employee employee) {
-    
-        Task task = new Task(reference, description, informalDescription, technicalDescription, duration, cost,
-                taskCategory, employee);
+ public Optional<Announcement> publishAnnouncement(Employee agent, CommissionType commissionType, Double commissionValue, Request request) {
 
-        addTask(task);
-        
-        return task;
-    }
+        Optional<Announcement> optionalValue = Optional.empty();
+
+        Announcement announcement = new Announcement(agent, commissionType, commissionValue, request);
+
+        if (addAnnouncement(announcement)) {
+        optionalValue = Optional.of(announcement);
+        }
+        return optionalValue;
+        }
+
 ```
+
 
 # 6. Integration and Demo 
 
 * A new option on the Employee menu options was added.
 
-* Some demo purposes some tasks are bootstrapped while system starts.
-
 
 # 7. Observations
 
-Platform and Organization classes are getting too many responsibilities due to IE pattern and, therefore, they are becoming huge and harder to maintain. 
+Agency class is getting too many responsibilities due to IE pattern and, therefore, is are becoming huge and hard to maintain. 
 
 Is there any way to avoid this to happen?
 

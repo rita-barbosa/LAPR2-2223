@@ -16,23 +16,24 @@ participant "business\n:Business" as BUSINESS
 
 autonumber 42
 
-        -> AGENCY: createRequest(agent,agency,ownerEmail,propertyType,streetName, city, district, state,\nzipCode, distanceCityCenter, price, numberBedrooms,\nnumberParkingSpaces,existenceBasement,inhabitableLoft, numberBathrooms,\n availableEquipmentList,uriList,sunExposure,area)
+        -> AGENCY: createSaleRequest(agent,agency,ownerEmail,propertyType,streetName, city, district, state,\nzipCode, distanceCityCenter, price, businessType, numberBedrooms,\nnumberParkingSpaces,existenceBasement,inhabitableLoft, numberBathrooms,\n availableEquipmentList,uriList,sunExposure,area)
          activate AGENCY
 
 autonumber 42.1
 
     group Create Request
 
-        AGENCY -> REQUEST **: createRequest(ownerEmail, propertyType,streetName, city, district, state,\nzipCode, distanceCityCenter, price,numberBedrooms,\nnumberParkingSpaces,existenceBasement,inhabitableLoft, numberBathrooms,\n availableEquipmentList,uriList,sunExposure,area)
+        AGENCY -> REQUEST **: createSaleRequest(ownerEmail, propertyType,streetName, city, district, state,\nzipCode, distanceCityCenter, price,businessType, numberBedrooms,\nnumberParkingSpaces,existenceBasement,inhabitableLoft, numberBathrooms,\n availableEquipmentList,uriList,sunExposure,area)
         activate REQUEST
 
+       REQUEST -> BUSINESS** : createBusiness(price)
 
         alt propertyType = land
-                REQUEST -> PROPERTY** : createProperty(price,streetName, city, district, state,zipCode,\n distanceCityCenter, area, uriList)
+                REQUEST -> PROPERTY** : createProperty(price,business, streetName, city, district, state,zipCode,\n distanceCityCenter, area, uriList)
                 activate PROPERTY
 
                 PROPERTY -> LOCATION** : createLocation(streetName, city, district, state, zipCode)
-                PROPERTY -> BUSINESS** : createBusiness(price)
+
                 PROPERTY -> PHOTO** : createPhotograph(uriList)
                 PROPERTY -> AEQUIP** : createAvailableEquipment(availableEquipmentList)
                 PROPERTY --> REQUEST : property
@@ -41,11 +42,11 @@ autonumber 42.1
         end
         alt propertyType = apartment
 
-                REQUEST -> RESIDENCE** : createResidence(price,streetName, city, district, state,zipCode,\ndistanceCityCenter, area, price, uriList,numberBedrooms,\nnumberParkingSpaces,numberBathrooms,availableEquipmentList)
+                REQUEST -> RESIDENCE** : createResidence(price,business, streetName, city, district, state,zipCode,\ndistanceCityCenter, area, uriList,numberBedroom,\nnumberParkingSpace,numberBathroom,availableEquipmentList)
                 activate RESIDENCE
 
                 RESIDENCE -> LOCATION** : createLocation(streetName, city, district, state, zipCode)
-                RESIDENCE -> BUSINESS** : createBusiness(price)
+
                 RESIDENCE -> PHOTO** : createPhotograph(uriList)
                 RESIDENCE -> AEQUIP** : createAvailableEquipment(availableEquipmentList)
                 RESIDENCE --> REQUEST : property
@@ -53,11 +54,11 @@ autonumber 42.1
 
         end
         alt propertyType = house
-                REQUEST -> HOUSE** : createResidence(price,streetName, city, district, state,zipCode,\ndistanceCityCenter, area, price, uriList,numberBedrooms,\nnumberParkingSpaces,numberBathrooms,availableEquipmentList,\nexistenceBasement,inhabitableLoft,sunExposure)
+                REQUEST -> HOUSE** : createHouse(price, business, streetName, city, district, state,zipCode,\ndistanceCityCenter, area, uriList,numberBedroom,\nnumberParkingSpace,numberBathroom,availableEquipmentList,\nexistenceBasement,inhabitableLoft,sunExposure)
                 activate HOUSE
 
                 HOUSE -> LOCATION** : createLocation(streetName, city, district, state, zipCode)
-                HOUSE -> BUSINESS** : createBusiness(price)
+
                 HOUSE -> PHOTO** : createPhotograph(uriList)
                 HOUSE -> AEQUIP** : createAvailableEquipment(availableEquipmentList)
                 HOUSE --> REQUEST : property

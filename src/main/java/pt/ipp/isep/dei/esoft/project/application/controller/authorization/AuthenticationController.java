@@ -11,9 +11,13 @@ import java.util.List;
  */
 public class AuthenticationController {
 
-    public static final String ROLE_ADMIN = "ADMINISTRATOR";
-    public static final String ROLE_EMPLOYEE = "EMPLOYEE";
+    public static final String ROLE_ADMIN = "SYSTEM ADMINISTRATOR";
+    public static final String ROLE_AGENT = "AGENT";
     public static final String ROLE_CLIENT = "CLIENT";
+    public static final String ROLE_STORE_MANAGER = "STORE MANAGER";
+
+    public static final String ROLE_NETWORK_MANAGER = "NETWORK MANAGER";
+
 
     //private final ApplicationSession applicationSession;
     private final AuthenticationRepository authenticationRepository;

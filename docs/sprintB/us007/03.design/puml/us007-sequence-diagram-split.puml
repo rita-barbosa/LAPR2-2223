@@ -50,74 +50,55 @@ activate ADM
     UI -> CTRL : registerUser(name, passportCardNumber, tax number,\n emailAddress, phoneNumber, password, streetName,\n city, district, state, zipcode)
     activate CTRL
 
-    CTRL -> RepositorySingleton : getInstance()
-            activate RepositorySingleton
+    CTRL -> PLAT : getPersonRepository()
+    activate PLAT
 
-                RepositorySingleton --> CTRL: repositories
-            deactivate RepositorySingleton
+    PLAT --> CTRL : personRepository
+    deactivate PLAT
 
-            CTRL -> PLAT : getRoleRepository()
-            activate PLAT
+    CTRL -> PERSONREP : createPerson(name, passportCardNumber, tax number,\n emailAddress, phoneNumber, streetName,\n city, district, state, zipcode,clientRole)
+   activate PERSONREP
 
-                PLAT -> CTRL : roleRepository
-            deactivate PLAT
+    PERSONREP -> PERSON** : create(name, passportCardNumber, tax number,\n emailAddress, phoneNumber, streetName,\n city, district, state, zipcode,clietnRole)
+    activate PERSON
 
+    PERSON -> LOCATION** : createLocation(streetName, city, \ndistrict, state, zipcode)
+    deactivate PERSON
 
-            CTRL -> RoleRepository : getClientRoles()
-            activate RoleRepository
+    PERSONREP -> PERSONREP: addPerson(person)
+    activate PERSONREP
 
-                RoleRepository --> CTRL : roles
-            deactivate RoleRepository
+        PERSONREP -> PERSONREP: validatePerson(person)
+        activate PERSONREP
 
-            CTRL -> PLAT : getPersonRepository()
-            activate PLAT
+        PERSONREP --> PERSONREP :
+        deactivate PERSONREP
 
-            PLAT --> CTRL : personRepository
-            deactivate PLAT
+    PERSONREP --> PERSONREP :
+    deactivate PERSONREP
 
-            CTRL -> PERSONREP : createPerson(name, passportCardNumber, tax number,\n emailAddress, phoneNumber, streetName,\n city, district, state, zipcode)
-           activate PERSONREP
+    PERSONREP --> CTRL : person
+    deactivate PERSONREP
 
-            PERSONREP -> PERSON** : create(name, passportCardNumber, tax number,\n emailAddress, phoneNumber, streetName,\n city, district, state, zipcode)
-            activate PERSON
+    CTRL -> PLAT : getAuthenticationRepository()
+    activate PLAT
 
-            PERSON -> LOCATION** : createLocation(streetName, city, \ndistrict, state, zipcode)
-            deactivate PERSON
+    PLAT --> CTRL: authenticationRepository
+    deactivate PLAT
 
-            PERSONREP -> PERSONREP: addPerson(person)
-            activate PERSONREP
+    CTRL -> AUTHREP : addUserWithRoles(name,emailAddress,password,clientRole)
+    activate AUTHREP
 
-                PERSONREP -> PERSONREP: validatePerson(person)
-                activate PERSONREP
+    AUTHREP -> AUTHFACADE: addUserWithRoles(name,emailAddress,password,clientRole)
+    activate AUTHFACADE
 
-                PERSONREP --> PERSONREP :
-                deactivate PERSONREP
+    AUTHFACADE --> AUTHREP: success
+    deactivate AUTHFACADE
 
-            PERSONREP --> PERSONREP :
-            deactivate PERSONREP
+    AUTHREP --> CTRL : success
 
-            PERSONREP --> CTRL : person
-            deactivate PERSONREP
-
-            CTRL -> PLAT : getAuthenticationRepository()
-            activate PLAT
-
-            PLAT --> CTRL: authenticationRepository
-            deactivate PLAT
-
-            CTRL -> AUTHREP : addUserWithRoles(name,emailAddress,password,roles)
-            activate AUTHREP
-
-            AUTHREP -> AUTHFACADE: addUserWithRoles(name,emailAddress,password,roles)
-            activate AUTHFACADE
-
-            AUTHFACADE --> AUTHREP: success
-            deactivate AUTHFACADE
-
-            AUTHREP --> CTRL : success
-
-            CTRL --> UI :success
-            deactivate CTRL
+    CTRL --> UI :success
+    deactivate CTRL
 
     UI --> ADM : displays operation success
     deactivate UI

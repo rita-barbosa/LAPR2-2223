@@ -4,88 +4,165 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The Agency class represents a real estate agency that contains information about employees, announcements, and requests.
+ */
 public class Agency {
+    /**
+     * The id of the agency;
+     */
     private final Integer id;
+    /**
+     * The description of the agency;
+     */
     private final String description;
+    /**
+     * The email address of the agency;
+     */
     private final String emailAddress;
+    /**
+     * The phone number of the agency.
+     */
     private final String phoneNumber;
-    List<Agent> agents = new ArrayList<>();
+    /**
+     * The business type designation of a lease
+     */
+    public static final String LEASE_BUSINESSTYPE = "Lease";
+
+    /**
+     * The location of the agency.
+     */
+    private Location location;
+
+    /**
+     * Represents the list of employees associated with the agency.
+     */
+    List<Employee> employees;
 
     /**
      * Represents the list of announcements associated with the agency.
      */
-    List<Announcement> announcements = new ArrayList<>();
-    List<Request> requests = new ArrayList<>();
+    List<Announcement> announcements;
 
-    public Agency(Integer id, String description, String emailAddress, String phoneNumber, List<Agent> agents, List<Announcement> announcements, List<Request> requests) {
+    /**
+     * Represents the list of requests associated with the agency.
+     */
+    List<Request> requests;
+
+    /**
+     * Construts a new Agency object with the specified id, description, email address, phone number and location.
+     *
+     * @param id           he unique identifier of the agency.
+     * @param description  the description of the agency.
+     * @param emailAddress the email address of the agency.
+     * @param phoneNumber  the phone number of the agency.
+     * @param location     the location of the agency.
+     */
+    public Agency(Integer id, String description, String emailAddress, String phoneNumber, Location location) {
         this.id = id;
         this.description = description;
         this.emailAddress = emailAddress;
         this.phoneNumber = phoneNumber;
-        this.agents = agents;
-        this.announcements = announcements;
-        this.requests = requests;
+        this.location = location;
+        this.employees = new ArrayList<>();
+        this.announcements = new ArrayList<>();
+        this.requests = new ArrayList<>();
     }
 
 
-//    /**
-//     * This method checks if the agency has an employee with the given email.
-//     *
-//     * @param email The email to be checked.
-//     * @return True if the agency has an employee with the given email.
-//     */
-//    public Boolean anyAgentHasEmail(String email) {
-//        Boolean result = false;
-//        for (Agent agent : agents) {
-//            if (agent.hasEmail(email)) {
-//                result = true;
-//            }
-//        }
-//        return result;
-//    }
+    /**
+     * This method checks if the agency has an employee with the given email.
+     *
+     * @param email The email to be checked.
+     * @return True if the agency has an employee with the given email.
+     */
+    public Boolean anyAgentHasEmail(String email) {
+        Boolean result = false;
+        for (Employee employee : employees) {
+            if (employee.hasEmail(email)) {
+                result = true;
+            }
+        }
+        return result;
+    }
 
-//    private Optional<Agent> getAgentByEmail(String emailAddress) {
-//        Optional<Agent> returnAgent = Optional.empty();
-//        for (Agent agent : agents) {
-//            if (anyAgentHasEmail(emailAddress)) {
-//                returnAgent = Optional.of(agent);
-//            }
-//        }
-//        return returnAgent;
-//    }
+    /**
+     * This method returns the agent that has the received email address.
+     *
+     * @param emailAddress - the email address that belongs to an agent.
+     * @return the agent that has the received email; if there isn't an agent with that email then a null value will be returned.
+     */
+    public Employee getAgentByEmail(String emailAddress) {
+        Employee returnEmployee = null;
+        for (Employee employee : employees) {
+            if (anyAgentHasEmail(emailAddress)) {
+                returnEmployee = employee;
+            }
+        }
+        return returnEmployee;
+    }
 
-//    private Boolean addAnnouncement(Announcement announcement) {
-//        Boolean success = false;
-//        if (validateAnnouncement(announcement)) {
-//            announcement =announcements.add(announcement.clone());
-//        }
-//        return success;
-//    }
+    /**
+     * This method adds an announcement to the existent list of announcements.
+     *
+     * @param announcement - announcement intended to be added.
+     * @return {@code true} if the announcement was successfully added; {@code false} otherwise;
+     */
+    private Boolean addAnnouncement(Announcement announcement) {
+        Boolean success = false;
+        if (validateAnnouncement(announcement)) {
+            announcements.add(announcement.clone());
+        }
+        return success;
+    }
 
+    /**
+     * This method creates a new Request instance, and adds it to the list of requests already existent.
+     *
+     * @param ownerEmail
+     * @param propertyType
+     * @param businessType
+     * @param amount
+     * @param area
+     * @param contractDuration
+     * @param availableEquipmentDescription
+     * @param streetName
+     * @param city
+     * @param district
+     * @param state
+     * @param zipCode
+     * @param basement
+     * @param inhabitableLoft
+     * @param parkingSpace
+     * @param sunExposure
+     * @param numberBedroom
+     * @param numberBathroom
+     * @param agent
+     * @param distanceCityCenter
+     * @param uri
+     * @return an Optional object of Request, allowing the calling code to handle the possibility of null values without the need for explicit null checks.
+     */
     public Optional<Request> createRequest(String ownerEmail, PropertyType propertyType, BusinessType businessType,
-                                           Double amount, Double area, Integer contractDuration, ArrayList<AvailableEquipment> availableEquipment,
+                                           Double amount, Double area, Integer contractDuration, List<String> availableEquipmentDescription,
                                            String streetName, String city, String district, String state, String zipCode,
                                            Boolean basement, Boolean inhabitableLoft, Integer parkingSpace, Enum<SunExposureTypes> sunExposure,
-                                           Integer numberBedroom, Integer numberBathroom, Agent agent, Double distanceCityCenter,
-                                           ArrayList<Photograph> photograph) {
+                                           Integer numberBedroom, Integer numberBathroom, Employee agent, Double distanceCityCenter,
+                                           List<String> uri) {
 
-        //TODO: we could also check if the employee works for the organization before proceeding
-        //checkIfEmployeeWorksForOrganization(employee);
-
-        // When a Task is added, it should fail if the Task already exists in the list of Tasks.
+        // When a Request is added, it should fail if the Request already exists in the list of Request.
         // In order to not return null if the operation fails, we use the Optional class.
         Optional<Request> optionalValue = Optional.empty();
 
         Request request;
 
-        if (businessType.toString().equals("Lease")) {
-            request = new Request(ownerEmail, propertyType, businessType, amount, area, contractDuration, availableEquipment,
+        if (businessType.getDesignation().equalsIgnoreCase(LEASE_BUSINESSTYPE)) {
+            request = new Request(ownerEmail, propertyType, businessType, amount, area, contractDuration, availableEquipmentDescription,
                     streetName, city, district, state, zipCode, basement, inhabitableLoft, parkingSpace, sunExposure,
-                    numberBedroom, numberBathroom, agent, distanceCityCenter, photograph);
+                    numberBedroom, numberBathroom, agent, distanceCityCenter, uri);
         } else {
-            request = new Request(ownerEmail, propertyType, businessType, amount, area, availableEquipment, streetName,
-                    city, district, state, zipCode, basement, inhabitableLoft, parkingSpace, sunExposure, numberBedroom,
-                    numberBathroom, agent, distanceCityCenter, photograph);
+            request = new Request(ownerEmail, propertyType, businessType, amount, area, availableEquipmentDescription,
+                    streetName, city, district, state, zipCode, basement, inhabitableLoft, parkingSpace, sunExposure,
+                    numberBedroom, numberBathroom, agent, distanceCityCenter, uri);
         }
 
         if (addRequest(request)) {
@@ -94,6 +171,56 @@ public class Agency {
         return optionalValue;
     }
 
+    /**
+     * This method creates a new sale Request instance, and adds it to the list of requests already existent.
+     *
+     * @param ownerEmail
+     * @param propertyType
+     * @param businessType
+     * @param amount
+     * @param area
+     * @param availableEquipment
+     * @param streetName
+     * @param city
+     * @param district
+     * @param state
+     * @param zipCode
+     * @param basement
+     * @param inhabitableLoft
+     * @param parkingSpace
+     * @param sunExposure
+     * @param numberBedroom
+     * @param numberBathroom
+     * @param agent
+     * @param distanceCityCenter
+     * @param photograph
+     * @return an Optional object of Request, allowing the calling code to handle the possibility of null values without the need for explicit null checks.
+     */
+    public Optional<Request> createSaleRequest(String ownerEmail, PropertyType propertyType, String businessType,
+                                               Double amount, Double area, List<String> availableEquipment,
+                                               String streetName, String city, String district, String state, String zipCode,
+                                               Boolean basement, Boolean inhabitableLoft, Integer parkingSpace, Enum<SunExposureTypes> sunExposure,
+                                               Integer numberBedroom, Integer numberBathroom, Employee agent, Double distanceCityCenter,
+                                               List<String> photograph) {
+
+        Optional<Request> optionalValue = Optional.empty();
+        Request request;
+//        request = new Request(ownerEmail, propertyType, businessType, amount, area, availableEquipment, streetName,
+//                city, district, state, zipCode, basement, inhabitableLoft, parkingSpace, sunExposure, numberBedroom,
+//                numberBathroom, agent, distanceCityCenter, photograph);
+//
+//        if (addRequest(request)) {
+//            optionalValue = Optional.of(request);
+//        }
+        return optionalValue;
+    }
+
+    /**
+     * This method adds a request to the existent list of announcements.
+     *
+     * @param request - request intended to be added.
+     * @return {@code true} if the request was successfully added; {@code false} otherwise;
+     */
     private Boolean addRequest(Request request) {
         Boolean success = false;
         if (validateRequest(request)) {
@@ -102,33 +229,79 @@ public class Agency {
         return success;
     }
 
+    /**
+     * This method checks if the list of announcements already contains the announcement received.
+     *
+     * @param announcement - announcement intended to be checked.
+     * @return {@code true} if the announcement isn't in the list of announcements; {@code false} otherwise;
+     */
     private Boolean validateAnnouncement(Announcement announcement) {
         return !(announcements.contains(announcement));
     }
 
+    /**
+     * This method checks if the list of requests already contains the request received.
+     *
+     * @param request - request intended to be checked.
+     * @return {@code true} if the request isn't in the list of requests; {@code false} otherwise;
+     */
     private Boolean validateRequest(Request request) {
         return !(requests.contains(request));
     }
 
+    /**
+     * This method returns the agency id.
+     *
+     * @return the agency id.
+     */
     public Integer getId() {
         return id;
     }
 
-    public List<Agent> getAgentList() {
-        return this.agents;
+    /**
+     * This method returns the agents that are associated with this agency (that are in the list of employees).
+     *
+     * @return the list of agents (employees with role "Agent").
+     */
+    public List<Employee> getAgentList() {
+        List<Employee> agents = new ArrayList<>();
+        for (Employee employee : employees) {
+            if (employee.isAgent()) {
+                agents.add(employee);
+            }
+        }
+        return agents;
     }
 
-//    public Optional<Announcement> publishAnnouncement(Agent agent,CommissionType commissionType, Double commissionValue, Request request){
-//
-//        Optional<Announcement> optionalValue = Optional.empty();
-//
-//        Announcement announcement = new Announcement(agent,commissionType,commissionValue,request);
-//
-//        if(addAnnouncement(announcement)){
-//            optionalValue= Optional.of(announcement);
-//        }
-//        return  optionalValue;
-//    }
+    /**
+     * This method returns the agency description.
+     *
+     * @return the agency description.
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * This method creates a new Announcement instance and adds it to the already existent list of announcements.
+     *
+     * @param agent           - the agent that created the request and is responsible for it.
+     * @param commissionType  - the commission type that the agent chose.
+     * @param commissionValue - the commission value that the agent chose.
+     * @param request         - the request created by the agent.
+     * @return an Optional object of Announcement, allowing the calling code to handle the possibility of null values without the need for explicit null checks.
+     */
+    public Optional<Announcement> publishAnnouncement(Employee agent, CommissionType commissionType, Double commissionValue, Request request) {
+
+        Optional<Announcement> optionalValue = Optional.empty();
+
+        Announcement announcement = new Announcement(agent, commissionType, commissionValue, request);
+
+        if (addAnnouncement(announcement)) {
+            optionalValue = Optional.of(announcement);
+        }
+        return optionalValue;
+    }
 
 
 }

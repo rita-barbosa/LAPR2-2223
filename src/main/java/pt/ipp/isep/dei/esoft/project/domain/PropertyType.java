@@ -1,5 +1,7 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
+import java.util.Objects;
+
 public class PropertyType {
     /**
      * The designation of the type of property
@@ -42,14 +44,15 @@ public class PropertyType {
         }
     }
 
-//    /**
-//     *
-//     * @return
-//     */
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(designation);
-//    }
+    /**
+     * Returns a hash code value for the object.
+     *
+     * @return
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(designation);
+    }
 
     /**
      * This method creates and returns a copy of a property type instance.

@@ -9,13 +9,20 @@ import java.util.List;
 
 
 /**
+ * The MainMenuUI class provides a command-line user interface for the main menu of an application.
  * @author Paulo Maio pam@isep.ipp.pt
  */
 public class MainMenuUI implements Runnable {
 
+    /**
+     * Constructs a MainMenuUI object.
+     */
     public MainMenuUI() {
     }
 
+    /**
+     * Runs the main menu user interface.
+     */
     public void run() {
         List<MenuItem> options = new ArrayList<MenuItem>();
         options.add(new MenuItem("Do Login", new AuthenticationUI()));
@@ -29,6 +36,4 @@ public class MainMenuUI implements Runnable {
             }
         } while (option != -1);
     }
-
-
 }

@@ -17,7 +17,8 @@ class ApplicationSession
 class Property
 {
     - Double distanceCityCentre
-    + Property(propertyType,streetName, city, district, state,\nzipCode, distanceCityCentre, price, photograph,numberBedroom,\nnumberParkingSpace,existenceBasement,inhabitableLoft, numberBathroom,\n availableEquipment, sunExposure)
+    - Double area
+    + Property(propertyType, area, distanceCityCenter, photograph,\n streetName, city, district, state, zipCode)
 }
 class Location
 {
@@ -30,8 +31,8 @@ class Location
 }
 class Photograph
 {
-    - List<String> uri
-    + Photograph(uriList)
+    - URI uri
+    + Photograph(uri)
 }
 class AvailableEquipment
 {
@@ -44,17 +45,11 @@ class UserSession
     + getUserEmail()
 }
 
-class Agent {
-    - String name
-    - Integer passportCardNumber
-    - Integer taxNumber
-    - String emailAddress
-    - Integer phoneNumber
+class Employee {
 }
 
 class Announcement {
-    - String acceptanceDate
-    - getCurrentDate()
+    - LocalDate acceptanceDate
     + Announcement(agent, commissionType, commissionValue, request)
 }
 class Commission {
@@ -63,7 +58,7 @@ class Commission {
 }
 class Request
 {
-    - String requestDate
+    - LocalDate requestDate
     - String ownerEmail
     + Request(ownerEmail, propertyType,streetName, city, district, state,\nzipCode, distanceCityCentre, price, photograph,numberBedroom,\nnumberParkingSpace,existenceBasement,inhabitableLoft, numberBathroom,\n availableEquipment, sunExposure)
 
@@ -81,7 +76,7 @@ class Agency {
     - validateRequest(request)
     + anyAgentHasEmail(email)
     + publishAnnouncement(agent, commissionType, commissionValue, request)
-    + createRequest(ownerEmail, propertyType, streetName, city, district, state, zipCode, area, distanceCityCentre,\n price, photograph,numberBedroom,numberParkingSpace, existenceBasement,inhabitableLoft,\nnumberBathroom, availableEquipment, sunExposure)
+    + createSaleRequest(ownerEmail, propertyType,businessType, streetName, city, district, state, zipCode, area, distanceCityCentre,\n price, photograph,numberBedroom,numberParkingSpace, existenceBasement,inhabitableLoft,\nnumberBathroom, availableEquipment, sunExposure)
 }
 
 class CommissionTypeRepository {
@@ -94,7 +89,7 @@ class PropertyTypeRepository {
 }
 
 class AgencyRepository {
-    + getAgencyByAgentEmail(email)
+    + getAgencyByEmail(email)
 }
 
 class Repositories {
@@ -108,10 +103,11 @@ class Repositories {
 class PublishAnnouncementController {
     + PublishAnnouncementController(PropertyTypeRepository,CommissionTypeRepository,AgencyRepository)
     + publishAnnouncement(commissionValue, commissionTypeDescription, ownerEmail, propertyTypeDescription,\nstreetName, city, district, state, zipCode, area, distanceCityCentre,\nprice, photograph,numberBedroom,numberParkingSpace,\nexistenceBasement,inhabitableLoft, numberBathroom, availableEquipment, sunExposure)
-    + createCommission(commissionType,commissionValue)
     + getCommissionTypeList()
     + getPropertyTypeList()
-    - getAgentFromSession()
+    - getAgentByEmail()
+    - getAgencyByEmail()
+    - getEmailFromSession()
     - getPropertyTypeByDesignation(designation)
     - getCommissionTypeByDesignation(designation)
 }
@@ -131,16 +127,23 @@ class Business
 {
     - Double price
 }
+class BusinessType
+{
+- String designation
++ BusinessType(designation)
+}
 class Residence
 {
     - Integer numberBathroom
     - Integer numberBedroom
     - Integer numberParkingSpace
+    Residence(propertyType, area, availableEquipment, streetName, \ncity, district, state,zipCode, parkingSpace, numberBedroom,\n numberBathroom, distanceCityCenter, photograph)
 }
 class House
 {
     - Boolean existenceBasement
     - Boolean inhabitableLoft
+    House(propertyType, availableEquipment, area, streetName, \ncity, district, state, zipCode, basement, inhabitableLoft,\n parkingSpace, sunExposure, numberBedroom,\n numberBathroom,distanceCityCenter, photograph)
 }
 enum SunExposure
 {
@@ -153,33 +156,35 @@ EAST
     PublishAnnouncementController .-> UserSession
     PublishAnnouncementController .-> ApplicationSession
     ApplicationSession -> ApplicationSession : instance
-    ApplicationSession --> "1" UserSession
-    PublishAnnouncementController .--> Repositories
-    PublishAnnouncementController .-> PropertyTypeRepository
-    PublishAnnouncementController .-> CommissionTypeRepository
-    PublishAnnouncementController .-> AgencyRepository
-
+    ApplicationSession --> "1" UserSession: userSession
+    PublishAnnouncementController .--> Repositories : repositories
+    PublishAnnouncementController .-> PropertyTypeRepository : PropertyTypeRepository
+    PublishAnnouncementController .-> CommissionTypeRepository : CommissionTypeRepository
+    PublishAnnouncementController .-> AgencyRepository : AgencyRepository
+    PublishAnnouncementController .---> Agency : Agency
     Repositories -> Repositories : instance
     Repositories --> "1" CommissionTypeRepository
     Repositories --> "1" PropertyTypeRepository
     Repositories --> "1" AgencyRepository
     AgencyRepository --> "*" Agency
-    Agency "1" ----> "*" Announcement
+    Agency "1" ----> "*" Announcement : announcements
 
-    Announcement "*" --> "1" Agent : responsibleFor
-    CommissionTypeRepository ---> "*" CommissionType
+    Announcement "*" --> "1" Employee : responsibleFor
+    CommissionTypeRepository ---> "*" CommissionType : commissionType
     CommissionType "1" <-- Commission : isCategorized
     Announcement  --> "1" Commission
     Request "1" <-- Announcement : isBasedOn
     Request  ---> "1" Property
-    Agency ----> Agent
-    PropertyTypeRepository "1" --> "*" PropertyType
+    Agency ----> "*" Employee
+
+    PropertyTypeRepository  --> "*" PropertyType : propertyType
     PropertyType "1" <-- "*" Property
     Property  --> "1" Location : hasAddress
     Property  --> "1" Photograph : isVisualized
     Property  --> "1" AvailableEquipment : includes
     Agency --> "*" Request : isAssignedTo
     Request -> "1" Business
+    Business "1" <-- "1" BusinessType : describes
     Residence --|> Property
     House --|> Residence
     House -> "1" SunExposure

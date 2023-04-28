@@ -1,6 +1,8 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
+import java.net.URI;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Property {
 
@@ -9,15 +11,52 @@ public class Property {
     private final Double distanceCityCenter;
     private final Location location;
 
-    private final ArrayList<Photograph> photograph;
+    private final List<Photograph> photograph;
 
-    public Property(PropertyType propertyType, Double area, Double distanceCityCenter, ArrayList<Photograph> photograph, String streetName,
+    public Property(PropertyType propertyType, Double area, Double distanceCityCenter, List<String> uri, String streetName,
                     String city, String district, String state, String zipCode) {
         this.propertyType = propertyType;
         this.area = area;
         this.distanceCityCenter = distanceCityCenter;
-        this.photograph = photograph;
+        this.photograph = new ArrayList<>();
+        fillPhotographList(uri);
         this.location = new Location(streetName, city, district, state, zipCode);
+    }
+
+
+    private void fillPhotographList(List<String> uriList) {
+        for (String uri : uriList) {
+            URI actualUri = URI.create(uri);
+            Photograph photo = new Photograph(actualUri);
+            addPhotograph(photo);
+        }
+    }
+
+    private void addPhotograph(Photograph photo) {
+        if (validate(photo)) {
+            // A clone of the photograph is added to the list of photographs, to avoid side effects and outside manipulation.
+            this.photograph.add(photo.clone());
+        }
+    }
+
+    private boolean validate(Photograph photo) {
+        return PhotographDoNotContain(photo);
+    }
+
+    private boolean PhotographDoNotContain(Photograph photo) {
+        return !this.photograph.contains(photo);
+    }
+
+    public String toString(){ //fix
+        String announcementInfo = String.format("Property Type: %s\n Area: %f m²\n Distance from city center: %f m\n %s\n", propertyType, area, distanceCityCenter, location.toString());
+        if (propertyType.toString() != "land/Land"){ //check this
+            announcementInfo = announcementInfo + String.format("Available Equipment: %s", Residence.getClass().)
+
+        }
+
+        return announcementInfo + super.toString();
+
+      //return String.format("Property Type: %s\n Area: %f m²\n Distance from city center: %f m\n %s", propertyType, area, distanceCityCenter, location.toString());
     }
 
 }

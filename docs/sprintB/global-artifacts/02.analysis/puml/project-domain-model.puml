@@ -25,6 +25,8 @@ class Employee {
 }
 
 class Person{
+name
+email
 passportCardNumber
 taxNumber
 phoneNumber
@@ -100,7 +102,7 @@ class Lease{
 contractDuration
 }
 class Commission {
-amountCommission
+commissionValue
 }
 class CommissionType {
 designation
@@ -110,15 +112,16 @@ requestDate
 }
 
 
-SystemAdministrator --|> Employee
+SystemAdministrator "0..*" -- Employee: plays as <
 SystemAdministrator "1" --- "*" Employee: registers >
 SystemAdministrator "1" -- "*" Agency: registers >
-Person  <|--  Employee
-Person <|-- Owner
-Customer  ---|> Person
-Agent  ----|> Employee
-StoreManager --|> Employee
-NetworkManager ---|> Employee
+Person "1" -- "1" Employee: represented in <
+Person -- Owner
+Customer "1"  --- "1" Person: represented in >
+Owner "0..*" -- Customer: plays as <
+Agent "0..*" ---- "1" Employee: plays as <
+StoreManager "0..*" -- "1" Employee: plays as <
+NetworkManager "0..*" --- "1" Employee: plays as <
 Agent "1" -- "*" Announcement: is published by <
 Agent "1" - "*" Visit: schedules >
 Customer "1" -- "*" Visit:  requests >
@@ -127,13 +130,13 @@ NetworkManager "1" -up- "1" Network: manages >
 Agency "1..*" --- "1" Network: is part of >
 Request "*" -- "1" Owner: submits <
 Visit "1" -- "1" Property: done to >
-Residence  --|>  Property
+Residence  ---|>  Property
 House --|> Residence
-Visit "1" --- "1"  VisitReport: is a description of <
+Visit "1" --- "1"  VisitReport: is as description of <
 Agent "1" -- "*" VisitReport: registers >
 Employee "1" ----- "1" Agency: works in  >
-PropertyType "1" -- "1" Property: is a description of >
-ResidenceType "1" -- "1" Residence: is a description of >
+PropertyType "1" -- "1" Property: is as description of >
+ResidenceType "1" -- "1" Residence: is as description of >
 Property "1" -- "1..*" Photograph: is visualized in >
 Property "1"--"1" Location: has address >
 Person "1" -- "1" Location: has address >

@@ -17,10 +17,16 @@ class RegisterUserController
 }
 class AuthenticationRepository
 {
-+ addUserWithRoles(name,emailAddress,password,roles)
++ addUserWithRole(name,emailAddress,password,clientRole)
 }
 class Person
 {
+-String name
+-String passportCardNumber
+-String taxNumber
+-String emailAddress
+-String phoneNumber
+
 + Person(name, passportCardNumber, tax number,\n emailAddress, phoneNumber, streetName,\n city, district, state, zipcode)
 
 }
@@ -32,13 +38,12 @@ class PersonRepository
 }
 class AuthFacade
 {
-+ addUserWithRoles(name,emailAddress,password,roles)
++ addUserWithRole(name,emailAddress,password,clientRole)
 }
 class Repositories
 {
  - Repositories()
  + getInstance()
- + getRoleRepository()
  + getPersonRepository()
  + getAuthenticationRepository()
 }
@@ -46,15 +51,11 @@ class Location
 {
 + Location(streetName, city, district,\n state, zipcode)
 }
-class RoleRepository
-{
-+ getClientRoles()
-}
+
 
 RegisterUserUI .> RegisterUserController
 RegisterUserController .> Repositories : repositories
-RegisterUserController .--> PersonRepository
-RegisterUserController .--> RoleRepository
+RegisterUserController .--> "1" PersonRepository
 RegisterUserController .-> AuthenticationRepository
 
 PersonRepository  --> "*" Person

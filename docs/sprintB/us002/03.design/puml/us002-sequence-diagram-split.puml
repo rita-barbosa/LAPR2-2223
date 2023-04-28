@@ -72,7 +72,7 @@ activate ADM
         activate UI
 
 
-        UI --> ADM : requests location of the property
+        UI --> ADM : requests streetName, city, district, state and zipCode of the property
         deactivate UI
 
         ADM -> UI : types requested data (streetName, city, district, state, zipCode)
@@ -127,15 +127,14 @@ activate ADM
                 activate UI
                 end opt
 
-        UI --> ADM : requests available equipment
-        deactivate UI
-
-                opt availableEquipment
-                        loop availableEquipment
-                            ADM -> UI : types requested data (availableEquipment)
-                            activate UI
-                        end loop
-                 end opt
+       loop availableEquipment
+               UI --> ADM : requests available equipment
+               deactivate UI
+                   opt availableEquipment
+                       ADM -> UI : types requested data (availableEquipment)
+                       activate  UI
+                   end opt
+               end loop
 
         alt type of property = house
 
@@ -158,7 +157,7 @@ activate ADM
      end
 
     autonumber 31
-    UI --> ADM : shows all data and asks for confirmation
+    UI --> ADM : shows all data and asks to submit
         deactivate UI
 
     ADM -> UI : submits data
@@ -167,28 +166,52 @@ activate ADM
         UI -> CTRL : publishAnnouncement(commissionValue, commissionTypeDesignation, ownerEmail, propertyTypeDesignation,\nstreetName, city, district, state, zipCode, area, distanceCityCenter,\nprice,numberBedroom,numberParkingSpace,\nexistenceBasement,inhabitableLoft, numberBathroom, availableEquipmentDescriptionList, uriList, sunExposure)
         activate CTRL
 
-        CTRL -> CTRL : getAgentFromSession()
+        CTRL -> CTRL : getEmailFromSession()
 
             ref over CTRL
-                Get Agent
+                Get Email
             end ref
 
             activate CTRL
 
-        CTRL --> CTRL : agent
+        CTRL --> CTRL : email
         deactivate CTRL
+        |||
+        CTRL -> CTRL : getAgencyByEmail(email)
 
-            |||
-          CTRL-> CTRL : getPropertyTypeByDescription(propertyTypeDesignation)
-                activate CTRL
-                    ref over CTRL
-                    Get Property Type Object
-                    end ref
-                CTRL -->  CTRL: propertyType
-                deactivate CTRL
+            ref over CTRL
+                Get Agency
+            end ref
+
+            activate CTRL
+
+        CTRL --> CTRL : agency
+        deactivate CTRL
+        |||
+        CTRL -> AGENCY: getAgentByEmail(email, agency)
+        activate AGENCY
+
+        AGENCY --> CTRL : agent
+        deactivate AGENCY
 
         |||
-        CTRL -> AGENCY : createRequest( ownerEmail, propertyType,\nstreetName, city, district, state, zipCode, area, distanceCityCenter,\nprice,numberBedroom,numberParkingSpace,\nexistenceBasement,inhabitableLoft, numberBathroom, availableEquipmentDescriptionList,uriList, sunExposure)
+        CTRL-> CTRL : getPropertyTypeByDescription(propertyTypeDesignation)
+            activate CTRL
+                ref over CTRL
+                Get Property Type Object
+                end ref
+            CTRL -->  CTRL: propertyType
+            deactivate CTRL
+        |||
+        CTRL -> CTRL : getCommissionTypeByDescription(commissionTypeDesignation)
+            activate CTRL
+                ref over CTRL
+                Get Commission Type Object
+                end ref
+            CTRL --> CTRL : commissionType
+            deactivate CTRL
+        |||
+        CTRL -> AGENCY : createSaleRequest( ownerEmail, propertyType,\nstreetName, city, district, state, zipCode, area, distanceCityCenter,\nprice,businessType,numberBedroom,numberParkingSpace,\nexistenceBasement,inhabitableLoft, numberBathroom, availableEquipmentDescriptionList,uriList, sunExposure)
         activate AGENCY
 
         ref over AGENCY
@@ -199,13 +222,7 @@ activate ADM
 
         deactivate AGENCY
 
-        CTRL -> CTRL : getCommissionTypeByDescription(commissionTypeDesignation)
-        activate CTRL
-            ref over CTRL
-            Get Commission Type Object
-            end ref
-        CTRL --> CTRL : commissionType
-        deactivate CTRL
+
 
             |||
             CTRL -> AGENCY: publishAnnouncement(agent, commissionType, commissionValue, request)

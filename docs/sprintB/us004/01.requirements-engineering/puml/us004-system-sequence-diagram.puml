@@ -148,7 +148,7 @@ activate Owner
 
         activate System
 
-        System --> Owner : shows all data and asks for confirmation
+        System --> Owner : shows all data and asks to submit
 
         deactivate System
 

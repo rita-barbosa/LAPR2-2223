@@ -22,7 +22,7 @@ public class Announcement {
     /**
      * The agent responsible for the announcement.
      */
-    private Agent responsibleFor;
+    private Employee responsibleFor;
 
     /**
      * Constructs an Announcement object with the specified agent, commission type,
@@ -33,7 +33,7 @@ public class Announcement {
      * @param commissionValue The value of commission for the announcement
      * @param request         The request based on which the announcement is made
      */
-    public Announcement(Agent agent, CommissionType commissionType, Double commissionValue, Request request) {
+    public Announcement(Employee agent, CommissionType commissionType, Double commissionValue, Request request) {
         this.commission = new Commission(commissionType, commissionValue);
         this.responsibleFor = agent;
         this.isBasedOn = request;
@@ -48,7 +48,7 @@ public class Announcement {
      * @param commission     The commission for the announcement
      * @param isBasedOn      The request based on which the announcement is made
      */
-    public Announcement(Agent responsibleFor,Commission commission, Request isBasedOn) {
+    public Announcement(Employee responsibleFor,Commission commission, Request isBasedOn) {
         this.commission = commission;
         this.isBasedOn = isBasedOn;
         this.responsibleFor = responsibleFor;
@@ -102,6 +102,10 @@ public class Announcement {
      */
     public Announcement clone(){
         return new Announcement(this.responsibleFor,this.commission,this.isBasedOn);
+    }
+
+    public String toString(){
+        return getRequest().toString(); //fix
     }
 
 

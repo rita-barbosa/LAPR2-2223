@@ -1,46 +1,52 @@
 package pt.ipp.isep.dei.esoft.project.repository;
 
 import pt.ipp.isep.dei.esoft.project.domain.Agency;
-import pt.ipp.isep.dei.esoft.project.domain.BusinessType;
-import pt.ipp.isep.dei.esoft.project.domain.CommissionType;
-import pt.ipp.isep.dei.esoft.project.domain.Employee;
-import pt.ipp.isep.dei.esoft.project.domain.Organization;
 
-import javax.print.attribute.standard.MediaSize;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * A repository for storing and retrieving agencies.
+ */
 public class AgencyRepository {
     /**
      * The list with existent agencies.
      */
     private final List<Agency> agencies = new ArrayList<>();
 
-//    /**
-//     * This method returns an Agency that has an Agent with the given email address.
-//     *
-//     * @param emailAddress - the email address of an Agent
-//     * @return the agency where the agent(that has the given email address) works in
-//     */
-//    public Optional<Agency> getAgencyByEmployeeEmail(String emailAddress){
-//        Optional<Agency> returnAgency = Optional.empty();
-//            for (Agency agency: agencies) {
-//                if (agency.anyAgentHasEmail(emailAddress)){
-//                    returnAgency = Optional.of(agency);
-//                }
-//            }
-//        return returnAgency;
-//    }
-//    public Optional<Agency> getAgencyByEmployee(Employee employee){
-//        Optional<Agency> returnAgency = Optional.empty();
-//        for (Agency agency: agencies) {
-//            if (agency.employs(employee)){
-//                returnAgency = Optional.of(agency);
-//            }
-//        }
-//        return returnAgency;
-//    }
+    /**
+     * This method returns an Agency that has an Agent with the given email address.
+     *
+     * @param emailAddress - the email address of an Agent
+     * @return the agency where the agent(that has the given email address) works in
+     */
+    public Optional<Agency> getAgencyByEmail(String emailAddress) {
+        Optional<Agency> returnAgency = Optional.empty();
+        for (Agency agency : agencies) {
+            if (agency.anyAgentHasEmail(emailAddress)) {
+                returnAgency = Optional.of(agency);
+            }
+        }
+        return returnAgency;
+    }
+
+    /**
+     * This method returns an agency that has the specified id.
+     *
+     * @param id - the id of the agency we intend to get.
+     * @return an Optional object of Agency, allowing the calling code to handle the possibility of null values without the need for explicit null checks.
+     */
+    public Optional<Agency> getAgencyByID(Integer id) {
+        Optional<Agency> returnAgency = Optional.empty();
+        for (Agency agency : agencies) {
+            if (agency.getId() == id) {
+                returnAgency = Optional.of(agency);
+            }
+        }
+        return returnAgency;
+    }
+
 //    /**
 //     * This method adds a new agency to the list of agencies.
 //     *
@@ -58,9 +64,13 @@ public class AgencyRepository {
 //            newAgency = Optional.empty();
 //        }
 //        return newAgency;
-//
 //    }
 
+    /**
+     * This method returns a copy of the list of agencies.
+     *
+     * @return a copy of the list of agencies.
+     */
     public List<Agency> getAgenciesList() {
         return List.copyOf(agencies);
     }
@@ -76,22 +86,4 @@ public class AgencyRepository {
         return (!agencies.contains(agency));
     }
 
-    /**
-     * This method goes through all the agencies in the list and finds the one whose id is the same.
-     * @param id - identifier of a specific agency
-     * @return agency that has that id
-     * @throws IllegalArgumentException
-     */
-    public Agency getAgencyByID(int id) {
-        Agency agencyWithId = null;
-        for (Agency agency : agencies) {
-            if (agency.getId() == id) {
-                agencyWithId = agency;
-            }
-        }
-        if (agencyWithId == null) {
-            throw new IllegalArgumentException("Agency requested with id -" + id + "- does not exist.");
-        }
-        return agencyWithId;
-    }
 }

@@ -1,14 +1,14 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
+import javax.management.relation.Role;
 import java.util.Objects;
 
-public class Employee {
+public class Employee extends Person {
     private final String email;
-    private String name;
-    private String position;
-    private String phone;
 
-    public Employee(String email) {
+    public Employee(String email, String name, String passportCardNumber, String taxNumber, String emailAddress, Role role,
+                    String phoneNumber, String city, String state, String zipCode, String streetName) {
+        super(name, passportCardNumber, taxNumber, emailAddress, phoneNumber, role, city, state, zipCode, streetName);
         this.email = email;
     }
 
@@ -39,7 +39,11 @@ public class Employee {
      *
      * @return A clone of the current instance.
      */
-    public Employee clone() {
-        return new Employee(this.email);
+//    public Employee clone() {
+//        return new Employee(this.email);
+//    }
+
+    public boolean isAgent() {
+        return this.getRole().getRoleName().equalsIgnoreCase("Agent");
     }
 }
