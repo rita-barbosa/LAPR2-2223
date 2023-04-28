@@ -26,7 +26,7 @@ public class AuthenticationUI implements Runnable {
         boolean success = doLogin();
 
         if (success) {
-            List<UserRoleDTO> roles =ctrl.getUserRoles();
+            List<UserRoleDTO> roles = ctrl.getUserRoles();
             if ((roles == null) || (roles.isEmpty())) {
                 System.out.println("No role assigned to user.");
             } else {

@@ -119,7 +119,7 @@ The access to the request is exclusive to the owner and respectively assigned ag
 
 ### 1.4. Found out Dependencies
 
-* There is no dependencies to US004.
+* There is a dependency of US004 to any agency created in US005. An agency is in charge of a request.
 
 ### 1.5 Input and Output Data
 

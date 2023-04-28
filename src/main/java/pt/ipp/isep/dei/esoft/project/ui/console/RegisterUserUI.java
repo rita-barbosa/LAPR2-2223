@@ -1,12 +1,14 @@
 package pt.ipp.isep.dei.esoft.project.ui.console;
 
 import pt.ipp.isep.dei.esoft.project.application.controller.RegisterUserController;
+import pt.ipp.isep.dei.esoft.project.application.controller.authorization.AuthenticationController;
+import pt.ipp.isep.dei.esoft.project.domain.Person;
+import pt.ipp.isep.dei.esoft.project.domain.Request;
 
 import java.util.Optional;
 import java.util.Scanner;
 
 public class RegisterUserUI implements Runnable {
-
 
     private final RegisterUserController controller;
     private String name;
@@ -42,12 +44,20 @@ public class RegisterUserUI implements Runnable {
         phoneNumber = requestPhoneNumber();
         password = requestPassword();
         requestLocation();
-//        submitData();
+        submitData();
     }
 
-//    private void submitData() {
-//        Optional<Boolean> success = getController().;
-//    }
+    private void submitData() {
+        Optional<Person> person = getController().createPerson(name, passportCardNumber, taxNumber, emailAddress,
+                phoneNumber, streetName, city, district, state, zipCode, AuthenticationController.ROLE_CLIENT);
+        if (person.isPresent()) {
+            if (controller.addUserWithRole(name, emailAddress, password, AuthenticationController.ROLE_CLIENT)){
+                System.out.println("Successfull registration!");
+            }
+        } else {
+            System.out.println("Failed to registrate!");
+        }
+    }
 
     private String requestPassword() {
         Scanner input = new Scanner(System.in);
