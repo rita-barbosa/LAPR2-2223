@@ -26,6 +26,7 @@ public class BusinessType {
         return designation;
     }
 
+
     /**
      * This method indicates whether a Business Type is "equal to" another.
      *
