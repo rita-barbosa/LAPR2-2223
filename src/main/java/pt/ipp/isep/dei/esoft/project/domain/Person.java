@@ -4,6 +4,7 @@ import pt.isep.lei.esoft.auth.domain.model.Email;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Person {
@@ -14,17 +15,15 @@ public class Person {
     private String passportCardNumber;
     private List<String> roles;
     private Location location;
-    private final Integer PASSPORT_CARD_NUMBER_LENGTH = 9;
-    private final char PASSPORT_FIRST_CHARACTER = 'C';
-    private final Integer NUMBER_OF_SEGMENTS_TAXES = 3;
-    private final Integer FIRST_SEGMENT_TAX_NUMBER_LENGTH = 3;
-    private final Integer SECOND_SEGMENT_TAX_NUMBER_LENGTH = 2;
-    private final Integer THIRD_SEGMENT_TAX_NUMBER_LENGTH = 4;
-    private final Integer THREE_DIGIT_SEGMENT_PHONE_NUMBER = 3;
-    private final Integer FOUR_DIGIT_SEGMENT_PHONE_NUMBER = 4;
-
-
-    private final Integer PHONE_NUMBER_LENGTH = 12;
+    private static final Integer PASSPORT_CARD_NUMBER_LENGTH = 9;
+    private static final char PASSPORT_FIRST_CHARACTER = 'C';
+    private static final Integer NUMBER_OF_SEGMENTS_TAXES = 3;
+    private static final Integer FIRST_SEGMENT_TAX_NUMBER_LENGTH = 3;
+    private static final Integer SECOND_SEGMENT_TAX_NUMBER_LENGTH = 2;
+    private static final Integer THIRD_SEGMENT_TAX_NUMBER_LENGTH = 4;
+    private static  final Integer THREE_DIGIT_SEGMENT_PHONE_NUMBER = 3;
+    private static final Integer FOUR_DIGIT_SEGMENT_PHONE_NUMBER = 4;
+    private static final Integer PHONE_NUMBER_LENGTH = 12;
 
     /**
      * Creates a Person object with the given parameters.
@@ -71,13 +70,13 @@ public class Person {
     /**
      * Constructor of a new Person instance with a name, passport card number, tax number, email address, phone number, role and location.
      *
-     * @param name - the name of the person.
+     * @param name               - the name of the person.
      * @param passportCardNumber - the passport card number of the person.
-     * @param taxNumber - the tax number of the person.
-     * @param emailAddress - the email address of the person.
-     * @param phoneNumber - the phone number of the person.
-     * @param roles - the roles the person has in the system.
-     * @param location - the location of the person address.
+     * @param taxNumber          - the tax number of the person.
+     * @param emailAddress       - the email address of the person.
+     * @param phoneNumber        - the phone number of the person.
+     * @param roles              - the roles the person has in the system.
+     * @param location           - the location of the person address.
      */
     public Person(String name, String passportCardNumber, String taxNumber, Email emailAddress,
                   String phoneNumber, List<String> roles, Location location) {
@@ -277,6 +276,18 @@ public class Person {
         return new Person(this.name, this.passportCardNumber, this.taxNumber, this.emailAddress, this.phoneNumber,
                 this.roles, this.location);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return Objects.equals(name, person.name) && Objects.equals(taxNumber, person.taxNumber)
+                && Objects.equals(emailAddress, person.emailAddress) && Objects.equals(phoneNumber, person.phoneNumber)
+                && Objects.equals(passportCardNumber, person.passportCardNumber) && Objects.equals(roles, person.roles)
+                && Objects.equals(location, person.location);
+    }
+
 
 }
 

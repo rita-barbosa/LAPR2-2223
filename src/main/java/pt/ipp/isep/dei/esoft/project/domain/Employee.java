@@ -7,6 +7,7 @@ import java.util.Objects;
 
 public class Employee extends Person {
     private Integer agencyId;
+    private static final Integer AGENCY_ID_BY_DEFAULT = 0;
 
     public Employee(Integer agencyId, String name, String passportCardNumber, String taxNumber, String emailAddress, String role,
                     String phoneNumber, String city, String district, String state, String zipCode, String streetName) {
@@ -17,10 +18,12 @@ public class Employee extends Person {
 
     public Employee(String emailAddress, String roleId) {
         super(emailAddress, roleId);
+        this.agencyId = AGENCY_ID_BY_DEFAULT;
     }
 
     public Employee(String emailAddress) {
         super(emailAddress);
+        this.agencyId = AGENCY_ID_BY_DEFAULT;
     }
 
     public Employee(Integer agencyId, String name, String passportCardNumber, String taxNumber, Email emailAddress,
@@ -30,24 +33,6 @@ public class Employee extends Person {
         this.agencyId = agencyId;
     }
 
-
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof Employee)) {
-            return false;
-        }
-        Employee employee = (Employee) o;
-        return this.getEmailAddress().equals(employee.getEmailAddress());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getEmailAddress());
-    }
 
     public Employee clone() {
         return new Employee(agencyId, this.getName(), this.getPassportCardNumber(), this.getTaxNumber(), this.getEmailAddress(), this.getRoles(),
@@ -67,6 +52,17 @@ public class Employee extends Person {
         }
         return valid;
     }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Employee employee = (Employee) o;
+        return super.equals(o) && Objects.equals(agencyId, employee.agencyId);
+    }
+
+
 
 
 }

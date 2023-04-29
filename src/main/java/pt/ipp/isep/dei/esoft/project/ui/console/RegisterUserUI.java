@@ -71,7 +71,7 @@ public class RegisterUserUI implements Runnable {
     }
 
     private String requestPhoneNumber() {
-        System.out.println("Phone Number (Format: NXX-NXX-XXXX):");
+        System.out.println("Phone Number (Format: XXX XXX XXXX):");
         return getStringAnswer();
     }
 
