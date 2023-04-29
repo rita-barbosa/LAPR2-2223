@@ -5,14 +5,14 @@ import java.util.Objects;
 
 public class PropertyType {
     /**
-     * The designation of the type of property
+     * The designation of the property types.
      */
     private final String designation;
 
     /**
      * This method initializes a newly created PropertyType object with the received designation.
      *
-     * @param designation
+     * @param designation - the designation of the property type
      */
     public PropertyType(String designation) {
         this.designation = designation;
@@ -28,9 +28,9 @@ public class PropertyType {
     }
 
     /**
-     * This method indicates whether a Property Type is "equal to" another.
+     * This method indicates whether a Property Type is "equal to" another object.
      *
-     * @param o -  the property type wih which to compare.
+     * @param o - the object with which to compare.
      * @return {@code true} if the Property Types are the same; {@code false} otherwise.
      */
     @Override
@@ -48,7 +48,7 @@ public class PropertyType {
     /**
      * Returns a hash code value for the object.
      *
-     * @return
+     * @return the hash code
      */
     @Override
     public int hashCode() {

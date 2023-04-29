@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class BusinessType {
     /**
-     * The designation of the type of business
+     * The designation of business type.
      */
     private final String designation;
 
@@ -22,7 +22,9 @@ public class BusinessType {
      *
      * @return the designation of the business type
      */
-    public String getDesignation() { return designation; }
+    public String getDesignation() {
+        return designation;
+    }
 
     /**
      * This method indicates whether a Business Type is "equal to" another.
@@ -43,7 +45,6 @@ public class BusinessType {
     }
 
     /**
-     *
      * @return
      */
     @Override
@@ -58,5 +59,14 @@ public class BusinessType {
      */
     public BusinessType clone() {
         return new BusinessType(this.designation);
+    }
+
+    /**
+     *
+     * @return
+     */
+    @Override
+    public String toString() {
+        return "" + designation;
     }
 }

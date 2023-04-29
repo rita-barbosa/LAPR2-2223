@@ -24,6 +24,6 @@ public class Business {
 
     @Override
     public String toString() {
-        return String.format("Type of Business: %s\nPrice: %f\n", businessType, price);
+        return String.format("Type of Business: %s\nPrice: %.2f\n", businessType, price);
     }
 }

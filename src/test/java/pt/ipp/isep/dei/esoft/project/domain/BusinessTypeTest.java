@@ -70,4 +70,11 @@ class BusinessTypeTest {
         BusinessType clone = businessType.clone();
         assertEquals(businessType, clone);
     }
+    @Test
+    void ensureToStringWorks() {
+        BusinessType b1 = new BusinessType("Business Type");
+        String expected = "Business Type";
+
+        assertEquals(expected, b1.toString());
+    }
 }

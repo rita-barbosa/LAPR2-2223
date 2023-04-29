@@ -30,7 +30,7 @@ public class CommissionType {
     /**
      * This method indicates whether a Commission Type is "equal to" another.
      *
-     * @param o -  the commission type wih which to compare.
+     * @param o - the commission type wih which to compare.
      * @return {@code true} if the Commission Types are the same; {@code false} otherwise.
      */
     @Override
@@ -45,9 +45,9 @@ public class CommissionType {
         }
     }
     /**
-     * Returns a hash code value for the object.
+     * Returns a hash code value for the commission type object.
      *
-     * @return a hash code value for the object.
+     * @return a hash code value for the commission type object.
      */
     @Override
     public int hashCode() {
