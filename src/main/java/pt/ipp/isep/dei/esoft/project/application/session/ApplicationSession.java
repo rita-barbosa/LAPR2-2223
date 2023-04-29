@@ -4,6 +4,7 @@ import pt.ipp.isep.dei.esoft.project.repository.AuthenticationRepository;
 import pt.ipp.isep.dei.esoft.project.repository.Repositories;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -32,16 +33,26 @@ public class ApplicationSession {
 
 
         // Read configured values
-        try
-        {
+        try {
             InputStream in = new FileInputStream(CONFIGURATION_FILENAME);
             props.load(in);
             in.close();
-        }
-        catch(IOException ex)
-        {
+        } catch (FileNotFoundException ex) {
+            // Log a warning message and return default properties
+            System.out.println("Warning: Configuration file not found. Using default properties.");
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
+//        try
+//        {
+//            InputStream in = new FileInputStream(CONFIGURATION_FILENAME);
+//            props.load(in);
+//            in.close();
+//        }
+//        catch(IOException ex)
+//        {
+//            ex.printStackTrace();
+//        }
         return props;
     }
 
