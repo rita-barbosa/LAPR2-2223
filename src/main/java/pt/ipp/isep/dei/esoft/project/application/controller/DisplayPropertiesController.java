@@ -2,9 +2,9 @@ package pt.ipp.isep.dei.esoft.project.application.controller;
 
 import pt.ipp.isep.dei.esoft.project.domain.Agency;
 import pt.ipp.isep.dei.esoft.project.domain.Announcement;
-import pt.ipp.isep.dei.esoft.project.repository.AgencyRepository;
-import pt.ipp.isep.dei.esoft.project.repository.CriteriaRepository;
-import pt.ipp.isep.dei.esoft.project.repository.Repositories;
+import pt.ipp.isep.dei.esoft.project.domain.BusinessType;
+import pt.ipp.isep.dei.esoft.project.domain.PropertyType;
+import pt.ipp.isep.dei.esoft.project.repository.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -17,6 +17,9 @@ public class DisplayPropertiesController {
     private List<Announcement> announcementList;
     private AgencyRepository agencyRepository = null;
     private CriteriaRepository criteriaRepository = null;
+
+    private PropertyTypeRepository propertyTypeRepository = null;
+    private BusinessTypeRepository businessTypeRepository = null;
 
     public DisplayPropertiesController(){
         getAgencyRepository();
@@ -135,4 +138,30 @@ public class DisplayPropertiesController {
         }
 
         }
+
+    public List<BusinessType> getBusinessTypes() {
+        BusinessTypeRepository businessTypeRepository = getBusinessTypeRepository();
+        return businessTypeRepository.getBusinessTypeList();
     }
+
+    private BusinessTypeRepository getBusinessTypeRepository() {
+        if (businessTypeRepository == null) {
+            Repositories repositories = Repositories.getInstance();
+            businessTypeRepository = repositories.getBusinessTypeRepository();
+        }
+        return businessTypeRepository;
+    }
+
+    public List<PropertyType> getPropertyTypes() {
+        PropertyTypeRepository propertyTypeRepository = getPropertyTypeRepository();
+        return propertyTypeRepository.getPropertyTypeList();
+    }
+
+    private PropertyTypeRepository getPropertyTypeRepository() {
+        if (propertyTypeRepository == null) {
+            Repositories repositories = Repositories.getInstance();
+            propertyTypeRepository = repositories.getPropertyTypeRepository();
+        }
+        return propertyTypeRepository;
+    }
+}
