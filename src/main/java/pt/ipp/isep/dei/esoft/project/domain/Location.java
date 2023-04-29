@@ -74,7 +74,7 @@ public class Location {
     }
 
     private boolean validateState(String state) {
-        return state.length() > STATE_STRING_MAX_LENGTH;
+        return state.length() <= STATE_STRING_MAX_LENGTH;
     }
 
     /**

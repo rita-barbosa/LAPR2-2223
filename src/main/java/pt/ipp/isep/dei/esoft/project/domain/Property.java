@@ -3,6 +3,7 @@ package pt.ipp.isep.dei.esoft.project.domain;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Property {
 
@@ -63,4 +64,5 @@ public class Property {
     public Location getLocation() {
         return location;
     }
+
 }

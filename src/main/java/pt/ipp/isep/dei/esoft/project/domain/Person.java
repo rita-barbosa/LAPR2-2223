@@ -41,25 +41,31 @@ public class Person {
      */
     public Person(String name, String passportCardNumber, String taxNumber, String emailAddress, String phoneNumber,
                   String role, String streetName, String city, String district, String state, String zipCode) {
-        if (!(validatePerson(name, passportCardNumber, taxNumber, emailAddress, phoneNumber, role))) {
-            System.out.println("Your Data is not correct. Please submit new data.");
-            String[] newValues = getNewData(name, passportCardNumber, taxNumber, emailAddress, phoneNumber, role);
-            name = newValues[0];
-            passportCardNumber = newValues[1];
-            taxNumber = newValues[2];
-            emailAddress = newValues[3];
-            phoneNumber = newValues[4];
-            role = newValues[5];
-        }
+        Scanner input = new Scanner(System.in);
         this.name = name;
-        this.passportCardNumber = passportCardNumber;
-        this.taxNumber = taxNumber;
         if (streetName != null) {
             this.location = new Location(streetName, city, district, state, zipCode);
         }
         this.emailAddress = new Email(emailAddress);
-        this.phoneNumber = phoneNumber;
         this.role = role;
+
+        while (!validatePassportCardNumber(passportCardNumber)) {
+            System.out.println("Invalid Passport Card Number. Provide a new one.");
+            passportCardNumber = input.nextLine();
+        }
+        this.passportCardNumber = passportCardNumber;
+
+        while (!validateTaxNumber(taxNumber)) {
+            System.out.println("Invalid Tax Number. Provide a new one.");
+            taxNumber = input.nextLine();
+        }
+        this.taxNumber = taxNumber;
+
+        while (!validatePhone(phoneNumber)) {
+            System.out.println("Invalid Phone Number. Provide a new one.");
+            phoneNumber = input.nextLine();
+        }
+        this.phoneNumber = phoneNumber;
     }
 
     public Person(String name, String passportCardNumber, String taxNumber, Email emailAddress, String phoneNumber, String role, Location location) {
@@ -71,45 +77,6 @@ public class Person {
         this.phoneNumber = phoneNumber;
         this.role = role;
     }
-
-    private boolean validatePerson(String name, String passportCardNumber, String taxNumber, String emailAddress, String phoneNumber, String role) {
-        if ((name.isBlank() || name.isEmpty()) && (passportCardNumber.isBlank() || passportCardNumber.isEmpty()) && (taxNumber.isBlank() || taxNumber.isEmpty()) &&
-                (emailAddress.isBlank() || emailAddress.isEmpty()) && (phoneNumber.isBlank() || phoneNumber.isEmpty()) && (role.isBlank() || role.isEmpty())) {
-            return false;
-        }
-        return validateTaxNumber(taxNumber) && validatePhone(phoneNumber) && validatePassportCardNumber(passportCardNumber);
-    }
-
-    private String[] getNewData(String name, String passportCardNumber, String taxNumber, String emailAddress, String phoneNumber, String role) {
-        String[] newValues = {name, passportCardNumber, taxNumber, emailAddress, phoneNumber, role};
-        Scanner input = new Scanner(System.in);
-        while (name.isBlank()) {
-            System.out.println("Invalid Name. Provide a new one.");
-            name = input.nextLine();
-        }
-        while (!validatePassportCardNumber(passportCardNumber)) {
-            System.out.println("Invalid Passport Card Number. Provide a new one.");
-            passportCardNumber = input.nextLine();
-        }
-        while (!validateTaxNumber(taxNumber)) {
-            System.out.println("Invalid Tax Number. Provide a new one.");
-            taxNumber = input.nextLine();
-        }
-        while (emailAddress.isBlank()) {
-            System.out.println("Invalid Email. Provide a new one.");
-            emailAddress = input.nextLine();
-        }
-        while (!validatePhone(phoneNumber)) {
-            System.out.println("Invalid Phone Number. Provide a new one.");
-            phoneNumber = input.nextLine();
-        }
-        while (role.isBlank()) {
-            System.out.println("Invalid Role. Provide a new one.");
-            role = input.nextLine();
-        }
-        return newValues;
-    }
-
 
     private boolean validatePassportCardNumber(String passportCardNumber) {
         if (passportCardNumber.length() == PASSPORT_CARD_NUMBER_LENGTH && (passportCardNumber.charAt(0) == PASSPORT_FIRST_CHARACTER)) {
