@@ -88,14 +88,6 @@ It uses interaction ocurrence.
 
 ![Sequence Diagram - Partial - Get Property Type Object](svg/us004-sequence-diagram-partial-get-property-type-object.svg)
 
-**Add Available Equipment Description - Partial SD** 
-
-![Sequence Diagram - Partial - Add Available Equipment](svg/us004-sequence-diagram-partial-add-available-equipment-description.svg)
-
-**Add Photograph Uri - Partial SD**
-
-![Sequence Diagram - Partial - Add Photograph](svg/us004-sequence-diagram-partial-add-photograph-uri.svg) 
-
 **Get Agencies List - Partial SD**
 
 ![Sequence Diagram - Partial - Get Agencies List](svg/us004-sequence-diagram-partial-get-agency-list.svg)
