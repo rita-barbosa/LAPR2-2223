@@ -6,37 +6,126 @@ import pt.ipp.isep.dei.esoft.project.ui.console.utils.Utils;
 
 import java.util.*;
 
+/**
+ * The CreateRequestUI class implements the Runnable interface and represents the user interface for creating a Request.
+ */
 public class CreateRequestUI implements Runnable {
 
+    /**
+     * The CreateRequestController associated with this UI
+     */
     private final CreateRequestController controller = new CreateRequestController();
+    /**
+     * The designation of the type of property in the request.
+     */
     private String propertyTypeDesignation;
-    public static final String LEASE_BUSINESS_TYPE = "Lease";
-    public static final Integer PHOTOGRAPH_SIZE_LIMIT = 30;
+    /**
+     * Lease business type designation for a property request.
+     */
+    private static final String LEASE_BUSINESS_TYPE = "Lease";
+    /**
+     * Size limit for the property's photographs' uri list.
+     */
+    private static final Integer PHOTOGRAPH_SIZE_LIMIT = 30;
+    /**
+     * The designation of the type of business in the request.
+     */
     private String businessTypeDesignation;
-    public static final String HOUSE_PROPERTY_TYPE = "House";
+    /**
+     * House property type designation for a property request.
+     */
+    private static final String HOUSE_PROPERTY_TYPE = "House";
+    /**
+     * Money amont that represents the price or the rent of a property, in American Dollars.
+     */
     private Double amount;
+    /**
+     * Area of the property in square meters.
+     */
     private Double area;
+    /**
+     * Property's rental contract duration in months.
+     */
     private Integer contractDuration;
+    /**
+     * Available equipments list that the property has.
+     */
     private List<String> availableEquipmentDescription;
+    /**
+     * Street Name of the property's location.
+     */
     private String streetName;
+    /**
+     * City of the property's location.
+     */
     private String city;
+    /**
+     * District of the property's location.
+     */
     private String district;
+    /**
+     * State of the property's location.
+     */
     private String state;
+    /**
+     * Zip code of the property's location.
+     */
     private String zipCode;
+    /**
+     * Confirmation of existence of basement in a property.
+     */
     private Boolean basement;
+    /**
+     * Confirmation of existence of inhabitable loft in a property.
+     */
     private Boolean inhabitableLoft;
+    /**
+     * Number of parking spaces of a property.
+     */
     private Integer parkingSpace;
+    /**
+     * Values of possible sun direction of a property.
+     */
     private Enum<SunExposureTypes> sunExposure;
+    /**
+     * Property's number of bedrooms.
+     */
     private Integer numberBedroom;
+    /**
+     * Property's number of bathrooms.
+     */
     private Integer numberBathroom;
+    /**
+     * Agent in charge of the Property's Request.
+     */
     private Employee agent;
+    /**
+     * Agency responsible for the Property's Request.
+     */
     private Agency agency;
+    /**
+     * Property's distance from City Center.
+     */
     private Double distanceCityCenter;
+    /**
+     * Property's photographs' URI list.
+     */
     private List<String> uri;
 
+    /**
+     * Gets controller.
+     *
+     * @return the controller
+     */
     private CreateRequestController getController() {
         return controller;
     }
+
+    /**
+     * This runs the UI and displays the prompts to the user to obtain the necessary
+     * data to publish create a request.
+     * If the user confirms the data, the Property's request is submitted to the system.
+     */
 
     public void run() {
         System.out.println("Create Request for Property Announcement");
@@ -60,6 +149,9 @@ public class CreateRequestUI implements Runnable {
         submitData();
     }
 
+    /**
+     * Displays data.
+     */
     private void displaysData() {
         String amountString;
         String numberBathroomString = "Number of bathrooms: No Information";
@@ -76,7 +168,7 @@ public class CreateRequestUI implements Runnable {
             numberBathroomString = String.format("Number of bathrooms: %d", numberBathroom);
         }
         System.out.printf("%n###Property Data###%n=================%n** General Data **%nProperty Type: %s%nBusiness Type: %s%n" +
-                        "Agency of Request: %s%nAgent in charge of Request: %s%n%s%nArea: %.2f m²%nDistance from City Center: %.2f m%n" +
+                        "Agency responsible for your Property's Request: %s%nAgent in charge of Request: %s%n%s%nArea: %.2f m²%nDistance from City Center: %.2f m%n" +
                         "=================%n** Location Data **%nStreet Name: %s%nCity: %s%nDistrict: %s%nState: %s%nZip Code: %s%n" +
                         "=================%n** Other Data **%nParking Spaces: %d%nNumber of Bedrooms: %d%n%s%nBasement: %s%nInhabitable Loft: %s%n%s%n",
                 propertyTypeDesignation, businessTypeDesignation, agency.getDescription(), agent.getName(),
@@ -90,6 +182,12 @@ public class CreateRequestUI implements Runnable {
         displayListContent(uri, "photographs' uris");
     }
 
+    /**
+     * Display list content.
+     *
+     * @param list      the list
+     * @param attribute the attribute
+     */
     private void displayListContent(List<String> list, String attribute) {
         System.out.printf("** Property's %s list **%n", attribute);
         int i = 1;
@@ -98,6 +196,12 @@ public class CreateRequestUI implements Runnable {
         }
     }
 
+    /**
+     * Gets string from boolean.
+     *
+     * @param booleanVar the boolean variable
+     * @return the string from boolean
+     */
     private String getStringFromBoolean(Boolean booleanVar) {
         if (booleanVar) {
             return "Yes";
@@ -105,6 +209,9 @@ public class CreateRequestUI implements Runnable {
         return "No";
     }
 
+    /**
+     * Submit data for Property's Request creation.
+     */
     private void submitData() {
         Optional<Request> request = getController().createRequest(propertyTypeDesignation, businessTypeDesignation, amount,
                 area, contractDuration, availableEquipmentDescription, streetName, city, district, state, zipCode, basement, inhabitableLoft,
@@ -117,6 +224,9 @@ public class CreateRequestUI implements Runnable {
         }
     }
 
+    /**
+     * Request data for Property's Request creation.
+     */
     private void requestData() {
         amount = requestRequestAmount();
         area = requestRequestArea();
@@ -142,6 +252,12 @@ public class CreateRequestUI implements Runnable {
         uri = requestRequestPhotographURI();
     }
 
+    /**
+     * Ask optional data boolean.
+     *
+     * @param optionalData the optional data for Property's Request creation.
+     * @return the boolean for positive response
+     */
     private boolean askOptionalData(String optionalData) {
         System.out.printf("Would you like to provide data about the Property's %s%n1. Yes%n2. No%n", optionalData);
         boolean invalid = true;
@@ -163,6 +279,11 @@ public class CreateRequestUI implements Runnable {
         return answer == 1;
     }
 
+    /**
+     * Requests contract duration integer.
+     *
+     * @return the number of months in the contract
+     */
     private Integer requestRequestContractDuration() {
         Scanner input = new Scanner(System.in);
         System.out.println("Rental Contact's durantion (in months):");
@@ -170,6 +291,11 @@ public class CreateRequestUI implements Runnable {
     }
 
 
+    /**
+     * Requests the Property's price/rent of property.
+     *
+     * @return the double (amount of money)
+     */
     private Double requestRequestAmount() {
         Scanner input = new Scanner(System.in);
         if (businessTypeDesignation.equalsIgnoreCase("Lease")) {
@@ -181,6 +307,11 @@ public class CreateRequestUI implements Runnable {
         return Double.parseDouble(inputString.replace(",", "."));
     }
 
+    /**
+     * Requests the Property's area double.
+     *
+     * @return the area
+     */
     private Double requestRequestArea() {
         Scanner input = new Scanner(System.in);
         System.out.println("Property area (in squared meters - m²):");
@@ -188,6 +319,11 @@ public class CreateRequestUI implements Runnable {
         return Double.parseDouble(inputString.replace(",", "."));
     }
 
+    /**
+     * Requests the Property's distance from city center double.
+     *
+     * @return the distance from city center
+     */
     private Double requestRequestDistanceCityCenter() {
         Scanner input = new Scanner(System.in);
         System.out.println("Property's distance from City Center (in meters - m):");
@@ -195,6 +331,11 @@ public class CreateRequestUI implements Runnable {
         return Double.parseDouble(inputString.replace(",", "."));
     }
 
+    /**
+     * Requests the Property's street name string.
+     *
+     * @return the street name
+     */
     private String requestRequestStreetName() {
         Scanner input = new Scanner(System.in);
         System.out.println("Property's street name:");
@@ -206,6 +347,11 @@ public class CreateRequestUI implements Runnable {
         return inputString;
     }
 
+    /**
+     * Requests the Property's city string.
+     *
+     * @return the city
+     */
     private String requestRequestCity() {
         Scanner input = new Scanner(System.in);
         System.out.println("Property's city:");
@@ -217,6 +363,11 @@ public class CreateRequestUI implements Runnable {
         return inputString;
     }
 
+    /**
+     * Requests the Property's district string.
+     *
+     * @return the district
+     */
     private String requestRequestDistrict() {
         Scanner input = new Scanner(System.in);
         System.out.println("Property's district:");
@@ -228,6 +379,11 @@ public class CreateRequestUI implements Runnable {
         return inputString;
     }
 
+    /**
+     * Requests the Property's state string.
+     *
+     * @return the state
+     */
     private String requestRequestState() {
         Scanner input = new Scanner(System.in);
         System.out.println("Property's state:");
@@ -239,6 +395,11 @@ public class CreateRequestUI implements Runnable {
         return inputString;
     }
 
+    /**
+     * Requests the Property's zip code string.
+     *
+     * @return the zip code
+     */
     private String requestRequestZipCode() {
         Scanner input = new Scanner(System.in);
         System.out.println("Property's zip code:");
@@ -250,24 +411,44 @@ public class CreateRequestUI implements Runnable {
         return inputString;
     }
 
+    /**
+     * Requests the Property's number of parking space integer.
+     *
+     * @return the parking spaces
+     */
     private Integer requestRequestParkingSpace() {
         Scanner input = new Scanner(System.in);
         System.out.println("Property's number of parking spaces:");
         return input.nextInt();
     }
 
+    /**
+     * Requests the Property's number of bedrooms integer.
+     *
+     * @return the number of bedrooms
+     */
     private Integer requestRequestNumberBedroom() {
         Scanner input = new Scanner(System.in);
         System.out.println("Property's number of bedrooms:");
         return input.nextInt();
     }
 
+    /**
+     * Requests the Property's number of bathrooms integer.
+     *
+     * @return the number of bathrooms
+     */
     private Integer requestRequestNumberBathroom() {
         Scanner input = new Scanner(System.in);
         System.out.println("Property's number of bathrooms:");
         return input.nextInt();
     }
 
+    /**
+     * Requests the Property's existence of inhabitable loft boolean.
+     *
+     * @return the confirmation.
+     */
     private Boolean requestRequestInhabitableLoft() {
         System.out.printf("Does your property have an inhabitable loft?%n1. Yes%n2. No%n");
         boolean invalid = true;
@@ -289,6 +470,11 @@ public class CreateRequestUI implements Runnable {
         return answer == 1;
     }
 
+    /**
+     * Requests the Property's existence of basement boolean.
+     *
+     * @return the confirmation
+     */
     private Boolean requestRequestBasement() {
         System.out.printf("Does your property have a basement?%n1. Yes%n2. No%n");
         boolean invalid = true;
@@ -310,6 +496,11 @@ public class CreateRequestUI implements Runnable {
         return answer == 1;
     }
 
+    /**
+     * Requests the Property's sun exposure direction.
+     *
+     * @return the direction enum
+     */
     private Enum<SunExposureTypes> requestRequestSunExposure() {
         Scanner input = new Scanner(System.in);
         System.out.printf("Please select the sun exposure direction:%n1. North%n2. South%n3. West%n4. East%n");
@@ -335,6 +526,11 @@ public class CreateRequestUI implements Runnable {
     }
 
 
+    /**
+     * Requests the Property's available equipments' descriptions list.
+     *
+     * @return the available equiments' description list
+     */
     private List<String> requestRequestAvailableEquipmentDescription() {
         List<String> availableEquipment = new ArrayList<>();
         Scanner input = new Scanner(System.in);
@@ -349,6 +545,11 @@ public class CreateRequestUI implements Runnable {
         return availableEquipment;
     }
 
+    /**
+     * Requests the Property's photograph uri list.
+     *
+     * @return the uri list
+     */
     private List<String> requestRequestPhotographURI() {
         List<String> uri = new ArrayList<>();
         Scanner uriInput = new Scanner(System.in);
@@ -366,6 +567,11 @@ public class CreateRequestUI implements Runnable {
         return uri;
     }
 
+    /**
+     * Display and select business types.
+     *
+     * @return the chosen business type designation
+     */
     private String displayAndSelectBusinessType() {
         List<BusinessType> businessTypes = controller.getBusinessTypes();
         int listSize = businessTypes.size();
@@ -389,6 +595,11 @@ public class CreateRequestUI implements Runnable {
         return businessTypes.get(answer - 1).getDesignation();
     }
 
+    /**
+     * Display and select property types.
+     *
+     * @return the choosen property type designation
+     */
     private String displayAndSelectPropertyType() {
         List<PropertyType> propertyTypes = controller.getPropertyTypes();
         int listSize = propertyTypes.size();
@@ -413,6 +624,11 @@ public class CreateRequestUI implements Runnable {
     }
 
 
+    /**
+     * Display and select an agency from agencies list.
+     *
+     * @return the agency
+     */
     private Agency displayAndSelectAgenciesList() {
         List<Agency> agencies = controller.getAgenciesList();
         int listSize = agencies.size();
@@ -436,6 +652,12 @@ public class CreateRequestUI implements Runnable {
         return agencies.get(answer - 1);
     }
 
+    /**
+     * Display and select agent from agents list of chosen agency.
+     *
+     * @param agency the chosen agency
+     * @return the agent
+     */
     private Employee displayAndSelectAgentsList(Agency agency) {
         List<Employee> agents = controller.getAgents(agency);
         int listSize = agents.size();
@@ -460,6 +682,11 @@ public class CreateRequestUI implements Runnable {
         return agents.get(answer - 1);
     }
 
+    /**
+     * Display business type options.
+     *
+     * @param businessTypes the business types list
+     */
     private void displayBusinessTypeOptions(List<BusinessType> businessTypes) {
         //display the business types as a menu with number options to select
         int i = 1;
@@ -469,6 +696,11 @@ public class CreateRequestUI implements Runnable {
         }
     }
 
+    /**
+     * Display property type options.
+     *
+     * @param propertyTypes the property types list
+     */
     private void displayPropertyTypeOptions(List<PropertyType> propertyTypes) {
         //display the property types as a menu with number options to select
         int i = 1;
@@ -478,6 +710,11 @@ public class CreateRequestUI implements Runnable {
         }
     }
 
+    /**
+     * Display agencies list options.
+     *
+     * @param agencies the agencies list
+     */
     private void displayAgenciesListOptions(List<Agency> agencies) {
         //display the agencies as a menu with number options to select
         int i = 1;
@@ -487,6 +724,11 @@ public class CreateRequestUI implements Runnable {
         }
     }
 
+    /**
+     * Display agents list options.
+     *
+     * @param agents the agents list
+     */
     private void displayAgentsListOptions(List<Employee> agents) {
         //display the agents of chosen agency as a menu with number options to select
         int i = 1;

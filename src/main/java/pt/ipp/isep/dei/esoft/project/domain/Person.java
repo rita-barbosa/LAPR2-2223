@@ -7,22 +7,73 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 
+/**
+ * The type Person.
+ */
 public class Person {
+    /**
+     * The Name.
+     */
     private String name;
+    /**
+     * The Tax number.
+     */
     private String taxNumber;
+    /**
+     * The Email address.
+     */
     private Email emailAddress;
+    /**
+     * The Phone number.
+     */
     private String phoneNumber;
+    /**
+     * The Passport card number.
+     */
     private String passportCardNumber;
+    /**
+     * The Roles.
+     */
     private List<String> roles;
+    /**
+     * The Location.
+     */
     private Location location;
+    /**
+     * The constant PASSPORT_CARD_NUMBER_LENGTH.
+     */
     private static final Integer PASSPORT_CARD_NUMBER_LENGTH = 9;
+    /**
+     * The constant PASSPORT_FIRST_CHARACTER.
+     */
     private static final char PASSPORT_FIRST_CHARACTER = 'C';
+    /**
+     * The constant NUMBER_OF_SEGMENTS_TAXES.
+     */
     private static final Integer NUMBER_OF_SEGMENTS_TAXES = 3;
+    /**
+     * The constant FIRST_SEGMENT_TAX_NUMBER_LENGTH.
+     */
     private static final Integer FIRST_SEGMENT_TAX_NUMBER_LENGTH = 3;
+    /**
+     * The constant SECOND_SEGMENT_TAX_NUMBER_LENGTH.
+     */
     private static final Integer SECOND_SEGMENT_TAX_NUMBER_LENGTH = 2;
+    /**
+     * The constant THIRD_SEGMENT_TAX_NUMBER_LENGTH.
+     */
     private static final Integer THIRD_SEGMENT_TAX_NUMBER_LENGTH = 4;
+    /**
+     * The constant THREE_DIGIT_SEGMENT_PHONE_NUMBER.
+     */
     private static  final Integer THREE_DIGIT_SEGMENT_PHONE_NUMBER = 3;
+    /**
+     * The constant FOUR_DIGIT_SEGMENT_PHONE_NUMBER.
+     */
     private static final Integer FOUR_DIGIT_SEGMENT_PHONE_NUMBER = 4;
+    /**
+     * The constant PHONE_NUMBER_LENGTH.
+     */
     private static final Integer PHONE_NUMBER_LENGTH = 12;
 
     /**
@@ -34,10 +85,11 @@ public class Person {
      * @param emailAddress       The email address of the person.
      * @param phoneNumber        The phone number of the person.
      * @param role               The role of the person.
+     * @param streetName         The street name of the person.
      * @param city               The city of the person.
+     * @param district           the district
      * @param state              The state of the person.
      * @param zipCode            The zip code of the person.
-     * @param streetName         The street name of the person.
      */
     public Person(String name, String passportCardNumber, String taxNumber, String emailAddress, String phoneNumber,
                   String role, String streetName, String city, String district, String state, String zipCode) {
@@ -91,6 +143,12 @@ public class Person {
     }
 
 
+    /**
+     * Instantiates a new Person.
+     *
+     * @param emailAddress the email address
+     * @param role         the role
+     */
     public Person(String emailAddress, String role) {
         this.roles = new ArrayList<>();
 
@@ -98,10 +156,21 @@ public class Person {
         this.emailAddress = new Email(emailAddress);
     }
 
+    /**
+     * Instantiates a new Person.
+     *
+     * @param emailAddress the email address
+     */
     public Person(String emailAddress) {
         this.emailAddress = new Email(emailAddress);
     }
 
+    /**
+     * Validate passport card number boolean.
+     *
+     * @param passportCardNumber the passport card number
+     * @return the boolean
+     */
     private boolean validatePassportCardNumber(String passportCardNumber) {
         if (passportCardNumber.length() == PASSPORT_CARD_NUMBER_LENGTH && (passportCardNumber.charAt(0) == PASSPORT_FIRST_CHARACTER)) {
             String[] passp = passportCardNumber.split("");
@@ -117,6 +186,12 @@ public class Person {
         return false;
     }
 
+    /**
+     * Validate phone boolean.
+     *
+     * @param phoneNumber the phone number
+     * @return the boolean
+     */
     private boolean validatePhone(String phoneNumber) {
 
         if (phoneNumber.length() == PHONE_NUMBER_LENGTH) {
@@ -141,6 +216,12 @@ public class Person {
         return false;
     }
 
+    /**
+     * Validation boolean.
+     *
+     * @param segmentDigits the segment digits
+     * @return the boolean
+     */
     private boolean validation(String[] segmentDigits) {
         for (int i = 0; i < segmentDigits.length; i++) {
             try {
@@ -156,6 +237,12 @@ public class Person {
     }
 
 
+    /**
+     * Validate tax number boolean.
+     *
+     * @param taxNumber the tax number
+     * @return the boolean
+     */
     private boolean validateTaxNumber(String taxNumber) {
         String[] segments = taxNumber.split("-");
         if (taxNumber == null || taxNumber.isEmpty()) {
@@ -268,15 +355,32 @@ public class Person {
     }
 
 
+    /**
+     * Has email boolean.
+     *
+     * @param emailAddress the email address
+     * @return the boolean
+     */
     public boolean hasEmail(String emailAddress) {
         return (this.emailAddress.equals(emailAddress));
     }
 
+    /**
+     * Clone person.
+     *
+     * @return the person
+     */
     public Person clone() {
         return new Person(this.name, this.passportCardNumber, this.taxNumber, this.emailAddress, this.phoneNumber,
                 this.roles, this.location);
     }
 
+    /**
+     * Equals boolean.
+     *
+     * @param o the o
+     * @return the boolean
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
