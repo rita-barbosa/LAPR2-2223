@@ -86,6 +86,13 @@ public class Agency {
         this.requests = new ArrayList<>();
     }
 
+    public Agency(String description) {
+        this.description = description;
+        this.employees = new ArrayList<>();
+        this.announcements = new ArrayList<>();
+        this.requests = new ArrayList<>();
+    }
+
 
     /**
      * This method checks if the agency has an agent with the given email.
