@@ -68,59 +68,29 @@ public class Person {
         this.phoneNumber = phoneNumber;
     }
 
-    public Person(String name, String passportCardNumber, String taxNumber, Email emailAddress, String phoneNumber, List<String> roles, Location location) {
+    /**
+     * Constructor of a new Person instance with a name, passport card number, tax number, email address, phone number, role and location.
+     *
+     * @param name - the name of the person.
+     * @param passportCardNumber - the passport card number of the person.
+     * @param taxNumber - the tax number of the person.
+     * @param emailAddress - the email address of the person.
+     * @param phoneNumber - the phone number of the person.
+     * @param roles - the roles the person has in the system.
+     * @param location - the location of the person address.
+     */
+    public Person(String name, String passportCardNumber, String taxNumber, Email emailAddress,
+                  String phoneNumber, List<String> roles, Location location) {
         Scanner input = new Scanner(System.in);
         this.roles = roles;
         this.name = name;
         this.location = location;
         this.emailAddress = emailAddress;
-
-        while (!validatePassportCardNumber(passportCardNumber)) {
-            System.out.println("Invalid Passport Card Number. Provide a new one.");
-            passportCardNumber = input.nextLine();
-        }
         this.passportCardNumber = passportCardNumber;
-
-        while (!validateTaxNumber(taxNumber)) {
-            System.out.println("Invalid Tax Number. Provide a new one.");
-            taxNumber = input.nextLine();
-        }
         this.taxNumber = taxNumber;
-
-        while (!validatePhone(phoneNumber)) {
-            System.out.println("Invalid Phone Number. Provide a new one.");
-            phoneNumber = input.nextLine();
-        }
         this.phoneNumber = phoneNumber;
     }
-    public Person(String name, String passportCardNumber, String taxNumber, String emailAddress, String phoneNumber,
-                  String role, Location location) {
-        Scanner input = new Scanner(System.in);
-        this.roles = new ArrayList<>();
 
-        this.roles.add(role);
-        this.name = name;
-        this.location = location;
-        this.emailAddress = new Email(emailAddress);
-        while (!validatePassportCardNumber(passportCardNumber)) {
-            System.out.println("Invalid Passport Card Number. Provide a new one.");
-            passportCardNumber = input.nextLine();
-        }
-        this.passportCardNumber = passportCardNumber;
-
-        while (!validateTaxNumber(taxNumber)) {
-            System.out.println("Invalid Tax Number. Provide a new one.");
-            taxNumber = input.nextLine();
-        }
-        this.taxNumber = taxNumber;
-
-        while (!validatePhone(phoneNumber)) {
-            System.out.println("Invalid Phone Number. Provide a new one.");
-            phoneNumber = input.nextLine();
-        }
-        this.phoneNumber = phoneNumber;
-
-    }
 
     public Person(String emailAddress, String role) {
         this.roles = new ArrayList<>();
@@ -249,7 +219,6 @@ public class Person {
     }
 
 
-
     /**
      * Returns the tax number of the person.
      *
@@ -260,7 +229,6 @@ public class Person {
     }
 
 
-
     /**
      * Returns the location of the person.
      *
@@ -269,8 +237,6 @@ public class Person {
     public Location getLocation() {
         return location;
     }
-
-
 
 
     /**
