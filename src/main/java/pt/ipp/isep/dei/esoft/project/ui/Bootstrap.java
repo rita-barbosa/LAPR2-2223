@@ -57,6 +57,9 @@ public class Bootstrap implements Runnable {
         authenticationRepository.addUserWithRole("Agent", "employee@this.app", "01AGEnt",
                 AuthenticationController.ROLE_AGENT);
 
+        authenticationRepository.addUserWithRole("Client 1", "client1@this.app", "01CLIent",
+                AuthenticationController.ROLE_CLIENT);
+
     }
 
     private void addCommissionTypes() {

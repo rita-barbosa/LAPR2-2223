@@ -33,6 +33,7 @@ public class MainMenuUI implements Runnable {
         options.add(new MenuItem("Know the Development Team", new DevTeamUI()));
         options.add(new MenuItem("Display Listed Properties", new DisplayPropertiesUI()));
 
+
         int option = 0;
         do {
             option = Utils.showAndSelectIndex(options, "\n\nMain Menu");
