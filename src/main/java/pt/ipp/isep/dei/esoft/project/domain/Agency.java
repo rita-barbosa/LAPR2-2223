@@ -80,7 +80,7 @@ public class Agency {
         this.requests = new ArrayList<>();
     }
 
-    public Agency(){
+    public Agency() {
         this.employees = new ArrayList<>();
         this.announcements = new ArrayList<>();
         this.requests = new ArrayList<>();
@@ -88,15 +88,15 @@ public class Agency {
 
 
     /**
-     * This method checks if the agency has an employee with the given email.
+     * This method checks if the agency has an agent with the given email.
      *
-     * @param email The email to be checked.
-     * @return True if the agency has an employee with the given email.
+     * @param email - the email to be checked.
+     * @return {@code true} if the agency has an agent with the given email; {@code false} otherwise;
      */
     public Boolean anyAgentHasEmail(String email) {
         Boolean result = false;
         for (Employee employee : employees) {
-            if (employee.hasEmail(email)) {
+            if (employee.hasEmail(email) && employee.isAgent()) {
                 result = true;
             }
         }
@@ -112,7 +112,7 @@ public class Agency {
     public Employee getAgentByEmail(String emailAddress) {
         Employee returnEmployee = null;
         for (Employee employee : employees) {
-            if (employee.isAgent() && anyEmployeeHasEmail(emailAddress)) {
+            if (anyAgentHasEmail(emailAddress)) {
                 returnEmployee = employee;
             }
         }
@@ -125,15 +125,6 @@ public class Agency {
      * @param email - the employee email address.
      * @return {@code true} if the belongs to the agency; {@code false} otherwise;
      */
-    public Boolean anyEmployeeHasEmail(String email) {
-        Boolean result = false;
-        for (Employee employee : employees) {
-            if (employee.hasEmail(email)) {
-                result = true;
-            }
-        }
-        return result;
-    }
 
 
     /**
@@ -145,7 +136,7 @@ public class Agency {
     private Boolean addAnnouncement(Announcement announcement) {
         Boolean success = false;
         if (validateAnnouncement(announcement)) {
-            announcements.add(announcement.clone());
+            success = announcements.add(announcement.clone());
         }
         return success;
     }
@@ -418,25 +409,25 @@ public class Agency {
         return this.announcements;
     }
 
-    public List<Announcement> announcementHasBusinessType(List<Announcement> announcementList, String businessType){
+    public List<Announcement> announcementHasBusinessType(List<Announcement> announcementList, String businessType) {
         for (Announcement announcement : announcementList) {
-            if (!(announcement.getRequest().getBusiness().getBusinessType().equals(businessType))){
+            if (!(announcement.getRequest().getBusiness().getBusinessType().equals(businessType))) {
                 announcementList.remove(announcement);
             }
         }
         return announcementList;
     }
 
-    public List<Announcement> announcementHasPropertyType(List<Announcement> announcementList, String propertyType){
+    public List<Announcement> announcementHasPropertyType(List<Announcement> announcementList, String propertyType) {
         for (Announcement announcement : announcementList) {
-            if (!(announcement.getRequest().getProperty().getPropertyType().equals(propertyType))){
+            if (!(announcement.getRequest().getProperty().getPropertyType().equals(propertyType))) {
                 announcementList.remove(announcement);
             }
         }
         return announcementList;
     }
 
-    public List<Announcement> announcementHasNumberBedrooms(List<Announcement> announcementList, Integer numberBedrooms){
+    public List<Announcement> announcementHasNumberBedrooms(List<Announcement> announcementList, Integer numberBedrooms) {
 //        for (Announcement announcement : announcementList) {
 //            if (!(announcement.getRequest().getProperty().getPropertyType().getNumberBedrooms().equals(numberBedrooms))){
 //                announcementList.remove(announcement);
@@ -446,7 +437,7 @@ public class Agency {
         return announcementList;
     }
 
-    public List<Announcement> sortAnnouncementsByAscendingPrice(List<Announcement> announcementList){
+    public List<Announcement> sortAnnouncementsByAscendingPrice(List<Announcement> announcementList) {
 //        List<Announcement> clonedAnnouncementList = new ArrayList<>(announcementList);
 //        Comparator<Announcement> acceptanceDate = new Comparator<Announcement>() {
 //            public int compare(Announcement a1, Announcement a2){
@@ -462,11 +453,11 @@ public class Agency {
         return announcementList;
     }
 
-    public List<Announcement> sortAnnouncementsByDescendingPrice(List<Announcement> announcementList){
+    public List<Announcement> sortAnnouncementsByDescendingPrice(List<Announcement> announcementList) {
         List<Announcement> clonedAnnouncementList = new ArrayList<>(announcementList);
 
         Comparator<Announcement> acceptanceDate = new Comparator<Announcement>() {
-            public int compare(Announcement a1, Announcement a2){
+            public int compare(Announcement a1, Announcement a2) {
                 LocalDate a1AcceptanceDate = a1.getAcceptanceDate();
                 LocalDate a2AcceptanceDate = a2.getAcceptanceDate();
 
@@ -479,7 +470,7 @@ public class Agency {
 
     }
 
-    public List<Announcement> sortAnnouncementsByAscendingCity(List<Announcement> announcementList){
+    public List<Announcement> sortAnnouncementsByAscendingCity(List<Announcement> announcementList) {
 //        List<Announcement> clonedAnnouncementList = new ArrayList<>(announcementList);
 //        Comparator<Announcement> acceptanceDate = new Comparator<Announcement>() {
 //            public int compare(Announcement a1, Announcement a2){
@@ -495,10 +486,10 @@ public class Agency {
         return announcementList;
     }
 
-    public List<Announcement> sortAnnouncementsByDescendingCity(List<Announcement> announcementList){
+    public List<Announcement> sortAnnouncementsByDescendingCity(List<Announcement> announcementList) {
         List<Announcement> clonedAnnouncementList = new ArrayList<>(announcementList);
         Comparator<Announcement> acceptanceDate = new Comparator<Announcement>() {
-            public int compare(Announcement a1, Announcement a2){
+            public int compare(Announcement a1, Announcement a2) {
                 LocalDate a1AcceptanceDate = a1.getAcceptanceDate();
                 LocalDate a2AcceptanceDate = a2.getAcceptanceDate();
 
@@ -510,7 +501,7 @@ public class Agency {
         return clonedAnnouncementList;
     }
 
-    public List<Announcement> sortAnnouncementsByAscendingState(List<Announcement> announcementList){
+    public List<Announcement> sortAnnouncementsByAscendingState(List<Announcement> announcementList) {
 //        List<Announcement> clonedAnnouncementList = new ArrayList<>(announcementList);
 //        Comparator<Announcement> acceptanceDate = new Comparator<Announcement>() {
 //            public int compare(Announcement a1, Announcement a2){
@@ -526,10 +517,10 @@ public class Agency {
         return announcementList;
     }
 
-    public List<Announcement> sortAnnouncementsByDesscendingState(List<Announcement> announcementList){
+    public List<Announcement> sortAnnouncementsByDesscendingState(List<Announcement> announcementList) {
         List<Announcement> clonedAnnouncementList = new ArrayList<>(announcementList);
         Comparator<Announcement> acceptanceDate = new Comparator<Announcement>() {
-            public int compare(Announcement a1, Announcement a2){
+            public int compare(Announcement a1, Announcement a2) {
                 LocalDate a1AcceptanceDate = a1.getAcceptanceDate();
                 LocalDate a2AcceptanceDate = a2.getAcceptanceDate();
 
@@ -540,7 +531,6 @@ public class Agency {
         Collections.sort(clonedAnnouncementList, Collections.reverseOrder(acceptanceDate));
         return clonedAnnouncementList;
     }
-
 
 
 }

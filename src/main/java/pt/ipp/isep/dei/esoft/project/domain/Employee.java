@@ -1,5 +1,7 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
+import pt.isep.lei.esoft.auth.domain.model.Email;
+
 import java.util.Objects;
 
 public class Employee extends Person {
@@ -19,12 +21,17 @@ public class Employee extends Person {
         this.agencyId = agencyId;
     }
 
-    public Employee(String email, String roleId) {
-        super(email,roleId);
+    public Employee(String emailAddress, String roleId) {
+        super(emailAddress, roleId);
     }
 
-    public Employee(String email) {
-        super(email);
+    public Employee(String emailAddress) {
+        super(emailAddress);
+    }
+
+    public Employee(String agencyId, String name, String passportCardNumber, String taxNumber, Email emailAddress, String role, String phoneNumber, Location location) {
+        super(name, passportCardNumber, taxNumber, emailAddress, phoneNumber, role, location);
+        this.agencyId = agencyId;
     }
 
     @Override
@@ -44,17 +51,17 @@ public class Employee extends Person {
         return Objects.hash(getEmailAddress());
     }
 
-    public boolean hasEmail(String email) {
-        return this.getEmailAddress().equals(email);
-    }
-
     public Employee clone() {
         return new Employee(agencyId, this.getName(), this.getPassportCardNumber(), this.getTaxNumber(), this.getEmailAddress(), this.getRole(),
                 this.getPhoneNumber(), this.getLocation());
     }
 
+    public boolean hasEmail(String email) {
+        return this.getEmailAddress().getEmail().equals(email);
+    }
+
     public boolean isAgent() {
-        return this.getRole().equalsIgnoreCase("Agent");
+        return this.getRole().equalsIgnoreCase("agent");
     }
 
 

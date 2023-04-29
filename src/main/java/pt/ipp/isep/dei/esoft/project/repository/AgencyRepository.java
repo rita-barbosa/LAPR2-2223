@@ -13,7 +13,11 @@ public class AgencyRepository {
     /**
      * The list with existent agencies.
      */
-    private final List<Agency> agencies = new ArrayList<>();
+    private final List<Agency> agencies;
+
+    public AgencyRepository() {
+        this.agencies = new ArrayList<>();
+    }
 
     /**
      * This method returns an Agency that has an Agent with the given email address.
@@ -23,11 +27,13 @@ public class AgencyRepository {
      */
     public Optional<Agency> getAgencyByEmployeeEmail(String emailAddress) {
         Optional<Agency> returnAgency = Optional.empty();
+
         for (Agency agency : agencies) {
-            if (agency.anyEmployeeHasEmail(emailAddress)) {
+            if (agency.anyAgentHasEmail(emailAddress)) {
                 returnAgency = Optional.of(agency);
             }
         }
+
         return returnAgency;
     }
 

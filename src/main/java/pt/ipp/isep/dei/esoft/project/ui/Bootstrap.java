@@ -7,11 +7,12 @@ import pt.ipp.isep.dei.esoft.project.repository.*;
 public class Bootstrap implements Runnable {
 
     public void run() {
-        addOrganization();
         addUserRoles();
         addUsers();
+        addAgencies();
         addCommissionTypes();
         addPropertyTypes();
+        addBusinessTypes();
     }
 
     private void addUserRoles() {
@@ -25,15 +26,26 @@ public class Bootstrap implements Runnable {
         authenticationRepository.addUserRole(AuthenticationController.ROLE_STORE_MANAGER, AuthenticationController.ROLE_STORE_MANAGER);
     }
 
-    private void addOrganization() {
+    public void addEmployees(Agency agency) {
+        Employee employee = new Employee("employee@this.app", "agent");
+        Employee employee1 = new Employee("employee1@this.app", "agent");
+        Employee employee2 = new Employee("employee2@this.app", "agent");
+        agency.addEmployee(employee);
+        agency.addEmployee(employee1);
+        agency.addEmployee(employee2);
+    }
+
+    private void addAgencies() {
         AgencyRepository agencyRepository = Repositories.getInstance().getAgencyRepository();
-        Agency agency1 = new Agency(2425);
+        Agency agency1 = new Agency(2526);
+        addEmployees(agency1);
         agencyRepository.add(agency1);
+
         Agency agency2 = new Agency(2526);
         agencyRepository.add(agency2);
+
         Agency agency3 = new Agency(2627);
         agencyRepository.add(agency3);
-
     }
 
     private void addUsers() {
@@ -44,6 +56,7 @@ public class Bootstrap implements Runnable {
 
         authenticationRepository.addUserWithRole("Agent", "employee@this.app", "01AGEnt",
                 AuthenticationController.ROLE_AGENT);
+
     }
 
     private void addCommissionTypes() {
@@ -61,5 +74,11 @@ public class Bootstrap implements Runnable {
         propertyTypeRepository.add(new PropertyType("House"));
     }
 
+    private void addBusinessTypes() {
+        BusinessTypeRepository businessTypeRepository = Repositories.getInstance().getBusinessTypeRepository();
+
+        businessTypeRepository.add(new BusinessType("Sale"));
+        businessTypeRepository.add(new BusinessType("Lease"));
+    }
 
 }
