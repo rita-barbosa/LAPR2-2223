@@ -2,6 +2,7 @@ package pt.ipp.isep.dei.esoft.project.ui.console;
 
 import pt.ipp.isep.dei.esoft.project.application.controller.CreateRequestController;
 import pt.ipp.isep.dei.esoft.project.domain.*;
+import pt.ipp.isep.dei.esoft.project.ui.console.utils.Utils;
 
 import java.util.*;
 
@@ -64,9 +65,9 @@ public class CreateRequestUI implements Runnable {
         String numberBathroomString = "";
         String sunExposureString = "";
         if (businessTypeDesignation.equalsIgnoreCase("Lease")) {
-            amountString = String.format("Rent: %f", amount);
+            amountString = String.format("Rent: %f.2", amount);
         } else {
-            amountString = String.format("Price: %f", amount);
+            amountString = String.format("Price: %f.2", amount);
         }
         if (sunExposure != null) {
             sunExposureString = String.format("Sun exposure direction: %s", sunExposure);
@@ -74,7 +75,7 @@ public class CreateRequestUI implements Runnable {
         if (numberBathroom != null) {
             numberBathroomString = String.format("Number of bathrooms: %d", numberBathroom);
         }
-        System.out.printf("###Property Data###%n** General Data **%n%s%nArea: %f%nDistance from City Center: %f%n" +
+        System.out.printf("###Property Data###%n** General Data **%n%s%nArea: %f.2.2%nDistance from City Center: %f.2.2%n" +
                         "** Location Data **%nStreet Name: %s%nCity: %s%nDistrict:  %s%nState:  %s%nZip Code: %s%n" +
                         "** Other Data **%nParking Spaces: %d%nNumber of Bedrooms: %d%n%s%nBasement: %s%nInhabitable Loft: %s%n%s%n",
                 amountString, area, distanceCityCenter, streetName, city, district, state, zipCode, parkingSpace, numberBedroom,
@@ -88,7 +89,7 @@ public class CreateRequestUI implements Runnable {
 
     private void displayListContent(List<String> list, String attribute) {
         System.out.printf("** Property's %s list **", attribute);
-        int i=0;
+        int i = 0;
         for (String listItem : list) {
             System.out.printf("%d. %s%n", i++, listItem);
         }
@@ -148,7 +149,7 @@ public class CreateRequestUI implements Runnable {
                 throw new InputMismatchException("Please select 1 (Yes) or 2 (No)%n");
             }
         }
-        input.close();
+ 
         return inputDataOption == 1;
     }
 
@@ -248,7 +249,7 @@ public class CreateRequestUI implements Runnable {
                 throw new InputMismatchException("Please select 1 (Yes) or 2 (No)%n");
             }
         }
-        input.close();
+ 
         return inputBasementOption == 1;
     }
 
@@ -285,7 +286,7 @@ public class CreateRequestUI implements Runnable {
             equipment = input.nextLine();
             availableEquipment.add(equipment);
         } while (equipment.equalsIgnoreCase("DONE"));
-        input.close();
+ 
         return availableEquipment;
     }
 
@@ -322,7 +323,6 @@ public class CreateRequestUI implements Runnable {
                 input.nextLine();
             }
         } while (invalid);
-        input.close();
         return businessTypes.get(answer - 1).getDesignation();
     }
 
@@ -346,9 +346,9 @@ public class CreateRequestUI implements Runnable {
                 input.nextLine();
             }
         } while (invalid);
-        input.close();
         return (propertyTypes.get(answer - 1).getDesignation());
     }
+
 
     private Agency displayAndSelectAgenciesList() {
         List<Agency> agencies = controller.getAgenciesList();
@@ -370,7 +370,6 @@ public class CreateRequestUI implements Runnable {
                 input.nextLine();
             }
         } while (invalid);
-        input.close();
         return agencies.get(answer - 1);
     }
 
@@ -394,7 +393,7 @@ public class CreateRequestUI implements Runnable {
                 input.nextLine();
             }
         } while (invalid);
-        input.close();
+ 
         return agents.get(answer - 1);
     }
 
