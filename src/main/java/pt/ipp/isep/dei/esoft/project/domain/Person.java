@@ -1,11 +1,13 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
+import pt.isep.lei.esoft.auth.domain.model.Email;
+
 import java.util.Scanner;
 
 public class Person {
     private String name;
     private String taxNumber;
-    private String emailAddress;
+    private Email emailAddress;
     private String phoneNumber;
     private String passportCardNumber;
     private String role;
@@ -52,9 +54,19 @@ public class Person {
         this.name = name;
         this.passportCardNumber = passportCardNumber;
         this.taxNumber = taxNumber;
-        if(streetName != null){
+        if (streetName != null) {
             this.location = new Location(streetName, city, district, state, zipCode);
         }
+        this.emailAddress = new Email(emailAddress);
+        this.phoneNumber = phoneNumber;
+        this.role = role;
+    }
+
+    public Person(String name, String passportCardNumber, String taxNumber, Email emailAddress, String phoneNumber, String role, Location location) {
+        this.name = name;
+        this.passportCardNumber = passportCardNumber;
+        this.taxNumber = taxNumber;
+        this.location = location;
         this.emailAddress = emailAddress;
         this.phoneNumber = phoneNumber;
         this.role = role;
@@ -176,7 +188,6 @@ public class Person {
     }
 
 
-
     private boolean validateTaxNumber(String taxNumber) {
         String[] segments = taxNumber.split("-");
         if (taxNumber == null || taxNumber.isEmpty()) {
@@ -198,7 +209,7 @@ public class Person {
     }
 
     public Person(String emailAddress) {
-        this.emailAddress = emailAddress;
+        this.emailAddress = new Email(emailAddress);
     }
 
     public Person(String name, String passportCardNumber, String taxNumber, String emailAddress, String phoneNumber,
@@ -207,13 +218,13 @@ public class Person {
         this.passportCardNumber = passportCardNumber;
         this.taxNumber = taxNumber;
         this.location = location;
-        this.emailAddress = emailAddress;
+        this.emailAddress = new Email(emailAddress);
         this.phoneNumber = phoneNumber;
         this.role = role;
     }
 
-    public Person(String email, String roleId) {
-        this.emailAddress = email;
+    public Person(String emailAddress, String roleId) {
+        this.emailAddress = new Email(emailAddress);
         this.role = roleId;
     }
 
@@ -227,7 +238,7 @@ public class Person {
         if (employee.getName().isEmpty() ||
                 employee.getTaxNumber().isEmpty() ||
                 employee.getLocation().equals("") ||
-                employee.getEmailAddress().isEmpty() ||
+                employee.getEmailAddress() == null ||
                 employee.getPhoneNumber().isEmpty() ||
                 employee.getRole() == null) {
             return false;
@@ -317,8 +328,8 @@ public class Person {
      *
      * @return the email address of the person
      */
-    public String getEmailAddress() {
-        return emailAddress;
+    public Email getEmailAddress() {
+        return this.emailAddress;
     }
 
     /**
@@ -327,7 +338,7 @@ public class Person {
      * @param emailAddress the email address of the person
      */
     public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
+        this.emailAddress = new Email(emailAddress);
     }
 
     /**
@@ -367,7 +378,7 @@ public class Person {
     }
 
     public boolean hasEmail(String emailAddress) {
-        return this.emailAddress.equals(emailAddress);
+        return (this.emailAddress.equals(emailAddress));
     }
 
     public Person clone() {
