@@ -31,15 +31,15 @@ public class Bootstrap implements Runnable {
         Employee employee1 = new Employee("employee1@this.app", "agent");
         Employee employee2 = new Employee("employee2@this.app", "agent");
 
-        Employee employee3 = new Employee("1234", "John Doe", "C12345678",
+        Employee employee3 = new Employee(1234, "John Doe", "C12345678",
                 "123-45-6789", "employee3@this.app", "agent", "623 456 7890",
                 "New York", "Manhattan", "NY", "10001", "Broadway");
 
-        Employee employee4 = new Employee("1234", "Annie Smith", "C23456789",
+        Employee employee4 = new Employee(1234, "Annie Smith", "C23456789",
                 "987-65-4321", "employee4@this.app", "agent", "555 555 5555",
                 "New York", "Manhattan", "NY", "10001", "Broadway St");
 
-        Employee employee5 = new Employee("6789", "Maria Silva", "C12345678",
+        Employee employee5 = new Employee(6789, "Maria Silva", "C12345678",
                 "123-45-6789", "employee5@this.app", "agent", "911 234 5567",
                 "Porto", "Porto", "Porto", "43005", "Rua da Alegria, 123");
         agency.addEmployee(employee);

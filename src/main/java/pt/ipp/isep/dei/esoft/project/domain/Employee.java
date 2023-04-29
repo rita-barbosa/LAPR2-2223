@@ -6,19 +6,12 @@ import java.util.List;
 import java.util.Objects;
 
 public class Employee extends Person {
-    private String agencyId;
+    private Integer agencyId;
 
-    public Employee(String agencyId, String name, String passportCardNumber, String taxNumber, String emailAddress, String role,
+    public Employee(Integer agencyId, String name, String passportCardNumber, String taxNumber, String emailAddress, String role,
                     String phoneNumber, String city, String district, String state, String zipCode, String streetName) {
 
         super(name, passportCardNumber, taxNumber, emailAddress, phoneNumber, role, streetName, city, district, state, zipCode);
-        this.agencyId = agencyId;
-    }
-
-    public Employee(String agencyId, String name, String passportCardNumber, String taxNumber, String emailAddress, String role,
-                    String phoneNumber, Location location) {
-
-        super(name, passportCardNumber, taxNumber, emailAddress, phoneNumber, role, location);
         this.agencyId = agencyId;
     }
 
@@ -30,12 +23,14 @@ public class Employee extends Person {
         super(emailAddress);
     }
 
-    public Employee(String agencyId, String name, String passportCardNumber, String taxNumber, Email emailAddress,
+    public Employee(Integer agencyId, String name, String passportCardNumber, String taxNumber, Email emailAddress,
                     List<String> roles, String phoneNumber, Location location) {
 
         super(name, passportCardNumber, taxNumber, emailAddress, phoneNumber, roles, location);
         this.agencyId = agencyId;
     }
+
+
 
     @Override
     public boolean equals(Object o) {
