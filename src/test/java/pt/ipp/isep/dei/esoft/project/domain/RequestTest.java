@@ -86,7 +86,7 @@ class RequestTest {
         Employee employee = new Employee("employee@this.app.com", "Agent");
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
-        Property property = new Property(new PropertyType("land"), (35.5), (89.3), uriList, "street",
+        Property property = new Property(new PropertyType("Land"), (35.5), (89.3), uriList, "street",
                 "city", "district", "state", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
         Request request1 = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
