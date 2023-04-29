@@ -1,6 +1,7 @@
 package pt.ipp.isep.dei.esoft.project.application.controller;
 
 
+import pt.ipp.isep.dei.esoft.project.application.session.ApplicationSession;
 import pt.ipp.isep.dei.esoft.project.application.session.UserSession;
 import pt.ipp.isep.dei.esoft.project.domain.*;
 import pt.ipp.isep.dei.esoft.project.repository.*;
@@ -126,8 +127,7 @@ public class CreateRequestController {
 
     //returns the Owner's email
     private String getOwnerEmail() {
-        this.userSession = new UserSession(new pt.isep.lei.esoft.auth.UserSession());
-        return userSession.getUserEmail();
+        return ApplicationSession.getInstance().getCurrentSession().getUserEmail();
     }
 
     //returns the list of agents

@@ -61,13 +61,13 @@ public class CreateRequestUI implements Runnable {
     }
 
     private void displaysData() {
-        String amountString = "";
-        String numberBathroomString = "";
+        String amountString;
+        String numberBathroomString = "Number of bathrooms: No Information";
         String sunExposureString = "";
         if (businessTypeDesignation.equalsIgnoreCase("Lease")) {
-            amountString = String.format("Rent: %f.2", amount);
+            amountString = String.format("Rent: %f.2 US$", amount);
         } else {
-            amountString = String.format("Price: %f.2", amount);
+            amountString = String.format("Price: %.2f US$", amount);
         }
         if (sunExposure != null) {
             sunExposureString = String.format("Sun exposure direction: %s", sunExposure);
@@ -75,21 +75,22 @@ public class CreateRequestUI implements Runnable {
         if (numberBathroom != null) {
             numberBathroomString = String.format("Number of bathrooms: %d", numberBathroom);
         }
-        System.out.printf("###Property Data###%n** General Data **%n%s%nArea: %f.2.2%nDistance from City Center: %f.2.2%n" +
-                        "** Location Data **%nStreet Name: %s%nCity: %s%nDistrict:  %s%nState:  %s%nZip Code: %s%n" +
-                        "** Other Data **%nParking Spaces: %d%nNumber of Bedrooms: %d%n%s%nBasement: %s%nInhabitable Loft: %s%n%s%n",
+        System.out.printf("%n###Property Data###%n=================%n** General Data **%n%s%nArea:  %.2f m²%nDistance from City Center:  %.2f m%n" +
+                        "=================%n** Location Data **%nStreet Name: %s%nCity: %s%nDistrict: %s%nState: %s%nZip Code: %s%n" +
+                        "=================%n** Other Data **%nParking Spaces: %d%nNumber of Bedrooms: %d%n%s%nBasement: %s%nInhabitable Loft: %s%n%s",
                 amountString, area, distanceCityCenter, streetName, city, district, state, zipCode, parkingSpace, numberBedroom,
                 numberBathroomString, getStringFromBoolean(basement), getStringFromBoolean(inhabitableLoft), sunExposureString);
         if (availableEquipmentDescription != null) {
+            System.out.println("=================");
             displayListContent(availableEquipmentDescription, "available equipments");
         }
-        displayListContent(uri, "photographs uris");
-
+        System.out.println("=================");
+        displayListContent(uri, "photographs' uris");
     }
 
     private void displayListContent(List<String> list, String attribute) {
-        System.out.printf("** Property's %s list **", attribute);
-        int i = 0;
+        System.out.printf("** Property's %s list **%n", attribute);
+        int i = 1;
         for (String listItem : list) {
             System.out.printf("%d. %s%n", i++, listItem);
         }
@@ -141,16 +142,23 @@ public class CreateRequestUI implements Runnable {
 
     private boolean askOptionalData(String optionalData) {
         System.out.printf("Would you like to provide data about the Property's %s%n1. Yes%n2. No%n", optionalData);
+        boolean invalid = true;
+        int answer = -1;
         Scanner input = new Scanner(System.in);
-        int inputDataOption = 0;
-        while (inputDataOption != 1 && inputDataOption != 2) {
-            inputDataOption = input.nextInt();
-            if (inputDataOption != 1 && inputDataOption != 2) {
-                throw new InputMismatchException("Please select 1 (Yes) or 2 (No)%n");
+        do {
+            try {
+                answer = input.nextInt();
+                if (answer != 1 && answer != 2) {
+                    System.out.println("\nERROR: Option selected is invalid. (1 or 2)");
+                } else {
+                    invalid = false;
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("\nERROR: Option selected is not a number. (1 or 2)");
+                input.nextLine();
             }
-        }
- 
-        return inputDataOption == 1;
+        } while (invalid);
+        return answer == 1;
     }
 
     private Integer requestRequestContractDuration() {
@@ -162,50 +170,82 @@ public class CreateRequestUI implements Runnable {
 
     private Double requestRequestAmount() {
         Scanner input = new Scanner(System.in);
-        System.out.println("Property price (in american dollars):");
-        return input.nextDouble();
+        if (businessTypeDesignation.equalsIgnoreCase("Lease")) {
+            System.out.println("Property Rent (in Dollars - US$):");
+        } else {
+            System.out.println("Property Price (in Dollars - US$):");
+        }
+        String inputString = input.next().trim();
+        return Double.parseDouble(inputString.replace(",", "."));
     }
 
     private Double requestRequestArea() {
         Scanner input = new Scanner(System.in);
-        System.out.println("Property area (in m²):");
-        return input.nextDouble();
+        System.out.println("Property area (in squared meters - m²):");
+        String inputString = input.next().trim();
+        return Double.parseDouble(inputString.replace(",", "."));
     }
 
     private Double requestRequestDistanceCityCenter() {
         Scanner input = new Scanner(System.in);
-        System.out.println("Property's distance from City Center:");
-        return input.nextDouble();
+        System.out.println("Property's distance from City Center (in meters - m):");
+        String inputString = input.next().trim();
+        return Double.parseDouble(inputString.replace(",", "."));
     }
 
     private String requestRequestStreetName() {
         Scanner input = new Scanner(System.in);
         System.out.println("Property's street name:");
-        return input.nextLine();
+        String inputString = input.nextLine();
+        while (inputString.trim().isBlank()) {
+            System.out.println("Property's street name invalid. Provide a new one.");
+            inputString = input.nextLine();
+        }
+        return inputString;
     }
 
     private String requestRequestCity() {
         Scanner input = new Scanner(System.in);
         System.out.println("Property's city:");
-        return input.nextLine();
+        String inputString = input.nextLine();
+        while (inputString.trim().isBlank()) {
+            System.out.println("Property's city invalid. Provide a new one.");
+            inputString = input.nextLine();
+        }
+        return inputString;
     }
 
     private String requestRequestDistrict() {
         Scanner input = new Scanner(System.in);
         System.out.println("Property's district:");
-        return input.nextLine();
+        String inputString = input.nextLine();
+        while (inputString.trim().isBlank()) {
+            System.out.println("Property's district invalid. Provide a new one.");
+            inputString = input.nextLine();
+        }
+        return inputString;
     }
 
     private String requestRequestState() {
         Scanner input = new Scanner(System.in);
         System.out.println("Property's state:");
-        return input.nextLine();
+        String inputString = input.nextLine();
+        while (inputString.trim().isBlank()) {
+            System.out.println("Property's state invalid. Provide a new one.");
+            inputString = input.nextLine();
+        }
+        return inputString;
     }
 
     private String requestRequestZipCode() {
         Scanner input = new Scanner(System.in);
         System.out.println("Property's zip code:");
-        return input.nextLine();
+        String inputString = input.nextLine();
+        while (inputString.trim().isBlank()) {
+            System.out.println("Property's zip code invalid. Provide a new one.");
+            inputString = input.nextLine();
+        }
+        return inputString;
     }
 
     private Integer requestRequestParkingSpace() {
@@ -227,30 +267,45 @@ public class CreateRequestUI implements Runnable {
     }
 
     private Boolean requestRequestInhabitableLoft() {
-        Scanner input = new Scanner(System.in);
         System.out.printf("Does your property have an inhabitable loft?%n1. Yes%n2. No%n");
-        int inputOption = 0;
-        while (inputOption != 1 && inputOption != 2) {
-            inputOption = input.nextInt();
-            if (inputOption != 1 && inputOption != 2) {
-                throw new InputMismatchException("Please select 1 (Yes) or 2 (No)%n");
+        boolean invalid = true;
+        int answer = -1;
+        Scanner input = new Scanner(System.in);
+        do {
+            try {
+                answer = input.nextInt();
+                if (answer != 1 && answer != 2) {
+                    System.out.println("\nERROR: Option selected is invalid. (1 or 2)");
+                } else {
+                    invalid = false;
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("\nERROR: Option selected is not a number. (1 or 2)");
+                input.nextLine();
             }
-        }
-        return inputOption == 1;
+        } while (invalid);
+        return answer == 1;
     }
 
     private Boolean requestRequestBasement() {
-        Scanner input = new Scanner(System.in);
         System.out.printf("Does your property have a basement?%n1. Yes%n2. No%n");
-        int inputBasementOption = 0;
-        while (inputBasementOption != 1 && inputBasementOption != 2) {
-            inputBasementOption = input.nextInt();
-            if (inputBasementOption != 1 && inputBasementOption != 2) {
-                throw new InputMismatchException("Please select 1 (Yes) or 2 (No)%n");
+        boolean invalid = true;
+        int answer = -1;
+        Scanner input = new Scanner(System.in);
+        do {
+            try {
+                answer = input.nextInt();
+                if (answer != 1 && answer != 2) {
+                    System.out.println("\nERROR: Option selected is invalid. (1 or 2)");
+                } else {
+                    invalid = false;
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("\nERROR: Option selected is not a number. (1 or 2)");
+                input.nextLine();
             }
-        }
- 
-        return inputBasementOption == 1;
+        } while (invalid);
+        return answer == 1;
     }
 
     private Enum<SunExposureTypes> requestRequestSunExposure() {
@@ -284,22 +339,27 @@ public class CreateRequestUI implements Runnable {
         String equipment;
         do {
             equipment = input.nextLine();
-            availableEquipment.add(equipment);
-        } while (equipment.equalsIgnoreCase("DONE"));
- 
+            if (!(equipment.equalsIgnoreCase("DONE")) && !(equipment.trim().isBlank())) {
+                availableEquipment.add(equipment);
+            }
+        } while (!equipment.equalsIgnoreCase("DONE"));
         return availableEquipment;
     }
 
     private List<String> requestRequestPhotographURI() {
         List<String> uri = new ArrayList<>();
         Scanner uriInput = new Scanner(System.in);
-        System.out.println("Property photographs' uri: (when you are done, type DONE)");
+        System.out.println("Property photographs' uri: (when you are done, type DONE | Maximum 30 entries.)");
         String typedUri = "";
         while (!(typedUri.equalsIgnoreCase("DONE") || uri.size() == PHOTOGRAPH_SIZE_LIMIT)) {
             typedUri = uriInput.nextLine();
-            uri.add(typedUri);
+            if (!(typedUri.equalsIgnoreCase("DONE")) && !(typedUri.trim().isBlank())) {
+                uri.add(typedUri);
+            }
         }
-        uriInput.close();
+        if (uri.size() == PHOTOGRAPH_SIZE_LIMIT) {
+            System.out.println("Maximum of entries reached.");
+        }
         return uri;
     }
 
@@ -393,7 +453,7 @@ public class CreateRequestUI implements Runnable {
                 input.nextLine();
             }
         } while (invalid);
- 
+
         return agents.get(answer - 1);
     }
 
@@ -432,4 +492,5 @@ public class CreateRequestUI implements Runnable {
             i++;
         }
     }
+
 }
