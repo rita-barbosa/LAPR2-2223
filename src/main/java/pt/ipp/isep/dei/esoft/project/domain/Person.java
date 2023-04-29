@@ -2,6 +2,8 @@ package pt.ipp.isep.dei.esoft.project.domain;
 
 import pt.isep.lei.esoft.auth.domain.model.Email;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Person {
@@ -10,11 +12,10 @@ public class Person {
     private Email emailAddress;
     private String phoneNumber;
     private String passportCardNumber;
-    private String role;
+    private List<String> roles;
     private Location location;
     private final Integer PASSPORT_CARD_NUMBER_LENGTH = 9;
     private final char PASSPORT_FIRST_CHARACTER = 'C';
-    private final Integer TAX_NUMBER_LENGTH = 11;
     private final Integer NUMBER_OF_SEGMENTS_TAXES = 3;
     private final Integer FIRST_SEGMENT_TAX_NUMBER_LENGTH = 3;
     private final Integer SECOND_SEGMENT_TAX_NUMBER_LENGTH = 2;
@@ -42,12 +43,37 @@ public class Person {
     public Person(String name, String passportCardNumber, String taxNumber, String emailAddress, String phoneNumber,
                   String role, String streetName, String city, String district, String state, String zipCode) {
         Scanner input = new Scanner(System.in);
+        this.roles = new ArrayList<>();
+
+        this.roles.add(role);
         this.name = name;
         if (streetName != null) {
             this.location = new Location(streetName, city, district, state, zipCode);
         }
         this.emailAddress = new Email(emailAddress);
-        this.role = role;
+        while (!validatePassportCardNumber(passportCardNumber)) {
+            System.out.println("Invalid Passport Card Number. Provide a new one.");
+            passportCardNumber = input.nextLine();
+        }
+        this.passportCardNumber = passportCardNumber;
+        while (!validateTaxNumber(taxNumber)) {
+            System.out.println("Invalid Tax Number. Provide a new one.");
+            taxNumber = input.nextLine();
+        }
+        this.taxNumber = taxNumber;
+        while (!validatePhone(phoneNumber)) {
+            System.out.println("Invalid Phone Number. Provide a new one.");
+            phoneNumber = input.nextLine();
+        }
+        this.phoneNumber = phoneNumber;
+    }
+
+    public Person(String name, String passportCardNumber, String taxNumber, Email emailAddress, String phoneNumber, List<String> roles, Location location) {
+        Scanner input = new Scanner(System.in);
+        this.roles = roles;
+        this.name = name;
+        this.location = location;
+        this.emailAddress = emailAddress;
 
         while (!validatePassportCardNumber(passportCardNumber)) {
             System.out.println("Invalid Passport Card Number. Provide a new one.");
@@ -67,15 +93,44 @@ public class Person {
         }
         this.phoneNumber = phoneNumber;
     }
+    public Person(String name, String passportCardNumber, String taxNumber, String emailAddress, String phoneNumber,
+                  String role, Location location) {
+        Scanner input = new Scanner(System.in);
+        this.roles = new ArrayList<>();
 
-    public Person(String name, String passportCardNumber, String taxNumber, Email emailAddress, String phoneNumber, String role, Location location) {
+        this.roles.add(role);
         this.name = name;
-        this.passportCardNumber = passportCardNumber;
-        this.taxNumber = taxNumber;
         this.location = location;
-        this.emailAddress = emailAddress;
+        this.emailAddress = new Email(emailAddress);
+        while (!validatePassportCardNumber(passportCardNumber)) {
+            System.out.println("Invalid Passport Card Number. Provide a new one.");
+            passportCardNumber = input.nextLine();
+        }
+        this.passportCardNumber = passportCardNumber;
+
+        while (!validateTaxNumber(taxNumber)) {
+            System.out.println("Invalid Tax Number. Provide a new one.");
+            taxNumber = input.nextLine();
+        }
+        this.taxNumber = taxNumber;
+
+        while (!validatePhone(phoneNumber)) {
+            System.out.println("Invalid Phone Number. Provide a new one.");
+            phoneNumber = input.nextLine();
+        }
         this.phoneNumber = phoneNumber;
-        this.role = role;
+
+    }
+
+    public Person(String emailAddress, String role) {
+        this.roles = new ArrayList<>();
+
+        this.roles.add(role);
+        this.emailAddress = new Email(emailAddress);
+    }
+
+    public Person(String emailAddress) {
+        this.emailAddress = new Email(emailAddress);
     }
 
     private boolean validatePassportCardNumber(String passportCardNumber) {
@@ -93,29 +148,6 @@ public class Person {
         return false;
     }
 
-//    private boolean validatePhoneNumber(String phoneNumber) {
-//        //Phone Number:  NXX NXX-XXXX, where the Ns denote any of the digits 2–9, and the Xs denote any digit 0–9.
-//        //exemplo (907) 488-6419
-//        if (phoneNumber.length() == PHONE_NUMBER_LENGTH) {
-//            String[] phone = phoneNumber.split(" ");
-//            String firstSegment = phone[0];
-//            String[] phoneSecondPart = phone[1].split("-");
-//            String secondSegment = phoneSecondPart[0];
-//            String thirdSegment = phoneSecondPart[1];
-//            if (!getThreeDigitSegmentValidation(firstSegment)) {
-//                return false;
-//            }
-//            if (!getThreeDigitSegmentValidation(secondSegment)) {
-//                return false;
-//            }
-//            if (!validation(thirdSegment)) {
-//                return false;
-//            }
-//            return true;
-//        }
-//        return false;
-//    }
-
     private boolean validatePhone(String phoneNumber) {
 
         if (phoneNumber.length() == PHONE_NUMBER_LENGTH) {
@@ -126,13 +158,13 @@ public class Person {
             if ((Integer.parseInt(firstSegment[0]) < 2) || (Integer.parseInt(secondSegment[0]) < 2)) {
                 return false;
             }
-            if (!validation(firstSegment)) {
+            if (!validation(firstSegment) || firstSegment.length != THREE_DIGIT_SEGMENT_PHONE_NUMBER) {
                 return false;
             }
-            if (!validation(secondSegment)) {
+            if (!validation(secondSegment) || secondSegment.length != THREE_DIGIT_SEGMENT_PHONE_NUMBER) {
                 return false;
             }
-            if (!validation(thirdSegment)) {
+            if (!validation(thirdSegment) || thirdSegment.length != FOUR_DIGIT_SEGMENT_PHONE_NUMBER) {
                 return false;
             }
             return true;
@@ -175,25 +207,6 @@ public class Person {
         return true;
     }
 
-    public Person(String emailAddress) {
-        this.emailAddress = new Email(emailAddress);
-    }
-
-    public Person(String name, String passportCardNumber, String taxNumber, String emailAddress, String phoneNumber,
-                  String role, Location location) {
-        this.name = name;
-        this.passportCardNumber = passportCardNumber;
-        this.taxNumber = taxNumber;
-        this.location = location;
-        this.emailAddress = new Email(emailAddress);
-        this.phoneNumber = phoneNumber;
-        this.role = role;
-    }
-
-    public Person(String emailAddress, String roleId) {
-        this.emailAddress = new Email(emailAddress);
-        this.role = roleId;
-    }
 
     /**
      * Validates the Employee object by checking if any of its required fields are empty.
@@ -207,7 +220,7 @@ public class Person {
                 employee.getLocation().equals("") ||
                 employee.getEmailAddress() == null ||
                 employee.getPhoneNumber().isEmpty() ||
-                employee.getRole() == null) {
+                employee.getRoles() == null) {
             return false;
 
             // CHECK LOCATION IN THIS METHOD
@@ -225,14 +238,6 @@ public class Person {
         return name;
     }
 
-    /**
-     * Sets the name of the person.
-     *
-     * @param name the name of the person
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
 
     /**
      * Returns the passport card number of the person.
@@ -243,14 +248,7 @@ public class Person {
         return passportCardNumber;
     }
 
-    /**
-     * Sets the passport card number of the person.
-     *
-     * @param passportCardNumber the passport card number of the person
-     */
-    public void setPassportCardNumber(String passportCardNumber) {
-        this.passportCardNumber = passportCardNumber;
-    }
+
 
     /**
      * Returns the tax number of the person.
@@ -261,14 +259,6 @@ public class Person {
         return taxNumber;
     }
 
-    /**
-     * Sets the tax number of the person.
-     *
-     * @param taxNumber the tax number of the person
-     */
-    public void setTaxNumber(String taxNumber) {
-        this.taxNumber = taxNumber;
-    }
 
 
     /**
@@ -280,14 +270,7 @@ public class Person {
         return location;
     }
 
-    /**
-     * Sets the location of the person.
-     *
-     * @param location the location of the person
-     */
-    public void setLocation(Location location) {
-        this.location = location;
-    }
+
 
 
     /**
@@ -299,14 +282,6 @@ public class Person {
         return this.emailAddress;
     }
 
-    /**
-     * Sets the email address of the person.
-     *
-     * @param emailAddress the email address of the person
-     */
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = new Email(emailAddress);
-    }
 
     /**
      * Returns the phone number of the person.
@@ -317,32 +292,16 @@ public class Person {
         return phoneNumber;
     }
 
-    /**
-     * Sets the phone number of the person.
-     *
-     * @param phoneNumber the phone number of the person
-     */
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
 
     /**
      * Returns the role of the person.
      *
      * @return the role of the person
      */
-    public String getRole() {
-        return role;
+    public List<String> getRoles() {
+        return roles;
     }
 
-    /**
-     * Sets the role of the person.
-     *
-     * @param role the role of the person
-     */
-    public void setRole(String role) {
-        this.role = role;
-    }
 
     public boolean hasEmail(String emailAddress) {
         return (this.emailAddress.equals(emailAddress));
@@ -350,7 +309,7 @@ public class Person {
 
     public Person clone() {
         return new Person(this.name, this.passportCardNumber, this.taxNumber, this.emailAddress, this.phoneNumber,
-                this.role, this.location);
+                this.roles, this.location);
     }
 
 }

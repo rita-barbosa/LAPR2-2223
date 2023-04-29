@@ -2,6 +2,7 @@ package pt.ipp.isep.dei.esoft.project.domain;
 
 import pt.isep.lei.esoft.auth.domain.model.Email;
 
+import java.util.List;
 import java.util.Objects;
 
 public class Employee extends Person {
@@ -29,8 +30,10 @@ public class Employee extends Person {
         super(emailAddress);
     }
 
-    public Employee(String agencyId, String name, String passportCardNumber, String taxNumber, Email emailAddress, String role, String phoneNumber, Location location) {
-        super(name, passportCardNumber, taxNumber, emailAddress, phoneNumber, role, location);
+    public Employee(String agencyId, String name, String passportCardNumber, String taxNumber, Email emailAddress,
+                    List<String> roles, String phoneNumber, Location location) {
+
+        super(name, passportCardNumber, taxNumber, emailAddress, phoneNumber, roles, location);
         this.agencyId = agencyId;
     }
 
@@ -52,7 +55,7 @@ public class Employee extends Person {
     }
 
     public Employee clone() {
-        return new Employee(agencyId, this.getName(), this.getPassportCardNumber(), this.getTaxNumber(), this.getEmailAddress(), this.getRole(),
+        return new Employee(agencyId, this.getName(), this.getPassportCardNumber(), this.getTaxNumber(), this.getEmailAddress(), this.getRoles(),
                 this.getPhoneNumber(), this.getLocation());
     }
 
@@ -61,7 +64,13 @@ public class Employee extends Person {
     }
 
     public boolean isAgent() {
-        return this.getRole().equalsIgnoreCase("agent");
+        Boolean valid = false;
+        for (String role : getRoles()) {
+            if (role.equalsIgnoreCase("agent")) {
+                valid = true;
+            }
+        }
+        return valid;
     }
 
 
