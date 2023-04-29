@@ -63,4 +63,9 @@ public class PropertyType {
     public PropertyType clone() {
         return new PropertyType(this.designation);
     }
+
+    @Override
+    public String toString() {
+        return "" + designation;
+    }
 }
