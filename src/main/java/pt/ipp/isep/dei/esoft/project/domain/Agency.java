@@ -435,109 +435,81 @@ public class Agency {
     }
 
     public List<Announcement> announcementHasNumberBedrooms(List<Announcement> announcementList, Integer numberBedrooms) {
-//        for (Announcement announcement : announcementList) {
-//            if (!(announcement.getRequest().getProperty().getPropertyType().getNumberBedrooms().equals(numberBedrooms))){
-//                announcementList.remove(announcement);
-//            }
-//        }
-//        return announcementList;
+        for (Announcement announcement : announcementList) {
+            if (announcement.getRequest().getProperty() instanceof Residence){
+                Residence residence = (Residence) announcement.getRequest().getProperty();
+                if (!(residence.getNumberBedroom().equals(numberBedrooms))){
+                    announcementList.remove(announcement);
+                }
+            }
+        }
         return announcementList;
     }
 
     public List<Announcement> sortAnnouncementsByAscendingPrice(List<Announcement> announcementList) {
-//        List<Announcement> clonedAnnouncementList = new ArrayList<>(announcementList);
-//        Comparator<Announcement> acceptanceDate = new Comparator<Announcement>() {
-//            public int compare(Announcement a1, Announcement a2){
-//                LocalDate a1AcceptanceDate = a1.getAcceptanceDate();
-//                LocalDate a2AcceptanceDate = a2.getAcceptanceDate();
-//
-//                return a1AcceptanceDate.compareTo(a2AcceptanceDate);
-//            }
-//        };
-//
-//        Collections.sort(clonedAnnouncementList);
-//        return clonedAnnouncementList;
-        return announcementList;
+        List<Announcement> clonedAnnouncementList = new ArrayList<>(announcementList);
+        clonedAnnouncementList.sort(sortPricesByAscendingOrder);
+        return clonedAnnouncementList;
+
     }
 
     public List<Announcement> sortAnnouncementsByDescendingPrice(List<Announcement> announcementList) {
         List<Announcement> clonedAnnouncementList = new ArrayList<>(announcementList);
-
-        Comparator<Announcement> acceptanceDate = new Comparator<Announcement>() {
-            public int compare(Announcement a1, Announcement a2) {
-                LocalDate a1AcceptanceDate = a1.getAcceptanceDate();
-                LocalDate a2AcceptanceDate = a2.getAcceptanceDate();
-
-                return a1AcceptanceDate.compareTo(a2AcceptanceDate);
-            }
-        };
-
-        Collections.sort(clonedAnnouncementList, Collections.reverseOrder(acceptanceDate));
+        clonedAnnouncementList.sort(Collections.reverseOrder(sortPricesByAscendingOrder));
         return clonedAnnouncementList;
 
     }
 
     public List<Announcement> sortAnnouncementsByAscendingCity(List<Announcement> announcementList) {
-//        List<Announcement> clonedAnnouncementList = new ArrayList<>(announcementList);
-//        Comparator<Announcement> acceptanceDate = new Comparator<Announcement>() {
-//            public int compare(Announcement a1, Announcement a2){
-//                LocalDate a1AcceptanceDate = a1.getAcceptanceDate();
-//                LocalDate a2AcceptanceDate = a2.getAcceptanceDate();
-//
-//                return a1AcceptanceDate.compareTo(a2AcceptanceDate);
-//            }
-//        };
-//
-//        Collections.sort(clonedAnnouncementList);
-//        return clonedAnnouncementList;
-        return announcementList;
+        List<Announcement> clonedAnnouncementList = new ArrayList<>(announcementList);
+        clonedAnnouncementList.sort(sortCitiesByAlphabeticOrder);
+        return clonedAnnouncementList;
     }
 
     public List<Announcement> sortAnnouncementsByDescendingCity(List<Announcement> announcementList) {
         List<Announcement> clonedAnnouncementList = new ArrayList<>(announcementList);
-        Comparator<Announcement> acceptanceDate = new Comparator<Announcement>() {
-            public int compare(Announcement a1, Announcement a2) {
-                LocalDate a1AcceptanceDate = a1.getAcceptanceDate();
-                LocalDate a2AcceptanceDate = a2.getAcceptanceDate();
-
-                return a1AcceptanceDate.compareTo(a2AcceptanceDate);
-            }
-        };
-
-        Collections.sort(clonedAnnouncementList, Collections.reverseOrder(acceptanceDate));
+        clonedAnnouncementList.sort(Collections.reverseOrder(sortCitiesByAlphabeticOrder));
         return clonedAnnouncementList;
     }
 
     public List<Announcement> sortAnnouncementsByAscendingState(List<Announcement> announcementList) {
-//        List<Announcement> clonedAnnouncementList = new ArrayList<>(announcementList);
-//        Comparator<Announcement> acceptanceDate = new Comparator<Announcement>() {
-//            public int compare(Announcement a1, Announcement a2){
-//                LocalDate a1AcceptanceDate = a1.getAcceptanceDate();
-//                LocalDate a2AcceptanceDate = a2.getAcceptanceDate();
-//
-//                return a1AcceptanceDate.compareTo(a2AcceptanceDate);
-//            }
-//        };
-//
-//        Collections.sort(clonedAnnouncementList);
-//        return clonedAnnouncementList;
-        return announcementList;
+        List<Announcement> clonedAnnouncementList = new ArrayList<>(announcementList);
+        clonedAnnouncementList.sort(sortStatesByAlphabeticOrder);
+        return clonedAnnouncementList;
+
     }
 
-    public List<Announcement> sortAnnouncementsByDesscendingState(List<Announcement> announcementList) {
+    public List<Announcement> sortAnnouncementsByDescendingState(List<Announcement> announcementList) {
         List<Announcement> clonedAnnouncementList = new ArrayList<>(announcementList);
-        Comparator<Announcement> acceptanceDate = new Comparator<Announcement>() {
-            public int compare(Announcement a1, Announcement a2) {
-                LocalDate a1AcceptanceDate = a1.getAcceptanceDate();
-                LocalDate a2AcceptanceDate = a2.getAcceptanceDate();
-
-                return a1AcceptanceDate.compareTo(a2AcceptanceDate);
-            }
-        };
-
-        Collections.sort(clonedAnnouncementList, Collections.reverseOrder(acceptanceDate));
+        clonedAnnouncementList.sort(Collections.reverseOrder(sortStatesByAlphabeticOrder));
         return clonedAnnouncementList;
     }
 
+    Comparator<Announcement> sortPricesByAscendingOrder = new Comparator<Announcement>() {
+        public int compare(Announcement a1, Announcement a2) {
+            Double value1 = a1.getRequest().getBusiness().getPrice();
+            Double value2 = a2.getRequest().getBusiness().getPrice();
+
+            return value1.compareTo(value2);
+        }
+    };
+
+    Comparator<Announcement> sortCitiesByAlphabeticOrder = new Comparator<Announcement>() {
+        public int compare(Announcement a1, Announcement a2) {
+            String value1 = a1.getRequest().getProperty().getLocation().getCity();
+            String value2 = a2.getRequest().getProperty().getLocation().getCity();
+
+            return value1.compareTo(value2);
+        }
+    };
+
+    Comparator<Announcement> sortStatesByAlphabeticOrder = new Comparator<Announcement>() {
+        public int compare(Announcement a1, Announcement a2) {
+            String value1 = a1.getRequest().getProperty().getLocation().getState();
+            String value2 = a2.getRequest().getProperty().getLocation().getState();
+
+            return value1.compareTo(value2);
+        }
+    };
 
 }
