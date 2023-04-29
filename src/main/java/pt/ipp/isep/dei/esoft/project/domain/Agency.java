@@ -117,13 +117,12 @@ public class Agency {
      * @return the agent that has the received email; if there isn't an agent with that email then a null value will be returned.
      */
     public Employee getAgentByEmail(String emailAddress) {
-        Employee returnEmployee = null;
         for (Employee employee : employees) {
             if (anyAgentHasEmail(emailAddress)) {
-                returnEmployee = employee;
+                return employee;
             }
         }
-        return returnEmployee;
+        return null;
     }
 
     /**
