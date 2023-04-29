@@ -65,7 +65,7 @@ public class CreateRequestUI implements Runnable {
         String numberBathroomString = "Number of bathrooms: No Information";
         String sunExposureString = "";
         if (businessTypeDesignation.equalsIgnoreCase("Lease")) {
-            amountString = String.format("Rent: %f.2 US$", amount);
+            amountString = String.format("Rent: %.2f US$", amount);
         } else {
             amountString = String.format("Price: %.2f US$", amount);
         }
@@ -75,9 +75,11 @@ public class CreateRequestUI implements Runnable {
         if (numberBathroom != null) {
             numberBathroomString = String.format("Number of bathrooms: %d", numberBathroom);
         }
-        System.out.printf("%n###Property Data###%n=================%n** General Data **%n%s%nArea:  %.2f m²%nDistance from City Center:  %.2f m%n" +
+        System.out.printf("%n###Property Data###%n=================%n** General Data **%nProperty Type: %s%nBusiness Type: %s%n" +
+                        "Agency of Request: %s%nAgent in charge of Request: %s%n%s%nArea: %.2f m²%nDistance from City Center: %.2f m%n" +
                         "=================%n** Location Data **%nStreet Name: %s%nCity: %s%nDistrict: %s%nState: %s%nZip Code: %s%n" +
-                        "=================%n** Other Data **%nParking Spaces: %d%nNumber of Bedrooms: %d%n%s%nBasement: %s%nInhabitable Loft: %s%n%s",
+                        "=================%n** Other Data **%nParking Spaces: %d%nNumber of Bedrooms: %d%n%s%nBasement: %s%nInhabitable Loft: %s%n%s%n",
+                propertyTypeDesignation, businessTypeDesignation, agency.getDescription(), agent.getName(),
                 amountString, area, distanceCityCenter, streetName, city, district, state, zipCode, parkingSpace, numberBedroom,
                 numberBathroomString, getStringFromBoolean(basement), getStringFromBoolean(inhabitableLoft), sunExposureString);
         if (availableEquipmentDescription != null) {
@@ -132,9 +134,9 @@ public class CreateRequestUI implements Runnable {
         if (askOptionalData("available equipments")) {
             availableEquipmentDescription = requestRequestAvailableEquipmentDescription();
         }
-        basement = requestRequestInhabitableLoft();
-        inhabitableLoft = requestRequestBasement();
-        if (businessTypeDesignation.equalsIgnoreCase(HOUSE_PROPERTY_TYPE) && askOptionalData("sun exposure")) {
+        inhabitableLoft = requestRequestInhabitableLoft();
+        basement = requestRequestBasement();
+        if (propertyTypeDesignation.equalsIgnoreCase(HOUSE_PROPERTY_TYPE) && askOptionalData("sun exposure")) {
             sunExposure = requestRequestSunExposure();
         }
         uri = requestRequestPhotographURI();
@@ -313,7 +315,7 @@ public class CreateRequestUI implements Runnable {
         System.out.printf("Please select the sun exposure direction:%n1. North%n2. South%n3. West%n4. East%n");
         int inputOption;
         do {
-            System.out.println("1. North\n2. South\n3. West\n4. East");
+
             inputOption = input.nextInt();
             switch (inputOption) {
                 case 1:
@@ -326,6 +328,7 @@ public class CreateRequestUI implements Runnable {
                     return SunExposureTypes.EAST;
                 default:
                     System.out.println("Invalid input. Please select a valid option.");
+                    System.out.println("1. North\n2. South\n3. West\n4. East");
                     break;
             }
         } while (true);
