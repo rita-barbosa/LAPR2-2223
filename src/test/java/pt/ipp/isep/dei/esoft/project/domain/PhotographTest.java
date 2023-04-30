@@ -2,83 +2,103 @@ package pt.ipp.isep.dei.esoft.project.domain;
 
 import org.junit.jupiter.api.Test;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class PhotographTest {
 
     @Test
-    void ensureGetUriWorks() {
-        Photograph av1 = new Photograph("Available Equipment");
+    void ensureGetUriWorks() throws URISyntaxException {
+        URI uri = new URI("https://www.example.com/images/photo.jpg");
+        Photograph photo = new Photograph(uri);
 
-        assertEquals("Available Equipment", av1.getDescription());
+        assertEquals(new URI("https://www.example.com/images/photo.jpg"), photo.getUri());
     }
 
 
     @Test
-    void ensureCloneWorks() {
-        Photograph av1 = new Photograph("Available Equipment");
-        Photograph clone = av1.clone();
+    void ensureCloneWorks() throws URISyntaxException {
+        URI uri = new URI("https://www.example.com/images/photo.jpg");
+        Photograph photo = new Photograph(uri);
+        Photograph clone = photo.clone();
 
-        assertEquals(av1, clone);
+        assertEquals(photo, clone);
     }
 
     @Test
-    void testEqualsSameObject() {
-        Photograph av1 = new Photograph("Available Equipment");
+    void testEqualsSameObject() throws URISyntaxException {
+        URI uri = new URI("https://www.example.com/images/photo.jpg");
+        Photograph photo = new Photograph(uri);
 
-        assertEquals(av1, av1);
+        assertEquals(photo, photo);
     }
 
     @Test
-    void testEqualsDifferentClass() {
-        Photograph av1 = new Photograph("Available Equipment");
+    void testEqualsDifferentClass() throws URISyntaxException {
+        URI uri = new URI("https://www.example.com/images/photo.jpg");
+        Photograph photo = new Photograph(uri);
 
-        assertNotEquals("", av1);
+        assertNotEquals("photo", photo);
     }
 
     @Test
-    void testEqualsNull() {
-        Photograph av1 = new Photograph("Available Equipment");
+    void testEqualsNull() throws URISyntaxException {
+        URI uri = new URI("https://www.example.com/images/photo.jpg");
+        Photograph photo = new Photograph(uri);
 
-        assertNotEquals(null, av1);
+        assertNotEquals(null, photo);
     }
 
     @Test
-    void testEqualsDifferentObject() {
-        Photograph av1 = new Photograph("Available Equipment");
-        Photograph av2 = new Photograph("Available Equipment 1");
-        assertNotEquals(av1, av2);
+    void testEqualsDifferentObject() throws URISyntaxException {
+        URI uri = new URI("https://www.example.com/images/photo.jpg");
+        Photograph photo = new Photograph(uri);
+
+        URI uri1 = new URI("https://www.example.com/images/photo1.jpg");
+        Photograph photo1 = new Photograph(uri1);
+
+        assertNotEquals(photo, photo1);
     }
 
     @Test
-    void testEqualsDifferentObjectSameDesignation() {
-        Photograph av1 = new Photograph("Available Equipment 1");
-        Photograph av2 = new Photograph("Available Equipment 1");
+    void testEqualsDifferentObjectSameUri() throws URISyntaxException {
+        URI uri = new URI("https://www.example.com/images/photo.jpg");
+        Photograph photo = new Photograph(uri);
 
-        assertEquals(av1, av2);
+        URI uri1 = new URI("https://www.example.com/images/photo.jpg");
+        Photograph photo1 = new Photograph(uri1);
+
+        assertEquals(photo, photo1);
     }
 
     @Test
-    void testEqualsForDifferentObjectType() {
-        Photograph av1 = new Photograph("Available Equipment 1");
+    void testEqualsForDifferentObjectType() throws URISyntaxException {
+        URI uri = new URI("https://www.example.com/images/photo.jpg");
+        Photograph photo = new Photograph(uri);
 
-        assertNotEquals(av1, new Object());
+        assertNotEquals(photo, new Object());
     }
 
     @Test
-    void testHashCodeSameObject() {
-        Photograph av1 = new Photograph("Available Equipment 1");
+    void testHashCodeSameObject() throws URISyntaxException {
+        URI uri = new URI("https://www.example.com/images/photo.jpg");
+        Photograph photo = new Photograph(uri);
 
-        assertEquals(av1.hashCode(), av1.hashCode());
+        assertEquals(photo.hashCode(), photo.hashCode());
     }
 
     @Test
-    void testHashCodeDifferentObject() {
-        Photograph av1 = new Photograph("Available Equipment");
-        Photograph av2 = new Photograph("Available Equipment 1");
+    void testHashCodeDifferentObject() throws URISyntaxException {
+        URI uri = new URI("https://www.example.com/images/photo.jpg");
+        Photograph photo = new Photograph(uri);
 
-        assertNotEquals(av1.hashCode(), av2.hashCode());
+        URI uri1 = new URI("https://www.example.com/images/photo1.jpg");
+        Photograph photo1 = new Photograph(uri1);
+
+        assertNotEquals(photo.hashCode(), photo1.hashCode());
     }
 
 }

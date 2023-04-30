@@ -136,4 +136,15 @@ class PropertyTest {
 
         assertNotEquals(property.hashCode(), property1.hashCode());
     }
+
+    @Test
+    void ensureCloneWorks() {
+        List<String> uriList = new ArrayList<>();
+        uriList.add("https://www.example.com/images/photo.jpg");
+        uriList.add("https://i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187_2x3.jpg");
+        Property property = new Property(new PropertyType("land"), (35.5), (89.3), uriList, "street",
+                "city", "district", "state", "12345");
+        Property clone = property.clone();
+        assertEquals(property, clone);
+    }
 }
