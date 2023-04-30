@@ -13,7 +13,7 @@ import java.util.*;
 public class DisplayPropertiesUI implements Runnable {
 
     /**
-     * The Controller.
+     * The DisplayPropertiesController associated with this UI.
      */
     private final DisplayPropertiesController controller = new DisplayPropertiesController();
 
@@ -74,8 +74,9 @@ public class DisplayPropertiesUI implements Runnable {
 
         System.out.println("Listed Properties:\n");
         displayAnnouncements(announcementList);
-        boolean option = askOption();
+        boolean continueLoop = true;
         do {
+            boolean option = askOption();
             if (option) {
                 List<String> criterias = getController().getCriteriaRepository().getCriteriaList();
                 switch (displayAndSelectCriteriaList(criterias)) {
@@ -121,10 +122,9 @@ public class DisplayPropertiesUI implements Runnable {
                         break;
                 }
             } else {
-                System.out.println("Thank you for using our application.");
+                continueLoop = false;
             }
-            option = askOption();
-        } while (option);
+        } while (continueLoop);
     }
 
     /**
@@ -180,7 +180,6 @@ public class DisplayPropertiesUI implements Runnable {
             count++;
             System.out.printf("%d - %s\n", count, criteria);
         }
-        System.out.println("\n");
 
         int option = 0;
         boolean invalid = true;
@@ -189,7 +188,6 @@ public class DisplayPropertiesUI implements Runnable {
                 System.out.println("Which one do you want to choose?\n");
                 while (option < 1 || option > 6) {
                     option = sc.nextInt();
-                    return option;
                 }
                 invalid = false;
             } catch (InputMismatchException e) {
@@ -198,7 +196,7 @@ public class DisplayPropertiesUI implements Runnable {
                 sc.nextLine();
             }
         } while (invalid);
-        return null;
+        return option;
 
     }
 
@@ -216,13 +214,9 @@ public class DisplayPropertiesUI implements Runnable {
         boolean invalid = true;
         do {
             try {
-                while (option < 1 || option > 2) {
+                while (option < 1 || option > businessTypes.size()) {
+                    System.out.println("Select type of business:");
                     option = sc.nextInt();
-                    if (option == 1) {
-                        return "Sale";
-                    } else if (option == 2) {
-                        return "Lease";
-                    }
                 }
                 invalid = false;
             } catch (InputMismatchException e) {
@@ -231,7 +225,7 @@ public class DisplayPropertiesUI implements Runnable {
                 sc.nextLine();
             }
         } while (invalid);
-        return null;
+        return (businessTypes.get(option - 1).getDesignation());
     }
 
     /**
@@ -248,15 +242,9 @@ public class DisplayPropertiesUI implements Runnable {
         boolean invalid = true;
         do {
             try {
-                while (option < 1 || option > 3) {
+                while (option < 1 || option > propertyTypes.size()) {
+                    System.out.println("Select type of property:");
                     option = sc.nextInt();
-                    if (option == 1) {
-                        return "Land";
-                    } else if (option == 2) {
-                        return "Apartment";
-                    } else if (option == 3) {
-                        return "House";
-                    }
                 }
                 invalid = false;
             } catch (InputMismatchException e) {
@@ -265,7 +253,7 @@ public class DisplayPropertiesUI implements Runnable {
                 sc.nextLine();
             }
         } while (invalid);
-        return null;
+        return (propertyTypes.get(option - 1).getDesignation());
     }
 
     /**
