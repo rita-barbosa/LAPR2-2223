@@ -108,7 +108,7 @@ public class Property {
      */
     @Override
     public String toString(){
-        StringBuilder request = new StringBuilder(String.format("Property Type: %s\nArea: %f m²\nDistance from city center: %f m\nLocation: %s\nPhotographs:\n", propertyType, area, distanceCityCenter, location.toString()));
+        StringBuilder request = new StringBuilder(String.format("Property Type: %s\nArea: %.2f m²\nDistance from city center: %.2f m\nLocation: %s\nPhotographs:\n", propertyType, area, distanceCityCenter, location.toString()));
         for (Photograph photo : photograph) {
             request.append(String.format("%s\n", photo));
         }
