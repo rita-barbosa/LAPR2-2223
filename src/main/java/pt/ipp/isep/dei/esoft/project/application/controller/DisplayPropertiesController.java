@@ -44,11 +44,33 @@ public class DisplayPropertiesController {
      */
     public DisplayPropertiesController() {
         getAgencyRepository();
-        getAgenciesList();
+        getPropertyTypeRepository();
+        getBusinessTypeRepository();
+        //getAgenciesList();
         announcementList = getAnnouncementsList();
         //List<Announcement> clonedAnnouncementList = new ArrayList<>(announcementList);
-        sortAnnouncementsByMostRecentAdded();
+        // sortAnnouncementsByMostRecentAdded();
         getCriteriaRepository();
+    }
+
+    /**
+     * Instantiates a new Display properties controller.
+     *
+     * @param agencyRepository       the agency repository
+     * @param propertyTypeRepository the property type repository
+     * @param businessTypeRepository the business type repository
+     * @param criteriaRepository     the criteria repository
+     */
+    public DisplayPropertiesController(AgencyRepository agencyRepository,
+                                       PropertyTypeRepository propertyTypeRepository,
+                                       BusinessTypeRepository businessTypeRepository,
+                                       CriteriaRepository criteriaRepository) {
+        this.agencyRepository = agencyRepository;
+        this.propertyTypeRepository = propertyTypeRepository;
+        this.businessTypeRepository = businessTypeRepository;
+        this.criteriaRepository = criteriaRepository;
+        this.announcementList = getAnnouncementsList();
+
     }
 
     /**
@@ -127,29 +149,31 @@ public class DisplayPropertiesController {
     /**
      * Get announcement list by business type.
      *
-     * @param announcementList the announcement list
      * @param businessType     the business type
      * @return the announcement list
      */
-    public List<Announcement> getAnnouncementsByBusinessType(List<Announcement> announcementList, String businessType) {
-        Agency agency = new Agency();
-        announcementList = agency.announcementHasBusinessType(announcementList, businessType);
-
-        return announcementList;
+    public List<Announcement> getAnnouncementsByBusinessType(String businessType) {
+        List<Announcement> announcements = new ArrayList<>();
+        List<Agency> agencies = getAgenciesList();
+        for (Agency agencyStore : agencies) {
+            announcements.addAll(agencyStore.announcementHasBusinessType(agencyStore.getAnnouncementsList(), businessType));
+        }
+        return announcements;
     }
 
     /**
      * Get announcements list by property type.
      *
-     * @param announcementList the announcement list
      * @param propertyType     the property type
      * @return the announcement list
      */
-    public List<Announcement> getAnnouncementsByPropertyType(List<Announcement> announcementList, String propertyType) {
-        Agency agency = new Agency();
-        announcementList = agency.announcementHasPropertyType(announcementList, propertyType);
-
-        return announcementList;
+    public List<Announcement> getAnnouncementsByPropertyType(String propertyType) {
+        List<Announcement> announcements = new ArrayList<>();
+        List<Agency> agencies = getAgenciesList();
+        for (Agency agencyStore : agencies) {
+            announcements.addAll(agencyStore.announcementHasPropertyType(agencyStore.getAnnouncementsList(), propertyType));
+        }
+        return announcements;
     }
 
     /**
