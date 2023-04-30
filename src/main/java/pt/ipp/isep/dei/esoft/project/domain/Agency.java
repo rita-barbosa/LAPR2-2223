@@ -440,7 +440,7 @@ public class Agency {
     public List<Announcement> announcementHasBusinessType(List<Announcement> announcementList, String businessType) {
         List<Announcement> copyList = new ArrayList<>(announcementList);
         for (Announcement announcement : copyList) {
-            if (!(announcement.getRequest().getBusiness().getBusinessType().equals(businessType))) {
+            if (!(announcement.getRequest().getBusiness().getBusinessType().getDesignation().equalsIgnoreCase((businessType)))) {
                 announcementList.remove(announcement);
             }
         }
@@ -448,7 +448,7 @@ public class Agency {
     }
 
     /**
-     *Checks if an announcement has a specified a property type.
+     * Checks if an announcement has a specified a property type.
      *
      * @param announcementList the announcement list
      * @param propertyType     the property type
@@ -457,7 +457,7 @@ public class Agency {
     public List<Announcement> announcementHasPropertyType(List<Announcement> announcementList, String propertyType) {
         List<Announcement> copyList = new ArrayList<>(announcementList);
         for (Announcement announcement : copyList) {
-            if (!((announcement.getRequest().getProperty().getPropertyType().getDesignation()).equals(propertyType))) {
+            if (!((announcement.getRequest().getProperty().getPropertyType().getDesignation()).equalsIgnoreCase(propertyType))) {
                 announcementList.remove(announcement);
             }
         }
@@ -474,9 +474,9 @@ public class Agency {
     public List<Announcement> announcementHasNumberBedrooms(List<Announcement> announcementList, Integer numberBedrooms) {
         List<Announcement> copyList = new ArrayList<>(announcementList);
         for (Announcement announcement : copyList) {
-            if (announcement.getRequest().getProperty() instanceof Residence){
+            if (announcement.getRequest().getProperty() instanceof Residence) {
                 Residence residence = (Residence) announcement.getRequest().getProperty();
-                if (!(residence.getNumberBedroom().equals(numberBedrooms))){
+                if (!(residence.getNumberBedroom().equals(numberBedrooms))) {
                     announcementList.remove(announcement);
                 }
             }
@@ -488,7 +488,7 @@ public class Agency {
      * Sort announcements list by ascending price.
      *
      * @param announcementList the announcement list.
-     * @return  the sorted list.
+     * @return the sorted list.
      */
     public List<Announcement> sortAnnouncementsByAscendingPrice(List<Announcement> announcementList) {
         List<Announcement> clonedAnnouncementList = new ArrayList<>(announcementList);
@@ -501,7 +501,7 @@ public class Agency {
      * Sort announcements list by descending price.
      *
      * @param announcementList the announcement list.
-     * @return  the sorted list.
+     * @return the sorted list.
      */
     public List<Announcement> sortAnnouncementsByDescendingPrice(List<Announcement> announcementList) {
         List<Announcement> clonedAnnouncementList = new ArrayList<>(announcementList);
