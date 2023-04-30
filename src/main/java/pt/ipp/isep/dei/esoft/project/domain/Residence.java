@@ -12,19 +12,19 @@ public class Residence extends Property {
     /**
      * The Number bedroom.
      */
-    private final Integer numberBedroom;
+    private Integer numberBedroom;
     /**
      * The Number bathroom.
      */
-    private final Integer numberBathroom;
+    private Integer numberBathroom;
     /**
      * The Parking space.
      */
-    private final Integer parkingSpace;
+    private Integer parkingSpace;
     /**
      * The Available equipment.
      */
-    private final List<AvailableEquipment> availableEquipment;
+    private List<AvailableEquipment> availableEquipment;
 
     /**
      * Instantiates a new Residence.
@@ -141,7 +141,10 @@ public class Residence extends Property {
      * @return the string
      */
     @Override
-    public String toString(){
+    public String toString() {
+        if (numberBathroom == null) {
+            numberBathroom = 0;
+        }
         StringBuilder residence = new StringBuilder(super.toString() + String.format("Number of Bedrooms: %d \nNumber of Bathrooms: %d \nParking Space: %d \nAvailableEquipment:\n", numberBedroom, numberBathroom, parkingSpace));
         for (AvailableEquipment equipment : availableEquipment) {
             residence.append(String.format("%s\n", equipment));
