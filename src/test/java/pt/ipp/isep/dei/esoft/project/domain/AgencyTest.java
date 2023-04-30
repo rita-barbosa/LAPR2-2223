@@ -1,9 +1,6 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
 import org.junit.jupiter.api.Test;
-import pt.ipp.isep.dei.esoft.project.repository.AgencyRepository;
-import pt.ipp.isep.dei.esoft.project.repository.Repositories;
-import pt.isep.lei.esoft.auth.domain.model.Email;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -56,9 +53,8 @@ class AgencyTest {
         Request expected = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         Optional<Request> request = agency1.createRequest(ownerEmail, new PropertyType("land"), "sale", 2345.0,
-                35.5, 0, av, "street",
-                "city", "district", "state", "12345", false, false, 0, null,
-                0, 0, employee, 89.3, uriList);
+                35.5, 0, av, "street", "city", "district", "state", "12345", null,
+                null, 0, null, 0, 0, employee, 89.3, uriList);
 
         assertNotNull(request);
         assertTrue(request.isPresent());
@@ -223,6 +219,7 @@ class AgencyTest {
 
         assertEquals(agency.hashCode(), agency.hashCode());
     }
+
     @Test
     void testHashCodeDifferentObjectsSameAttributes() {
         Location location = new Location("Saint Avenue", "Heaven", "Sky", "SK", "12345");
@@ -231,6 +228,7 @@ class AgencyTest {
 
         assertEquals(agency.hashCode(), agency1.hashCode());
     }
+
     @Test
     void testHashCodeDifferentObject() {
         Location location = new Location("Saint Avenue", "Heaven", "Sky", "SK", "12345");
