@@ -47,9 +47,9 @@ public class RegisterUserUI implements Runnable {
         Boolean success = getController().createPerson(name, passportCardNumber, taxNumber, emailAddress,
                 phoneNumber, password, streetName, city, district, state, zipCode);
         if (success) {
-                System.out.println("Successfull registration!");
+                System.out.println("Successfully registered!");
         } else {
-            System.out.println("Failed to registrate!");
+            System.out.println("ERROR: Failed registration.");
         }
     }
 

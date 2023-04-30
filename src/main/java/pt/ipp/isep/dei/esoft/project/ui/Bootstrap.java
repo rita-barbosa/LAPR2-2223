@@ -27,21 +27,26 @@ public class Bootstrap implements Runnable {
     }
 
     public void addEmployees(Agency agency) {
-        Employee employee = new Employee("employee@this.app", "agent");
-        Employee employee1 = new Employee("employee1@this.app", "agent");
-        Employee employee2 = new Employee("employee2@this.app", "agent");
-
-        Employee employee3 = new Employee(1234, "John Doe", "C12345678",
+        PersonRepository personRepository = new PersonRepository();
+        Employee employee = new Employee(agency.getId(), "John Doe", "C12000078",
+                "004-45-6989", "employee@this.app", "agent", "623 456 7890",
+                "New York", "Manhattan", "NY", "10001", "Broadway");
+        Employee employee1 = new Employee(agency.getId(), "Annie Smith", "C04567089",
+                "927-65-4091", "employee1@this.app", "agent", "555 555 5555",
+                "New York", "Manhattan", "NY", "10001", "Broadway St");
+        Employee employee2 = new Employee(agency.getId(), "Maria Silva", "C12339878",
+                "134-23-2555", "employee2@this.app", "agent", "911 234 5567",
+                "Porto", "Porto", "Porto", "43005", "Rua da Alegria, 123");
+        Employee employee3 = new Employee(agency.getId(), "John Doe", "C12209678",
                 "123-45-6789", "employee3@this.app", "agent", "623 456 7890",
                 "New York", "Manhattan", "NY", "10001", "Broadway");
-
-        Employee employee4 = new Employee(1234, "Annie Smith", "C23456789",
+        Employee employee4 = new Employee(agency.getId(), "Annie Smith", "C23456789",
                 "987-65-4321", "employee4@this.app", "agent", "555 555 5555",
                 "New York", "Manhattan", "NY", "10001", "Broadway St");
-
-        Employee employee5 = new Employee(6789, "Maria Silva", "C12345678",
-                "123-45-6789", "employee5@this.app", "agent", "911 234 5567",
+        Employee employee5 = new Employee(agency.getId(), "Maria Silva", "C12345678",
+                "134-23-2555", "employee5@this.app", "agent", "911 234 5567",
                 "Porto", "Porto", "Porto", "43005", "Rua da Alegria, 123");
+
         agency.addEmployee(employee);
         agency.addEmployee(employee1);
         agency.addEmployee(employee2);
@@ -84,7 +89,8 @@ public class Bootstrap implements Runnable {
 
         authenticationRepository.addUserWithRole("Agent", "employee@this.app", "01AGEnt",
                 AuthenticationController.ROLE_AGENT);
-
+        authenticationRepository.addUserWithRole("Agent", "employee3@this.app", "01AGEnt",
+                AuthenticationController.ROLE_AGENT);
         authenticationRepository.addUserWithRole("Client 1", "client1@this.app", "01CLIent",
                 AuthenticationController.ROLE_CLIENT);
 

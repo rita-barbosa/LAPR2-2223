@@ -2,6 +2,7 @@ package pt.ipp.isep.dei.esoft.project.repository;
 
 import pt.ipp.isep.dei.esoft.project.domain.Person;
 
+import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -22,17 +23,38 @@ public class PersonRepository {
      * @param person the person
      * @return the optional
      */
-    public Optional<Person> add(Person person) {
-        Optional<Person> newPerson = Optional.empty();
-        boolean success = false;
-        if (validatePerson(person)) {
+    public Boolean add(Person person) {
+        Optional<Person> existentPerson = findPerson(person);
+        Optional<Person> newPerson;
+        boolean addedPerson;
+        if (existentPerson.isPresent()) {
+            Person updatedRoles = existentPerson.get().clone();
+            updatedRoles.setRole(person.getRoles());
+            newPerson = Optional.of(updatedRoles);
+            people.remove(existentPerson.get());
+            addedPerson = false;
+        } else {
             newPerson = Optional.of(person.clone());
-            success = people.add(newPerson.get());
+            addedPerson = true;
         }
-        if (!success) {
-            newPerson = Optional.empty();
+        people.add(newPerson.get());
+        return addedPerson;
+    }
+
+    /**
+     * This method checks if there is already a person in the list with the specified tax number.
+     *
+     * @param person - the person to look for.
+     * @return an Optional of a Person instance.
+     */
+    private Optional<Person> findPerson(Person person) {
+        Optional<Person> returnPerson = Optional.empty();
+        for (Person existentPerson : people) {
+            if (existentPerson.getTaxNumber().equals(person.getTaxNumber())) {
+                returnPerson = Optional.of(person);
+            }
         }
-        return newPerson;
+        return returnPerson;
     }
 
     /**

@@ -43,18 +43,16 @@ public class RegisterUserController {
                                 String phoneNumber, String password, String streetName, String city, String district, String state,
                                 String zipcode) {
 
-        PersonRepository newPersonRepository = getPersonRepository();
+        PersonRepository personRepository = getPersonRepository();
 
         Person person = new Person(name, passportCardNumber, taxNumber, emailAddress, phoneNumber, AuthenticationController.ROLE_CLIENT,
                 streetName, city, district, state, zipcode);
 
-        newPersonRepository.add(person);
-
-        AuthenticationRepository newAuthenticationRepository = getAuthenticationRepository();
-
-        Boolean success = newAuthenticationRepository.addUserWithRole(name, emailAddress, password, AuthenticationController.ROLE_CLIENT);
-
-        return success;
+        if (personRepository.add(person)) {
+            AuthenticationRepository newAuthenticationRepository = getAuthenticationRepository();
+            return newAuthenticationRepository.addUserWithRole(name, emailAddress, password, AuthenticationController.ROLE_CLIENT);
+        } else {
+            return true;
+        }
     }
-
 }

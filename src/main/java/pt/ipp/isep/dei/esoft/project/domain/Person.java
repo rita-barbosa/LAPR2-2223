@@ -2,10 +2,7 @@ package pt.ipp.isep.dei.esoft.project.domain;
 
 import pt.isep.lei.esoft.auth.domain.model.Email;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * The type Person.
@@ -66,7 +63,7 @@ public class Person {
     /**
      * The constant THREE_DIGIT_SEGMENT_PHONE_NUMBER.
      */
-    private static  final Integer THREE_DIGIT_SEGMENT_PHONE_NUMBER = 3;
+    private static final Integer THREE_DIGIT_SEGMENT_PHONE_NUMBER = 3;
     /**
      * The constant FOUR_DIGIT_SEGMENT_PHONE_NUMBER.
      */
@@ -371,5 +368,11 @@ public class Person {
     }
 
 
+    public void setRole(List<String> roles) {
+        if (!new HashSet<>(this.roles).containsAll(roles)) {
+            roles.removeAll(this.roles);
+            this.roles.addAll(roles);
+        }
+    }
 }
 
