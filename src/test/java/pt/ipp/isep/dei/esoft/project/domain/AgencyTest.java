@@ -51,7 +51,7 @@ class AgencyTest {
         Property property = new Property(new PropertyType("land"), 35.5, 89.3, uriList, "street",
                 "city", "district", "state", "12345");
 
-        Request expected = new Request(new Email(ownerEmail), property, new Business("sale", 2345.0), LocalDate.now(), employee);
+        Request expected = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         Optional<Request> request = agency1.createRequest(ownerEmail, new PropertyType("land"), "sale", 2345.0,
                 35.5, 0, av, "street", "city", "district", "state", "12345", null,
@@ -75,7 +75,7 @@ class AgencyTest {
         List<String> av = new ArrayList<>();
         Property property = new Property(new PropertyType("land"), 35.5, 89.3, uriList, "street",
                 "city", "district", "state", "12345");
-        Request expected = new Request(new Email(ownerEmail), property, new Business("sale", 2345.0), LocalDate.now(), employee);
+        Request expected = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
 
 
         Optional<Request> request = agency1.createSaleRequest(ownerEmail, new PropertyType("land"), "sale", 2345.0,
@@ -148,7 +148,7 @@ class AgencyTest {
 
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
                 uriList, "street", "city", "district", "state", "12345");
-        Request request = new Request(new Email(ownerEmail), property, new Business("sale", 2345.0), LocalDate.now(), employee);
+        Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         Announcement expected = new Announcement(employee, commissionType, 234.0, request);
 
@@ -171,11 +171,11 @@ class AgencyTest {
 
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
                 uriList, "street", "city", "district", "state", "12345");
-        Request request = new Request(new Email(ownerEmail), property, new Business("sale", 2345.0), LocalDate.now(), employee);
+        Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         Property property1 = new Property(new PropertyType("land"), (65.5), (89.3),
                 uriList, "street 1", "city 1", "district 1", "st1", "12345");
-        Request request1 = new Request(new Email(ownerEmail1), property, new Business("sale", 2345.0), LocalDate.now(), employee);
+        Request request1 = new Request(ownerEmail1, property1, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         Announcement announcement = new Announcement(employee, commissionType, 234.0, request);
         Announcement announcement1 = new Announcement(employee, commissionType, 234.0, request1);
