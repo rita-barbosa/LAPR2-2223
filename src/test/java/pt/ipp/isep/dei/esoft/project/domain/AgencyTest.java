@@ -16,7 +16,8 @@ class AgencyTest {
     void ensureAnyAgentHasEmailWorks() {
         Employee employee = new Employee("employee@thisapp.com", "agent");
 
-        Agency agency1 = new Agency(2526);
+        Location location =new Location("street","city","district","state","12345");
+        Agency agency1 = new Agency(1234,"Description","agency@email.com","345 567 3456",location);
         agency1.addEmployee(employee);
 
 
@@ -29,7 +30,8 @@ class AgencyTest {
         Employee employee2 = new Employee("employee1@thisapp.com", "agent");
         Employee employee3 = new Employee("employee2@thisapp.com", "agent");
 
-        Agency agency1 = new Agency(2526);
+        Location location =new Location("street","city","district","state","12345");
+        Agency agency1 = new Agency(1234,"Description","agency@email.com","345 567 3456",location);
         agency1.addEmployee(employee1);
         agency1.addEmployee(employee2);
         agency1.addEmployee(employee3);
@@ -41,7 +43,8 @@ class AgencyTest {
     @Test
     void ensureCreateRequestWorks() {
         Employee employee = new Employee("employee@this.app.com", "Agent");
-        Agency agency1 = new Agency(2526);
+        Location location =new Location("street","city","district","state","12345");
+        Agency agency1 = new Agency(1234,"Description","agency@email.com","345 567 3456",location);
         agency1.addEmployee(employee);
 
         String ownerEmail = "owner@email.com";
@@ -66,8 +69,9 @@ class AgencyTest {
     @Test
     void ensureCreateSaleRequestWorks() {
         Employee employee = new Employee("employee@this.app.com", "Agent");
-        Agency agency1 = new Agency(2526);
-        agency1.addEmployee(employee);
+        Location location =new Location("street","city","district","state","12345");
+        Agency agency = new Agency(1234,"Description","agency@email.com","345 567 3456",location);
+        agency.addEmployee(employee);
 
         String ownerEmail = "owner@email.com";
         List<String> uriList = new ArrayList<>();
@@ -78,7 +82,7 @@ class AgencyTest {
         Request expected = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
 
 
-        Optional<Request> request = agency1.createSaleRequest(ownerEmail, new PropertyType("land"), "sale", 2345.0,
+        Optional<Request> request = agency.createSaleRequest(ownerEmail, new PropertyType("land"), "sale", 2345.0,
                 35.5, av, "street", "city", "district", "state", "12345", false, false, 0, null,
                 0, 0, employee, 89.3, uriList);
 
@@ -89,15 +93,19 @@ class AgencyTest {
 
     @Test
     void ensureAddEmployeeWorks() {
-        Agency agency = new Agency(1234);
+        Location location =new Location("street","city","district","state","12345");
+        Agency agency = new Agency(1234,"Description","agency@email.com","345 567 3456",location);
+
         Employee employee1 = new Employee("employee@thisapp.com", "agent");
         assertTrue(agency.addEmployee(employee1));
     }
 
     @Test
     void ensureAddDuplicatedEmployeeFails() {
-        Agency agency = new Agency(1234);
+        Location location =new Location("street","city","district","state","12345");
+        Agency agency = new Agency(1234,"Description","agency@email.com","345 567 3456",location);
         Employee employee1 = new Employee("employee@thisapp.com", "agent");
+
         assertTrue(agency.addEmployee(employee1));
         assertFalse(agency.addEmployee(employee1));
     }
@@ -105,7 +113,8 @@ class AgencyTest {
     @Test
     void ensureGetIdWorks() {
         Integer id = 1234;
-        Agency agency = new Agency(id);
+        Location location =new Location("street","city","district","state","12345");
+        Agency agency = new Agency(id,"Description","agency@email.com","345 567 3456",location);
 
         assertEquals(agency.getId(), id);
     }
@@ -120,12 +129,13 @@ class AgencyTest {
         expected.add(employee2);
         expected.add(employee3);
 
-        Agency agency1 = new Agency(2526);
-        agency1.addEmployee(employee1);
-        agency1.addEmployee(employee2);
-        agency1.addEmployee(employee3);
+        Location location =new Location("street","city","district","state","12345");
+        Agency agency = new Agency(1234,"Description","agency@email.com","345 567 3456",location);
+        agency.addEmployee(employee1);
+        agency.addEmployee(employee2);
+        agency.addEmployee(employee3);
 
-        assertEquals(agency1.getAgentList(), expected);
+        assertEquals(agency.getAgentList(), expected);
     }
 
     @Test
@@ -138,7 +148,8 @@ class AgencyTest {
 
     @Test
     void ensurePublishAnnouncementWorks() {
-        Agency agency = new Agency(1234);
+        Location location =new Location("street","city","district","state","12345");
+        Agency agency = new Agency(1234,"Description","agency@email.com","345 567 3456",location);
         String ownerEmail = "owner@email.com";
         Employee employee = new Employee("employee@this.app.com", "Agent");
         CommissionType commissionType = new CommissionType("Commission Type");
@@ -161,7 +172,8 @@ class AgencyTest {
 
     @Test
     void ensureGetAnnouncementsListWorks() {
-        Agency agency = new Agency(1234);
+        Location location =new Location("street","city","district","state","12345");
+        Agency agency = new Agency(1234,"Description","agency@email.com","345 567 3456",location);
         String ownerEmail = "owner@email.com";
         String ownerEmail1 = "owner1@email.com";
         Employee employee = new Employee("employee@this.app.com", "Agent");

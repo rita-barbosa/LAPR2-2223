@@ -1,5 +1,7 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
+import pt.isep.lei.esoft.auth.domain.model.Email;
+
 import java.util.*;
 
 /**
@@ -17,7 +19,7 @@ public class Agency {
     /**
      * The email address of the agency;
      */
-    private String emailAddress;
+    private Email emailAddress;
     /**
      * The phone number of the agency.
      */
@@ -59,7 +61,7 @@ public class Agency {
     public Agency(Integer id, String description, String emailAddress, String phoneNumber, Location location) {
         this.id = id;
         this.description = description;
-        this.emailAddress = emailAddress;
+        this.emailAddress = new Email(emailAddress);
         this.phoneNumber = phoneNumber;
         this.location = location;
         this.employees = new ArrayList<>();

@@ -27,11 +27,11 @@ class AgencyRepositoryTest {
     @Test
     void ensureGetAgencyByEmailWorks() {
         AgencyRepository agencyRepository = new AgencyRepository();
-        Agency agency = new Agency(1234);
+        Location location =new Location("street","city","district","state","12345");
+        Agency agency = new Agency(1234,"Description","agency@email.com","345 567 3456",location);
         String email = "employee@this.app.com";
         List<String> roles = new ArrayList<>();
         roles.add("agent");
-        Location location =new Location("street","city","district","state","12345");
         Employee employee = new Employee(2425,"Employee","C12345678","123-23-1234",new Email(email),roles,"345 345 3456",location);
 
         agency.addEmployee(employee);
@@ -44,14 +44,13 @@ class AgencyRepositoryTest {
 
     @Test
     void ensureAddAgencyWorks() {
-
         String email = "employee@this.app.com";
         List<String> roles = new ArrayList<>();
         roles.add("agent");
         Location location =new Location("street","city","district","state","12345");
         Employee employee = new Employee(2425,"Employee","C12345678","123-23-1234",new Email(email),roles,"345 345 3456",location);
         AgencyRepository agencyRepository = new AgencyRepository();
-        Agency agency = new Agency(1234);
+        Agency agency = new Agency(1234,"Description","agency@email.com","345 567 3456",location);
         agency.addEmployee(employee);
 
         agencyRepository.add(agency);
@@ -65,12 +64,14 @@ class AgencyRepositoryTest {
     @Test
     void ensureAddAgencyDuplicateFails() {
         AgencyRepository agencyRepository = new AgencyRepository();
-        Agency agency = new Agency(1234);
+        Location location =new Location("street","city","district","state","12345");
+        Agency agency = new Agency(1234,"Description","agency@email.com","345 567 3456",location);
+
         String email = "employee@this.app.com";
         List<String> roles = new ArrayList<>();
         roles.add("agent");
-        Location location =new Location("street","city","district","state","12345");
         Employee employee = new Employee(2425,"Employee","C12345678","123-23-1234",new Email(email),roles,"345 345 3456",location);
+
         agency.addEmployee(employee);
         agencyRepository.add(agency);
 
