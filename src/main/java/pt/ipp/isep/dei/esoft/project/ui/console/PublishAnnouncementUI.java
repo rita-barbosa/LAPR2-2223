@@ -218,7 +218,7 @@ public class PublishAnnouncementUI implements Runnable {
         Scanner input = new Scanner(System.in);
         Boolean value = null;
 
-        System.out.println("\n Do you want to submit the information (Y/N)?");
+        System.out.println("\nDo you want to submit the information (Y/N)?");
         String answer = input.nextLine();
         while (value == null) {
             if (answer.equalsIgnoreCase("y")) {

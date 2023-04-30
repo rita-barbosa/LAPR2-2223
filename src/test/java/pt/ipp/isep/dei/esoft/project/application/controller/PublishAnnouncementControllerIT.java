@@ -132,7 +132,6 @@ class PublishAnnouncementControllerIT {
         List<CommissionType> commissionTypeList = controller.getCommissionTypeList();
 
         assertArrayEquals(expected.toArray(), commissionTypeList.toArray());
-
     }
 
     @Test
@@ -172,6 +171,5 @@ class PublishAnnouncementControllerIT {
         List<PropertyType> propertyTypeList = controller.getPropertyTypeList();
 
         assertArrayEquals(expected.toArray(), propertyTypeList.toArray());
-
     }
 }
