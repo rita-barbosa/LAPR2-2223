@@ -159,9 +159,7 @@ public class Bootstrap implements Runnable {
 
         List<String> av = new ArrayList<>();
         av.add("AC");
-        av.add("Machine");
-        av.add("Coffee");
-
+        av.add("Coffee Machine");
 
         Property property3 = new House(new PropertyType("house"), av, 32.4,
                 "street 3", "city 3", "district 3", "st3", "12340", true, false, 2,
