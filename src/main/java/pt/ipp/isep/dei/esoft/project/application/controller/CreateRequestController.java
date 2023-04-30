@@ -29,6 +29,7 @@ public class CreateRequestController {
      * The Business type repository.
      */
     private BusinessTypeRepository businessTypeRepository = null;
+    private AuthenticationRepository authenticationRepository = null;
 
     /**
      * Instantiates a new Create request controller.
@@ -37,6 +38,7 @@ public class CreateRequestController {
         getBusinessTypeRepository();
         getPropertyTypeRepository();
         getAgencyRepository();
+        getAuthenticationRepository();
     }
 
     /**
@@ -48,10 +50,12 @@ public class CreateRequestController {
      */
     public CreateRequestController(AgencyRepository agencyRepository,
                                    PropertyTypeRepository propertyTypeRepository,
-                                   BusinessTypeRepository businessTypeRepository) {
+                                   BusinessTypeRepository businessTypeRepository,
+                                    AuthenticationRepository authenticationRepository) {
         this.agencyRepository = agencyRepository;
         this.propertyTypeRepository = propertyTypeRepository;
         this.businessTypeRepository = businessTypeRepository;
+        this.authenticationRepository = authenticationRepository;
     }
 
     /**
@@ -65,6 +69,14 @@ public class CreateRequestController {
             agencyRepository = repositories.getAgencyRepository();
         }
         return agencyRepository;
+    }
+
+    private AuthenticationRepository getAuthenticationRepository() {
+        if (authenticationRepository == null) {
+            Repositories repositories = Repositories.getInstance();
+            authenticationRepository = repositories.getAuthenticationRepository();
+        }
+        return authenticationRepository;
     }
 
     /**
@@ -130,19 +142,18 @@ public class CreateRequestController {
 
         PropertyType propertyType = getPropertyTypeByDesignation(propertyTypeDesignation);
 
-
         Optional<Request> newRequest = Optional.empty();
 
         Optional<Agency> newAgency = getAgencyByID(agency.getId());
 
-        if (newAgency.isPresent()){
+        if (newAgency.isPresent()) {
             newRequest = newAgency.get()
                     .createRequest(ownerEmail, propertyType, businessTypeDesignation, amount, area, contractDuration,
                             availableEquipmentDescription, streetName, city, district, state, zipCode, basement, inhabitableLoft,
                             parkingSpace, sunExposure, numberBedroom, numberBathroom, agent, distanceCityCenter, photograph);
             return newRequest;
         }
-         return newRequest;
+        return newRequest;
     }
 
     /**
@@ -208,13 +219,17 @@ public class CreateRequestController {
         return ApplicationSession.getInstance().getCurrentSession().getUserEmail();
     }
 
+    private String getEmailFromSession() {
+        return ApplicationSession.getInstance().getCurrentSession().getUserEmail();
+    }
+
     /**
      * Get agents list of given agency.
      *
      * @param agency the agency
      * @return the agents list
      */
-    public List<Employee> getAgents(Agency agency){
+    public List<Employee> getAgents(Agency agency) {
         return agency.getAgentList();
     }
 }
