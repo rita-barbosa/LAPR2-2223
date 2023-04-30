@@ -1,7 +1,6 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
 import org.junit.jupiter.api.Test;
-import pt.isep.lei.esoft.auth.domain.model.Email;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -76,7 +75,7 @@ class RequestTest {
         Property property = new Property(new PropertyType("land"), (35.5), (89.3), uriList, "street",
                 "city", "district", "state", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
-        Request request1 = new Request(ownerEmail, property1, new Business("sale", 2043.9), LocalDate.now(), employee1);
+        Request request1 = new Request(ownerEmail1, property1, new Business("sale", 2043.9), LocalDate.now(), employee1);
 
         assertNotEquals(request, request1);
     }
