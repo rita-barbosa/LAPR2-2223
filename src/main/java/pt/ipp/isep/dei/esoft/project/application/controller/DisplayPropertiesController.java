@@ -71,6 +71,15 @@ public class DisplayPropertiesController {
     }
 
     /**
+     * Instantiates a new Display properties controller.
+     *
+     * @param criteriaRepository     the criteria repository
+     */
+    public DisplayPropertiesController(CriteriaRepository criteriaRepository) {
+        this.criteriaRepository = criteriaRepository;
+    }
+
+    /**
      * Gets the agency repository.
      *
      * @return the agency repository
