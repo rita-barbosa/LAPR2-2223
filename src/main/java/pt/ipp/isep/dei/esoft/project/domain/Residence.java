@@ -61,10 +61,12 @@ public class Residence extends Property {
      * @param availableEquipmentDescription the available equipment description
      */
     private void fillAvailableEquipmentList(List<String> availableEquipmentDescription) {
-        for (String description : availableEquipmentDescription) {
-            AvailableEquipment equipment = new AvailableEquipment(description);
-            addAvailableEquipment(equipment);
-        }
+       if (availableEquipmentDescription != null){
+           for (String description : availableEquipmentDescription) {
+               AvailableEquipment equipment = new AvailableEquipment(description);
+               addAvailableEquipment(equipment);
+           }
+       }
     }
 
     /**

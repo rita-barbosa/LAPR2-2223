@@ -82,6 +82,13 @@ public class CreateRequestUI implements Runnable {
      * Number of parking spaces of a property.
      */
     private Integer parkingSpace;
+
+
+    /**
+     * The Max uris.
+     */
+    private final Integer MAX_URIS = 30;
+
     /**
      * Values of possible sun direction of a property.
      */
@@ -153,31 +160,31 @@ public class CreateRequestUI implements Runnable {
      */
     private void displaysData() {
         String amountString;
-        String numberBathroomString = "Number of bathrooms: No Information";
+        String numberBathroomString = "";
         String sunExposureString = "";
         if (businessTypeDesignation.equalsIgnoreCase("Lease")) {
-            amountString = String.format("Rent: %.2f US$", amount);
+            amountString = String.format("Rent: %.2f $US", amount);
         } else {
-            amountString = String.format("Price: %.2f US$", amount);
+            amountString = String.format("Price: %.2f $US", amount);
         }
         if (sunExposure != null) {
             sunExposureString = String.format("Sun exposure direction: %s", sunExposure);
         }
         if (numberBathroom != null) {
-            numberBathroomString = String.format("Number of bathrooms: %d", numberBathroom);
+            numberBathroomString = String.format("Number of bathrooms: %d%n", numberBathroom);
         }
         System.out.printf("%n###Property Data###%n=================%n** General Data **%nProperty Type: %s%nBusiness Type: %s%n" +
                         "Agency responsible for your Property's Request: %s%nAgent in charge of Request: %s%n%s%nArea: %.2f m²%nDistance from City Center: %.2f m%n" +
                         "=================%n** Location Data **%nStreet Name: %s%nCity: %s%nDistrict: %s%nState: %s%nZip Code: %s%n" +
-                        "=================%n** Other Data **%nParking Spaces: %d%nNumber of Bedrooms: %d%n%s%nBasement: %s%nInhabitable Loft: %s%n%s%n",
+                        "=================%n** Other Data **%nParking Spaces: %d%nNumber of Bedrooms: %d%n%sBasement: %s%nInhabitable Loft: %s%n%s",
                 propertyTypeDesignation, businessTypeDesignation, agency.getDescription(), agent.getName(),
                 amountString, area, distanceCityCenter, streetName, city, district, state, zipCode, parkingSpace, numberBedroom,
                 numberBathroomString, getStringFromBoolean(basement), getStringFromBoolean(inhabitableLoft), sunExposureString);
         if (availableEquipmentDescription != null) {
-            System.out.println("=================");
+            System.out.println("\n=================");
             displayListContent(availableEquipmentDescription, "available equipments");
         }
-        System.out.println("=================");
+        System.out.println("\n=================");
         displayListContent(uri, "photographs' uris");
     }
 
@@ -284,9 +291,8 @@ public class CreateRequestUI implements Runnable {
      * @return the number of months in the contract
      */
     private Integer requestRequestContractDuration() {
-        Scanner input = new Scanner(System.in);
         System.out.println("Rental Contact's durantion (in months):");
-        return input.nextInt();
+        return getIntAnswer();
     }
 
 
@@ -296,14 +302,12 @@ public class CreateRequestUI implements Runnable {
      * @return the double (amount of money)
      */
     private Double requestRequestAmount() {
-        Scanner input = new Scanner(System.in);
         if (businessTypeDesignation.equalsIgnoreCase("Lease")) {
-            System.out.println("Property Rent (in Dollars - US$):");
+            System.out.println("Property Rent (in Dollars - $US):");
         } else {
-            System.out.println("Property Price (in Dollars - US$):");
+            System.out.println("Property Price (in Dollars - $US):");
         }
-        String inputString = input.next().trim();
-        return Double.parseDouble(inputString.replace(",", "."));
+        return getDoubleAnswer();
     }
 
     /**
@@ -312,10 +316,8 @@ public class CreateRequestUI implements Runnable {
      * @return the area
      */
     private Double requestRequestArea() {
-        Scanner input = new Scanner(System.in);
         System.out.println("Property area (in squared meters - m²):");
-        String inputString = input.next().trim();
-        return Double.parseDouble(inputString.replace(",", "."));
+        return getDoubleAnswer();
     }
 
     /**
@@ -324,10 +326,8 @@ public class CreateRequestUI implements Runnable {
      * @return the distance from city center
      */
     private Double requestRequestDistanceCityCenter() {
-        Scanner input = new Scanner(System.in);
         System.out.println("Property's distance from City Center (in meters - m):");
-        String inputString = input.next().trim();
-        return Double.parseDouble(inputString.replace(",", "."));
+        return getDoubleAnswer();
     }
 
     /**
@@ -401,13 +401,20 @@ public class CreateRequestUI implements Runnable {
      */
     private String requestRequestZipCode() {
         Scanner input = new Scanner(System.in);
-        System.out.println("Property's zip code:");
-        String inputString = input.nextLine();
-        while (inputString.trim().isBlank()) {
-            System.out.println("Property's zip code invalid. Provide a new one.");
-            inputString = input.nextLine();
-        }
-        return inputString;
+        String answer = null;
+        System.out.println("Zipcode:");
+        boolean invalid = true;
+        do {
+            try {
+                answer = input.nextLine();
+                Integer value = Integer.parseInt(answer);
+                invalid = false;
+            } catch (NumberFormatException e) {
+                System.out.println("\nERROR: Value typed is invalid"
+                        + " (" + e.getClass().getSimpleName() + ")");
+            }
+        } while (invalid);
+        return answer;
     }
 
     /**
@@ -416,9 +423,8 @@ public class CreateRequestUI implements Runnable {
      * @return the parking spaces
      */
     private Integer requestRequestParkingSpace() {
-        Scanner input = new Scanner(System.in);
         System.out.println("Property's number of parking spaces:");
-        return input.nextInt();
+        return getIntAnswer();
     }
 
     /**
@@ -427,9 +433,8 @@ public class CreateRequestUI implements Runnable {
      * @return the number of bedrooms
      */
     private Integer requestRequestNumberBedroom() {
-        Scanner input = new Scanner(System.in);
         System.out.println("Property's number of bedrooms:");
-        return input.nextInt();
+        return getIntAnswer();
     }
 
     /**
@@ -438,9 +443,8 @@ public class CreateRequestUI implements Runnable {
      * @return the number of bathrooms
      */
     private Integer requestRequestNumberBathroom() {
-        Scanner input = new Scanner(System.in);
         System.out.println("Property's number of bathrooms:");
-        return input.nextInt();
+        return getIntAnswer();
     }
 
     /**
@@ -550,20 +554,30 @@ public class CreateRequestUI implements Runnable {
      * @return the uri list
      */
     private List<String> requestRequestPhotographURI() {
-        List<String> uri = new ArrayList<>();
-        Scanner uriInput = new Scanner(System.in);
-        System.out.println("Property photographs' uri: (when you are done, type DONE | Maximum 30 entries.)");
-        String typedUri = "";
-        while (!(typedUri.equalsIgnoreCase("DONE") || uri.size() == PHOTOGRAPH_SIZE_LIMIT)) {
-            typedUri = uriInput.nextLine();
-            if (!(typedUri.equalsIgnoreCase("DONE")) && !(typedUri.trim().isBlank())) {
-                uri.add(typedUri);
+        List<String> uris = new ArrayList<>();
+        Scanner scanner = new Scanner(System.in);
+        String input;
+        do {
+            System.out.print("Enter a photograph URI: ");
+            input = scanner.nextLine().trim();
+            if (!input.isEmpty()) {
+                uris.add(input);
+            } else {
+                System.out.println("ERROR: Necessary to at least introduce one URI.");
+            }
+        } while (uris.size() < 1);
+
+        while (uris.size() < MAX_URIS) {
+            System.out.print("Enter a photograph URI or press enter to skip: ");
+            input = scanner.nextLine().trim();
+            if (input.isEmpty()) {
+                return uris;
+            } else {
+                uris.add(input);
             }
         }
-        if (uri.size() == PHOTOGRAPH_SIZE_LIMIT) {
-            System.out.println("Maximum of entries reached.");
-        }
-        return uri;
+        System.out.println("Maximum limit of 30 URIs reached.");
+        return uris;
     }
 
     /**
@@ -735,6 +749,48 @@ public class CreateRequestUI implements Runnable {
             System.out.println(i + " - " + agent.getName());
             i++;
         }
+    }
+
+    /**
+     * This method obtains and verifies a Double user input.
+     * If the user doesn't type in a Double, then an Input Mismatch Exception will be "catched".
+     *
+     * @return the Double user inputted answer.
+     */
+    private Double getDoubleAnswer() {
+        Scanner input = new Scanner(System.in);
+        boolean invalid = true;
+        Double value = null;
+        do {
+            try {
+                value = input.nextDouble();
+                invalid = false;
+            } catch (InputMismatchException e) {
+                System.out.println("\nERROR: Value typed is invalid"
+                        + " (" + e.getClass().getSimpleName() + " - Decimal separator is a coma)");
+                input.nextLine();
+            }
+        } while (invalid);
+      //  String inputString = value.toString().trim();
+        //Double.parseDouble(inputString.replace(",", "."));
+        return value;
+    }
+
+    private Integer getIntAnswer() {
+        Scanner input = new Scanner(System.in);
+        boolean invalid = true;
+        Integer value = null;
+        do {
+            try {
+                value = input.nextInt();
+                invalid = false;
+            } catch (InputMismatchException e) {
+                System.out.println("\nERROR: Value typed is invalid"
+                        + " (" + e.getClass().getSimpleName() + ")");
+                input.nextLine();
+            }
+        } while (invalid);
+        return value;
     }
 
 }
