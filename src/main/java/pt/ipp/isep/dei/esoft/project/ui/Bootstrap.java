@@ -62,16 +62,6 @@ public class Bootstrap implements Runnable {
 
     private void addAgencies() {
         AgencyRepository agencyRepository = Repositories.getInstance().getAgencyRepository();
-        Agency agency1 = new Agency(2526);
-        addEmployees(agency1);
-        agencyRepository.add(agency1);
-
-        Agency agency2 = new Agency(2526);
-        agencyRepository.add(agency2);
-
-        Agency agency3 = new Agency(2627);
-        agencyRepository.add(agency3);
-
         //Integer id, String description, String emailAddress, String phoneNumber, Location location
 
         Location location = new Location("Saint Avenue", "Heaven", "Sky", "SK", "12345");
@@ -84,7 +74,6 @@ public class Bootstrap implements Runnable {
         Agency agency5 = new Agency(6789, "RE/MAX", "agency5@this.app", "286 776 8435", location1);
         addEmployees(agency5);
         agencyRepository.add(agency5);
-
     }
 
     private void addUsers() {
@@ -97,7 +86,7 @@ public class Bootstrap implements Runnable {
                 AuthenticationController.ROLE_AGENT);
         authenticationRepository.addUserWithRole("Agent", "employee3@this.app", "01AGEnt",
                 AuthenticationController.ROLE_AGENT);
-        authenticationRepository.addUserWithRole("Client 1", "client1@this.app", "01CLIent",
+        authenticationRepository.addUserWithRole("Client 1", "client1@this.app", "01CLIen",
                 AuthenticationController.ROLE_CLIENT);
 
     }
@@ -124,7 +113,7 @@ public class Bootstrap implements Runnable {
         businessTypeRepository.add(new BusinessType("Lease"));
     }
 
-    private void addCriteria(){
+    private void addCriteria() {
         CriteriaRepository criteriaRepository = Repositories.getInstance().getCriteriaRepository();
 
         criteriaRepository.add("Type of Business");
@@ -135,7 +124,7 @@ public class Bootstrap implements Runnable {
         criteriaRepository.add("State");
     }
 
-    private void addAnnouncements(Agency agency){
+    private void addAnnouncements(Agency agency) {
         String ownerEmail = "owner@email.com";
         String ownerEmail1 = "owner1@email.com";
         String ownerEmail2 = "owner2@email.com";
