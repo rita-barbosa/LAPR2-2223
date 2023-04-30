@@ -1,8 +1,5 @@
 package pt.ipp.isep.dei.esoft.project.application.controller;
 
-
-import pt.ipp.isep.dei.esoft.project.application.session.ApplicationSession;
-import pt.ipp.isep.dei.esoft.project.application.session.UserSession;
 import pt.ipp.isep.dei.esoft.project.domain.*;
 import pt.ipp.isep.dei.esoft.project.repository.*;
 
@@ -13,10 +10,6 @@ import java.util.Optional;
  * The Create request controller.
  */
 public class CreateRequestController {
-    /**
-     * The User session.
-     */
-    private UserSession userSession;
     /**
      * The Agency repository.
      */
@@ -29,6 +22,9 @@ public class CreateRequestController {
      * The Business type repository.
      */
     private BusinessTypeRepository businessTypeRepository = null;
+    /**
+     * The Authentication repository.
+     */
     private AuthenticationRepository authenticationRepository = null;
 
     /**
@@ -44,9 +40,10 @@ public class CreateRequestController {
     /**
      * Instantiates a new Create request controller.
      *
-     * @param agencyRepository       the agency repository
-     * @param propertyTypeRepository the property type repository
-     * @param businessTypeRepository the business type repository
+     * @param agencyRepository         the agency repository
+     * @param propertyTypeRepository   the property type repository
+     * @param businessTypeRepository   the business type repository
+     * @param authenticationRepository the authentication repository
      */
     public CreateRequestController(AgencyRepository agencyRepository,
                                    PropertyTypeRepository propertyTypeRepository,
@@ -216,11 +213,7 @@ public class CreateRequestController {
      * @return the owner email
      */
     private String getOwnerEmail() {
-        return ApplicationSession.getInstance().getCurrentSession().getUserEmail();
-    }
-
-    private String getEmailFromSession() {
-        return ApplicationSession.getInstance().getCurrentSession().getUserEmail();
+        return authenticationRepository.getCurrentUserSession().getUserId().toString();
     }
 
     /**
