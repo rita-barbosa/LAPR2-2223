@@ -1,5 +1,7 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
+import pt.isep.lei.esoft.auth.domain.model.Email;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
@@ -28,7 +30,7 @@ public class Request {
     /**
      * The Owner email.
      */
-    private final String ownerEmail;
+    private final Email ownerEmail;
 
 
     /**
@@ -63,7 +65,7 @@ public class Request {
                    Integer numberBedroom, Integer numberBathroom, Employee agent, Double distanceCityCenter,
                    List<String> uri) {
 
-        this.ownerEmail = ownerEmail;
+        this.ownerEmail = new Email(ownerEmail);
         this.requestDate = LocalDate.now();
         this.business = new Lease(contractDuration, businessTypeDesignation, amount);
 
@@ -117,7 +119,7 @@ public class Request {
                    String state, String zipCode, Boolean basement, Boolean inhabitableLoft, Integer parkingSpace,
                    Enum<SunExposureTypes> sunExposure, Integer numberBedroom, Integer numberBathroom, Employee agent,
                    Double distanceCityCenter, List<String> uri) {
-        this.ownerEmail = ownerEmail;
+        this.ownerEmail = new Email(ownerEmail);
         this.requestDate = LocalDate.now();
         this.business = new Business(businessTypeDesignation, amount);
         this.agent = agent;
@@ -151,7 +153,7 @@ public class Request {
      * @param agent       the agent
      */
     public Request(String ownerEmail, Property property, Business business, LocalDate requestDate, Employee agent) {
-        this.ownerEmail = ownerEmail;
+        this.ownerEmail = new Email(ownerEmail);
         this.requestDate = requestDate;
         this.business = business;
         this.agent = agent;
@@ -164,7 +166,7 @@ public class Request {
      * @return the request
      */
     public Request clone() {
-        return new Request(this.ownerEmail, this.property, this.business, this.requestDate, this.agent);
+        return new Request(this.ownerEmail.toString(), this.property, this.business, this.requestDate, this.agent);
     }
 
     /**

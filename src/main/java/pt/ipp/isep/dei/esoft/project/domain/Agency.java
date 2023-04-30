@@ -157,27 +157,27 @@ public class Agency {
     /**
      * This method creates a new Request instance, and adds it to the list of requests already existent.
      *
-     * @param ownerEmail
-     * @param propertyType
-     * @param businessTypeDesignation
-     * @param amount
-     * @param area
-     * @param contractDuration
-     * @param availableEquipmentDescription
-     * @param streetName
-     * @param city
-     * @param district
-     * @param state
-     * @param zipCode
-     * @param basement
-     * @param inhabitableLoft
-     * @param parkingSpace
-     * @param sunExposure
-     * @param numberBedroom
-     * @param numberBathroom
-     * @param agent
-     * @param distanceCityCenter
-     * @param uri
+     * @param ownerEmail                    the owner email
+     * @param propertyType                  the property type
+     * @param businessTypeDesignation       the business type designation
+     * @param amount                        the amount
+     * @param area                          the area
+     * @param contractDuration              the contract duration
+     * @param availableEquipmentDescription the available equipment description
+     * @param streetName                    the street name
+     * @param city                          the city
+     * @param district                      the district
+     * @param state                         the state
+     * @param zipCode                       the zip code
+     * @param basement                      the basement
+     * @param inhabitableLoft               the inhabitable loft
+     * @param parkingSpace                  the parking space
+     * @param sunExposure                   the sun exposure
+     * @param numberBedroom                 the number bedroom
+     * @param numberBathroom                the number bathroom
+     * @param agent                         the agent
+     * @param distanceCityCenter            the distance city center
+     * @param uri                           the uri
      * @return an Optional object of Request, allowing the calling code to handle the possibility of null values without the need for explicit null checks.
      */
     public Optional<Request> createRequest(String ownerEmail, PropertyType propertyType, String businessTypeDesignation, Double amount, Double area, Integer contractDuration, List<String> availableEquipmentDescription, String streetName, String city, String district, String state, String zipCode, Boolean basement, Boolean inhabitableLoft, Integer parkingSpace, Enum<SunExposureTypes> sunExposure, Integer numberBedroom, Integer numberBathroom, Employee agent, Double distanceCityCenter, List<String> uri) {
