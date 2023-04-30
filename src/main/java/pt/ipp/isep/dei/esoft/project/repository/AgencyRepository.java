@@ -78,7 +78,7 @@ public class AgencyRepository {
      * @return a copy of the list of agencies.
      */
     public List<Agency> getAgenciesList() {
-        return List.copyOf(agencies);
+        return agencies;
     }
 
 

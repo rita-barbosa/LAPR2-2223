@@ -1,6 +1,5 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
-import java.time.LocalDate;
 import java.util.*;
 
 /**
