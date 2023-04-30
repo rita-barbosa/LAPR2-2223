@@ -55,6 +55,23 @@ public class Property {
         this.location = new Location(streetName, city, district, state, zipCode);
     }
 
+    /**
+     * Instantiates a new Property.
+     *
+     * @param propertyType       the property type
+     * @param area               the area
+     * @param distanceCityCenter the distance city center
+     * @param location           the location
+     * @param photograph         the photograph
+     */
+    public Property(PropertyType propertyType, Double area, Double distanceCityCenter, Location location, List<Photograph> photograph) {
+        this.propertyType = propertyType;
+        this.area = area;
+        this.distanceCityCenter = distanceCityCenter;
+        this.location = location;
+        this.photograph = photograph;
+    }
+
 
     /**
      * Fill photograph list.
@@ -145,6 +162,15 @@ public class Property {
         if (o == null || getClass() != o.getClass()) return false;
         Property property = (Property) o;
         return Objects.equals(propertyType, property.propertyType) && Objects.equals(area, property.area) && Objects.equals(distanceCityCenter, property.distanceCityCenter) && Objects.equals(location, property.location) && Objects.equals(photograph, property.photograph);
+    }
+
+    /**
+     * Clone property.
+     *
+     * @return the property
+     */
+    public Property clone() {
+        return new Property(this.propertyType, this.area, this.distanceCityCenter, this.location, this.photograph);
     }
 
     /**

@@ -193,4 +193,13 @@ public class Location {
     public String getState() {
         return state;
     }
+
+    /**
+     * Clone location.
+     *
+     * @return the location
+     */
+    public Location clone() {
+        return new Location(this.streetName, this.city, this.district, this.state, this.zipCode);
+    }
 }

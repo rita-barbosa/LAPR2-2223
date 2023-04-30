@@ -2,6 +2,7 @@ package pt.ipp.isep.dei.esoft.project.domain;
 
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,11 +77,18 @@ class LocationTest {
         assertEquals("Anytown", location.getCity());
     }
 
-
     @Test
     void ensureGetStateWorks() {
         Location location = new Location("123 Main St", "Anytown", "Anydistrict", "Any", "12348");
 
         assertEquals("Any", location.getState());
+    }
+
+    @Test
+    void ensureCloneWorks() {
+        Location location = new Location("123 Main St", "Anytown", "Anydistrict", "Any", "12348");
+        Location clone = location.clone();
+
+        assertEquals(location, clone);
     }
 }
