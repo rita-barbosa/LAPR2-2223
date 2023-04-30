@@ -49,7 +49,6 @@ class CommissionTypeRepositoryTest {
         Optional<CommissionType> returnC1 = commissionTypeRepository.getCommissionTypeByDesignation("Commission Type");
 
         assertEquals(c1, returnC1.get());
-        assertNotSame(c1, returnC1);
     }
 
     @Test

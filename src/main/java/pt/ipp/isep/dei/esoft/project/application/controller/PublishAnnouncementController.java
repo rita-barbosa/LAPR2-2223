@@ -150,7 +150,7 @@ public class PublishAnnouncementController {
      * @return the property type by designation
      */
     private PropertyType getPropertyTypeByDesignation(String designation) {
-        return getPropertyTypeRepository().getPropertyTypeByDesignation(designation);
+        return getPropertyTypeRepository().getPropertyTypeByDesignation(designation).get();
     }
 
     /**

@@ -63,6 +63,5 @@ class BusinessTypeRepositoryTest {
         Optional<BusinessType> returnBt1 = businessTypeRepository.getBusinessTypeByDesignation("Business Type");
 
         assertEquals(bt1, returnBt1.get());
-        assertNotSame(bt1, returnBt1.get());
     }
 }

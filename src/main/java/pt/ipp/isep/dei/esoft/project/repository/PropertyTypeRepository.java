@@ -29,15 +29,20 @@ public class PropertyTypeRepository {
      * @return the property type.
      * @throws IllegalArgumentException
      */
-    public PropertyType getPropertyTypeByDesignation(String designation) {
+    public Optional<PropertyType> getPropertyTypeByDesignation(String designation) {
         PropertyType newPropertyType = new PropertyType(designation);
-        PropertyType propertyType = null;
-        if (propertyTypes.contains(newPropertyType)) {
-            propertyType = propertyTypes.get(propertyTypes.indexOf(newPropertyType));
+        Optional<PropertyType> propertyType = null;
+        if (propertyTypes.isEmpty()) {
+            throw new IllegalArgumentException("The list of property types is empty");
+        } else {
+            if (propertyTypes.contains(newPropertyType)) {
+                propertyType = Optional.of(propertyTypes.get(propertyTypes.indexOf(newPropertyType)));
+            }
+            if (propertyType.isEmpty()) {
+                throw new IllegalArgumentException("Property Type requested for -" + designation + "- does not exist.");
+            }
         }
-        if (propertyType == null) {
-            throw new IllegalArgumentException("Property Type requested for -" + designation + "- does not exist.");
-        }
+
         return propertyType;
     }
 

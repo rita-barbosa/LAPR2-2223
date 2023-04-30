@@ -172,7 +172,7 @@ public class CreateRequestController {
     public PropertyType getPropertyTypeByDesignation(String propertyTypeDesignation) {
         PropertyTypeRepository propertyTypeRepository = getPropertyTypeRepository();
         PropertyType propertyTypeByDesignation =
-                getPropertyTypeRepository().getPropertyTypeByDesignation(propertyTypeDesignation);
+                getPropertyTypeRepository().getPropertyTypeByDesignation(propertyTypeDesignation).get();
         return propertyTypeByDesignation;
 
     }
