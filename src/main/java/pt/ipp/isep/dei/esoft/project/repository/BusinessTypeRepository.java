@@ -30,14 +30,18 @@ public class BusinessTypeRepository {
      * @return the business type.
      * @throws IllegalArgumentException
      */
-    public BusinessType getBusinessTypeByDesignation(String designation)  {
+    public Optional<BusinessType> getBusinessTypeByDesignation(String designation) {
         BusinessType newBusinessType = new BusinessType(designation);
-        BusinessType businessType = null;
-        if (businessTypes.contains(newBusinessType)) {
-            businessType = businessTypes.get(businessTypes.indexOf(newBusinessType));
-        }
-        if (businessType == null) {
-            throw new IllegalArgumentException("Business Type requested for -" + designation + "- does not exist.");
+        Optional<BusinessType> businessType = null;
+        if (businessTypes.isEmpty()) {
+            throw new IllegalArgumentException("List of business types is empty.");
+        } else {
+            if (businessTypes.contains(newBusinessType)) {
+                businessType = Optional.of(businessTypes.get(businessTypes.indexOf(newBusinessType)));
+            }
+            if (businessType.isEmpty()) {
+                throw new IllegalArgumentException("Business Type requested for -" + designation + "- does not exist.");
+            }
         }
         return businessType;
     }
