@@ -18,7 +18,6 @@ class CriteriaRepositoryTest {
         int size = criteriaRepository.getCriteriaList().size();
         assertEquals(expectedSize, size);
         assertEquals(cr1, criteriaRepository.getCriteriaList().get(size - 1));
-
     }
 
     @Test
