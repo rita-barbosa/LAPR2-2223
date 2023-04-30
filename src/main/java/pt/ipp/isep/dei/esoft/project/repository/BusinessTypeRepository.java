@@ -20,7 +20,7 @@ public class BusinessTypeRepository {
      * @return The list with existent business types.
      */
     public List<BusinessType> getBusinessTypeList() {
-        return List.copyOf(businessTypes);
+        return businessTypes;
     }
 
     /**
