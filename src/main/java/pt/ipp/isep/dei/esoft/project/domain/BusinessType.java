@@ -39,7 +39,7 @@ public class BusinessType {
         if (!(o instanceof BusinessType)) return false;
         try {
             BusinessType that = (BusinessType) o;
-            return designation.equals(that.designation);
+            return designation.equalsIgnoreCase(that.designation);
         } catch (ClassCastException e) {
             return false;
         }
@@ -63,8 +63,9 @@ public class BusinessType {
     }
 
     /**
+     * To string
      *
-     * @return
+     * @return the string
      */
     @Override
     public String toString() {

@@ -54,6 +54,11 @@ public class DisplayPropertiesUI implements Runnable {
      */
     private String stateSorting;
 
+    /**
+     * The Announcements.
+     */
+    private List<Announcement> announcements;
+
 
     /**
      * This method returns the DisplayPropertiesController instance associated with this UI.
@@ -78,20 +83,21 @@ public class DisplayPropertiesUI implements Runnable {
         do {
             boolean option = askOption();
             if (option) {
+                List<Announcement> copyList = new ArrayList<>();
                 List<String> criterias = getController().getCriteriaRepository().getCriteriaList();
                 switch (displayAndSelectCriteriaList(criterias)) {
                     case 1:
                         businessType = displayAndSelectBusinessType().toLowerCase();
-                        announcementList = controller.getAnnouncementsByBusinessType(announcementList, businessType);
+                        copyList = controller.getAnnouncementsByBusinessType(businessType);
                         System.out.println("Announcements by type of business:\n");
-                        displayAnnouncements(announcementList);
+                        displayAnnouncements(copyList);
                         break;
 
                     case 2:
                         propertyType = displayAndSelectPropertyType().toLowerCase();
-                        announcementList = controller.getAnnouncementsByPropertyType(announcementList, propertyType);
+                        copyList = controller.getAnnouncementsByPropertyType(propertyType);
                         System.out.println("Announcements by type of property:\n");
-                        displayAnnouncements(announcementList);
+                        displayAnnouncements(copyList);
                         break;
 
                     case 3:
