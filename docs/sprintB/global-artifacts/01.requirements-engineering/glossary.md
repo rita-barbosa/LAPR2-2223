@@ -17,10 +17,10 @@
 | **Buyer**                 | A person that intends to buy or rent an available property.                                                                                |
 | **Client**		              | Synonym of _Buyer_									                                                                                                                |
 | **Commission**	           | An amount of money paid to an employee upon completing sale or rent of a property.											                                              |
+| **Criteria**		            | Selection of categories that, when choosen, define the showned properties. 										                                                      |
 | **Customer**              | Synonym of _Buyer_.                                                                                                                        |
 | **Designation**	          | Name of a store.										                                                                                                                 |							                                                                                 |
 | **Employee** 		           | Person that is working in the company.									                                                                                            |
-| **Filter**		              | Ability to control the viewed properties. 										                                                                                       |
 | **Inhabitable Loft**      | A space available for storage. 											                                                                                                 |
 | **JaCoCo**                | Acronym for Java Code Coverage (tool). Open-source toolkit for measuring code coverage in a code base and reporting it via visual reports. |
 | **JavaFX 11**             | Software platform for creating desktop applications that can run across a wide variety of devices.                                         |
