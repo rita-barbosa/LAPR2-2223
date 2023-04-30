@@ -58,7 +58,7 @@ public class House extends Residence {
      * @return the string
      */
     public String toString(){
-        return super.toString() + String.format("Basement: %b\n Inhabitable Loft: %b\n Sun Exposure: %s\n", basement, inhabitableLoft, sunExposure);
+        return super.toString() + String.format("Basement: %b \nInhabitable Loft: %b \nSun Exposure: %s\n", basement, inhabitableLoft, sunExposure);
     }
 
     /**

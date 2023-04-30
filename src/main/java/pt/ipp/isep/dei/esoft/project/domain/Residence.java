@@ -142,7 +142,7 @@ public class Residence extends Property {
      */
     @Override
     public String toString(){
-        StringBuilder residence = new StringBuilder(super.toString() + String.format("Number of Bedrooms: %d\n Number of Bathrooms: %d\n Parking Space: %d\n AvailableEquipment: %s\n", numberBedroom, numberBathroom, parkingSpace, availableEquipment));
+        StringBuilder residence = new StringBuilder(super.toString() + String.format("Number of Bedrooms: %d \nNumber of Bathrooms: %d \nParking Space: %d \nAvailableEquipment:\n", numberBedroom, numberBathroom, parkingSpace));
         for (AvailableEquipment equipment : availableEquipment) {
             residence.append(String.format("%s\n", equipment));
         }
