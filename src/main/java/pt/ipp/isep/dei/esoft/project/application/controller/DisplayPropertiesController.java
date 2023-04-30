@@ -266,7 +266,7 @@ public class DisplayPropertiesController {
      *
      * @return the business types
      */
-    public List<BusinessType> getBusinessTypes() {
+    public List<BusinessType> getBusinessTypeList() {
         BusinessTypeRepository businessTypeRepository = getBusinessTypeRepository();
         return businessTypeRepository.getBusinessTypeList();
     }
@@ -289,7 +289,7 @@ public class DisplayPropertiesController {
      *
      * @return the property types
      */
-    public List<PropertyType> getPropertyTypes() {
+    public List<PropertyType> getPropertyTypeList() {
         PropertyTypeRepository propertyTypeRepository = getPropertyTypeRepository();
         return propertyTypeRepository.getPropertyTypeList();
     }

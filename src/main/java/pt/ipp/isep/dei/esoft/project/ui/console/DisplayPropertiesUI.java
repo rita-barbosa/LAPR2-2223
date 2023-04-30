@@ -201,7 +201,7 @@ public class DisplayPropertiesUI implements Runnable {
      */
     private String displayAndSelectBusinessType() {
         Scanner sc = new Scanner(System.in);
-        List<BusinessType> businessTypes = controller.getBusinessTypes();
+        List<BusinessType> businessTypes = controller.getBusinessTypeList();
         displayBusinessTypeOptions(businessTypes);
 
         int option = 0;
@@ -229,7 +229,7 @@ public class DisplayPropertiesUI implements Runnable {
      */
     private String displayAndSelectPropertyType() {
         Scanner sc = new Scanner(System.in);
-        List<PropertyType> propertyTypes = controller.getPropertyTypes();
+        List<PropertyType> propertyTypes = controller.getPropertyTypeList();
         displayPropertiesTypeOptions(propertyTypes);
 
         int option = 0;
