@@ -77,12 +77,15 @@ public class Business {
 
 
     /**
-     * To string string.
+     * To string.
      *
      * @return the string
      */
     @Override
     public String toString() {
-        return String.format("Type of Business: %s\nPrice: %.2f$\n", businessType, price);
+        if (this.businessType.getDesignation().equalsIgnoreCase("lease")){
+            return String.format("Type of Business: %s\nRent: %.2f\n", businessType, price);
+        }
+        return String.format("Type of Business: %s\nPrice: %.2f\n", businessType, price);
     }
 }
