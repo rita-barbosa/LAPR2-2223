@@ -67,4 +67,15 @@ public class AvailableEquipment {
     public int hashCode() {
         return Objects.hash(description);
     }
+
+
+    /**
+     * To string string.
+     *
+     * @return the string
+     */
+    @Override
+    public String toString() {
+        return "    description='" + description + '\'';
+    }
 }
