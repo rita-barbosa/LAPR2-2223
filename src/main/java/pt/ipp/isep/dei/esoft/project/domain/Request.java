@@ -174,6 +174,7 @@ public class Request {
      *
      * @return the string
      */
+    @Override
     public String toString(){
         String request;
         if (business instanceof Lease) {
@@ -187,7 +188,7 @@ public class Request {
         } else if (property instanceof Residence) {
             request = request + property.toString();
         } else {
-            request = property.toString();
+            request = request + property.toString();
         }
 
         return request;

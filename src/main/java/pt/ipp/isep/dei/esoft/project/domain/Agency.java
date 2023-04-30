@@ -148,7 +148,7 @@ public class Agency {
      * @param announcement - announcement intended to be added.
      * @return {@code true} if the announcement was successfully added; {@code false} otherwise;
      */
-    private Boolean addAnnouncement(Announcement announcement) {
+    public Boolean addAnnouncement(Announcement announcement) {
         Boolean success = false;
         if (validateAnnouncement(announcement)) {
             success = announcements.add(announcement.clone());
@@ -438,7 +438,8 @@ public class Agency {
      * @return the list
      */
     public List<Announcement> announcementHasBusinessType(List<Announcement> announcementList, String businessType) {
-        for (Announcement announcement : announcementList) {
+        List<Announcement> copyList = new ArrayList<>(announcementList);
+        for (Announcement announcement : copyList) {
             if (!(announcement.getRequest().getBusiness().getBusinessType().equals(businessType))) {
                 announcementList.remove(announcement);
             }
@@ -454,8 +455,9 @@ public class Agency {
      * @return the list
      */
     public List<Announcement> announcementHasPropertyType(List<Announcement> announcementList, String propertyType) {
-        for (Announcement announcement : announcementList) {
-            if (!(announcement.getRequest().getProperty().getPropertyType().equals(propertyType))) {
+        List<Announcement> copyList = new ArrayList<>(announcementList);
+        for (Announcement announcement : copyList) {
+            if (!((announcement.getRequest().getProperty().getPropertyType().getDesignation()).equals(propertyType))) {
                 announcementList.remove(announcement);
             }
         }
@@ -470,7 +472,8 @@ public class Agency {
      * @return the list
      */
     public List<Announcement> announcementHasNumberBedrooms(List<Announcement> announcementList, Integer numberBedrooms) {
-        for (Announcement announcement : announcementList) {
+        List<Announcement> copyList = new ArrayList<>(announcementList);
+        for (Announcement announcement : copyList) {
             if (announcement.getRequest().getProperty() instanceof Residence){
                 Residence residence = (Residence) announcement.getRequest().getProperty();
                 if (!(residence.getNumberBedroom().equals(numberBedrooms))){

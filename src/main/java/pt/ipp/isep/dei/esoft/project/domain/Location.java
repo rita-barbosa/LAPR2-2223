@@ -149,7 +149,7 @@ public class Location {
      */
     @Override
     public String toString() {
-        return String.format("Location: %s, %s, %s, %s, %s", this.streetName, this.city, this.district, this.state, this.zipCode);
+        return String.format("%s, %s, %s, %s, %s", this.streetName, this.city, this.district, this.state, this.zipCode);
     }
 
     /**
