@@ -192,7 +192,7 @@ public class PublishAnnouncementController {
 
         String email = getEmailFromSession();
         Optional<Agency> agency = getAgencyByEmail(email);
-        Employee agent = getAgentByEmail(email, agency);
+
 
         PropertyType propertyType = getPropertyTypeByDesignation(propertyTypeDesignation);
 
@@ -202,6 +202,7 @@ public class PublishAnnouncementController {
         CommissionType commissionType = getCommissionTypeByDesignation(commissionTypeDesignation);
 
         if (agency.isPresent()) {
+            Employee agent = getAgentByEmail(email, agency.get());
             newRequest = agency.get().createSaleRequest(ownerEmail, propertyType, "sale", price, area, availableEquipmentDescriptionList, streetName, city, district, state,
                     zipCode, existenceBasement, inhabitableLoft, numberParkingSpace, sunExposure, numberBedroom, numberBathroom, agent, distanceCityCenter, uriList);
             if (newRequest.isPresent()) {
@@ -229,7 +230,7 @@ public class PublishAnnouncementController {
      * @return the user email.
      */
     private String getEmailFromSession() {
-        return ApplicationSession.getInstance().getCurrentSession().getUserEmail();
+        return authenticationRepository.getCurrentUserSession().getUserId().toString();
     }
 
     /**
@@ -252,11 +253,7 @@ public class PublishAnnouncementController {
      * @param agency the agency.
      * @return the agent by email.
      */
-    private Employee getAgentByEmail(String email, Optional<Agency> agency) {
-        if (agency.isPresent()) {
-            return agency.get().getAgentByEmail(email);
-        } else {
-            throw new RuntimeException("Agency not found for email: " + email);
-        }
+    private Employee getAgentByEmail(String email, Agency agency) {
+        return agency.getAgentByEmail(email);
     }
 }
