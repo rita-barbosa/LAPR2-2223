@@ -30,25 +30,13 @@ public class DisplayPropertiesUI implements Runnable {
      */
     private Integer numberBedrooms;
     /**
-     * The price of the property.
-     */
-    private Double price;
-    /**
      * The type of sorting for price.
      */
     private String priceSorting;
     /**
-     * The name of the city where the property is located.
-     */
-    private String city;
-    /**
      * The type of sorting for city.
      */
     private String citySorting;
-    /**
-     * The name of the state where the property is located.
-     */
-    private String state;
     /**
      * The type of sorting for state.
      */
@@ -57,7 +45,7 @@ public class DisplayPropertiesUI implements Runnable {
     /**
      * The Announcements.
      */
-    private List<Announcement> announcements;
+    private List<Announcement> announcementList;
 
 
     /**
@@ -75,7 +63,7 @@ public class DisplayPropertiesUI implements Runnable {
      *
      */
     public void run() {
-        List<Announcement> announcementList = controller.sortAnnouncementsByMostRecentAdded();
+        announcementList = controller.sortAnnouncementsByMostRecentAdded();
 
         System.out.println("Listed Properties:\n");
         displayAnnouncements(announcementList);
