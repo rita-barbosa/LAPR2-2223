@@ -23,7 +23,7 @@ class BusinessTest {
     @Test
     void ensureToStringWorks() {
         Business b1 = new Business("Business Type", 2.0);
-        String expected = "Type of Business: Business Type\nPrice: 2,00\n";
+        String expected = "Type of Business: Business Type\nPrice: 2,00$\n";
 
         assertEquals(expected, b1.toString());
     }

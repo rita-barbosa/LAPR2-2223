@@ -185,7 +185,7 @@ class AnnouncementTest {
     }
 
     @Test
-    void getAcceptanceDate() {
+    void ensureGetAcceptanceDateWorks() {
         String ownerEmail = "owner@email.com";
         Employee employee = new Employee("employee@this.app.com", "Agent");
         CommissionType commissionType = new CommissionType("Commission Type");

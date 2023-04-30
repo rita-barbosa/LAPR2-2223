@@ -47,10 +47,10 @@ class CreateRequestControllerIT {
         List<String> av = new ArrayList<>();
 
         authenticationRepository.addUserRole(AuthenticationController.ROLE_CLIENT, AuthenticationController.ROLE_CLIENT);
-        authenticationRepository.addUserWithRole("John", "client1@this.app", "01CLIent",
+        authenticationRepository.addUserWithRole("John", "client1@this.app", "01CLIet",
                 AuthenticationController.ROLE_CLIENT);
 
-        authenticationRepository.doLogin("client1@this.app", "01CLIent");
+        authenticationRepository.doLogin("client1@this.app", "01CLIet");
 
         CreateRequestController controller =
                 new CreateRequestController(agencyRepository, propertyTypeRepository, businessTypeRepository, authenticationRepository);
@@ -208,10 +208,10 @@ class CreateRequestControllerIT {
         List<String> av = new ArrayList<>();
 
         authenticationRepository.addUserRole(AuthenticationController.ROLE_CLIENT, AuthenticationController.ROLE_CLIENT);
-        authenticationRepository.addUserWithRole("John", "client1@this.app", "01CLIent",
+        authenticationRepository.addUserWithRole("John", "client1@this.app", "01CLInt",
                 AuthenticationController.ROLE_CLIENT);
 
-        authenticationRepository.doLogin("client1@this.app", "01CLIent");
+        authenticationRepository.doLogin("client1@this.app", "01CLInt");
 
         CreateRequestController controller =
                 new CreateRequestController(agencyRepository, propertyTypeRepository, businessTypeRepository, authenticationRepository);
