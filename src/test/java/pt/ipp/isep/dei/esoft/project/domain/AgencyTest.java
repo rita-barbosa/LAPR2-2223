@@ -460,7 +460,7 @@ class AgencyTest {
     }
 
     @Test
-    void sortAnnouncementsByAscendingCity() {
+    void ensureSortAnnouncementsByAscendingCityWorks() {
         Location location = new Location("Saint Avenue", "Heaven", "Sky", "SK", "12345");
         Agency agency = new Agency(1234, "Idealista", "agency4@this.app", "999 444 5656", location);
 
@@ -541,7 +541,7 @@ class AgencyTest {
     }
 
     @Test
-    void sortAnnouncementsByAscendingState() {
+    void ensureSortAnnouncementsByAscendingStateWork() {
         Location location = new Location("Saint Avenue", "Heaven", "Sky", "SK", "12345");
         Agency agency = new Agency(1234, "Idealista", "agency4@this.app", "999 444 5656", location);
 
@@ -581,7 +581,7 @@ class AgencyTest {
     }
 
     @Test
-    void sortAnnouncementsByDescendingState() {
+    void ensureSortAnnouncementsByDescendingStateWork() {
         Location location = new Location("Saint Avenue", "Heaven", "Sky", "SK", "12345");
         Agency agency = new Agency(1234, "Idealista", "agency4@this.app", "999 444 5656", location);
 
