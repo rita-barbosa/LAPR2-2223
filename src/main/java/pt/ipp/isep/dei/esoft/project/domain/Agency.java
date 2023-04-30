@@ -479,6 +479,8 @@ public class Agency {
                 if (!(residence.getNumberBedroom().equals(numberBedrooms))) {
                     announcementList.remove(announcement);
                 }
+            } else {
+                announcementList.remove(announcement);
             }
         }
         return announcementList;
