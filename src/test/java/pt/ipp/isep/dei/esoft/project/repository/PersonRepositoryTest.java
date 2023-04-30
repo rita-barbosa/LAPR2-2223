@@ -21,19 +21,19 @@ class PersonRepositoryTest {
         PersonRepository personRepository = new PersonRepository();
         Person person = new Person("client1@this.app");
 
-        Optional<Person> returnPerson = personRepository.add(person);
+        Boolean returnPerson = personRepository.add(person);
 
-        assertEquals(person, returnPerson.get());
+        assertTrue(returnPerson);
     }
 
     @Test
-    void ensureAddFailsforExistingPerson(){
+    void ensureAddFailsforExistingPerson() {
         PersonRepository personRepository = new PersonRepository();
-        Person person = new Person("client1@this.app");
+        Person person = new Person("name", "C12345678", "234-34-4567", "client1@this.app", "345 345 5678", "client", "street", "city", "district", "state", "12345");
         personRepository.add(person);
-        Person person1 = new Person("client1@this.app");
+        Person person1 = new Person("name", "C12345678", "234-34-4567", "client1@this.app", "345 345 5678", "client", "street", "city", "district", "state", "12345");
 
-        assertTrue(personRepository.add(person1).isEmpty());
+        assertFalse(personRepository.add(person1));
     }
 
     @Test
