@@ -2,6 +2,7 @@ package pt.ipp.isep.dei.esoft.project.domain;
 
 import net.bytebuddy.asm.Advice;
 import org.junit.jupiter.api.Test;
+import pt.isep.lei.esoft.auth.domain.model.Email;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ class AnnouncementTest {
 
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
                 uriList, "street", "city", "district", "state", "12345");
-        Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
+        Request request = new Request(new Email(ownerEmail), property, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         Announcement announcement = new Announcement(employee, commissionType, 234.0, request);
     }
@@ -37,7 +38,7 @@ class AnnouncementTest {
 
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
                 uriList, "street", "city", "district", "state", "12345");
-        Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
+        Request request = new Request(new Email(ownerEmail), property, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         Announcement announcement = new Announcement(employee, commissionType, 234.0, request);
 
@@ -56,7 +57,7 @@ class AnnouncementTest {
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
                 uriList, "street", "city", "district", "state", "12345");
 
-        Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
+        Request request = new Request(new Email(ownerEmail), property, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         Announcement announcement = new Announcement(employee, commissionType, 234.0, request);
 
@@ -74,7 +75,7 @@ class AnnouncementTest {
 
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
                 uriList, "street", "city", "district", "state", "12345");
-        Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
+        Request request = new Request(new Email(ownerEmail), property, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         Announcement announcement = new Announcement(employee, commissionType, 234.0, request);
         assertNotEquals(announcement, null);
@@ -95,8 +96,8 @@ class AnnouncementTest {
         Property property1 = new Property(new PropertyType("land"), (35.5), (89.3),
                 uriList, "street1", "city1", "district1", "stat1", "12351");
 
-        Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
-        Request request1 = new Request(ownerEmail, property, new Business("sale1", 2345.0), LocalDate.now(), employee);
+        Request request = new Request(new Email(ownerEmail), property, new Business("sale", 2345.0), LocalDate.now(), employee);
+        Request request1 = new Request(new Email(ownerEmail), property, new Business("sale1", 2345.0), LocalDate.now(), employee);
 
         Announcement announcement = new Announcement(employee, commissionType, 234.0, request);
         Announcement announcement1 = new Announcement(employee, commissionType, 234.0, request1);
@@ -115,7 +116,7 @@ class AnnouncementTest {
 
         Property property = new Property(new PropertyType("land"), 35.5, 89.3,
                 uriList, "street", "city", "district", "AK", "12334");
-        Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
+        Request request = new Request(new Email(ownerEmail), property, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         Announcement announcement = new Announcement(employee, commissionType, 234.0, request);
         Announcement announcement1 = new Announcement(employee, commissionType, 234.0, request);
@@ -134,7 +135,7 @@ class AnnouncementTest {
 
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
                 uriList, "street", "city", "district", "state", "12345");
-        Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
+        Request request = new Request(new Email(ownerEmail), property, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         Announcement announcement = new Announcement(employee, commissionType, 234.0, request);
 
@@ -155,8 +156,8 @@ class AnnouncementTest {
         Property property1 = new Property(new PropertyType("land"), (35.5), (89.3),
                 uriList, "street1", "city1", "district1", "stae1", "12341");
 
-        Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
-        Request request1 = new Request(ownerEmail, property, new Business("sale1", 2345.0), LocalDate.now(), employee);
+        Request request = new Request(new Email(ownerEmail), property, new Business("sale", 2345.0), LocalDate.now(), employee);
+        Request request1 = new Request(new Email(ownerEmail), property1, new Business("sale1", 2345.0), LocalDate.now(), employee);
 
         Announcement announcement = new Announcement(employee, commissionType, 234.0, request);
         Announcement announcement1 = new Announcement(employee, commissionType, 234.0, request1);
@@ -175,7 +176,7 @@ class AnnouncementTest {
 
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
                 uriList, "street", "city", "district", "state", "12345");
-        Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
+        Request request = new Request(new Email(ownerEmail), property, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         Announcement announcement = new Announcement(employee, commissionType, 234.0, request);
         Announcement clone = announcement.clone();
@@ -196,7 +197,7 @@ class AnnouncementTest {
 
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
                 uriList, "street", "city", "district", "state", "12345");
-        Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
+        Request request = new Request(new Email(ownerEmail), property, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         Announcement announcement = new Announcement(employee, commission, request, acceptanceDate);
         assertEquals(acceptanceDate, announcement.getAcceptanceDate());

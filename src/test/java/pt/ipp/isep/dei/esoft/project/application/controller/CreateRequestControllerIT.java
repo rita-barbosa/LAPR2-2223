@@ -56,7 +56,7 @@ class CreateRequestControllerIT {
                 new CreateRequestController(agencyRepository, propertyTypeRepository, businessTypeRepository, authenticationRepository);
 
         //Act
-        Optional<Request> result = controller.createRequest("land", "sale", 2345.0,
+        Optional<Request> result = controller.createRequest("Land", "Sale", 2345.0,
                 35.5, 0, av, "street", "city", "district", "state", "12345", null,
                 null, null, null, null, null, employee, 89.3, uriList, agency);
     }
@@ -200,11 +200,9 @@ class CreateRequestControllerIT {
         bussType.add(businessType);
 
         Agency agency = new Agency("RE/MAX");
-        agencyRepository.add(agency);
         Employee employee = new Employee("employee@this.app", "agent");
         agency.addEmployee(employee);
 
-        //String ownerEmail = "owner@email.com";
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
         List<String> av = new ArrayList<>();
@@ -219,7 +217,7 @@ class CreateRequestControllerIT {
                 new CreateRequestController(agencyRepository, propertyTypeRepository, businessTypeRepository, authenticationRepository);
 
         //Act
-        Optional<Request> result = controller.createRequest("land", "sale", 2345.0,
+        Optional<Request> result = controller.createRequest("Land", "Sale", 2345.0,
                 35.5, 0, av, "street", "city", "district", "state", "12345", null,
                 null, null, null, null, null, employee, 89.3, uriList, agency);
 
