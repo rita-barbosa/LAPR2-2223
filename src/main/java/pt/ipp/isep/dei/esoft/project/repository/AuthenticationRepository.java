@@ -25,6 +25,28 @@ public class AuthenticationRepository {
     }
 
     public boolean addUserWithRole(String name, String email, String pwd, String roleId) {
-        return authenticationFacade.addUserWithRole(name, email, pwd, roleId);
+        if (validatePassword(pwd)) {
+            return authenticationFacade.addUserWithRole(name, email, pwd, roleId);
+        }
+        return false;
+    }
+
+    private boolean validatePassword(String pwd) {
+        int passwordLength = 7;
+        int digitCount = 0;
+        int upperCaseLettercount = 0;
+
+        if (pwd.length() != passwordLength) {
+            return false;
+        }
+        for (int i = 0; i < pwd.length(); i++) {
+            char letter = pwd.charAt(i);
+            if (Character.isDigit(letter)) {
+                digitCount++;
+            } else if (Character.isUpperCase(letter)) {
+                upperCaseLettercount++;
+            }
+        }
+        return digitCount == 2 && upperCaseLettercount == 3;
     }
 }
