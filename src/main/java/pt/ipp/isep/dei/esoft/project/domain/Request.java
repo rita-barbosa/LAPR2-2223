@@ -175,24 +175,8 @@ public class Request {
      * @return the string
      */
     @Override
-    public String toString(){
-        String request;
-        if (business instanceof Lease) {
-            request = business.toString();
-        } else {
-            request = business.toString();
-        }
-
-        if (property instanceof House){
-            request = request + property.toString();
-        } else if (property instanceof Residence) {
-            request = request + property.toString();
-        } else {
-            request = request + property.toString();
-        }
-
-        return request;
-
+    public String toString() {
+        return business.toString() + property.toString();
     }
 
     /**
