@@ -23,7 +23,7 @@ class BusinessTypeRepositoryTest {
     }
 
     @Test
-    void ensureGetBusinessTypeByDesignationEmptyList() {
+    void getBusinessTypeByDesignationEmptyList() {
         BusinessTypeRepository businessTypeRepository = new BusinessTypeRepository();
         String businessTypeDesignation = "Business Type";
 
@@ -33,7 +33,7 @@ class BusinessTypeRepositoryTest {
     }
 
     @Test
-    void ensureGetBusinessTypeByDesignation() {
+    void ensureGetBusinessTypeByDesignationWorks() {
         BusinessTypeRepository businessTypeRepository = new BusinessTypeRepository();
         BusinessType bt1 = new BusinessType("Business Type");
 

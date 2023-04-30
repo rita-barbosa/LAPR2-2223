@@ -37,13 +37,12 @@ public class CommissionType {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof CommissionType)) return false;
-        try {
-            CommissionType that = (CommissionType) o;
-            return Objects.equals(designation, that.designation);
-        } catch (ClassCastException e) {
-            return false;
-        }
+
+        CommissionType that = (CommissionType) o;
+        return Objects.equals(designation, that.designation);
+
     }
+
     /**
      * Returns a hash code value for the commission type object.
      *

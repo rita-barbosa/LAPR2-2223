@@ -160,7 +160,7 @@ public class PublishAnnouncementController {
      * @return the commission type by designation
      */
     private CommissionType getCommissionTypeByDesignation(String designation) {
-        return getCommissionTypeRepository().getCommissionTypeByDesignation(designation);
+        return getCommissionTypeRepository().getCommissionTypeByDesignation(designation).get();
     }
 
     /**

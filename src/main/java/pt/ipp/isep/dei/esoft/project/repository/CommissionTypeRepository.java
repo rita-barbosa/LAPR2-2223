@@ -31,14 +31,18 @@ public class CommissionTypeRepository {
      * @return the commission type.
      * @throws IllegalArgumentException
      */
-    public CommissionType getCommissionTypeByDesignation(String designation) {
+    public Optional<CommissionType> getCommissionTypeByDesignation(String designation) {
         CommissionType newCommissionType = new CommissionType(designation);
-        CommissionType commissionType = null;
-        if (commissionTypes.contains(newCommissionType)) {
-            commissionType = commissionTypes.get(commissionTypes.indexOf(newCommissionType));
-        }
-        if (commissionType == null) {
-            throw new IllegalArgumentException("Commission Type requested for -" + designation + "- does not exist.");
+        Optional<CommissionType> commissionType = null;
+        if(commissionTypes.isEmpty()){
+            throw new IllegalArgumentException("List of commission types is empty.");
+        }else{
+            if (commissionTypes.contains(newCommissionType)) {
+                commissionType = Optional.of(commissionTypes.get(commissionTypes.indexOf(newCommissionType)));
+            }
+            if (commissionType.isEmpty()) {
+                throw new IllegalArgumentException("Commission Type requested for -" + designation + "- does not exist.");
+            }
         }
         return commissionType;
     }
