@@ -113,6 +113,11 @@ public class Announcement {
         return new Announcement(this.agent, this.commission, this.request, this.acceptanceDate);
     }
 
+    /**
+     * To string string.
+     *
+     * @return the string
+     */
     public String toString() {
         return getRequest().toString() + String.format("Acceptance Date: %s\n", acceptanceDate);
     }
