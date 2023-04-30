@@ -143,6 +143,7 @@ public class Bootstrap implements Runnable {
         CommissionType commissionType = new CommissionType("Commission Type");
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
+        uriList.add("https://www.example.com/images/photo123.jpg");
 
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
                 uriList, "street", "city", "district", "state", "12345");
@@ -156,9 +157,32 @@ public class Bootstrap implements Runnable {
                 uriList, "street 2", "city 2", "district 2", "st2", "12347");
         Request request2 = new Request(ownerEmail1, property2, new Business("sale", 2345.0), LocalDate.now(), employee);
 
+        List<String> av = new ArrayList<>();
+        av.add("AC");
+        av.add("Machine");
+        av.add("Coffee");
+
+
+        Property property3 = new House(new PropertyType("house"), av, 32.4,
+                "street 3", "city 3", "district 3", "st3", "12340", true, false, 2,
+                SunExposureTypes.NORTH, 2, null, 12.5, uriList);
+        Request request3 = new Request(ownerEmail2, property3, new Business("lease", 2345.0), LocalDate.now(), employee);
+
+
+        Property property4 = new Residence(new PropertyType("apartment"), 125.4, av, "street 4",
+                "city 4", "district 4", "st4", "12348", 2, 25, 3, 15.2, uriList);
+        Request request4 = new Request(ownerEmail2, property4, new Business("lease", 2345.0), LocalDate.now(), employee);
+
+        Property property5 = new Residence(new PropertyType("apartment"), 125.4, av, "street 4",
+                "city 4", "district 4", "st4", "12348", 2, 25, 3, 15.2, uriList);
+        Request request5 = new Request(ownerEmail2, property5, new Business("sale", 2345.0), LocalDate.now(), employee);
+
         agency.addAnnouncement(new Announcement(employee, commissionType, 234.0, request));
         agency.addAnnouncement(new Announcement(employee, commissionType, 234.0, request1));
         agency.addAnnouncement(new Announcement(employee, commissionType, 234.0, request2));
+        agency.addAnnouncement(new Announcement(employee, commissionType, 234.0, request3));
+        agency.addAnnouncement(new Announcement(employee, commissionType, 234.0, request4));
+        agency.addAnnouncement(new Announcement(employee, commissionType, 234.0, request5));
 
     }
 
