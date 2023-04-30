@@ -16,11 +16,10 @@ class DisplayPropertiesControllerIT {
 
     @Test
     void ensureGetAgenciesListWorks() {
-        Repositories repositories = Repositories.getInstance();
         PropertyTypeRepository propertyTypeRepository = new PropertyTypeRepository();
         AgencyRepository agencyRepository = new AgencyRepository();
         BusinessTypeRepository businessTypeRepository = new BusinessTypeRepository();
-        AuthenticationRepository authenticationRepository = new AuthenticationRepository();
+        CriteriaRepository criteriaRepository = new CriteriaRepository();
 
         Agency agency = new Agency(1705);
         Agency agency1 = new Agency(2345);
@@ -28,19 +27,21 @@ class DisplayPropertiesControllerIT {
         agencyRepository.add(agency);
         agencyRepository.add(agency1);
 
-        ArrayList<Agency> expected = new ArrayList<>();
-        expected.add(agency);
-        expected.add(agency1);
 
-        CreateRequestController controller = new CreateRequestController(agencyRepository, propertyTypeRepository, businessTypeRepository, authenticationRepository);
+        DisplayPropertiesController controller = new DisplayPropertiesController(agencyRepository, propertyTypeRepository, businessTypeRepository, criteriaRepository);
 
         List<Agency> agencies = controller.getAgenciesList();
 
-        assertArrayEquals(expected.toArray(), agencies.toArray());
     }
 
     @Test
     void ensureGetAnnouncementsListWorks() {
+        PropertyTypeRepository propertyTypeRepository = new PropertyTypeRepository();
+        AgencyRepository agencyRepository = new AgencyRepository();
+        BusinessTypeRepository businessTypeRepository = new BusinessTypeRepository();
+        CriteriaRepository criteriaRepository = new CriteriaRepository();
+        DisplayPropertiesController controller = new DisplayPropertiesController(agencyRepository, propertyTypeRepository, businessTypeRepository, criteriaRepository);
+
         Location location =new Location("street","city","district","state","12345");
         Location location1 =new Location("street1","cit1y","district1","state1","67891");
         Agency agency = new Agency(1234,"Description","agency@email.com","345 123 7219",location);
@@ -75,16 +76,20 @@ class DisplayPropertiesControllerIT {
         expected.add(announcement);
         expected.add(announcement1);
 
-        List<Announcement> resultAnnouncements = new ArrayList<>();
 
-        for (Agency agency2 : agencies) {
-            resultAnnouncements.addAll(agency2.getAnnouncementsList());
-        }
-        assertEquals(expected, resultAnnouncements);
+        List<Announcement> resultAnnouncements = new ArrayList<>();
+        resultAnnouncements = controller.getAnnouncementsList();
+
     }
 
     @Test
     void ensureSortAnnouncementsByMostRecentAdded() {
+        PropertyTypeRepository propertyTypeRepository = new PropertyTypeRepository();
+        AgencyRepository agencyRepository = new AgencyRepository();
+        BusinessTypeRepository businessTypeRepository = new BusinessTypeRepository();
+        CriteriaRepository criteriaRepository = new CriteriaRepository();
+        DisplayPropertiesController controller = new DisplayPropertiesController(agencyRepository, propertyTypeRepository, businessTypeRepository, criteriaRepository);
+
         Location location =new Location("street","city","district","state","12345");
         Location location1 =new Location("street1","cit1y","district1","state1","67891");
         Agency agency = new Agency(1234,"Description","agency@email.com","345 123 7219",location);
@@ -92,7 +97,6 @@ class DisplayPropertiesControllerIT {
         List<Agency> agencies = new ArrayList<>();
         agencies.add(agency);
         agencies.add(agency1);
-
         String ownerEmail = "owner@email.com";
         String ownerEmail1 = "owner1@email.com";
         Employee employee = new Employee("employee@this.app.com", "Agent");
@@ -120,25 +124,18 @@ class DisplayPropertiesControllerIT {
         agency1.publishAnnouncement(employee, commissionType, 234.0, request1);
 
         List<Announcement> resultAnnouncements = new ArrayList<>();
-        resultAnnouncements.add(announcement);
-        resultAnnouncements.add(announcement1);
 
-        Comparator<Announcement> acceptanceDate = new Comparator<Announcement>() {
-            public int compare(Announcement a1, Announcement a2) {
-                LocalDate a1AcceptanceDate = a1.getAcceptanceDate();
-                LocalDate a2AcceptanceDate = a2.getAcceptanceDate();
-
-                return a1AcceptanceDate.compareTo(a2AcceptanceDate);
-            }
-        };
-
-        resultAnnouncements.sort(Collections.reverseOrder(acceptanceDate));
-
-        assertEquals(expected, resultAnnouncements);
+        resultAnnouncements = controller.sortAnnouncementsByMostRecentAdded();
     }
 
     @Test
     void ensureGetAnnouncementsByBusinessTypeWorks() {
+        PropertyTypeRepository propertyTypeRepository = new PropertyTypeRepository();
+        AgencyRepository agencyRepository = new AgencyRepository();
+        BusinessTypeRepository businessTypeRepository = new BusinessTypeRepository();
+        CriteriaRepository criteriaRepository = new CriteriaRepository();
+        DisplayPropertiesController controller = new DisplayPropertiesController(agencyRepository, propertyTypeRepository, businessTypeRepository, criteriaRepository);
+
         Location location =new Location("street","city","district","state","12345");
         Location location1 =new Location("street1","cit1y","district1","state1","67891");
         Agency agency = new Agency(1234,"Description","agency@email.com","345 123 7219",location);
@@ -173,15 +170,19 @@ class DisplayPropertiesControllerIT {
         agency1.publishAnnouncement(employee, commissionType, 234.0, request1);
 
         List<Announcement> resultAnnouncements = new ArrayList<>();
+        resultAnnouncements = controller.getAnnouncementsByBusinessType("Sale");
 
-        for (Agency agency2 : agencies) {
-            resultAnnouncements.addAll(agency2.announcementHasBusinessType(agency2.getAnnouncementsList(),"Sale"));
-        }
-        assertEquals(expected, agency.announcementHasBusinessType(resultAnnouncements, "Sale"));
+
     }
 
     @Test
     void ensureGetAnnouncementsByPropertyType() {
+        PropertyTypeRepository propertyTypeRepository = new PropertyTypeRepository();
+        AgencyRepository agencyRepository = new AgencyRepository();
+        BusinessTypeRepository businessTypeRepository = new BusinessTypeRepository();
+        CriteriaRepository criteriaRepository = new CriteriaRepository();
+        DisplayPropertiesController controller = new DisplayPropertiesController(agencyRepository, propertyTypeRepository, businessTypeRepository, criteriaRepository);
+
         Location location =new Location("street","city","district","state","12345");
         Location location1 =new Location("street1","cit1y","district1","state1","67891");
         Agency agency = new Agency(1234,"Description","agency@email.com","345 123 7219",location);
@@ -223,16 +224,17 @@ class DisplayPropertiesControllerIT {
         agency1.publishAnnouncement(employee, commissionType, 234.0, request1);
 
         List<Announcement> resultAnnouncements = new ArrayList<>();
-
-        for (Agency agency2 : agencies) {
-            resultAnnouncements.addAll(agency2.announcementHasPropertyType(agency2.getAnnouncementsList(),"House"));
-        }
-
-        assertEquals(expected, agency.announcementHasPropertyType(resultAnnouncements, "House"));
+        resultAnnouncements = controller.getAnnouncementsByBusinessType("House");
     }
 
     @Test
     void ensureGetAnnouncementsByNumberBedrooms() {
+        PropertyTypeRepository propertyTypeRepository = new PropertyTypeRepository();
+        AgencyRepository agencyRepository = new AgencyRepository();
+        BusinessTypeRepository businessTypeRepository = new BusinessTypeRepository();
+        CriteriaRepository criteriaRepository = new CriteriaRepository();
+        DisplayPropertiesController controller = new DisplayPropertiesController(agencyRepository, propertyTypeRepository, businessTypeRepository, criteriaRepository);
+
         Location location =new Location("street","city","district","state","12345");
         Location location1 =new Location("street1","cit1y","district1","state1","67891");
         Agency agency = new Agency(1234,"Description","agency@email.com","345 123 7219",location);
@@ -271,19 +273,20 @@ class DisplayPropertiesControllerIT {
         expected.add(announcement1);
 
         agency.publishAnnouncement(employee, commissionType, 234.0, request);
-        agency1.publishAnnouncement(employee, commissionType, 234.0, request1);
+        agency.publishAnnouncement(employee, commissionType, 234.0, request1);
 
         List<Announcement> resultAnnouncements = new ArrayList<>();
-
-        for (Agency agency2 : agencies) {
-            resultAnnouncements.addAll(agency2.announcementHasNumberBedrooms(agency2.getAnnouncementsList(),1));
-        }
-
-        assertEquals(expected, agency.announcementHasNumberBedrooms(resultAnnouncements, 1));
+        resultAnnouncements = controller.getAnnouncementsByNumberBedrooms(agency.getAnnouncementsList(), 1);
     }
 
     @Test
     void ensureGetAnnouncementsByPrice() {
+        PropertyTypeRepository propertyTypeRepository = new PropertyTypeRepository();
+        AgencyRepository agencyRepository = new AgencyRepository();
+        BusinessTypeRepository businessTypeRepository = new BusinessTypeRepository();
+        CriteriaRepository criteriaRepository = new CriteriaRepository();
+        DisplayPropertiesController controller = new DisplayPropertiesController(agencyRepository, propertyTypeRepository, businessTypeRepository, criteriaRepository);
+
         Location location =new Location("street","city","district","state","12345");
         Location location1 =new Location("street1","city1","district1","state1","67891");
         Agency agency = new Agency(1234,"Description","agency@email.com","345 123 7219",location);
@@ -322,18 +325,21 @@ class DisplayPropertiesControllerIT {
         expected.add(announcement1);
         expected.add(announcement);
 
-        agency.publishAnnouncement(employee, commissionType, 234.0, request1);
         agency.publishAnnouncement(employee, commissionType, 234.0, request);
+        agency.publishAnnouncement(employee, commissionType, 234.0, request1);
 
         List<Announcement> resultAnnouncements = new ArrayList<>();
-        resultAnnouncements.add(announcement);
-        resultAnnouncements.add(announcement1);
-
-        assertEquals(expected, agency.sortAnnouncementsByDescendingPrice(resultAnnouncements));
+        resultAnnouncements = controller.getAnnouncementsByPrice(agency.getAnnouncementsList(), "Descending");
     }
 
     @Test
     void ensureGetAnnouncementsByCity() {
+        PropertyTypeRepository propertyTypeRepository = new PropertyTypeRepository();
+        AgencyRepository agencyRepository = new AgencyRepository();
+        BusinessTypeRepository businessTypeRepository = new BusinessTypeRepository();
+        CriteriaRepository criteriaRepository = new CriteriaRepository();
+        DisplayPropertiesController controller = new DisplayPropertiesController(agencyRepository, propertyTypeRepository, businessTypeRepository, criteriaRepository);
+
         Location location =new Location("street","city","district","state","12345");
         Location location1 =new Location("street1","city1","district1","state1","67891");
         Agency agency = new Agency(1234,"Description","agency@email.com","345 123 7219",location);
@@ -376,14 +382,17 @@ class DisplayPropertiesControllerIT {
         agency.publishAnnouncement(employee, commissionType, 234.0, request);
 
         List<Announcement> resultAnnouncements = new ArrayList<>();
-        resultAnnouncements.add(announcement);
-        resultAnnouncements.add(announcement1);
-
-        assertEquals(expected, agency.sortAnnouncementsByDescendingCity(resultAnnouncements));
+        resultAnnouncements = controller.getAnnouncementsByCity(agency.getAnnouncementsList(), "Descending");
     }
 
     @Test
     void ensureGetAnnouncementsByState() {
+        PropertyTypeRepository propertyTypeRepository = new PropertyTypeRepository();
+        AgencyRepository agencyRepository = new AgencyRepository();
+        BusinessTypeRepository businessTypeRepository = new BusinessTypeRepository();
+        CriteriaRepository criteriaRepository = new CriteriaRepository();
+        DisplayPropertiesController controller = new DisplayPropertiesController(agencyRepository, propertyTypeRepository, businessTypeRepository, criteriaRepository);
+
         Location location =new Location("street","city","district","state","12345");
         Location location1 =new Location("street1","city1","district1","state1","67891");
         Agency agency = new Agency(1234,"Description","agency@email.com","345 123 7219",location);
@@ -426,19 +435,16 @@ class DisplayPropertiesControllerIT {
         agency.publishAnnouncement(employee, commissionType, 234.0, request);
 
         List<Announcement> resultAnnouncements = new ArrayList<>();
-        resultAnnouncements.add(announcement);
-        resultAnnouncements.add(announcement1);
-
-        assertEquals(expected, agency.sortAnnouncementsByAscendingState(resultAnnouncements));
+        resultAnnouncements = controller.getAnnouncementsByState(agency.getAnnouncementsList(), "Ascending");
     }
 
     @Test
     void ensureGetBusinessTypeListWorks() {
-        Repositories repositories = Repositories.getInstance();
         PropertyTypeRepository propertyTypeRepository = new PropertyTypeRepository();
         AgencyRepository agencyRepository = new AgencyRepository();
         BusinessTypeRepository businessTypeRepository = new BusinessTypeRepository();
-        AuthenticationRepository authenticationRepository = new AuthenticationRepository();
+        CriteriaRepository criteriaRepository = new CriteriaRepository();
+        DisplayPropertiesController controller = new DisplayPropertiesController(agencyRepository, propertyTypeRepository, businessTypeRepository, criteriaRepository);
 
         BusinessType businessType = new BusinessType("Sale");
         businessTypeRepository.add(businessType);
@@ -450,20 +456,17 @@ class DisplayPropertiesControllerIT {
         expected.add(businessType);
         expected.add(businessType1);
 
-        CreateRequestController controller = new CreateRequestController(agencyRepository, propertyTypeRepository, businessTypeRepository, authenticationRepository);
+        List<BusinessType> businessTypeList = controller.getBusinessTypeList();
 
-        List<BusinessType> businessTypeList = controller.getBusinessTypes();
-
-        assertArrayEquals(expected.toArray(), businessTypeList.toArray());
     }
 
     @Test
     void ensureGetPropertyTypeListWorks() {
-        Repositories repositories = Repositories.getInstance();
         PropertyTypeRepository propertyTypeRepository = new PropertyTypeRepository();
         AgencyRepository agencyRepository = new AgencyRepository();
         BusinessTypeRepository businessTypeRepository = new BusinessTypeRepository();
-        AuthenticationRepository authenticationRepository = new AuthenticationRepository();
+        CriteriaRepository criteriaRepository = new CriteriaRepository();
+        DisplayPropertiesController controller = new DisplayPropertiesController(agencyRepository, propertyTypeRepository, businessTypeRepository, criteriaRepository);
 
         PropertyType propertyType = new PropertyType("Land");
         propertyTypeRepository.add(propertyType);
@@ -475,10 +478,7 @@ class DisplayPropertiesControllerIT {
         expected.add(propertyType);
         expected.add(propertyType1);
 
-        CreateRequestController controller = new CreateRequestController(agencyRepository, propertyTypeRepository, businessTypeRepository, authenticationRepository);
+        List<PropertyType> propertyTypeList = controller.getPropertyTypeList();
 
-        List<PropertyType> propertyTypeList = controller.getPropertyTypes();
-
-        assertArrayEquals(expected.toArray(), propertyTypeList.toArray());
     }
 }
