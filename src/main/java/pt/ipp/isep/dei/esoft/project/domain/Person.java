@@ -263,28 +263,6 @@ public class Person {
         return true;
     }
 
-
-    /**
-     * Validates the Employee object by checking if any of its required fields are empty.
-     *
-     * @param employee The Employee object to be validated.
-     * @return True if all required fields are not empty, false otherwise.
-     */
-    public boolean validateEmployee(Employee employee) {
-        if (employee.getName().isEmpty() ||
-                employee.getTaxNumber().isEmpty() ||
-                employee.getLocation().equals("") ||
-                employee.getEmailAddress() == null ||
-                employee.getPhoneNumber().isEmpty() ||
-                employee.getRoles() == null) {
-            return false;
-
-            // CHECK LOCATION IN THIS METHOD
-        }
-        return true;
-    }
-
-
     /**
      * Returns the name of the person.
      *
@@ -362,7 +340,7 @@ public class Person {
      * @return the boolean
      */
     public boolean hasEmail(String emailAddress) {
-        return (this.emailAddress.equals(emailAddress));
+        return (this.emailAddress.equals(new Email(emailAddress)));
     }
 
     /**

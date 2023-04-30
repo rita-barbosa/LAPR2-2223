@@ -11,38 +11,40 @@ import static org.junit.jupiter.api.Assertions.*;
 class EmployeeTest {
 
     @Test
-    void ensureTwoEmployeesWithSameEmailEquals() {
-        Employee employee1 = new Employee("employee@this.app.com");
-        Employee employee2 = new Employee("employee@this.app.com");
+    void ensureTwoEmployeesWithSameAttributesEquals() {
+        Employee employee1 = new Employee(1234, "Elsa", "C12345678", "123-23-2345", "elsa@email.com","agent", "423 423 2345","city", "district", "AK", "12345", "street");
+        Employee employee2 = new Employee(1234, "Elsa", "C12345678", "123-23-2345", "elsa@email.com","agent", "423 423 2345","city", "district", "AK", "12345", "street");
+
 
         assertEquals(employee1, employee2);
     }
 
     @Test
-    void ensureEmployeeWithDifferentEmailNotEquals() {
-        Employee employee1 = new Employee("employee@this.app.com");
-        Employee employee2 = new Employee("employee1@this.app.com");
+    void ensureEmployeeWithDifferentAttributesNotEquals() {
+        Employee employee1 = new Employee(1234, "Elsa", "C12300078", "123-23-2345", "elsa@email.com","agent", "423 423 2345","city", "district", "AK", "12345", "street");
+        Employee employee2 = new Employee(1234, "Elsa", "C12345678", "123-23-2345", "elsa1@email.com","agent", "423 423 2345","city", "district", "AK", "12345", "street");
+
 
         assertNotEquals(employee1, employee2);
     }
 
     @Test
     void ensureEmployeeDoesNotEqualNull() {
-        Employee employee1 = new Employee("employee@this.app.com");
+        Employee employee1 = new Employee(1234, "Elsa", "C12345678", "123-23-2345", "elsa1@email.com","agent", "423 423 2345","city", "district", "AK", "12345", "street");
 
         assertNotEquals(employee1, null);
     }
 
     @Test
     void ensureEmployeeDoesNotEqualOtherObject() {
-        Employee employee1 = new Employee("employee@this.app.com");
+        Employee employee1 = new Employee(1234, "Elsa", "C12345678", "123-23-2345", "elsa1@email.com","agent", "423 423 2345","city", "district", "AK", "12345", "street");
 
         assertNotEquals(employee1, new Object());
     }
 
     @Test
     void ensureTheSameObjectIsEqual() {
-        Employee employee1 = new Employee("employee@this.app.com");
+        Employee employee1 = new Employee(1234, "Elsa", "C12345678", "123-23-2345", "elsa1@email.com","agent", "423 423 2345","city", "district", "AK", "12345", "street");
 
         assertEquals(employee1, employee1);
     }
@@ -50,19 +52,19 @@ class EmployeeTest {
 
     @Test
     void ensureHasEmailWorksForTheSameEmail() {
-        String email = "employee@this.app.com";
-        Employee employee = new Employee(email);
+        String email = "elsa1@email.com";
+        Employee employee = new Employee(1234, "Elsa", "C12345678", "123-23-2345", "elsa1@email.com","agent", "423 423 2345","city", "district", "AK", "12345", "street");
 
         assertTrue(employee.hasEmail(email));
 
     }
 
     @Test
-    void ensureHasEmailFailsForDifferentEmails() {
-        String email = "employee@this.app.com";
-        Employee employee = new Employee(email);
+    void ensureHasEmailFailsForDifferentEmail() {
+        String email = "olaf@email.com";
+        Employee employee = new Employee(1234, "Elsa", "C12345678", "123-23-2345", "elsa1@email.com","agent", "423 423 2345","city", "district", "AK", "12345", "street");
 
-        assertFalse(employee.hasEmail("employee1@this.app.com"));
+        assertFalse(employee.hasEmail(email));
 
     }
 
@@ -71,8 +73,8 @@ class EmployeeTest {
         String email = "employee@this.app.com";
         List<String> roles = new ArrayList<>();
         roles.add("agent");
-        Location  location =new Location("street","city","district","state","12345");
-        Employee employee = new Employee(2425,"Employee","C12345678","123-23-1234",new Email(email),roles,"345 345 3456",location);
+        Location location = new Location("street", "city", "district", "state", "12345");
+        Employee employee = new Employee(2425, "Employee", "C12345678", "123-23-1234", new Email(email), roles, "345 345 3456", location);
         Employee clone = employee.clone();
 
         assertEquals(employee, clone);
@@ -80,7 +82,7 @@ class EmployeeTest {
 
     @Test
     void ensureIsAgentWorks() {
-        Employee employee = new Employee("employee@this.app.com", "agent");
+        Employee employee = new Employee(1234, "Elsa", "C12345678", "123-23-2345", "elsa1@email.com","agent", "423 423 2345","city", "district", "AK", "12345", "street");
 
         assertTrue(employee.isAgent());
     }
