@@ -46,10 +46,7 @@ public class DisplayPropertiesController {
         getAgencyRepository();
         getPropertyTypeRepository();
         getBusinessTypeRepository();
-        //getAgenciesList();
         announcementList = getAnnouncementsList();
-        //List<Announcement> clonedAnnouncementList = new ArrayList<>(announcementList);
-        // sortAnnouncementsByMostRecentAdded();
         getCriteriaRepository();
     }
 
@@ -127,7 +124,6 @@ public class DisplayPropertiesController {
             }
         };
         clonedAnnouncementList.sort(Collections.reverseOrder(acceptanceDate));
-        //Collections.sort(clonedAnnouncementList, Collections.reverseOrder(acceptanceDate));
         return clonedAnnouncementList;
 
     }
