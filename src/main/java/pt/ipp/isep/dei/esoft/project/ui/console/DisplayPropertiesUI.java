@@ -273,10 +273,11 @@ public class DisplayPropertiesUI implements Runnable {
         boolean invalid = true;
         do {
             try {
-                while (option < -1) {
+                while (option < 0) {
+                    System.out.println("Enter number of bedrooms:");
                     option = sc.nextInt();
-                    if (option > 0) {
-                        return option;
+                    if (option <= 0) {
+                        System.out.println("ERROR: Number of bedrooms is invalid.");
                     }
                 }
                 invalid = false;
@@ -286,7 +287,7 @@ public class DisplayPropertiesUI implements Runnable {
                 sc.nextLine();
             }
         } while (invalid);
-        return null;
+        return option;
 
     }
 
