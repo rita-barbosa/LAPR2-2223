@@ -21,9 +21,17 @@ class BusinessTest {
     }
 
     @Test
-    void ensureToStringWorks() {
-        Business b1 = new Business("Business Type", 2.0);
-        String expected = "Type of Business: Business Type\nPrice: 2,00$\n";
+    void ensureToStringWorksForLease() {
+        Business b1 = new Business("Lease", 2.0);
+        String expected = "Type of Business: Lease\nRent: $2,00\n";
+
+        assertEquals(expected, b1.toString());
+    }
+
+    @Test
+    void ensureToStringWorksForSale() {
+        Business b1 = new Business("Sale", 2.0);
+        String expected = "Type of Business: Sale\nPrice: $2,00\n";
 
         assertEquals(expected, b1.toString());
     }
