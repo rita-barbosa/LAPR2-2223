@@ -4,6 +4,10 @@ import pt.ipp.isep.dei.esoft.project.application.controller.authorization.*;
 import pt.ipp.isep.dei.esoft.project.domain.*;
 import pt.ipp.isep.dei.esoft.project.repository.*;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Bootstrap implements Runnable {
 
     public void run() {
@@ -13,6 +17,7 @@ public class Bootstrap implements Runnable {
         addCommissionTypes();
         addPropertyTypes();
         addBusinessTypes();
+        addCriteria();
     }
 
     private void addUserRoles() {
@@ -67,6 +72,7 @@ public class Bootstrap implements Runnable {
         Location location = new Location("Saint Avenue", "Heaven", "Sky", "SK", "12345");
         Agency agency4 = new Agency(1234, "Idealista", "agency4@this.app", "999 444 5656", location);
         addEmployees(agency4);
+        addAnnouncements(agency4);
         agencyRepository.add(agency4);
 
         Location location1 = new Location("Devil's Road", "Hell", "Earth", "ET", "16789");
@@ -110,6 +116,44 @@ public class Bootstrap implements Runnable {
 
         businessTypeRepository.add(new BusinessType("Sale"));
         businessTypeRepository.add(new BusinessType("Lease"));
+    }
+
+    private void addCriteria(){
+        CriteriaRepository criteriaRepository = Repositories.getInstance().getCriteriaRepository();
+
+        criteriaRepository.add("Type of Business");
+        criteriaRepository.add("Type of Property");
+        criteriaRepository.add("Number of Bedrooms");
+        criteriaRepository.add("Price");
+        criteriaRepository.add("City");
+        criteriaRepository.add("State");
+    }
+
+    private void addAnnouncements(Agency agency){
+        String ownerEmail = "owner@email.com";
+        String ownerEmail1 = "owner1@email.com";
+        String ownerEmail2 = "owner2@email.com";
+        Employee employee = new Employee("employee@this.app.com", "Agent");
+        CommissionType commissionType = new CommissionType("Commission Type");
+        List<String> uriList = new ArrayList<>();
+        uriList.add("https://www.example.com/images/photo.jpg");
+
+        Property property = new Property(new PropertyType("land"), (35.5), (89.3),
+                uriList, "street", "city", "district", "state", "12345");
+        Request request = new Request(ownerEmail, property, new Business("sale", 2500.0), LocalDate.now(), employee);
+
+        Property property1 = new Property(new PropertyType("land"), (100.0), (70.3),
+                uriList, "street 1", "city 1", "district 1", "st1", "12346");
+        Request request1 = new Request(ownerEmail1, property1, new Business("sale", 300.0), LocalDate.now(), employee);
+
+        Property property2 = new Property(new PropertyType("land"), (30.5), (456.3),
+                uriList, "street 2", "city 2", "district 2", "st2", "12347");
+        Request request2 = new Request(ownerEmail1, property2, new Business("sale", 2345.0), LocalDate.now(), employee);
+
+        agency.addAnnouncement(new Announcement(employee, commissionType, 234.0, request));
+        agency.addAnnouncement(new Announcement(employee, commissionType, 234.0, request1));
+        agency.addAnnouncement(new Announcement(employee, commissionType, 234.0, request2));
+
     }
 
 }
