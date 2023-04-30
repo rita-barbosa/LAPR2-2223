@@ -79,12 +79,20 @@ public class Agency {
         this.requests = new ArrayList<>();
     }
 
+    /**
+     * Instantiates a new Agency.
+     */
     public Agency() {
         this.employees = new ArrayList<>();
         this.announcements = new ArrayList<>();
         this.requests = new ArrayList<>();
     }
 
+    /**
+     * Instantiates a new Agency.
+     *
+     * @param description the description
+     */
     public Agency(String description) {
         this.description = description;
         this.employees = new ArrayList<>();
@@ -256,6 +264,12 @@ public class Agency {
         return announcements != null && !(announcements.contains(announcement));
     }
 
+    /**
+     * Add employee boolean.
+     *
+     * @param employee the employee
+     * @return the boolean
+     */
     public Boolean addEmployee(Employee employee) {
         Boolean success = false;
         if (validateEmployee(employee)) {
@@ -414,6 +428,13 @@ public class Agency {
         return this.announcements;
     }
 
+    /**
+     * Checks if an announcement has a business type.
+     *
+     * @param announcementList the announcement list
+     * @param businessType     the business type
+     * @return the list
+     */
     public List<Announcement> announcementHasBusinessType(List<Announcement> announcementList, String businessType) {
         for (Announcement announcement : announcementList) {
             if (!(announcement.getRequest().getBusiness().getBusinessType().equals(businessType))) {
@@ -423,6 +444,13 @@ public class Agency {
         return announcementList;
     }
 
+    /**
+     *Checks if an announcement has a specified a property type.
+     *
+     * @param announcementList the announcement list
+     * @param propertyType     the property type
+     * @return the list
+     */
     public List<Announcement> announcementHasPropertyType(List<Announcement> announcementList, String propertyType) {
         for (Announcement announcement : announcementList) {
             if (!(announcement.getRequest().getProperty().getPropertyType().equals(propertyType))) {
@@ -432,6 +460,13 @@ public class Agency {
         return announcementList;
     }
 
+    /**
+     * Checks if  an announcement has a specified number of bedrooms.
+     *
+     * @param announcementList the announcement list
+     * @param numberBedrooms   the number bedrooms
+     * @return the list
+     */
     public List<Announcement> announcementHasNumberBedrooms(List<Announcement> announcementList, Integer numberBedrooms) {
         for (Announcement announcement : announcementList) {
             if (announcement.getRequest().getProperty() instanceof Residence){
@@ -444,6 +479,12 @@ public class Agency {
         return announcementList;
     }
 
+    /**
+     * Sort announcements list by ascending price.
+     *
+     * @param announcementList the announcement list.
+     * @return  the sorted list.
+     */
     public List<Announcement> sortAnnouncementsByAscendingPrice(List<Announcement> announcementList) {
         List<Announcement> clonedAnnouncementList = new ArrayList<>(announcementList);
         clonedAnnouncementList.sort(sortPricesByAscendingOrder);
@@ -451,6 +492,12 @@ public class Agency {
 
     }
 
+    /**
+     * Sort announcements list by descending price.
+     *
+     * @param announcementList the announcement list.
+     * @return  the sorted list.
+     */
     public List<Announcement> sortAnnouncementsByDescendingPrice(List<Announcement> announcementList) {
         List<Announcement> clonedAnnouncementList = new ArrayList<>(announcementList);
         clonedAnnouncementList.sort(Collections.reverseOrder(sortPricesByAscendingOrder));
@@ -458,18 +505,36 @@ public class Agency {
 
     }
 
+    /**
+     * Sort announcements list by city in ascending alphabetic order.
+     *
+     * @param announcementList the announcement list.
+     * @return the sorted list.
+     */
     public List<Announcement> sortAnnouncementsByAscendingCity(List<Announcement> announcementList) {
         List<Announcement> clonedAnnouncementList = new ArrayList<>(announcementList);
         clonedAnnouncementList.sort(sortCitiesByAlphabeticOrder);
         return clonedAnnouncementList;
     }
 
+    /**
+     * Sort announcements list by city in descending alphabetic order.
+     *
+     * @param announcementList the announcement list.
+     * @return the sorted list.
+     */
     public List<Announcement> sortAnnouncementsByDescendingCity(List<Announcement> announcementList) {
         List<Announcement> clonedAnnouncementList = new ArrayList<>(announcementList);
         clonedAnnouncementList.sort(Collections.reverseOrder(sortCitiesByAlphabeticOrder));
         return clonedAnnouncementList;
     }
 
+    /**
+     * Sort announcements list by state in ascending alphabetic order.
+     *
+     * @param announcementList the announcement list.
+     * @return the sorted list.
+     */
     public List<Announcement> sortAnnouncementsByAscendingState(List<Announcement> announcementList) {
         List<Announcement> clonedAnnouncementList = new ArrayList<>(announcementList);
         clonedAnnouncementList.sort(sortStatesByAlphabeticOrder);
@@ -477,12 +542,21 @@ public class Agency {
 
     }
 
+    /**
+     * Sort announcements list by state in descending alphabetic order.
+     *
+     * @param announcementList the announcement list.
+     * @return the sorted list.
+     */
     public List<Announcement> sortAnnouncementsByDescendingState(List<Announcement> announcementList) {
         List<Announcement> clonedAnnouncementList = new ArrayList<>(announcementList);
         clonedAnnouncementList.sort(Collections.reverseOrder(sortStatesByAlphabeticOrder));
         return clonedAnnouncementList;
     }
 
+    /**
+     * Comparator that sorts prices by ascending order.
+     */
     Comparator<Announcement> sortPricesByAscendingOrder = new Comparator<Announcement>() {
         public int compare(Announcement a1, Announcement a2) {
             Double value1 = a1.getRequest().getBusiness().getPrice();
@@ -492,6 +566,9 @@ public class Agency {
         }
     };
 
+    /**
+     * Comparator that sorts cities by ascending alphabetic order.
+     */
     Comparator<Announcement> sortCitiesByAlphabeticOrder = new Comparator<Announcement>() {
         public int compare(Announcement a1, Announcement a2) {
             String value1 = a1.getRequest().getProperty().getLocation().getCity();
@@ -501,6 +578,9 @@ public class Agency {
         }
     };
 
+    /**
+     * Comparator that sorts cities by descending alphabetic order.
+     */
     Comparator<Announcement> sortStatesByAlphabeticOrder = new Comparator<Announcement>() {
         public int compare(Announcement a1, Announcement a2) {
             String value1 = a1.getRequest().getProperty().getLocation().getState();
