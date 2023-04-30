@@ -84,8 +84,8 @@ public class Business {
     @Override
     public String toString() {
         if (this.businessType.getDesignation().equalsIgnoreCase("lease")){
-            return String.format("Type of Business: %s\nRent: %.2f\n", businessType, price);
+            return String.format("Type of Business: %s\nRent: $%.2f\n", businessType, price);
         }
-        return String.format("Type of Business: %s\nPrice: %.2f\n", businessType, price);
+        return String.format("Type of Business: %s\nPrice: $%.2f\n", businessType, price);
     }
 }
