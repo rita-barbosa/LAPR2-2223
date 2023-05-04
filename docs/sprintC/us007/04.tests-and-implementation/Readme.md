@@ -1,23 +1,37 @@
-# US 006 - To create a Task 
+# US 007 - Register user in the system
 
 # 4. Tests 
 
-**Test 1:** Check that it is not possible to create an instance of the Task class with null values. 
+**Test 1:** 
 
-	@Test(expected = IllegalArgumentException.class)
-		public void ensureNullIsNotAllowed() {
-		Task instance = new Task(null, null, null, null, null, null, null);
-	}
-	
+	@Test
+    void ensureCreatePersonWorksForNonExistentPerson() {
+        PersonRepository personRepository = new PersonRepository();
+        AuthenticationRepository authenticationRepository = new AuthenticationRepository();
 
-**Test 2:** Check that it is not possible to create an instance of the Task class with a reference containing less than five chars - AC2. 
+        RegisterUserController ctrl = new RegisterUserController(authenticationRepository, personRepository);
 
-	@Test(expected = IllegalArgumentException.class)
-		public void ensureReferenceMeetsAC2() {
-		Category cat = new Category(10, "Category 10");
-		
-		Task instance = new Task("Ab1", "Task Description", "Informal Data", "Technical Data", 3, 3780, cat);
-	}
+        boolean result = ctrl.createPerson("Joseph", "C12345678", "123-23-4566", "joseph@email.com", "945 835 9008", "JOSep45"
+                , "St. Mark's Place", "Manhattan", "East Village", "NY", "45678");
+    }
+
+   
+
+**Test 2:**  
+
+	 @Test
+    void ensureCreatePersonWorksForExistentPerson() {
+        PersonRepository personRepository = new PersonRepository();
+        AuthenticationRepository authenticationRepository = new AuthenticationRepository();
+
+        Employee employee = new Employee(1234, "Joseph", "C12345678", "123-23-4566", "joseph@email.com",
+                "agent", "945 835 9008", "East Village", "Manhattan", "NY", "45678", "St. Mark's Place");
+        personRepository.add(employee);
+        RegisterUserController ctrl = new RegisterUserController(authenticationRepository, personRepository);
+
+        boolean result = ctrl.createPerson("Joseph", "C12345678", "123-23-4566", "joseph@email.com", "945 835 9008", "JOSep45"
+                , "St. Mark's Place", "Manhattan", "East Village", "NY", "45678");
+    }
 
 
 *It is also recommended to organize this content by subsections.* 
@@ -25,54 +39,36 @@
 # 5. Construction (Implementation)
 
 
-## Class CreateTaskController 
+## Class RegisterUserController 
 
 ```java
-public Task createTask(String reference, String description, String informalDescription,
-								 String technicalDescription, Integer duration, Double cost,
-								 String taskCategoryDescription) {
+public boolean createPerson(String name, String passportCardNumber, String taxNumber, String emailAddress,
+        String phoneNumber, String password, String streetName, String city, String district, String state,
+        String zipcode) {
 
-	TaskCategory taskCategory = getTaskCategoryByDescription(taskCategoryDescription);
+        PersonRepository personRepository = getPersonRepository();
 
-	Employee employee = getEmployeeFromSession();
-	Organization organization = getOrganizationRepository().getOrganizationByEmployee(employee);
+        Person person = new Person(name, passportCardNumber, taxNumber, emailAddress, phoneNumber, AuthenticationController.ROLE_CLIENT,
+        streetName, city, district, state, zipcode);
 
-	newTask = organization.createTask(reference, description, informalDescription, technicalDescription, 
-			duration, cost,taskCategory, employee);
-    
-	return newTask;
-}
+        if (personRepository.add(person)) {
+        AuthenticationRepository newAuthenticationRepository = getAuthenticationRepository();
+        return newAuthenticationRepository.addUserWithRole(name, emailAddress, password, AuthenticationController.ROLE_CLIENT);
+        } else {
+        return true;
+        }
+        }
 ```
 
-
-## Class Organization
-
-```java
-public Optional<Task> createTask(String reference, String description, String informalDescription,
-                                     String technicalDescription, Integer duration, Double cost,
-                                     TaskCategory taskCategory, Employee employee) {
-    
-        Task task = new Task(reference, description, informalDescription, technicalDescription, duration, cost,
-                taskCategory, employee);
-
-        addTask(task);
-        
-        return task;
-    }
-```
 
 # 6. Integration and Demo 
 
-* A new option on the Employee menu options was added.
-
-* Some demo purposes some tasks are bootstrapped while system starts.
+* n/a
 
 
 # 7. Observations
 
-Platform and Organization classes are getting too many responsibilities due to IE pattern and, therefore, they are becoming huge and harder to maintain. 
-
-Is there any way to avoid this to happen?
+* n/a
 
 
 
