@@ -1,4 +1,4 @@
-# US 006 - To create a Task 
+# US 010 - To submit an order to purchase the property
 
 # 4. Tests 
 
