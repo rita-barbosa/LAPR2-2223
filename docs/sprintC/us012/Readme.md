@@ -1,4 +1,4 @@
-# US 006 - To create a Task 
+# US 012 - To import legacy system information
 
 [Requirements Engineering](01.requirements-engineering/Readme.md)
 
