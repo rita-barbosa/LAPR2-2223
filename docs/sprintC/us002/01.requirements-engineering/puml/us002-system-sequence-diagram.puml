@@ -1,0 +1,129 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - US002
+
+autonumber
+
+actor "Agent" as Employee
+participant ":System" as System
+
+activate Employee
+
+    Employee -> System : asks to publish sale announcement
+    activate System
+
+      System --> Employee : shows types of commission and asks to select one
+    deactivate System
+
+    Employee -> System : selects type of commission
+    activate System
+
+    System --> Employee : requests value of commission
+    deactivate System
+
+    Employee -> System : enters commission value
+    activate System
+
+    System --> Employee : requests owner email
+    deactivate System
+
+    Employee -> System : enters requested data (ownerEmail)
+    activate System
+
+    System --> Employee : shows types of properties and asks to select one
+    deactivate System
+
+    Employee -> System : selects a type of property
+    activate System
+
+    System --> Employee : requests streetName, city, district, state and zipCode of the property
+    deactivate System
+
+    Employee -> System : types requested data (streetName, city, district, state, zipCode)
+    activate System
+
+    System --> Employee : requests area of the property
+    deactivate System
+
+    Employee -> System : types requested data (area)
+    activate System
+
+    System --> Employee : requests distance from city center of the property
+    deactivate System
+
+    Employee -> System : types requested data (distanceCityCentre)
+    activate System
+
+    System --> Employee : requests price of the property
+    deactivate System
+
+    Employee -> System : types requested data (price)
+    activate System
+
+        loop 30 times
+        System --> Employee : requests the photograph URI of the property
+        deactivate System
+        Employee -> System : types requested data (uri)
+        activate System
+        end loop
+
+
+    alt propertyType = apartment || propertyType = house
+
+     autonumber 17.1
+        System --> Employee : requests data (number of bedrooms, number of parking spaces)
+        deactivate System
+
+        Employee -> System : types requested data (number of bedrooms, number of parking spaces)
+        activate System
+
+
+        System --> Employee : requests number of bathrooms
+        deactivate System
+
+            opt numberBathrooms
+            Employee -> System : types requested data (numberBathrooms)
+            activate System
+            end opt
+
+        loop availableEquipment
+        System --> Employee : requests available equipment
+        deactivate System
+            opt availableEquipment
+                Employee -> System : types requested data (availableEquipment)
+                activate System
+            end opt
+        end loop
+
+        alt type of property = house
+
+        System --> Employee : requests data (existence of basement; inhabitable loft)
+        deactivate System
+
+        Employee -> System : types requested data
+        activate System
+
+        System --> Employee : asks to select sun exposure
+        deactivate System
+
+            opt sun exposure
+            Employee -> System : selects requested data (sunExposure)
+            activate System
+            end opt
+
+        end
+    end
+    autonumber 18
+        System --> Employee : shows all data and requests confirmation
+    deactivate System
+
+    Employee -> System : submits data
+    activate System
+
+        System --> Employee : displays operation success
+    deactivate System
+
+@enduml

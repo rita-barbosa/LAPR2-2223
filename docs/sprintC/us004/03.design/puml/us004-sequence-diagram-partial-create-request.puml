@@ -1,0 +1,211 @@
+@startuml
+
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+participant "request\n:Request" as REQUEST
+participant "house\n:House" as HOUSE
+participant "residence\n:Residence" as RESIDENCE
+participant "availableEquipment\n:List<AvailableEquipment>" as AEQUIP
+participant "property\n:Property" as PROPERTY
+participant "photograph\n:List<Photograph>" as PHOTO
+participant "location\n:Location" as LOCATION
+
+autonumber 35
+
+         -> REQUEST : createRequest(ownerEmail, agent, agency, propertyType, businessType, amount,\n area, contractDuration, streetName, city, district, state, zipCode, basement,\n availableEquipmentDesignationList, inhabitableLoft, parkingSpace, sunExposure,\n numberBedroom, numberBathroom, distanceCityCenter, photographUriList)
+        activate REQUEST
+
+            group Create Request
+
+            |||
+                alt Property Type = Land
+
+                autonumber 35.1
+
+                REQUEST -> PROPERTY** : Property(propertyType, area, streetName, city, district, state,\n zipCode, distanceCityCenter, photographUriList)
+
+                    activate PROPERTY
+
+                    PROPERTY -> PHOTO** : photographList = fillPhotographList(photographUriList)
+
+                    activate PHOTO
+
+                    PHOTO --> PROPERTY : photographList
+                    deactivate PHOTO
+
+                    |||
+
+                   PROPERTY -> LOCATION** : createLocation(streetName, city, district, state, zipCode)
+
+                   activate LOCATION
+
+                   LOCATION -> LOCATION : validateLocation(location)
+
+                       activate LOCATION
+
+                       LOCATION --> LOCATION
+
+                       deactivate LOCATION
+
+                   LOCATION --> PROPERTY : location
+
+                   deactivate LOCATION
+
+                   |||
+                   PROPERTY -> PROPERTY : validateProperty(property)
+
+                        activate PROPERTY
+
+                        PROPERTY --> PROPERTY
+
+                        deactivate PROPERTY
+
+                   PROPERTY --> REQUEST : property
+
+                   deactivate PROPERTY
+
+                |||
+                else Property Type = Apartment
+
+                autonumber 35.1
+
+                REQUEST -> RESIDENCE** : Residence(propertyType, area, streetName, city, district, state,\n zipCode, availableEquipmentDesignationList, parkingSpace,\n numberBedroom, numberBathroom photographUriList, distanceCityCenter)
+
+                activate RESIDENCE
+
+                RESIDENCE -> AEQUIP** : availableEquipmentList = fillAvailableEquipmentList(availableEquipmentDesignationList)
+
+                activate AEQUIP
+
+                AEQUIP --> RESIDENCE : availableEquipmentList
+
+                deactivate AEQUIP
+
+                |||
+                RESIDENCE -> PROPERTY** : super(propertyType, area, distanceCityCenter, photographUriList, streetName, city, district, state, zipCode)
+
+                activate PROPERTY
+
+                PROPERTY -> PHOTO** : photographList = fillPhotographList(photographUriList)
+
+                activate PHOTO
+
+                PHOTO --> PROPERTY : photographList
+                deactivate PHOTO
+
+                |||
+
+               PROPERTY -> LOCATION** : createLocation(streetName, city, district, state, zipCode)
+
+               activate LOCATION
+
+               LOCATION -> LOCATION : validateLocation(location)
+
+                   activate LOCATION
+
+                   LOCATION --> LOCATION
+
+                   deactivate LOCATION
+
+               LOCATION --> PROPERTY : location
+
+               deactivate LOCATION
+
+               |||
+               PROPERTY -> PROPERTY : validateProperty(property)
+
+                    activate PROPERTY
+
+                    PROPERTY --> PROPERTY
+
+                    deactivate PROPERTY
+
+               PROPERTY --> RESIDENCE : property
+
+               deactivate PROPERTY
+
+               RESIDENCE --> REQUEST : residence
+
+               deactivate RESIDENCE
+
+            |||
+            else Property Type = House
+                autonumber 35.1
+
+               REQUEST -> HOUSE** : House(propertyType, availableEquipmentDesignationList, area, streetName,\n city, district, state, zipCode, basement, inhabitableLoft, parkingSpace,\n sunExposure, numberBedroom, numberBathroom, distanceCityCenter,\n photographUriList)
+
+               activate HOUSE
+
+               HOUSE -> RESIDENCE** : super(propertyType, area, availableEquipmentDesignationList,\n streetName, city, district, state, zipCode, parkingSpace,\n numberBedroom, numberBathroom, distanceCityCenter,\n photographUriList)
+                activate RESIDENCE
+
+                RESIDENCE -> AEQUIP** : availableEquipmentList = fillAvailableEquipmentList(availableEquipmentDesignationList)
+
+                activate AEQUIP
+
+                AEQUIP --> RESIDENCE : availableEquipmentList
+
+                deactivate AEQUIP
+
+                |||
+                RESIDENCE -> PROPERTY** : super(propertyType, area, distanceCityCenter, photographUriList, streetName, city, district, state, zipCode)
+
+                activate PROPERTY
+
+                PROPERTY -> PHOTO** : photographList = fillPhotographList(photographUriList)
+
+                activate PHOTO
+
+                PHOTO --> PROPERTY : photographList
+                deactivate PHOTO
+
+                |||
+
+               PROPERTY -> LOCATION** : createLocation(streetName, city, district, state, zipCode)
+
+               activate LOCATION
+
+               LOCATION -> LOCATION : validateLocation(location)
+
+                   activate LOCATION
+
+                   LOCATION --> LOCATION
+
+                   deactivate LOCATION
+
+               LOCATION --> PROPERTY : location
+
+               deactivate LOCATION
+
+               |||
+               PROPERTY -> PROPERTY : validateProperty(property)
+
+                    activate PROPERTY
+
+                    PROPERTY --> PROPERTY
+
+                    deactivate PROPERTY
+
+               PROPERTY --> RESIDENCE : property
+
+               deactivate PROPERTY
+
+               RESIDENCE --> HOUSE : residence
+
+               deactivate RESIDENCE
+
+           HOUSE --> REQUEST : house
+           deactivate HOUSE
+            |||
+            end alt
+
+        |||
+        end group
+
+        autonumber 36
+
+        <-- REQUEST : request
+        deactivate REQUEST
+@enduml

@@ -1,0 +1,114 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+'left to right direction
+
+skinparam classAttributeIconSize 0
+
+hide circle
+hide methods
+
+title Domain Model - US004
+
+class Property {
+    area
+    distanceCityCenter
+}
+
+class Photograph{
+    url
+}
+
+class Lease{
+    contractDuration
+}
+
+class Business {
+    amount
+}
+
+class BusinessType{
+    designation
+}
+
+class Residence{
+    numberBedroom
+    numberBathroom
+    parkingSpace
+
+}
+
+class Location{
+    street
+    city
+    district
+    state
+    zipCode
+}
+
+class ResidenceType{
+    designation
+}
+
+class PropertyType{
+    designation
+}
+
+class House{
+    basement
+    inhabitableLoft
+    sunExposure
+}
+
+class AvailableEquipment{
+    description
+}
+
+class Agent{
+    passportCardNumber
+    taxNumber
+    phoneNumber
+}
+
+class Agency {
+    ID
+    designation
+    emailAddress
+    contactNumber
+}
+
+class Owner {
+    name
+    citizen's card number
+    tax number
+    address
+    email address
+    telephone number
+}
+
+class Request{
+    request date
+}
+
+
+Agent "1" -up- "1" Agency: works in  >
+Agency "1" - "1" Location : contains >
+PropertyType "1" -- "*" Property : classifies >
+Property "1" -- "1" Owner : belongs to >
+Agent "1" -up- "*" Property : < advertised by
+Photograph "1*" -- "1" Property : contains <
+Location "1" -- "1" Property : contains <
+Residence "1" -- "*" AvailableEquipment : contains >
+ResidenceType "1" -- "1" Residence: classifies >
+Request "1" - "1" Property : has information about >
+Request "1" -- "1" Business: is described by >
+BusinessType "1" - "1" Business : describes >
+Agent "1" -- "1" Request : is assigned to
+Business <|-- Lease
+Property <|-RIGHT- Residence
+Owner "1" -- "*" Request : submits
+Residence <|-- House
+
+@enduml

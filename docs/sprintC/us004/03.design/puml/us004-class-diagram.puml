@@ -1,0 +1,265 @@
+@startuml
+
+'skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam linetype polyline
+'skinparam linetype orto
+
+skinparam classAttributeIconSize 0
+
+'left to right direction
+
+class Owner {
+    - int passportCardNumber
+    - int taxNumber
+    - int phoneNumber
+    - email
+}
+
+class CreateRequestUI {}
+
+class CreateRequestController {
+    + CreateRequestController(agencyRepository, businessTypeRepository,\n propertyTypeRepository)
+    + getBusinessType()
+    + getPropertyType()
+    + addAvailableEquipment(description)
+    + addPhotographUri(uri)
+    + getAgencies()
+    + getAgentsFromAgencyID(id)
+    + createRequest(ownerEmail, propertyTypeDesignation, businessTypeDesignation,\n amount, area, contractDuration, availableEquipment, streetName, city, district, state,\n zipCode, basement, inhabitableLoft, parkingSpace, sunExposure, numberBedroom,\n numberBathroom, agent, distanceCityCenter, photograph, agency)
+    - getBusinessTypeByDesignation(businessTypeDesignation)
+    - getPropertyTypeByDesignation(propertyTypeDesignation)
+    - getOwnerEmail()
+}
+
+note top of CreateRequestController
+    - ownerEmail is obtained from the user session
+    - id, propertyTypeDesignation, businessTypeDesignation,
+    agency, agent are retrieved from selected data
+    - uri and description are retrieved from typed data
+end note
+
+class PropertyTypeRepository {
+    + getPropertyTypeByDesignation(propertyTypeDesignation)
+}
+
+note bottom of PropertyTypeRepository
+    - used for displaying
+    the property type list
+end note
+
+class BusinessTypeRepository {
+    + getBusinessTypeByDesignation(businessTypeDesignation)
+}
+
+note top of BusinessTypeRepository
+    - used for displaying
+     the business type list
+end note
+
+class PropertyType {
+    - propertyTypeDesignation
+    + PropertyType(propertyTypeDesignation)
+}
+
+class BusinessType {
+    - businessTypeDesignation
+    + BusinessType(businessTypeDesignation)
+}
+
+class AgencyRepository {
+    + getAgencyByID(id)
+}
+note right of AgencyRepository
+    - used for displaying
+     the agencies list
+end note
+
+class Agency {
+    - int id
+    - String designation
+    - String emailAddress
+    - int phoneNumber
+    + getAgents()
+    + addRequest(request)
+    + validateRequest(request))
+}
+
+class Agent {
+    - int passportCardNumber
+    - int taxNumber
+    - int phoneNumber
+    - email
+}
+
+class Repositories {
+    - Repositories()
+    + getInstance() : Repositories
+    + getBusinessTypeRepository()
+    + getPropertyTypeRepository()
+    + getAgencyRepository()
+}
+
+class ApplicationSession
+{
+    + static getInstance()
+    + getCurrentSession()
+}
+
+class UserSession
+{
+    + getUserId()
+}
+
+class Property {
+    - double area
+    - double distanceCityCenter
+    - boolean basement
+    - boolean inhabitableLoft
+    - boolean parkingSpace
+    - String sunExposure
+    - int numberBedroom
+    - int numberBathroom
+    + Property(streetName, city, district, state, zipCode, propertyType,\n area, basement, availableEquipment, inhabitableLoft, parkingSpace,\n sunExposure, numberBedroom, numberBathroom, distanceCityCenter,\n photograph)
+    }
+
+class Location {
+    - String streetName
+    - String city
+    - String district
+    - String state
+    - int zipCode
+    + Location(streetName, city, district, state, zipCode)
+}
+
+class Photograph{
+    - String uri
+    + addPhotographUri(uri)
+}
+
+class AvailableEquipment{
+    - String description
+    + addAvailableEquipment(description)
+}
+
+class Request{
+    - String requestDate
+    - Agent agent
+    - String ownerEmail
+    - Business business
+    - Lease lease
+    - Property property
+    + Request(agency, agent, ownerEmail, businessType, propertyType, area,\n streetName, city, district, state, zipCode, basement, availableEquipment,\n inhabitableLoft, parkingSpace, sunExposure, numberBedroom,\n numberBathroom, distanceCityCenter, contractDuration, photograph)
+    - getCurrentDate()
+}
+
+class Residence extends Property{
+    - numberBedrooms
+    - numberBathrooms
+    - parkingSpace
+    + Residence(propertyType, area, availableEquipment, streetName, city,\n district, state, zipCode, parkingSpace, numberBedroom, numberBathroom,\n distanceCityCenter, photograph)
+    + fillAvailableEquipmentList(availableEquipment)
+
+}
+
+class House extends Residence{
+     - basement
+     - inhabitableLoft
+     - sunExposure
+     + House(propertyType, availableEquipment, area, streetName, city,\n district, state, zipCode, basement, inhabitableLoft, parkingSpace,\n sunExposure, numberBedroom, numberBathroom, distanceCityCenter,\n photograph)
+}
+
+class Business{
+    - double amount
+}
+
+class Lease extends Business{
+    - int contractDuration
+}
+
+class Person{
+    - String name
+    email
+    passportCardNumber
+    taxNumber
+    phoneNumber
+}
+
+class Employee{
+ - String agencyId;
+}
+
+'RELATIONS
+
+Employee "1" -left- "0.*" Agent
+
+Person "1" -- "1" Location: has address >
+
+Employee "1" -- "1" Person: represents a
+
+Owner "1"  -- "1" Person: represented in >
+
+Repositories -> Repositories : instance
+
+ApplicationSession -> ApplicationSession : instance
+
+ApplicationSession --> "1" UserSession
+
+CreateRequestController .left.> ApplicationSession
+
+CreateRequestController .> UserSession
+
+CreateRequestUI .right> CreateRequestController
+
+CreateRequestController ..> Repositories
+
+Repositories "1" -down-> "1" PropertyTypeRepository
+
+Repositories "1" -down-> "1" BusinessTypeRepository
+
+Repositories "1" -down-> "1" AgencyRepository
+
+CreateRequestController ..> PropertyTypeRepository
+
+CreateRequestController ..> BusinessTypeRepository
+
+CreateRequestController ..> AgencyRepository
+
+CreateRequestController ..> Agency
+
+CreateRequestController ..> PropertyType
+
+CreateRequestController ..> BusinessType
+
+BusinessTypeRepository "1" -down-> "*" BusinessType : aggregates
+
+PropertyTypeRepository "1" -down-> "*" PropertyType : aggregates
+
+Agency "1" -right-> "*" Agent : employs
+
+Request "1" --> "1" Property : has information about
+
+Property "1" --> "1" Location : has address on
+
+AgencyRepository "1" -down-> "*" Agency : aggregates
+
+Property "1" -left-> "1" Owner : belongs to
+
+Owner "1" -up-> "*" Request : submits
+
+Property "1" --> "1" Photograph : contains
+
+Residence "1" -left-> "1" AvailableEquipment : contains
+
+PropertyType "1" --> "1" Property : is a description of
+
+BusinessType "1" --> Business : describes
+
+Request "1" -right-> Business : is described by
+
+Agency "1" --> "*" Request : manages
+
+Agent "1" --> "*" Request : is responsible
+
+@enduml

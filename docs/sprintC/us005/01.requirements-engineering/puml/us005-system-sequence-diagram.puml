@@ -1,0 +1,34 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD)
+
+autonumber
+
+actor "System Administrator" as Employee
+participant ":System" as System
+
+activate Employee
+
+    Employee -> System : asks to register a new store
+    activate System
+
+        System --> Employee : requests data
+    deactivate System
+
+    Employee -> System : types requested data (ID, designation, location, phone number, email)
+    activate System
+
+        System --> Employee : shows data and asks for confirmation
+    deactivate System
+
+
+    Employee -> System : confirms data
+    activate System
+
+        System --> Employee : displays operation success
+    deactivate System
+
+@enduml

@@ -1,0 +1,56 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false\
+
+
+
+participant ":PublishAnnouncementController" as CTRL
+participant ":Repositories" as RepositorySingleton
+participant "repositories\n:Repositories" as PLAT
+participant "agencyRepository\n:AgencyRepository" as AgencyRepository
+participant "agency\n:Agency" as AGENCY
+
+
+autonumber 34
+
+             -> CTRL : getAgencyByUserEmail(email)
+             activate CTRL
+
+autonumber 34.1
+
+    group Get Agency
+
+             CTRL-> RepositorySingleton : getInstance();
+             activate RepositorySingleton
+
+             RepositorySingleton --> CTRL: repositories
+             deactivate RepositorySingleton
+
+
+             CTRL -> PLAT: getAgencyRepository()
+             activate PLAT
+
+             PLAT --> CTRL: agencyRepository
+             deactivate PLAT
+
+
+             CTRL -> AgencyRepository: getAgencyByUserEmail(email)
+             activate AgencyRepository
+
+                 loop [for each agency
+                     AgencyRepository -> AGENCY : anyAgentHasEmail(email)
+                     activate AGENCY
+
+                          AGENCY --> AgencyRepository : true/false
+                     deactivate AGENCY
+                 end
+                 AgencyRepository --> CTRL : agency
+             deactivate AgencyRepository
+    end
+
+autonumber 35
+
+    <-- CTRL : agency
+
+@enduml

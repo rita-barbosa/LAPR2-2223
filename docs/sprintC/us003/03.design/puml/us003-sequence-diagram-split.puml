@@ -1,0 +1,100 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+'hide footbox
+actor "System Administrator" as ADM
+participant ":RegisterEmployeeUI" as UI
+participant ":registerEmployeeController" as CTRL
+participant "person\n:Person" as PERSON
+
+activate ADM
+
+    ADM -> UI : asks to register a new employee
+
+    activate UI
+
+        UI -> CTRL** : register
+        UI -> CTRL : getAgency()
+        ref over CTRL
+            Get Agency List
+
+        end ref
+
+        activate CTRL
+
+            CTRL --> UI : AgencyList
+        deactivate CTRL
+
+        UI --> ADM : shows agency list and asks to select one
+    deactivate UI
+
+    ADM -> UI : selects an agency
+    activate UI
+
+    UI -> CTRL : getRole()
+            ref over CTRL
+                Get Role List
+
+            end ref
+
+            activate CTRL
+
+                CTRL --> UI : RoleList
+            deactivate CTRL
+
+            UI --> ADM : shows role list and asks to select one
+        deactivate UI
+
+        ADM -> UI : selects a role
+        activate UI
+
+        UI --> ADM : requests person (name, passport \ncard number, tax number, location,\n email, phone number)
+    deactivate UI
+
+    ADM -> UI : types requested person
+        activate UI
+
+            UI --> ADM : shows selected agency, role and requested person
+        deactivate UI
+
+        ADM -> UI : submits person
+        activate UI
+
+        UI -> CTRL : RegisterEmployee(name, passport \ncard number, tax number, location,\n email, phone number)
+        activate CTRL
+
+            CTRL -> CTRL : getPerson(person)
+            activate CTRL
+
+                ref over CTRL
+                    Get Person Object
+
+                end ref
+
+                CTRL --> CTRL : person
+            deactivate CTRL
+
+
+            CTRL -> PERSON: person(name, passport \ncard number, tax number, address,\n email, phone number)
+            activate PERSON
+
+                ref over PERSON
+                    Register Employee
+
+                end
+
+                PERSON --> CTRL : register
+            deactivate PERSON
+
+            CTRL --> UI: register
+            deactivate CTRL
+            UI --> ADM: displays operation success
+    deactivate UI
+
+deactivate ADM
+
+@enduml

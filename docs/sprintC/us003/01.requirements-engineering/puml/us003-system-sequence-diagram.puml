@@ -1,0 +1,45 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD)
+
+autonumber
+
+actor "System Administrator" as Employee
+participant ":System" as System
+
+activate Employee
+
+    Employee -> System : asks to register a new employee
+    activate System
+
+        System --> Employee : requests data (name, passport card number,\nphone number, tax number, street name, city,\n district, state, zip code, email)
+    deactivate System
+
+    Employee -> System : types requested data
+    activate System
+
+        System --> Employee : shows agencies partner list and asks to \n select one
+    deactivate System
+
+    Employee -> System : selects an agency
+    activate System
+
+    group Role
+    System --> Employee : shows role and asks to select one
+    loop 3 times
+    Employee -> System : selects a role
+    end
+
+        System --> Employee : shows selected role, agency and requested \n data
+    deactivate System
+
+    Employee -> System : submits data
+    activate System
+
+        System --> Employee : displays operation success
+    deactivate System
+
+@enduml

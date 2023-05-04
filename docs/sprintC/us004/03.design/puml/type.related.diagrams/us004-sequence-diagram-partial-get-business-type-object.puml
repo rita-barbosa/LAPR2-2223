@@ -1,0 +1,44 @@
+@startuml
+
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+participant ":CreatePropertyController" as CTRL
+participant ":Repositories" as RepositorySingleton
+participant "repositories\n:Repositories" as PLAT
+participant "businessTypeRepository\n:BusinessTypeRepository" as BusinessTypeRepository
+
+autonumber 28
+    -> CTRL : getBusinessTypeByDesignation(businessTypeDesignation)
+    activate CTRL
+        autonumber 28.1
+        group Get Business Type Object
+
+        CTRL -> RepositorySingleton : getInstances()
+        activate RepositorySingleton
+
+        RepositorySingleton --> CTRL : repositories
+        deactivate RepositorySingleton
+
+        CTRL -> PLAT : getBusinessTypeRepository()
+
+        activate PLAT
+
+        PLAT --> CTRL : businessTypeRepository
+        deactivate PLAT
+
+        CTRL -> BusinessTypeRepository : getBusinessTypeByDesignation(businessTypeDesignation)
+
+        activate BusinessTypeRepository
+
+        BusinessTypeRepository --> CTRL : businessType
+        deactivate BusinessTypeRepository
+
+        end group
+
+autonumber 29
+<-- CTRL : businessType
+deactivate CTRL
+
+@enduml

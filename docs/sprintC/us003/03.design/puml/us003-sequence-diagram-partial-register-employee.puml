@@ -1,0 +1,34 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+participant "person\n:Person" as PERSON
+participant "agency\n:Agency" as AGENCY
+
+autonumber 16
+-> PERSON: registerEmployee(name, passport card \nnumber, tax number, location,\n email, phone number)
+
+autonumber 16.1
+activate PERSON
+    group Register Employee
+
+        PERSON -> AGENCY**: register(name, passport card \nnumber, tax number, location,\n email, phone number)
+        PERSON -> PERSON: addEmployee (employee)
+
+        activate PERSON
+            PERSON -> PERSON: validateEmployee(employee)
+            activate PERSON
+                PERSON --> PERSON
+            deactivate PERSON
+
+            PERSON --> PERSON
+        deactivate PERSON
+    end
+
+    autonumber 17
+    <-- PERSON : register
+deactivate PERSON
+
+
+@enduml

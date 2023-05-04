@@ -1,0 +1,89 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+participant "agency\n:Agency" as AGENCY
+participant "request\n:Request" as REQUEST
+participant "property\n:Property" as PROPERTY
+participant "residence\n:Residence" as RESIDENCE
+participant "house\n:House" as HOUSE
+participant "location\n:Location" as LOCATION
+participant "availableEquipment\n:AvailableEquipment" as AEQUIP
+participant "photograph\n:Photograph" as PHOTO
+participant "business\n:Business" as BUSINESS
+
+
+autonumber 42
+
+        -> AGENCY: createSaleRequest(agent,agency,ownerEmail,propertyType,streetName, city, district, state,\nzipCode, distanceCityCenter, price, businessType, numberBedrooms,\nnumberParkingSpaces,existenceBasement,inhabitableLoft, numberBathrooms,\n availableEquipmentList,uriList,sunExposure,area)
+         activate AGENCY
+
+autonumber 42.1
+
+    group Create Request
+
+        AGENCY -> REQUEST **: createSaleRequest(ownerEmail, propertyType,streetName, city, district, state,\nzipCode, distanceCityCenter, price,businessType, numberBedrooms,\nnumberParkingSpaces,existenceBasement,inhabitableLoft, numberBathrooms,\n availableEquipmentList,uriList,sunExposure,area)
+        activate REQUEST
+
+       REQUEST -> BUSINESS** : createBusiness(price)
+
+        alt propertyType = land
+                REQUEST -> PROPERTY** : createProperty(price,business, streetName, city, district, state,zipCode,\n distanceCityCenter, area, uriList)
+                activate PROPERTY
+
+                PROPERTY -> LOCATION** : createLocation(streetName, city, district, state, zipCode)
+
+                PROPERTY -> PHOTO** : createPhotograph(uriList)
+                PROPERTY -> AEQUIP** : createAvailableEquipment(availableEquipmentList)
+                PROPERTY --> REQUEST : property
+                deactivate PROPERTY
+
+        end
+        alt propertyType = apartment
+
+                REQUEST -> RESIDENCE** : createResidence(price,business, streetName, city, district, state,zipCode,\ndistanceCityCenter, area, uriList,numberBedroom,\nnumberParkingSpace,numberBathroom,availableEquipmentList)
+                activate RESIDENCE
+
+                RESIDENCE -> LOCATION** : createLocation(streetName, city, district, state, zipCode)
+
+                RESIDENCE -> PHOTO** : createPhotograph(uriList)
+                RESIDENCE -> AEQUIP** : createAvailableEquipment(availableEquipmentList)
+                RESIDENCE --> REQUEST : property
+                deactivate RESIDENCE\
+
+        end
+        alt propertyType = house
+                REQUEST -> HOUSE** : createHouse(price, business, streetName, city, district, state,zipCode,\ndistanceCityCenter, area, uriList,numberBedroom,\nnumberParkingSpace,numberBathroom,availableEquipmentList,\nexistenceBasement,inhabitableLoft,sunExposure)
+                activate HOUSE
+
+                HOUSE -> LOCATION** : createLocation(streetName, city, district, state, zipCode)
+
+                HOUSE -> PHOTO** : createPhotograph(uriList)
+                HOUSE -> AEQUIP** : createAvailableEquipment(availableEquipmentList)
+                HOUSE --> REQUEST : property
+                deactivate HOUSE
+        end
+
+            REQUEST --> AGENCY: request
+            deactivate REQUEST
+            |||
+            AGENCY -> AGENCY: addRequest(request)
+                activate AGENCY
+                    AGENCY -> AGENCY: validateRequest(request)
+                    activate AGENCY
+                        AGENCY --> AGENCY
+                    deactivate AGENCY
+
+                    AGENCY --> AGENCY
+
+            deactivate  AGENCY
+    |||
+    end
+
+autonumber 43
+        <-- AGENCY: request
+        deactivate AGENCY
+
+
+@enduml

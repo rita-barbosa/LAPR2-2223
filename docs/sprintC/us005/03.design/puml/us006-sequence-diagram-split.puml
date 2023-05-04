@@ -1,0 +1,61 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+'hide footbox
+actor "Organization Employee" as ADM
+participant ":CreateTaskUI" as UI
+participant ":CreateTaskController" as CTRL
+participant "organization\n:Organization" as ORG
+
+activate ADM
+
+    ADM -> UI : asks to register a new agency
+
+    activate UI
+
+        UI -> CTRL** : create
+
+        activate CTRL
+
+
+
+        UI --> ADM : requests data
+    deactivate UI
+
+    ADM -> UI : types requested data (ID, designation, streetName, city,\n district, state, zipCode, phoneNumber, email)
+    activate UI
+
+        UI --> ADM : shows requested data
+    deactivate UI
+
+    ADM -> UI : submits data
+    activate UI
+
+        UI -> CTRL : registerAgency(ID, designation, streetName, city,\n district, state, zipCode, phoneNumber, email)
+        activate CTRL
+
+
+            CTRL -> ORG: registerAgency(ID, designation, streetName, city,\n district, state, zipCode, phoneNumber, email)
+            activate ORG
+
+                ref over ORG
+                    Register Agency
+
+                end
+
+                ORG --> CTRL : agency
+            deactivate ORG
+
+
+            CTRL --> UI: agency
+            deactivate CTRL
+            UI --> ADM: displays operation success
+    deactivate UI
+
+deactivate ADM
+
+@enduml

@@ -1,0 +1,44 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+participant ":PublishAnnouncementController" as CTRL
+participant ":Repositories" as RepositorySingleton
+participant "repositories\n:Repositories" as PLAT
+participant "propertyTypeRepository:\nPropertyTypeRepository" as PropertyTypeRepository
+
+autonumber 36
+-> CTRL : getPropertyTypeByDesignation(designation)
+
+autonumber 36.1
+
+activate CTRL
+    group Get Property Type
+        CTRL -> RepositorySingleton : getInstance()
+        activate RepositorySingleton
+
+            RepositorySingleton --> CTRL: repositories
+        deactivate RepositorySingleton
+
+        CTRL -> PLAT : getPropertyTypeRepository()
+        activate PLAT
+
+            PLAT -> CTRL : propertyTypeRepository
+        deactivate PLAT
+
+        CTRL -> PropertyTypeRepository : getPropertyTypeByDesignation(designation)
+        activate PropertyTypeRepository
+
+        PropertyTypeRepository --> CTRL : propertyType
+        deactivate PropertyTypeRepository
+
+    end group
+
+    autonumber 37
+    <-- CTRL : propertyType
+
+deactivate CTRL
+
+
+@enduml
