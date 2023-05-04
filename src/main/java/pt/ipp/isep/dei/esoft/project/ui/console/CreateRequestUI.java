@@ -776,6 +776,11 @@ public class CreateRequestUI implements Runnable {
         return value;
     }
 
+    /**
+     * Gets int answer.
+     *
+     * @return the int answer
+     */
     private Integer getIntAnswer() {
         Scanner input = new Scanner(System.in);
         boolean invalid = true;
