@@ -17,10 +17,23 @@ left to right direction
         "Agent" --> UC2
     usecase "UC3 - Register new employees" as UC3
         "System Administrator" --> UC3
+    usecase "UC4 - Submit a request for\n an announcement" as UC4
+        "Owner" --> UC4
     usecase "UC5 - Register new store" as UC5
         "System Administrator" --> UC5
-     usecase "UC4 - Submit a Request for\n an Announcement" as UC4
-        "Owner" --> UC4
     usecase "UC7 - Register a user in the system" as UC7
         "Unregistered User" --> UC7
+    usecase "UC8 - List property\n announcement requests" as UC8
+       "Agent" --> UC8
+    usecase "UC9 - Schedule a visit to a property" as UC9
+       "Registered User" --> UC9
+    usecase "UC10 - To submit a purchase order" as UC10
+       "Registered User" --> UC10
+    usecase "UC11 - Accept purchase orders" as UC11
+       "Agent" --> UC11
+    usecase "UC12 - Import legacy system's file" as UC12
+       "System Administrator" --> UC12
+    usecase "UC13 - List all employees in\n all agencies" as UC13
+       "Network Manager" --> UC13
+
 @enduml
