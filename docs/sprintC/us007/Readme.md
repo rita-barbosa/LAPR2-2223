@@ -1,4 +1,4 @@
-# US 006 - To create a Task 
+# US 007 - Register a user in the system
 
 [Requirements Engineering](01.requirements-engineering/Readme.md)
 

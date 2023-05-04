@@ -1,4 +1,4 @@
-# US 006 - To create a Task 
+# US 007 - Register user in the system
 
 ## 2. Analysis
 
