@@ -1,4 +1,4 @@
-# US 012 - To import legacy system information
+# US012 - To import legacy system information
 
 ## 1. Requirements Engineering
 
