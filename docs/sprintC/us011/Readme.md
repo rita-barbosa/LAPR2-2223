@@ -1,4 +1,4 @@
-# US 006 - To create a Task 
+# US 011 - To accept purchase orders
 
 [Requirements Engineering](01.requirements-engineering/Readme.md)
 
