@@ -1,74 +1,64 @@
-# US 006 - To create a Task 
+# US 011 - To accept purchase orders
 
 ## 1. Requirements Engineering
 
-
 ### 1.1. User Story Description
 
+As an agent, I want to list real estate purchase orders to accept or decline a purchase order for a property. After
+accepting or declining, an email notification should be sent to the customer.
 
-As an organization employee, I want to create a new task in order to be further published.
-
-
-
-### 1.2. Customer Specifications and Clarifications 
-
+### 1.2. Customer Specifications and Clarifications
 
 **From the specifications document:**
 
->	Each task is characterized by having a unique reference per organization, a designation, an informal and a technical description, an estimated duration and cost as well as the its classifying task category. 
-
-
->	As long as it is not published, access to the task is exclusive to the employees of the respective organization. 
+> The agent acknowledges and considers any offers made by the client to purchase or lease the property, they can either
+> accept or reject the order. If the request is accepted, the offer will not be shown again to clients using the
+> application.
 
 
 
 **From the client clarifications:**
 
-> **Question:** Which is the unit of measurement used to estimate duration?
->  
-> **Answer:** Duration is estimated in days.
+> **Question:** When the agent declines an order, does it have to be removed from the list and system?
+>
+> **Answer:** The order should be removed from the list but not from the system.
 
+> **Question:** When the agent wants to list real estate purchase orders, do they list all of them at once or can a property be chosen to list the purchase orders that are related to that specific property?
+> 
+> **Answer:** _Yet to be answered_
 
-> **Question:** Monetary data is expressed in any particular currency?
->  
-> **Answer:** Monetary data (e.g. estimated cost of a task) is indicated in POTs (virtual currency internal to the platform).
+> **Question:** Should we present all the offers together and ask the agent to choose only one, automatically declining the others?
+> 
+> **Answer:** _Yet to be answered_
 
 
 ### 1.3. Acceptance Criteria
 
-
-* **AC1:** All required fiels must be filled in.
-* **AC2:** Task reference must have at least 5 alphanumeric chars.
-* **AC3:** When creating a task with an already existing reference, the system must reject such operation and the user must have the change to modify the typed reference.
-
+* **AC1:** The list of purchase orders should be grouped by property. The properties
+  should be sorted from the oldest to the most recent one. For each property, the
+  list of purchase orders should be sorted by the amount offered, the highest offer
+  must appear first.
+* **AC2:** For each offer, the agent must be able to accept or decline it. The action of
+  accepting or declining an offer should trigger an email notification to the client.
+* **AC3:** When a purchase order is accepted, all the other orders should be declined,
+  and a message sent to the client.
+* **AC4:** If a property does not contain any offers, the system should show an empty
+  list of offers.
 
 ### 1.4. Found out Dependencies
 
-
-* There is a dependency to "US003 Create a task category" since at least a task category must exist to classify the task being created.
-
+* There is a dependency to "US010 To submit a purchase order" since at least an order has to be made so that the agent can accept or decline it.
 
 ### 1.5 Input and Output Data
-
 
 **Input Data:**
 
 * Typed data:
-	* a reference, 
-	* a designation, 
-	* an informal description
-	* a technical description
-	* an estimated duration
-	* an estimated cost
-	
-* Selected data:
-	* Classifying task category 
-
+    * Acceptance answer
 
 **Output Data:**
 
-* List of existing task categories
-* (In)Success of the operation
+* Operation (in)success
 
 ### 1.6. System Sequence Diagram (SSD)
 
@@ -76,12 +66,10 @@ As an organization employee, I want to create a new task in order to be further 
 
 #### Alternative One
 
-![System Sequence Diagram - Alternative One](svg/us006-system-sequence-diagram-alternative-one.svg)
+![System Sequence Diagram - Alternative One](svg/us011-system-sequence-diagram-alternative-one.svg)
 
-#### Alternative Two
 
-![System Sequence Diagram - Alternative Two](svg/us006-system-sequence-diagram-alternative-two.svg)
 
 ### 1.7 Other Relevant Remarks
 
-* The created task stays in a "not published" state in order to distinguish from "published" tasks.
+* n/a
