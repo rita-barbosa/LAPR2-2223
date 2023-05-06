@@ -1,0 +1,43 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+'left to right direction
+
+skinparam classAttributeIconSize 0
+
+hide circle
+hide methods
+
+title Domain Model - US011
+
+class Order {
+orderAmount
+acceptanceAnswer
+}
+
+class Agent {
+
+}
+
+class Customer {
+
+}
+
+class Employee {
+
+}
+class Announcement{
+acceptanceDate
+}
+
+Agent -- Announcement : is published by <
+Agent "*" -- "1" Employee : plays a <
+Agent "1" -- "*" Order : is accepted by <
+Order "*" -- "1" Announcement : is associated to >
+Customer "1" -- "*" Order : places a >
+
+
+
+@enduml
