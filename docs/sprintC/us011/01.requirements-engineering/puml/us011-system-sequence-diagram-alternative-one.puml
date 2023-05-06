@@ -12,26 +12,33 @@ participant ":System" as System
 
 activate Agent
 
-    Agent -> System : asks to accept purchase offers
+    Agent -> System : asks to accept purchase orders
     activate System
 
-    loop
-    System --> Agent : displays property
-deactivate System
+    loop for all properties available for purchase
 
-
-    loop until acceptanceAnswer = yes
-    System -->  Agent: displays purchase order and asks the acceptance answer
-    activate System
+    System --> Agent : displays properties available for purchase \nand asks to select one to view orders
     deactivate System
 
-    Agent -> System  : types acceptance answer
+    Agent -> System : selects property to view purchase orders.
+    activate System
+
+    alt purchaseOrderList != empty
+    loop while acceptanceAnswer != yes
+
+    System -->  Agent: displays purchase order and asks the acceptance answer
+    deactivate System
+
+    Agent -> System  : selects acceptance answer
     activate System
 
     System --> Agent : displays operation success
     deactivate System
+
     end loop
+    end alt
     end loop
+
 
 
 @enduml

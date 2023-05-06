@@ -23,14 +23,20 @@ accepting or declining, an email notification should be sent to the customer.
 >
 > **Answer:** The order should be removed from the list but not from the system.
 
-> **Question:** When the agent wants to list real estate purchase orders, do they list all of them at once or can a property be chosen to list the purchase orders that are related to that specific property?
+> **Question:** When the agent wants to list real estate purchase orders, do they list all of them at once or
+> can a property be chosen to list the purchase orders that are related to that specific property?
 > 
 > **Answer:** _Yet to be answered_
 
-> **Question:** Should we present all the offers together and ask the agent to choose only one, automatically declining the others?
+> **Question:** Should we present all the offers together and ask the agent to choose only one,
+> automatically declining the others?
 > 
 > **Answer:** _Yet to be answered_
 
+> **Question:** Should we provide all the property characteristics to assist agents in choosing 
+> the appropriate purchase order? If so, is it required to display the amount established by the property owner?
+> 
+> **Answer:** _Yet to be answered_ 
 
 ### 1.3. Acceptance Criteria
 
@@ -47,14 +53,16 @@ accepting or declining, an email notification should be sent to the customer.
 
 ### 1.4. Found out Dependencies
 
-* There is a dependency to "US010 To submit a purchase order" since at least an order has to be made so that the agent can accept or decline it.
+* There is a dependency to "US010 To submit a purchase order" since at least an order has to 
+be made so that the agent can accept or decline it.
 
 ### 1.5 Input and Output Data
 
 **Input Data:**
 
-* Typed data:
-    * Acceptance answer
+* Selected data:
+    * Property 
+    * Acceptance answer 
 
 **Output Data:**
 
