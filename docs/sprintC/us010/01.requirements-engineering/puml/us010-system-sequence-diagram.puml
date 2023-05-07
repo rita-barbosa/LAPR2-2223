@@ -1,0 +1,35 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - Alternative One
+
+autonumber
+
+actor "Client" as Client
+participant ":System" as System
+
+activate Client
+
+    Client -> System : request order
+    activate System
+
+        System --> Client : requests data (order amount)
+    deactivate System
+
+    Client -> System : type order amount
+    activate System
+
+        System --> Client : shows requested data
+    deactivate System
+
+    Client -> System : submit order
+    activate System
+
+        System --> Client : displays operation success
+    deactivate System
+
+
+
+@enduml
