@@ -1,0 +1,41 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - US008 (Alternative one)
+
+autonumber
+
+actor "Agent" as Employee
+participant ":System" as System
+
+activate Employee
+
+    Employee -> System : asks to display the requests made to himself
+    activate System
+
+    System --> Employee : shows the list of requests
+    deactivate System
+
+    loop for the requests of the agent
+
+        opt request
+
+        Employee -> System : asks to make a request become an announcement
+        activate System
+
+        System --> Employee : shows the request and asks for confirmation
+        deactivate System
+
+        Employee -> System : submits data
+        activate System
+
+        System --> Employee : shows operation success and shows the list of requests
+        deactivate System
+
+        end
+
+    end
+
+@enduml
