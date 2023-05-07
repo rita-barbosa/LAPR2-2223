@@ -20,11 +20,21 @@ As a client, I place an order to purchase the property, submitting the order amo
 
 **From the client clarifications:**
 
-> **Question:** 
+> **Question:** Should this User Story be implemented as an addition to US001 (Users can display properties, and select one to make an order), or should it be completely separate, with a separate section of the app dedicated to it?
 >  
-> **Answer:** 
+> **Answer:** To place an order the actor should be registered in the system.
 
+> **Question:** What data is required, in addition to the order value, so that a client can place an order to purchase a property?
+>
+> **Answer:** Only the order amount.
 
+> **Question:** In US10, can the client remove an offer they made at any point, in order to replace it with a different one?
+>
+> **Answer:** No.
+
+> **Question:** When the client intends to place a purchase order, should the list of properties (announcements) be presented initially and then asked to select a property?
+> 
+> **Answer:** The system should show a list of properties to the client.
 
 ### 1.3. Acceptance Criteria
 
@@ -35,6 +45,7 @@ As a client, I place an order to purchase the property, submitting the order amo
 
 ### 1.4. Found out Dependencies
 
+* To place an order, the client must be registered in the system.
 * In order to submit a purchase order, there must be some property announcement.
 
 ### 1.5 Input and Output Data
