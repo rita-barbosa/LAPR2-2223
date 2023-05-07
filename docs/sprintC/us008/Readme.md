@@ -1,4 +1,4 @@
-# US 006 - To create a Task 
+# US 008 - To list property announcement requests
 
 [Requirements Engineering](01.requirements-engineering/Readme.md)
 
