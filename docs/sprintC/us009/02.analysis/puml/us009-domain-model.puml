@@ -1,0 +1,135 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+skinparam classAttributeIconSize 0
+
+hide circle
+hide methods
+
+title Domain Model - US009
+
+class Visit {
+    visitDate
+    visitBeginning
+    visitEnd
+}
+
+class Customer {
+}
+
+class Request {
+    requestDate
+}
+
+class Business {
+    price
+}
+
+class BusinessType {
+    designation
+}
+
+class Lease {
+    contractDuration
+}
+
+class PropertyType {
+    designation
+}
+
+class Agent {
+
+}
+
+class Person {
+      name
+      email
+      passportCardNumber
+      taxNumber
+      phoneNumber
+}
+
+class Employee {
+}
+
+
+class Agency {
+   id
+   designation
+   emailAddress
+   phoneNumber
+}
+
+class Location {
+    streetName
+    city
+    district
+    state
+    zipCode
+}
+
+class Announcement {
+    acceptanceDate
+}
+
+class Photograph {
+    uri
+}
+
+
+class Property {
+    area
+    distanceCityCenter
+}
+
+class Residence {
+    numberBedrooms
+    numberBathrooms
+    parkingSpace
+}
+
+
+class AvailableEquipment {
+    description
+}
+
+
+class ResidenceType {
+    designation
+}
+
+
+class House {
+    basement
+    inhabitableLoft
+    sunExposure
+}
+
+Announcement "1" - "1" Request : is a based on >
+Agency "1" -- "*" Announcement : owns >
+Agency "1" - "1" Location : has address >
+Agency "1" - "*" Request : is assigned to >
+Customer "1" -- "*" Visit : requests >
+Agent "1" -- "*" Visit : schedule >
+Announcement "*" -- "1" Agent : is published by >
+Agent "1" - "*" Request : is responsable for >
+Agent "0*" -- "1" Employee : plays as >
+Employee "*" -right- "1" Agency : works in >
+Property "1" -- "1..*" Photograph : is visualized in >
+Property "1" - "1" Location : has address >
+Visit "1" -- "1" Property : done to >
+PropertyType "1" - "*" Property : is a description of >
+Residence "1" -- "*" AvailableEquipment : includes >
+Residence -up-|> Property
+Lease -left-|> BusinessType
+House -up-|> Residence
+ResidenceType "1" -right- "*" Residence : is a description of >
+BusinessType "1" -up- "1" Business : describes >
+Request "1" -right "1" Business : is described by >
+Employee "1" -up- "1" Person : is represented in >
+Customer "1" -right- "1" Person : is represented in >
+Request "1" - "1" Property : has information about >
+
+@enduml
