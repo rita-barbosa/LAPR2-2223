@@ -50,7 +50,9 @@ acceptanceDate
 }
 
 class Visit{
-date
+visitDate
+visitBeginning
+visitEnd
 }
 class VisitReport{
  dealProspect
