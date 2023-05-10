@@ -1,0 +1,47 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title Sequence Diagram (SD) - US009
+
+autonumber
+
+actor "<b> Customer </b>" as CTM
+participant ":ScheduleVisitUI" as UI
+participant ":ScheduleVisitController" as CTRL
+participant ":Agency" as AGC
+participant ":Agent" as AGT
+participant ":Visit" as VST
+
+
+activate CTM
+
+    CTM -> UI : asks to schedule a new visit
+        activate UI
+
+    UI -> CTRL** : create
+        activate CTRL
+
+            ref over CTRL
+                Get List with Available Announcements
+            end ref
+    CTRL --> UI : listAvailableAnnouncements
+        deactivate CTRL
+
+    UI --> CTM : shows the list of announcements available
+        deactivate UI
+
+    CTM -> UI : selects an announcement
+        activate UI
+
+    UI --> CTM : requests data
+        deactivate UI
+
+    CTM -> UI : types requested data (visitDate, visitBeginning, visitEnd)
+        activate UI
+
+    UI --> CTM : displays operation success
+        deactivate UI
+
+@enduml

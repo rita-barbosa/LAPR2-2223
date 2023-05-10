@@ -6,14 +6,14 @@ skinparam shadowing false
 autonumber
 
 'hide footbox
-actor "Organization Employee" as ADM
+actor "Customer" as CTM
 participant ":CreateTaskUI" as UI
 participant ":CreateTaskController" as CTRL
 participant "organization\n:Organization" as ORG
 
-activate ADM
+activate CTM
 
-    ADM -> UI : asks to create a new task
+    CTM -> UI : asks to create a new task
 
     activate UI
 
@@ -29,22 +29,22 @@ activate ADM
             CTRL --> UI : taskCategoryList
         deactivate CTRL
 
-        UI --> ADM : shows task category list and asks to sleect one
+        UI --> CTM : shows task category list and asks to sleect one
     deactivate UI
 
-    ADM -> UI : selects a task category
+    CTM -> UI : selects a task category
     activate UI
 
-        UI --> ADM : requests data
+        UI --> CTM : requests data
     deactivate UI
 
-    ADM -> UI : types requested data (reference, description,\ninformal description, technical description,\nduration, cost)
+    CTM -> UI : types requested data (reference, description,\ninformal description, technical description,\nduration, cost)
     activate UI
 
-        UI --> ADM : shows selected category and requested data
+        UI --> CTM : shows selected category and requested data
     deactivate UI
 
-    ADM -> UI : submits data
+    CTM -> UI : submits data
     activate UI
 
         UI -> CTRL : createTask(reference, description, informalDescription,\ntechnicalDescription,duration, cost, taskCategoryDescription)
@@ -84,9 +84,9 @@ activate ADM
 
             CTRL --> UI: task
             deactivate CTRL
-            UI --> ADM: displays operation success
+            UI --> CTM: displays operation success
     deactivate UI
 
-deactivate ADM
+deactivate CTM
 
 @enduml
