@@ -1,0 +1,33 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - US009
+
+autonumber
+
+actor "<b> Customer </b>" as CTM
+participant "<b> :System </b>" as System
+
+activate CTM
+
+    CTM -> System : asks to schedule a new visit
+        activate System
+
+    System --> CTM : shows the list of announcements available
+        deactivate System
+
+    CTM -> System : selects an announcement
+        activate System
+
+    System --> CTM : requests data
+        deactivate System
+
+    CTM -> System : types requested data (visitDate, visitBeginning, visitEnd)
+        activate System
+
+    System --> CTM : displays operation success
+        deactivate System
+
+@enduml
