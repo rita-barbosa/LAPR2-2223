@@ -51,8 +51,8 @@ acceptanceDate
 
 class Visit{
 visitDate
-visitBeginning
-visitEnd
+startHour
+endHour
 }
 class VisitReport{
  dealProspect
@@ -112,6 +112,10 @@ designation
 class Request{
 requestDate
 }
+class Order {
+orderAmount
+acceptanceAnswer
+}
 
 
 SystemAdministrator "0..*" -- Employee: plays as <
@@ -153,5 +157,8 @@ Announcement "1" - "1" Request : is  based on >
 Commission "*" - "1" CommissionType : is categorized in >
 Agency "1" --- "*" Request : is assigned to >
 Agent "1" --- "*" Request : is responsible for >
+Agent "1" -- "*" Order : is accepted by <
+Order "*" -up- "1" Announcement : is associated to >
+Customer "1" -- "*" Order : places a >
 
 @enduml
