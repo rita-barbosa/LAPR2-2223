@@ -20,8 +20,7 @@ activate Employee
 
     loop for the requests of the agent
 
-        opt request
-
+        alt accept request
         Employee -> System : asks to make a request become an announcement
         activate System
 
@@ -34,7 +33,42 @@ activate Employee
         System --> Employee : shows operation success and shows the list of requests
         deactivate System
 
+        else decline request
+        Employee -> System : asks to decline an announcement request
+        activate System
+
+        System --> Employee : shows the request and asks for justification message
+        deactivate System
+
+        Employee -> System :submits message
+        activate System
+
+        System --> Employee : asks for confirmation
+        deactivate System
+
+        Employee -> System : submits data
+        activate System
+
+        System --> Employee : shows operation success and shows the list of requests
+        deactivate System
+
         end
+
+'        opt request
+'
+'        Employee -> System : asks to make a request become an announcement
+'        activate System
+'
+'        System --> Employee : shows the request and asks for confirmation
+'        deactivate System
+'
+'        Employee -> System : submits data
+'        activate System
+'
+'        System --> Employee : shows operation success and shows the list of requests
+'        deactivate System
+'
+'        end
 
     end
 
