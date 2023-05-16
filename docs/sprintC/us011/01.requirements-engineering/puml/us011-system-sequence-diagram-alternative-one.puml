@@ -3,7 +3,7 @@ skinparam monochrome true
 skinparam packageStyle rectangle
 skinparam shadowing false
 
-title System Sequence Diagram (SSD) - Alternative One
+title System Sequence Diagram (SSD) - US011
 
 autonumber
 
@@ -11,16 +11,15 @@ actor "Agent" as Agent
 participant ":System" as System
 
 activate Agent
-
     Agent -> System : asks to accept purchase orders
     activate System
 
     loop for all properties available for purchase
 
-    System --> Agent : displays properties available for purchase \nand asks to select one to view orders
+    System --> Agent : displays properties available for purchase \nand asks to select one
     deactivate System
 
-    Agent -> System : selects property to view purchase orders.
+    Agent -> System : selects property
     activate System
 
     alt purchaseOrderList != empty
@@ -39,6 +38,5 @@ activate Agent
     end alt
     end loop
 
-
-
+deactivate Agent
 @enduml

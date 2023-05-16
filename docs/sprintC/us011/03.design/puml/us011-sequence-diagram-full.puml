@@ -1,0 +1,55 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+'hide footbox
+actor "Organization Employee" as ADM
+participant ":AcceptOrdersUI" as UI
+participant ":AcceptOrdersController" as CTRL
+participant ":Repositories" as RepositorySingleton
+participant "repositories\n:Repositories" as PLAT
+participant "agency\n: Agency" as AGENCY
+participant "announcement\n: Announcement" as ANNOUNC
+participant "announcementList\n: AnnouncementList"
+
+activate ADM
+    ADM -> UI : asks to accept purchase orders
+    activate UI
+
+    UI -> CTRL** : create
+    activate CTRL
+
+
+
+    loop for all properties available for purchase
+
+    UI --> ADM : displays properties available for purchase \nand asks to select one
+    deactivate UI
+
+    ADM -> UI : selects property
+    activate UI
+
+    alt purchaseOrderList != empty
+    loop while acceptanceAnswer != yes
+
+    UI -->  ADM: displays purchase order and asks the acceptance answer
+    deactivate UI
+
+    ADM -> UI  : selects acceptance answer
+    activate UI
+
+    UI --> ADM : displays operation success
+    deactivate UI
+
+    end loop
+    end alt
+    end loop
+
+    deactivate ADM
+
+
+
+@enduml
