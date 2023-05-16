@@ -1,0 +1,136 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+hide circle
+hide methods
+
+
+
+class Agency {
+id
+designation
+emailAddress
+phoneNumber
+}
+
+class Employee {
+}
+
+class Person{
+name
+email
+passportCardNumber
+taxNumber
+phoneNumber
+}
+
+class Owner{
+}
+
+class Agent{
+}
+
+
+
+class Announcement{
+acceptanceDate
+}
+
+
+class Property{
+ area
+ distanceCityCenter
+}
+
+class Residence{
+ numberBedrooms
+ numberBathrooms
+ parkingSpace
+}
+
+class AvailableEquipment{
+description
+}
+
+class House{
+ basement
+ inhabitableLoft
+ sunExposure
+}
+
+class PropertyType{
+designation
+}
+
+class ResidenceType{
+designation
+}
+
+class Photograph{
+uri
+}
+
+class Location{
+streetName
+city
+district
+state
+zipCode
+}
+
+class Business{
+price
+}
+
+class BusinessType{
+designation
+}
+
+class Lease{
+contractDuration
+}
+
+class Commission {
+commissionValue
+}
+
+class CommissionType {
+designation
+}
+
+class Request{
+requestDate
+}
+
+
+Person "1" -- "1" Employee: represented in <
+Agent "0..*" -- "1" Employee: plays as <
+Agent "1" - "*" Announcement: is published by <
+Customer "1"  -- "1" Person: represented in >
+Owner "0..*" -- Customer: plays as <
+Request "*" -- "1" Owner: submits <
+Residence  --|>  Property
+House --|> Residence
+Employee "1" -- "1" Agency: works in  >
+PropertyType "1" -- "1" Property: is a description of >
+ResidenceType "1" -- "1" Residence: is a description of >
+Property "1" -- "1..*" Photograph: is visualized in >
+Property "1"--"1" Location: has address >
+Person "1" -- "1" Location: has address >
+Agency "1" -- "1" Location: has address >
+Residence "1" -left "*"AvailableEquipment: includes >
+Announcement "1" -- "1" Commission: is assigned to <
+Agency "1" -- "*" Announcement: owns >
+Property "1" -up- "1" Request : < has information about
+Request "1" -- "1" Business: is described by >
+Business <|-- Lease
+BusinessType "1" - "1" Business : describes >
+Announcement "1" - "1" Request : is  based on >
+Commission "*" -down- "1" CommissionType : is categorized in >
+Agency "1" - "*" Request : is assigned to >
+Agent "1" -- "*" Request : is responsible for >
+
+
+@enduml
