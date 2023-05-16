@@ -26,7 +26,9 @@ accepting or declining, an email notification should be sent to the customer.
 > **Question:** When the agent wants to list real estate purchase orders, do they list all of them at once or
 > can a property be chosen to list the purchase orders that are related to that specific property?
 > 
-> **Answer:** _Yet to be answered_
+> **Answer:** The properties should be sorted from the oldest to the most recent one. For each property, the
+list of purchase orders should be sorted by the amount offered, the highest offer
+must appear first.
 
 > **Question:** Should we present all the offers together and ask the agent to choose only one,
 > automatically declining the others?
@@ -36,7 +38,16 @@ accepting or declining, an email notification should be sent to the customer.
 > **Question:** Should we provide all the property characteristics to assist agents in choosing 
 > the appropriate purchase order? If so, is it required to display the amount established by the property owner?
 > 
-> **Answer:** _Yet to be answered_ 
+> **Answer:** Yes. Yes.
+ 
+> **Question:** Is it convenient to give the ability to filter the properties by their attributes when the agent is listing them?
+> 
+> **Answer:** _Yet to be answered_
+
+> **Question:** The agent should first list all the properties without and accepted order and then select one to list the orders related to that property? Or the orders should appear at the start grouped by property?
+>
+> **Answer:** _Yet to be answered_
+
 
 ### 1.3. Acceptance Criteria
 
