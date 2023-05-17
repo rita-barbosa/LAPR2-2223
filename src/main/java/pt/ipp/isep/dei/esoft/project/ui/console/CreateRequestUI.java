@@ -162,32 +162,46 @@ public class CreateRequestUI implements Runnable {
      */
     private void displaysData() {
         String amountString;
-        String numberBathroomString = "";
-        String sunExposureString = "";
         if (businessTypeDesignation.equalsIgnoreCase("Lease")) {
             amountString = String.format("Rent: %.2f $US", amount);
         } else {
             amountString = String.format("Price: %.2f $US", amount);
         }
-        if (sunExposure != null) {
-            sunExposureString = String.format("Sun exposure direction: %s", sunExposure);
-        }
-        if (numberBathroom != null) {
-            numberBathroomString = String.format("Number of bathrooms: %d%n", numberBathroom);
-        }
-        System.out.printf("%n###Property Data###%n=================%n** General Data **%nProperty Type: %s%nBusiness Type: %s%n" +
-                        "Agency responsible for your Property's Request: %s%nAgent in charge of Request: %s%n%s%nArea: %.2f m²%nDistance from City Center: %.2f m%n" +
-                        "=================%n** Location Data **%nStreet Name: %s%nCity: %s%nDistrict: %s%nState: %s%nZip Code: %s%n" +
-                        "=================%n** Other Data **%nParking Spaces: %d%nNumber of Bedrooms: %d%n%sBasement: %s%nInhabitable Loft: %s%n%s",
+
+        System.out.printf("%n### Property Data ###%n=================%n** General Data **%nProperty Type: %s%nBusiness Type: %s%n" +
+                        "Agency responsible for your Property's Request: %s%nAgent in charge of Request: %s%n%s%nArea: %.2f m²%nDistance from City Center: %.2f miles%n" +
+                        "=================%n** Location Data **%nStreet Name: %s%nCity: %s%nDistrict: %s%nState: %s%nZip Code: %s",
                 propertyTypeDesignation, businessTypeDesignation, agency.getDescription(), agent.getName(),
-                amountString, area, distanceCityCenter, streetName, city, district, state, zipCode, parkingSpace, numberBedroom,
-                numberBathroomString, getStringFromBoolean(basement), getStringFromBoolean(inhabitableLoft), sunExposureString);
-        if (availableEquipmentDescription != null) {
-            System.out.println("\n=================");
-            displayListContent(availableEquipmentDescription, "available equipments");
+                amountString, area, distanceCityCenter, streetName, city, district, state, zipCode);
+
+        if (!propertyTypeDesignation.equalsIgnoreCase(LAND_PROPERTY_TYPE)) {
+            System.out.printf("%n=================%n** Other Data **%s%s%s%s%s%s",
+                    getStringFromSelectiveData("Parking Spaces: ", parkingSpace),
+                    getStringFromSelectiveData("Number of Bedrooms: ", numberBedroom),
+                    getStringFromSelectiveData("Number of Bathrooms: ", numberBathroom),
+                    getStringFromSelectiveData("Basement: ", basement),
+                    getStringFromSelectiveData("Inhabitable Loft: ", inhabitableLoft),
+                    getStringFromSelectiveData("Sun Exposure direction: ", sunExposure));
         }
-        System.out.println("\n=================");
+        displayListContent(availableEquipmentDescription, "available equipments");
         displayListContent(uri, "photographs' uris");
+    }
+
+    /**
+     * Gets string from selective data.
+     *
+     * @param beginningString the beginning of the string
+     * @param obj             the object
+     * @return the string from selective data
+     */
+    private String getStringFromSelectiveData(String beginningString, Object obj) {
+        if (obj != null) {
+            if (obj.getClass().getSimpleName().equalsIgnoreCase("Boolean")) {
+                return String.format("%n%s", beginningString + getStringFromBoolean((Boolean) obj));
+            }
+            return String.format("%n%s", beginningString + obj);
+        }
+        return "";
     }
 
     /**
@@ -197,10 +211,13 @@ public class CreateRequestUI implements Runnable {
      * @param attribute the attribute
      */
     private void displayListContent(List<String> list, String attribute) {
-        System.out.printf("** Property's %s list **%n", attribute);
-        int i = 1;
-        for (String listItem : list) {
-            System.out.printf("%d. %s%n", i++, listItem);
+        if (list != null) {
+            System.out.println("\n=================");
+            System.out.printf("** Property's %s list **", attribute);
+            int i = 1;
+            for (String listItem : list) {
+                System.out.printf("%n%d. %s", i++, listItem);
+            }
         }
     }
 
@@ -226,9 +243,9 @@ public class CreateRequestUI implements Runnable {
                 parkingSpace, sunExposure, numberBedroom, numberBathroom, agent, distanceCityCenter, uri, agency);
 
         if (request.isPresent()) {
-            System.out.println("Request successfully created!");
+            System.out.println("\nRequest successfully created!");
         } else {
-            System.out.println("Request not created!");
+            System.out.println("\nRequest not created!");
         }
     }
 
@@ -244,7 +261,7 @@ public class CreateRequestUI implements Runnable {
         district = requestRequestDistrict();
         state = requestRequestState();
         zipCode = requestRequestZipCode();
-        if (!propertyTypeDesignation.equalsIgnoreCase(LAND_PROPERTY_TYPE)){
+        if (!propertyTypeDesignation.equalsIgnoreCase(LAND_PROPERTY_TYPE)) {
             parkingSpace = requestRequestParkingSpace();
             numberBedroom = requestRequestNumberBedroom();
             if (askOptionalData("number of bathrooms")) {
@@ -253,7 +270,7 @@ public class CreateRequestUI implements Runnable {
             if (propertyTypeDesignation.equalsIgnoreCase(HOUSE_PROPERTY_TYPE)) {
                 inhabitableLoft = requestRequestInhabitableLoft();
                 basement = requestRequestBasement();
-                if (askOptionalData("sun exposure")){
+                if (askOptionalData("sun exposure")) {
                     sunExposure = requestRequestSunExposure();
                 }
             }
@@ -271,7 +288,7 @@ public class CreateRequestUI implements Runnable {
      * @return the boolean for positive response
      */
     private boolean askOptionalData(String optionalData) {
-        System.out.printf("Would you like to provide data about the Property's %s%n1. Yes%n2. No%n", optionalData);
+        System.out.printf("Would you like to provide data about the Property's %s?%n1. Yes%n2. No%n", optionalData);
         boolean invalid = true;
         int answer = -1;
         Scanner input = new Scanner(System.in);
@@ -332,7 +349,7 @@ public class CreateRequestUI implements Runnable {
      * @return the distance from city center
      */
     private Double requestRequestDistanceCityCenter() {
-        System.out.println("Property's distance from City Center (in meters - m):");
+        System.out.println("Property's distance from City Center (in miles):");
         return getDoubleAnswer();
     }
 
@@ -777,7 +794,7 @@ public class CreateRequestUI implements Runnable {
                 input.nextLine();
             }
         } while (invalid);
-      //  String inputString = value.toString().trim();
+        //  String inputString = value.toString().trim();
         //Double.parseDouble(inputString.replace(",", "."));
         return value;
     }
