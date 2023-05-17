@@ -6,21 +6,88 @@ skinparam shadowing false
 autonumber
 
 'hide footbox
-actor "Organization Employee" as ADM
+actor "Agent" as ADM
 participant ":AcceptOrdersUI" as UI
 participant ":AcceptOrdersController" as CTRL
 participant ":Repositories" as RepositorySingleton
 participant "repositories\n:Repositories" as PLAT
+participant "agencyRepository\n: AgencyRepository" as AgRep
 participant "agency\n: Agency" as AGENCY
-participant "announcement\n: Announcement" as ANNOUNC
-participant "announcementList\n: AnnouncementList"
+participant "announcementList\n: AnnouncementList" as AnnList
+participant "announcementMapper\n: AnnouncementMapper" as AnnMAPPER
+participant "announcementDto\n: AnnouncementDto" as AnnDTO
 
 activate ADM
     ADM -> UI : asks to accept purchase orders
     activate UI
 
     UI -> CTRL** : create
+
+    UI -> CTRL : getAnnouncementList()
     activate CTRL
+
+    CTRL -> RepositorySingleton : getInstance()
+    activate RepositorySingleton
+
+    RepositorySingleton --> CTRL : repositories
+    deactivate RepositorySingleton
+
+     CTRL -> PLAT :  getAgencyRepository()
+     activate PLAT
+
+     PLAT -> CTRL : agencyRepository
+     deactivate PLAT
+
+     CTRL-> AgRep : getAgenciesList()
+     activate AgRep
+
+     AgRep --> CTRL : agenciesList()
+     deactivate AgRep
+
+     loop for all agencies
+     CTRL -> AGENCY :  getAnnouncementList()
+     activate AGENCY
+
+     AGENCY -> AnnList : getAnnouncementList()
+     activate AnnList
+
+     AnnList --> AGENCY: announcementList
+     deactivate AnnList
+
+     AGENCY --> CTRL: announcementList
+     deactivate AGENCY
+
+     CTRL -> AnnMAPPER : toDTO(announcementList)
+     activate AnnMAPPER
+
+     loop for each announcement
+
+     AnnMAPPER -> AnnMAPPER : toDTO(announcement)
+     activate AnnMAPPER
+
+     AnnMAPPER -> AnnDTO**: create(announcement)
+    deactivate AnnMAPPER
+
+
+     AnnMAPPER -> AnnMAPPER: add(announcementDto)
+     activate AnnMAPPER
+     AnnMAPPER --> AnnMAPPER:
+     deactivate AnnMAPPER
+     |||
+     end loop
+
+     AnnMAPPER --> CTRL : announcementDtoList
+     deactivate AnnMAPPER
+
+     end loop
+
+    CTRL --> UI: announcementDtoList
+    deactivate CTRL
+
+
+
+
+
 
 
 
@@ -32,8 +99,19 @@ activate ADM
     ADM -> UI : selects property
     activate UI
 
-    alt purchaseOrderList != empty
-    loop while acceptanceAnswer != yes
+    UI -> CTRL: getPurchaseOrderList(announcementDto)
+    activate CTRL
+
+    CTRL -> AnnDTO : orderDtoList = getPurchaseOrderList()
+    activate AnnDTO
+
+
+
+
+    CTRL --> UI: orderDtoList
+    deactivate CTRL
+
+    loop while acceptanceAnswer != yes \n&& purchaseOrderList != empty
 
     UI -->  ADM: displays purchase order and asks the acceptance answer
     deactivate UI
@@ -41,11 +119,21 @@ activate ADM
     ADM -> UI  : selects acceptance answer
     activate UI
 
+    UI -> CTRL : defineOrderAcceptance(answer,orderDto,announcementDto)
+    activate CTRL
+        note right CTRL
+        O QUE FALTA -->  ** TENHO DÚVIDAS**:
+            * Adicionar a accpetanceAnswer às orders do anuncio
+            * Fazer o sendNotification()
+
+        end note
+    CTRL --> UI : operationSuccess
+    deactivate CTRL
+
     UI --> ADM : displays operation success
     deactivate UI
 
     end loop
-    end alt
     end loop
 
     deactivate ADM
