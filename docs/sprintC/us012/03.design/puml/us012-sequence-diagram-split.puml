@@ -9,16 +9,6 @@ autonumber
 actor "System Administrator" as ADM
 participant ":importLegacyInformationUI" as UI
 participant ":importLegacyInformationController" as CTRL
-participant "legacySystem\n:LegacySystem" as LS
-
-'participant ":Repositories" as RepositorySingleton
- 'participant "repositories\n:Repositories" as PLAT
- 'participant "taskCategoryRepository:\nTaskCategoryRepository" as TaskCategoryRepository
- 'participant ":ApplicationSession" as _APP
- 'participant "appSession\n:ApplicationSession" as APP
- 'participant "currentSession\n:UserSession" as SESSAO
- 'participant "organizationRepository:\nOrganizationRepository" as OrganizationRepository
- 'participant "organization\n:Organization" as ORG'
 
 activate ADM
 
