@@ -1,0 +1,23 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+participant "legacySystem\n:LegacySystem" as LS
+
+  -> LS** : importInformation(filepath)
+  activate LS
+
+  LS -> LS : readLineInformationFromFile(filepath)
+  activate LS
+
+  LS --> LS: infoList
+  deactivate LS
+
+  <-- LS : infoList
+  deactivate LS
+
+
+
+@enduml
