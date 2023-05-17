@@ -42,9 +42,8 @@ activate ADM
     UI -> CTRL: importInfo(filePath)
     activate CTRL
 
-        note right
-        Falta adicionar o loop
-        end note
+
+    loop while file has next line
 
     |||
     ref over CTRL
@@ -70,6 +69,8 @@ activate ADM
     ref over CTRL
         Publish Announcement
     end ref
+    |||
+     end loop
 
     CTRL --> UI: operationSuccess
     deactivate CTRL
