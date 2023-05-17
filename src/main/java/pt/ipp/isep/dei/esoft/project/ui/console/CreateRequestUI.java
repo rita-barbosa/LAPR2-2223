@@ -34,6 +34,8 @@ public class CreateRequestUI implements Runnable {
      * House property type designation for a property request.
      */
     private static final String HOUSE_PROPERTY_TYPE = "House";
+    private static final String LAND_PROPERTY_TYPE = "Land";
+
     /**
      * Money amont that represents the price or the rent of a property, in American Dollars.
      */
@@ -242,18 +244,22 @@ public class CreateRequestUI implements Runnable {
         district = requestRequestDistrict();
         state = requestRequestState();
         zipCode = requestRequestZipCode();
-        parkingSpace = requestRequestParkingSpace();
-        numberBedroom = requestRequestNumberBedroom();
-        if (askOptionalData("number of bathrooms")) {
-            numberBathroom = requestRequestNumberBathroom();
-        }
-        if (askOptionalData("available equipments")) {
-            availableEquipmentDescription = requestRequestAvailableEquipmentDescription();
-        }
-        inhabitableLoft = requestRequestInhabitableLoft();
-        basement = requestRequestBasement();
-        if (propertyTypeDesignation.equalsIgnoreCase(HOUSE_PROPERTY_TYPE) && askOptionalData("sun exposure")) {
-            sunExposure = requestRequestSunExposure();
+        if (!propertyTypeDesignation.equalsIgnoreCase(LAND_PROPERTY_TYPE)){
+            parkingSpace = requestRequestParkingSpace();
+            numberBedroom = requestRequestNumberBedroom();
+            if (askOptionalData("number of bathrooms")) {
+                numberBathroom = requestRequestNumberBathroom();
+            }
+            if (propertyTypeDesignation.equalsIgnoreCase(HOUSE_PROPERTY_TYPE)) {
+                inhabitableLoft = requestRequestInhabitableLoft();
+                basement = requestRequestBasement();
+                if (askOptionalData("sun exposure")){
+                    sunExposure = requestRequestSunExposure();
+                }
+            }
+            if (askOptionalData("available equipments")) {
+                availableEquipmentDescription = requestRequestAvailableEquipmentDescription();
+            }
         }
         uri = requestRequestPhotographURI();
     }
