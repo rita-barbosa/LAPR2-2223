@@ -10,9 +10,9 @@ autonumber
 actor "<b> Customer </b>" as CTM
 participant ":ScheduleVisitUI" as UI
 participant ":ScheduleVisitController" as CTRL
-participant ":Agency" as AGC
+'participant ":Agency" as AGC
 participant ":Agent" as AGT
-participant ":Visit" as VST
+participant ":Announcement" as ANNOUNCE
 
 
 activate CTM
@@ -22,11 +22,11 @@ activate CTM
 
     UI -> CTRL** : create
         activate CTRL
-
             ref over CTRL
-                Get List with Available Announcements
+                Get Available
+                Announcements List
             end ref
-    CTRL --> UI : listAvailableAnnouncements
+    CTRL --> UI : availableAnnouncementsList
         deactivate CTRL
 
     UI --> CTM : shows the list of announcements available
@@ -40,6 +40,35 @@ activate CTM
 
     CTM -> UI : types requested data (visitDate, visitBeginning, visitEnd)
         activate UI
+
+        UI -> CTRL : createVisit(visitDate, visitBeginning, visitEnd)
+        activate CTRL
+
+        CTRL -> ANNOUNCE : createVisit(visitDate, visitBeginning, visitEnd)
+
+        activate ANNOUNCE
+|||
+            ref over ANNOUNCE
+            Add Visit to
+            Announcement
+            end ref
+
+        ANNOUNCE --> CTRL : visit
+
+        deactivate ANNOUNCE
+
+    CTRL -> CTRL : sendConfirmationEmailMessage()
+        activate CTRL
+
+    CTRL --> CTRL
+    deactivate CTRL
+
+    CTRL --> UI : visit
+    deactivate CTRL
+
+
+
+    ' FALTA A PARTE DO EMAIL !!!!!!!!!!
 
     UI --> CTM : displays operation success
         deactivate UI
