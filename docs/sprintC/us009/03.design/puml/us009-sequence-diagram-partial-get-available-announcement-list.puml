@@ -1,0 +1,20 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+participant ":ScheduleVisitController" as CTRL
+'participant ":Agency" as AGC
+participant ":Agent" as AGT
+participant ":Announcement" as ANNOUNCE
+participant ":Visit" as VST
+
+
+
+
+
+
+
+@enduml
