@@ -16,6 +16,11 @@ participant "agency\n: Agency" as AGENCY
 participant "announcementList\n: AnnouncementList" as AnnList
 participant "announcementMapper\n: AnnouncementMapper" as AnnMAPPER
 participant "announcementDto\n: AnnouncementDto" as AnnDTO
+participant "requestDto\n: RequestDto" as RequestDTO
+participant "orderListDto\n: OrderListDto" as OrderListDTO
+participant "orderDto\n: OrderDto" as OrderDTO
+participant "employeeDto\n: EmployeeDto" as EmployeeDTO
+participant "commissionDto\n: CommissionDto" as CommissionDTO
 
 activate ADM
     ADM -> UI : asks to accept purchase orders
@@ -41,24 +46,49 @@ activate ADM
      CTRL-> AgRep : getAgenciesList()
      activate AgRep
 
-     AgRep --> CTRL : agenciesList()
+     AgRep --> CTRL : agenciesList
      deactivate AgRep
 
-     loop for all agencies
-     CTRL -> AGENCY :  getAnnouncementList()
+     CTRL -> AgRep :  getAnnouncementListFromAllAgencies()
+     activate AgRep
+
+     loop for each agency
+     AgRep -> AGENCY :  getAnnouncementList()
      activate AGENCY
 
-     AGENCY -> AnnList : getAnnouncementList()
+     AGENCY -> AnnList : getList()
      activate AnnList
 
      AnnList --> AGENCY: announcementList
      deactivate AnnList
 
-     AGENCY --> CTRL: announcementList
+     AGENCY --> AgRep: announcementList
      deactivate AGENCY
 
-     CTRL -> AnnMAPPER : toDTO(announcementList)
+     AgRep -> AgRep: add(announcementList)
+     activate AgRep
+
+     AgRep --> AgRep:
+     deactivate AgRep
+     |||
+     end loop
+     AgRep --> CTRL: announcementListAllAgencies
+     deactivate AgRep
+
+     CTRL -> AnnList: sortAnnouncementsByOldest(announcementListAllAgencies)
+     activate AnnList
+
+     AnnList --> CTRL: sortAnnouncementsByOldest(announcementListAllAgencies)
+     deactivate AnnList
+
+     CTRL -> AnnMAPPER : toDTO(announcementListAllAgencies)
      activate AnnMAPPER
+
+         note right AnnMAPPER
+         **DÚVIDAS | FALTA FAZER:**
+         * Será necessário colocar os mappers do requestDto; orderList....
+         * Verificar se é necessário colocar a seta a tracejado de 'volta' (-->)
+         end note
 
      loop for each announcement
 
@@ -66,30 +96,46 @@ activate ADM
      activate AnnMAPPER
 
      AnnMAPPER -> AnnDTO**: create(announcement)
-    deactivate AnnMAPPER
+     deactivate AnnMAPPER
+     activate AnnDTO
 
+     AnnDTO -> RequestDTO** : createRequestDTO()
+
+     AnnDTO -> OrderListDTO** : createOrderListDTO()
+     activate OrderListDTO
+
+     loop for each order
+
+     OrderListDTO -> OrderDTO** : createOrderDto()
+
+     OrderListDTO -> OrderListDTO : add(orderDto)
+     activate OrderListDTO
+
+     OrderListDTO --> OrderListDTO
+     deactivate OrderListDTO
+     |||
+     end loop
+     deactivate OrderListDTO
+
+     AnnDTO -> EmployeeDTO** : createEmployeeDTO()
+
+     AnnDTO -> CommissionDTO** : createCommissionDTO()
+     deactivate AnnDTO
 
      AnnMAPPER -> AnnMAPPER: add(announcementDto)
      activate AnnMAPPER
+
      AnnMAPPER --> AnnMAPPER:
      deactivate AnnMAPPER
+
      |||
      end loop
 
      AnnMAPPER --> CTRL : announcementDtoList
      deactivate AnnMAPPER
 
-     end loop
-
-    CTRL --> UI: announcementDtoList
-    deactivate CTRL
-
-
-
-
-
-
-
+     CTRL --> UI: announcementDtoList
+     deactivate CTRL
 
     loop for all properties available for purchase
 
@@ -105,8 +151,7 @@ activate ADM
     CTRL -> AnnDTO : orderDtoList = getPurchaseOrderList()
     activate AnnDTO
 
-
-
+    deactivate AnnDTO
 
     CTRL --> UI: orderDtoList
     deactivate CTRL
@@ -121,12 +166,52 @@ activate ADM
 
     UI -> CTRL : defineOrderAcceptance(answer,orderDto,announcementDto)
     activate CTRL
+
         note right CTRL
         O QUE FALTA -->  ** TENHO DÚVIDAS**:
             * Adicionar a accpetanceAnswer às orders do anuncio
             * Fazer o sendNotification()
-
         end note
+
+    CTRL -> AnnMAPPER: getAnnouncementId(announcementDto)
+    activate AnnMAPPER
+
+    AnnMAPPER -> AnnDTO: getAnnouncementId(announcementDto)
+    activate AnnDTO
+
+    AnnDTO --> AnnMAPPER: announcementId
+    deactivate AnnDTO
+
+    AnnMAPPER --> CTRL: announcementId
+    deactivate AnnMAPPER
+
+    CTRL -> AgRep: getAnnouncementById(announcementId)
+    activate AgRep
+
+    loop for all agencies
+    AgRep -> AGENCY :  getAnnouncementById(announcementId)
+    activate AGENCY
+
+    AGENCY -> AnnList : getAnnouncementById(announcementId)
+    activate AnnList
+
+    AnnList -> AnnList: anyAnnouncementHasId(announcementId)
+    activate AnnList
+
+    AnnList --> AnnList: true/false
+    deactivate AnnList
+
+    AnnList --> AGENCY: announcement
+    deactivate AnnList
+
+    AGENCY --> AgRep: announcement
+    deactivate AGENCY
+    end loop
+
+    AgRep --> CTRL : announcement
+    deactivate AgRep
+
+
     CTRL --> UI : operationSuccess
     deactivate CTRL
 
