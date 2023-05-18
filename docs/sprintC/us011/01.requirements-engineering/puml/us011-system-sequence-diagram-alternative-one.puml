@@ -22,8 +22,7 @@ activate Agent
     Agent -> System : selects property
     activate System
 
-    alt purchaseOrderList != empty
-    loop while acceptanceAnswer != yes
+    loop while acceptanceAnswer != yes && purchaseOrderList != empty
 
     System -->  Agent: displays purchase order and asks the acceptance answer
     deactivate System
@@ -35,7 +34,6 @@ activate Agent
     deactivate System
 
     end loop
-    end alt
     end loop
 
 deactivate Agent
