@@ -30,11 +30,6 @@ accepting or declining, an email notification should be sent to the customer.
 list of purchase orders should be sorted by the amount offered, the highest offer
 must appear first.
 
-> **Question:** Should we present all the offers together and ask the agent to choose only one,
-> automatically declining the others?
-> 
-> **Answer:** _Yet to be answered_
-
 > **Question:** Should we provide all the property characteristics to assist agents in choosing 
 > the appropriate purchase order? If so, is it required to display the amount established by the property owner?
 > 
@@ -42,11 +37,29 @@ must appear first.
  
 > **Question:** Is it convenient to give the ability to filter the properties by their attributes when the agent is listing them?
 > 
-> **Answer:** _Yet to be answered_
+> **Answer:** No. We always have a low number of purchase orders.
 
-> **Question:** The agent should first list all the properties without and accepted order and then select one to list the orders related to that property? Or the orders should appear at the start grouped by property?
+> **Question:** Does grouping purchase orders by property mean that only properties are displayed, and only after a property is selected are its requests shown? Or are all the requests shown but requests of the same property are shown together?
+> 
+> **Answer:** The system should show (to the agent) a list of properties that have prurchase orders. For each property the system should show a list of purchase orders. Typically we have a small number of purchase orders and we want all orders shown (by property) without selecting a property in particular.
+
+> **Question:** When properties are sorted form oldest to most recent, does this relate to when the property was added to the system or the property's date of construction?
+> 
+> **Answer:** This sorting should be made using the date when the property announcement was published by the agent.
+
+> **Question:** The notification should be sent to the client, but we need to consider this client the owner or the potential buyer?
 >
-> **Answer:** _Yet to be answered_
+> **Answer:** The client is the registered user that placed the order (in US10).
+
+> **Question:** Assuming the previous answer is the potential buyer, should the owner be informed about the sale success?
+>
+> **Answer:** The owner will be contacted by means of a phone call. This is not a feature of the system.
+
+> **Question:**
+>
+> **Answer:** 
+
+
 
 
 ### 1.3. Acceptance Criteria
