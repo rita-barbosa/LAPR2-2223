@@ -1,4 +1,4 @@
-# US 008 - To create a Task 
+# US 008 - To list property announcement requests
 
 ## 2. Analysis
 
