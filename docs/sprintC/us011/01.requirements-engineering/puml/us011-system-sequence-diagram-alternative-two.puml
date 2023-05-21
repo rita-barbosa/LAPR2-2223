@@ -1,0 +1,41 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - US011
+
+autonumber
+
+actor "Agent" as Agent
+participant ":System" as System
+
+activate Agent
+    Agent -> System : asks to accept purchase orders
+    activate System
+
+    loop for each property available for purchase
+
+    System --> Agent : displays property by oldest and its orders by highest price\n and asks to select acceptanceAnswer for orders
+    deactivate System
+
+    alt  purchaseOrderList != empty
+    loop for each displayed offer && while acceptanceAnswer != yes
+
+    Agent -> System : selects acceptanceAnswer
+    activate System
+
+    System -->  Agent: asks to confirm acceptanceAnswer and submit data
+    deactivate System
+
+    Agent -> System  : submits data
+    activate System
+
+    System --> Agent : displays operation success
+    deactivate System
+    end loop
+    end alt
+    end loop
+
+deactivate Agent
+@enduml

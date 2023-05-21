@@ -1,0 +1,94 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+participant ":AcceptOrdersController" as CTRL
+ participant ":Repositories" as RepositorySingleton
+ participant "repositories\n:Repositories" as PLAT
+ participant "agencyRepository\n: AgencyRepository" as AgRep
+ participant "agency\n: Agency" as AGENCY
+ participant "announcementList\n: AnnouncementList" as AnnList
+ participant "announcement\n: Announcement" as Announce
+ participant "orderList\n: OrderList" as OrderList
+
+-> CTRL: getAnnouncementListOfAllAgencies()
+activate CTRL
+
+    CTRL -> RepositorySingleton : getInstance()
+    activate RepositorySingleton
+
+    RepositorySingleton --> CTRL : repositories
+    deactivate RepositorySingleton
+
+     CTRL -> PLAT :  getAgencyRepository()
+     activate PLAT
+
+     PLAT -> CTRL : agencyRepository
+     deactivate PLAT
+
+     CTRL-> AgRep : getAgenciesList()
+     activate AgRep
+
+     AgRep --> CTRL : agenciesList
+     deactivate AgRep
+
+     CTRL -> AgRep :  getAnnouncementListFromAllAgencies()
+     activate AgRep
+
+         loop for each agency
+         AgRep -> AGENCY :  getAnnouncementList()
+         activate AGENCY
+
+         AGENCY -> AnnList : getList()
+         activate AnnList
+
+            loop  for each announcement
+
+            AnnList -> OrderList : sortOrdersByPrice(announcement)
+            activate OrderList
+            deactivate OrderList
+
+                note right AnnList
+                **OU**
+                end note
+
+            AnnList -> Announce : getOrderList()
+            activate Announce
+
+            Announce --> AnnList: orderList
+            deactivate Announce
+            AnnList -> OrderList : sortOrdersByPrice()
+            activate OrderList
+            deactivate OrderList
+
+            end loop
+
+         AnnList --> AGENCY: announcementList
+         deactivate AnnList
+
+         AGENCY --> AgRep: announcementList
+         deactivate AGENCY
+
+         AgRep -> AgRep: add(announcementList)
+         activate AgRep
+
+         AgRep --> AgRep:
+         deactivate AgRep
+         |||
+         end loop
+
+     AgRep --> CTRL: announcementListAllAgencies
+     deactivate AgRep
+
+     CTRL -> AnnList: sortAnnouncementsByOldest(announcementListAllAgencies)
+     activate AnnList
+
+     AnnList --> CTRL: announcementListAllAgencies
+     deactivate AnnList
+
+     <-- CTRL: announcementListAllAgencies
+     deactivate CTRL
+
+@enduml

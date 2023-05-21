@@ -1,0 +1,136 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+'hide footbox
+actor "Agent" as ADM
+participant ":AcceptOrdersUI" as UI
+participant ":AcceptOrdersController" as CTRL
+participant "announcement\n: Announcement" as Announce
+participant "announcementMapper\n: AnnouncementMapper" as AnnMAPPER
+participant "announcementDto\n: AnnouncementDto" as AnnDTO
+participant "orderListMapper\n: OrderListMapper" as OrderListMapper
+participant "orderListDto\n: OrderListDto" as OrderListDTO
+
+activate ADM
+    ADM -> UI : asks to accept purchase orders
+    activate UI
+
+    UI -> CTRL** : create
+
+    UI -> CTRL : getAnnouncementList()
+    activate CTRL
+
+    CTRL -> CTRL : getAnnouncementListOfAllAgencies()
+    activate CTRL
+
+    ref over CTRL
+        Get list of announcements from all agencies
+    end ref
+
+    CTRL --> CTRL : announcementListAllAgencies
+    deactivate CTRL
+
+     CTRL -> AnnMAPPER : toDTO(announcementListAllAgencies)
+     activate AnnMAPPER
+
+        ref over AnnMAPPER
+            Convert announcements to dto's
+            end ref
+
+
+     AnnMAPPER --> CTRL : announcementDtoList
+     deactivate AnnMAPPER
+
+     CTRL --> UI: announcementDtoList
+     deactivate CTRL
+
+    loop for each property available for purchase
+
+        note right UI
+            **QUESTION : Será mesmo necessário fazer isto tendo**
+             **em conta que já temos announcementDto?**
+        end note
+
+    UI -> CTRL: getPurchaseOrderList(announcementDto)
+    activate CTRL
+
+    CTRL -> AnnDTO : getPurchaseOrderList()
+    activate AnnDTO
+
+    AnnDTO -> OrderListMapper : getPurchaseOrderList()
+    activate OrderListMapper
+
+    OrderListMapper -> OrderListDTO : getList()
+    activate OrderListDTO
+
+    OrderListDTO --> OrderListMapper : orderDtoList
+    deactivate OrderListDTO
+
+    OrderListMapper --> AnnDTO : orderDtoList
+    deactivate OrderListMapper
+
+    AnnDTO --> CTRL : orderDtoList
+    deactivate AnnDTO
+
+    CTRL --> UI: orderDtoList
+    deactivate CTRL
+
+    UI --> ADM : displays property by oldest and its orders by highest price\n and asks to select acceptanceAnswer for orders
+    deactivate UI
+
+        alt purchaseOrderList != empty
+            |||
+            loop for each displayed offer && while acceptanceAnswer != yes
+
+            ADM -> UI  : selects acceptanceAnswer
+            activate UI
+
+            UI --> ADM : asks to confirm acceptanceAnswer and submit data
+            deactivate UI
+
+            ADM -> UI  : submits data
+            activate UI
+
+            UI -> CTRL : defineOrderAcceptance(answer,orderDto,announcementDto)
+            activate CTRL
+
+            CTRL -> CTRL: getAnnouncementFromDto(announcementDto)
+            activate CTRL
+                ref over CTRL
+                    Get announcement from dto
+                end ref
+
+            CTRL --> CTRL : announcement
+            deactivate CTRL
+
+            |||
+            CTRL-> Announce : defineOrderAcceptance(answer,order)
+            activate Announce
+                ref over Announce
+                    Define order acceptance
+                end ref
+
+            Announce --> CTRL : success
+            deactivate Announce
+
+            CTRL --> UI : success
+            deactivate CTRL
+
+            UI --> ADM : displays operation success
+            deactivate UI
+
+            end loop
+        |||
+        end alt
+    |||
+    end loop
+
+    deactivate ADM
+
+
+
+@enduml

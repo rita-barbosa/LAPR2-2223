@@ -1,0 +1,91 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+
+participant "announcement\n: Announcement" as Announce
+participant "orderList\n: OrderList" as OrderList
+participant "orderMapper\n: OrderMapper" as OrderMapper
+participant "orderDto\n: OrderDto" as OrderDTO
+participant "order\n: Order" as Order
+
+
+
+    -> Announce : defineOrderAcceptance(answer,order)
+    activate Announce
+
+    Announce -> OrderMapper: toModel(orderDto)
+    activate OrderMapper
+
+    OrderMapper -> OrderDTO : orderAmount = getOrderAmount()
+    activate OrderDTO
+    deactivate OrderDTO
+
+    OrderMapper -> OrderDTO : orderDate = getOrderDate()
+    activate OrderDTO
+    deactivate OrderDTO
+
+    OrderMapper -> OrderDTO : clientEmail = getClientEmail()
+    activate OrderDTO
+    deactivate OrderDTO
+
+    OrderMapper -> Order** : create(orderAmount, orderDate, clientEmail)
+
+    OrderMapper --> Announce : order
+    deactivate OrderMapper
+
+    Announce -> OrderList : defineOrderAcceptance(answer, order)
+    activate OrderList
+
+    OrderList -> Order : setAcceptanceAnswer(answer)
+                activate Order
+
+                    note right Order
+                        Check if **file** needs to have **specific name**
+                    end note
+
+    Order -> Notification: sendOrderAcceptanceNotification(clientEmail, answer)
+    activate Notification
+    Notification --> Order : success
+    deactivate Notification
+
+    deactivate Order
+        alt answer == accept
+
+            loop for all of the other orders
+                note right OrderList
+                    **NEED TO:**
+                    * Check which orders don't have a acceptanceAnswer, so that I only update those
+                end note
+
+            OrderList -> Order : rejectOrder()
+            activate Order
+
+            alt acceptanceAnswer != null
+            Order -> Order : setAcceptanceAnswer(answer)
+            activate Order
+
+            Order -> Notification: sendOrderAcceptanceNotification(clientEmail,answer)
+            activate Notification
+            deactivate Notification
+
+            Order --> Order:
+            deactivate Order
+             |||
+            end alt
+            deactivate Order
+            |||
+            end loop
+
+        end alt
+    OrderList --> Announce: success
+    deactivate OrderList
+
+    <-- Announce: success
+    deactivate Announce
+
+
+
+
+@enduml

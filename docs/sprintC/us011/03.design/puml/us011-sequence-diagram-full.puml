@@ -211,6 +211,10 @@ activate ADM
     AgRep --> CTRL : announcement
     deactivate AgRep
 
+    note right CTRL
+        **IR BUSCAR AGENCY LIKE BEFORE**
+    end note
+
 
     CTRL --> UI : operationSuccess
     deactivate CTRL
