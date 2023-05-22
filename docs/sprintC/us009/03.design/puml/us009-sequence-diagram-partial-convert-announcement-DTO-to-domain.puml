@@ -1,0 +1,98 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+
+participant ":ScheduleVisitController" as CTRL
+participant "agencyRepository\n:AgencyRepository" as AgencyRepository
+participant "agency\n:Agency" as AGC
+participant "announcementList\n:AnnouncementList" as LISTCLASS
+participant "announcementList\n:List<Announcement>" as ANCLIST
+participant "announcement\n:Announcement" as ANNOUNCE
+participant ":AnnouncementMapper" as MAPPER
+participant "announcementDto\n:AnnouncementDto" as ANCDTO
+
+autonumber 7
+
+ -> CTRL : convertToModel(announcementDto)
+
+activate CTRL
+
+    autonumber 7.1
+
+    group Convert Announcement DTO to Model
+
+        CTRL -> LISTCLASS : id = getAnnouncementIdFromDto(announcementDto)
+        activate LISTCLASS
+
+        LISTCLASS -> MAPPER : getAnnouncementIdFromDto(announcementDto)
+        activate MAPPER
+
+        MAPPER -> ANCDTO : getId()
+        activate ANCDTO
+
+            ANCDTO --> MAPPER : id
+        deactivate ANCDTO
+
+            MAPPER --> LISTCLASS : id
+        deactivate MAPPER
+
+        LISTCLASS --> CTRL : id
+        deactivate LISTCLASS
+
+        CTRL -> AgencyRepository : searchAnnouncementById(id)
+        activate AgencyRepository
+
+        loop for all agencies
+
+            AgencyRepository -> AGC : searchAnnouncementById(id)
+            activate AGC
+
+                AGC -> LISTCLASS : searchAnnouncementById(id)
+
+                activate LISTCLASS
+
+                    LISTCLASS -> ANCLIST : searchAnnouncementById(id)
+
+                loop for all announcements
+
+                    activate ANCLIST
+
+                    ANCLIST --> ANNOUNCE : hasId(id)
+
+                    activate ANNOUNCE
+
+                        ANNOUNCE --> ANCLIST : true
+                    deactivate ANNOUNCE
+
+                end loop
+
+        end loop
+
+        ANCLIST -> ANNOUNCE : getAnnouncementById(id)
+        activate ANNOUNCE
+
+            ANNOUNCE --> ANCLIST : announcement
+        deactivate ANNOUNCE
+
+            ANCLIST --> LISTCLASS : announcement
+        deactivate ANCLIST
+
+            LISTCLASS --> AGC : announcement
+        deactivate LISTCLASS
+
+            AGC --> AgencyRepository : announcement
+        deactivate AGC
+
+            AgencyRepository --> CTRL : announcement
+        deactivate AgencyRepository
+
+    end group
+
+    autonumber 8
+
+    <-- CTRL  : Announcement
+deactivate CTRL
+
+@enduml

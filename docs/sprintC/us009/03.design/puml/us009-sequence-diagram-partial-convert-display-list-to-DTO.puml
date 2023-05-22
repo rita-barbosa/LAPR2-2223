@@ -1,0 +1,67 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+
+participant ":ScheduleVisitController" as CTRL
+participant ":AnnouncementMapper" as MAPPER
+participant "announcementList\n:List<Announcement>" as ANCLIST
+participant "announcementListDto\n:List<AnnouncementDto>" as LISTDTO
+participant "announcementDto\n:AnnouncementDto" as ANCDTO
+
+
+autonumber 3.16
+
+ -> CTRL : toDTO(listToDisplay)
+
+activate CTRL
+
+    autonumber 3.16.1
+
+    group Convert Display List to DTO
+
+        CTRL -> MAPPER : toDTO(listToDisplay)
+        activate MAPPER
+
+        MAPPER -> LISTDTO** : create()
+
+        loop for all announcements
+
+        MAPPER -> ANCLIST : announcement = get(i)
+        activate ANCLIST
+        deactivate ANCLIST
+
+        MAPPER -> MAPPER : announcementDto = toDTO(announcement)
+        activate MAPPER
+
+            MAPPER --> ANCDTO**: create(announcement)
+        deactivate MAPPER
+
+        MAPPER -> LISTDTO : add(announcementDto)
+        activate LISTDTO
+        deactivate LISTDTO
+
+        end loop
+|||
+        ref over MAPPER
+            HOW TO CONVERT WHAT'S INSIDE ANNOUNCEMENT???
+        end ref
+|||
+        MAPPER -> CTRL : listToDisplayDto
+
+        deactivate MAPPER
+
+    end group
+
+    autonumber 3.17
+    <-- CTRL  : listToDisplayDto
+deactivate CTRL
+
+
+@enduml
+
+
+
+
+@enduml
