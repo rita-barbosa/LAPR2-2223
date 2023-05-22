@@ -8,12 +8,8 @@ title Sequence Diagram (SD) - US009
 autonumber
 
 actor "<b> Customer </b>" as CTM
-participant ":ScheduleVisitUI" as UI
-participant ":ScheduleVisitController" as CTRL
-'participant ":Agency" as AGC
-participant ":Agent" as AGT
-participant ":Announcement" as ANNOUNCE
-
+participant "<b> :ScheduleVisitUI </b>" as UI
+participant "<b> :ScheduleVisitController </b>" as CTRL
 
 activate CTM
 
@@ -21,54 +17,70 @@ activate CTM
         activate UI
 
     UI -> CTRL** : create
+
+    UI -> CTRL : getAnnouncementListDto()
         activate CTRL
             ref over CTRL
-                Get Available
-                Announcements List
+                Get Announcements List DTO
             end ref
-    CTRL --> UI : availableAnnouncementsList
+    CTRL --> UI : listToDisplayDto
         deactivate CTRL
 
-    UI --> CTM : shows the list of announcements available
+    UI --> CTM : shows announcements list
         deactivate UI
 
     CTM -> UI : selects an announcement
         activate UI
 
+    UI -> CTRL : convertToModel(announcementDto)
+    activate CTRL
+        ref over CTRL
+            Convert Announcement DTO
+             to Model
+        end ref
+
+        CTRL --> UI : announcement ???????? CHANGE IT LATERRRR
+    deactivate CTRL
+
     UI --> CTM : requests data
         deactivate UI
 
-    CTM -> UI : types requested data (visitDate, visitBeginning, visitEnd)
+    CTM -> UI : types requested data (visitDate, startHour, endHour)
         activate UI
 
-        UI -> CTRL : createVisit(visitDate, visitBeginning, visitEnd)
+        UI -> CTRL : scheduleVisitRequest(announcement, visitDate,\n startHour, endHour)
+
         activate CTRL
 
-        CTRL -> ANNOUNCE : createVisit(visitDate, visitBeginning, visitEnd)
+        CTRL -> CTRL : scheduleVisitRequest(announcement,\n visitDate, startHour, endHour)
+        activate CTRL
 
-        activate ANNOUNCE
+        ref over CTRL
+            Schedule Visit Request
+        end ref
+
+            CTRL --> CTRL : visitRequest
+        deactivate CTRL
+
 |||
-            ref over ANNOUNCE
-            Add Visit to
-            Announcement
-            end ref
-
-        ANNOUNCE --> CTRL : visit
-
-        deactivate ANNOUNCE
-
-    CTRL -> CTRL : sendConfirmationEmailMessage()
+    CTRL -> CTRL : sendNotificationMessageEmail()
         activate CTRL
+
+        ref over CTRL
+            WHO SENDS THIS MESSAGE ???????
+        end ref
 
     CTRL --> CTRL
     deactivate CTRL
 
-    CTRL --> UI : visit
+    CTRL --> UI : visitRequest
     deactivate CTRL
 
 
 
     ' FALTA A PARTE DO EMAIL !!!!!!!!!!
+
+
 
     UI --> CTM : displays operation success
         deactivate UI
