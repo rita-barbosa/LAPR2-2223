@@ -1,0 +1,97 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+
+participant ":ScheduleVisitController" as CTRL
+participant "agencyRepository\n:AgencyRepository" as AgencyRepository
+participant "agency\n:Agency" as AGC
+participant "announcementList\n:AnnouncementList" as LISTCLASS
+participant "announcementList\n:List<Announcement>" as ANCLIST
+participant "announcement\n:Announcement" as ANNOUNCE
+participant "visitRequest:VisitRequest" as VREQUEST
+
+autonumber 12
+
+    -> CTRL : scheduleVisit(announcement, visitDate, startHour, endHour)
+    activate CTRL
+
+    CTRL -> AgencyRepository : hasAnnouncement(announcement)
+    activate AgencyRepository
+
+    loop for all agencies
+
+        AgencyRepository -> AGC : hasAnnouncement(announcement)
+        activate AGC
+
+        AGC -> LISTCLASS : hasAnnouncement(announcement)
+
+        activate LISTCLASS
+
+        LISTCLASS -> ANCLIST : hasAnnouncement(announcement)
+
+        loop for all announcements
+
+            activate ANCLIST
+
+            ANCLIST --> ANNOUNCE : equals(announcement)
+
+            activate ANNOUNCE
+
+                ANNOUNCE --> ANCLIST : true
+            deactivate ANNOUNCE
+
+        end loop
+
+    end loop
+
+        ANCLIST -> ANNOUNCE : getAnnouncement(announcement)
+        activate ANNOUNCE
+
+            ANNOUNCE --> ANCLIST : originalAnnouncement
+        deactivate ANNOUNCE
+
+            ANCLIST --> LISTCLASS : originalAnnouncement
+        deactivate ANCLIST
+
+            LISTCLASS --> AGC : originalAnnouncement
+        deactivate LISTCLASS
+
+            AGC --> AgencyRepository : originalAnnouncement
+        deactivate AGC
+
+            AgencyRepository --> CTRL : originalAnnouncement
+        deactivate AgencyRepository
+    |||
+    CTRL -> ANNOUNCE : createVisitRequest(visitDate, startHour, endHour)
+    activate ANNOUNCE
+
+    |||
+     ref over ANNOUNCE
+        Add Visit to Visit List In Announcement
+     end ref
+    |||
+
+    ANNOUNCE -> VREQUEST** : create(visitDate, startHour, endHour)
+
+     activate VREQUEST
+
+     VREQUEST -> VREQUEST : validateVisitRequest(visitRequest)
+     activate VREQUEST
+
+        VREQUEST --> VREQUEST
+     deactivate VREQUEST
+
+
+     deactivate VREQUEST
+
+        ANNOUNCE --> CTRL : visitRequest
+    deactivate ANNOUNCE
+
+        <-- CTRL : visitRequest
+    deactivate CTRL
+
+autonumber 13
+
+@enduml
