@@ -1,0 +1,47 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+participant ":ScheduleVisitController" as CTRL
+participant "announcement\n:Announcement" as ANNOUNCE
+participant "visit:Visit" as VST
+
+autonumber 12
+
+    -> CTRL : scheduleVisit(visitDate, startHour, endHour)
+    activate CTRL
+
+    autonumber 12.1
+
+    group Schedule Visit
+
+    CTRL -> ANNOUNCE : createVisit(visitDate, startHour, endHour)
+    activate ANNOUNCE
+
+
+
+    ANNOUNCE -> VST** : create(visitDate, startHour, endHour)
+
+     ANNOUNCE -> ANNOUNCE : addVisit(visit)
+     activate ANNOUNCE
+
+     ANNOUNCE -> ANNOUNCE : validateVisit(visit)
+     activate ANNOUNCE
+
+        ANNOUNCE --> ANNOUNCE
+     deactivate ANNOUNCE
+
+     ANNOUNCE --> ANNOUNCE
+     deactivate ANNOUNCE
+
+        ANNOUNCE --> CTRL : visit
+    deactivate ANNOUNCE
+
+    end group
+
+    autonumber 13
+        <-- CTRL : visit
+    deactivate CTRL
+
+@enduml

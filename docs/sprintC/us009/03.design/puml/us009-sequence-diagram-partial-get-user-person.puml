@@ -1,0 +1,78 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false\
+
+
+participant ":ScheduleVisitController" as CTRL
+participant ":ApplicationSession" as _APP
+participant "applicationSession\n:ApplicationSession" as APP
+participant "userSession\n:UserSession" as SESSION
+participant ":Repositories" as RepositorySingleton
+participant "repositories\n:Repositories" as PLAT
+participant "personRepository\n:PersonRepository" as PersonRepository
+participant "person:\nPerson" as PERSON
+
+autonumber 14.27
+
+     -> CTRL : getUserPerson()
+     activate CTRL
+
+autonumber 14.27.1
+
+    group Get User Person
+
+         CTRL -> _APP: getInstance()
+         activate _APP
+
+            _APP -> CTRL: authFacade
+         deactivate _APP
+
+         CTRL -> APP: getCurrentSession()
+         activate APP
+
+             APP --> CTRL: userSession
+         deactivate APP
+
+         CTRL -> SESSION: userEmail = getUserId()
+         activate SESSION
+
+             SESSION --> CTRL: userEmail
+         deactivate SESSION
+|||
+        CTRL -> RepositorySingleton : getInstance()
+        activate RepositorySingleton
+
+            RepositorySingleton --> CTRL : repositories
+        deactivate RepositorySingleton
+
+        CTRL -> PLAT : getPersonRepository()
+        activate PLAT
+
+            PLAT -> CTRL : PersonRepository
+        deactivate PLAT
+
+        CTRL -> PersonRepository : doesAnyPersonHaveEmail(userEmail)
+        activate PersonRepository
+
+        loop for each person
+
+            PersonRepository -> PERSON : doesPersonHaveEmail(userEmail)
+            activate PERSON
+
+                PERSON --> PersonRepository : true/false
+            deactivate PERSON
+
+        end loop
+
+            PersonRepository --> CTRL : person
+        deactivate PersonRepository
+
+     end group
+
+autonumber 14.28
+
+        <-- CTRL : person
+    deactivate CTRL
+
+@enduml

@@ -8,48 +8,26 @@ participant ":ScheduleVisitController" as CTRL
 participant "announcement\n:Announcement" as ANNOUNCE
 participant "request\n:Request" as REQUEST
 participant "property\n:Property" as PROPERTY
-participant "visitList\n:List<Visit>" as VLIST
 participant "visit\n:Visit" as VST
+participant "employee\n:Employee" as EMP
+participant "person:\nPerson" as PERSON
 participant ":Notification" as NTF
 
-autonumber 7
+autonumber 14
 
- -> CTRL : sendNotificationMessage(announcement)
+ -> CTRL : sendNotificationMessage(visit)
 
 activate CTRL
 
-    autonumber 7.1
+    autonumber 14.1
 
     group Send Notification Message
 
-'    CTRL -> AgencyRepository : getAgencyByAnnouncement(announcement)
-'    activate AgencyRepository
-'
-'    loop for all agencies
-'
-'    AgencyRepository -> AGC : hasAnnouncement(announcement)
-'    activate AGC
-'
-'        AGC -> LISTCLASS : hasAnnouncement(announcement)
-'        activate LISTCLASS
-'
-'            LISTCLASS -> ANCLIST : hasAnnouncement(announcement)
-'            activate ANCLIST
-'
-'                ANCLIST --> LISTCLASS : true/false
-'            deactivate ANCLIST
-'        end loop
-'
-'            LISTCLASS --> AGC : true
-'        deactivate LISTCLASS
-'
-'        AGC --> AgencyRepository : true
-'        deactivate AGC
-'
-'        AgencyRepository --> CTRL : agency
-'    deactivate AgencyRepository
-'
+        CTRL -> ANNOUNCE : announcementId = getId()
+        activate ANNOUNCE
 
+            ANNOUNCE ->  CTRL : announcementId
+        deactivate ANNOUNCE
 
         CTRL -> ANNOUNCE : location = getLocation()
         activate ANNOUNCE
@@ -69,32 +47,92 @@ activate CTRL
              ANNOUNCE --> CTRL : location
         deactivate ANNOUNCE
 
-        |||
-        CTRL -> CTRL : getUserEmail()
-        activate CTRL
-            ref over CTRL
-                Get User Email
-            end ref
-            CTRL --> CTRL : userEmail
-        deactivate CTRL
-|||
-
-        CTRL -> ANNOUNCE : sendNotification(location, userEmail)
+        CTRL -> ANNOUNCE : visitDate = getVisitDate()
         activate ANNOUNCE
 
-        ANNOUNCE -> VLIST : sendNotification(location, userEmail)
+            ANNOUNCE ->  VST : getVisitDate()
+            activate VST
+
+                VST --> ANNOUNCE : visitDate
+            deactivate VST
+             ANNOUNCE --> CTRL : visitDate
+        deactivate ANNOUNCE
+
+        CTRL -> ANNOUNCE : startHour = getVisitStartHour()
+        activate ANNOUNCE
+
+            ANNOUNCE ->  VST : getStartHour()
+            activate VST
+
+                VST --> ANNOUNCE : startHour
+            deactivate VST
+             ANNOUNCE --> CTRL : startHour
+        deactivate ANNOUNCE
+
+        CTRL -> ANNOUNCE : endHour = getVisitEndHour()
+        activate ANNOUNCE
+
+            ANNOUNCE ->  VST : getEndHour()
+            activate VST
+
+                VST --> ANNOUNCE : endHour
+            deactivate VST
+             ANNOUNCE --> CTRL : endHour
+        deactivate ANNOUNCE
+
+        |||
+        CTRL -> ANNOUNCE: agentEmail = getAgentEmail()
+        activate ANNOUNCE
+
+        ANNOUNCE -> EMP : getEmail()
+        activate EMP
+
+        EMP -> PERSON : getEmailAddress()
+        activate PERSON
+
+           PERSON --> EMP : agentEmail
+        deactivate PERSON
+
+           EMP --> ANNOUNCE : agentEmail
+        deactivate EMP
+
+           ANNOUNCE --> CTRL : agentEmail
+        deactivate ANNOUNCE
+
+   |||
+       CTRL -> CTRL : getUserPerson()
+       activate CTRL
+           ref over CTRL
+               Get User Person
+           end ref
+           CTRL --> CTRL : person
+       deactivate CTRL
+|||
+        CTRL -> PERSON : getName()
+        activate PERSON
+
+            PERSON --> CTRL : name
+        deactivate PERSON
+
+
+        CTRL -> PERSON : getPhoneNumber()
+        activate PERSON
+
+            PERSON --> CTRL : phoneNumber
+        deactivate PERSON
+
+    |||
+        CTRL -> ANNOUNCE : sendNotification(agentEmail, announcementId, location,\n name, phoneNumber, visitDate, startHour, endHour)
+        activate ANNOUNCE
+
+        ANNOUNCE -> VST : sendNotification(agentEmail, announcementId, location,\n name, phoneNumber, visitDate, startHour, endHour)
 
         loop for all visits
 
-        activate VLIST
+            activate VST
 
-            VLIST -> VST : sendNotification(location, userEmail)
-        deactivate VLIST
-
-        activate VST
-
-            VST -> NTF** : sendNotification(location, userEmail, visit)
-        deactivate VST
+                VST -> NTF** : create(agentEmail, announcementId, location,\n name, phoneNumber, visitDate, startHour, endHour)
+            deactivate VST
 
         end loop
 
@@ -102,7 +140,7 @@ activate CTRL
         deactivate ANNOUNCE
     end group
 
-    autonumber 8
+    autonumber 15
 
     <-- CTRL  : confirmation
 deactivate CTRL
