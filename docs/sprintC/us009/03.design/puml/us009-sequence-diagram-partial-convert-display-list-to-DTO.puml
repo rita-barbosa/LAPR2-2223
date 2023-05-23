@@ -6,13 +6,12 @@ skinparam shadowing false
 
 participant ":ScheduleVisitController" as CTRL
 participant ":AnnouncementMapper" as MAPPER
-participant "announcementList\n:List<Announcement>" as ANCLIST
+participant "announcementList\n:AnnouncementList" as LISTCLASS
 participant "announcement\n:Announcement" as ANNOUNCE
 participant "request\n:Request" as REQUEST
-participant "property\n:Property" as PROPERTY
-'participant "location\n:Location" as LOCATION
-participant "residence\n:Residence" as RESIDENCE
-participant "house\n:House" as HOUSE
+'participant "property\n:Property" as PROPERTY
+'participant "residence\n:Residence" as RESIDENCE
+'participant "house\n:House" as HOUSE
 participant "announcementListDto\n:List<AnnouncementDto>" as LISTDTO
 participant "announcementDto\n:AnnouncementDto" as ANCDTO
 
@@ -30,62 +29,61 @@ activate CTRL
         CTRL -> MAPPER : toDTO(listToDisplay)
         activate MAPPER
 
-        MAPPER -> LISTDTO** : create()
+        MAPPER -> LISTDTO** : listToDisplayDto = create()
 
         loop for all announcements
 
-        MAPPER -> ANCLIST : announcement = get(i)
-        activate ANCLIST
-        deactivate ANCLIST
+        MAPPER -> LISTCLASS : announcement = get(i)
+        activate LISTCLASS
+        deactivate LISTCLASS
 
-        MAPPER -> ANNOUNCE : announcementId = getId()
+        MAPPER -> ANNOUNCE : announcementId = getAnnouncementId()
         activate ANNOUNCE
 
         ANNOUNCE --> MAPPER : announcementId
         deactivate ANNOUNCE
 |||
-        MAPPER -> ANNOUNCE : property = getProperty()
+        MAPPER -> ANNOUNCE : requestInfo = getAnnouncementInfoToDisplay()
         activate ANNOUNCE
 
-            ANNOUNCE -> REQUEST : getProperty()
+            ANNOUNCE -> REQUEST : toString()
             activate REQUEST
 
-                REQUEST --> ANNOUNCE : property
+                REQUEST --> ANNOUNCE : requestInfo
             deactivate REQUEST
 
-            ANNOUNCE --> MAPPER : property
+            ANNOUNCE --> MAPPER : requestInfo
         deactivate ANNOUNCE
+'|||
+'        MAPPER -> PROPERTY : photographList = getPhotographList()
+'        activate PROPERTY
+'
+'            PROPERTY --> MAPPER : potographList
+'        deactivate PROPERTY
+'
+'|||
+'        alt Property Type = Apartment || Property Type = House
+'
+'        MAPPER -> RESIDENCE : availableEquipmentList = getAvailableEquipmentList()
+'        activate RESIDENCE
+'
+'            RESIDENCE --> MAPPER : availableEquipmentList
+'        deactivate RESIDENCE
+'|||
+'        alt Property Type = House
+'
+'        MAPPER -> HOUSE : sunExposure = getSunExposure()
+'        activate HOUSE
+'
+'            HOUSE --> MAPPER : sunExposure
+'        deactivate HOUSE
+'
+'        end alt
+'
+'        end alt
 |||
-        MAPPER -> PROPERTY : photographList = getPhotographList()
-        activate PROPERTY
 
-            PROPERTY --> MAPPER : potographList
-        deactivate PROPERTY
-
-|||
-        alt Property Type = Apartment || Property Type = House
-
-        MAPPER -> RESIDENCE : availableEquipmentList = getAvailableEquipmentList()
-        activate RESIDENCE
-
-            RESIDENCE --> MAPPER : availableEquipmentList
-        deactivate RESIDENCE
-|||
-        alt Property Type = House
-
-        MAPPER -> HOUSE : sunExposure = getSunExposure()
-        activate HOUSE
-
-            HOUSE --> MAPPER : sunExposure
-        deactivate HOUSE
-
-        end alt
-|||
-        MAPPER -> MAPPER : announcementDto = toDTO(announcementId, property,\n photographList, availableEquipmentList, sunExposure)
-        activate MAPPER
-
-            MAPPER --> ANCDTO**: create(announcementId, property, photographList,\n availableEquipmentList, sunExposure)
-        deactivate MAPPER
+        MAPPER --> ANCDTO**: create(announcementId, requestInfo)
 
         MAPPER -> LISTDTO : add(announcementDto)
         activate LISTDTO
