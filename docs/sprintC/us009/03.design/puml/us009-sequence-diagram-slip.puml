@@ -49,24 +49,23 @@ activate CTM
     CTM -> UI : types requested data (visitDate, startHour, endHour)
         activate UI
 
-        UI -> CTRL : scheduleVisitRequest(announcement, visitDate,\n startHour, endHour)
+        UI -> CTRL : scheduleVisit(announcement, visitDate, startHour, endHour)
 
         activate CTRL
 
-        CTRL -> CTRL : scheduleVisitRequest(announcement,\n visitDate, startHour, endHour)
+        CTRL -> CTRL : scheduleVisit(visitDate, startHour, endHour)
         activate CTRL
 
         ref over CTRL
-            Schedule Visit Request
+            Schedule Visit
         end ref
 
         end loop
 
-            CTRL --> CTRL : announcement ?????????
+            CTRL --> CTRL : visit
         deactivate CTRL
-
 |||
-    CTRL -> CTRL : sendNotificationMessage(announcement)
+    CTRL -> CTRL : sendNotificationMessage(visit)
         activate CTRL
 
         ref over CTRL
