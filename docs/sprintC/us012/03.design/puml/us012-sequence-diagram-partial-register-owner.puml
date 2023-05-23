@@ -1,0 +1,88 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+'hide footbox
+participant ":ImportLegacyInformationController" as CTRL
+participant ":Repositories" as RepositorySingleton
+participant "repositories\n:Repositories" as PLAT
+participant "personRepository\n:PersonRepository" as PERSONREP
+participant ":PersonMapper" as PERMAPPER
+participant "dto: PersonDto" as PERDTO
+participant "person\n:Person" as PERSON
+participant "location\n:Location" as LOCATION
+
+
+activate CTRL
+
+
+    CTRL -> PLAT : getPersonRepository()
+    activate PLAT
+
+    PLAT --> CTRL : personRepository
+    deactivate PLAT
+
+    CTRL -> PERSONREP : createPerson(legacyInformationDto)
+    activate PERSONREP
+
+'    CTRL -> PERSONREP : createPerson(name, passportCardNumber, taxNumber,\n emailAddress, phoneNumber, streetName,\n city, district, state, zipcode, clientRole)
+'   activate PERSONREP
+
+    PERSONREP -> PERMAPPER : owner = createPerson(legacyInformationDto)
+    activate PERMAPPER
+
+    PERMAPPER -> PERDTO : name = getName()
+    activate PERDTO
+    deactivate PERDTO
+
+    PERMAPPER -> PERDTO : passportCardNumber = getPassportCardNumber()
+    activate PERDTO
+    deactivate PERDTO
+
+    PERMAPPER -> PERDTO : taxNumber = getTaxNumber()
+    activate PERDTO
+    deactivate PERDTO
+
+    PERMAPPER -> PERDTO : emailAddress = getEmailAddress()
+    activate PERDTO
+    deactivate PERDTO
+
+    PERMAPPER -> PERDTO : phoneNumber = getPhoneNumber()
+    activate PERDTO
+    deactivate PERDTO
+
+    PERMAPPER -> PERDTO : location = getLocation()
+    activate PERDTO
+    deactivate PERDTO
+
+    |||
+
+    PERMAPPER -> PERSON** : create(name, passportCardNumber, taxNumber,\n emailAddress, phoneNumber, location, clientRole)
+    activate PERSON
+
+    PERSON -> LOCATION** : createLocation(streetName, city, \ndistrict, state, zipcode)
+    deactivate PERSON
+
+    PERSONREP -> PERSONREP: addPerson(person)
+    activate PERSONREP
+
+        PERSONREP -> PERSONREP: validatePerson(person)
+        activate PERSONREP
+
+        PERSONREP --> PERSONREP :
+        deactivate PERSONREP
+
+    PERSONREP --> PERSONREP :
+    deactivate PERSONREP
+'
+'    PERSONREP --> CTRL : person
+'    deactivate PERSONREP
+
+deactivate CTRL
+
+
+
+@enduml
