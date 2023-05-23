@@ -24,8 +24,12 @@ activate CTM
     System --> CTM : requests data
         deactivate System
 
+    loop At least once
+
     CTM -> System : types requested data (visitDate, visitBeginning, visitEnd)
         activate System
+
+    end loop
 
     System --> CTM : displays operation success
         deactivate System
