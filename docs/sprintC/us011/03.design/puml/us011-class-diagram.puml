@@ -33,7 +33,7 @@ class OrderMapper {
 
 class OrderList {
     - List<Order> orders
-    + sortOrdersByPrice()
+    + sortOrdersByHighestOrderAmount()
     + getList()
     + defineOrderAcceptance(answer, order)
 }
@@ -79,7 +79,7 @@ class AnnouncementList {
     + getAnnouncementsByAgentEmail(agentEmail)
     + getAnnouncementById(announcementId)
     + anyAnnouncementHasId(announcementId)
-    - sortAnnouncementsByOldest(listAnnouncements)
+    - sortAnnouncementsByOldestAcceptanceDate(listAnnouncements)
     ** - add(announcement) : VER ISTO MELHOR**
 }
 

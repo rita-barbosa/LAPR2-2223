@@ -31,7 +31,7 @@ autonumber 13.1
             activate Announce
             Announce --> AnnList: orderList
             deactivate Announce
-            AnnList -> OrderList : sortOrdersByPrice()
+            AnnList -> OrderList : sortOrdersByHighestOrderAmount()
             activate OrderList
             deactivate OrderList
 
@@ -42,7 +42,7 @@ autonumber 13.1
          |||
          end alt
      end loop
-     AnnList -> AnnList : sortAnnouncementsByOldest(listAnnouncements)
+     AnnList -> AnnList : sortAnnouncementsByOldestAcceptanceDate(listAnnouncements)
      activate AnnList
      AnnList --> AnnList: listAnnouncements
      deactivate AnnList
