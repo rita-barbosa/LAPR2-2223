@@ -1,0 +1,46 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false\
+
+
+
+participant ":CreatePropertyController" as CTRL
+participant ":ApplicationSession" as _APP
+participant "applicationSession\n:ApplicationSession" as APP
+participant "userSession\n:UserSession" as SESSION
+
+autonumber 7.7
+
+     -> CTRL : getUserEmail()
+     activate CTRL
+
+autonumber 7.7.1
+
+    group Get User Email
+
+             CTRL -> _APP: getInstance()
+             activate _APP
+             _APP -> CTRL: authFacade
+             deactivate _APP
+
+             CTRL -> APP: getCurrentSession()
+             activate APP
+
+                 APP --> CTRL: userSession
+             deactivate APP
+
+             CTRL -> SESSION: userEmail = getUserId()
+             activate SESSION
+
+                 SESSION --> CTRL: userEmail
+             deactivate SESSION
+
+             end group
+
+    autonumber 7.8
+
+    <-- CTRL : userEmail
+    deactivate CTRL
+
+@enduml

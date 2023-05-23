@@ -20,39 +20,82 @@ activate Employee
 
     loop for the requests of the agent
 
-        alt accept request
-        Employee -> System : asks to make a request become an announcement
+        Employee -> System : asks to make a decision for the request
         activate System
 
-        System --> Employee : shows the request and asks for confirmation
+        System --> Employee : shows the request and asks data (option)
+        deactivate System
+
+        Employee -> System : submits data (option)
+        activate System
+
+        alt option == accept
+
+        System --> Employee : shows types of commission and asks to select one
+        deactivate System
+
+        Employee -> System : selects type of commission
+        activate System
+
+        System --> Employee : requests value of commission
+        deactivate System
+
+        Employee -> System : enters commission value
+        activate System
+
+        System --> Employee : shows all data and asks to submits
         deactivate System
 
         Employee -> System : submits data
         activate System
 
-        System --> Employee : shows operation success and shows the list of requests
-        deactivate System
+        else option == decline
 
-        else decline request
-        Employee -> System : asks to decline an announcement request
-        activate System
-
-        System --> Employee : shows the request and asks for justification message
+        System --> Employee : asks for justification message
         deactivate System
 
         Employee -> System :submits message
         activate System
 
-        System --> Employee : asks for confirmation
-        deactivate System
-
-        Employee -> System : submits data
-        activate System
+        end
 
         System --> Employee : shows operation success and shows the list of requests
         deactivate System
 
-        end
+
+'        alt accept request
+'        Employee -> System : asks to make a request become an announcement
+'        activate System
+'
+'        System --> Employee : shows the request and asks for confirmation
+'        deactivate System
+'
+'        Employee -> System : submits data
+'        activate System
+'
+'        System --> Employee : shows operation success and shows the list of requests
+'        deactivate System
+'
+'        else decline request
+'        Employee -> System : asks to decline an announcement request
+'        activate System
+'
+'        System --> Employee : shows the request and asks for justification message
+'        deactivate System
+'
+'        Employee -> System :submits message
+'        activate System
+'
+'        System --> Employee : asks for confirmation
+'        deactivate System
+'
+'        Employee -> System : submits data
+'        activate System
+'
+'        System --> Employee : shows operation success and shows the list of requests
+'        deactivate System
+'
+'        end
 
 '        opt request
 '

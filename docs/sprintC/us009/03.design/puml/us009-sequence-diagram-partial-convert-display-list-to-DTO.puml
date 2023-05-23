@@ -1,0 +1,105 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+
+participant ":ScheduleVisitController" as CTRL
+participant ":AnnouncementMapper" as MAPPER
+participant "announcementList\n:List<Announcement>" as ANCLIST
+participant "announcement\n:Announcement" as ANNOUNCE
+participant "request\n:Request" as REQUEST
+participant "property\n:Property" as PROPERTY
+'participant "location\n:Location" as LOCATION
+participant "residence\n:Residence" as RESIDENCE
+participant "house\n:House" as HOUSE
+participant "announcementListDto\n:List<AnnouncementDto>" as LISTDTO
+participant "announcementDto\n:AnnouncementDto" as ANCDTO
+
+
+autonumber 3.16
+
+ -> CTRL : toDTO(listToDisplay)
+
+activate CTRL
+
+    autonumber 3.16.1
+
+    group Convert Display List to DTO
+
+        CTRL -> MAPPER : toDTO(listToDisplay)
+        activate MAPPER
+
+        MAPPER -> LISTDTO** : create()
+
+        loop for all announcements
+
+        MAPPER -> ANCLIST : announcement = get(i)
+        activate ANCLIST
+        deactivate ANCLIST
+
+        MAPPER -> ANNOUNCE : announcementId = getId()
+        activate ANNOUNCE
+
+        ANNOUNCE --> MAPPER : announcementId
+        deactivate ANNOUNCE
+|||
+        MAPPER -> ANNOUNCE : property = getProperty()
+        activate ANNOUNCE
+
+            ANNOUNCE -> REQUEST : getProperty()
+            activate REQUEST
+
+                REQUEST --> ANNOUNCE : property
+            deactivate REQUEST
+
+            ANNOUNCE --> MAPPER : property
+        deactivate ANNOUNCE
+|||
+        MAPPER -> PROPERTY : photographList = getPhotographList()
+        activate PROPERTY
+
+            PROPERTY --> MAPPER : potographList
+        deactivate PROPERTY
+
+|||
+        alt Property Type = Apartment || Property Type = House
+
+        MAPPER -> RESIDENCE : availableEquipmentList = getAvailableEquipmentList()
+        activate RESIDENCE
+
+            RESIDENCE --> MAPPER : availableEquipmentList
+        deactivate RESIDENCE
+|||
+        alt Property Type = House
+
+        MAPPER -> HOUSE : sunExposure = getSunExposure()
+        activate HOUSE
+
+            HOUSE --> MAPPER : sunExposure
+        deactivate HOUSE
+
+        end alt
+|||
+        MAPPER -> MAPPER : announcementDto = toDTO(announcementId, property,\n photographList, availableEquipmentList, sunExposure)
+        activate MAPPER
+
+            MAPPER --> ANCDTO**: create(announcementId, property, photographList,\n availableEquipmentList, sunExposure)
+        deactivate MAPPER
+
+        MAPPER -> LISTDTO : add(announcementDto)
+        activate LISTDTO
+        deactivate LISTDTO
+
+        end loop
+
+        MAPPER -> CTRL : listToDisplayDto
+        deactivate MAPPER
+
+    end group
+
+    autonumber 3.17
+    <-- CTRL  : listToDisplayDto
+deactivate CTRL
+
+@enduml
