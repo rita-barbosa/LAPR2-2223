@@ -17,6 +17,11 @@ autonumber 12
     -> CTRL : scheduleVisit(announcement, visitDate, startHour, endHour)
     activate CTRL
 
+    autonumber 12.1
+
+    group Schedule Visit Request
+
+
     CTRL -> AgencyRepository : hasAnnouncement(announcement)
     activate AgencyRepository
 
@@ -88,10 +93,12 @@ autonumber 12
 
         ANNOUNCE --> CTRL : visitRequest
     deactivate ANNOUNCE
+    |||
+    end group
+
+ autonumber 13
 
         <-- CTRL : visitRequest
     deactivate CTRL
-
-autonumber 13
 
 @enduml
