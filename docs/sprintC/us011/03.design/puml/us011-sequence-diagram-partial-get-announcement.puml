@@ -3,7 +3,7 @@ skinparam monochrome true
 skinparam packageStyle rectangle
 skinparam shadowing false
 
-autonumber
+
 participant ":AcceptOrdersController" as CTRL
 participant "announcementMapper\n: AnnouncementMapper" as AnnMAPPER
 participant "announcementDto\n: AnnouncementDto" as AnnDTO
@@ -12,13 +12,15 @@ participant "agency\n: Agency" as AGENCY
 participant "announcementList\n: AnnouncementList" as AnnList
 participant "announcement\n: Announcement" as Announce
 
+autonumber 28
     -> CTRL: getAnnouncementFromDto(announcementDto)
     activate CTRL
-
+group Get Announcement
+autonumber 28.1
     CTRL -> AnnMAPPER: getAnnouncementId(announcementDto)
     activate AnnMAPPER
 
-    AnnMAPPER -> AnnDTO: getAnnouncementId(announcementDto)
+    AnnMAPPER -> AnnDTO: getAnnouncementId()
     activate AnnDTO
 
     AnnDTO --> AnnMAPPER: announcementId
@@ -72,7 +74,10 @@ participant "announcement\n: Announcement" as Announce
     AGENCY --> CTRL : announcement
     deactivate AGENCY
 
-<-- CTRL: announcement
-deactivate CTRL
+end group
+
+autonumber 29
+    <-- CTRL: announcement
+    deactivate CTRL
 
 @enduml

@@ -7,20 +7,25 @@ autonumber
 
 'hide footbox
 actor "Agent" as ADM
-participant ":AcceptOrdersUI" as UI
-participant ":AcceptOrdersController" as CTRL
-participant ":Repositories" as RepositorySingleton
-participant "repositories\n:Repositories" as PLAT
-participant "agencyRepository\n: AgencyRepository" as AgRep
-participant "agency\n: Agency" as AGENCY
-participant "announcementList\n: AnnouncementList" as AnnList
-participant "announcementMapper\n: AnnouncementMapper" as AnnMAPPER
-participant "announcementDto\n: AnnouncementDto" as AnnDTO
-participant "requestDto\n: RequestDto" as RequestDTO
-participant "orderListDto\n: OrderListDto" as OrderListDTO
-participant "orderDto\n: OrderDto" as OrderDTO
-participant "employeeDto\n: EmployeeDto" as EmployeeDTO
-participant "commissionDto\n: CommissionDto" as CommissionDTO
+ participant ":AcceptOrdersUI" as UI
+ participant ":AcceptOrdersController" as CTRL
+ participant ":Repositories" as RepositorySingleton
+ participant "repositories\n:Repositories" as PLAT
+ participant "userSession\n: UserSession" as UserSession
+ participant "authenticationRepository\n: Authentication Repository" as AuthRep
+ participant "email\n: Email" as Email
+ participant "agencyRepository\n: AgencyRepository" as AgRep
+ participant "agency\n: Agency" as AGENCY
+ participant "announcementList\n: AnnouncementList" as AnnList
+ participant "announcementMapper\n: AnnouncementMapper" as AnnMAPPER
+ participant "announcementDto\n: AnnouncementDto" as AnnDTO
+ participant "announcement\n: Announcement" as Announce
+ participant "orderList\n: OrderList" as OrderList
+ participant "orderMapper\n: OrderMapper" as OrderMapper
+ participant "orderDto\n: OrderDto" as OrderDTO
+ participant "order\n: Order" as Order
+ participant "notification\n: Notification" as Notification
+
 
 activate ADM
     ADM -> UI : asks to accept purchase orders
@@ -31,198 +36,351 @@ activate ADM
     UI -> CTRL : getAnnouncementList()
     activate CTRL
 
+    CTRL -> CTRL: getAnnouncementListOfAllAgencies()
+    activate CTRL
+
     CTRL -> RepositorySingleton : getInstance()
     activate RepositorySingleton
 
     RepositorySingleton --> CTRL : repositories
     deactivate RepositorySingleton
 
+     CTRL -> PLAT : getAuthenticationRepository()
+     activate PLAT
+
+     PLAT --> CTRL : authenticationRepository
+     deactivate PLAT
+
+     CTRL -> AuthRep : getCurrentSession()
+     activate AuthRep
+
+     AuthRep --> CTRL : userSession
+     deactivate AuthRep
+
+     CTRL -> UserSession : getUserId()
+     activate UserSession
+
+     UserSession --> CTRL : email
+     deactivate UserSession
+
+    CTRL -> Email : toString()
+    activate Email
+
+    Email --> CTRL : agentEmail
+    deactivate Email
+
      CTRL -> PLAT :  getAgencyRepository()
      activate PLAT
 
      PLAT -> CTRL : agencyRepository
      deactivate PLAT
+     CTRL -> AgRep: getAgencyByEmployeeEmail(agentEmail)
+                 activate AgRep
 
-     CTRL-> AgRep : getAgenciesList()
-     activate AgRep
+                     loop [for each agency
+                         AgRep -> AGENCY : anyAgentHasEmail(agentEmail)
+                         activate AGENCY
 
-     AgRep --> CTRL : agenciesList
-     deactivate AgRep
+                              AGENCY --> AgRep : true/false
+                         deactivate AGENCY
+                     end
+                     AgRep --> CTRL : agency
+                 deactivate AgRep
 
-     CTRL -> AgRep :  getAnnouncementListFromAllAgencies()
-     activate AgRep
 
-     loop for each agency
-     AgRep -> AGENCY :  getAnnouncementList()
+     CTRL -> AGENCY: getAnnouncementByAgentEmail(agentEmail)
      activate AGENCY
 
-     AGENCY -> AnnList : getList()
-     activate AnnList
 
-     AnnList --> AGENCY: announcementList
+     AGENCY -> AnnList : getAnnouncementsByAgentEmail(agentEmail)
+     activate AnnList
+     loop for each announcement
+     AnnList -> Announce : hasAgentWithEmail(agentEmail)
+     activate Announce
+
+     Announce --> AnnList : true/false
+     deactivate Announce
+
+         alt true
+            AnnList -> Announce : getOrderList()
+            activate Announce
+            Announce --> AnnList: orderList
+            deactivate Announce
+            AnnList -> OrderList : sortOrdersByPrice()
+            activate OrderList
+            deactivate OrderList
+
+            AnnList -> AnnList : add(announcement)
+            activate AnnList
+            AnnList --> AnnList :
+            deactivate AnnList
+         |||
+         end alt
+     end loop
+     AnnList -> AnnList : sortAnnouncementsByOldest(listAnnouncements)
+     activate AnnList
+     AnnList --> AnnList: listAnnouncements
      deactivate AnnList
 
-     AGENCY --> AgRep: announcementList
+     AnnList --> AGENCY : listAnnouncements
+     deactivate AnnList
+
+     AGENCY --> CTRL : listAnnouncements
      deactivate AGENCY
 
-     AgRep -> AgRep: add(announcementList)
-     activate AgRep
-
-     AgRep --> AgRep:
-     deactivate AgRep
-     |||
-     end loop
-     AgRep --> CTRL: announcementListAllAgencies
-     deactivate AgRep
-
-     CTRL -> AnnList: sortAnnouncementsByOldest(announcementListAllAgencies)
-     activate AnnList
-
-     AnnList --> CTRL: sortAnnouncementsByOldest(announcementListAllAgencies)
-     deactivate AnnList
-
-     CTRL -> AnnMAPPER : toDTO(announcementListAllAgencies)
-     activate AnnMAPPER
-
-         note right AnnMAPPER
-         **DÚVIDAS | FALTA FAZER:**
-         * Será necessário colocar os mappers do requestDto; orderList....
-         * Verificar se é necessário colocar a seta a tracejado de 'volta' (-->)
-         end note
-
-     loop for each announcement
-
-     AnnMAPPER -> AnnMAPPER : toDTO(announcement)
-     activate AnnMAPPER
-
-     AnnMAPPER -> AnnDTO**: create(announcement)
-     deactivate AnnMAPPER
-     activate AnnDTO
-
-     AnnDTO -> RequestDTO** : createRequestDTO()
-
-     AnnDTO -> OrderListDTO** : createOrderListDTO()
-     activate OrderListDTO
-
-     loop for each order
-
-     OrderListDTO -> OrderDTO** : createOrderDto()
-
-     OrderListDTO -> OrderListDTO : add(orderDto)
-     activate OrderListDTO
-
-     OrderListDTO --> OrderListDTO
-     deactivate OrderListDTO
-     |||
-     end loop
-     deactivate OrderListDTO
-
-     AnnDTO -> EmployeeDTO** : createEmployeeDTO()
-
-     AnnDTO -> CommissionDTO** : createCommissionDTO()
-     deactivate AnnDTO
-
-     AnnMAPPER -> AnnMAPPER: add(announcementDto)
-     activate AnnMAPPER
-
-     AnnMAPPER --> AnnMAPPER:
-     deactivate AnnMAPPER
-
-     |||
-     end loop
-
-     AnnMAPPER --> CTRL : announcementDtoList
-     deactivate AnnMAPPER
-
-     CTRL --> UI: announcementDtoList
+     CTRL --> CTRL: listAnnouncements
      deactivate CTRL
 
-    loop for all properties available for purchase
+    CTRL -> AnnMAPPER : toDTO(announcementListAllAgencies)
+         activate AnnMAPPER
 
-    UI --> ADM : displays properties available for purchase \nand asks to select one
+             note right AnnMAPPER
+             **DÚVIDAS | FALTA FAZER:**
+             * Será necessário colocar os mappers do requestDto; orderList....
+             end note
+
+             loop for each announcement
+
+             AnnMAPPER -> AnnMAPPER : toDTO(announcement)
+             activate AnnMAPPER
+
+             AnnMAPPER -> Announce: getRequestAttributes()
+             activate Announce
+             Announce --> AnnMAPPER : requestAttributes
+             deactivate Announce
+
+             AnnMAPPER -> Announce: getCommissionAttributes()
+             activate Announce
+             Announce --> AnnMAPPER : commissionAttributes
+             deactivate Announce
+
+             AnnMAPPER -> Announce : getId()
+             activate Announce
+             Announce --> AnnMAPPER : id
+             deactivate Announce
+
+             AnnMAPPER -> Announce: getAcceptanceDate()
+             activate Announce
+             Announce --> AnnMAPPER : acceptanceDate
+             deactivate Announce
+
+             AnnMAPPER -> Announce:  getListOrders()
+             activate Announce
+             Announce -> OrderList : getList()
+             activate OrderList
+
+             OrderList --> Announce : listOrders
+             deactivate OrderList
+             Announce --> AnnMAPPER : listOrders
+             deactivate Announce
+
+             AnnMAPPER -> OrderMapper : toDTO(listOrders)
+             activate OrderMapper
+
+                    loop for each order
+                    OrderMapper -> OrderDTO** : create(order)
+                    OrderMapper -> OrderMapper : add(orderDto)
+                    activate OrderMapper
+                    OrderMapper --> OrderMapper
+                    deactivate OrderMapper
+                    |||
+                    end loop
+
+             OrderMapper --> AnnMAPPER: listOrdersDto
+             deactivate OrderMapper
+
+             AnnMAPPER -> AnnDTO**: create(requestAttributes, listOrdersDto,\n commissionAttributes, acceptanceDate, id)
+             deactivate AnnMAPPER
+
+             AnnMAPPER -> AnnMAPPER: add(announcementDto)
+             activate AnnMAPPER
+
+             AnnMAPPER --> AnnMAPPER:
+             deactivate AnnMAPPER
+
+             |||
+             end loop
+
+         AnnMAPPER --> CTRL : listAnnouncementsDto
+         deactivate AnnMAPPER
+
+
+     CTRL --> UI: listAnnouncementsDto
+     deactivate CTRL
+
+    loop for each property available for purchase
+
+    UI --> ADM : displays property by oldest and its orders by highest price\n and asks to select acceptanceAnswer for orders
     deactivate UI
+        |||
+        alt purchaseOrderList != empty
+            |||
+            loop for each displayed offer && while acceptanceAnswer != yes
 
-    ADM -> UI : selects property
-    activate UI
+            ADM -> UI  : selects acceptanceAnswer
+            activate UI
 
-    UI -> CTRL: getPurchaseOrderList(announcementDto)
-    activate CTRL
+            UI --> ADM : asks to confirm acceptanceAnswer and submit data
+            deactivate UI
 
-    CTRL -> AnnDTO : orderDtoList = getPurchaseOrderList()
-    activate AnnDTO
+            ADM -> UI  : submits data
+            activate UI
 
-    deactivate AnnDTO
+            UI -> CTRL : defineOrderAcceptance(answer,orderDto,announcementDto)
+            activate CTRL
 
-    CTRL --> UI: orderDtoList
-    deactivate CTRL
+                note right CTRL
+                O QUE FALTA -->  ** TENHO DÚVIDAS**:
+                    * Adicionar a accpetanceAnswer às orders do anuncio
+                    * Fazer o sendNotification()
+                end note
+            CTRL -> CTRL: getAnnouncementFromDto(announcementDto)
+            activate CTRL
 
-    loop while acceptanceAnswer != yes \n&& purchaseOrderList != empty
+                CTRL -> AnnMAPPER: getAnnouncementId(announcementDto)
+                activate AnnMAPPER
 
-    UI -->  ADM: displays purchase order and asks the acceptance answer
-    deactivate UI
+                AnnMAPPER -> AnnDTO: getAnnouncementId(announcementDto)
+                activate AnnDTO
 
-    ADM -> UI  : selects acceptance answer
-    activate UI
+                AnnDTO --> AnnMAPPER: announcementId
+                deactivate AnnDTO
 
-    UI -> CTRL : defineOrderAcceptance(answer,orderDto,announcementDto)
-    activate CTRL
+                AnnMAPPER --> CTRL: announcementId
+                deactivate AnnMAPPER
 
-        note right CTRL
-        O QUE FALTA -->  ** TENHO DÚVIDAS**:
-            * Adicionar a accpetanceAnswer às orders do anuncio
-            * Fazer o sendNotification()
-        end note
+                CTRL -> AgRep: getAgencyByAnnouncementId(announcementId)
+                activate AgRep
 
-    CTRL -> AnnMAPPER: getAnnouncementId(announcementDto)
-    activate AnnMAPPER
+                    loop for each agency
 
-    AnnMAPPER -> AnnDTO: getAnnouncementId(announcementDto)
-    activate AnnDTO
+                    AgRep -> AGENCY :  anyAnnouncementHasId(announcementId)
+                    activate AGENCY
+                        loop for each announcement
 
-    AnnDTO --> AnnMAPPER: announcementId
-    deactivate AnnDTO
+                        AGENCY -> AnnList:  anyAnnouncementHasId(announcementId)
+                        activate AnnList
+                        AnnList --> AGENCY: true/false
+                        deactivate AnnList
 
-    AnnMAPPER --> CTRL: announcementId
-    deactivate AnnMAPPER
+                        end loop
+                    AGENCY --> AgRep: true/false
+                    deactivate AGENCY
 
-    CTRL -> AgRep: getAnnouncementById(announcementId)
-    activate AgRep
+                    end loop
 
-    loop for all agencies
-    AgRep -> AGENCY :  getAnnouncementById(announcementId)
-    activate AGENCY
+                AgRep --> CTRL : agency
+                deactivate AgRep
 
-    AGENCY -> AnnList : getAnnouncementById(announcementId)
-    activate AnnList
+                CTRL -> AGENCY :  getAnnouncementByID(announcementId)
+                activate AGENCY
 
-    AnnList -> AnnList: anyAnnouncementHasId(announcementId)
-    activate AnnList
+                AGENCY -> AnnList : getAnnouncementByID(announcementId)
+                activate AnnList
 
-    AnnList --> AnnList: true/false
-    deactivate AnnList
+                    loop  for each announcement
 
-    AnnList --> AGENCY: announcement
-    deactivate AnnList
+                    AnnList -> Announce : hasId(announcementId)
+                    activate Announce
 
-    AGENCY --> AgRep: announcement
-    deactivate AGENCY
-    end loop
+                    Announce -->AnnList :true/false
+                    deactivate Announce
 
-    AgRep --> CTRL : announcement
-    deactivate AgRep
+                    end loop
 
-    note right CTRL
-        **IR BUSCAR AGENCY LIKE BEFORE**
-    end note
+                AnnList --> AGENCY : announcement
+                deactivate AnnList
 
+                AGENCY --> CTRL : announcement
+                deactivate AGENCY
 
-    CTRL --> UI : operationSuccess
-    deactivate CTRL
+            CTRL --> CTRL : announcement
+            deactivate CTRL
 
-    UI --> ADM : displays operation success
-    deactivate UI
+            |||
+            CTRL-> Announce : defineOrderAcceptance(answer,order)
+            activate Announce
 
-    end loop
+                Announce -> OrderMapper: toModel(orderDto)
+                activate OrderMapper
+
+                OrderMapper -> OrderDTO : orderAmount = getOrderAmount()
+                activate OrderDTO
+                deactivate OrderDTO
+
+                OrderMapper -> OrderDTO : orderDate = getOrderDate()
+                activate OrderDTO
+                deactivate OrderDTO
+
+                OrderMapper -> OrderDTO : clientEmail = getClientEmail()
+                activate OrderDTO
+                deactivate OrderDTO
+
+                OrderMapper -> Order** : create(orderAmount, orderDate, clientEmail)
+
+                OrderMapper --> Announce : order
+                deactivate OrderMapper
+
+                Announce -> OrderList : defineOrderAcceptance(answer, order)
+                activate OrderList
+
+                OrderList -> Order : setAcceptanceAnswer(answer)
+                activate Order
+
+                                note right Order
+                                    Check if **file** needs to have **specific name**
+                                end note
+
+                Order -> Notification: sendOrderAcceptanceNotification(clientEmail, answer)
+                activate Notification
+                Notification --> Order : success
+                deactivate Notification
+
+                deactivate Order
+                    alt answer == accept
+
+                        loop for all the other orders
+                            note right OrderList
+                                **NEED TO:**
+                                * Check which orders don't have a acceptanceAnswer, so that I only update those
+                            end note
+
+                        OrderList -> Order : rejectOrder()
+                        activate Order
+
+                        alt acceptanceAnswer != null
+                        Order -> Order : setAcceptanceAnswer(answer)
+                        activate Order
+
+                        Order -> Notification: sendOrderAcceptanceNotification(clientEmail,answer)
+                        activate Notification
+                        deactivate Notification
+
+                        Order --> Order:
+                        deactivate Order
+                         |||
+                        end alt
+                        deactivate Order
+                        |||
+                        end loop
+
+                    end alt
+                OrderList --> Announce: success
+                deactivate OrderList
+
+            Announce --> CTRL : success
+            deactivate Announce
+
+            CTRL --> UI : success
+            deactivate CTRL
+
+            UI --> ADM : displays operation success
+            deactivate UI
+
+            end loop
+        |||
+        end alt
+    |||
     end loop
 
     deactivate ADM

@@ -1,0 +1,160 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+'hide footbox
+actor "Agent" as ADM
+ participant ":AcceptOrdersUI" as UI
+ participant ":AcceptOrdersController" as CTRL
+ participant "repositories\n:Repositories" as PLAT
+ participant "agencyRepository\n: AgencyRepository" as AgRep
+ participant "agency\n: Agency" as AGENCY
+ participant "announcement\n: Announcement" as Announce
+ participant "announcementMapper\n: AnnouncementMapper" as AnnMAPPER
+
+activate ADM
+    ADM -> UI : asks to accept purchase orders
+    activate UI
+
+    UI -> CTRL** : create
+
+    UI -> CTRL : getAnnouncementList()
+    activate CTRL
+
+    CTRL -> CTRL : getAgentEmail()
+    activate CTRL
+
+        ref over CTRL
+            Get Agent Email
+        end ref
+
+     CTRL --> CTRL : agentEmail
+     deactivate CTRL
+
+     |||
+     CTRL -> CTRL: getAnnouncementListByAgentEmail(agentEmail)
+     activate CTRL
+
+     CTRL -> PLAT :  getAgencyRepository()
+     activate PLAT
+
+     PLAT -> CTRL : agencyRepository
+     deactivate PLAT
+     CTRL -> AgRep: getAgencyByEmployeeEmail(agentEmail)
+     activate AgRep
+
+         loop [for each agency
+             AgRep -> AGENCY : anyAgentHasEmail(agentEmail)
+             activate AGENCY
+
+                  AGENCY --> AgRep : true/false
+             deactivate AGENCY
+         end
+         AgRep --> CTRL : agency
+     deactivate AgRep
+
+     CTRL -> AGENCY: getAnnouncementsByAgentEmail(agentEmail)
+     activate AGENCY
+
+     ref over AGENCY
+        Get Announcements List
+     end ref
+
+     AGENCY --> CTRL : listAnnouncements
+     deactivate AGENCY
+
+     CTRL --> CTRL: listAnnouncements
+     deactivate CTRL
+
+    CTRL -> AnnMAPPER : toDTO(listAnnouncements)
+         activate AnnMAPPER
+
+            loop for each announcement
+
+            AnnMAPPER -> AnnMAPPER : toDTO(announcement)
+            activate AnnMAPPER
+                 |||
+                 ref over AnnMAPPER
+                      Create AnnouncementDTO
+                 end ref
+            |||
+            AnnMAPPER --> AnnMAPPER: announcementDto
+            deactivate AnnMAPPER
+            |||
+            AnnMAPPER -> AnnMAPPER: add(announcementDto)
+            activate AnnMAPPER
+
+            AnnMAPPER --> AnnMAPPER:
+            deactivate AnnMAPPER
+
+            |||
+            end loop
+
+         AnnMAPPER --> CTRL : listAnnouncementsDto
+         deactivate AnnMAPPER
+
+     CTRL --> UI: listAnnouncementsDto
+     deactivate CTRL
+
+    loop for each property available for purchase
+
+    UI --> ADM : displays property by oldest and its orders by highest price\n and asks to select acceptanceAnswer for orders
+    deactivate UI
+        |||
+        alt purchaseOrderList != empty
+            |||
+            loop for each displayed offer && while acceptanceAnswer != yes
+
+            ADM -> UI  : selects acceptanceAnswer
+            activate UI
+
+            UI --> ADM : asks to confirm acceptanceAnswer and submit data
+            deactivate UI
+
+            ADM -> UI  : submits data
+            activate UI
+
+            UI -> CTRL : defineOrderAcceptance(answer,orderDto,announcementDto)
+            activate CTRL
+
+            CTRL -> CTRL: getAnnouncementFromDto(announcementDto)
+            activate CTRL
+
+                ref over CTRL
+                    Get Announcement
+                end ref
+
+            CTRL --> CTRL : announcement
+            deactivate CTRL
+
+            |||
+            CTRL-> Announce : defineOrderAcceptance(answer,orderDto)
+            activate Announce
+
+            ref over Announce
+                Define Acceptance of order
+            end ref
+
+            Announce --> CTRL : success
+            deactivate Announce
+
+            CTRL --> UI : success
+            deactivate CTRL
+
+            UI --> ADM : displays operation success
+            deactivate UI
+
+            end loop
+        |||
+        end alt
+    |||
+    end loop
+
+    deactivate ADM
+
+
+
+@enduml

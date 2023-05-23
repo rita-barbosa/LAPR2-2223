@@ -1,0 +1,60 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+
+ participant "agency\n: Agency" as AGENCY
+ participant "announcementList\n: AnnouncementList" as AnnList
+ participant "announcement\n: Announcement" as Announce
+ participant "orderList\n: OrderList" as OrderList
+
+
+autonumber 13
+     -> AGENCY: getAnnouncementsByAgentEmail(agentEmail)
+     activate AGENCY
+
+group Get Announcements List
+autonumber 13.1
+     AGENCY -> AnnList : getAnnouncementsByAgentEmail(agentEmail)
+     activate AnnList
+
+     loop for each announcement
+     AnnList -> Announce : hasAgentWithEmail(agentEmail)
+     activate Announce
+
+     Announce --> AnnList : true/false
+     deactivate Announce
+
+         alt true
+            AnnList -> Announce : getOrderList()
+            activate Announce
+            Announce --> AnnList: orderList
+            deactivate Announce
+            AnnList -> OrderList : sortOrdersByPrice()
+            activate OrderList
+            deactivate OrderList
+
+            AnnList -> AnnList : add(announcement)
+            activate AnnList
+            AnnList --> AnnList :
+            deactivate AnnList
+         |||
+         end alt
+     end loop
+     AnnList -> AnnList : sortAnnouncementsByOldest(listAnnouncements)
+     activate AnnList
+     AnnList --> AnnList: listAnnouncements
+     deactivate AnnList
+
+     AnnList --> AGENCY : listAnnouncements
+     deactivate AnnList
+
+end group
+
+autonumber 14
+      <-- AGENCY : listAnnouncements
+     deactivate AGENCY
+
+
+@enduml

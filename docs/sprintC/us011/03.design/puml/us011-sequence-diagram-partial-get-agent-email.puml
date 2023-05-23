@@ -1,0 +1,56 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+
+participant ":AcceptOrdersController" as CTRL
+ participant ":Repositories" as RepositorySingleton
+ participant "repositories\n:Repositories" as PLAT
+  participant "authenticationRepository\n: AuthenticationRepository" as AuthRep
+  participant "userSession\n: UserSession" as UserSession
+  participant "email\n: Email" as Email
+
+autonumber 4
+    -> CTRL: getAgentEmail()
+    activate CTRL
+
+group Get Agent Email
+
+autonumber 4.1
+    CTRL -> RepositorySingleton : getInstance()
+    activate RepositorySingleton
+
+    RepositorySingleton --> CTRL : repositories
+    deactivate RepositorySingleton
+
+     CTRL -> PLAT : getAuthenticationRepository()
+     activate PLAT
+
+     PLAT --> CTRL : authenticationRepository
+     deactivate PLAT
+
+     CTRL -> AuthRep : getCurrentSession()
+     activate AuthRep
+
+     AuthRep --> CTRL : userSession
+     deactivate AuthRep
+
+     CTRL -> UserSession : getUserId()
+     activate UserSession
+
+     UserSession --> CTRL : email
+     deactivate UserSession
+
+    CTRL -> Email : toString()
+    activate Email
+
+    Email --> CTRL : agentEmail
+    deactivate Email
+
+end group
+autonumber 5
+     <-- CTRL: agentEmail
+     deactivate CTRL
+
+@enduml
