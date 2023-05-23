@@ -16,7 +16,6 @@ accepting or declining, an email notification should be sent to the customer.
 > application.
 
 
-
 **From the client clarifications:**
 
 > **Question:** When the agent declines an order, does it have to be removed from the list and system?
@@ -41,7 +40,7 @@ must appear first.
 
 > **Question:** Does grouping purchase orders by property mean that only properties are displayed, and only after a property is selected are its requests shown? Or are all the requests shown but requests of the same property are shown together?
 > 
-> **Answer:** The system should show (to the agent) a list of properties that have prurchase orders. For each property the system should show a list of purchase orders. Typically we have a small number of purchase orders and we want all orders shown (by property) without selecting a property in particular.
+> **Answer:** The system should show (to the agent) a list of properties that have purchase orders. For each property the system should show a list of purchase orders. Typically, we have a small number of purchase orders, and we want all orders shown (by property) without selecting a property in particular.
 
 > **Question:** When properties are sorted form oldest to most recent, does this relate to when the property was added to the system or the property's date of construction?
 > 
@@ -54,12 +53,6 @@ must appear first.
 > **Question:** Assuming the previous answer is the potential buyer, should the owner be informed about the sale success?
 >
 > **Answer:** The owner will be contacted by means of a phone call. This is not a feature of the system.
-
-> **Question:**
->
-> **Answer:** 
-
-
 
 
 ### 1.3. Acceptance Criteria
@@ -85,7 +78,6 @@ be made so that the agent can accept or decline it.
 **Input Data:**
 
 * Selected data:
-    * Property 
     * Acceptance answer 
 
 **Output Data:**
@@ -98,7 +90,7 @@ be made so that the agent can accept or decline it.
 
 #### Alternative One
 
-![System Sequence Diagram - Alternative One](svg/us011-system-sequence-diagram-alternative-one.svg)
+![System Sequence Diagram - Alternative One](svg/us011-system-sequence-diagram.svg)
 
 
 
