@@ -5,13 +5,13 @@ skinparam shadowing false
 
 
 participant ":ScheduleVisitController" as CTRL
+participant ":AnnouncementMapper" as MAPPER
+participant "announcementDto\n:AnnouncementDto" as ANCDTO
 participant "agencyRepository\n:AgencyRepository" as AgencyRepository
 participant "agency\n:Agency" as AGC
 participant "announcementList\n:AnnouncementList" as LISTCLASS
-participant "announcementList\n:List<Announcement>" as ANCLIST
 participant "announcement\n:Announcement" as ANNOUNCE
-participant ":AnnouncementMapper" as MAPPER
-participant "announcementDto\n:AnnouncementDto" as ANCDTO
+
 
 autonumber 7
 
@@ -23,61 +23,48 @@ activate CTRL
 
     group Convert Announcement DTO to Model
 
-        CTRL -> LISTCLASS : id = getAnnouncementIdFromDto(announcementDto)
-        activate LISTCLASS
-
-        LISTCLASS -> MAPPER : getAnnouncementIdFromDto(announcementDto)
+        CTRL -> MAPPER : announcementId = getAnnouncementIdFromDto(announcementDto)
         activate MAPPER
 
-        MAPPER -> ANCDTO : getId()
+        MAPPER -> ANCDTO : getAnnouncementId()
         activate ANCDTO
 
-            ANCDTO --> MAPPER : id
+            ANCDTO --> MAPPER : announcementId
         deactivate ANCDTO
 
-            MAPPER --> LISTCLASS : id
+            MAPPER --> CTRL : announcementId
         deactivate MAPPER
 
-        LISTCLASS --> CTRL : id
-        deactivate LISTCLASS
-
-        CTRL -> AgencyRepository : searchAnnouncementById(id)
+        CTRL -> AgencyRepository : searchAnnouncementById(announcementId)
         activate AgencyRepository
 
         loop for all agencies
 
-            AgencyRepository -> AGC : searchAnnouncementById(id)
+            AgencyRepository -> AGC : searchAnnouncementById(announcementId)
             activate AGC
 
-                AGC -> LISTCLASS : searchAnnouncementById(id)
-
-                activate LISTCLASS
-
-                    LISTCLASS -> ANCLIST : searchAnnouncementById(id)
+                AGC -> LISTCLASS : searchAnnouncementById(announcementId)
 
                 loop for all announcements
 
-                    activate ANCLIST
+                    activate LISTCLASS
 
-                    ANCLIST --> ANNOUNCE : hasId(id)
+                    LISTCLASS --> ANNOUNCE : hasSameId(id)
 
                     activate ANNOUNCE
 
-                        ANNOUNCE --> ANCLIST : true
+                        ANNOUNCE --> LISTCLASS : true/false
                     deactivate ANNOUNCE
 
                 end loop
 
         end loop
 
-        ANCLIST -> ANNOUNCE : getAnnouncementById(id)
+        LISTCLASS -> ANNOUNCE : getAnnouncementById(announcementId)
         activate ANNOUNCE
 
-            ANNOUNCE --> ANCLIST : announcement
+            ANNOUNCE --> LISTCLASS : announcement
         deactivate ANNOUNCE
-
-            ANCLIST --> LISTCLASS : announcement
-        deactivate ANCLIST
 
             LISTCLASS --> AGC : announcement
         deactivate LISTCLASS
