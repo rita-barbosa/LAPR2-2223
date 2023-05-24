@@ -1,5 +1,7 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
+import pt.ipp.isep.dei.esoft.project.repository.CommissionTypeRepository;
+
 import java.util.Objects;
 
 public class Commission {
@@ -14,20 +16,22 @@ public class Commission {
 
     /**
      * Constructs a new Commission instance with the specified commission type and value.
+     *
      * @param commissionType
      * @param commissionValue
      */
-    public Commission(CommissionType commissionType, Double commissionValue){
+    public Commission(CommissionType commissionType, Double commissionValue) {
         this.commissionValue = commissionValue;
         this.commissionType = commissionType;
     }
 
     /**
      * This method creates and returns a copy of a commission instance.
-     * @return  clone of commission instance.
+     *
+     * @return clone of commission instance.
      */
-    public Commission clone(){
-        return new Commission(this.commissionType,this.commissionValue);
+    public Commission clone() {
+        return new Commission(this.commissionType, this.commissionValue);
     }
 
 
@@ -44,6 +48,7 @@ public class Commission {
         Commission that = (Commission) o;
         return Objects.equals(commissionType, that.commissionType) && Objects.equals(commissionValue, that.commissionValue);
     }
+
     /**
      * Returns a hash code value for the commission object.
      *
@@ -53,4 +58,15 @@ public class Commission {
     public int hashCode() {
         return Objects.hash(commissionType, commissionValue);
     }
+
+    public String toString() {
+        StringBuilder s = new StringBuilder("Commission Type: " + commissionType.getDesignation() + "\nCommission Value" + commissionValue);
+        if (commissionType.getDesignation().equalsIgnoreCase("percentual")) {
+            s.append("%");
+        } else {
+            s.append("$");
+        }
+        return s.toString();
+    }
+
 }
