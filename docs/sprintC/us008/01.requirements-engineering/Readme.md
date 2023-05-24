@@ -106,12 +106,8 @@ The owner chooses the responsible agent in one other US. Please discuss this que
 
 #### Alternative One
 
-![System Sequence Diagram - Alternative One](svg/us008-system-sequence-diagram-alternative-one.svg)
+![System Sequence Diagram - Alternative One](svg/us008-system-sequence-diagram.svg)
 
-
-#### Alternative Two
-
-![System Sequence Diagram - Alternative Two](svg/us008-system-sequence-diagram-alternative-two.svg)
 
 
 ### 1.7 Other Relevant Remarks
