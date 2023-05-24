@@ -11,6 +11,7 @@ hide methods
 title Domain Model - US009
 
 class Visit {
+    id
     visitDate
     visitBeginning
     visitEnd
@@ -69,16 +70,48 @@ class Location {
 }
 
 class Announcement {
+    id
+    agencyId
     acceptanceDate
 }
 
 
-class Property {
-    area
-    distanceCityCenter
+class Property{
+     area
+     distanceCityCenter
+}
+
+class Residence{
+     numberBedrooms
+     numberBathrooms
+     parkingSpace
+}
+
+class AvailableEquipment{
+    description
+}
+
+class House{
+    basement
+    inhabitableLoft
+    sunExposure
+}
+
+class PropertyType{
+    designation
+}
+
+class ResidenceType{
+    designation
+}
+
+class Photograph{
+    uri
 }
 
 
+PropertyType "1" -- "1" Property: is a description of >
+Property "1" -- "1..*" Photograph: is visualized in >
 Announcement "1" - "1" Request : is a based on >
 Agency "1" -- "*" Announcement : owns >
 Agency "1" - "1" Location : has address >
@@ -91,9 +124,11 @@ Agent "0*" -- "1" Employee : plays as >
 Employee "*" -right- "1" Agency : works in >
 Property "1" - "1" Location : has address >
 Visit "1" -- "1" Property : done to >
-
+Residence  ---|>  Property
+House --|> Residence
+ResidenceType "1" -- "1" Residence: is a description of >
+Residence "1" -left "*"AvailableEquipment: includes >
 Lease -left-|> BusinessType
-
 BusinessType "1" -up- "1" Business : describes >
 Request "1" -right "1" Business : is described by >
 Employee "1" -up- "1" Person : is represented in >
