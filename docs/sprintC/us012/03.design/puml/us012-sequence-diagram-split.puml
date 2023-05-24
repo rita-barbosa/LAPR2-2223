@@ -70,15 +70,16 @@ activate ADM
     ref over CTRL
         Register Owner
     end ref
-    |||
-    ref over CTRL
-        Create Request
-    end ref
-    |||
+|||
+    CTRL -> CTRL : createAnnouncement(legacySystemDto, agency, agent, ownerEmail)
+    activate CTRL
     ref over CTRL
         Publish Announcement
     end ref
-    |||
+        CTRL --> CTRL
+    deactivate CTRL
+
+|||
      end loop
 
     CTRL --> UI: operationSuccess
