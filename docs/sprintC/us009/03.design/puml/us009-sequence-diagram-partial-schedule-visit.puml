@@ -7,19 +7,17 @@ participant ":ScheduleVisitController" as CTRL
 participant "announcement\n:Announcement" as ANNOUNCE
 participant "visit:Visit" as VST
 
-autonumber 12
+autonumber 26
 
     -> CTRL : scheduleVisit(visitDate, startHour, endHour)
     activate CTRL
 
-    autonumber 12.1
+    autonumber 26.1
 
     group Schedule Visit
 
     CTRL -> ANNOUNCE : createVisit(visitDate, startHour, endHour)
     activate ANNOUNCE
-
-
 
     ANNOUNCE -> VST** : create(visitDate, startHour, endHour)
 
@@ -40,7 +38,7 @@ autonumber 12
 
     end group
 
-    autonumber 13
+    autonumber 27
         <-- CTRL : visit
     deactivate CTRL
 

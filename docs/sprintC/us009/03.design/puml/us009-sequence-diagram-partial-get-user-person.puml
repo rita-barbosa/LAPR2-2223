@@ -13,12 +13,12 @@ participant "repositories\n:Repositories" as PLAT
 participant "personRepository\n:PersonRepository" as PersonRepository
 participant "person:\nPerson" as PERSON
 
-autonumber 14.27
+autonumber 28.27
 
      -> CTRL : getUserPerson()
      activate CTRL
 
-autonumber 14.27.1
+autonumber 28.27.1
 
     group Get User Person
 
@@ -70,7 +70,7 @@ autonumber 14.27.1
 
      end group
 
-autonumber 14.28
+autonumber 28.28
 
         <-- CTRL : person
     deactivate CTRL
