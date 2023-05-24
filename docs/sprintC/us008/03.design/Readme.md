@@ -1,13 +1,18 @@
-# US 006 - To create a Task 
-
+# US 008 - To list property announcement requests
+ 
 ## 3. Design - User Story Realization 
 
 ### 3.1. Rationale
 
-**SSD - Alternative 1 is adopted.**
-
 | Interaction ID | Question: Which class is responsible for...   | Answer               | Justification (with patterns)                                                                                 |
 |:---------------|:----------------------------------------------|:---------------------|:--------------------------------------------------------------------------------------------------------------|
+| Step 1         |                                               |                      |                                                                                                               |
+| Step 2         |                                               |                      |                                                                                                               |
+| Step 3         |                                               |                      |                                                                                                               |
+| Step 4         |                                               |                      |                                                                                                               |
+| Step 5         |                                               |                      |                                                                                                               |
+| Step 6         |                                               |                      |                                                                                                               |
+|                |                                               |                      |                                                                                                               |
 | Step 1  		     | 	... interacting with the actor?              | CreateTaskUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model. |
 | 			  		        | 	... coordinating the US?                     | CreateTaskController | Controller                                                                                                    |
 | 			  		        | 	... instantiating a new Task?                | Organization         | Creator (Rule 1): in the DM Organization has a Task.                                                          |
@@ -33,17 +38,11 @@ According to the taken rationale, the conceptual classes promoted to software cl
 
 Other software classes (i.e. Pure Fabrication) identified: 
 
- * CreateTaskUI  
- * CreateTaskController
+ * ListRequestsUI  
+ * ListRequestsController
 
 
 ## 3.2. Sequence Diagram (SD)
-
-### Alternative 1 - Full Diagram
-
-This diagram shows the full sequence of interactions between the classes involved in the realization of this user story.
-
-![Sequence Diagram - Full](svg/us006-sequence-diagram-full.svg)
 
 ### Alternative 2 - Split Diagram
 
@@ -51,24 +50,24 @@ This diagram shows the same sequence of interactions between the classes involve
 
 It uses interaction ocurrence.
 
-![Sequence Diagram - split](svg/us006-sequence-diagram-split.svg)
+![Sequence Diagram - split](svg/us008-sequence-diagram-split.svg)
 
-**Get Task Category List Partial SD**
+**Get Agent Email Partial SD**
 
-![Sequence Diagram - Partial - Get Task Category List](svg/us006-sequence-diagram-partial-get-task-category-list.svg)
+![Sequence Diagram - Partial - Get Agent Email](svg/us008-sequence-diagram-partial-get-agent-email.svg)
 
-**Get Task Category Object**
+**Get Commission Type List**
 
-![Sequence Diagram - Partial - Get Task Category Object](svg/us006-sequence-diagram-partial-get-task-category.svg)
+![Sequence Diagram - Partial - Get Commission Type List](svg/us008-sequence-diagram-partial-get-commission-type-list.svg)
 
-**Get Employee**
+**Get CommissionType**
 
-![Sequence Diagram - Partial - Get Employee](svg/us006-sequence-diagram-partial-get-employee.svg)
+![Sequence Diagram - Partial - Get Commission Type](svg/us008-sequence-diagram-partial-get-commission-type.svg)
 
-**Create Task**
+**Publish Announcement**
 
-![Sequence Diagram - Partial - Create Task](svg/us006-sequence-diagram-partial-create-task.svg)
+![Sequence Diagram - Partial - Publish Announcement](svg/us008-sequence-diagram-partial-publish-announcement.svg)
 
 ## 3.3. Class Diagram (CD)
 
-![Class Diagram](svg/us006-class-diagram.svg)
+![Class Diagram](svg/us008-class-diagram.svg)
