@@ -11,12 +11,12 @@ participant "agencyRepository\n:AgencyRepository" as AgencyRepository
 
 ' MUDAR AUTONUMBER !!!!!!!!!
 
-autonumber 3.2
+autonumber 4.2
 
 -> CTRL : getAgencies()
 
 activate CTRL
-autonumber 3.2.1
+autonumber 4.2.1
 
     group Get Agencies List
 
@@ -43,7 +43,7 @@ CTRL -> RepositorySingleton : getInstance()
 
         deactivate AgencyRepository
      end
-     autonumber 3.3
+     autonumber 4.3
 
         <-- CTRL : agenciesList
 
