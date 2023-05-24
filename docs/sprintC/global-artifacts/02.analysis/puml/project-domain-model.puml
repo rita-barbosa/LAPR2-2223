@@ -46,13 +46,16 @@ class StoreManager{
 class NetworkManager{
 }
 class Announcement{
+id
 acceptanceDate
 }
 
 class Visit{
+id
 visitDate
 startHour
 endHour
+acceptanceStatus
 }
 class VisitReport{
  dealProspect
@@ -68,9 +71,11 @@ class Residence{
  numberBathrooms
  parkingSpace
 }
+
 class AvailableEquipment{
 description
 }
+
 class House{
  basement
  inhabitableLoft
@@ -110,6 +115,7 @@ class CommissionType {
 designation
 }
 class Request{
+id
 requestDate
 }
 class Order {
