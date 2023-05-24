@@ -10,6 +10,7 @@ autonumber
 actor "<b> Customer </b>" as CTM
 participant "<b> :ScheduleVisitUI </b>" as UI
 participant "<b> :ScheduleVisitController </b>" as CTRL
+participant "announcementList\n:AnnouncementList" as LISTCLASS
 
 activate CTM
 
@@ -20,14 +21,77 @@ activate CTM
 
     UI -> CTRL : getAnnouncementListDto()
         activate CTRL
+
+    CTRL -> CTRL : getAnnouncementListDto()
+    activate CTRL
             ref over CTRL
                 Get Announcements List DTO
             end ref
-    CTRL --> UI : listToDisplayDto
-        deactivate CTRL
+        CTRL --> CTRL : listToDisplay
+    deactivate CTRL
+|||
+    CTRL -> LISTCLASS : sortAnnouncementsByAcceptanceDate(listToDisplay)
+    activate LISTCLASS
 
-    UI --> CTM : shows announcements list
-        deactivate UI
+        LISTCLASS --> CTRL : listToDisplay
+    deactivate LISTCLASS
+
+|||
+    CTRL -> CTRL : toDTO(listToDisplay)
+    activate CTRL
+            ref over CTRL
+                Convert Display List to DTO
+            end ref
+        CTRL --> CTRL : listToDisplayDto
+    deactivate CTRL
+
+        CTRL --> UI : listToDisplayDto
+    deactivate CTRL
+
+        UI --> CTM : shows announcements list
+    deactivate UI
+
+    alt Selection of Filters
+
+        loop for each filter
+            CTM -> UI : selects filter
+            activate UI
+
+            UI -> CTRL : filter
+
+            activate CTRL
+
+                CTRL -> LISTCLASS : listToDisplay = sortListByFilter(filter)
+                activate LISTCLASS
+
+                    LISTCLASS --> CTRL : listToDisplay
+                deactivate LISTCLASS
+
+                |||
+                    CTRL -> CTRL : toDTO(listToDisplay)
+                    activate CTRL
+                            ref over CTRL
+                                Convert Display List to DTO
+                            end ref
+                        CTRL --> CTRL : listToDisplayDto
+                    deactivate CTRL
+
+                        CTRL --> UI : listToDisplayDto
+                    deactivate CTRL
+
+                        UI --> CTM : shows announcements list
+                    deactivate UI
+
+            deactivate CTRL
+
+
+
+            deactivate UI
+
+
+
+        end loop
+    end alt
 
     CTM -> UI : selects an announcement
         activate UI
@@ -49,7 +113,7 @@ activate CTM
     CTM -> UI : types requested data (visitDate, startHour, endHour)
         activate UI
 
-        UI -> CTRL : scheduleVisit(announcement, visitDate, startHour, endHour)
+        UI -> CTRL : scheduleVisitFromAnnouncement(announcement,\n visitDate, startHour, endHour)
 
         activate CTRL
 
@@ -59,8 +123,6 @@ activate CTM
         ref over CTRL
             Schedule Visit
         end ref
-
-        end loop
 
             CTRL --> CTRL : visit
         deactivate CTRL
@@ -74,6 +136,8 @@ activate CTM
 
     CTRL --> CTRL : confirmation
     deactivate CTRL
+    |||
+    end loop
 
     CTRL --> UI : confirmation
     deactivate CTRL
