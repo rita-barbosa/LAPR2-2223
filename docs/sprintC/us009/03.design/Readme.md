@@ -4,8 +4,6 @@
 
 ### 3.1. Rationale
 
-**SSD - Alternative 1 is adopted.**
-
 | Interaction ID | Question: Which class is responsible for...   | Answer               | Justification (with patterns)                                                                                 |
 |:---------------|:----------------------------------------------|:---------------------|:--------------------------------------------------------------------------------------------------------------|
 | Step 1  		     | 	... interacting with the actor?              | CreateTaskUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model. |
@@ -28,47 +26,57 @@
 
 According to the taken rationale, the conceptual classes promoted to software classes are: 
 
- * Organization
- * Task
+ * Agency
+ * Employee
+ * Person
+ * Announcement
+ * AnnouncementList
+ * Visit
 
 Other software classes (i.e. Pure Fabrication) identified: 
 
- * CreateTaskUI  
- * CreateTaskController
+ * ScheduleVisitUI  
+ * ScheduleVisitController
 
 
 ## 3.2. Sequence Diagram (SD)
 
-### Alternative 1 - Full Diagram
+### Split Diagram
 
-This diagram shows the full sequence of interactions between the classes involved in the realization of this user story.
-
-![Sequence Diagram - Full](svg/us006-sequence-diagram-full.svg)
-
-### Alternative 2 - Split Diagram
-
-This diagram shows the same sequence of interactions between the classes involved in the realization of this user story, but it is split in partial diagrams to better illustrate the interactions between the classes.
+This diagram shows a sequence of interactions between the classes involved in the realization of this user story, but it is split in partial diagrams to better illustrate the interactions between the classes.
 
 It uses interaction ocurrence.
 
-![Sequence Diagram - split](svg/us006-sequence-diagram-split.svg)
+![Sequence Diagram - split](svg/us009-sequence-diagram-slip.svg)
 
-**Get Task Category List Partial SD**
+**Get Announcements List DTO Partial SD**
 
-![Sequence Diagram - Partial - Get Task Category List](svg/us006-sequence-diagram-partial-get-task-category-list.svg)
+![Sequence Diagram - Partial - Get Announcements List DTO](svg/us009-sequence-diagram-partial-get-announcements-list-DTO.svg)
 
-**Get Task Category Object**
+**Get Agencies List Partial SD**
 
-![Sequence Diagram - Partial - Get Task Category Object](svg/us006-sequence-diagram-partial-get-task-category.svg)
+![Sequence Diagram - Partial - Get Agencies List](svg/us009-sequence-diagram-partial-get-agencies-list.svg)
 
-**Get Employee**
+**Convert Display List to DTO Partial SD**
 
-![Sequence Diagram - Partial - Get Employee](svg/us006-sequence-diagram-partial-get-employee.svg)
+![Sequence Diagram - Partial - Convert Display List to DTO](svg/us009-sequence-diagram-partial-convert-display-list-to-DTO.svg)
 
-**Create Task**
+**Convert Announcement DTO to Model Partial SD**
 
-![Sequence Diagram - Partial - Create Task](svg/us006-sequence-diagram-partial-create-task.svg)
+![Sequence Diagram - Partial - Convert Announcement DTO to Model](svg/us009-sequence-diagram-partial-convert-announcement-DTO-to-Model.svg)
+
+**Schedule Visit Partial SD**
+
+![Sequence Diagram - Partial - Schedule Visit](svg/us009-sequence-diagram-partial-schedule-visit.svg)
+
+**Send Notification Message Partial SD**
+
+![Sequence Diagram - Partial - Send Notification Message](svg/us009-sequence-diagram-partial-send-notification-message.svg)
+
+**Get User Person Partial SD**
+
+![Sequence Diagram - Partial - Get User Person](svg/us009-sequence-diagram-partial-get-user-person.svg)
 
 ## 3.3. Class Diagram (CD)
 
-![Class Diagram](svg/us006-class-diagram.svg)
+![Class Diagram](svg/us009-class-diagram.svg)
