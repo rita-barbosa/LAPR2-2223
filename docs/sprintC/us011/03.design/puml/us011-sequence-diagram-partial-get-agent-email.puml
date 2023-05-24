@@ -42,7 +42,7 @@ autonumber 4.1
      UserSession --> CTRL : email
      deactivate UserSession
 
-    CTRL -> Email : toString()
+    CTRL -> Email : getEmail()
     activate Email
 
     Email --> CTRL : agentEmail

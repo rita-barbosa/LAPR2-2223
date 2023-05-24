@@ -13,21 +13,11 @@ participant "announcementList\n: AnnouncementList" as AnnList
 participant "announcement\n: Announcement" as Announce
 
 autonumber 28
-    -> CTRL: getAnnouncementFromDto(announcementDto)
+    -> CTRL: getAnnouncementFromDto(announcementId)
     activate CTRL
 group Get Announcement
 autonumber 28.1
-    CTRL -> AnnMAPPER: getAnnouncementId(announcementDto)
-    activate AnnMAPPER
 
-    AnnMAPPER -> AnnDTO: getAnnouncementId()
-    activate AnnDTO
-
-    AnnDTO --> AnnMAPPER: announcementId
-    deactivate AnnDTO
-
-    AnnMAPPER --> CTRL: announcementId
-    deactivate AnnMAPPER
 
     CTRL -> AgRep: getAgencyByAnnouncementId(announcementId)
     activate AgRep
@@ -52,10 +42,10 @@ autonumber 28.1
     AgRep --> CTRL : agency
     deactivate AgRep
 
-    CTRL -> AGENCY :  getAnnouncementByID(announcementId)
+    CTRL -> AGENCY :  getAnnouncementById(announcementId)
     activate AGENCY
 
-    AGENCY -> AnnList : getAnnouncementByID(announcementId)
+    AGENCY -> AnnList : getAnnouncementById(announcementId)
     activate AnnList
 
         loop  for each announcement

@@ -70,15 +70,13 @@ group Create AnnouncementDto
                      Order --> OrderMapper : orderDate
                      deactivate Order
 
-                    |||
-                    OrderMapper -> OrderMapper : toDto(order)
-                    activate OrderMapper
-
-                     OrderMapper -> OrderDTO** : create(orderAmount, orderDate, clientEmail)
-
-                     OrderMapper -> OrderMapper :
-                     deactivate OrderMapper
+                     OrderMapper -> Order : getId()
+                     activate Order
+                     Order--> OrderMapper: orderId
+                     deactivate Order
                      |||
+                     OrderMapper -> OrderDTO** : create(orderAmount, orderDate, clientEmail,orderId)
+
                      OrderMapper -> OrderMapper : add(orderDto)
                      activate OrderMapper
                      OrderMapper --> OrderMapper

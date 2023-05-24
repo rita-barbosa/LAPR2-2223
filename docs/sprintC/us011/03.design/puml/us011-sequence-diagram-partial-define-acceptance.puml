@@ -17,29 +17,26 @@ autonumber 30
 
 group Define Acceptance of Order
 autonumber 30.1
-    Announce -> OrderMapper: toModel(orderDto)
+    Announce -> OrderMapper: getOrderId(orderDto)
     activate OrderMapper
 
-    OrderMapper -> OrderDTO : orderAmount = getOrderAmount()
+    OrderMapper -> OrderDTO : getId()
     activate OrderDTO
+    OrderDTO --> OrderMapper: orderId
     deactivate OrderDTO
 
-    OrderMapper -> OrderDTO : orderDate = getOrderDate()
-    activate OrderDTO
-    deactivate OrderDTO
-
-    OrderMapper -> OrderDTO : clientEmail = getClientEmail()
-    activate OrderDTO
-    deactivate OrderDTO
-
-    OrderMapper -> Order** : create(orderAmount, orderDate, clientEmail)
-
-    OrderMapper --> Announce : order
+    OrderMapper --> Announce : orderId
     deactivate OrderMapper
 
-    Announce -> OrderList : defineOrderAcceptance(answer, order)
+    Announce -> OrderList : defineOrderAcceptance(answer, orderId)
     activate OrderList
 
+    OrderList -> OrderList : getOrderById(orderId)
+    activate OrderList
+
+    OrderList --> OrderList : order
+    deactivate OrderList
+    |||
     OrderList -> Order : setAcceptanceAnswer(answer)
     activate Order
 

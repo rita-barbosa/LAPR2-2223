@@ -26,8 +26,7 @@ class Order {
 
 class OrderMapper {
     + toDto(listOrders)
-    + toDto(order)
-    + toModel(orderDto)
+    + getOrderId(orderDto)
     ** - add(orderDto) : VER ISTO MELHOR**
 }
 
@@ -39,13 +38,12 @@ class OrderList {
 }
 
 class OrderDto {
+    - int id
     - String orderDate
     - double orderAmount
     - String clientEmail
     + OrderDto(orderAmount, orderDate, clientEmail)
-    + getOrderAmount()
-    + getOrderDate()
-    + getClientEmail()
+    + getOrderId()
 }
 
 class Announcement {
@@ -57,7 +55,8 @@ class Announcement {
     + defineOrderAcceptance(answer, orderDto)
     + hasAgentWithEmail(agentEmail)
     + hasId(announcementId)
-    + getListOrders()
+    + getListOfOrders()
+    + getOrderList()
     + getRequestAttributes()
     + getCommissionAttributes()
     + getId()

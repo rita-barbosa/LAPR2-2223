@@ -117,10 +117,10 @@ activate ADM
             ADM -> UI  : submits data
             activate UI
 
-            UI -> CTRL : defineOrderAcceptance(answer,orderDto,announcementDto)
+            UI -> CTRL : defineOrderAcceptance(answer,orderDto,announcementId)
             activate CTRL
 
-            CTRL -> CTRL: getAnnouncementFromDto(announcementDto)
+            CTRL -> CTRL: getAnnouncementFromDto(announcementId)
             activate CTRL
 
                 ref over CTRL
