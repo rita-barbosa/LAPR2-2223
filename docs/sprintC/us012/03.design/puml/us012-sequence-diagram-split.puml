@@ -9,6 +9,9 @@ autonumber
 actor "System Administrator" as ADM
 participant ":importLegacyInformationUI" as UI
 participant ":importLegacyInformationController" as CTRL
+participant "legacySystem\n:LegacySystem" as LS
+participant "legacySystemMapper\n:LegacySystemMapper" as LSMapper
+participant "legacySystemDto\n:LegacySystemDto" as LSDto
 
 activate ADM
 
@@ -32,13 +35,30 @@ activate ADM
     UI -> CTRL: importInfo(filePath)
     activate CTRL
 
+    CTRL ->
 
     loop while file has next line
 
-    |||
-    ref over CTRL
-    Import Information from file
-    end ref
+      CTRL -> LS** : importInformation(filepath)
+      activate LS
+
+      LS -> LS : readLineInformationFromFile(filepath)
+      activate LS
+
+      LS --> LS: legacySystemInformationList
+      deactivate LS
+
+     CTRL <-- LS : legacySystemInformationList
+      deactivate LS
+
+      CTRL -> LSMapper : toDto(legacySystemInformationList)
+      activate LSMapper
+
+      LSMapper -> LSDto** : create(legacySystemInformationList)
+
+      LSMapper --> CTRL : legacySystemDto
+      deactivate LSMapper
+
     |||
     ref over CTRL
     Create Agency
