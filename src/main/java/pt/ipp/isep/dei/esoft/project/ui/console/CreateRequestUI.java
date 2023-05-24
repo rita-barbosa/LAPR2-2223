@@ -794,8 +794,6 @@ public class CreateRequestUI implements Runnable {
                 input.nextLine();
             }
         } while (invalid);
-        //  String inputString = value.toString().trim();
-        //Double.parseDouble(inputString.replace(",", "."));
         return value;
     }
 
