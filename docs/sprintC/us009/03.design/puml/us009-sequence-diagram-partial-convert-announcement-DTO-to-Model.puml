@@ -13,13 +13,13 @@ participant "announcementList\n:AnnouncementList" as LISTCLASS
 participant "announcement\n:Announcement" as ANNOUNCE
 
 
-autonumber 7
+autonumber 21
 
  -> CTRL : convertToModel(announcementDto)
 
 activate CTRL
 
-    autonumber 7.1
+    autonumber 21.1
 
     group Convert Announcement DTO to Model
 
@@ -49,7 +49,7 @@ activate CTRL
 
                     activate LISTCLASS
 
-                    LISTCLASS --> ANNOUNCE : hasSameId(id)
+                    LISTCLASS --> ANNOUNCE : hasSameId(announcementId)
 
                     activate ANNOUNCE
 
@@ -59,12 +59,6 @@ activate CTRL
                 end loop
 
         end loop
-
-        LISTCLASS -> ANNOUNCE : getAnnouncementById(announcementId)
-        activate ANNOUNCE
-
-            ANNOUNCE --> LISTCLASS : announcement
-        deactivate ANNOUNCE
 
             LISTCLASS --> AGC : announcement
         deactivate LISTCLASS
@@ -77,9 +71,9 @@ activate CTRL
 
     end group
 
-    autonumber 8
+    autonumber 22
 
-    <-- CTRL  : Announcement
+    <-- CTRL  : announcement
 deactivate CTRL
 
 @enduml

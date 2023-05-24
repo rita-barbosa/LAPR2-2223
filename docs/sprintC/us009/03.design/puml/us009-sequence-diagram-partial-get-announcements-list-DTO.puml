@@ -8,17 +8,17 @@ participant ":ScheduleVisitController" as CTRL
 participant "agency\n:Agency" as AGC
 participant "announcementList\n:AnnouncementList" as LISTCLASS
 
-autonumber 3
+autonumber 4
 
  -> CTRL : getAnnouncementListDto()
 
 activate CTRL
 
-    autonumber 3.1
+    autonumber 4.1
 
     group Get Announcements List DTO
 |||
-            CTRL -> LISTCLASS** : listToDisplay = createNewAnnouncementList()
+            CTRL -> LISTCLASS** : listToDisplay = createList()
            CTRL -> CTRL : getAgencies()
             activate CTRL
 
@@ -62,20 +62,9 @@ activate CTRL
 
                 LISTCLASS --> CTRL : listToDisplay
             deactivate LISTCLASS
- |||
-                CTRL -> CTRL : toDTO(listToDisplay)
-                activate CTRL
-
-                ref over CTRL
-                    Convert Display List to DTO
-                end ref
-
-                CTRL --> CTRL : listToDisplayDto
-                deactivate CTRL
-|||
         end group
-    autonumber 4
-    <-- CTRL  : listToDisplayDto
+    autonumber 5
+    <-- CTRL  : listToDisplay
 deactivate CTRL
 
 
