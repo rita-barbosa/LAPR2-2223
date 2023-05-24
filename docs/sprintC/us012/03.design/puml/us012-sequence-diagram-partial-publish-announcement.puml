@@ -1,49 +1,78 @@
 @startuml
 skinparam monochrome true
 skinparam packageStyle rectangle
-skinparam shadowing false\
+skinparam shANNOUNCEowing false\
 
-
+participant ":ImportLegacyInformationController" as CTRL
+participant ":LegacySystemMapper" as MAPPER
+participant "legacySystemDto\n:legacySystemDto" as DTO
 participant "agency\n:Agency" as AGENCY
-participant "announcement\n:Announcement" as AD
+participant "announcementList\n:AnnouncementList" as LIST
+participant "announcement\n:Announcement" as ANNOUNCE
 participant "commission\n:Commission" as COMMISSION
 
-'MUDAR O AUTONUMBER
+    'MUDAR O AUTONUMBER
 
-autonumber 23
+    autonumber 15
 
-             -> AGENCY : publishAnnouncement(agent,commissionType, commissionValue, request)
-             activate AGENCY
+     -> CTRL : createAnnouncement(legacySystemDto, agency, agent, ownerEmail)
+    activate CTRL
 
-autonumber 23.1
+    autonumber 15.1
 
-    group Publish announcement
+    group Publish Announcement
 
+    |||
+    CTRL -> CTRL : createRequest(legacySystemDto, agency, agent, ownerEmail)
+    activate CTRL
 
-                AGENCY -> AD**: create(agent, commissionType, commissionValue, request)
-                activate AD
+    ref over CTRL
+        Create Request
+    end ref
 
-                AD -> COMMISSION** : create(commissionValue,commissionType)
+        CTRL --> CTRL : request
+    deactivate CTRL
 
-                |||
-                deactivate AD
+    CTRL -> MAPPER : commissionValue = getCommissionValue()
+    activate MAPPER
 
-                AGENCY -> AGENCY: addAnnouncement(announcement)
+        MAPPER -> DTO : getCommissionValue()
+        activate DTO
 
-                activate AGENCY
-                    AGENCY -> AGENCY: validateAnnouncement(announcement)
-                    activate AGENCY
-                        AGENCY --> AGENCY
-                    deactivate AGENCY
+            DTO --> MAPPER : commissionValue
+        deactivate DTO
 
-                    AGENCY --> AGENCY
+        MAPPER --> CTRL : commissionValue
+    deactivate MAPPER
 
-            deactivate  AGENCY
-    end
+    CTRL -> AGENCY : createAnnouncementFromLegacy(agent, commissionValue, request)
+    activate AGENCY
 
-autonumber 24
+        AGENCY -> ANNOUNCE**: create(agent, commissionValue, request)
+        activate ANNOUNCE
 
-    <-- AGENCY : announcement
-    deactivate AGENCY
+        ANNOUNCE -> COMMISSION** : create(commissionValue)
+     deactivate ANNOUNCE
+
+    AGENCY -> LIST: addAnnouncement(announcement)
+    activate LIST
+
+        LIST -> LIST: validateAnnouncement(announcement)
+        activate LIST
+            LIST --> LIST
+        deactivate LIST
+
+        LIST --> AGENCY : announcement
+    deactivate LIST
+
+        AGENCY --> CTRL : announcement
+    deactivate  AGENCY
+
+    end group
+
+autonumber 16
+
+    <-- CTRL : operationSucess
+    deactivate CTRL
 
 @enduml
