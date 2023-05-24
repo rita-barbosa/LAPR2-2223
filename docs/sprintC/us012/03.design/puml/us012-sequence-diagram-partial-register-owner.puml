@@ -77,6 +77,12 @@ activate CTRL
 
     PERSONREP --> PERSONREP :
     deactivate PERSONREP
+
+    CTRL -> PERSON : getEmailAddress()
+    activate PERSON
+
+    PERSON --> CTRL : emailAddress
+    deactivate CTRL
 '
 '    PERSONREP --> CTRL : person
 '    deactivate PERSONREP
