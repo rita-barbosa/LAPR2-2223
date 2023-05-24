@@ -3,7 +3,7 @@ skinparam monochrome true
 skinparam packageStyle rectangle
 skinparam shadowing false
 
-title System Sequence Diagram (SSD) - US008 (Alternative one)
+title System Sequence Diagram (SSD) - US008
 
 autonumber
 
@@ -20,7 +20,7 @@ activate Employee
 
     loop for the requests of the agent
 
-        Employee -> System : asks to make a decision for the request
+        Employee -> System : selects a request
         activate System
 
         System --> Employee : shows the request and asks data (option)
