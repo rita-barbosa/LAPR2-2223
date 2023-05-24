@@ -20,112 +20,257 @@ class UserSession
     + getUserEmail()
 }
 
-class Employee {
-    - name
-    - email
-    - position
-    - phone
+class Visit {
+    - Int id
+    - Int startHour
+    - Int endHour
+    - String visitDate
+    - Boolean acceptanceStatus
+    + Visit(visitDate, startHour, endHour)
+    + getVisitDate()
+    + getStartHour()
+    + getEndHour()
+    + createNotification(EmployeeEmail, announcementId, location, \nname, phoneNumber, visitDate, startHour, endHour)
+    + sendNotification(email, attributeList)
 }
 
-class Task {
-    - String reference
-    - String description
-    - String informalDescription
-    - String technicalDescription
-    - Integer duration
-    - Double cost
-
-    + Task(reference, description,\ninformalDescription, technicalDescription,\nduration, cost, createdBy, taskCategory)
-}
-
-class TaskCategory {
-    - String description
-
-    + TaskCategory(description)
-}
-
-class Organization {
-    - String name
-    - String vatNumber
-    - String website
-    - String phone
-    - String email
-
-    - addTask(task)
-    - validateTask(task)
-    + anyEmployeeHasEmail(email)
-    + Organization(name, vatNumber, webSite, phone, email, postalAddress, manager)
-    + createTask(reference, description, informalDesccription,\ntechnicalDescription, duration, cost, taskCategoryDescription)
-    - getEmployeeByEmail(email)
-
-'  +saveTask(task)
-}
-
-class TaskCategoryRepository {
-    + getTaskCategoryByDescription(description)
-}
+note bottom of Visit
+    within createNotification(...), a list of objects
+    is created that has all parameters except
+    EmployeeEmail. That list is then used in
+    Notification Interface's method.
+end note
 
 class AgencyRepository {
-    + getOrganizationByEmployeeEmail(email)
+    + getAgencies()
+    + searchAnnouncementById(announcementId)
+}
+
+'note right of AgencyRepository
+'    - used for displaying
+'     the agencies list
+'end note
+
+class Agency {
+    - Int id
+    - String designation
+    - String emailAddress
+    - Int phoneNumber
+    + getAnnouncementList()
+    + searchAnnouncementById(announcementId)
 }
 
 class Repositories {
     - Repositories()
-    + getInstance() : repositories
-    + getTransactionTypeRepository()
-    + getPropertyTypeRepository()
+    + getInstance() : Repositories
+    + getPersonRepository()
     + getAgencyRepository()
 }
 
-class CreateTaskController {
-    + CreateTaskController(organizationRepository, taskCategoryRepository)
-    + getTaskCategories()
-    + createTask(userEmail, reference, description,\ninformalDescription, technicalDescription,\nduration, cost, categoryDescription)
-    - getTaskCategoryByDescription(taskCategoryDescription)
-    - getEmployeeFromSession()
+class ScheduleVisitController {
+    + ScheduleVisitController(agencyRepository, personRepository)
+    + getAnnouncementListDto()
+    + convertToModel(announcementDto)
+    + scheduleVisitFromAnnouncement(announcement, visitDate, startHour, endHour)
+    + sendNotificationMessage(visit)
+    - scheduleVisit(visitDate, startHour, endHour)
+    - getAgencies()
+    - toDto(listToDisplay)
+    - getUserPerson()
 }
 
-note right of CreateTaskController
-    - userEmail is obtained
-    from the user session
-    - categoryDescription
-    is retrieved from selected data
+note top of ScheduleVisitController
+    - announcementDto is retrieved
+     from selected data
+    - announcement is retrieved from
+    convertion of announcementDto
+    to Model
+    - visit is retrieved from announcement
+    - visitDate, startHour, endHour
+    are retrieved from Visit
+    - listToDisplay is the list of properties
+     to display
 end note
 
-note bottom of TaskCategoryRepository
-    - used for displaying
-    the category list
-end note
-
-class CreateTaskUI {
+class ScheduleVisitUI {
 }
+
+class Announcement {
+    - List<Visit> visits
+    - LocalDate acceptanceDate
+    - Int id
+    + getAnnouncementId()
+    + getLocation()
+    + hasSameId(announcementId)
+    + getAnnouncementInfoToDisplay()
+    + createVisit(visitDate, startHour, endHour)
+    + addVisit(visit)
+    - validateVisit(visit)
+    + getVisitDate()
+    + getStartHour()
+    + getEndHour()
+    + getEmployeeEmail()
+
+}
+
+class AnnouncementMapper {
+    + toDTO(listToDisplay)
+    + getAnnouncementIdFromDto(announcementDto
+}
+
+class AnnouncementList {
+    - List<Announcement> announcements
+    + AnnouncementList()
+    + getList()
+    + getAnnouncement(idx)
+    + addListContent(announcementList)
+    + addAll(announcementList)
+    + searchAnnouncementById(announcementId)
+    + sortListByFilter(filter)
+}
+
+note left of AnnouncementList::sortListByFilter
+This method compares "filter" (a string)
+ to a list of criteria available and redirects
+ the output to its respective sorting method.
+end note
+
+
+class AnnouncementDto{
+    + create(announcementId, requestInfo)
+}
+
+note bottom of AnnouncementDto
+    - requestInfo is String
+     from Request's toString()
+end note
+
+class AnnouncementListDto{
+    + getAnnouncementId()
+    + add(announcementDto)
+}
+
+class Request{
+    - LocalDate requestDate
+    - Int id
+    - Employee Employee
+    - Email ownerEmail
+    - Business business
+    - Property property
+    + getLocation()
+    + toString()
+}
+
+'class Business{
+'    - Double amount
+'    - BusinessType businessType
+'    + toString()
+'}
+
+class Property {
+    - PropertyType propertyType
+    - Double area
+    - Double distanceCityCenter
+    - Location location
+    - List<Photograph> photograph
+    + getLocation()
+    + toString()
+    }
+
+class Employee{
+    - String agencyId
+    + getEmail()
+}
+
+class Person{
+    - String name;
+    - String taxNumber;
+    - Email emailAddress;
+    - String phoneNumber;
+    - String passportCardNumber;
+    - List<String> roles;
+    - Location location;
+    + getEmailAddress()
+    + doesPersonHaveEmail(userEmail)
+}
+
+class PersonRepository {
+    + doesAnyPersonHaveEmail(userEmail)
+}
+
+note left of PersonRepository
+    - userEmail is retrieved
+    from user session
+end note
+
+interface Notification << Interface >> {
+    + sendNotification(email, attributeList)
+}
+
+'RELATIONS
+
+ScheduleVisitUI ..> ScheduleVisitController
 
 Repositories -> Repositories : instance
+
 ApplicationSession -> ApplicationSession : instance
 
-CreateTaskUI .> CreateTaskController
+ApplicationSession --> "1" UserSession
 
-CreateTaskController .> Repositories : repositories
+ScheduleVisitController ..> ApplicationSession
 
-Repositories -> "1" TaskCategoryRepository
+ScheduleVisitController .> UserSession
 
-CreateTaskController ..> TaskCategory
-CreateTaskController ..> OrganizationRepository : organizationRepository
-CreateTaskController ..> TaskCategoryRepository : TaskCategoryRepository
+ScheduleVisitController ..> Repositories
 
-Repositories --> "1" OrganizationRepository
+Repositories "1" --> "1" PersonRepository
 
-OrganizationRepository --> "*" Organization
-ApplicationSession --> "1" UserSession : userSession
+Repositories "1" --> "1" AgencyRepository
 
-CreateTaskController ..> "1" Organization : organization
-CreateTaskController ..> ApplicationSession
-CreateTaskController ..> UserSession
-Task "*" --> "1" TaskCategory : taskCategory
-TaskCategoryRepository "1" --> "*" TaskCategory : taskCategory
-Organization "1" --> "*" Task : tasks
-Task --> Employee : createdBy
+ScheduleVisitController ..> PersonRepository
 
-Organization --> "*" Employee : employs
+ScheduleVisitController ..> AgencyRepository
+
+ScheduleVisitController ..> Agency
+
+AgencyRepository "1" --> "*" Agency : aggregates
+
+PersonRepository "1" --> "*" Person : aggregates
+
+
+ScheduleVisitController .> Announcement
+
+ScheduleVisitController ..> AnnouncementMapper
+
+AnnouncementMapper ..> Announcement
+
+AnnouncementMapper ..> AnnouncementDto
+
+AnnouncementMapper .right.> AnnouncementListDto
+
+ScheduleVisitController .> AnnouncementListDto
+
+ScheduleVisitController .> AnnouncementDto
+
+ScheduleVisitUI .> AnnouncementListDto
+
+ScheduleVisitUI .> AnnouncementDto
+
+AnnouncementListDto -> AnnouncementDto : contains >
+
+Person "1" -up-> "1" Employee: represented in <
+Employee "1" --> "*" Announcement: is published by <
+Employee "1" -> "*" Visit: schedules >
+Person "1" --> "*" Visit:  requests >
+Visit "1" -right-> "1" Property: done to >
+Announcement "1" -down-> "*" Visit : records >
+Employee "1" -> "1" Agency: works in  >
+Agency "1" --> "1" AnnouncementList : owns >
+AnnouncementList "1" --> "*" Announcement: records >
+Property "1" -left-> "1" Request : < has information about
+'Request "1" -left "1" Business: is described by >
+Announcement "1" -left-> "1" Request : is  based on >
+Agency "1" --> "*" Request : is assigned to >
+Visit .left> Notification
 
 @enduml
