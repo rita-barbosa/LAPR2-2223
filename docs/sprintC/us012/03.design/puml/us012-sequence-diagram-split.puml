@@ -35,7 +35,6 @@ activate ADM
     UI -> CTRL: importInfo(filePath)
     activate CTRL
 
-    CTRL ->
 
     loop while file has next line
 
