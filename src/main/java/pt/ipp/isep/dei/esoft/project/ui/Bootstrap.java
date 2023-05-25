@@ -76,6 +76,8 @@ public class Bootstrap implements Runnable {
                 AuthenticationController.ROLE_AGENT);
         authenticationRepository.addUserWithRole("Client 1", "client1@this.app", "01CLIen",
                 AuthenticationController.ROLE_CLIENT);
+        authenticationRepository.addUserWithRole("Network", "teste@this.app", "01CLIen",
+                AuthenticationController.ROLE_NETWORK_MANAGER);
 
     }
 
