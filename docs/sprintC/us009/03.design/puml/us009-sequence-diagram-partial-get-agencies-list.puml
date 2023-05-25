@@ -9,8 +9,6 @@ participant ":Repositories" as RepositorySingleton
 participant "repositories\n:Repositories" as PLAT
 participant "agencyRepository\n:AgencyRepository" as AgencyRepository
 
-' MUDAR AUTONUMBER !!!!!!!!!
-
 autonumber 4.2
 
 -> CTRL : getAgencies()
