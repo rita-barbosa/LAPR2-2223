@@ -9,53 +9,46 @@ skinparam classAttributeIconSize 0
 
 'left to right direction
 
-class ApplicationSession
-{
-    + static getInstance()
-    + getCurrentSession()
-}
-
-class UserSession
+class AuthenticationRepository
 {
     + getUserEmail()
 }
 
+class AuthFacade
+{
+    + getUserEmail()
+}
+
+class UserSession
+{
+    + getUserId()
+}
+
 class Visit {
-    - Int id
-    - Int startHour
-    - Int endHour
-    - String visitDate
+    - Integer id
+    - String userName
+    - String userPhoneNumber
+    - Integer startHour
+    - Integer endHour
+    - LocalDate visitDate
     - Boolean acceptanceStatus
-    + Visit(visitDate, startHour, endHour)
+    + Visit(visitDate, startHour, endHour,\n userName, userPhoneNumber)
     + getVisitDate()
     + getStartHour()
     + getEndHour()
-    + createNotification(EmployeeEmail, announcementId, location, \nname, phoneNumber, visitDate, startHour, endHour)
-    + sendNotification(email, attributeList)
+    + sendNotification(agentEmail)
 }
-
-note bottom of Visit
-    within createNotification(...), a list of objects
-    is created that has all parameters except
-    EmployeeEmail. That list is then used in
-    Notification Interface's method.
-end note
 
 class AgencyRepository {
     + getAgencies()
     + searchAnnouncementById(announcementId)
 }
 
-'note right of AgencyRepository
-'    - used for displaying
-'     the agencies list
-'end note
-
 class Agency {
-    - Int id
+    - Integer id
     - String designation
     - String emailAddress
-    - Int phoneNumber
+    - Integer phoneNumber
     + getAnnouncementList()
     + searchAnnouncementById(announcementId)
 }
@@ -72,11 +65,11 @@ class ScheduleVisitController {
     + getAnnouncementListDto()
     + convertToModel(announcementDto)
     + scheduleVisitFromAnnouncement(announcement, visitDate, startHour, endHour)
-    + sendNotificationMessage(visit)
-    - scheduleVisit(visitDate, startHour, endHour)
-    - getAgencies()
-    - toDto(listToDisplay)
-    - getUserPerson()
+    + scheduleVisit(visitDate, startHour, endHour)
+    + getAgencies()
+    + toDto(listToDisplay)
+    + getUserPerson()
+    + sendNotificationMessage(agentEmail)
 }
 
 note top of ScheduleVisitController
@@ -90,6 +83,9 @@ note top of ScheduleVisitController
     are retrieved from Visit
     - listToDisplay is the list of properties
      to display
+     - agentEmail is retrieved from
+     the announcement that has the
+     visit instance.
 end note
 
 class ScheduleVisitUI {
@@ -98,18 +94,16 @@ class ScheduleVisitUI {
 class Announcement {
     - List<Visit> visits
     - LocalDate acceptanceDate
-    - Int id
+    - Integer id
+    - Employee agent
     + getAnnouncementId()
     + getLocation()
     + hasSameId(announcementId)
     + getAnnouncementInfoToDisplay()
-    + createVisit(visitDate, startHour, endHour)
+    + createVisit(visitDate, startHour,\n endHour, userName, userPhoneNumber)
     + addVisit(visit)
     - validateVisit(visit)
-    + getVisitDate()
-    + getStartHour()
-    + getEndHour()
-    + getEmployeeEmail()
+    + getAgentEmail()
 
 }
 
@@ -152,7 +146,7 @@ class AnnouncementListDto{
 
 class Request{
     - LocalDate requestDate
-    - Int id
+    - Integer id
     - Employee Employee
     - Email ownerEmail
     - Business business
@@ -179,7 +173,7 @@ class Property {
 
 class Employee{
     - String agencyId
-    + getEmail()
+    + getEmailAddress()
 }
 
 class Person{
@@ -190,8 +184,10 @@ class Person{
     - String passportCardNumber;
     - List<String> roles;
     - Location location;
+    + getName()
+    + getPhoneNumber()
     + getEmailAddress()
-    + doesPersonHaveEmail(userEmail)
+    + hasEmail(userEmail)
 }
 
 class PersonRepository {
@@ -203,8 +199,8 @@ note left of PersonRepository
     from user session
 end note
 
-interface Notification << Interface >> {
-    + sendNotification(email, attributeList)
+Interface Notification << Interface >> {
+    + sendNotification(email)
 }
 
 'RELATIONS
@@ -213,19 +209,21 @@ ScheduleVisitUI ..> ScheduleVisitController
 
 Repositories -> Repositories : instance
 
-ApplicationSession -> ApplicationSession : instance
+AuthenticationRepository -> AuthenticationRepository : instance
 
-ApplicationSession --> "1" UserSession
+AuthenticationRepository --> "1" AuthFacade
 
-ScheduleVisitController ..> ApplicationSession
+AuthFacade -right-> "1" UserSession
 
-ScheduleVisitController .> UserSession
+ScheduleVisitController ..> AuthenticationRepository
 
 ScheduleVisitController ..> Repositories
 
 Repositories "1" --> "1" PersonRepository
 
 Repositories "1" --> "1" AgencyRepository
+
+Repositories "1" --> "1" AuthenticationRepository
 
 ScheduleVisitController ..> PersonRepository
 
@@ -237,6 +235,9 @@ AgencyRepository "1" --> "*" Agency : aggregates
 
 PersonRepository "1" --> "*" Person : aggregates
 
+ScheduleVisitController ..> Person
+
+ScheduleVisitController ..> Visit
 
 ScheduleVisitController .> Announcement
 
@@ -271,6 +272,6 @@ Property "1" -left-> "1" Request : < has information about
 'Request "1" -left "1" Business: is described by >
 Announcement "1" -left-> "1" Request : is  based on >
 Agency "1" --> "*" Request : is assigned to >
-Visit .left> Notification
+Visit .up|> Notification : implements >
 
 @enduml
