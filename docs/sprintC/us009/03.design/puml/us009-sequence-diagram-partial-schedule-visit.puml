@@ -6,6 +6,9 @@ skinparam shadowing false
 participant ":ScheduleVisitController" as CTRL
 participant "announcement\n:Announcement" as ANNOUNCE
 participant "visit:Visit" as VST
+participant "employee\n:Employee" as EMP
+participant "person:\nPerson" as PERSON
+
 
 autonumber 26
 
@@ -15,11 +18,32 @@ autonumber 26
     autonumber 26.1
 
     group Schedule Visit
+   |||
+           CTRL -> CTRL : getUserPerson()
+           activate CTRL
+               ref over CTRL
+                   Get User Person
+               end ref
+               CTRL --> CTRL : person
+           deactivate CTRL
+|||
+    CTRL -> PERSON : userName = getName()
+    activate PERSON
 
-    CTRL -> ANNOUNCE : createVisit(visitDate, startHour, endHour)
+        PERSON --> CTRL : userName
+    deactivate PERSON
+
+
+    CTRL -> PERSON : userPhoneNumber = getPhoneNumber()
+    activate PERSON
+
+        PERSON --> CTRL : userPhoneNumber
+    deactivate PERSON
+|||
+    CTRL -> ANNOUNCE : createVisit(visitDate, startHour, endHour,\n userName, userPhoneNumber)
     activate ANNOUNCE
 
-    ANNOUNCE -> VST** : create(visitDate, startHour, endHour)
+    ANNOUNCE -> VST** : create(visitDate, startHour, endHour,\n userName, userPhoneNumber)
 
      ANNOUNCE -> ANNOUNCE : addVisit(visit)
      activate ANNOUNCE
@@ -35,7 +59,31 @@ autonumber 26
 
         ANNOUNCE --> CTRL : visit
     deactivate ANNOUNCE
+|||
+    CTRL -> ANNOUNCE: agentEmail = getAgentEmail()
+    activate ANNOUNCE
 
+    ANNOUNCE -> EMP : getAgentEmail()
+    activate EMP
+
+    EMP -> PERSON : getEmailAddress()
+    activate PERSON
+
+       PERSON --> EMP : agentEmail
+    deactivate PERSON
+
+       EMP --> ANNOUNCE : agentEmail
+    deactivate EMP
+
+       ANNOUNCE --> CTRL : agentEmail
+    deactivate ANNOUNCE
+|||
+    CTRL -> VST : sendNotificationMessage(agentEmail)
+    activate VST
+
+        VST --> CTRL : confirmation
+    deactivate VST
+|||
     end group
 
     autonumber 27
