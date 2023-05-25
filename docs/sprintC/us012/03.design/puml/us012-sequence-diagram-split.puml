@@ -62,7 +62,7 @@ activate ADM
     CTRL -> CTRL : registerAgency(legacySystemDto)
     activate CTRL
     ref over CTRL
-    Create Agency
+        Register Agency
     end ref
     CTRL --> CTRL : agency
     deactivate CTRL

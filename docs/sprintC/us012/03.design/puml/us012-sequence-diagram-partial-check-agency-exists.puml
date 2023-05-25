@@ -1,0 +1,30 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+participant "agencyRepository\n:AgencyRepository" as AgRep
+participant "agency\n:Agency" as AGENCY
+
+autonumber 15.8
+          -> AgRep : anyAgencyHasAgencyId(agencyId)
+          activate AgRep
+
+group Register Agency
+autonumber 15.8.1
+
+        loop for each agency
+         AgRep -> AGENCY : hasId(agencyId)
+        activate AGENCY
+
+        AGENCY --> AgRep : true/false
+        deactivate AGENCY
+        |||
+        end
+|||
+end group
+autonumber 15.9
+         <-- AgRep: true/false
+         deactivate AgRep
+
+@enduml
