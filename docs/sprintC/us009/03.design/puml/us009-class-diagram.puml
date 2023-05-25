@@ -191,7 +191,7 @@ class Person{
 }
 
 class PersonRepository {
-    + doesAnyPersonHaveEmail(userEmail)
+    + getPersonByEmail(userEmail)
 }
 
 note left of PersonRepository
