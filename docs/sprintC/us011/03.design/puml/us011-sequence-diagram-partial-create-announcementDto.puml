@@ -12,6 +12,7 @@ participant "orderList\n: OrderList" as OrderList
 participant "announcementDto\n: AnnouncementDto" as AnnDTO
 participant "orderMapper\n: OrderMapper" as OrderMapper
 participant "order\n: Order" as Order
+participant "listOrdersDto\n: List<OrderDto" as OrderDTOList
 participant "orderDto\n: OrderDto" as OrderDTO
 
 
@@ -54,6 +55,7 @@ group Create AnnouncementDto
          AnnMAPPER -> OrderMapper : toDTO(listOrders)
          activate OrderMapper
 
+        OrderMapper -> OrderDTOList** : create()
                 loop for each order
                      OrderMapper -> Order : getOrderAmount()
                      activate Order
@@ -77,10 +79,9 @@ group Create AnnouncementDto
                      |||
                      OrderMapper -> OrderDTO** : create(orderAmount, orderDate, clientEmail,orderId)
 
-                     OrderMapper -> OrderMapper : add(orderDto)
-                     activate OrderMapper
-                     OrderMapper --> OrderMapper
-                     deactivate OrderMapper
+                     OrderMapper -> OrderDTOList : add(orderDto)
+                     activate OrderDTOList
+                     deactivate OrderDTOList
                 |||
                 end loop
 

@@ -6,8 +6,10 @@ skinparam shadowing false
 
  participant "agency\n: Agency" as AGENCY
  participant "announcementList\n: AnnouncementList" as AnnList
+ participant "listAnnouncements\n: List<Announcement>" as AnnounceList
  participant "announcement\n: Announcement" as Announce
  participant "orderList\n: OrderList" as OrderList
+
 
 
 autonumber 13
@@ -18,6 +20,9 @@ group Get Announcements List
 autonumber 13.1
      AGENCY -> AnnList : getAnnouncementsByAgentEmail(agentEmail)
      activate AnnList
+
+     AnnList -> AnnounceList**: create()
+
 
      loop for each announcement
      AnnList -> Announce : hasAgentWithEmail(agentEmail)
@@ -35,10 +40,10 @@ autonumber 13.1
             activate OrderList
             deactivate OrderList
 
-            AnnList -> AnnList : add(announcement)
-            activate AnnList
-            AnnList --> AnnList :
-            deactivate AnnList
+            AnnList -> AnnounceList : add(announcement)
+            activate AnnounceList
+            deactivate AnnounceList
+
          |||
          end alt
      end loop

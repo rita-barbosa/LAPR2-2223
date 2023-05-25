@@ -27,7 +27,6 @@ class Order {
 class OrderMapper {
     + toDto(listOrders)
     + getOrderId(orderDto)
-    ** - add(orderDto) : VER ISTO MELHOR**
 }
 
 class OrderList {
@@ -79,13 +78,11 @@ class AnnouncementList {
     + getAnnouncementById(announcementId)
     + anyAnnouncementHasId(announcementId)
     - sortAnnouncementsByOldestAcceptanceDate(listAnnouncements)
-    ** - add(announcement) : VER ISTO MELHOR**
 }
 
 class AnnouncementMapper {
     + toDto(listAnnouncements)
     + toDto(announcement)
-    ** - add(announcementDto) : VER ISTO MELHOR**
 }
 
 class Agency {
