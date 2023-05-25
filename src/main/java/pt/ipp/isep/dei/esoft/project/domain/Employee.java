@@ -83,6 +83,16 @@ public class Employee extends Person {
 
 
     /**
+     * Get employee email.
+     *
+     * @return the email string
+     */
+    public String getEmployeeEmail(){
+        return this.getEmailAddress().toString();
+    }
+
+
+    /**
      * Clone employee.
      *
      * @return the employee
