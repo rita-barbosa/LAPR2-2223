@@ -44,7 +44,7 @@ activate CTM
         UI --> CTM : shows announcements list
     deactivate UI
 
-    alt Selection of Filters
+    opt Selection of Filters
 
         loop For each filter
             CTM -> UI : selects filter
@@ -77,14 +77,10 @@ activate CTM
 
             deactivate CTRL
 
-
-
             deactivate UI
 
-
-
         end loop
-    end alt
+    end opt
 
     CTM -> UI : selects an announcement
         activate UI
@@ -102,7 +98,7 @@ activate CTM
     UI --> CTM : requests data
         deactivate UI
 
-    loop While the user intends
+    loop While Costumer intends
     CTM -> UI : types requested data (visitDate, startHour, endHour)
         activate UI
 
@@ -117,18 +113,8 @@ activate CTM
             Schedule Visit
         end ref
 
-            CTRL --> CTRL : visit
+            CTRL --> CTRL : confirmation
         deactivate CTRL
-|||
-    CTRL -> CTRL : sendNotificationMessage(visit)
-        activate CTRL
-
-        ref over CTRL
-            Send Notification Message
-        end ref
-
-    CTRL --> CTRL : confirmation
-    deactivate CTRL
     |||
     end loop
 
