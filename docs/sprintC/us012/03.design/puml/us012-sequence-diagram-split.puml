@@ -59,19 +59,28 @@ activate ADM
       deactivate LSMapper
 
     |||
+    CTRL -> CTRL : registerAgency(legacySystemDto)
+    activate CTRL
     ref over CTRL
     Create Agency
     end ref
+    CTRL --> CTRL : agency
+    deactivate CTRL
     |||
+
+    CTRL -> CTRL : registerAgent(agency)
+    activate CTRL
     ref over CTRL
         Register Agent
     end ref
+    CTRL --> CTRL : agent
+    deactivate CTRL
     |||
     ref over CTRL
         Register Owner
     end ref
 |||
-    CTRL -> CTRL : createAnnouncement(legacySystemDto, agency, agent, ownerEmail)
+    CTRL -> CTRL : PublishAnnouncement(legacySystemDto, agency, agent, ownerEmail)
     activate CTRL
     ref over CTRL
         Publish Announcement
