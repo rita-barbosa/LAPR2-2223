@@ -42,7 +42,7 @@ public class Agency {
     /**
      * Represents the list of announcements associated with the agency.
      */
-    List<Announcement> announcements;
+    AnnouncementList announcements;
 
     /**
      * Represents the list of requests associated with the agency.
@@ -65,7 +65,7 @@ public class Agency {
         this.phoneNumber = phoneNumber;
         this.location = location;
         this.employees = new ArrayList<>();
-        this.announcements = new ArrayList<>();
+        this.announcements = new AnnouncementList();
         this.requests = new ArrayList<>();
     }
 
@@ -77,7 +77,7 @@ public class Agency {
     public Agency(Integer id) {
         this.id = id;
         this.employees = new ArrayList<>();
-        this.announcements = new ArrayList<>();
+        this.announcements = new AnnouncementList();
         this.requests = new ArrayList<>();
     }
 
@@ -86,7 +86,7 @@ public class Agency {
      */
     public Agency() {
         this.employees = new ArrayList<>();
-        this.announcements = new ArrayList<>();
+        this.announcements = new AnnouncementList();
         this.requests = new ArrayList<>();
     }
 
@@ -98,7 +98,7 @@ public class Agency {
     public Agency(String description) {
         this.description = description;
         this.employees = new ArrayList<>();
-        this.announcements = new ArrayList<>();
+        this.announcements = new AnnouncementList();
         this.requests = new ArrayList<>();
     }
 
@@ -119,6 +119,10 @@ public class Agency {
         return result;
     }
 
+    public Boolean anyAnnouncementHasId(Integer id) {
+        return announcements.anyAnnouncementHasId(id);
+    }
+
     /**
      * This method returns the agent that has the received email address.
      *
@@ -134,13 +138,9 @@ public class Agency {
         return null;
     }
 
-    /**
-     * This method checks if the agency has any Employee with the specified email.
-     *
-     * @param email - the employee email address.
-     * @return {@code true} if the belongs to the agency; {@code false} otherwise;
-     */
-
+    public Announcement getAnnouncementById(Integer announcementId){
+        return announcements.getAnnouncementById(announcementId).get();
+    }
 
     /**
      * This method adds an announcement to the existent list of announcements.
@@ -149,11 +149,7 @@ public class Agency {
      * @return {@code true} if the announcement was successfully added; {@code false} otherwise;
      */
     public Boolean addAnnouncement(Announcement announcement) {
-        Boolean success = false;
-        if (validateAnnouncement(announcement)) {
-            success = announcements.add(announcement.clone());
-        }
-        return success;
+        return announcements.addAnnouncement(announcement);
     }
 
     /**
@@ -256,15 +252,6 @@ public class Agency {
         return success;
     }
 
-    /**
-     * This method checks if the list of announcements already contains the announcement received.
-     *
-     * @param announcement - announcement intended to be checked.
-     * @return {@code true} if the announcement isn't in the list of announcements; {@code false} otherwise;
-     */
-    private Boolean validateAnnouncement(Announcement announcement) {
-        return announcements != null && !(announcements.contains(announcement));
-    }
 
     /**
      * Add employee boolean.
@@ -370,12 +357,7 @@ public class Agency {
                 clone.employees.add(in.clone());
             }
         }
-        if (!(announcements.isEmpty())) {
-            for (Announcement in :
-                    this.announcements) {
-                clone.announcements.add(in.clone());
-            }
-        }
+        clone.announcements = this.announcements;
         if (!(requests.isEmpty())) {
             for (Request in :
                     this.requests) {
@@ -427,7 +409,7 @@ public class Agency {
      * @return the list of announcements for this agency.
      */
     public List<Announcement> getAnnouncementsList() {
-        return this.announcements;
+        return this.announcements.getList();
     }
 
     /**

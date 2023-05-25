@@ -229,7 +229,7 @@ public class PublishAnnouncementController {
      * @return the user email.
      */
     private String getEmailFromSession() {
-        return authenticationRepository.getCurrentUserSession().getUserId().toString();
+        return getAuthenticationRepository().getCurrentUserSession().getUserId().toString();
     }
 
     /**
