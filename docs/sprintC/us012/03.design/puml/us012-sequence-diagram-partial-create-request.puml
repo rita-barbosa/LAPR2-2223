@@ -4,8 +4,8 @@ skinparam packageStyle rectangle
 skinparam shadowing false
 
 participant ":ImportLegacyInformationController" as CTRL
-participant ":RequestMapper" as MAPPER
-participant "RequestDto\n:RequestDto" as DTO
+participant ":LegacySystemMapper" as MAPPER
+participant "legacySystemDto\n:legacySystemDto" as DTO
 participant "request\n:Request" as REQUEST
 participant "propertyType\n:PropertyType" as PROPTYPE
 participant "business\n:Business" as BUSINESS
