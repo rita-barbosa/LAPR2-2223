@@ -1,0 +1,133 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+'hide footbox
+participant ":ImportLegacyInformationController" as CTRL
+participant ":Repositories" as RepSingleton
+participant "repositories\n:Repositories" as PLAT
+participant "agencyRepository\n:AgencyRepository" as AgRep
+participant ":LegacySystemMapper" as LegSysMAPPER
+participant "legacySystemDto: LegacySystemDto" as LegSysDTO
+participant "agency\n:Agency" as AGENCY
+participant "location\n:Location" as LOCATION
+
+autonumber 15
+  -> CTRL : registerAgency(legacySystemDto)
+    activate CTRL
+
+group Register Agency
+autonumber 15.1
+
+    CTRL -> RepSingleton: getInstance()
+    activate RepSingleton
+
+    RepSingleton --> CTRL : repositories
+    deactivate RepSingleton
+
+    CTRL -> PLAT : getAgencyRepository()
+    activate PLAT
+
+    PLAT --> CTRL : agencyRepository
+    deactivate PLAT
+
+    CTRL -> AgRep : registerAgency(legacyInformationDto)
+    activate AgRep
+    AgRep -> LegSysMAPPER : getAgencyId()
+    activate LegSysMAPPER
+
+    LegSysMAPPER -> LegSysDTO : getAgencyId()
+    activate LegSysDTO
+
+    LegSysDTO --> LegSysMAPPER : agencyId
+    deactivate LegSysDTO
+
+    LegSysMAPPER --> AgRep : agencyId
+    deactivate LegSysMAPPER
+
+    |||
+    AgRep -> AgRep : anyAgencyHasAgencyId(agencyId)
+    activate AgRep
+
+        ref over AgRep
+            Check Agency Exists
+        end ref
+
+    AgRep --> AgRep: true/false
+    deactivate AgRep
+
+    |||
+    alt  Agency doesn't exist
+        AgRep -> LegSysMAPPER :  toModel()
+        activate LegSysMAPPER
+
+        LegSysMAPPER -> LegSysDTO : getAgencyId()
+        activate LegSysDTO
+        LegSysDTO --> LegSysMAPPER : agencyId
+        deactivate LegSysDTO
+
+        LegSysMAPPER -> LegSysDTO : getStoreName()
+        activate LegSysDTO
+        LegSysDTO --> LegSysMAPPER : storeName
+        deactivate LegSysDTO
+
+        LegSysMAPPER -> LegSysDTO : getStoreLocation()
+        activate LegSysDTO
+        LegSysDTO --> LegSysMAPPER : storeLocation
+        deactivate LegSysDTO
+
+        LegSysMAPPER -> LegSysDTO : getStorePhoneNumber()
+        activate LegSysDTO
+        LegSysDTO --> LegSysMAPPER : storePhoneNumber
+        deactivate LegSysDTO
+
+        LegSysMAPPER -> LegSysDTO : getStoreEmailAddress()
+        activate LegSysDTO
+        LegSysDTO --> LegSysMAPPER : storeEmailAddress
+        deactivate LegSysDTO
+
+        LegSysMAPPER -> AGENCY** : create(agencyId, storeName, storePhoneNumber, storeEmailAddress, agencyId)
+        activate AGENCY
+
+        AGENCY -> LOCATION** : createLocationFromString(storeLocation)
+        activate LOCATION
+
+        LOCATION -> LOCATION: validateLocation()
+        activate LOCATION
+        LOCATION --> LOCATION :
+        deactivate LOCATION
+
+        LOCATION --> AGENCY : location
+        deactivate LOCATION
+        deactivate AGENCY
+
+
+        LegSysMAPPER --> AgRep : agency
+        deactivate LegSysMAPPER
+        |||
+        AgRep -> AgRep : add(agency)
+        activate AgRep
+
+            AgRep -> AgRep: validateAgency(agency)
+            activate AgRep
+            AgRep --> AgRep:
+            deactivate AgRep
+
+        AgRep --> AgRep:
+        deactivate AgRep
+    |||
+    end alt
+
+    AgRep --> CTRL : agency
+    deactivate AgRep
+
+|||
+end group
+autonumber 16
+     <-- CTRL : agency
+     deactivate CTRL
+
+@enduml
