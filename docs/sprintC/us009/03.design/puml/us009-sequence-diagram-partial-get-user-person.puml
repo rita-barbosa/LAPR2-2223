@@ -64,7 +64,7 @@ autonumber 26.1.1
             PLAT -> CTRL : PersonRepository
         deactivate PLAT
 
-        CTRL -> PersonRepository : doesAnyPersonHaveEmail(userEmail)
+        CTRL -> PersonRepository : getPersonByEmail(userEmail)
         activate PersonRepository
 
         loop for each person
