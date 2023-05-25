@@ -15,7 +15,7 @@ participant "commission\n:Commission" as COMMISSION
 
     autonumber 15
 
-     -> CTRL : createAnnouncement(legacySystemDto, agency, agent, ownerEmail)
+     -> CTRL : PublishAnnouncement(legacySystemDto, agency, agent, ownerEmail)
     activate CTRL
 
     autonumber 15.1
