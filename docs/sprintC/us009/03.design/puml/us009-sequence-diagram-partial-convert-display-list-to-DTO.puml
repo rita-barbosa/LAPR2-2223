@@ -9,9 +9,6 @@ participant ":AnnouncementMapper" as MAPPER
 participant "announcementList\n:AnnouncementList" as LISTCLASS
 participant "announcement\n:Announcement" as ANNOUNCE
 participant "request\n:Request" as REQUEST
-'participant "property\n:Property" as PROPERTY
-'participant "residence\n:Residence" as RESIDENCE
-'participant "house\n:House" as HOUSE
 participant "announcementListDto\n:List<AnnouncementDto>" as LISTDTO
 participant "announcementDto\n:AnnouncementDto" as ANCDTO
 
