@@ -45,10 +45,23 @@ participant "commission\n:Commission" as COMMISSION
         MAPPER --> CTRL : commissionValue
     deactivate MAPPER
 
-    CTRL -> AGENCY : createAnnouncementFromLegacy(agent, commissionValue, request)
+    CTRL -> MAPPER : acceptanceDate = getAcceptanceDate()
+    activate MAPPER
+
+        MAPPER -> DTO : getAcceptanceDate()
+        activate DTO
+
+            DTO --> MAPPER : acceptanceDate
+        deactivate DTO
+
+        MAPPER --> CTRL : acceptanceDate
+    deactivate MAPPER
+
+
+    CTRL -> AGENCY : createAnnouncementFromLegacy(agent, acceptanceDate, commissionValue, request)
     activate AGENCY
 
-        AGENCY -> ANNOUNCE**: create(agent, commissionValue, request)
+        AGENCY -> ANNOUNCE**: create(agent, acceptanceDate, commissionValue, request)
         activate ANNOUNCE
 
         ANNOUNCE -> COMMISSION** : create(commissionValue)
