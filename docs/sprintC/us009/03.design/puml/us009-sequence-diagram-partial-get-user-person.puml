@@ -5,40 +5,52 @@ skinparam shadowing false\
 
 
 participant ":ScheduleVisitController" as CTRL
-participant ":ApplicationSession" as _APP
-participant "applicationSession\n:ApplicationSession" as APP
-participant "userSession\n:UserSession" as SESSION
 participant ":Repositories" as RepositorySingleton
 participant "repositories\n:Repositories" as PLAT
+participant "authenticationRepository\n:AuthenticationRepository" as AuthenticationRepository
+participant "authFacade\n:AuthFacade" as FACADE
+participant "userSession\n:UserSession" as SESSION
 participant "personRepository\n:PersonRepository" as PersonRepository
 participant "person:\nPerson" as PERSON
 
-autonumber 28.27
+autonumber 26.1
 
      -> CTRL : getUserPerson()
      activate CTRL
 
-autonumber 28.27.1
+autonumber 26.1.1
 
     group Get User Person
 
-         CTRL -> _APP: getInstance()
-         activate _APP
+        CTRL -> RepositorySingleton : getInstance()
+        activate RepositorySingleton
 
-            _APP -> CTRL: authFacade
-         deactivate _APP
+            RepositorySingleton --> CTRL : repositories
+        deactivate RepositorySingleton
 
-         CTRL -> APP: getCurrentSession()
-         activate APP
+        CTRL -> PLAT : getAuthenticationRepository()
+        activate PLAT
 
-             APP --> CTRL: userSession
-         deactivate APP
+            PLAT --> CTRL : AuthenticationRepository
+        deactivate PLAT
 
-         CTRL -> SESSION: userEmail = getUserId()
-         activate SESSION
+        CTRL -> AuthenticationRepository : getUserEmail()
+        activate AuthenticationRepository
 
-             SESSION --> CTRL: userEmail
-         deactivate SESSION
+            AuthenticationRepository -> FACADE : getUserEmail()
+            activate FACADE
+
+                FACADE -> SESSION : getUserId()
+                activate SESSION
+
+                    SESSION --> FACADE : userEmail
+                deactivate SESSION
+
+                FACADE --> AuthenticationRepository : userEmail
+            deactivate FACADE
+
+           AuthenticationRepository --> CTRL : userEmail
+        deactivate AuthenticationRepository
 |||
         CTRL -> RepositorySingleton : getInstance()
         activate RepositorySingleton
@@ -57,7 +69,7 @@ autonumber 28.27.1
 
         loop for each person
 
-            PersonRepository -> PERSON : doesPersonHaveEmail(userEmail)
+            PersonRepository -> PERSON : hasEmail(userEmail)
             activate PERSON
 
                 PERSON --> PersonRepository : true/false
@@ -70,7 +82,7 @@ autonumber 28.27.1
 
      end group
 
-autonumber 28.28
+autonumber 26.2
 
         <-- CTRL : person
     deactivate CTRL
