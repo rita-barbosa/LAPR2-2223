@@ -5,20 +5,31 @@ skinparam shadowing false
 
 
 participant ":ScheduleVisitController" as CTRL
+participant "agencyRepository\n:AgencyRepository" as REP
 participant "agency\n:Agency" as AGC
 participant "announcementList\n:AnnouncementList" as LISTCLASS
 
 autonumber 4
 
- -> CTRL : getAnnouncementListDto()
+ -> CTRL : getAnnouncementList()
 
 activate CTRL
 
     autonumber 4.1
 
-    group Get Announcements List DTO
+    group Get Announcements List
 |||
-            CTRL -> LISTCLASS** : listToDisplay = createList()
+            CTRL -> REP : listToDisplay = createList()
+            activate REP
+
+            REP -> AGC : createList()
+            deactivate REP
+            activate AGC
+
+            AGC -> LISTCLASS** : create()
+             deactivate AGC
+
+
            CTRL -> CTRL : getAgencies()
             activate CTRL
 
@@ -31,7 +42,10 @@ activate CTRL
 
             loop for all agencies
 
-                CTRL -> AGC : getAnnouncementList()
+                CTRL -> REP : getAnnouncementList()
+                activate REP
+
+                REP -> AGC : getAnnouncementList()
                 activate AGC
 
                 AGC -> LISTCLASS : getList()
@@ -40,8 +54,11 @@ activate CTRL
                     LISTCLASS --> AGC : announcementList
                 deactivate LISTCLASS
 
-                    AGC --> CTRL : announcementList
+                    AGC --> REP : announcementList
                 deactivate AGC
+
+                REP --> CTRL : announcementList
+                deactivate REP
 
                 CTRL -> LISTCLASS : addListContent(announcementList)
                 activate LISTCLASS
