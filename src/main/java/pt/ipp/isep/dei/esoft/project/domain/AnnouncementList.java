@@ -13,6 +13,10 @@ public class AnnouncementList {
      */
     private List<Announcement> announcements;
 
+    public AnnouncementList() {
+        this.announcements = new ArrayList<>();
+    }
+
     /**
      * Returns the list of announcements for this agency.
      *
@@ -48,6 +52,7 @@ public class AnnouncementList {
 
     /**
      * This method returns the announcements that the agent with the specified email is responsible for.
+     *
      * @param agentEmail - email of the agent
      * @return list of the agent's announcements.
      */
@@ -65,6 +70,7 @@ public class AnnouncementList {
 
     /**
      * This method checks if any announcement in the list has the specified ID.
+     *
      * @param announcementId - the id
      * @return {@code true} if there is any announcement with the specified ID;{@code false} otherwise;
      */
@@ -79,6 +85,7 @@ public class AnnouncementList {
 
     /**
      * This method returns the announcement that has the specified ID.
+     *
      * @param announcementId - the id.
      * @return an announcement that has the received ID.
      */
@@ -93,6 +100,7 @@ public class AnnouncementList {
 
     /**
      * This method sorts the list of announcements by oldest acceptance date.
+     *
      * @param listAnnouncements
      */
     private void sortAnnouncementsByOldestAcceptanceDate(List<Announcement> listAnnouncements) {
@@ -113,9 +121,10 @@ public class AnnouncementList {
 
     /**
      * This method creates a new copy of an announcementList object.
+     *
      * @return a copy of the announcementList object.
      */
-    public AnnouncementList clone(){
+    public AnnouncementList clone() {
         AnnouncementList clone = new AnnouncementList();
         if (!(announcements.isEmpty())) {
             for (Announcement in :
