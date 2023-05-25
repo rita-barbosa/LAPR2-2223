@@ -22,20 +22,13 @@ activate CTM
     UI -> CTRL : getAnnouncementListDto()
         activate CTRL
 
-    CTRL -> CTRL : getAnnouncementListDto()
+    CTRL -> CTRL : getAnnouncementList()
     activate CTRL
             ref over CTRL
-                Get Announcements List DTO
+                Get Announcements List
             end ref
         CTRL --> CTRL : listToDisplay
     deactivate CTRL
-|||
-    CTRL -> LISTCLASS : sortAnnouncementsByAcceptanceDate(listToDisplay)
-    activate LISTCLASS
-
-        LISTCLASS --> CTRL : listToDisplay
-    deactivate LISTCLASS
-
 |||
     CTRL -> CTRL : toDTO(listToDisplay)
     activate CTRL
@@ -53,7 +46,7 @@ activate CTM
 
     alt Selection of Filters
 
-        loop for each filter
+        loop For each filter
             CTM -> UI : selects filter
             activate UI
 
@@ -109,7 +102,7 @@ activate CTM
     UI --> CTM : requests data
         deactivate UI
 
-    loop At least once
+    loop While the user intends
     CTM -> UI : types requested data (visitDate, startHour, endHour)
         activate UI
 
