@@ -52,7 +52,6 @@ activate CTRL
     deactivate AGC
 |||
 
-
     CTRL -> RepositorySingleton : getInstance()
 
     activate RepositorySingleton
