@@ -18,6 +18,15 @@ activate CTM
     System --> CTM : shows the list of announcements available
         deactivate System
 
+    loop While Costumer intends
+
+        CTM -> System : selects list filter
+        activate System
+
+            System --> CTM : shows filtered announcements list
+        deactivate System
+    end loop
+
     CTM -> System : selects an announcement
         activate System
 
