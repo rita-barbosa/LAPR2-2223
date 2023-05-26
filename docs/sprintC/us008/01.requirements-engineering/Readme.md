@@ -77,6 +77,8 @@ The owner chooses the responsible agent in one other US. Please discuss this que
 
 * **AC1:** The list of property announcement requests should be sorted by the date they were created, with the most recent requests appearing first.
 * **AC2:** An announcement is posted when a request is accepted. The list of requests should be refreshed, and that request should not be shown again.
+* **AC3:** When an announcement request is decline, the agent must include a justification message, that should be sent to the owner by e-mail.
+
 
 
 ### 1.4. Found out Dependencies
@@ -104,9 +106,8 @@ The owner chooses the responsible agent in one other US. Please discuss this que
 
 **Other alternatives might exist.**
 
-#### Alternative One
 
-![System Sequence Diagram - Alternative One](svg/us008-system-sequence-diagram.svg)
+![System Sequence Diagram](svg/us008-system-sequence-diagram.svg)
 
 
 
