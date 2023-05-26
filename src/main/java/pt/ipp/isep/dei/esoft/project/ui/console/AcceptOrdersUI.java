@@ -57,9 +57,9 @@ public class AcceptOrdersUI implements Runnable {
 
     private void successMessage(Boolean success, String acceptanceAnswer) {
         if (success) {
-            System.out.println("The order was successfully " + acceptanceAnswer + "ed.");
+            System.out.println("The order was successfully " + acceptanceAnswer + "ed.\n");
         } else {
-            System.out.println(" ERROR: The order wasn't successfully " + acceptanceAnswer + "ed.");
+            System.out.println(" ERROR: The order wasn't successfully " + acceptanceAnswer + "ed.\n");
         }
     }
 

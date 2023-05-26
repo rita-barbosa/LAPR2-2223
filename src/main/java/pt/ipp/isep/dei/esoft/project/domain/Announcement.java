@@ -86,13 +86,13 @@ public class Announcement {
      * @param request        the request
      * @param acceptanceDate the acceptance date
      */
-    public Announcement(Employee agent, Commission commission, Request request, LocalDate acceptanceDate) {
+    public Announcement(Employee agent, Commission commission, Request request, LocalDate acceptanceDate, OrderList orders, Integer id) {
         this.commission = commission;
         this.agent = agent;
         this.request = request;
         this.acceptanceDate = acceptanceDate;
         this.orders = orders;
-        this.id = counter++;
+        this.id = id;
     }
 
     /**
@@ -166,6 +166,7 @@ public class Announcement {
     public String getAgentEmail() {
         return this.agent.getEmailAddress().getEmail();
     }
+
     /**
      * This method adds an order to the existent OrderList.
      *
@@ -202,37 +203,12 @@ public class Announcement {
 
 
     /**
-     * Compares this Announcement object to the specified object.
-     *
-     * @param o The object to compare to
-     * @return true if the objects are equal, false otherwise
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Announcement)) return false;
-        Announcement that = (Announcement) o;
-        return Objects.equals(acceptanceDate, that.acceptanceDate) && Objects.equals(commission, that.commission)
-                && Objects.equals(request, that.request) && Objects.equals(agent, that.agent);
-    }
-
-    /**
-     * Generates a hash code for this Announcement object.
-     *
-     * @return The hash code of the Announcement object
-     */
-    @Override
-    public int hashCode() {
-        return Objects.hash(acceptanceDate, commission, request, agent);
-    }
-
-    /**
      * Creates a new copy of this Announcement object.
      *
      * @return A new copy of this Announcement object
      */
     public Announcement clone() {
-        return new Announcement(this.agent, this.commission, this.request, this.acceptanceDate,this.orders);
+        return new Announcement(this.agent, this.commission, this.request, this.acceptanceDate, this.orders, this.id);
     }
 
     /**
@@ -304,4 +280,18 @@ public class Announcement {
         return false;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Announcement that = (Announcement) o;
+        return Objects.equals(acceptanceDate, that.acceptanceDate) && Objects.equals(commission, that.commission)
+                && Objects.equals(request, that.request) && Objects.equals(agent, that.agent) &&
+                Objects.equals(id, that.id) && Objects.equals(orders, that.orders) && Objects.equals(visitList, that.visitList);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(acceptanceDate, commission, request, agent, id, orders, visitList);
+    }
 }

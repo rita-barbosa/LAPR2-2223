@@ -2,10 +2,7 @@ package pt.ipp.isep.dei.esoft.project.domain;
 
 import pt.isep.lei.esoft.auth.domain.model.Email;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -163,17 +160,21 @@ public class Order implements Notification {
      */
     @Override
     public Boolean sendNotification(String email) {
-        File file = new File(FILE_NAME + getId() + "." + email + FILE_TYPE);
+        String fileName = "Notifications/" + FILE_NAME + "Order" + getId() + "." + email + FILE_TYPE;
+        File file = new File(fileName);
+        File parentDir = file.getParentFile();
+        if (!parentDir.exists()) {
+            parentDir.mkdirs();
+        }
         try {
-            PrintWriter text = new PrintWriter(file);
+            FileWriter text = new FileWriter(file);
             text.write(TEXT_TO + email + "\n");
-            text.write(TEXT_TOPIC + "Order Acceptance\n");
-            text.write("The purchase order submitted in " + getOrderDate().toString() + " has been analysed. The final decision was: " + this.acceptanceAnswer);
-
+            text.write(TEXT_TOPIC + "Order Acceptance\n\n");
+            text.write("The purchase order submitted in " + getOrderDate().toString() + " has been analyzed. The final decision was: " + this.acceptanceAnswer);
             text.close();
             return true;
         } catch (IOException e) {
-            System.out.println("ERROR: Failed to send notification.");
+            System.out.println("ERROR: Failed to send notification.\n");
             return false;
         }
     }
