@@ -1,5 +1,7 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
+import org.apache.commons.lang3.NotImplementedException;
+
 import java.time.LocalDate;
 import java.util.*;
 
@@ -38,6 +40,11 @@ public class AnnouncementList {
             success = announcements.add(announcement.clone());
         }
         return success;
+    }
+
+    public void sortListByCriteria(String criteria){
+        //in this method we sort the announcement list by the choosen criteria.
+        throw new NotImplementedException();
     }
 
     /**
@@ -109,6 +116,16 @@ public class AnnouncementList {
      */
     private void sortAnnouncementsByOldestAcceptanceDate(List<Announcement> listAnnouncements) {
         Collections.sort(listAnnouncements, acceptanceDate);
+    }
+
+    /**
+     * This method sorts the list of announcements by most recent acceptance date.
+     *
+     * @param listAnnouncements
+     */
+    private void sortAnnouncementsByMostRecentAcceptanceDate(List<Announcement> listAnnouncements) {
+        Collections.sort(listAnnouncements, acceptanceDate);
+        Collections.reverse(listAnnouncements);
     }
 
     /**

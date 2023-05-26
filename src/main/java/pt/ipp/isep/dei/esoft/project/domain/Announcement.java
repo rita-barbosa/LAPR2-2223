@@ -233,17 +233,19 @@ public class Announcement {
     /**
      * Create visit optional.
      *
-     * @param visitDate       the visit date
+     * @param visitDay        the visit day
+     * @param visitMonth      the visit month
+     * @param visitYear       the visit year
      * @param startHour       the start hour
      * @param endHour         the end hour
      * @param userName        the user's name
      * @param userPhoneNumber the user's phone number
      * @return the visit
      */
-    public Optional<Visit> createVisit(LocalDate visitDate, Integer startHour, Integer endHour, String userName, String userPhoneNumber) {
+    public Optional<Visit> createVisit(Integer visitDay, Integer visitMonth, Integer visitYear, Integer startHour, Integer endHour, String userName, String userPhoneNumber) {
         Optional<Visit> optionalValue = Optional.empty();
 
-        Visit visit = new Visit(visitDate, startHour, endHour, userName, userPhoneNumber);
+        Visit visit = new Visit(visitDay, visitMonth, visitYear, startHour, endHour, userName, userPhoneNumber);
 
         if (addVisit(visit)) {
             optionalValue = Optional.of(visit);
