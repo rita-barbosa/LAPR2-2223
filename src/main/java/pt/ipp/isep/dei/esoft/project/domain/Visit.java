@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
+import java.time.chrono.ChronoLocalDate;
 import java.util.Objects;
 
 /**
@@ -16,7 +17,11 @@ public class Visit implements Notification {
     /**
      * The Id.
      */
-    private Integer id;
+    private Integer id = 0;
+    /**
+     * The id iteration variable.
+     */
+    private static int counter = 0;
     /**
      * The Start hour.
      */
@@ -45,23 +50,25 @@ public class Visit implements Notification {
     /**
      * Instantiates a new Visit.
      *
+     * @param visitDay        the visit day
+     * @param visitMonth      the visit month
+     * @param visitYear       the visit year
      * @param startHour       the start hour
      * @param endHour         the end hour
-     * @param visitDate       the visit date
-     * @param userName        the user name
-     * @param userPhoneNumber the user phone number
+     * @param userName        the user's name
+     * @param userPhoneNumber the user's phone number
      */
-    public Visit(LocalDate visitDate, Integer startHour, Integer endHour,  String userName, String userPhoneNumber) {
-       // this.id = (Integer) Math.random();
+    public Visit(Integer visitDay, Integer visitMonth, Integer visitYear, Integer startHour, Integer endHour,  String userName, String userPhoneNumber) {
+        this.id = counter++;
         this.startHour = startHour;
         this.endHour = endHour;
-        this.visitDate = visitDate;
+        this.visitDate = LocalDate.of(visitYear, visitMonth, visitDay);
         this.userName = userName;
         this.userPhoneNumber = userPhoneNumber;
     }
 
     /**
-     * Gets id.
+     * Gets visit id.
      *
      * @return the id
      */

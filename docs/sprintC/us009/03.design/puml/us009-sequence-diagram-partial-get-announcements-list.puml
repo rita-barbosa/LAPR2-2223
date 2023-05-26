@@ -5,13 +5,15 @@ skinparam shadowing false
 
 
 participant ":ScheduleVisitController" as CTRL
-participant "agencyRepository\n:AgencyRepository" as REP
+participant "agencyRepository\n:AgencyRepository" as AgencyRepository
 participant "agency\n:Agency" as AGC
 participant "announcementList\n:AnnouncementList" as LISTCLASS
+participant "listAnnouncements\n: List<Announcement>" as AnnounceList
+
 
 autonumber 4
 
- -> CTRL : getAnnouncementList()
+ -> CTRL : getAllAnnouncementsList()
 
 activate CTRL
 
@@ -19,62 +21,44 @@ activate CTRL
 
     group Get Announcements List
 |||
-            CTRL -> REP : listToDisplay = createList()
-            activate REP
+        CTRL -> AgencyRepository : getAllAnnouncementsList()
+        activate AgencyRepository
 
-            REP -> AGC : createList()
-            deactivate REP
+        AgencyRepository -> AnnounceList** : listToDisplay = create()
+
+       loop for all agencies
+
+
+            AgencyRepository -> AGC : getAnnouncementList()
             activate AGC
 
-            AGC -> LISTCLASS** : create()
-             deactivate AGC
-
-
-           CTRL -> CTRL : getAgencies()
-            activate CTRL
-
-            ref over CTRL
-                Get Agencies List
-            end ref
-                CTRL --> CTRL : agenciesList
-            deactivate CTRL
-|||
-
-            loop for all agencies
-
-                CTRL -> REP : getAnnouncementList()
-                activate REP
-
-                REP -> AGC : getAnnouncementList()
-                activate AGC
-
-                AGC -> LISTCLASS : getList()
-                activate LISTCLASS
-
-                    LISTCLASS --> AGC : announcementList
-                deactivate LISTCLASS
-
-                    AGC --> REP : announcementList
-                deactivate AGC
-
-                REP --> CTRL : announcementList
-                deactivate REP
-
-                CTRL -> LISTCLASS : addAll(announcementList)
-                activate LISTCLASS
-
-                LISTCLASS --> CTRL : listToDisplay
-                deactivate LISTCLASS
-|||
-            end loop
-
-            CTRL -> LISTCLASS : sortListByAcceptanceDate(listToDisplay)
+            AGC -> LISTCLASS : getAnnouncementList()
             activate LISTCLASS
 
-                LISTCLASS --> CTRL : listToDisplay
+                LISTCLASS --> AGC : announcementList
+            deactivate LISTCLASS
+
+                AGC --> AgencyRepository : announcementList
+            deactivate AGC
+
+            AgencyRepository -> AnnounceList : addAll(announcementList)
+            activate AnnounceList
+            deactivate AnnounceList
+|||
+       end loop
+
+            AgencyRepository -> LISTCLASS : sortAnnouncementsByMostRecentAcceptanceDate(listToDisplay)
+            activate LISTCLASS
+
+                LISTCLASS --> AgencyRepository : listToDisplay
             deactivate LISTCLASS
 |||
         end group
+
+            AgencyRepository --> CTRL : listToDisplay
+        deactivate AgencyRepository
+
+
     autonumber 5
     <-- CTRL  : listToDisplay
 deactivate CTRL

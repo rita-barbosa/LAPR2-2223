@@ -10,12 +10,12 @@ participant "employee\n:Employee" as EMP
 participant "person:\nPerson" as PERSON
 
 
-autonumber 26
+autonumber 34
 
-    -> CTRL : scheduleVisit(visitDate, startHour, endHour)
+    -> CTRL : scheduleVisit(announcement, visitDay,\n visitMonth, visitYear, startHour, endHour)
     activate CTRL
 
-    autonumber 26.1
+    autonumber 34.1
 
     group Schedule Visit
    |||
@@ -40,10 +40,10 @@ autonumber 26
         PERSON --> CTRL : userPhoneNumber
     deactivate PERSON
 |||
-    CTRL -> ANNOUNCE : createVisit(visitDate, startHour, endHour,\n userName, userPhoneNumber)
+    CTRL -> ANNOUNCE : createVisit(visitDay, visitMonth, visitYear,\n startHour, endHour, userName, userPhoneNumber)
     activate ANNOUNCE
 
-    ANNOUNCE -> VST** : create(visitDate, startHour, endHour,\n userName, userPhoneNumber)
+    ANNOUNCE -> VST** : create(visitDay, visitMonth, visitYear,\n startHour, endHour, userName, userPhoneNumber)
 
      ANNOUNCE -> ANNOUNCE : addVisit(visit)
      activate ANNOUNCE
@@ -86,7 +86,7 @@ autonumber 26
 |||
     end group
 
-    autonumber 27
+    autonumber 35
         <-- CTRL : visit
     deactivate CTRL
 

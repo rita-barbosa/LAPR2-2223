@@ -1,5 +1,6 @@
 package pt.ipp.isep.dei.esoft.project.repository;
 
+import org.apache.commons.lang3.NotImplementedException;
 import pt.ipp.isep.dei.esoft.project.domain.Agency;
 import pt.ipp.isep.dei.esoft.project.domain.Announcement;
 import pt.ipp.isep.dei.esoft.project.domain.Request;
@@ -101,6 +102,15 @@ public class AgencyRepository {
      */
     public List<Agency> getAgenciesList() {
         return agencies;
+    }
+
+    /**
+     * Get all announcements list list.
+     *
+     * @return the list
+     */
+    public List<Announcement> getAllAnnouncementsList(){
+        throw new NotImplementedException();
     }
 
 

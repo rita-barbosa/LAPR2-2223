@@ -7,16 +7,16 @@ skinparam shadowing false
 participant ":ScheduleVisitController" as CTRL
 participant ":Repositories" as RepositorySingleton
 participant "repositories\n:Repositories" as PLAT
-participant "agencyRepository\n:AgencyRepository" as AgencyRepository
+participant "criteriaRepository\n:CriteriaRepository" as CriteriaRepository
 
-autonumber 4.2
+autonumber 12
 
--> CTRL : getAgencies()
+-> CTRL : getCriteriaList()
 
 activate CTRL
-autonumber 4.2.1
+autonumber 12.1
 
-    group Get Agencies List
+    group Get Criteria List
 
 CTRL -> RepositorySingleton : getInstance()
 
@@ -25,25 +25,25 @@ CTRL -> RepositorySingleton : getInstance()
             RepositorySingleton --> CTRL : repositories
         deactivate RepositorySingleton
 
-        CTRL -> PLAT : getAgencyRepository()
+        CTRL -> PLAT : getCriteriaRepository()
 
         activate PLAT
 
-            PLAT -> CTRL : agencyRepository
+            PLAT --> CTRL : CriteriaRepository
 
         deactivate PLAT
 
-        CTRL -> AgencyRepository : getAgencies()
+        CTRL -> CriteriaRepository : getCriteriaList
 
-        activate AgencyRepository
+        activate CriteriaRepository
 
-        AgencyRepository --> CTRL : agenciesList
+        CriteriaRepository --> CTRL : criteriaList
 
-        deactivate AgencyRepository
+        deactivate CriteriaRepository
      end
-     autonumber 4.3
+     autonumber 13
 
-        <-- CTRL : agenciesList
+        <-- CTRL : criteriaList
 
         deactivate CTRL
 @enduml

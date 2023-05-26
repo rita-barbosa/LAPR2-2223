@@ -88,6 +88,11 @@ As a client, I want to leave a message to the agent to schedule a visit to a pro
 * **AC2:** The message must also include the client's name, phone number, preferred date and time slot (from x hour to y hour) for the property visit.
 * **AC3:** A client may post multiple visit requests, but only if those do not overlap each other.
 * **AC4:** The client must receive a success message when the request is valid and registered in the system.
+* **AC5:** The starting hour of the visit has to be earlier than the ending hour.
+* **AC6:** The 24-hour format should be adopted.
+* **AC7:** The year of the visit cannot be prior to the current year.
+
+
 
 ### 1.4. Found out Dependencies
 

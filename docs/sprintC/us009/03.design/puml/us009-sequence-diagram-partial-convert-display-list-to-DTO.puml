@@ -13,13 +13,13 @@ participant "announcementListDto\n:List<AnnouncementDto>" as LISTDTO
 participant "announcementDto\n:AnnouncementDto" as ANCDTO
 
 
-autonumber 8
+autonumber 6
 
  -> CTRL : toDto(listToDisplay)
 
 activate CTRL
 
-    autonumber 8.1
+    autonumber 6.1
 
     group Convert Display List to DTO
 
@@ -36,7 +36,7 @@ activate CTRL
             LISTCLASS --> MAPPER : announcement
         deactivate LISTCLASS
 
-        MAPPER -> ANNOUNCE : announcementId = getAnnouncementId()
+        MAPPER -> ANNOUNCE : announcementId = getId()
         activate ANNOUNCE
 
         ANNOUNCE --> MAPPER : announcementId
@@ -68,7 +68,7 @@ activate CTRL
 
     end group
 
-    autonumber 9
+    autonumber 7
     <-- CTRL  : listToDisplayDto
 deactivate CTRL
 
