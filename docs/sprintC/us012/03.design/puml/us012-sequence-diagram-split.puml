@@ -9,6 +9,7 @@ autonumber
 actor "System Administrator" as ADM
 participant ":importLegacyInformationUI" as UI
 participant ":importLegacyInformationController" as CTRL
+participant "person\n:Person" as PERSON
 participant "legacySystem\n:LegacySystem" as LS
 participant "legacySystemMapper\n:LegacySystemMapper" as LSMapper
 participant "legacySystemDto\n:LegacySystemDto" as LSDto
@@ -76,9 +77,20 @@ activate ADM
     CTRL --> CTRL : agent
     deactivate CTRL
     |||
+
+    CTRL -> CTRL : registerPerson(legacySystemDto)
+    activate CTRL
     ref over CTRL
         Register Owner
     end ref
+    CTRL --> CTRL: person
+    deactivate CTRL
+
+    CTRL -> PERSON : getEmailAddress()
+    activate PERSON
+
+    PERSON --> CTRL : emailAddress
+    deactivate PERSON
 |||
     CTRL -> CTRL : PublishAnnouncement(legacySystemDto, agency, agent, ownerEmail)
     activate CTRL
