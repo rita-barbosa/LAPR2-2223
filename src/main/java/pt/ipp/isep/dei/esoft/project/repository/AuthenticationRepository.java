@@ -93,12 +93,4 @@ public class AuthenticationRepository {
         return digitCount == 2 && upperCaseLettercount == 3;
     }
 
-    /**
-     * Get user email string.
-     *
-     * @return the string
-     */
-    public String getUserEmail(){
-       return getCurrentUserSession().getUserId().toString();
-    }
 }
