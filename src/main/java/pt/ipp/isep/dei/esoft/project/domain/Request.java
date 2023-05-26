@@ -1,7 +1,11 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
+import org.apache.commons.lang3.NotImplementedException;
 import pt.isep.lei.esoft.auth.domain.model.Email;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
@@ -9,8 +13,12 @@ import java.util.Objects;
 /**
  * The type Request.
  */
-public class Request {
+public class Request implements Notification {
 
+    /**
+     * The Id.
+     */
+    private Integer id;
     /**
      * The Request date.
      */
@@ -31,6 +39,10 @@ public class Request {
      * The Owner email.
      */
     private final Email ownerEmail;
+    /**
+     * The id iteration variable.
+     */
+    private static int counter = 0;
 
 
     /**
@@ -70,6 +82,7 @@ public class Request {
         this.business = new Lease(contractDuration, businessTypeDesignation, amount);
 
         this.agent = agent;
+        this.id = counter++;
 
         switch (propertyType.toString().toLowerCase()) {
             case "land":
@@ -123,6 +136,7 @@ public class Request {
         this.requestDate = LocalDate.now();
         this.business = new Business(businessTypeDesignation, amount);
         this.agent = agent;
+        this.id = counter++;
 
         switch (propertyType.toString().toLowerCase()) {
             case "land":
@@ -152,13 +166,24 @@ public class Request {
      * @param requestDate the request date
      * @param agent       the agent
      */
-    public Request(String ownerEmail, Property property, Business business, LocalDate requestDate, Employee agent) {
+    public Request(String ownerEmail, Property property, Business business, LocalDate requestDate, Employee agent, Integer id) {
         this.ownerEmail = new Email(ownerEmail);
         this.requestDate = requestDate;
         this.business = business;
         this.agent = agent;
         this.property = property;
+        this.id = id;
     }
+
+    public String getPropertyAttributes(){
+        return this.property.toString();
+    }
+
+    public String getBusinessAttributes(){
+        return this.business.toString();
+    }
+
+
 
     /**
      * Clone request.
@@ -166,7 +191,7 @@ public class Request {
      * @return the request
      */
     public Request clone() {
-        return new Request(this.ownerEmail.toString(), this.property, this.business, this.requestDate, this.agent);
+        return new Request(this.ownerEmail.toString(), this.property, this.business, this.requestDate, this.agent, this.id);
     }
 
     /**
@@ -197,6 +222,10 @@ public class Request {
         return property;
     }
 
+    public LocalDate getRequestDate(){
+        return requestDate;
+    }
+
     /**
      * Equals boolean.
      *
@@ -208,7 +237,7 @@ public class Request {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Request request = (Request) o;
-        return Objects.equals(requestDate, request.requestDate) && Objects.equals(agent, request.agent) && Objects.equals(business, request.business) && Objects.equals(property, request.property) && Objects.equals(ownerEmail, request.ownerEmail);
+        return Objects.equals(requestDate, request.requestDate) && Objects.equals(agent, request.agent) && Objects.equals(business, request.business) && Objects.equals(property, request.property) && Objects.equals(ownerEmail, request.ownerEmail) && Objects.equals(id, request.id);
     }
 
     /**
@@ -218,6 +247,52 @@ public class Request {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(requestDate, agent, business, property, ownerEmail);
+        return Objects.hash(requestDate, agent, business, property, ownerEmail, id);
     }
+
+//    public String getId() {
+//        return this.id.toString();
+//    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public LocalDate getAcceptanceDate() {
+        return requestDate;
+    }
+
+    public Boolean hasAgentWithEmail(String agentEmail) {
+        return this.getAgentEmail().equals(agentEmail);
+    }
+
+    public String getAgentEmail() {
+        return this.agent.getEmailAddress().getEmail();
+    }
+
+    @Override
+    public Boolean sendNotification(String email) {
+        File file = new File(FILE_NAME + getId() + "." + email + FILE_TYPE);
+        try {
+            PrintWriter text = new PrintWriter(file);
+            text.write(TEXT_TO + email+"\n");
+            text.write(TEXT_TOPIC + "Property Announcement Request Acceptance\n");
+            text.write("The property announcement request submitted in " + getRequestDate().toString() + " has been analysed. Your request was declined. Here is the justification message:\n " );
+
+            text.close();
+            return true;
+        } catch (IOException e) {
+            System.out.println("ERROR: Failed to send notification.");
+            return false;
+        }
+    }
+
+    public Boolean hasId(Integer requestId) {
+        return this.getId().equals(requestId);
+    }
+
+    public void sendEmail(String ownerEmail, String message){
+        throw new NotImplementedException();
+    }
+
 }

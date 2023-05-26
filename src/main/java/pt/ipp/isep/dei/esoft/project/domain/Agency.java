@@ -1,5 +1,6 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
+import org.apache.commons.lang3.NotImplementedException;
 import pt.isep.lei.esoft.auth.domain.model.Email;
 
 import java.util.*;
@@ -47,7 +48,9 @@ public class Agency {
     /**
      * Represents the list of requests associated with the agency.
      */
-    List<Request> requests;
+    //List<Request> requests;
+
+    RequestList requests;
 
     /**
      * Constructs a new Agency object with the specified id, description, email address, phone number and location.
@@ -66,7 +69,7 @@ public class Agency {
         this.location = location;
         this.employees = new ArrayList<>();
         this.announcements = new AnnouncementList();
-        this.requests = new ArrayList<>();
+        this.requests = new RequestList();
     }
 
     /**
@@ -78,7 +81,7 @@ public class Agency {
         this.id = id;
         this.employees = new ArrayList<>();
         this.announcements = new AnnouncementList();
-        this.requests = new ArrayList<>();
+        this.requests = new RequestList();
     }
 
     /**
@@ -87,7 +90,7 @@ public class Agency {
     public Agency() {
         this.employees = new ArrayList<>();
         this.announcements = new AnnouncementList();
-        this.requests = new ArrayList<>();
+        this.requests = new RequestList();
     }
 
     /**
@@ -99,7 +102,7 @@ public class Agency {
         this.description = description;
         this.employees = new ArrayList<>();
         this.announcements = new AnnouncementList();
-        this.requests = new ArrayList<>();
+        this.requests = new RequestList();
     }
 
 
@@ -123,6 +126,10 @@ public class Agency {
         return announcements.anyAnnouncementHasId(id);
     }
 
+    public Boolean anyRequestHasId(Integer id) {
+        return requests.anyRequestHasId(id);
+    }
+
     /**
      * This method returns the agent that has the received email address.
      *
@@ -140,6 +147,10 @@ public class Agency {
 
     public Optional<Announcement> getAnnouncementById(Integer announcementId) {
         return announcements.getAnnouncementById(announcementId);
+    }
+
+    public Optional<Request> getRequestById(Integer requestId) {
+        return requests.getRequestById(requestId);
     }
 
     /**
@@ -238,18 +249,10 @@ public class Agency {
         return optionalValue;
     }
 
-    /**
-     * This method adds a request to the existent list of announcements.
-     *
-     * @param request - request intended to be added.
-     * @return {@code true} if the request was successfully added; {@code false} otherwise;
-     */
-    private Boolean addRequest(Request request) {
-        Boolean success = false;
-        if (validateRequest(request)) {
-            success = requests.add(request.clone());
-        }
-        return success;
+
+
+    public Boolean addRequest(Request request) {
+        return requests.addRequest(request);
     }
 
 
@@ -277,15 +280,8 @@ public class Agency {
         return employees != null && !(employees.contains(employee));
     }
 
-    /**
-     * This method checks if the list of requests already contains the request received.
-     *
-     * @param request - request intended to be checked.
-     * @return {@code true} if the request isn't in the list of requests; {@code false} otherwise;
-     */
-    private Boolean validateRequest(Request request) {
-        return requests != null & !(requests.contains(request));
-    }
+
+
 
     /**
      * This method returns the agency id.
@@ -314,6 +310,12 @@ public class Agency {
     public List<Announcement> getAnnouncementsByAgentEmail(String email) {
         return announcements.getAnnouncementsByAgentEmail(email);
     }
+
+    public List<Request> getRequestsByAgentEmail(String email){
+        return requests.getRequestsByAgentEmail(email);
+    }
+
+
 
     /**
      * This method returns the agency description.
@@ -362,12 +364,7 @@ public class Agency {
             }
         }
         clone.announcements = this.announcements;
-        if (!(requests.isEmpty())) {
-            for (Request in :
-                    this.requests) {
-                clone.requests.add(in.clone());
-            }
-        }
+        clone.requests = this.requests;
         return clone;
 
     }
@@ -582,5 +579,9 @@ public class Agency {
             return value1.compareTo(value2);
         }
     };
+
+    public String getOwnerEmail(){
+        throw new NotImplementedException();
+    }
 
 }
