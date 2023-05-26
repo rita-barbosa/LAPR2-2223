@@ -14,7 +14,7 @@ participant "agency\n:Agency" as AGENCY
 
 autonumber 34
 
-             -> CTRL : getAgencyByUserEmail(email)
+             -> CTRL : getAgencyByEmployeeEmail(email)
              activate CTRL
 
 autonumber 34.1
@@ -35,7 +35,7 @@ autonumber 34.1
              deactivate PLAT
 
 
-             CTRL -> AgencyRepository: getAgencyByUserEmail(email)
+             CTRL -> AgencyRepository: getAgencyByEmployeeEmail(email)
              activate AgencyRepository
 
                  loop [for each agency

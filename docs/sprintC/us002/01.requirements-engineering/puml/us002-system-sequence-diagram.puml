@@ -89,13 +89,12 @@ activate Employee
             activate System
             end opt
 
-        loop availableEquipment
+        loop while intends
         System --> Employee : requests available equipment
         deactivate System
-            opt availableEquipment
-                Employee -> System : types requested data (availableEquipment)
-                activate System
-            end opt
+
+        Employee -> System : types requested data (availableEquipment)
+        activate System
         end loop
 
         alt type of property = house
@@ -106,10 +105,9 @@ activate Employee
         Employee -> System : types requested data
         activate System
 
-        System --> Employee : asks to select sun exposure
-        deactivate System
-
             opt sun exposure
+            System --> Employee : asks to select sun exposure
+            deactivate System
             Employee -> System : selects requested data (sunExposure)
             activate System
             end opt

@@ -127,13 +127,13 @@ activate ADM
                 activate UI
                 end opt
 
-       loop availableEquipment
+       loop while intends
                UI --> ADM : requests available equipment
                deactivate UI
-                   opt availableEquipment
+
                        ADM -> UI : types requested data (availableEquipment)
                        activate  UI
-                   end opt
+
                end loop
 
         alt type of property = house
@@ -145,10 +145,10 @@ activate ADM
         ADM -> UI : types requested data
         activate UI
 
+            opt sun exposure
             UI --> ADM : asks to select sun exposure
             deactivate UI
 
-            opt sun exposure
             ADM -> UI : selects requested data (sunExposure)
             activate UI
             end opt
