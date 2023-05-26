@@ -1,0 +1,59 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+
+participant ":ListRequestsController" as CTRL
+participant "agencyRepository:\nAgencyRepository" as AgencyRepository
+participant "agency\n: Agency" as AGENCY
+participant "requestList\n: RequestList" as ReqList
+participant "request\n: Request" as REQUEST
+
+
+autonumber 4
+    -> CTRL: getRequestByID(requestId)
+    activate CTRL
+
+group Get request by ID
+
+autonumber 4.1
+
+    CTRL -> AgencyRepository: getRequestByID(requestId)
+    activate AgencyRepository
+
+    loop for all agencies
+
+        AgencyRepository -> AGENCY: getRequestByID(requestId)
+        activate AGENCY
+
+            AGENCY -> ReqList: getRequestByID(requestId)
+
+            loop for all requests of the agency
+
+                activate ReqList
+
+                ReqList --> REQUEST: hasSameId(id)
+
+                activate REQUEST
+
+                    REQUEST --> ReqList: true/false
+                deactivate REQUEST
+            end
+    end
+
+    ReqList --> AGENCY: request
+    deactivate ReqList
+
+    AGENCY --> AgencyRepository: request
+    deactivate AGENCY
+
+    AgencyRepository --> CTRL: request
+    deactivate AgencyRepository
+
+end group
+autonumber 5
+     <-- CTRL: request
+     deactivate CTRL
+
+@enduml
