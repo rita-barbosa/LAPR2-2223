@@ -10,14 +10,17 @@ participant ":ImportLegacyInformationController" as CTRL
 participant ":Repositories" as RepositorySingleton
 participant "repositories\n:Repositories" as PLAT
 participant "personRepository\n:PersonRepository" as PERSONREP
-participant ":PersonMapper" as PERMAPPER
-participant "dto: PersonDto" as PERDTO
+participant ":LegacySystemMapper" as LEGSYSTMAPPER
+participant "dto: legacySystemDto" as LEGSYSTDTO
 participant "person\n:Person" as PERSON
 participant "location\n:Location" as LOCATION
 
 
 activate CTRL
 
+    -> CTRL : registerPerson(legacySystemDto)
+
+    group Register Owner
 
     CTRL -> PLAT : getPersonRepository()
     activate PLAT
@@ -25,46 +28,56 @@ activate CTRL
     PLAT --> CTRL : personRepository
     deactivate PLAT
 
-    CTRL -> PERSONREP : createPerson(legacyInformationDto)
+    CTRL -> PERSONREP : registerPerson(legacySystemDto)
     activate PERSONREP
 
-'    CTRL -> PERSONREP : createPerson(name, passportCardNumber, taxNumber,\n emailAddress, phoneNumber, streetName,\n city, district, state, zipcode, clientRole)
-'   activate PERSONREP
+    PERSONREP -> LEGSYSTMAPPER : owner = registerPerson(legacySystemDto)
+    activate LEGSYSTMAPPER
 
-    PERSONREP -> PERMAPPER : owner = createPerson(legacyInformationDto)
-    activate PERMAPPER
+    LEGSYSTMAPPER -> LEGSYSTDTO : name = getPersonName()
+    activate LEGSYSTDTO
 
-    PERMAPPER -> PERDTO : name = getName()
-    activate PERDTO
-    deactivate PERDTO
+    LEGSYSTDTO --> LEGSYSTMAPPER : name
+    deactivate LEGSYSTDTO
 
-    PERMAPPER -> PERDTO : passportCardNumber = getPassportCardNumber()
-    activate PERDTO
-    deactivate PERDTO
+    LEGSYSTMAPPER -> LEGSYSTDTO : passportCardNumber = getPersonPassportCardNumber()
+    activate LEGSYSTDTO
 
-    PERMAPPER -> PERDTO : taxNumber = getTaxNumber()
-    activate PERDTO
-    deactivate PERDTO
+    LEGSYSTDTO --> LEGSYSTMAPPER : passportCardNumber
+    deactivate LEGSYSTDTO
 
-    PERMAPPER -> PERDTO : emailAddress = getEmailAddress()
-    activate PERDTO
-    deactivate PERDTO
+    LEGSYSTMAPPER -> LEGSYSTDTO : taxNumber = getPersonTaxNumber()
+    activate LEGSYSTDTO
 
-    PERMAPPER -> PERDTO : phoneNumber = getPhoneNumber()
-    activate PERDTO
-    deactivate PERDTO
+    LEGSYSTDTO --> LEGSYSTMAPPER : taxNumber
+    deactivate LEGSYSTDTO
 
-    PERMAPPER -> PERDTO : location = getLocation()
-    activate PERDTO
-    deactivate PERDTO
+    LEGSYSTMAPPER -> LEGSYSTDTO : emailAddress = getPersonEmailAddress()
+    activate LEGSYSTDTO
+
+    LEGSYSTDTO --> LEGSYSTMAPPER : emailAddress
+    deactivate LEGSYSTDTO
+
+    LEGSYSTMAPPER -> LEGSYSTDTO : phoneNumber = getPersonPhoneNumber()
+    activate LEGSYSTDTO
+
+    LEGSYSTDTO --> LEGSYSTMAPPER : phoneNumber
+    deactivate LEGSYSTDTO
+
+    LEGSYSTMAPPER -> LEGSYSTDTO : location = getPersonLocation()
+    activate LEGSYSTDTO
+
+    LEGSYSTDTO --> LEGSYSTMAPPER : location
+    deactivate LEGSYSTDTO
 
     |||
 
-    PERMAPPER -> PERSON** : create(name, passportCardNumber, taxNumber,\n emailAddress, phoneNumber, location, clientRole)
+    LEGSYSTMAPPER -> PERSON** : create(name, passportCardNumber, taxNumber,\n emailAddress, phoneNumber, location)
     activate PERSON
 
     PERSON -> LOCATION** : createLocation(streetName, city, \ndistrict, state, zipcode)
     deactivate PERSON
+    deactivate LEGSYSTMAPPER
 
     PERSONREP -> PERSONREP: addPerson(person)
     activate PERSONREP
@@ -78,14 +91,9 @@ activate CTRL
     PERSONREP --> PERSONREP :
     deactivate PERSONREP
 
-    CTRL -> PERSON : getEmailAddress()
-    activate PERSON
+    end group
 
-    PERSON --> CTRL : emailAddress
-    deactivate CTRL
-'
-'    PERSONREP --> CTRL : person
-'    deactivate PERSONREP
+    <-- CTRL : person
 
 deactivate CTRL
 
