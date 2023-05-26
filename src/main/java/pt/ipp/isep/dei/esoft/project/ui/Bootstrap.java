@@ -3,6 +3,7 @@ package pt.ipp.isep.dei.esoft.project.ui;
 import pt.ipp.isep.dei.esoft.project.application.controller.authorization.*;
 import pt.ipp.isep.dei.esoft.project.domain.*;
 import pt.ipp.isep.dei.esoft.project.repository.*;
+import pt.isep.lei.esoft.auth.domain.model.Email;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -60,7 +61,6 @@ public class Bootstrap implements Runnable {
 
         Location location1 = new Location("Devil's Road", "Hell", "Earth", "ET", "16789");
         Agency agency5 = new Agency(6789, "Make It Home LLC.", "agency5@this.app", "286 776 8435", location1);
-        addEmployees(agency5);
         agencyRepository.add(agency5);
     }
 
@@ -118,7 +118,7 @@ public class Bootstrap implements Runnable {
         String ownerEmail = "owner@email.com";
         String ownerEmail1 = "owner1@email.com";
         String ownerEmail2 = "owner2@email.com";
-        Employee employee = new Employee("employee@this.app.com", "Agent");
+        Employee employee = new Employee("employee@this.app", "Agent");
         CommissionType commissionType = new CommissionType("Commission Type");
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
@@ -158,12 +158,37 @@ public class Bootstrap implements Runnable {
                 "city 4", "district 4", "st4", "12348", 2, 25, 3, 15.2, uriList);
         Request request5 = new Request(ownerEmail2, property5, new Business("sale", 2345.0), LocalDate.now(), employee);
 
-        agency.addAnnouncement(new Announcement(employee, commissionType, 234.0, request));
-        agency.addAnnouncement(new Announcement(employee, commissionType, 234.0, request1));
-        agency.addAnnouncement(new Announcement(employee, commissionType, 234.0, request2));
-        agency.addAnnouncement(new Announcement(employee, commissionType, 234.0, request3));
-        agency.addAnnouncement(new Announcement(employee, commissionType, 234.0, request4));
-        agency.addAnnouncement(new Announcement(employee, commissionType, 234.0, request5));
+        Email client1 = new Email("client1@this.app");
+        Email client2 = new Email("client2@this.app");
+        Email client3 = new Email("client3@this.app");
+        Order o1 = new Order(234574.89, client1);
+        Order o2 = new Order(2374.89, client2);
+        Order o3 = new Order(100034574.89, client3);
+
+        Announcement a1 = new Announcement(employee, commissionType, 234.0, request);
+        a1.addOrder(o1);
+        a1.addOrder(o2);
+        a1.addOrder(o3);
+
+        Announcement a2 = new Announcement(employee, commissionType, 234.0, request1);
+        a2.addOrder(o1);
+        a2.addOrder(o2);
+        a2.addOrder(o3);
+        Announcement a3 = new Announcement(employee, commissionType, 234.0, request2);
+        a3.addOrder(o1);
+        a3.addOrder(o2);
+        a3.addOrder(o3);
+
+        Announcement a4 = new Announcement(employee, commissionType, 234.0, request2);
+        Announcement a5 = new Announcement(employee, commissionType, 234.0, request4);
+        Announcement a6 = new Announcement(employee, commissionType, 234.0, request5);
+
+        agency.addAnnouncement(a1);
+        agency.addAnnouncement(a2);
+        agency.addAnnouncement(a3);
+        agency.addAnnouncement(a4);
+        agency.addAnnouncement(a5);
+        agency.addAnnouncement(a6);
 
     }
 
