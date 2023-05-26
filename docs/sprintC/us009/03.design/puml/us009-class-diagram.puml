@@ -11,12 +11,7 @@ skinparam classAttributeIconSize 0
 
 class AuthenticationRepository
 {
-    + getUserEmail()
-}
-
-class AuthFacade
-{
-    + getUserEmail()
+    + getCurrentUserSession()
 }
 
 class UserSession
@@ -219,9 +214,7 @@ Repositories -> Repositories : instance
 
 AuthenticationRepository -> AuthenticationRepository : instance
 
-AuthenticationRepository --> "1" AuthFacade
-
-AuthFacade -right-> "1" UserSession
+AuthenticationRepository --> "1" UserSession
 
 ScheduleVisitController ..> AuthenticationRepository
 
