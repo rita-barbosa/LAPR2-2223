@@ -41,7 +41,7 @@ class Visit {
 
 class AgencyRepository {
     + getAgencies()
-    + searchAnnouncementById(announcementId)
+    + getAnnouncementById(announcementId)
 }
 
 class Agency {
@@ -50,7 +50,7 @@ class Agency {
     - String emailAddress
     - Integer phoneNumber
     + getAnnouncementList()
-    + searchAnnouncementById(announcementId)
+    + getAnnouncementById(announcementId)
 }
 
 class Repositories {
@@ -58,6 +58,7 @@ class Repositories {
     + getInstance() : Repositories
     + getPersonRepository()
     + getAgencyRepository()
+    + getAuthRepository()
 }
 
 class ScheduleVisitController {
@@ -97,8 +98,7 @@ class Announcement {
     - Integer id
     - Employee agent
     + getAnnouncementId()
-    + getLocation()
-    + hasSameId(announcementId)
+    + hasId(announcementId)
     + getAnnouncementInfoToDisplay()
     + createVisit(visitDate, startHour,\n endHour, userName, userPhoneNumber)
     + addVisit(visit)
@@ -119,9 +119,15 @@ class AnnouncementList {
     + getAnnouncement(idx)
     + addListContent(announcementList)
     + addAll(announcementList)
-    + searchAnnouncementById(announcementId)
+    + hasSameId(announcementId)
     + sortListByFilter(filter)
 }
+
+note right of AnnouncementList::getAnnouncement
+The variable idx refers to the
+position of the announcement
+in the Announcement List
+end note
 
 note left of AnnouncementList::sortListByFilter
 This method compares "filter" (a string)
