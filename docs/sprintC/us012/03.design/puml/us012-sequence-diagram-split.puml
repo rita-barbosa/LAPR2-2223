@@ -7,8 +7,8 @@ autonumber
 
 'hide footbox
 actor "System Administrator" as ADM
-participant ":importLegacyInformationUI" as UI
-participant ":importLegacyInformationController" as CTRL
+participant ":ImportLegacyInformationUI" as UI
+participant ":ImportLegacyInformationController" as CTRL
 participant "person\n:Person" as PERSON
 participant "legacySystem\n:LegacySystem" as LS
 participant "legacySystemMapper\n:LegacySystemMapper" as LSMapper
@@ -92,12 +92,12 @@ activate ADM
     PERSON --> CTRL : ownerEmail
     deactivate PERSON
 |||
-    CTRL -> CTRL : PublishAnnouncement(legacySystemDto, agency, agent, ownerEmail)
+    CTRL -> CTRL : publishAnnouncement(legacySystemDto, agency, agent, ownerEmail)
     activate CTRL
     ref over CTRL
         Publish Announcement
     end ref
-        CTRL --> CTRL
+        CTRL --> CTRL : operationSuccess
     deactivate CTRL
 
 |||
