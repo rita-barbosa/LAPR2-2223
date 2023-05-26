@@ -31,7 +31,7 @@ activate CTRL
     CTRL -> PERSONREP : registerPerson(legacySystemDto)
     activate PERSONREP
 
-    PERSONREP -> LEGSYSTMAPPER : owner = registerPerson(legacySystemDto)
+    PERSONREP -> LEGSYSTMAPPER : toModelPerson(legacySystemDto)
     activate LEGSYSTMAPPER
 
     LEGSYSTMAPPER -> LEGSYSTDTO : name = getPersonName()
@@ -90,13 +90,13 @@ activate CTRL
 
     PERSONREP --> PERSONREP :
     deactivate PERSONREP
+    |||
 
     end group
 
     <-- CTRL : person
 
 deactivate CTRL
-
 
 
 @enduml
