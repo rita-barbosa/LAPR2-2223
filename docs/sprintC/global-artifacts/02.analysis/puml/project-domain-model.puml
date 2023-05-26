@@ -1,4 +1,4 @@
-;@startuml
+@startuml
 skinparam monochrome true
 skinparam packageStyle rectangle
 skinparam shadowing false
@@ -46,7 +46,6 @@ class StoreManager{
 class NetworkManager{
 }
 class Announcement{
-id
 acceptanceDate
 }
 
@@ -120,6 +119,7 @@ requestDate
 }
 class Order {
 orderAmount
+orderDate
 acceptanceAnswer
 }
 
