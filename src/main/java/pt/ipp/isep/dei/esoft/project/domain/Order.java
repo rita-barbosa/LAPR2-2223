@@ -52,12 +52,11 @@ public class Order implements Notification {
      * Instantiates a new Order with the amount, date and client email.
      *
      * @param orderAmount the order amount
-     * @param orderDate   the order date
      * @param clientEmail the client email
      */
-    public Order(Double orderAmount, LocalDate orderDate, Email clientEmail) {
+    public Order(Double orderAmount, Email clientEmail) {
         this.orderAmount = orderAmount;
-        this.orderDate = orderDate;
+        this.orderDate = LocalDate.now();
         this.clientEmail = clientEmail;
         this.acceptanceAnswer = ACCEPTANCE_ANSWER_BY_DEFAULT;
         this.id = counter++;
@@ -167,7 +166,7 @@ public class Order implements Notification {
         File file = new File(FILE_NAME + getId() + "." + email + FILE_TYPE);
         try {
             PrintWriter text = new PrintWriter(file);
-            text.write(TEXT_TO + email+"\n");
+            text.write(TEXT_TO + email + "\n");
             text.write(TEXT_TOPIC + "Order Acceptance\n");
             text.write("The purchase order submitted in " + getOrderDate().toString() + " has been analysed. The final decision was: " + this.acceptanceAnswer);
 

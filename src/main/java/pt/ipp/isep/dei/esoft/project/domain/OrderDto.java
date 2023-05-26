@@ -30,4 +30,9 @@ public class OrderDto {
         return id;
     }
 
+    @Override
+    public String toString() {
+        return String.format("Order %s | Amount offered : %s ", id, orderAmount);
+    }
+
 }

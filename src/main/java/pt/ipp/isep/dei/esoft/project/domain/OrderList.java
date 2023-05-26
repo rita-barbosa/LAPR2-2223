@@ -34,8 +34,7 @@ public class OrderList {
 
     public boolean defineOrderAcceptance(String answer, Integer orderId) {
         Boolean success = false;
-        Optional<Order> order;
-        order = getOrderById(orderId);
+        Optional<Order> order = getOrderById(orderId);
 
         if (order.isPresent()) {
             success = order.get().setAcceptanceAnswer(answer);
@@ -51,6 +50,10 @@ public class OrderList {
         return success;
     }
 
+    /**
+     * This method returns the list of orders.
+     * @return a list of orders.
+     */
     public List<Order> getList() {
         return orders;
     }
@@ -59,7 +62,7 @@ public class OrderList {
      * Sorts the list of orders by highest order amount.
      */
     public void sortOrdersByHighestOrderAmount() {
-        Collections.sort(orders, sortOrdersByHighestOrderAmount);
+            Collections.sort(orders, sortOrdersByHighestOrderAmount);
     }
 
     /**
