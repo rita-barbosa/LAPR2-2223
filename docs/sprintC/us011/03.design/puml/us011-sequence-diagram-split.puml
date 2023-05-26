@@ -70,14 +70,14 @@ activate ADM
      CTRL --> CTRL: listAnnouncements
      deactivate CTRL
 
-     CTRL -> AnnMAPPER : toDTO(listAnnouncements)
+     CTRL -> AnnMAPPER : toDto(listAnnouncements)
      activate AnnMAPPER
 
      AnnMAPPER -> AnnDtoList**: create()
 
             loop for each announcement
 
-            AnnMAPPER -> AnnMAPPER : toDTO(announcement)
+            AnnMAPPER -> AnnMAPPER : toDto(announcement)
             activate AnnMAPPER
                  |||
                  ref over AnnMAPPER
@@ -118,10 +118,10 @@ activate ADM
             ADM -> UI  : submits data
             activate UI
 
-            UI -> CTRL : defineOrderAcceptance(answer,orderDto,announcementId)
+            UI -> CTRL : defineOrderAcceptance(answer,announcementId,orderId)
             activate CTRL
 
-            CTRL -> CTRL: getAnnouncementFromDto(announcementId)
+            CTRL -> CTRL: getAnnouncementFromId(announcementId)
             activate CTRL
 
                 ref over CTRL
@@ -132,7 +132,7 @@ activate ADM
             deactivate CTRL
 
             |||
-            CTRL-> Announce : defineOrderAcceptance(answer,orderDto)
+            CTRL-> Announce : defineOrderAcceptance(answer, orderId)
             activate Announce
 
             ref over Announce

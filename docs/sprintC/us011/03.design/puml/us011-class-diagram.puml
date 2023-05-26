@@ -7,9 +7,6 @@ skinparam linetype polyline
 
 skinparam classAttributeIconSize 0
 
-class Notification {
-+ sendOrderAcceptanceNotification(clientEmail, answer)
-}
 
 class Order {
     - Double orderAmount
@@ -26,13 +23,14 @@ class Order {
 
 class OrderMapper {
     + toDto(listOrders)
-    + getOrderId(orderDto)
+    + toDto(order)
 }
 
 class OrderList {
     - List<Order> orders
     + sortOrdersByHighestOrderAmount()
     + getList()
+    + getOrderById(orderId)
     + defineOrderAcceptance(answer, order)
 }
 
@@ -68,7 +66,6 @@ class AnnouncementDto {
     - String commissionAtributtes
     - String acceptanceDate
     - List<OrderDto> listOrdersDto
-    + getAnnouncementId()
     + AnnouncementDto(requestAtributtes, listOrdersDto, commissionAtributtes, acceptanceDate,id)
 }
 
@@ -121,10 +118,10 @@ class Repositories {
 class AcceptOrdersController {
     + AcceptOrdersController(agencyRepository)
     + getAnnouncementList()
-    + defineOrderAcceptance (answer, orderDto, announcementDto)
+    + defineOrderAcceptance (answer, orderId, announcementDto)
     - getAgentEmail()
-    - getAnnouncementListByAgentEmail()
-    - getAnnouncementFromDto(announcementDto)
+    - getAnnouncementListByAgentEmail(agentEmail)
+    - getAnnouncementFromId(announcementId)
 }
 
 
@@ -152,7 +149,6 @@ Agency ---> "1" AnnouncementList
 AnnouncementList "1" --> "*" Announcement
 Announcement -> "1" OrderList
 OrderList "1" --> "*" Order
-Order .-> Notification
 
 
 @enduml

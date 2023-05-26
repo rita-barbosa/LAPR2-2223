@@ -12,21 +12,11 @@ participant "order\n: Order" as Order
 
 
 autonumber 30
-    -> Announce : defineOrderAcceptance(answer,orderDto)
+    -> Announce : defineOrderAcceptance(answer,orderId)
     activate Announce
 
 group Define Acceptance of Order
 autonumber 30.1
-    Announce -> OrderMapper: getOrderId(orderDto)
-    activate OrderMapper
-
-    OrderMapper -> OrderDTO : getId()
-    activate OrderDTO
-    OrderDTO --> OrderMapper: orderId
-    deactivate OrderDTO
-
-    OrderMapper --> Announce : orderId
-    deactivate OrderMapper
 
     Announce -> OrderList : defineOrderAcceptance(answer, orderId)
     activate OrderList
@@ -40,12 +30,13 @@ autonumber 30.1
     OrderList -> Order : setAcceptanceAnswer(answer)
     activate Order
 
-    Order -> Notification: sendOrderAcceptanceNotification(clientEmail, answer)
-    activate Notification
-    Notification --> Order : success
-    deactivate Notification
-
+    Order -> Order: sendOrderAcceptanceNotification(clientEmail, answer)
+    activate Order
+    Order --> Order : success
     deactivate Order
+    Order -> OrderList : success
+    deactivate Order
+
         alt answer == accept
 
             loop for all the other orders
@@ -57,9 +48,10 @@ autonumber 30.1
             Order -> Order : setAcceptanceAnswer(answer)
             activate Order
 
-            Order -> Notification: sendOrderAcceptanceNotification(clientEmail,answer)
-            activate Notification
-            deactivate Notification
+            Order -> Order: sendOrderAcceptanceNotification(clientEmail,answer)
+            activate Order
+            Order --> Order :
+            deactivate Order
 
             Order --> Order:
             deactivate Order

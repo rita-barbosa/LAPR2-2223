@@ -13,7 +13,7 @@ participant "announcementList\n: AnnouncementList" as AnnList
 participant "announcement\n: Announcement" as Announce
 
 autonumber 28
-    -> CTRL: getAnnouncementFromDto(announcementId)
+    -> CTRL: getAnnouncementFromId(announcementId)
     activate CTRL
 group Get Announcement
 autonumber 28.1

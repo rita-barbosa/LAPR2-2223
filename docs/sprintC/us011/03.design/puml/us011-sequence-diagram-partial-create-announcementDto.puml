@@ -12,14 +12,14 @@ participant "orderList\n: OrderList" as OrderList
 participant "announcementDto\n: AnnouncementDto" as AnnDTO
 participant "orderMapper\n: OrderMapper" as OrderMapper
 participant "order\n: Order" as Order
-participant "listOrdersDto\n: List<OrderDto" as OrderDTOList
+participant "listOrdersDto\n: List<OrderDto>" as OrderDTOList
 participant "orderDto\n: OrderDto" as OrderDTO
 
 
-autonumber 17
-         -> AnnMAPPER : toDTO(announcement)
+autonumber 18
+         -> AnnMAPPER : toDto(announcement)
          activate AnnMAPPER
-autonumber 17.1
+autonumber 18.1
 group Create AnnouncementDto
 
          AnnMAPPER -> Announce: getRequestAttributes()
@@ -52,11 +52,13 @@ group Create AnnouncementDto
          Announce --> AnnMAPPER : listOrders
          deactivate Announce
 
-         AnnMAPPER -> OrderMapper : toDTO(listOrders)
+         AnnMAPPER -> OrderMapper : toDto(listOrders)
          activate OrderMapper
 
         OrderMapper -> OrderDTOList** : create()
                 loop for each order
+                OrderMapper -> OrderMapper : toDto(order)
+                activate OrderMapper
                      OrderMapper -> Order : getOrderAmount()
                      activate Order
                      Order --> OrderMapper : orderAmount
@@ -78,6 +80,8 @@ group Create AnnouncementDto
                      deactivate Order
                      |||
                      OrderMapper -> OrderDTO** : create(orderAmount, orderDate, clientEmail,orderId)
+                     OrderMapper --> OrderMapper: orderDto
+                     deactivate OrderMapper
 
                      OrderMapper -> OrderDTOList : add(orderDto)
                      activate OrderDTOList
@@ -91,7 +95,7 @@ group Create AnnouncementDto
          AnnMAPPER -> AnnDTO**: create(requestAttributes, listOrdersDto,\n commissionAttributes, acceptanceDate, id)
          end group
 
-autonumber 18
+autonumber 19
 
      <-- AnnMAPPER : announcementDto
      deactivate AnnMAPPER
