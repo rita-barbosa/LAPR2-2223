@@ -1,16 +1,12 @@
 package pt.ipp.isep.dei.esoft.project.ui.console;
 
 import pt.ipp.isep.dei.esoft.project.application.controller.AcceptOrdersController;
-import pt.ipp.isep.dei.esoft.project.domain.Announcement;
 import pt.ipp.isep.dei.esoft.project.domain.AnnouncementDto;
 import pt.ipp.isep.dei.esoft.project.domain.OrderDto;
-import pt.ipp.isep.dei.esoft.project.domain.PropertyType;
-import pt.ipp.isep.dei.esoft.project.ui.console.utils.Utils;
 
-import java.sql.SQLOutput;
-import java.time.LocalDate;
 import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class AcceptOrdersUI implements Runnable {
@@ -40,38 +36,41 @@ public class AcceptOrdersUI implements Runnable {
 
         Boolean success;
         String acceptanceAnswer;
-        List<AnnouncementDto> listAnnouncements = controller.getAnnouncementsList();
+        Optional<List<AnnouncementDto>> listAnnouncements = controller.getAnnouncementsList();
+        if (listAnnouncements.isPresent() && listAnnouncements.get().size() > 0) {
+            for (AnnouncementDto a : listAnnouncements.get()) {
+                System.out.println(a.toString());
+                for (OrderDto o : a.getListOrdersDto()) {
 
-        for (AnnouncementDto a : listAnnouncements) {
-            System.out.println(a.toString());
-            System.out.println(a.getListOrdersDto().toString());
-            for (OrderDto o : a.getListOrdersDto()) {
-                acceptanceAnswer = selectAcceptanceAnswerOfOrder(a);
-                success = controller.defineOrderAcceptance(acceptanceAnswer, a.getAnnouncementId(), o.getId());
-                successMessage(success, acceptanceAnswer);
-                if (acceptanceAnswer.equals(Answers.ACCEPT.toString().toLowerCase())) {
-                    break;
+                    acceptanceAnswer = selectAcceptanceAnswerOfOrder(o);
+                    success = controller.defineOrderAcceptance(acceptanceAnswer, a.getAnnouncementId(), o.getId());
+                    successMessage(success, acceptanceAnswer);
+                    if (acceptanceAnswer.equals(Answers.ACCEPT.toString().toLowerCase())) {
+                        break;
+                    }
                 }
             }
+        } else {
+            System.out.println("WARNING: This property doesn't have any purchase order.");
         }
     }
 
     private void successMessage(Boolean success, String acceptanceAnswer) {
         if (success) {
-            System.out.println("The order was successfully " + acceptanceAnswer);
+            System.out.println("The order was successfully " + acceptanceAnswer + "ed.");
         } else {
-            System.out.println(" ERROR: The order wasn't successfully " + acceptanceAnswer);
+            System.out.println(" ERROR: The order wasn't successfully " + acceptanceAnswer + "ed.");
         }
     }
 
-    private String selectAcceptanceAnswerOfOrder(AnnouncementDto a) {
+    private String selectAcceptanceAnswerOfOrder(OrderDto orderDto) {
         int answer = -1;
 
         boolean invalid = true;
         Scanner input = new Scanner(System.in);
         do {
             try {
-                System.out.println("Select an option to confirm your order acceptance:");
+                System.out.printf("\n[ORDER %s] Select an option to confirm your order acceptance:\n", orderDto.getId());
                 displayAcceptanceOptions();
                 answer = input.nextInt();
                 if (answer < 1 || answer > Answers.values().length) {
