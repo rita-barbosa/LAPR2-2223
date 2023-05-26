@@ -77,7 +77,7 @@ activate ADM
         activate CTRL
 
         ref over CTRL
-        Convert Commission Type List to DTO
+        Convert Request List to DTO
         end ref
 
         CTRL --> CTRL : requestListDto
@@ -100,7 +100,7 @@ activate ADM
     UI -> CTRL : getRequestByIdDto(requestIdDto)
     activate CTRL
 
-    CTRL -> ReqMapper : requestId =  getRequestID(requestIdDto)
+    CTRL -> ReqMapper : requestId =  getRequestIdFromDto(requestIdDto)
     activate ReqMapper
 
     ReqMapper -> ReqDto : getRequestID
@@ -121,38 +121,6 @@ activate ADM
 
     CTRL --> CTRL : request
     deactivate CTRL
-
-'    CTRL -> AgencyRepository : getRequestByID(requestId)
-'    activate AgencyRepository
-'
-'    loop for all agencies
-'
-'        AgencyRepository -> AGENCY : getRequestByID(requestId)
-'        activate AGENCY
-'
-'            AGENCY -> ReqList : getRequestByID(requestId)
-'
-'            loop for all requests of the agency
-'
-'                activate ReqList
-'
-'                ReqList --> REQUEST : hasSameId(id)
-'
-'                activate REQUEST
-'
-'                    REQUEST --> ReqList : true/false
-'                deactivate REQUEST
-'            end
-'    end
-'
-'    ReqList --> AGENCY : request
-'    deactivate ReqList
-'
-'    AGENCY --> AgencyRepository : request
-'    deactivate AGENCY
-'
-'    AgencyRepository --> CTRL :request
-'    deactivate AgencyRepository
 
 
     CTRL --> UI : request
@@ -184,7 +152,7 @@ activate ADM
                 activate CTRL
 
                 ref over CTRL
-                Convert Request List to DTO
+                Convert Commission Type List to DTO
                 end ref
 
                 CTRL --> CTRL : commissionTypeListDto
@@ -278,7 +246,7 @@ activate ADM
             CTRL -> REQUEST : sendEmail(ownerEmail, message)
             activate REQUEST
 
-            REQUEST -> Notification : sendEmail(ownerEmail, message)
+            REQUEST -> Notification : sendNotification(ownerEmail)
             activate Notification
 
             Notification --> REQUEST : confirmation
