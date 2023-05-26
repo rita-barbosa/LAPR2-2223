@@ -18,7 +18,7 @@ participant "location\n:Location" as LOCATION
 
 activate CTRL
 
-    -> CTRL : registerPerson(legacySystemDto)
+    -> CTRL : registerOwner(legacySystemDto)
 
     group Register Owner
 
@@ -77,9 +77,11 @@ activate CTRL
 
     PERSON -> LOCATION** : createLocation(streetName, city, \ndistrict, state, zipcode)
     deactivate PERSON
+
+    LEGSYSTMAPPER --> PERSONREP : person
     deactivate LEGSYSTMAPPER
 
-    PERSONREP -> PERSONREP: addPerson(person)
+    PERSONREP -> PERSONREP: add(person)
     activate PERSONREP
 
         PERSONREP -> PERSONREP: validatePerson(person)
