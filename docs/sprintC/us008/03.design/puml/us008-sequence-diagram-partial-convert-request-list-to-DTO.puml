@@ -1,0 +1,62 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+
+participant ":ListRequestsController" as CTRL
+participant "requestMapper\n: RequestMapper" as ReqMapper
+participant "requestDto\n: RequestDto" as ReqDto
+
+autonumber 4
+    -> CTRL: toDto(requestList)
+    activate CTRL
+
+group Convert request list to DTO
+
+autonumber 4.1
+    CTRL -> ReqMapper : toDto(requestList)
+    activate ReqMapper
+
+    loop for each request
+    ReqMapper -> ReqMapper : toDto(request)
+    activate ReqMapper
+
+    ReqMapper -> ReqDto : getPropertyAttributes()
+    activate ReqDto
+
+    ReqDto --> ReqMapper : propertyAttributes
+    deactivate ReqDto
+
+    ReqMapper -> ReqDto : getRequestID()
+    activate ReqDto
+
+    ReqDto --> ReqMapper : requestID
+    deactivate ReqDto
+
+    ReqMapper -> ReqDto : create
+    activate ReqDto
+    deactivate ReqDto
+
+    ReqMapper -> ReqMapper : add()
+    activate ReqMapper
+
+    ReqMapper --> ReqMapper :
+    deactivate ReqMapper
+
+    ReqMapper --> ReqMapper :
+    deactivate ReqMapper
+    |||
+    end
+
+    ReqMapper --> CTRL : requestListDto
+    deactivate ReqMapper
+    |||
+
+end group
+autonumber 5
+     <-- CTRL: requestListDto
+     deactivate CTRL
+
+
+@enduml
