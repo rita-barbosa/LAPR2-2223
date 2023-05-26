@@ -1,10 +1,7 @@
 package pt.ipp.isep.dei.esoft.project.application.controller;
 
 import org.apache.commons.lang3.NotImplementedException;
-import pt.ipp.isep.dei.esoft.project.domain.Agency;
-import pt.ipp.isep.dei.esoft.project.domain.CommissionType;
-import pt.ipp.isep.dei.esoft.project.domain.Employee;
-import pt.ipp.isep.dei.esoft.project.domain.RequestDto;
+import pt.ipp.isep.dei.esoft.project.domain.*;
 import pt.ipp.isep.dei.esoft.project.repository.AgencyRepository;
 import pt.ipp.isep.dei.esoft.project.repository.AuthenticationRepository;
 import pt.ipp.isep.dei.esoft.project.repository.CommissionTypeRepository;
@@ -58,6 +55,31 @@ public class ListRequestsController {
         return commissionTypeRepository;
     }
 
+    public Optional<List<RequestDto>> getRequestsList(){
+        Optional<List<RequestDto>> newListRequestsDto = Optional.empty();
+        String agentEmail = getAgentEmail();
+        Optional<List<Request>> requestsList = getRequestsListByAgentEmail(agentEmail);
+        if (requestsList.isPresent()) {
+            newListRequestsDto = RequestMapper.toDto(requestsList.get());
+        }
+        return newListRequestsDto;
+    }
+
+    private Optional<List<Request>> getRequestsListByAgentEmail(String email) {
+        Optional<List<Request>> newList = Optional.empty();
+        Optional<Agency> newAgency;
+
+        newAgency = getAgencyRepository().getAgencyByEmployeeEmail(email);
+        if (newAgency.isPresent()) {
+            newList = Optional.of(newAgency.get().getRequestsByAgentEmail(email));
+        }
+        return newList;
+    }
+
+//    public Integer getRequestByIdDto(){
+//
+//    }
+
     private String getEmailFromSession() {
         return getAuthenticationRepository().getCurrentUserSession().getUserId().toString();
     }
@@ -79,8 +101,43 @@ public class ListRequestsController {
         return agency.getAgentByEmail(email);
     }
 
-    public List<RequestDto> getRequestsList(){
+    public void sendEmail(String ownerEmail, String message){
         throw new NotImplementedException();
     }
+
+    private String getAgentEmail() {
+        String email = getAuthenticationRepository().getCurrentUserSession().getUserId().getEmail();
+        return email;
+    }
+
+    public Request getRequestByIdDto(Integer requestIdDto){
+        Integer id = RequestMapper.getRequestIdFromDto(requestIdDto);
+        Request newRequest;
+        newRequest = getRequestByIdDto(id);
+
+        return newRequest;
+    }
+
+    private Optional<Request> getRequestFromDto(Integer requestId) {
+        Optional<Request> newRequest = Optional.empty();
+        Optional<Agency> newAgency;
+
+        newAgency = getAgencyRepository().getAgencyByAnnouncementId(requestId);
+        if (newAgency.isPresent()) {
+            newRequest = newAgency.get().getRequestById(requestId);
+        }
+        return newRequest;
+    }
+
+    public Optional<Announcement> publishAnnouncement(String commissionTypeDesignation, Double commissionValue, Request request, String ownerEmail) {
+        throw new NotImplementedException();
+
+    }
+
+    public String getOwnerEmail(){
+        throw new NotImplementedException();
+    }
+
+
 
 }
