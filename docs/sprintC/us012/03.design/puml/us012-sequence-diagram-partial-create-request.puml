@@ -19,7 +19,7 @@ participant "availableEquipment\n:AvailableEquipment" as AEQUIP
 
 autonumber 15.1
 
-    -> CTRL: createRequest(legacySystemDto, agent, ownerEmail)
+    -> CTRL: getRequestFromLegacy(legacySystemDto, agent, ownerEmail)
 
      activate CTRL
 
@@ -27,33 +27,16 @@ autonumber 15.1.1
 
     group Create Request
 
-    CTRL -> MAPPER : property = createProperty(legacyInformationDto)
+    CTRL -> MAPPER : toModelRequest(legacyInformationDto)
     activate MAPPER
 
     MAPPER -> DTO : businessTypeDesignation = getBusinessTypeDesignation()
     activate DTO
     deactivate DTO
 
-    alt Business Type Designation = Lease
-        MAPPER -> DTO : contractDuration = getContractDuration()
-        activate DTO
-        deactivate DTO
-
-    MAPPER -> REQUEST : business = createLease(businessTypeDesignation, amount, contractDuration)
-    activate REQUEST
-
-        REQUEST -> LEASE** : create(businessTypeDesignation, amount, contractDuration)
-    deactivate REQUEST
-
-    else Business Type Designation = Sale
-
-    MAPPER -> REQUEST : business = createSale(businessTypeDesignation, amount)
-    activate REQUEST
-
-        REQUEST -> BUSINESS** : create(businessTypeDesignation, amount)
-    deactivate REQUEST
-
-    end alt
+    MAPPER -> DTO : contractDuration = getContractDuration()
+    activate DTO
+    deactivate DTO
 
     MAPPER -> DTO : amount = getAmount()
     activate DTO
@@ -62,12 +45,6 @@ autonumber 15.1.1
     MAPPER -> DTO : propertyTypeDesignation = getPropertyTypeDesignation()
     activate DTO
     deactivate DTO
-
-     MAPPER -> REQUEST : propertyType = createPropertyType(propertyTypeDesignation)
-     activate REQUEST
-
-         REQUEST -> PROPTYPE** : create(propertyTypeDesignation)
-     deactivate REQUEST
 
     MAPPER -> DTO : area = getArea()
     activate DTO
@@ -83,31 +60,37 @@ autonumber 15.1.1
 
     alt Property Type = Land
 
-        MAPPER -> REQUEST : createLandFromLegacy(area, location, distanceCityCenter)
+        MAPPER -> REQUEST : createLandFromLegacy(propertyTypeDesignation,\n businessTypeDesignation, contractDuration, amount,\n area, location, distanceCityCenter)
         activate REQUEST
+
+            alt Business Type Designation = Lease
+
+                REQUEST -> LEASE** : create(businessTypeDesignation, amount, contractDuration)
+
+            else Business Type Designation = Sale
+
+                REQUEST -> BUSINESS** : create(businessTypeDesignation, amount)
+
+            end alt
+
+        REQUEST -> PROPTYPE** : create(propertyTypeDesignation)
+
+        ' AQUI TINHAMOS COMBINADO QUE PROPERTY-TYPE FICAVA NO REQUEST
 
         REQUEST -> PROPERTY** : create(area, location, distanceCityCenter)
 
         activate PROPERTY
 
             PROPERTY -> LOCATION** : createLocationFromString(location)
-            activate LOCATION
-
-            LOCATION -> LOCATION : validateLocation(location)
-                activate LOCATION
-
-                LOCATION --> LOCATION
-            deactivate LOCATION
-
-                LOCATION --> PROPERTY : location
-            deactivate LOCATION
 
         deactivate PROPERTY
 
         REQUEST --> MAPPER : request
         deactivate REQUEST
-
+|||
     end alt
+
+    alt propertyTypeDesignation = House || propertyTypeDesignation = Apartment
 
     MAPPER -> DTO : numberBedrooms = getNumberBedrooms()
     activate DTO
@@ -125,39 +108,46 @@ autonumber 15.1.1
     activate DTO
     deactivate DTO
 
-    MAPPER -> DTO : airConditioned = getAirconditioned()
+    MAPPER -> DTO : airConditioning = getAirConditioning()
     activate DTO
     deactivate DTO
 
 
-    alt Property Type Designation = Apartment
+    alt propertyTypeDesignation = Apartment
 
-        MAPPER -> REQUEST : createResidenceFromLegacy(area, location, distanceCityCenter,\n numberBedrooms, numberBathrooms, parkingSpace,\n centralHeating, airConditioned)
-        activate REQUEST
 
-        REQUEST -> RESIDENCE** : create(area, location, distanceCityCenter,\n numberBedrooms, numberBathrooms,\n parkingSpace, centralHeating, airConditioned)
-        activate RESIDENCE
+    MAPPER -> REQUEST : createResidenceFromLegacy(propertyTypeDesignation,\n businessTypeDesignation, amount, contractDuration, area,\n location, distanceCityCenter, numberBedrooms,\n numberBathrooms, parkingSpace, centralHeating,\n airConditioning)
+    activate REQUEST
 
-        RESIDENCE -> AEQUIP** : create(centralHeating, airConditioned)
+        alt Business Type Designation = Lease
 
-        RESIDENCE -> LOCATION** : createLocationFromString(location)
-        activate LOCATION
+            REQUEST -> LEASE** : create(businessTypeDesignation, amount, contractDuration)
 
-        LOCATION -> LOCATION : validateLocation(location)
-        activate LOCATION
+        else Business Type Designation = Sale
 
-            LOCATION --> LOCATION
-        deactivate LOCATION
+            REQUEST -> BUSINESS** : create(businessTypeDesignation, amount)
 
-            LOCATION --> RESIDENCE : location
-        deactivate LOCATION
+        end alt
 
-        deactivate RESIDENCE
+    ' AQUI TINHAMOS COMBINADO QUE PROPERTY-TYPE FICAVA NO REQUEST
+
+    REQUEST -> PROPTYPE** : create(propertyTypeDesignation)
+
+    REQUEST -> RESIDENCE** : create(area, location, distanceCityCenter,\n numberBedrooms, numberBathrooms,\n parkingSpace, centralHeating, airConditioning)
+    activate RESIDENCE
+
+    RESIDENCE -> AEQUIP** : create(centralHeating, airConditioning)
+
+    RESIDENCE -> LOCATION** : createLocationFromString(location)
+
+    deactivate RESIDENCE
 
         REQUEST --> MAPPER : request
-        deactivate REQUEST
 
     end alt
+
+
+    alt propertyTypeDesignation = House
 
     MAPPER -> DTO : basement = getBasement()
     activate DTO
@@ -171,33 +161,44 @@ autonumber 15.1.1
     activate DTO
     deactivate DTO
 
-
-    alt Property Type Designation = House
-
-        MAPPER -> REQUEST : createHouseFromLegacy(area, location, distanceCityCenter,\n numberBedrooms, numberBathrooms, parkingSpace,\n centralHeating, airConditioned, basement, inhabitableLoft,\n sunExposure)
+        MAPPER -> REQUEST : createHouseFromLegacy(propertyTypeDesignation,\n businessTypeDesignation, amount, contractDuration,\n area, location, distanceCityCenter, numberBedrooms,\n numberBathrooms, parkingSpace, centralHeating,\n airConditioning, basement, inhabitableLoft, sunExposure)
         activate REQUEST
 
-        REQUEST -> HOUSE** : create(area, location, distanceCityCenter,\n numberBedrooms, numberBathrooms,\n parkingSpace, centralHeating, airConditioned,\n basement, inhabitableLoft, sunExposure)
+
+            alt Business Type Designation = Lease
+
+                REQUEST -> LEASE** : create(businessTypeDesignation, amount, contractDuration)
+
+            else Business Type Designation = Sale
+
+                REQUEST -> BUSINESS** : create(businessTypeDesignation, amount)
+
+            end alt
+
+        REQUEST -> PROPTYPE** : create(propertyTypeDesignation)
+
+        ' AQUI TINHAMOS COMBINADO QUE PROPERTY-TYPE FICAVA NO REQUEST
+
+        REQUEST -> PROPERTY** : create(area, location, distanceCityCenter)
+
+        REQUEST -> HOUSE** : create(area, location, distanceCityCenter,\n numberBedrooms, numberBathrooms,\n parkingSpace, centralHeating, airConditioning,\n basement, inhabitableLoft, sunExposure)
         activate HOUSE
 
-        HOUSE -> AEQUIP** : create(centralHeating, airConditioned)
+        HOUSE -> AEQUIP** : create(centralHeating, airConditioning)
 
         HOUSE -> LOCATION** : createLocationFromString(location)
-        activate LOCATION
-
-        LOCATION -> LOCATION : validateLocation(location)
-        activate LOCATION
-
-            LOCATION --> LOCATION
-        deactivate LOCATION
-
-            LOCATION --> HOUSE : location
-        deactivate LOCATION
 
         deactivate HOUSE
 
             REQUEST --> MAPPER : request
         deactivate REQUEST
+|||
+
+   ' end alt
+
+    deactivate REQUEST
+
+    end alt
 
     end alt
 

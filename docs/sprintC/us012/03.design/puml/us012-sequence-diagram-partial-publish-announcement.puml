@@ -15,7 +15,7 @@ participant "commission\n:Commission" as COMMISSION
 
     autonumber 15
 
-     -> CTRL : PublishAnnouncement(legacySystemDto, agency, agent, ownerEmail)
+     -> CTRL : publishAnnouncement(legacySystemDto, agency, agent, ownerEmail)
     activate CTRL
 
     autonumber 15.1
@@ -23,7 +23,7 @@ participant "commission\n:Commission" as COMMISSION
     group Publish Announcement
 
     |||
-    CTRL -> CTRL : createRequest(legacySystemDto, agency, agent, ownerEmail)
+    CTRL -> CTRL : getRequestFromLegacy(legacySystemDto, agency, agent, ownerEmail)
     activate CTRL
 
     ref over CTRL
@@ -33,7 +33,7 @@ participant "commission\n:Commission" as COMMISSION
         CTRL --> CTRL : request
     deactivate CTRL
 
-    CTRL -> MAPPER : commissionValue = getCommissionValue()
+    CTRL -> MAPPER : getCommissionValue()
     activate MAPPER
 
         MAPPER -> DTO : getCommissionValue()
@@ -45,10 +45,10 @@ participant "commission\n:Commission" as COMMISSION
         MAPPER --> CTRL : commissionValue
     deactivate MAPPER
 
-    CTRL -> MAPPER : acceptanceDate = getAcceptanceDate()
+    CTRL -> MAPPER : getAnnouncementAcceptanceDate()
     activate MAPPER
 
-        MAPPER -> DTO : getAcceptanceDate()
+        MAPPER -> DTO : getAnnouncementAcceptanceDate()
         activate DTO
 
             DTO --> MAPPER : acceptanceDate
@@ -57,8 +57,7 @@ participant "commission\n:Commission" as COMMISSION
         MAPPER --> CTRL : acceptanceDate
     deactivate MAPPER
 
-
-    CTRL -> AGENCY : createAnnouncementFromLegacy(agent, acceptanceDate, commissionValue, request)
+    CTRL -> AGENCY : publishAnnouncementFromLegacy(agent, acceptanceDate, commissionValue, request)
     activate AGENCY
 
         AGENCY -> ANNOUNCE**: create(agent, acceptanceDate, commissionValue, request)
