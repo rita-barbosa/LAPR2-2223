@@ -61,6 +61,7 @@ public class AnnouncementDto {
      *
      * @return the announcement id
      */
+
     public int getAnnouncementId() {
         return id;
     }
@@ -99,5 +100,14 @@ public class AnnouncementDto {
      */
     public List<OrderDto> getListOrdersDto() {
         return listOrdersDto;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder(String.format("Announcement Acceptance Date: %s\n%s\n%s\nOrders:\n",acceptanceDate,requestAttributes,commissionAttributes));
+        for (OrderDto orderDto : listOrdersDto) {
+            sb.append(String.format("%s\n", orderDto.toString()));
+        }
+        return sb.toString();
     }
 }

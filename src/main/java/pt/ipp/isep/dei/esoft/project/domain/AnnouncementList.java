@@ -58,9 +58,13 @@ public class AnnouncementList {
      */
     public List<Announcement> getAnnouncementsByAgentEmail(String agentEmail) {
         List<Announcement> listAnnouncements = new ArrayList<>();
+
         for (Announcement a : announcements) {
             if (a.hasAgentWithEmail(agentEmail)) {
-                a.getOrderList().sortOrdersByHighestOrderAmount();
+                Optional<OrderList> newOrderList = a.getOrderList();
+                if (newOrderList.isPresent()) {
+                    newOrderList.get().sortOrdersByHighestOrderAmount();
+                }
                 listAnnouncements.add(a.clone());
             }
         }

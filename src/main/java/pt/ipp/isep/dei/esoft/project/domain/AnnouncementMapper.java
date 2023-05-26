@@ -35,7 +35,6 @@ public class AnnouncementMapper {
         int id = announcement.getId();
         String acceptanceDate = announcement.getAcceptanceDate().toString();
         List<Order> listOrders = announcement.getListOfOrders();
-
         List<OrderDto> listOrdersDto = OrderMapper.toDto(listOrders);
 
         return new AnnouncementDto(id, requestAttributes, commissionAttributes, acceptanceDate, listOrdersDto);

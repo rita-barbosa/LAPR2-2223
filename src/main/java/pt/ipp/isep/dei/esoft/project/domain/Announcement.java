@@ -56,6 +56,7 @@ public class Announcement {
         this.agent = agent;
         this.request = request;
         this.acceptanceDate = LocalDate.now();
+        this.orders = new OrderList();
         this.id = counter++;
     }
 
@@ -71,6 +72,7 @@ public class Announcement {
         this.commission = commission;
         this.request = request;
         this.agent = agent;
+        this.orders = new OrderList();
         this.id = counter++;
     }
 
@@ -89,6 +91,7 @@ public class Announcement {
         this.agent = agent;
         this.request = request;
         this.acceptanceDate = acceptanceDate;
+        this.orders = orders;
         this.id = counter++;
     }
 
@@ -142,8 +145,8 @@ public class Announcement {
      *
      * @return orderList
      */
-    public OrderList getOrderList() {
-        return this.orders;
+    public Optional<OrderList> getOrderList() {
+        return Optional.of(this.orders);
     }
 
     /**
@@ -162,6 +165,15 @@ public class Announcement {
      */
     public String getAgentEmail() {
         return this.agent.getEmailAddress().getEmail();
+    }
+    /**
+     * This method adds an order to the existent OrderList.
+     *
+     * @param order - order intended to be added.
+     * @return {@code true} if the order was successfully added; {@code false} otherwise;
+     */
+    public Boolean addOrder(Order order) {
+        return orders.addOrder(order);
     }
 
     /**
@@ -184,8 +196,7 @@ public class Announcement {
         return this.getId().equals(announcementId);
     }
 
-    public Boolean defineOrderAcceptance(String answer, OrderDto orderDto, int announcementId) {
-        int orderId = OrderMapper.getOrderId(orderDto);
+    public Boolean defineOrderAcceptance(String answer, int orderId) {
         return orders.defineOrderAcceptance(answer, orderId);
     }
 
@@ -221,7 +232,7 @@ public class Announcement {
      * @return A new copy of this Announcement object
      */
     public Announcement clone() {
-        return new Announcement(this.agent, this.commission, this.request, this.acceptanceDate);
+        return new Announcement(this.agent, this.commission, this.request, this.acceptanceDate,this.orders);
     }
 
     /**
