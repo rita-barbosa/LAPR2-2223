@@ -15,7 +15,7 @@ participant "announcementDto\n:AnnouncementDto" as ANCDTO
 
 autonumber 8
 
- -> CTRL : toDTO(listToDisplay)
+ -> CTRL : toDto(listToDisplay)
 
 activate CTRL
 
@@ -23,7 +23,7 @@ activate CTRL
 
     group Convert Display List to DTO
 
-        CTRL -> MAPPER : toDTO(listToDisplay)
+        CTRL -> MAPPER : toDto(listToDisplay)
         activate MAPPER
 
         MAPPER -> LISTDTO** : listToDisplayDto = create()
