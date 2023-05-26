@@ -1,6 +1,8 @@
 package pt.ipp.isep.dei.esoft.project.repository;
 
 import pt.ipp.isep.dei.esoft.project.domain.Agency;
+import pt.ipp.isep.dei.esoft.project.domain.Announcement;
+import pt.ipp.isep.dei.esoft.project.domain.Request;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,5 +103,6 @@ public class AgencyRepository {
     private boolean validateAgency(Agency agency) {
         return (!agencies.contains(agency));
     }
+
 
 }
