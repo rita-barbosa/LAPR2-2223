@@ -3,7 +3,7 @@ skinparam monochrome true
 skinparam packageStyle rectangle
 skinparam shadowing false
 
-autonumber
+
 
 'hide footbox
 participant ":ImportLegacyInformationController" as CTRL
@@ -18,9 +18,13 @@ participant "location\n:Location" as LOCATION
 
 activate CTRL
 
+autonumber 19
+
     -> CTRL : registerOwner(legacySystemDto)
 
     group Register Owner
+
+    autonumber 19.1
 
     CTRL -> PLAT : getPersonRepository()
     activate PLAT
@@ -95,6 +99,8 @@ activate CTRL
     |||
 
     end group
+
+    autonumber 20
 
     <-- CTRL : person
 

@@ -11,14 +11,13 @@ participant "announcementList\n:AnnouncementList" as LIST
 participant "announcement\n:Announcement" as ANNOUNCE
 participant "commission\n:Commission" as COMMISSION
 
-    'MUDAR O AUTONUMBER
 
-    autonumber 15
+    autonumber 23
 
      -> CTRL : publishAnnouncement(legacySystemDto, agency, agent, ownerEmail)
     activate CTRL
 
-    autonumber 15.1
+    autonumber 23.1
 
     group Publish Announcement
 
@@ -32,7 +31,7 @@ participant "commission\n:Commission" as COMMISSION
 
         CTRL --> CTRL : request
     deactivate CTRL
-
+|||
     CTRL -> MAPPER : getCommissionValue()
     activate MAPPER
 
@@ -82,7 +81,7 @@ participant "commission\n:Commission" as COMMISSION
 
     end group
 
-autonumber 16
+autonumber 24
 
     <-- CTRL : operationSucess
     deactivate CTRL

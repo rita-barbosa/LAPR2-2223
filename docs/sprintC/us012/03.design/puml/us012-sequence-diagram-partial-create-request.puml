@@ -17,13 +17,13 @@ participant "location\n:Location" as LOCATION
 participant "availableEquipment\n:AvailableEquipment" as AEQUIP
 
 
-autonumber 15.1
+autonumber 23.1
 
     -> CTRL: getRequestFromLegacy(legacySystemDto, agent, ownerEmail)
 
      activate CTRL
 
-autonumber 15.1.1
+autonumber 23.1.1
 
     group Create Request
 
@@ -207,7 +207,7 @@ autonumber 15.1.1
 
     end group
 
-autonumber 15.2
+autonumber 23.2
 
     <-- CTRL: request
     deactivate CTRL

@@ -18,14 +18,24 @@ activate CTM
     System --> CTM : shows the list of announcements available
         deactivate System
 
-    loop While Costumer intends
+    opt Selection of criteria
 
-        CTM -> System : selects list filter
+        CTM -> System : asks to select filter for list
         activate System
 
-            System --> CTM : shows filtered announcements list
+        System --> CTM : criteriaList
         deactivate System
-    end loop
+
+        loop While Costumer intends
+
+            CTM -> System : selects list filter
+            activate System
+
+                System --> CTM : shows filtered announcements list
+            deactivate System
+        end loop
+
+    end opt
 
     CTM -> System : selects an announcement
         activate System
@@ -33,7 +43,7 @@ activate CTM
     System --> CTM : requests data
         deactivate System
 
-    loop At least once
+    loop While Costumer intends
 
     CTM -> System : types requested data (visitDate, visitBeginning, visitEnd)
         activate System
