@@ -30,7 +30,7 @@ activate CTM
         CTRL --> CTRL : listToDisplay
     deactivate CTRL
 |||
-    CTRL -> CTRL : toDTO(listToDisplay)
+    CTRL -> CTRL : toDto(listToDisplay)
     activate CTRL
             ref over CTRL
                 Convert Display List to DTO
@@ -61,7 +61,7 @@ activate CTM
                 deactivate LISTCLASS
 
                 |||
-                    CTRL -> CTRL : toDTO(listToDisplay)
+                    CTRL -> CTRL : toDto(listToDisplay)
                     activate CTRL
                             ref over CTRL
                                 Convert Display List to DTO
@@ -85,7 +85,7 @@ activate CTM
     CTM -> UI : selects an announcement
         activate UI
 
-    UI -> CTRL : convertToModel(announcementDto)
+    UI -> CTRL : toModel(announcementDto)
     activate CTRL
         ref over CTRL
             Convert Announcement DTO
