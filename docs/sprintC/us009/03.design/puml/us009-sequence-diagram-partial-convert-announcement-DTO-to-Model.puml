@@ -15,7 +15,7 @@ participant "announcement\n:Announcement" as ANNOUNCE
 
 autonumber 21
 
- -> CTRL : convertToModel(announcementDto)
+ -> CTRL : toModel(announcementDto)
 
 activate CTRL
 
@@ -35,39 +35,54 @@ activate CTRL
             MAPPER --> CTRL : announcementId
         deactivate MAPPER
 
-        CTRL -> AgencyRepository : searchAnnouncementById(announcementId)
-        activate AgencyRepository
 
-        loop for all agencies
+        CTRL -> AgencyRepository : getAgencyByAnnouncementId(announcementId)
+         activate AgencyRepository
 
-            AgencyRepository -> AGC : getAnnouncementById(announcementId)
-            activate AGC
+            loop for all agencies
 
-                AGC -> LISTCLASS : getAnnouncementById(announcementId)
+                AgencyRepository -> AGC : anyAnnouncementHasId(announcementId)
+                activate AGC
 
-                loop for all announcements
+                    AGC -> LISTCLASS : anyAnnouncementHasId(announcementId)
 
-                    activate LISTCLASS
+                    loop for all announcements
 
-                    LISTCLASS --> ANNOUNCE : hasId(announcementId)
+                        activate LISTCLASS
 
-                    activate ANNOUNCE
+                        LISTCLASS --> ANNOUNCE : hasId(announcementId)
 
-                        ANNOUNCE --> LISTCLASS : true/false
-                    deactivate ANNOUNCE
+                        activate ANNOUNCE
 
-                end loop
+                            ANNOUNCE --> LISTCLASS : true/false
+                        deactivate ANNOUNCE
+
+                    end loop
+
+                LISTCLASS --> AGC : true/false
+                deactivate LISTCLASS
+
+            AGC --> AgencyRepository : true/false
+            deactivate AGC
 
         end loop
+
+        AgencyRepository --> CTRL : agency
+        deactivate AgencyRepository
+|||
+
+        CTRL -> AGC : getAnnouncementById(announcementId)
+        activate AGC
+
+        AGC -> LISTCLASS : getAnnouncementById(announcementId)
+        activate LISTCLASS
 
             LISTCLASS --> AGC : announcement
         deactivate LISTCLASS
 
-            AGC --> AgencyRepository : announcement
+            AGC --> CTRL : announcement
         deactivate AGC
 
-            AgencyRepository --> CTRL : announcement
-        deactivate AgencyRepository
 
     end group
 
