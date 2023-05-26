@@ -3,7 +3,7 @@ skinparam monochrome true
 skinparam packageStyle rectangle
 skinparam shadowing false
 
-title System Sequence Diagram (SSD) - Alternative One
+title System Sequence Diagram (SSD)
 
 autonumber
 
@@ -12,23 +12,115 @@ participant ":System" as System
 
 activate Client
 
-    Client -> System : request order
-    activate System
+    Client -> System : asks to request an order on a property
+               activate System
 
-        System --> Client : requests data (order amount)
-    deactivate System
+           System --> Client : shows the list of announcements available
+               deactivate System
 
-    Client -> System : type order amount
-    activate System
+           opt type of business
+                   Client -> System : asks to select type of business
+                   activate System
 
-        System --> Client : shows requested data
-    deactivate System
+                   System --> Client : shows types of business and request data
+                   deactivate System
 
-    Client -> System : submit order
-    activate System
+                   Client -> System : selects data (businessType)
+                   activate System
 
-        System --> Client : displays operation success
-    deactivate System
+                   System --> Client : display all the listed properties, according to the \ncriteria chosen
+                   deactivate System
+               end
+
+               opt type of property
+                   Client -> System : asks to select type of property
+                   activate System
+
+                   System --> Client : shows types of properties and request data
+                   deactivate System
+
+                   Client -> System : selects data (propertyType)
+                   activate System
+
+                   System --> Client : display all the listed properties, according to the \ncriteria chosen
+                   deactivate System
+               end
+
+               alt properType != land
+
+                   opt number of bedrooms
+                       Client -> System : asks to select number of bedrooms
+                       activate System
+
+                       System --> Client : shows options for number of bedrooms and request data
+                       deactivate System
+
+                       Client -> System : selects data (numberBedrooms)
+                       activate System
+
+                       System --> Client : display all the listed properties, according to the \ncriteria chosen
+                       deactivate System
+                   end
+
+               end
+
+               opt price
+                   Client -> System : asks to sort announcements by price
+                   activate System
+
+                   System --> Client : shows options for sort announcements by price and request data
+                   deactivate System
+
+                   Client -> System : select data (sortingType)
+                   activate System
+
+                   System --> Client : display all the listed properties, according to the \ncriteria chosen
+                   deactivate System
+               end
+
+               opt city
+                   Client -> System : asks to sort announcements by city
+                   activate System
+
+                   System --> Client : shows options for sort announcements by city and request data
+                   deactivate System
+
+                   Client -> System : select data (sortingType)
+                   activate System
+
+                   System --> Client : display all the listed properties, according to the \ncriteria chosen
+                   deactivate System
+               end
+
+               opt state
+                   Client -> System : asks to sort announcements by state
+                   activate System
+
+                   System --> Client :  shows options for sort announcements by state and request data
+                   deactivate System
+
+                   Client -> System : select data (sortingType)
+                   activate System
+
+                   System --> Client : display all the listed properties, according to the \ncriteria chosen
+                   deactivate System
+               end
+
+           Client -> System : selects an announcement
+               activate System
+
+           System --> Client : requests data
+               deactivate System
+
+           loop While the order amount is higher than the price
+
+           Client -> System : types requested data (orderAmount)
+               activate System
+
+           end loop
+
+           System --> Client : displays operation success
+               deactivate System
 
 
 
