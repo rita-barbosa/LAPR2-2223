@@ -175,14 +175,22 @@ public class Request implements Notification {
         this.id = id;
     }
 
-    public String getPropertyAttributes(){
+    public Request(String ownerEmail, Property property, Business business, LocalDate requestDate, Employee agent) {
+        this.ownerEmail = new Email(ownerEmail);
+        this.requestDate = requestDate;
+        this.business = business;
+        this.agent = agent;
+        this.property = property;
+        this.id = counter++;
+    }
+
+    public String getPropertyAttributes() {
         return this.property.toString();
     }
 
-    public String getBusinessAttributes(){
+    public String getBusinessAttributes() {
         return this.business.toString();
     }
-
 
 
     /**
@@ -222,7 +230,7 @@ public class Request implements Notification {
         return property;
     }
 
-    public LocalDate getRequestDate(){
+    public LocalDate getRequestDate() {
         return requestDate;
     }
 
@@ -275,9 +283,9 @@ public class Request implements Notification {
         File file = new File(FILE_NAME + getId() + "." + email + FILE_TYPE);
         try {
             PrintWriter text = new PrintWriter(file);
-            text.write(TEXT_TO + email+"\n");
+            text.write(TEXT_TO + email + "\n");
             text.write(TEXT_TOPIC + "Property Announcement Request Acceptance\n");
-            text.write("The property announcement request submitted in " + getRequestDate().toString() + " has been analysed. Your request was declined. Here is the justification message:\n " );
+            text.write("The property announcement request submitted in " + getRequestDate().toString() + " has been analysed. Your request was declined. Here is the justification message:\n ");
 
             text.close();
             return true;
@@ -291,7 +299,7 @@ public class Request implements Notification {
         return this.getId().equals(requestId);
     }
 
-    public void sendEmail(String ownerEmail, String message){
+    public void sendEmail(String ownerEmail, String message) {
         throw new NotImplementedException();
     }
 
