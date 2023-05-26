@@ -71,6 +71,13 @@ class Agency{
 }
 
 class Request{
+-Integer id
+-LocalDate requestDate
+-Employee agent
+-Property property
+-Business business
+-Email ownerEmail
+
 +hasAgentWithEmail(agentEmail)
 +add()
 +getOwnerEmail()
@@ -79,7 +86,9 @@ class Request{
 }
 
 class RequestList{
-+sortRequestByMostRecentAdded
+-List<Request> requests
+
++sortRequestByMostRecentAdded(listRequests)
 +hasSAmeId(id)
 +getRequestById(requestId)
 }
@@ -91,11 +100,14 @@ class RequestMapper{
 
 class RequestDto{
 -propertyAttributes
--requestId
+-businessAttributes
+-id
 
 +RequestDto(request)
 +getPropertyAttributes()
-+getRequestId()
++getBusinessAttributes()
++getRequestDate()
++getRequestIdFromDto()
 }
 
 interface Notification{
