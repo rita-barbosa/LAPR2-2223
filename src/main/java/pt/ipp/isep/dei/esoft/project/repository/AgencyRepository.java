@@ -65,6 +65,16 @@ public class AgencyRepository {
         return newAgency;
     }
 
+    public Optional<Agency> getAgencyByRequestId(Integer requestId) {
+        Optional<Agency> newAgency = Optional.empty();
+        for (Agency agency : agencies) {
+            if (agency.anyAnnouncementHasId(requestId)) {
+                newAgency = Optional.of(agency);
+            }
+        }
+        return newAgency;
+    }
+
     /**
      * This method adds a new agency to the list of agencies.
      *

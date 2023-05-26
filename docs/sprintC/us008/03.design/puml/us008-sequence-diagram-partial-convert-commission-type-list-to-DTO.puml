@@ -6,35 +6,36 @@ skinparam shadowing false
 
 participant ":ListRequestsController" as CTRL
 participant "commissionTypeMapper\n: CommissionTypeMapper" as ComTypeMapper
-participant "commissionType\n: CommissionTypeDto" as ComType
+participant "listCommissionType\n: List<CommissionTypeDto>" as ComType
 
-autonumber 4
+autonumber 32
     -> CTRL: toDto(commissionTypeList)
     activate CTRL
 
 group Convert commission type list to DTO
 
-autonumber 4.1
+autonumber 32.1
+
+
     CTRL -> ComTypeMapper : toDto(commissionTypeList)
     activate ComTypeMapper
 
-'    ComTypeMapper -> ComTypeMapper : toDto(commissionTypeList)
-'    activate ComTypeMapper
 
-    ComTypeMapper -> ComType : getCommissionsType()
+ loop for each commission type
+
+    ComTypeMapper -> ComType : getCommissionType()
     activate ComType
 
-    ComType --> ComTypeMapper : commissionsType
+    ComType --> ComTypeMapper : commissionType
     deactivate ComType
 
-'    ComTypeMapper --> ComTypeMapper :
-'    deactivate ComTypeMapper
-
+end loop
     ComTypeMapper --> CTRL : commissionTypeListDto
     deactivate ComTypeMapper
 
+
 end group
-autonumber 5
+autonumber 33
      <-- CTRL: commissionTypeListDto
      deactivate CTRL
 

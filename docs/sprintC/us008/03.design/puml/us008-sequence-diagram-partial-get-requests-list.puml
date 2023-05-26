@@ -10,11 +10,12 @@ participant "requestList\n: RequestList" as ReqList
 participant "requestMapper\n: RequestMapper" as ReqMapper
 participant "request\n: Request" as REQUEST
 
-autonumber 4
+autonumber 12
     -> AGENCY: getRequestListByAgentEmail(agentEmail)
     activate AGENCY
 
 group Get Requests List
+autonumber 12.1
 
         AGENCY -> ReqList : getRequestsListByAgentEmail(agentEmail)
         activate ReqList
@@ -36,7 +37,7 @@ group Get Requests List
 
          end
 
-         ReqList -> ReqList : sortRequestByMostRecentAdded
+         ReqList -> ReqList : sortRequestByMostRecentAdded(listRequests)
          activate ReqList
 
          ReqList --> ReqList :
@@ -47,7 +48,7 @@ group Get Requests List
 
 
 end group
-autonumber 5
+autonumber 13
      <-- AGENCY: requestList
      deactivate AGENCY
 

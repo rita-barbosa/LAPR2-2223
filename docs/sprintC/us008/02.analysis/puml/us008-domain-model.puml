@@ -32,6 +32,7 @@ title Domain Model - US008
 '}
 
 class Announcement{
+id
 acceptanceDate
 }
 
@@ -100,6 +101,7 @@ designation
 }
 
 class Request{
+id
 requestDate
 }
 

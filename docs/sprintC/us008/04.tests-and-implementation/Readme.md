@@ -1,4 +1,4 @@
-# US 006 - To create a Task 
+# US 008 - To list property announcement requests 
 
 # 4. Tests 
 
