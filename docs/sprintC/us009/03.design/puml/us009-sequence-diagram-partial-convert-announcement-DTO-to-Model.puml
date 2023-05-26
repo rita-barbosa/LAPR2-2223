@@ -40,16 +40,16 @@ activate CTRL
 
         loop for all agencies
 
-            AgencyRepository -> AGC : searchAnnouncementById(announcementId)
+            AgencyRepository -> AGC : getAnnouncementById(announcementId)
             activate AGC
 
-                AGC -> LISTCLASS : searchAnnouncementById(announcementId)
+                AGC -> LISTCLASS : getAnnouncementById(announcementId)
 
                 loop for all announcements
 
                     activate LISTCLASS
 
-                    LISTCLASS --> ANNOUNCE : hasSameId(announcementId)
+                    LISTCLASS --> ANNOUNCE : hasId(announcementId)
 
                     activate ANNOUNCE
 
