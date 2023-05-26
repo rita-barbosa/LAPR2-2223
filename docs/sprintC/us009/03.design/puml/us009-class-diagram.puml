@@ -51,6 +51,7 @@ class Agency {
     - Integer phoneNumber
     + getAnnouncementList()
     + getAnnouncementById(announcementId)
+    + anyAnnouncementHasId(announcementId)
 }
 
 class Repositories {
@@ -64,7 +65,7 @@ class Repositories {
 class ScheduleVisitController {
     + ScheduleVisitController(agencyRepository, personRepository)
     + getAnnouncementListDto()
-    + convertToModel(announcementDto)
+    + ToModel(announcementDto)
     + scheduleVisitFromAnnouncement(announcement, visitDate, startHour, endHour)
     + scheduleVisit(visitDate, startHour, endHour)
     + getAgencies()
@@ -75,18 +76,18 @@ class ScheduleVisitController {
 
 note top of ScheduleVisitController
     - announcementDto is retrieved
-     from selected data
+      from selected data
     - announcement is retrieved from
-    convertion of announcementDto
-    to Model
+      convertion of announcementDto
+      to Model
     - visit is retrieved from announcement
     - visitDate, startHour, endHour
-    are retrieved from Visit
+      are retrieved from Visit
     - listToDisplay is the list of properties
-     to display
-     - agentEmail is retrieved from
-     the announcement that has the
-     visit instance.
+      to display
+    - agentEmail is retrieved from
+      the announcement that has the
+      visit instance.
 end note
 
 class ScheduleVisitUI {
@@ -108,8 +109,8 @@ class Announcement {
 }
 
 class AnnouncementMapper {
-    + toDTO(listToDisplay)
-    + getAnnouncementIdFromDto(announcementDto
+    + toDto(listToDisplay)
+    + getAnnouncementIdFromDto(announcementDto)
 }
 
 class AnnouncementList {
@@ -117,7 +118,6 @@ class AnnouncementList {
     + AnnouncementList()
     + getList()
     + getAnnouncement(idx)
-    + addListContent(announcementList)
     + addAll(announcementList)
     + hasSameId(announcementId)
     + sortListByFilter(filter)
@@ -138,15 +138,17 @@ end note
 
 class AnnouncementDto{
     + create(announcementId, requestInfo)
+    + getAnnouncementId()
 }
 
 note bottom of AnnouncementDto
     - requestInfo is String
-     from Request's toString()
+     from the Announcement
+     Request's toString()
 end note
 
-class AnnouncementListDto{
-    + getAnnouncementId()
+class AnnouncementListDto << List<AnnouncementDto> >>{
+
     + add(announcementDto)
 }
 
