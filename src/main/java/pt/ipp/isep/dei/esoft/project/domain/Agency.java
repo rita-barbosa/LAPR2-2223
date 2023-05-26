@@ -138,8 +138,8 @@ public class Agency {
         return null;
     }
 
-    public Announcement getAnnouncementById(Integer announcementId){
-        return announcements.getAnnouncementById(announcementId).get();
+    public Optional<Announcement> getAnnouncementById(Integer announcementId) {
+        return announcements.getAnnouncementById(announcementId);
     }
 
     /**
@@ -309,6 +309,10 @@ public class Agency {
             }
         }
         return agents;
+    }
+
+    public List<Announcement> getAnnouncementsByAgentEmail(String email) {
+        return announcements.getAnnouncementsByAgentEmail(email);
     }
 
     /**
