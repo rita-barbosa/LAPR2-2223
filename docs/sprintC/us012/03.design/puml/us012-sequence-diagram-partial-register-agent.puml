@@ -3,7 +3,7 @@ skinparam monochrome true
 skinparam packageStyle rectangle
 skinparam shadowing false
 
-autonumber
+
 
 'hide footbox
 participant ":ImportLegacyInformationController" as CTRL
@@ -13,9 +13,13 @@ participant ":Repositories" as RepositorySingleton
 participant "repositories\n:Repositories" as PLAT
 participant "PersonRepository\n:PersonRepository" as PersonRepository
 
+autonumber 17
+
     -> CTRL : registerAgent(agency)
 
 activate CTRL
+
+autonumber 17.1
 
     group Register Agent
 
@@ -47,6 +51,13 @@ activate CTRL
 |||
 
 
+    CTRL -> RepositorySingleton: getInstance()
+    activate RepositorySingleton
+
+    RepositorySingleton --> CTRL : repositories
+    deactivate RepositorySingleton
+
+
     CTRL -> PLAT : getPersonRepository()
 
     activate PLAT
@@ -70,6 +81,8 @@ activate CTRL
     deactivate PersonRepository
 
     end group
+
+    autonumber 18
     
     <-- CTRL : agent
 
