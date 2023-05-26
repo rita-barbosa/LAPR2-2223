@@ -27,7 +27,7 @@ class Visit {
     - Integer endHour
     - LocalDate visitDate
     - Boolean acceptanceStatus
-    + Visit(visitDate, startHour, endHour,\n userName, userPhoneNumber)
+    + Visit(visitDay, visitMonth, visitYear, startHour, endHour,\n userName, userPhoneNumber)
     + getVisitDate()
     + getStartHour()
     + getEndHour()
@@ -35,8 +35,8 @@ class Visit {
 }
 
 class AgencyRepository {
-    + getAgencies()
-    + getAnnouncementById(announcementId)
+    + getAllAnnouncementsList()
+    + getAgencyByAnnouncementId(announcementId)
 }
 
 class Agency {
@@ -54,19 +54,20 @@ class Repositories {
     + getInstance() : Repositories
     + getPersonRepository()
     + getAgencyRepository()
-    + getAuthRepository()
+    + getAuthenticationRepository()
+    + getCriteriaRepository()
 }
 
 class ScheduleVisitController {
-    + ScheduleVisitController(agencyRepository, personRepository)
+    + ScheduleVisitController(agencyRepository, personRepository,\n criteriaRepository, AuthenticationRepository)
     + getAnnouncementListDto()
-    + ToModel(announcementDto)
-    + scheduleVisitFromAnnouncement(announcement, visitDate, startHour, endHour)
-    + scheduleVisit(visitDate, startHour, endHour)
-    + getAgencies()
+    + getAllAnnouncementsList()
+    + toModel(announcementDto)
+    + scheduleVisit(announcement, visitDay, visitMonth, visitYear,\n startHour, endHour)
+    + getCriteriaList()
     + toDto(listToDisplay)
+    + getFilteredList(criteria)
     + getUserPerson()
-    + sendNotificationMessage(agentEmail)
 }
 
 note top of ScheduleVisitController
@@ -76,13 +77,11 @@ note top of ScheduleVisitController
       convertion of announcementDto
       to Model
     - visit is retrieved from announcement
-    - visitDate, startHour, endHour
-      are retrieved from Visit
+    - visitDay, visitMonth, visitYear, startHour,
+     endHour are retrieved from Visit
     - listToDisplay is the list of properties
       to display
-    - agentEmail is retrieved from
-      the announcement that has the
-      visit instance.
+    - criteria is a string with the criteria choosen
 end note
 
 class ScheduleVisitUI {
@@ -93,14 +92,13 @@ class Announcement {
     - LocalDate acceptanceDate
     - Integer id
     - Employee agent
-    + getAnnouncementId()
+    + getId()
     + hasId(announcementId)
     + getAnnouncementInfoToDisplay()
-    + createVisit(visitDate, startHour,\n endHour, userName, userPhoneNumber)
+    + createVisit(visitDay, visitMonth, visitYear, startHour,\n endHour, userName, userPhoneNumber)
     + addVisit(visit)
     - validateVisit(visit)
     + getAgentEmail()
-
 }
 
 class AnnouncementMapper {
@@ -111,11 +109,12 @@ class AnnouncementMapper {
 class AnnouncementList {
     - List<Announcement> announcements
     + AnnouncementList()
-    + getList()
+    + getAnnouncementList()
     + getAnnouncement(idx)
     + addAll(announcementList)
     + hasSameId(announcementId)
-    + sortListByFilter(filter)
+    + sortListByCriteria(criteria)
+    + sortAnnouncementsByMostRecentAcceptanceDate(listToDisplay)
 }
 
 note right of AnnouncementList::getAnnouncement
@@ -125,7 +124,7 @@ in the Announcement List
 end note
 
 note left of AnnouncementList::sortListByFilter
-This method compares "filter" (a string)
+This method compares "criteria" (a string)
  to a list of criteria available and redirects
  the output to its respective sorting method.
 end note
@@ -197,6 +196,10 @@ class PersonRepository {
     + getPersonByEmail(userEmail)
 }
 
+class CriteriaRepository {
+    + getCriteriaList()
+}
+
 note left of PersonRepository
     - userEmail is retrieved
     from user session
@@ -222,11 +225,15 @@ ScheduleVisitController ..> Repositories
 
 Repositories "1" --> "1" PersonRepository
 
+Repositories "1" --> "1" CriteriaRepository
+
 Repositories "1" --> "1" AgencyRepository
 
 Repositories "1" --> "1" AuthenticationRepository
 
 ScheduleVisitController ..> PersonRepository
+
+ScheduleVisitController ..> CriteriaRepository
 
 ScheduleVisitController ..> AgencyRepository
 
