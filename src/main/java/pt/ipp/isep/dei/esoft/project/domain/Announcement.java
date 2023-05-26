@@ -271,12 +271,20 @@ public class Announcement {
      * @return the boolean
      */
     public Boolean addVisit(Visit visit) {
-        if (this.visitList.contains(visit)){
+        if (validateVisit(visit)) {
             return false;
-        }else {
+        } else {
             this.visitList.add(visit);
             return true;
         }
+    }
+
+    private boolean validateVisit(Visit createdVisit) {
+        for (Visit visit : this.visitList) {
+            if (visit.equals(createdVisit))
+                return true;
+        }
+        return false;
     }
 
 }
