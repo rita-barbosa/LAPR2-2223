@@ -1,78 +1,82 @@
 # US 011 - To accept purchase orders
 
-# 4. Tests 
+# 4. Tests
 
-**Test 1:** Check that it is not possible to create an instance of the Task class with null values. 
-
-	@Test(expected = IllegalArgumentException.class)
-		public void ensureNullIsNotAllowed() {
-		Task instance = new Task(null, null, null, null, null, null, null);
-	}
-	
-
-**Test 2:** Check that it is not possible to create an instance of the Task class with a reference containing less than five chars - AC2. 
-
-	@Test(expected = IllegalArgumentException.class)
-		public void ensureReferenceMeetsAC2() {
-		Category cat = new Category(10, "Category 10");
-		
-		Task instance = new Task("Ab1", "Task Description", "Informal Data", "Technical Data", 3, 3780, cat);
-	}
-
-
-*It is also recommended to organize this content by subsections.* 
+*Yet to be done.*
 
 # 5. Construction (Implementation)
 
-
-## Class CreateTaskController 
-
-```java
-public Task createTask(String reference, String description, String informalDescription,
-								 String technicalDescription, Integer duration, Double cost,
-								 String taskCategoryDescription) {
-
-	TaskCategory taskCategory = getTaskCategoryByDescription(taskCategoryDescription);
-
-	Employee employee = getEmployeeFromSession();
-	Organization organization = getOrganizationRepository().getOrganizationByEmployee(employee);
-
-	newTask = organization.createTask(reference, description, informalDescription, technicalDescription, 
-			duration, cost,taskCategory, employee);
-    
-	return newTask;
-}
-```
-
-
-## Class Organization
+## Class AcceptOrdersController
 
 ```java
-public Optional<Task> createTask(String reference, String description, String informalDescription,
-                                     String technicalDescription, Integer duration, Double cost,
-                                     TaskCategory taskCategory, Employee employee) {
-    
-        Task task = new Task(reference, description, informalDescription, technicalDescription, duration, cost,
-                taskCategory, employee);
+public Optional<List<AnnouncementDto>>getAnnouncementsList(){
+        Optional<List<AnnouncementDto>>newListAnnouncementsDto=Optional.empty();
+        String agentEmail=getAgentEmail();
+        Optional<List<Announcement>>listAnnouncements=getAnnouncementListByAgentEmail(agentEmail);
+        if(listAnnouncements.isPresent()){
+        newListAnnouncementsDto=AnnouncementMapper.toDto(listAnnouncements.get());
+        }
+        return newListAnnouncementsDto;
+        }
 
-        addTask(task);
-        
-        return task;
-    }
+public Boolean defineOrderAcceptance(String acceptanceAnswer,int announcementId,int orderId){
+        Optional<Announcement> newAnnouncement;
+        Boolean success=false;
+        newAnnouncement=getAnnouncementFromDto(announcementId);
+        if(newAnnouncement.isPresent()){
+        success=newAnnouncement.get().defineOrderAcceptance(acceptanceAnswer,orderId);
+        }
+        return success;
+        }
+
 ```
 
-# 6. Integration and Demo 
+## Class Order
+
+```java
+public Boolean setAcceptanceAnswer(String acceptanceAnswer){
+        this.acceptanceAnswer=acceptanceAnswer;
+        return sendNotification(getClientEmail().toString());
+        }
+
+public Boolean rejectOrder(){
+        this.acceptanceAnswer=REJECTION_ANSWER;
+        return sendNotification(getClientEmail().toString());
+        }
+
+
+@Override
+public Boolean sendNotification(String email){
+        String fileName="Notifications/"+FILE_NAME+"Order"+getId()+"."+email+FILE_TYPE;
+        File file=new File(fileName);
+        File parentDir=file.getParentFile();
+        if(!parentDir.exists()){
+        parentDir.mkdirs();
+        }
+        try{
+        FileWriter text=new FileWriter(file);
+        text.write(TEXT_TO+email+"\n");
+        text.write(TEXT_TOPIC+"Order Acceptance\n\n");
+        text.write("The purchase order submitted in "+getOrderDate().toString()+" has been analyzed. The final decision was: "+this.acceptanceAnswer);
+        text.close();
+        return true;
+        }catch(IOException e){
+        System.out.println("ERROR: Failed to send notification.\n");
+        return false;
+        }
+        }
+
+```
+
+# 6. Integration and Demo
 
 * A new option on the Employee menu options was added.
-
-* Some demo purposes some tasks are bootstrapped while system starts.
-
+* For demonstration purposes, some orders and announcements are bootstrapped while the system starts.
 
 # 7. Observations
 
-Platform and Organization classes are getting too many responsibilities due to IE pattern and, therefore, they are becoming huge and harder to maintain. 
-
-Is there any way to avoid this to happen?
+To solve the problem referred in the last sprint, the team decided to promote Collections to classes.
+This led to a better distribution of responsibilities.
 
 
 
