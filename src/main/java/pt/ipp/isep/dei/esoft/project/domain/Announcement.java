@@ -279,6 +279,12 @@ public class Announcement {
         }
     }
 
+    /**
+     * Validate visit boolean.
+     *
+     * @param createdVisit the created visit
+     * @return the boolean
+     */
     private boolean validateVisit(Visit createdVisit) {
         for (Visit visit : this.visitList) {
             if (visit.equals(createdVisit))
