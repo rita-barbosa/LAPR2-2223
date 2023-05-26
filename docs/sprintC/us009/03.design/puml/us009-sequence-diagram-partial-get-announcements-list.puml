@@ -60,18 +60,12 @@ activate CTRL
                 REP --> CTRL : announcementList
                 deactivate REP
 
-                CTRL -> LISTCLASS : addListContent(announcementList)
+                CTRL -> LISTCLASS : addAll(announcementList)
                 activate LISTCLASS
-
-                LISTCLASS -> LISTCLASS : addAll(announcementList)
-                activate LISTCLASS
-
-                LISTCLASS --> LISTCLASS
-                deactivate LISTCLASS
 
                 LISTCLASS --> CTRL : listToDisplay
                 deactivate LISTCLASS
-
+|||
             end loop
 
             CTRL -> LISTCLASS : sortListByAcceptanceDate(listToDisplay)
@@ -79,6 +73,7 @@ activate CTRL
 
                 LISTCLASS --> CTRL : listToDisplay
             deactivate LISTCLASS
+|||
         end group
     autonumber 5
     <-- CTRL  : listToDisplay
