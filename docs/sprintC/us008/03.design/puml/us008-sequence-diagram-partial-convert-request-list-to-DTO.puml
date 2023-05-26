@@ -8,13 +8,13 @@ participant ":ListRequestsController" as CTRL
 participant "requestMapper\n: RequestMapper" as ReqMapper
 participant "requestDto\n: RequestDto" as ReqDto
 
-autonumber 4
+autonumber 14
     -> CTRL: toDto(requestList)
     activate CTRL
 
 group Convert request list to DTO
 
-autonumber 4.1
+autonumber 14.1
     CTRL -> ReqMapper : toDto(requestList)
     activate ReqMapper
 
@@ -27,6 +27,18 @@ autonumber 4.1
 
     ReqDto --> ReqMapper : propertyAttributes
     deactivate ReqDto
+
+    ReqMapper -> ReqDto : getBusinessAttributes()
+    activate ReqDto
+
+    ReqDto --> ReqMapper : businessAttributes
+    deactivate ReqDto
+
+    ReqMapper -> ReqDto : getRequestDate()
+        activate ReqDto
+
+        ReqDto --> ReqMapper : requestDate
+        deactivate ReqDto
 
     ReqMapper -> ReqDto : getRequestID()
     activate ReqDto
@@ -54,7 +66,7 @@ autonumber 4.1
     |||
 
 end group
-autonumber 5
+autonumber 15
      <-- CTRL: requestListDto
      deactivate CTRL
 
