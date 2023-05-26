@@ -17,8 +17,8 @@ participant "requestList\n: RequestList" as ReqList
 participant "requestMapper\n: RequestMapper" as ReqMapper
 participant "requestDto\n: RequestDto" as ReqDto
 participant "request\n: Request" as REQUEST
-participant "comissionTypeMapper\n: CommisionTypeMapper" as ComTypeMapper
-participant "comissionType\n: CommissionTypeDto" as ComType
+participant "commissionTypeMapper\n: CommissionTypeMapper" as ComTypeMapper
+participant "commissionType\n: CommissionTypeDto" as ComType
 
 activate ADM
 
@@ -168,7 +168,7 @@ activate ADM
 
             AGENCY -> ReqList : getRequestByID(requestId)
 
-            loop for all requests
+            loop for all requests of the agency
 
                 activate ReqList
 
@@ -318,11 +318,17 @@ activate ADM
             CTRL --> UI : ownerEmail
             deactivate CTRL
 
-            UI -> CTRL : sendEmail(owner, message)
+            UI -> CTRL : sendEmail(ownerEmail, message)
             activate CTRL
 
             CTRL -> REQUEST : sendEmail(ownerEmail, message)
             activate REQUEST
+
+            REQUEST -> Notification : sendEmail(ownerEmail, message)
+            activate Notification
+
+            Notification --> REQUEST : confirmation
+            deactivate Notification
 
             REQUEST --> CTRL : confirmation
             deactivate REQUEST
@@ -331,6 +337,117 @@ activate ADM
             deactivate CTRL
 
     end
+
+    note over CTRL
+    **check if this should be here**
+    end note
+
+'    UI -> CTRL : getRequestList()
+'    activate CTRL
+'
+'        CTRL -> CTRL : getAgentEmail()
+'        activate CTRL
+'
+'        ref over CTRL
+'            Get Agent Email
+'        end ref
+'
+'         CTRL --> CTRL : agentEmail
+'         deactivate CTRL
+'
+'        CTRL -> PLAT : getAgencyRepository()
+'        activate PLAT
+'
+'            PLAT --> CTRL: agencyRepository
+'        deactivate PLAT
+'
+'        CTRL -> AgencyRepository : getAgencyByEmployeeEmail(agentEmail)
+'        activate AgencyRepository
+'
+'        loop for each agency
+'             AgencyRepository -> AGENCY : anyAgentHasEmail(agentEmail)
+'             activate AGENCY
+'
+'              AGENCY --> AgencyRepository : true/false
+'             deactivate AGENCY
+'        end
+'
+'        AgencyRepository --> CTRL : agency
+'        deactivate AgencyRepository
+'
+'        CTRL -> AGENCY : getRequestListByAgentEmail(agentEmail)
+'        activate AGENCY
+'
+'        AGENCY -> ReqList : getRequestListByAgentEmail(agentEmail)
+'        activate ReqList
+'
+'        loop for each request
+'         ReqList -> REQUEST : hasAgentWithEmail(agentEmail)
+'         activate REQUEST
+'
+'         REQUEST --> ReqList : true/false
+'         deactivate REQUEST
+'
+'             alt true
+'             ReqList -> ReqList : add(request)
+'             activate ReqList
+'
+'             ReqList --> ReqList :
+'             deactivate ReqList
+'             end
+'
+'         end
+'
+'         ReqList -> ReqList : sortRequestByMostRecentAdded
+'         activate ReqList
+'
+'         ReqList --> ReqList :
+'         deactivate ReqList
+'
+'         ReqList --> AGENCY : requestList
+'         deactivate ReqList
+'
+'        AGENCY --> CTRL : requestList
+'        deactivate AGENCY
+'
+'        CTRL -> ReqMapper : toDto(requestList)
+'        activate ReqMapper
+'
+'        loop for each request
+'        ReqMapper -> ReqMapper : toDto(request)
+'        activate ReqMapper
+'
+'        ReqMapper -> ReqDto : getPropertyAttributes()
+'        activate ReqDto
+'
+'        ReqDto --> ReqMapper : propertyAttributes
+'        deactivate ReqDto
+'
+'        ReqMapper -> ReqDto : getRequestID()
+'        activate ReqDto
+'
+'        ReqDto --> ReqMapper : requestID
+'        deactivate ReqDto
+'
+'        ReqMapper -> ReqDto : create
+'        activate ReqDto
+'        deactivate ReqDto
+'
+'        ReqMapper -> ReqMapper : add()
+'        activate ReqMapper
+'
+'        ReqMapper --> ReqMapper :
+'        deactivate ReqMapper
+'        end
+'
+'        ReqMapper --> CTRL : requestListDto
+'        deactivate ReqMapper
+'        |||
+'        deactivate ReqMapper
+'        |||
+'
+'        CTRL --> UI : requestListDto
+'    deactivate CTRL
 
 
     UI --> ADM : shows operation success and shows the list of requests
