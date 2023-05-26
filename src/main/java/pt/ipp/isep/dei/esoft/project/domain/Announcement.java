@@ -3,6 +3,7 @@ package pt.ipp.isep.dei.esoft.project.domain;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * Represents an Announcement made by a agent, based on a request.
@@ -33,6 +34,8 @@ public class Announcement {
      * The OrderList that contains the orders made by clients.
      */
     private OrderList orders;
+
+    private List<Visit> visitList;
 
     /**
      * The id iteration variable.
@@ -167,7 +170,7 @@ public class Announcement {
      * @param agentEmail - the email to be verified
      * @return {@code true} if the agent responsible for the announcement has the specified email;{@code false} otherwise;
      */
-    public boolean hasAgentWithEmail(String agentEmail) {
+    public Boolean hasAgentWithEmail(String agentEmail) {
         return this.getAgentEmail().equals(agentEmail);
     }
 
@@ -177,7 +180,7 @@ public class Announcement {
      * @param announcementId
      * @return {@code true} if the announcement has the specified id;{@code false} otherwise;
      */
-    public boolean hasId(Integer announcementId) {
+    public Boolean hasId(Integer announcementId) {
         return this.getId().equals(announcementId);
     }
 
@@ -230,5 +233,50 @@ public class Announcement {
         return getRequest().toString() + String.format("Acceptance Date: %s\n", acceptanceDate);
     }
 
+    /**
+     * Get announcement info to display string. This method gets the corresponding request's property
+     * and business information.
+     *
+     * @return the property and business information string
+     */
+    public String getAnnouncementInfoToDisplay() {
+        return this.getRequest().toString();
+    }
+
+    /**
+     * Create visit optional.
+     *
+     * @param visitDate       the visit date
+     * @param startHour       the start hour
+     * @param endHour         the end hour
+     * @param userName        the user's name
+     * @param userPhoneNumber the user's phone number
+     * @return the visit
+     */
+    public Optional<Visit> createVisit(LocalDate visitDate, Integer startHour, Integer endHour, String userName, String userPhoneNumber) {
+        Optional<Visit> optionalValue = Optional.empty();
+
+        Visit visit = new Visit(visitDate, startHour, endHour, userName, userPhoneNumber);
+
+        if (addVisit(visit)) {
+            optionalValue = Optional.of(visit);
+        }
+        return optionalValue;
+    }
+
+    /**
+     * Add visit boolean.A
+     *
+     * @param visit the visit
+     * @return the boolean
+     */
+    public Boolean addVisit(Visit visit) {
+        if (this.visitList.contains(visit)){
+            return false;
+        }else {
+            this.visitList.add(visit);
+            return true;
+        }
+    }
 
 }
