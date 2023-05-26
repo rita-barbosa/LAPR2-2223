@@ -24,7 +24,7 @@ class UserSession {
 
 class CommissionTypeRepository {
     + getCommissionTypeList()
-    +getCommissionTypeByDesignation(designation)
+    + getCommissionTypeByDesignation(designation)
 }
 
 class AgencyRepository {
@@ -36,13 +36,16 @@ class Repositories {
     + getInstance() : repositories
     + getCommissionTypeRepository()
     + getAgencyRepository()
-    +getAuthenticationRepository()
+    + getAuthenticationRepository()
 }
 
 class ListRequestsController {
     + ListRequestsController(organizationRepository, taskCategoryRepository)
     + getTaskCategories()
     - getEmployeeFromSession()
+    - getRequestsListByAgentEmail()
+    - getRequestById(requestIdDto)
+
 }
 
 class ListRequestsUI {
@@ -54,12 +57,12 @@ class Email{
 
 class Announcement{
     - LocalDate acceptanceDate
-    +Announcement(agent, commissionType, commissionValue, request)
+    + Announcement(agent, commissionType, commissionValue, request)
 }
 
 class Commission{
     - create(commissionValue,commissionType)
-    +Commission(commissionValue, commissionType)
+    + Commission(commissionValue, commissionType)
 }
 
 class Agency{
