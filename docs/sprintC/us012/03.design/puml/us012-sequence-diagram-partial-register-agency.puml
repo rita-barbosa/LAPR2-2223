@@ -61,7 +61,7 @@ autonumber 15.1
 
     |||
     alt  Agency doesn't exist
-        AgRep -> LegSysMAPPER :  toModel()
+        AgRep -> LegSysMAPPER :  toModelAgency(legacySystemDto)
         activate LegSysMAPPER
 
         LegSysMAPPER -> LegSysDTO : getAgencyId()
@@ -69,30 +69,30 @@ autonumber 15.1
         LegSysDTO --> LegSysMAPPER : agencyId
         deactivate LegSysDTO
 
-        LegSysMAPPER -> LegSysDTO : getStoreName()
+        LegSysMAPPER -> LegSysDTO : getAgencyName()
         activate LegSysDTO
-        LegSysDTO --> LegSysMAPPER : storeName
+        LegSysDTO --> LegSysMAPPER : agencyName
         deactivate LegSysDTO
 
-        LegSysMAPPER -> LegSysDTO : getStoreLocation()
+        LegSysMAPPER -> LegSysDTO : getAgencyLocation()
         activate LegSysDTO
-        LegSysDTO --> LegSysMAPPER : storeLocation
+        LegSysDTO --> LegSysMAPPER : agencyLocation
         deactivate LegSysDTO
 
-        LegSysMAPPER -> LegSysDTO : getStorePhoneNumber()
+        LegSysMAPPER -> LegSysDTO : getAgencyPhoneNumber()
         activate LegSysDTO
-        LegSysDTO --> LegSysMAPPER : storePhoneNumber
+        LegSysDTO --> LegSysMAPPER : agencyPhoneNumber
         deactivate LegSysDTO
 
-        LegSysMAPPER -> LegSysDTO : getStoreEmailAddress()
+        LegSysMAPPER -> LegSysDTO : getAgencyEmailAddress()
         activate LegSysDTO
-        LegSysDTO --> LegSysMAPPER : storeEmailAddress
+        LegSysDTO --> LegSysMAPPER : agencyEmailAddress
         deactivate LegSysDTO
 
-        LegSysMAPPER -> AGENCY** : create(agencyId, storeName, storePhoneNumber, storeEmailAddress, agencyId)
+        LegSysMAPPER -> AGENCY** : create(agencyId, agencyName, agencyPhoneNumber, agencyEmailAddress, agencyId)
         activate AGENCY
 
-        AGENCY -> LOCATION** : createLocationFromString(storeLocation)
+        AGENCY -> LOCATION** : create(agencyLocation)
         activate LOCATION
 
         LOCATION -> LOCATION: validateLocation()

@@ -33,13 +33,13 @@ activate ADM
     ADM -> UI : submits data
     activate UI
 
-    UI -> CTRL: importInfo(filePath)
+    UI -> CTRL: importInformation(filePath)
     activate CTRL
 
 
     loop while file has next line
 
-      CTRL -> LS** : importInformation(filepath)
+      CTRL -> LS: importInformation(filepath)
       activate LS
 
       LS -> LS : readLineInformationFromFile(filepath)
@@ -78,18 +78,18 @@ activate ADM
     deactivate CTRL
     |||
 
-    CTRL -> CTRL : registerPerson(legacySystemDto)
+    CTRL -> CTRL : registerOwner(legacySystemDto)
     activate CTRL
     ref over CTRL
         Register Owner
     end ref
     CTRL --> CTRL: person
     deactivate CTRL
-
+    |||
     CTRL -> PERSON : getEmailAddress()
     activate PERSON
 
-    PERSON --> CTRL : emailAddress
+    PERSON --> CTRL : ownerEmail
     deactivate PERSON
 |||
     CTRL -> CTRL : PublishAnnouncement(legacySystemDto, agency, agent, ownerEmail)

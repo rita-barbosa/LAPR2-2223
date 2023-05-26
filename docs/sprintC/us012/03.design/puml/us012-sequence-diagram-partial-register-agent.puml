@@ -22,18 +22,12 @@ activate CTRL
     CTRL -> AGC : createDefaultAgent()
     activate AGC
 
-        AGC -> EMPLOYEE** : create()
+    AGC -> EMPLOYEE** : create()
     activate EMPLOYEE
 
-        EMPLOYEE -> EMPLOYEE : validateEmployee()
-        activate EMPLOYEE
-
-            EMPLOYEE --> EMPLOYEE
-        deactivate EMPLOYEE
-
-        EMPLOYEE --> AGC : agent
+    EMPLOYEE --> AGC : agent
     deactivate EMPLOYEE
-|||
+    |||
     AGC -> AGC : addEmployee(agent)
 
     activate AGC
@@ -52,25 +46,16 @@ activate CTRL
     deactivate AGC
 |||
 
-    CTRL -> RepositorySingleton : getInstance()
-
-    activate RepositorySingleton
-
-        RepositorySingleton --> CTRL : repositories
-    deactivate RepositorySingleton
 
     CTRL -> PLAT : getPersonRepository()
 
     activate PLAT
 
-        PLAT -> CTRL : PersonRepository
+        PLAT --> CTRL : PersonRepository
 
     deactivate PLAT
 
-    CTRL -> PersonRepository : addPersonToRepository(agent)
-    activate PersonRepository
-
-    PersonRepository -> PersonRepository : addPerson(agent)
+    CTRL -> PersonRepository : add(agent)
     activate PersonRepository
 
     PersonRepository -> PersonRepository : validatePerson(agent)
@@ -79,8 +64,7 @@ activate CTRL
         PersonRepository --> PersonRepository
     deactivate PersonRepository
 
-        PersonRepository --> PersonRepository : agent
-    deactivate PersonRepository
+
 
         PersonRepository --> CTRL : agent
     deactivate PersonRepository

@@ -7,125 +7,252 @@ skinparam linetype polyline
 
 skinparam classAttributeIconSize 0
 
-'left to right direction
 
-class ApplicationSession
-{
-    + static getInstance()
-    + getCurrentSession()
+class ImportLegacySystemInformationController {
++ importInformation(filePath)
++ createRequest(legacySystemDto,agency,agent,ownerEmail)
++ registerAgency(legacySystemDto)
++ registerAgent(agency)
++ registerOwner(legacySystemDto)
++ PublishAnnouncement(legacySystemDto, agency, agent, ownerEmail)
 }
 
-class UserSession
-{
-    + getUserEmail()
+class ImportLegacySystemInformationUI {
+
 }
 
-class Employee {
-    - name
-    - email
-    - position
-    - phone
+class LegacySystem {
+
++ importInformation(filePath)
+- readLineInformationFromFIle(filePath)
 }
 
-class Task {
-    - String reference
-    - String description
-    - String informalDescription
-    - String technicalDescription
-    - Integer duration
-    - Double cost
-
-    + Task(reference, description,\ninformalDescription, technicalDescription,\nduration, cost, createdBy, taskCategory)
+class LegacySystemMapper{
++ getAgencyId()
++ getCommissionValue()
++ toDto(legacySystemInformationList)
++ toModelPerson(legacySystemDto)
++ toModelAgency(legacySystemDto)
++ toModelRequest()
 }
 
-class TaskCategory {
-    - String description
 
-    + TaskCategory(description)
-}
-
-class Organization {
-    - String name
-    - String vatNumber
-    - String website
-    - String phone
-    - String email
-
-    - addTask(task)
-    - validateTask(task)
-    + anyEmployeeHasEmail(email)
-    + Organization(name, vatNumber, webSite, phone, email, postalAddress, manager)
-    + createTask(reference, description, informalDesccription,\ntechnicalDescription, duration, cost, taskCategoryDescription)
-    - getEmployeeByEmail(email)
-
-'  +saveTask(task)
-}
-
-class TaskCategoryRepository {
-    + getTaskCategoryByDescription(description)
-}
-
-class AgencyRepository {
-    + getOrganizationByEmployeeEmail(email)
+class LegacySystemDto {
+- String ownerName
+- String ownerPassportCardNumber
+- String ownerTaxNumber
+- String ownerEmailAddress
+- String ownerPhoneNumber
+- String ownerLocation
+- String agencyName
+- String agencyLocation
+- String agencyPhoneNumber
+- String agencyEmailAddress
+- int agencyId
+- int commissionValue
+- String announcementAcceptanceDate
+- String businessTypeDesignation
+- int contractDuration
+- int amount
+- String propertyTypeDesignation
+- int area
+- String location
+- int distanceCityCentre
+- int numberBedrooms
+- int numberBathrooms
+- int parkingSpace
+- String centralHeating
+- String airConditioning
+- String basement
+- String inhabitableLoft
+- String sunExposure
++ getOwnerName()
++ getOwnerPassportCardNumber()
++ getOwnerTaxNumber()
++ getOwnerEmailAddress()
++ getOwnerPhoneNumber()
++ getOwnerLocation()
++ getAgencyName();
++ getAgencyLocation()
++ getAgencyPhoneNumber()
++ getAgencyEmailAddress()
++ getAgencyId()
++ getCommissionValue()
++ getAnnouncementAcceptanceDate()
++ getBusinessTypeDesignation()
++ getContractDuration()
++ getAmount()
++ getPropertyTypeDesignation()
++ getArea()
++ getLocation()
++ getDistanceCityCentre()
++ getNumberBedrooms()
++ getNumberBathrooms()
++ getParkingSpace()
++ getCentralHeating()
++ getAirConditioning()
++ getBasement()
++ getInhabitableLoft()
++ getSunExposure()
++ LegacySystemDto(legacySystemInformationList)
 }
 
 class Repositories {
-    - Repositories()
-    + getInstance() : repositories
-    + getTransactionTypeRepository()
-    + getPropertyTypeRepository()
-    + getAgencyRepository()
+- Repositories()
++ getInstance() : repositories
++getPersonRepository()
++getAgencyRepository()
+
+}
+class AgencyRepository{
++anyAgencyHasAgencyId()
++add(agency)
++validateAgency(agency)
+}
+class PersonRepository {
++ registerPerson(legacySystemDto)
++ add(person)
++ validatePerson(person)
 }
 
-class CreateTaskController {
-    + CreateTaskController(organizationRepository, taskCategoryRepository)
-    + getTaskCategories()
-    + createTask(userEmail, reference, description,\ninformalDescription, technicalDescription,\nduration, cost, categoryDescription)
-    - getTaskCategoryByDescription(taskCategoryDescription)
-    - getEmployeeFromSession()
+class Person {
++ createOwner(name,passportCardNumber,taxNumber,taxNumber,emailAddress,phoneNumber,location)
++ getEmailAddress()
 }
 
-note right of CreateTaskController
-    - userEmail is obtained
-    from the user session
-    - categoryDescription
-    is retrieved from selected data
-end note
+class Agency{
++ Agency(agencyId,agencyName,agencyPhoneNumber,agencyEmailAdress,agencyId)
++ hasId(agencyId)
++ addEmployee(agent)
++ validateEmployee(agent)
++ createDefaultAgent()
++ **ADD PUBLISH ANNOUNCEMENT METHOD**
+}
+class Announcement{
++Announcement(agent, announcementAcceptanceDate, commissionValue, request)
+}
 
-note bottom of TaskCategoryRepository
-    - used for displaying
-    the category list
-end note
+class Commission{
++ Commission(commissionValue)
+}
 
-class CreateTaskUI {
+class AnnouncementList{
++ addAnnouncement(announcement)
++ validateAnnouncement()
+}
+
+
+class Location {
++ Location(locationString)
++ validateLocation() **VER MELHOR AS VALIDAÇÕES DA LOCATION**
+}
+
+class Request {
++ Request()
+**COLOCAR O RESTO DAS CLASSES**
+}
+class Employee {
++ Employee()
+}
+
+class Property {
+    - Double area
+    - Double distanceCityCenter
+    - Boolean basement
+    - Boolean inhabitableLoft
+    - Boolean parkingSpace
+    - String sunExposure
+    - Integer numberBedroom
+    - Integer numberBathroom
+    + Property(streetName, city, district, state, zipCode, propertyType,\n area, basement, availableEquipment, inhabitableLoft, parkingSpace,\n sunExposure, numberBedroom, numberBathroom, distanceCityCenter,\n photograph)
+    }
+
+class Location {
+    - String streetName
+    - String city
+    - String district
+    - String state
+    - Integer zipCode
+    + Location(streetName, city, district, state, zipCode)
+}
+
+class Photograph{
+    - String uri
+    + addPhotographUri(uri)
+}
+
+class AvailableEquipment{
+    - String description
+    + addAvailableEquipment(description)
+}
+
+class Request{
+    - String requestDate
+    - Agent agent
+    - String ownerEmail
+    - Business business
+    - Lease lease
+    - Property property
+    + Request(agency, agent, ownerEmail, businessType, propertyType, area,\n streetName, city, district, state, zipCode, basement, availableEquipment,\n inhabitableLoft, parkingSpace, sunExposure, numberBedroom,\n numberBathroom, distanceCityCenter, contractDuration, photograph)
+    - getCurrentDate()
+}
+
+class Residence extends Property{
+    - Integer numberBedrooms
+    - Integer numberBathrooms
+    - Integer parkingSpace
+    + Residence(propertyType, area, availableEquipment, streetName, city,\n district, state, zipCode, parkingSpace, numberBedroom, numberBathroom,\n distanceCityCenter, photograph)
+    + fillAvailableEquipmentList(availableEquipment)
+
+}
+
+class House extends Residence{
+     - Boolean basement
+     - Boolean inhabitableLoft
+     - Enum sunExposure
+     + House(propertyType, availableEquipment, area, streetName, city,\n district, state, zipCode, basement, inhabitableLoft, parkingSpace,\n sunExposure, numberBedroom, numberBathroom, distanceCityCenter,\n photograph)
+}
+
+class Business{
+    - Double amount
+}
+class PropertyType {
+    - String propertyTypeDesignation
+    + PropertyType(propertyTypeDesignation)
+}
+
+class BusinessType {
+    - String businessTypeDesignation
+    + BusinessType(businessTypeDesignation)
 }
 
 Repositories -> Repositories : instance
-ApplicationSession -> ApplicationSession : instance
 
-CreateTaskUI .> CreateTaskController
-
-CreateTaskController .> Repositories : repositories
-
-Repositories -> "1" TaskCategoryRepository
-
-CreateTaskController ..> TaskCategory
-CreateTaskController ..> OrganizationRepository : organizationRepository
-CreateTaskController ..> TaskCategoryRepository : TaskCategoryRepository
-
-Repositories --> "1" OrganizationRepository
-
-OrganizationRepository --> "*" Organization
-ApplicationSession --> "1" UserSession : userSession
-
-CreateTaskController ..> "1" Organization : organization
-CreateTaskController ..> ApplicationSession
-CreateTaskController ..> UserSession
-Task "*" --> "1" TaskCategory : taskCategory
-TaskCategoryRepository "1" --> "*" TaskCategory : taskCategory
-Organization "1" --> "*" Task : tasks
-Task --> Employee : createdBy
-
-Organization --> "*" Employee : employs
+ImportLegacySystemInformationUI .> ImportLegacySystemInformationController
+ImportLegacySystemInformationController .> Repositories : repositories
+ImportLegacySystemInformationController .-> AgencyRepository : agencyRepository
+ImportLegacySystemInformationController .-> PersonRepository :  personRepository
+ImportLegacySystemInformationController ..> LegacySystem : LegacySystem
+ImportLegacySystemInformationController...> LegacySystemMapper
+LegacySystemMapper --> LegacySystemDto
+LegacySystemMapper .> LegacySystem
+Repositories --> "1" AgencyRepository
+Repositories ---> "1" PersonRepository
+AgencyRepository --> "*" Agency
+PersonRepository --> "*" Person
+Employee -up|> Person
+Agency -> "1" AnnouncementList
+AnnouncementList "1" --> "*" Announcement
+Announcement  --> "1" Commission
+Request  --> "1" Property
+Property  ---> "1" Location
+Property  --> "1" Photograph
+Residence "1" ---> "1" AvailableEquipment
+PropertyType "1" --> "1" Property
+BusinessType "1" --> Business
+Request "1" -right-> Business
+Agency "1" -> "*" Request
+Employee "1" --> "*" Request
 
 @enduml
+
