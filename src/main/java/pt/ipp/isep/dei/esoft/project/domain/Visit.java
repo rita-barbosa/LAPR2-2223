@@ -44,15 +44,14 @@ public class Visit implements Notification {
     /**
      * Instantiates a new Visit.
      *
-     * @param id              the id
      * @param startHour       the start hour
      * @param endHour         the end hour
      * @param visitDate       the visit date
      * @param userName        the user name
      * @param userPhoneNumber the user phone number
      */
-    public Visit(Integer id, Integer startHour, Integer endHour, LocalDate visitDate, String userName, String userPhoneNumber) {
-        this.id = id;
+    public Visit(LocalDate visitDate, Integer startHour, Integer endHour,  String userName, String userPhoneNumber) {
+       // this.id = (Integer) Math.random();
         this.startHour = startHour;
         this.endHour = endHour;
         this.visitDate = visitDate;
