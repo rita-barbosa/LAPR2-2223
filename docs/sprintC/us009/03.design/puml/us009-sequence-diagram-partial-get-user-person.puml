@@ -8,7 +8,6 @@ participant ":ScheduleVisitController" as CTRL
 participant ":Repositories" as RepositorySingleton
 participant "repositories\n:Repositories" as PLAT
 participant "authenticationRepository\n:AuthenticationRepository" as AuthenticationRepository
-participant "authFacade\n:AuthFacade" as FACADE
 participant "userSession\n:UserSession" as SESSION
 participant "personRepository\n:PersonRepository" as PersonRepository
 participant "person:\nPerson" as PERSON
@@ -34,23 +33,17 @@ autonumber 26.1.1
             PLAT --> CTRL : AuthenticationRepository
         deactivate PLAT
 
-        CTRL -> AuthenticationRepository : getUserEmail()
+        CTRL -> AuthenticationRepository : getCurrentUserSession()
         activate AuthenticationRepository
 
-            AuthenticationRepository -> FACADE : getUserEmail()
-            activate FACADE
-
-                FACADE -> SESSION : getUserId()
-                activate SESSION
-
-                    SESSION --> FACADE : userEmail
-                deactivate SESSION
-
-                FACADE --> AuthenticationRepository : userEmail
-            deactivate FACADE
-
-           AuthenticationRepository --> CTRL : userEmail
+           AuthenticationRepository --> CTRL : userSession
         deactivate AuthenticationRepository
+
+        CTRL -> SESSION : getUserId()
+        activate SESSION
+
+            SESSION --> CTRL : userEmail
+        deactivate SESSION
 |||
         CTRL -> RepositorySingleton : getInstance()
         activate RepositorySingleton
