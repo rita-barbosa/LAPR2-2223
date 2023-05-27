@@ -73,6 +73,26 @@ public class Agency {
     }
 
     /**
+     * Constructs a new Agency object with the specified id, description, email address, phone number and location.
+     *
+     * @param id           the unique identifier of the agency.
+     * @param description  the description of the agency.
+     * @param emailAddress the email address of the agency.
+     * @param phoneNumber  the phone number of the agency.
+     * @param location     the location of the agency.
+     */
+    public Agency(Integer id, String description, String emailAddress, String phoneNumber, String location) {
+        this.id = id;
+        this.description = description;
+        this.emailAddress = new Email(emailAddress);
+        this.phoneNumber = phoneNumber;
+        this.location = new Location(location);
+        this.employees = new ArrayList<>();
+        this.announcements = new AnnouncementList();
+        this.requests = new RequestList();
+    }
+
+    /**
      * Constructs a new Agency object with the specified id.
      *
      * @param id -  the unique identifier of the agency.
@@ -250,7 +270,6 @@ public class Agency {
     }
 
 
-
     public Boolean addRequest(Request request) {
         return requests.addRequest(request);
     }
@@ -281,8 +300,6 @@ public class Agency {
     }
 
 
-
-
     /**
      * This method returns the agency id.
      *
@@ -311,10 +328,9 @@ public class Agency {
         return announcements.getAnnouncementsByAgentEmail(email);
     }
 
-    public List<Request> getRequestsByAgentEmail(String email){
+    public List<Request> getRequestsByAgentEmail(String email) {
         return requests.getRequestsByAgentEmail(email);
     }
-
 
 
     /**
@@ -580,8 +596,16 @@ public class Agency {
         }
     };
 
-    public String getOwnerEmail(){
+    public String getOwnerEmail() {
         throw new NotImplementedException();
     }
 
+    public boolean hasId(int agencyId) {
+        return (this.id == agencyId);
+    }
+
+    public Employee createDefaultAgent() {
+        String role = "agent";
+        return new Employee(role);
+    }
 }

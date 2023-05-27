@@ -1,9 +1,7 @@
 package pt.ipp.isep.dei.esoft.project.repository;
 
 import org.apache.commons.lang3.NotImplementedException;
-import pt.ipp.isep.dei.esoft.project.domain.Agency;
-import pt.ipp.isep.dei.esoft.project.domain.Announcement;
-import pt.ipp.isep.dei.esoft.project.domain.Request;
+import pt.ipp.isep.dei.esoft.project.domain.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,7 +107,7 @@ public class AgencyRepository {
      *
      * @return the list
      */
-    public List<Announcement> getAllAnnouncementsList(){
+    public List<Announcement> getAllAnnouncementsList() {
         throw new NotImplementedException();
     }
 
@@ -125,4 +123,24 @@ public class AgencyRepository {
     }
 
 
+    public Optional<Agency> registerAgency(LegacySystemDto dto) {
+        Optional<Agency> newAgency;
+        int agencyId = dto.getAgencyID();
+        if (!anyAgencyHasAgencyId(agencyId)) {
+            newAgency = add(LegacySystemMapper.toModelAgency(dto));
+        } else {
+            newAgency = getAgencyByID(agencyId);
+        }
+
+        return newAgency;
+    }
+
+    private boolean anyAgencyHasAgencyId(int agencyId) {
+        for (Agency agency : agencies) {
+            if (agency.hasId(agencyId)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
