@@ -72,6 +72,23 @@ public class Property {
         this.photograph = photograph;
     }
 
+    /**
+     * Instantiates a new Property.
+     *
+     * @param propertyType       the property type
+     * @param area               the area
+     * @param distanceCityCenter the distance city center
+     * @param location           the location
+     */
+    public Property(PropertyType propertyType, Double area, Double distanceCityCenter, String location) {
+        this.propertyType = propertyType;
+        this.area = area;
+        this.distanceCityCenter = distanceCityCenter;
+        this.location = new Location(location);
+        this.photograph = new ArrayList<>();
+    }
+
+
 
     /**
      * Fill photograph list.
@@ -124,7 +141,7 @@ public class Property {
      * @return the string
      */
     @Override
-    public String toString(){
+    public String toString() {
         StringBuilder request = new StringBuilder(String.format("Property Type: %s\nArea: %.2f m²\nDistance from city center: %.2f m\nLocation: %s\nPhotographs:\n", propertyType, area, distanceCityCenter, location.toString()));
         for (Photograph photo : photograph) {
             request.append(String.format("%s\n", photo));

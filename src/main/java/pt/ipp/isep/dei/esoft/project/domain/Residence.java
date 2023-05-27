@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+
 /**
  * The type Residence.
  */
 public class Residence extends Property {
+
 
     /**
      * The Number bedroom.
@@ -56,17 +58,48 @@ public class Residence extends Property {
     }
 
     /**
+     * Instantiates a new Residence.
+     *
+     * @param propertyType        the property type
+     * @param area                the area
+     * @param distanceCityCenter  the distance city center
+     * @param location            the location
+     * @param numberBedrooms      the number bedrooms
+     * @param numberBathrooms     the number bathrooms
+     * @param numberParkingSpaces the number parking spaces
+     * @param centralHeating      the central heating
+     * @param airConditioning     the air conditioning
+     */
+    public Residence(PropertyType propertyType, Double area, Double distanceCityCenter, String location,
+                     Integer numberBedrooms, Integer numberBathrooms, Integer numberParkingSpaces, boolean centralHeating, boolean airConditioning) {
+        super(propertyType, area, distanceCityCenter, location);
+
+        List<String> availableEquipments = new ArrayList<>();
+        if (centralHeating) {
+            availableEquipments.add(AvailableEquipment.CENTRAL_HEATING);
+        }
+        if (airConditioning) {
+            availableEquipments.add(AvailableEquipment.AIR_CONDITIONING);
+        }
+        this.numberBedroom = numberBedrooms;
+        this.numberBathroom = numberBathrooms;
+        this.parkingSpace = numberParkingSpaces;
+        fillAvailableEquipmentList(availableEquipments);
+    }
+
+
+    /**
      * Fill available equipment list.
      *
      * @param availableEquipmentDescription the available equipment description
      */
     private void fillAvailableEquipmentList(List<String> availableEquipmentDescription) {
-       if (availableEquipmentDescription != null){
-           for (String description : availableEquipmentDescription) {
-               AvailableEquipment equipment = new AvailableEquipment(description);
-               addAvailableEquipment(equipment);
-           }
-       }
+        if (availableEquipmentDescription != null) {
+            for (String description : availableEquipmentDescription) {
+                AvailableEquipment equipment = new AvailableEquipment(description);
+                addAvailableEquipment(equipment);
+            }
+        }
     }
 
     /**

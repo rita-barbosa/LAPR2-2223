@@ -53,11 +53,36 @@ public class House extends Residence {
     }
 
     /**
+     * Instantiates a new House.
+     *
+     * @param propertyType        the property type
+     * @param area                the area
+     * @param distanceCityCenter  the distance city center
+     * @param location            the location
+     * @param numberBedrooms      the number bedrooms
+     * @param numberBathrooms     the number bathrooms
+     * @param numberParkingSpaces the number parking spaces
+     * @param centralHeating      the central heating
+     * @param airConditioning     the air conditioning
+     * @param basement            the basement
+     * @param inhabitableLoft     the inhabitable loft
+     * @param sunExposure         the sun exposure
+     */
+    public House(PropertyType propertyType, Double area, Double distanceCityCenter, String location,
+                 Integer numberBedrooms, Integer numberBathrooms, Integer numberParkingSpaces, boolean centralHeating, boolean airConditioning, boolean basement,
+                 boolean inhabitableLoft, Enum<SunExposureTypes> sunExposure) {
+        super(propertyType, area, distanceCityCenter, location, numberBedrooms, numberBathrooms, numberParkingSpaces, centralHeating, airConditioning);
+        this.basement = basement;
+        this.inhabitableLoft = inhabitableLoft;
+        this.sunExposure = sunExposure;
+    }
+
+    /**
      * To string string.
      *
      * @return the string
      */
-    public String toString(){
+    public String toString() {
         return super.toString() + String.format("Basement: %b \nInhabitable Loft: %b \nSun Exposure: %s\n", basement, inhabitableLoft, sunExposure);
     }
 
