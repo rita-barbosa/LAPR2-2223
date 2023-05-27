@@ -16,6 +16,8 @@ public class Person {
      * The Tax number.
      */
     private String taxNumber;
+
+
     /**
      * The Email address.
      */
@@ -90,7 +92,7 @@ public class Person {
      */
     public Person(String name, String passportCardNumber, String taxNumber, String emailAddress, String phoneNumber,
                   String role, String streetName, String city, String district, String state, String zipCode) {
-        Scanner input = new Scanner(System.in);
+
         this.roles = new ArrayList<>();
 
         this.roles.add(role);
@@ -98,22 +100,10 @@ public class Person {
         if (streetName != null) {
             this.location = new Location(streetName, city, district, state, zipCode);
         }
-        this.emailAddress = new Email(emailAddress);
-        while (!validatePassportCardNumber(passportCardNumber)) {
-            System.out.println("Invalid Passport Card Number. Provide a new one.");
-            passportCardNumber = input.nextLine();
-        }
-        this.passportCardNumber = passportCardNumber;
-        while (!validateTaxNumber(taxNumber)) {
-            System.out.println("Invalid Tax Number. Provide a new one.");
-            taxNumber = input.nextLine();
-        }
-        this.taxNumber = taxNumber;
-        while (!validatePhone(phoneNumber)) {
-            System.out.println("Invalid Phone Number. Provide a new one.");
-            phoneNumber = input.nextLine();
-        }
-        this.phoneNumber = phoneNumber;
+        this.setEmailAddress(emailAddress);
+        this.setPassportCardNumber(passportCardNumber);
+        this.setTaxNumber(taxNumber);
+        this.setPhoneNumber(phoneNumber);
     }
 
     /**
@@ -129,14 +119,13 @@ public class Person {
      */
     public Person(String name, String passportCardNumber, String taxNumber, Email emailAddress,
                   String phoneNumber, List<String> roles, Location location) {
-        Scanner input = new Scanner(System.in);
         this.roles = roles;
         this.name = name;
         this.location = location;
         this.emailAddress = emailAddress;
-        this.passportCardNumber = passportCardNumber;
-        this.taxNumber = taxNumber;
-        this.phoneNumber = phoneNumber;
+        this.setPassportCardNumber(passportCardNumber);
+        this.setTaxNumber(taxNumber);
+        this.setPhoneNumber(phoneNumber);
     }
 
 
@@ -150,7 +139,7 @@ public class Person {
         this.roles = new ArrayList<>();
 
         this.roles.add(role);
-        this.emailAddress = new Email(emailAddress);
+        this.setEmailAddress(emailAddress);
     }
 
     /**
@@ -162,6 +151,24 @@ public class Person {
         this.emailAddress = new Email(emailAddress);
     }
 
+    public Person(String name, String passportCardNumber, String taxNumber, String emailAddress,
+                  String phoneNumber, String role) {
+        this.roles.add(role);
+        this.name = name;
+        this.setEmailAddress(emailAddress);
+        this.setPassportCardNumber(passportCardNumber);
+        this.setTaxNumber(taxNumber);
+        this.setPhoneNumber(phoneNumber);
+    }
+
+    public Person(String name, String taxNumber, String phoneNumber, String email) {
+        this.name = name;
+        this.setEmailAddress(email);
+        this.setTaxNumber(taxNumber);
+        this.setPhoneNumber(phoneNumber);
+    }
+
+
     /**
      * Validate passport card number boolean.
      *
@@ -169,9 +176,9 @@ public class Person {
      * @return the boolean
      */
     private boolean validatePassportCardNumber(String passportCardNumber) {
-        if (passportCardNumber.length() == PASSPORT_CARD_NUMBER_LENGTH && (passportCardNumber.charAt(0) == PASSPORT_FIRST_CHARACTER)) {
+        if (passportCardNumber.length() == PASSPORT_CARD_NUMBER_LENGTH && (passportCardNumber.charAt(0) != PASSPORT_FIRST_CHARACTER)) {
             String[] passp = passportCardNumber.split("");
-            for (int i = 1; i < passp.length - 1; i++) {
+            for (int i = 0; i < passp.length - 1; i++) {
                 try {
                     Integer.parseInt(passp[i]);
                 } catch (NumberFormatException e) {
@@ -192,7 +199,7 @@ public class Person {
     private boolean validatePhone(String phoneNumber) {
 
         if (phoneNumber.length() == PHONE_NUMBER_LENGTH) {
-            String[] phone = phoneNumber.split(" ");
+            String[] phone = phoneNumber.split("-");
             String[] firstSegment = phone[0].split("");
             String[] secondSegment = phone[1].split("");
             String[] thirdSegment = phone[2].split("");
@@ -211,6 +218,50 @@ public class Person {
             return true;
         }
         return false;
+    }
+
+    public void setTaxNumber(String taxNumber) {
+        Scanner input = new Scanner(System.in);
+        while (!validateTaxNumber(taxNumber)) {
+            System.out.println("Invalid Tax Number. Provide a new one.");
+            taxNumber = input.nextLine();
+        }
+        this.taxNumber = taxNumber;
+    }
+
+    public void setEmailAddress(String email) {
+        boolean valid = false;
+        Scanner input = new Scanner(System.in);
+        while (!valid) {
+            try {
+                this.emailAddress = new Email(email);
+                valid = true;
+            } catch (IllegalArgumentException e) {
+                email = input.nextLine();
+            }
+        }
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        Scanner input = new Scanner(System.in);
+        while (!validatePhone(phoneNumber)) {
+            System.out.println("Invalid Phone Number. Provide a new one.");
+            phoneNumber = input.nextLine();
+        }
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void setPassportCardNumber(String passportCardNumber) {
+        Scanner input = new Scanner(System.in);
+        while (!validatePassportCardNumber(passportCardNumber)) {
+            System.out.println("Invalid Passport Card Number. Provide a new one.");
+            passportCardNumber = input.nextLine();
+        }
+        this.passportCardNumber = passportCardNumber;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
     }
 
     /**
@@ -366,7 +417,6 @@ public class Person {
                 && Objects.equals(passportCardNumber, person.passportCardNumber) && Objects.equals(roles, person.roles)
                 && Objects.equals(location, person.location);
     }
-
 
     public void setRole(List<String> roles) {
         if (!new HashSet<>(this.roles).containsAll(roles)) {

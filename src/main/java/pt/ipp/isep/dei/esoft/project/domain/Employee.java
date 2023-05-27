@@ -17,6 +17,11 @@ public class Employee extends Person {
      * The constant AGENCY_ID_BY_DEFAULT.
      */
     private static final Integer AGENCY_ID_BY_DEFAULT = 0;
+    private static final String LEGACY_AGENT_NAME = "Legacy Agent";
+    private static final String LEGACY_AGENT_PASSPORT_CARD_NUMBER = "000000000";
+    private static final String LEGACY_AGENT_TAX_NUMBER = "000000000";
+    private static final String LEGACY_AGENT_EMAIL_ADDRESS = "legacy@realstateUSA.com";
+    private static final String LEGACY_AGENT_PHONE_NUMBER = "0000000000";
 
     /**
      * Instantiates a new Employee.
@@ -52,15 +57,6 @@ public class Employee extends Person {
         this.agencyId = AGENCY_ID_BY_DEFAULT;
     }
 
-    /**
-     * Instantiates a new Employee.
-     *
-     * @param emailAddress the email address of Employee
-     */
-    public Employee(String emailAddress) {
-        super(emailAddress);
-        this.agencyId = AGENCY_ID_BY_DEFAULT;
-    }
 
     /**
      * Instantiates a new Employee.
@@ -81,13 +77,22 @@ public class Employee extends Person {
         this.agencyId = agencyId;
     }
 
+    /**
+     * Instantiates a new Employee.
+     *
+     * @param roleId       the role id
+     */
+    public Employee(String roleId) {
+        super(LEGACY_AGENT_NAME, LEGACY_AGENT_PASSPORT_CARD_NUMBER, LEGACY_AGENT_TAX_NUMBER, LEGACY_AGENT_EMAIL_ADDRESS, LEGACY_AGENT_PHONE_NUMBER,roleId);
+    }
+
 
     /**
      * Get employee email.
      *
      * @return the email string
      */
-    public String getEmployeeEmail(){
+    public String getEmployeeEmail() {
         return this.getEmailAddress().toString();
     }
 
