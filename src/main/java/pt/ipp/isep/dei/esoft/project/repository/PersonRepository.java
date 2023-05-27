@@ -1,6 +1,8 @@
 package pt.ipp.isep.dei.esoft.project.repository;
 
 import pt.ipp.isep.dei.esoft.project.domain.Agency;
+import pt.ipp.isep.dei.esoft.project.domain.LegacySystemDto;
+import pt.ipp.isep.dei.esoft.project.domain.LegacySystemMapper;
 import pt.ipp.isep.dei.esoft.project.domain.Person;
 
 import javax.swing.text.html.Option;
@@ -84,4 +86,9 @@ public class PersonRepository {
         return (!people.contains(person));
     }
 
+    public Person registerPerson(LegacySystemDto dto) {
+        Person newPerson = LegacySystemMapper.toModelPerson(dto);
+        add(newPerson);
+        return newPerson;
+    }
 }
