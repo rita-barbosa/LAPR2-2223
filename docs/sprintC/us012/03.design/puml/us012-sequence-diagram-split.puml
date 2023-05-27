@@ -13,7 +13,7 @@ participant "person\n:Person" as PERSON
 participant "legacySystem\n:LegacySystem" as LS
 participant "legacySystemMapper\n:LegacySystemMapper" as LSMapper
 participant "legacySystemDto\n:LegacySystemDto" as LSDto
-
+participant "legacySystemDtoList\n: List<LegacySystemDto>" as LsDtoList
 activate ADM
 
     ADM -> UI : asks to import information from a legacy system
@@ -36,11 +36,12 @@ activate ADM
     UI -> CTRL: importInformation(filePath)
     activate CTRL
 
-
-    loop while file has next line
-
       CTRL -> LS: importInformation(filepath)
       activate LS
+
+      LS -> LsDtoList**: create()
+
+      loop while file has next line
 
       LS -> LS : readLineInformationFromFile(filepath)
       activate LS
@@ -48,16 +49,30 @@ activate ADM
       LS --> LS: legacySystemInformationList
       deactivate LS
 
-     CTRL <-- LS : legacySystemInformationList
-      deactivate LS
-
-      CTRL -> LSMapper : toDto(legacySystemInformationList)
+      |||
+      LS -> LSMapper : toDto(legacySystemInformationList)
       activate LSMapper
 
       LSMapper -> LSDto** : create(legacySystemInformationList)
 
-      LSMapper --> CTRL : legacySystemDto
+      LSMapper --> LS : legacySystemDto
       deactivate LSMapper
+
+      LS -> LsDtoList : add(legacySystemDto)
+      activate LsDtoList
+      deactivate LsDtoList
+
+      |||
+       end loop
+
+
+    LS --> CTRL : legacySystemDtoList
+    deactivate LS
+
+         note right CTRL
+                **VER COMO COLOCAR AGORA O RESTO DAS CLASSES**
+         end note
+
 
     |||
     CTRL -> CTRL : registerAgency(legacySystemDto)
@@ -100,8 +115,6 @@ activate ADM
         CTRL --> CTRL : operationSuccess
     deactivate CTRL
 
-|||
-     end loop
 
     CTRL --> UI: operationSuccess
     deactivate CTRL
