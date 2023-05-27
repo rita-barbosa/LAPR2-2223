@@ -1,8 +1,6 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
-import java.util.InputMismatchException;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * The type Location.
@@ -66,6 +64,15 @@ public class Location {
         this.zipCode = zipCode;
     }
 
+    public Location(String address) {
+        String[] values = address.split(",");
+        if ((values.length == 4) || (values.length == 7)) {
+            setLocationWithoutDistrict(values);
+        } else if ((values.length == 5) || (values.length == 8)) {
+            setLocationWithDistrict(values);
+        }
+    }
+
     /**
      * Get new location string [ ].
      *
@@ -113,9 +120,9 @@ public class Location {
      * @return the boolean
      */
     private boolean validateLocation(String streetName, String city, String district, String state, String zipCode) {
-        if (streetName.isBlank() && city.isBlank() && district.isBlank() && state.isBlank() && zipCode.isBlank()){
+        if (streetName.isBlank() && city.isBlank() && district.isBlank() && state.isBlank() && zipCode.isBlank()) {
             return false;
-        }else if (streetName.isEmpty() && city.isEmpty() && district.isEmpty() && state.isEmpty() && zipCode.isEmpty()){
+        } else if (streetName.isEmpty() && city.isEmpty() && district.isEmpty() && state.isEmpty() && zipCode.isEmpty()) {
             return true;
         }
         return validateZipCode(zipCode) && validateState(state);
@@ -202,4 +209,31 @@ public class Location {
     public Location clone() {
         return new Location(this.streetName, this.city, this.district, this.state, this.zipCode);
     }
+
+
+    private void setLocationWithoutDistrict(String[] values) {
+            this.zipCode = values[values.length - 1];
+            this.state = values[values.length - 2];
+            this.city = values[values.length - 3];
+
+            if (values.length == 7) {
+                this.streetName = String.join(",", Arrays.copyOfRange(values, 0, 3));
+            } else if (values.length == 4) {
+                this.streetName = values[0];
+            }
+        }
+
+    private void setLocationWithDistrict(String[] values) {
+        this.zipCode = values[values.length - 1];
+        this.state = values[values.length - 2];
+        this.district = values[values.length - 3];
+        this.city = values[values.length - 4];
+
+        if (values.length == 8) {
+            this.streetName = String.join(",", Arrays.copyOfRange(values, 0, 3));
+        } else if (values.length == 5) {
+            this.streetName = values[0];
+        }
+    }
 }
+
