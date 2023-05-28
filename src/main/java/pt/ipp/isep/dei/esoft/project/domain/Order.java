@@ -37,7 +37,7 @@ public class Order implements Notification {
      */
     private static final String ACCEPTANCE_ANSWER_BY_DEFAULT = "non existent";
     /**
-     * The rejection answer string.
+     * The rejection answer.
      */
     public static final String REJECTION_ANSWER = "reject";
     /**
@@ -46,7 +46,7 @@ public class Order implements Notification {
     private static int counter = 0;
 
     /**
-     * Instantiates a new Order with the amount, date and client email.
+     * Instantiates a new Order with the amount, date, and client email.
      *
      * @param orderAmount the order amount
      * @param clientEmail the client email
@@ -60,7 +60,7 @@ public class Order implements Notification {
     }
 
     /**
-     * Instantiates a new Order with the id, amount, date, client email and acceptance answer.
+     * Instantiates a new Order with the id, amount, date, client email, and acceptance answer.
      *
      * @param id               the id
      * @param orderAmount      the order amount
@@ -104,6 +104,7 @@ public class Order implements Notification {
         return clientEmail;
     }
 
+
     /**
      * Returns the id of the order.
      *
@@ -116,27 +117,27 @@ public class Order implements Notification {
     /**
      * Returns the acceptance answer of the order.
      *
-     * @return the acceptance answer.
+     * @return the acceptance answer
      */
-    private String getAcceptanceAnswer() {
+    public String getAcceptanceAnswer() {
         return this.acceptanceAnswer;
     }
 
     /**
-     * Has id boolean.
+     * Checks if the order has the specified id.
      *
-     * @param id the id
-     * @return the boolean
+     * @param id the id to check
+     * @return true if the order has the specified id, false otherwise
      */
     public Boolean hasId(Integer id) {
         return this.getId().equals(id);
     }
 
     /**
-     * Sets acceptanceAnswer to the specified answer.
+     * Sets the acceptance answer to the specified answer.
      *
-     * @param acceptanceAnswer the acceptance answer
-     * @return the acceptance answer
+     * @param acceptanceAnswer the acceptance answer to set
+     * @return true if the notification is sent successfully, false otherwise
      */
     public Boolean setAcceptanceAnswer(String acceptanceAnswer) {
         this.acceptanceAnswer = acceptanceAnswer;
@@ -144,9 +145,9 @@ public class Order implements Notification {
     }
 
     /**
-     * Sets the acceptanceAnswer to the rejection value.
+     * Sets the acceptance answer to the rejection value.
      *
-     * @return the boolean
+     * @return true if the notification is sent successfully, false otherwise
      */
     public Boolean rejectOrder() {
         this.acceptanceAnswer = REJECTION_ANSWER;
@@ -156,7 +157,8 @@ public class Order implements Notification {
     /**
      * Creates a file with the notification information.
      *
-     * @param email
+     * @param email the recipient's email address
+     * @return true if the notification is sent successfully, false otherwise
      */
     @Override
     public Boolean sendNotification(String email) {
@@ -179,10 +181,22 @@ public class Order implements Notification {
         }
     }
 
+
+    /**
+     * Creates a copy of the order object.
+     *
+     * @return a new Order object that is a clone of this instance
+     */
     public Order clone() {
         return new Order(this.getId(), this.getOrderAmount(), this.getOrderDate(), this.getClientEmail(), this.getAcceptanceAnswer());
     }
 
+    /**
+     * Checks if this order is equal to another object.
+     *
+     * @param o the object to compare
+     * @return true if the objects are equal, false otherwise
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -191,6 +205,11 @@ public class Order implements Notification {
         return Objects.equals(id, order.id) && Objects.equals(orderAmount, order.orderAmount) && Objects.equals(orderDate, order.orderDate) && Objects.equals(clientEmail, order.clientEmail) && Objects.equals(acceptanceAnswer, order.acceptanceAnswer);
     }
 
+    /**
+     * Returns the hash code of the order.
+     *
+     * @return the hash code
+     */
     @Override
     public int hashCode() {
         return Objects.hash(id, orderAmount, orderDate, clientEmail, acceptanceAnswer);

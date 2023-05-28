@@ -36,8 +36,15 @@ public class Announcement {
      */
     private OrderList orders;
 
+    /**
+     * The list of visits.
+     */
     private List<Visit> visitList;
-    private static final LocalDate DATE_BY_DEFAULT= LocalDate.of(1,1,1);
+
+    /**
+     * The default date value.
+     */
+    private static final LocalDate DATE_BY_DEFAULT = LocalDate.of(1, 1, 1);
 
     /**
      * The id iteration variable.
@@ -72,6 +79,7 @@ public class Announcement {
      * @param request    The request based on which the announcement is made
      */
     public Announcement(Employee agent, Commission commission, Request request) {
+        this.acceptanceDate = LocalDate.now();
         this.commission = commission;
         this.request = request;
         this.agent = agent;
@@ -100,9 +108,17 @@ public class Announcement {
         this.id = id;
     }
 
-    public Announcement(Employee agent, double commissionValue, Request newRequest) {
+    /**
+     * Constructs an Announcement object with the specified responsible agent,
+     * commission, request and acceptance date.
+     *
+     * @param agent the agent
+     * @param commissionValue the commission value
+     * @param request        the request
+     */
+    public Announcement(Employee agent, double commissionValue, Request request) {
         this.commission = new Commission(new CommissionType("fixed"), commissionValue);
-        this.request = newRequest;
+        this.request = request;
         this.agent = agent;
         this.id = counter++;
         this.acceptanceDate = DATE_BY_DEFAULT;
@@ -210,6 +226,13 @@ public class Announcement {
         return this.getId().equals(announcementId);
     }
 
+    /**
+     * Defines the acceptance status of an order.
+     *
+     * @param answer   The acceptance answer
+     * @param orderId  The ID of the order
+     * @return {@code true} if the order acceptance was successfully defined; {@code false} otherwise
+     */
     public Boolean defineOrderAcceptance(String answer, int orderId) {
         return orders.defineOrderAcceptance(answer, orderId);
     }
@@ -231,16 +254,6 @@ public class Announcement {
      */
     public String toString() {
         return getRequest().toString() + String.format("Acceptance Date: %s\n", acceptanceDate);
-    }
-
-    /**
-     * Get announcement info to display string. This method gets the corresponding request's property
-     * and business information.
-     *
-     * @return the property and business information string
-     */
-    public String getAnnouncementInfoToDisplay() {
-        return this.getRequest().toString();
     }
 
     /**
@@ -295,6 +308,12 @@ public class Announcement {
         return false;
     }
 
+    /**
+     * Indicates whether some other object is "equal to" this one.
+     *
+     * @param o The reference object with which to compare
+     * @return {@code true} if this object is the same as the o argument; {@code false} otherwise
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -305,6 +324,11 @@ public class Announcement {
                 Objects.equals(id, that.id) && Objects.equals(orders, that.orders) && Objects.equals(visitList, that.visitList);
     }
 
+    /**
+     * Returns a hash code value for the object.
+     *
+     * @return A hash code value for this object
+     */
     @Override
     public int hashCode() {
         return Objects.hash(acceptanceDate, commission, request, agent, id, orders, visitList);
