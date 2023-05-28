@@ -25,54 +25,50 @@
 # 5. Construction (Implementation)
 
 
-## Class CreateTaskController 
+## Class ListRequestsController 
 
 ```java
-public Task createTask(String reference, String description, String informalDescription,
-								 String technicalDescription, Integer duration, Double cost,
-								 String taskCategoryDescription) {
-
-	TaskCategory taskCategory = getTaskCategoryByDescription(taskCategoryDescription);
-
-	Employee employee = getEmployeeFromSession();
-	Organization organization = getOrganizationRepository().getOrganizationByEmployee(employee);
-
-	newTask = organization.createTask(reference, description, informalDescription, technicalDescription, 
-			duration, cost,taskCategory, employee);
-    
-	return newTask;
-}
+public ListRequestsController(AuthenticationRepository authenticationRepository, AgencyRepository agencyRepository, CommissionTypeRepository commissionTypeRepository){
+        this.authenticationRepository = authenticationRepository;
+        this.agencyRepository = agencyRepository;
+        this.commissionTypeRepository = commissionTypeRepository;
+        }
 ```
 
 
-## Class Organization
+## Class Request
 
 ```java
-public Optional<Task> createTask(String reference, String description, String informalDescription,
-                                     String technicalDescription, Integer duration, Double cost,
-                                     TaskCategory taskCategory, Employee employee) {
-    
-        Task task = new Task(reference, description, informalDescription, technicalDescription, duration, cost,
-                taskCategory, employee);
+public Optional<Request> createRequest(String ownerEmail, PropertyType propertyType, String businessTypeDesignation, Double amount, Double area, Integer contractDuration, List<String> availableEquipmentDescription, String streetName, String city, String district, String state, String zipCode, Boolean basement, Boolean inhabitableLoft, Integer parkingSpace, Enum<SunExposureTypes> sunExposure, Integer numberBedroom, Integer numberBathroom, Employee agent, Double distanceCityCenter, List<String> uri) {
 
-        addTask(task);
-        
-        return task;
-    }
+        // When a Request is added, it should fail if the Request already exists in the list of Request.
+        // In order to not return null if the operation fails, we use the Optional class.
+        Optional<Request> optionalValue = Optional.empty();
+
+        Request request;
+
+        if (businessTypeDesignation.equalsIgnoreCase(LEASE_BUSINESSTYPE)) {
+        request = new Request(ownerEmail, propertyType, businessTypeDesignation, amount, area, contractDuration, availableEquipmentDescription, streetName, city, district, state, zipCode, basement, inhabitableLoft, parkingSpace, sunExposure, numberBedroom, numberBathroom, agent, distanceCityCenter, uri);
+        } else {
+        request = new Request(ownerEmail, propertyType, businessTypeDesignation, amount, area, availableEquipmentDescription, streetName, city, district, state, zipCode, basement, inhabitableLoft, parkingSpace, sunExposure, numberBedroom, numberBathroom, agent, distanceCityCenter, uri);
+        }
+
+        if (addRequest(request)) {
+        optionalValue = Optional.of(request);
+        }
+        return optionalValue;
+        }
 ```
 
 # 6. Integration and Demo 
 
-* A new option on the Employee menu options was added.
+* A new option on the Agent menu options was added.
 
 * Some demo purposes some tasks are bootstrapped while system starts.
 
 
 # 7. Observations
 
-Platform and Organization classes are getting too many responsibilities due to IE pattern and, therefore, they are becoming huge and harder to maintain. 
-
-Is there any way to avoid this to happen?
 
 
 
