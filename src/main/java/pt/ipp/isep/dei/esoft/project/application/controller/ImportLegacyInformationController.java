@@ -30,7 +30,7 @@ public class ImportLegacyInformationController {
     }
 
     public Boolean importInformationFromFile(String filePath) {
-        boolean success = false;
+        boolean success;
         Optional<List<LegacySystemDto>> newList;
 
         newList = LegacySystem.importInformation(filePath);
@@ -57,7 +57,7 @@ public class ImportLegacyInformationController {
             NumberFormatException {
 
         Request newRequest = getRequestFromLegacy(dto, agency, agent, ownerEmail);
-        return new Announcement(agent, LegacySystemMapper.getCommissionValue(dto), newRequest);
+        return new Announcement(agent,dto.getCommission(), newRequest,dto.getPropertyDateSale());
     }
 
     private Request getRequestFromLegacy(LegacySystemDto dto, Agency agency, Employee agent, String ownerEmail) throws
