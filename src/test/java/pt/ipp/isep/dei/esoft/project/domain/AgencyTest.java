@@ -297,7 +297,7 @@ class AgencyTest {
         List<Announcement> expected = new ArrayList<>();
         expected.add(new Announcement(employee, commissionType, 234.0, request1));
 
-        assertEquals(expected, agency.announcementHasBusinessType(agency.announcements, "Lease"));
+        assertEquals(expected, agency.announcementHasBusinessType(agency.announcements.getList(), "Lease"));
     }
 
     @Test
@@ -336,7 +336,7 @@ class AgencyTest {
         List<Announcement> expected = new ArrayList<>();
         expected.add(new Announcement(employee, commissionType, 234.0, request1));
 
-        assertEquals(expected, agency.announcementHasPropertyType(agency.announcements, "House"));
+        assertEquals(expected, agency.announcementHasPropertyType(agency.announcements.getList(), "House"));
 
     }
 
@@ -376,7 +376,7 @@ class AgencyTest {
         List<Announcement> expected = new ArrayList<>();
         expected.add(new Announcement(employee, commissionType, 234.0, request));
 
-        assertEquals(expected, agency.announcementHasNumberBedrooms(agency.announcements, 1));
+        assertEquals(expected, agency.announcementHasNumberBedrooms(agency.announcements.getList(), 1));
     }
 
     @Test
@@ -416,7 +416,7 @@ class AgencyTest {
         expected.add(new Announcement(employee, commissionType, 234.0, request));
         expected.add(new Announcement(employee, commissionType, 234.0, request1));
 
-        assertEquals(expected, agency.sortAnnouncementsByAscendingPrice(agency.announcements));
+        assertEquals(expected, agency.sortAnnouncementsByAscendingPrice(agency.announcements.getList()));
     }
 
     @Test
@@ -456,7 +456,7 @@ class AgencyTest {
         expected.add(new Announcement(employee, commissionType, 234.0, request1));
         expected.add(new Announcement(employee, commissionType, 234.0, request));
 
-        assertEquals(expected, agency.sortAnnouncementsByDescendingPrice(agency.announcements));
+        assertEquals(expected, agency.sortAnnouncementsByDescendingPrice(agency.announcements.getList()));
     }
 
     @Test
@@ -496,7 +496,7 @@ class AgencyTest {
         expected.add(new Announcement(employee, commissionType, 234.0, request1));
         expected.add(new Announcement(employee, commissionType, 234.0, request));
 
-        assertEquals(expected, agency.sortAnnouncementsByAscendingCity(agency.announcements));
+        assertEquals(expected, agency.sortAnnouncementsByAscendingCity(agency.announcements.getList()));
 
     }
 
@@ -537,7 +537,7 @@ class AgencyTest {
         expected.add(new Announcement(employee, commissionType, 234.0, request));
         expected.add(new Announcement(employee, commissionType, 234.0, request1));
 
-        assertEquals(expected, agency.sortAnnouncementsByDescendingCity(agency.announcements));
+        assertEquals(expected, agency.sortAnnouncementsByDescendingCity(agency.announcements.getList()));
     }
 
     @Test
@@ -577,7 +577,7 @@ class AgencyTest {
         expected.add(new Announcement(employee, commissionType, 234.0, request1));
         expected.add(new Announcement(employee, commissionType, 234.0, request));
 
-        assertEquals(expected, agency.sortAnnouncementsByAscendingState(agency.announcements));
+        assertEquals(expected, agency.sortAnnouncementsByAscendingState(agency.announcements.getList()));
     }
 
     @Test
@@ -618,6 +618,6 @@ class AgencyTest {
         expected.add(new Announcement(employee, commissionType, 234.0, request));
         expected.add(new Announcement(employee, commissionType, 234.0, request1));
 
-        assertEquals(expected, agency.sortAnnouncementsByDescendingState(agency.announcements));
+        assertEquals(expected, agency.sortAnnouncementsByDescendingState(agency.announcements.getList()));
     }
 }
