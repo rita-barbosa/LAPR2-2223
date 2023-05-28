@@ -15,13 +15,13 @@ public class CommissionTypeMapper {
      * @param commissionTypes the commissionTypes
      * @return the optional
      */
-    public static Optional<List<CommissionTypeDto>> toDto(List<CommissionType> commissionTypes){
+    public static List<CommissionTypeDto> toDto(List<CommissionType> commissionTypes){
         List<CommissionTypeDto> listCommissionTypesDto = new ArrayList<>();
         for (CommissionType commissionType : commissionTypes) {
             CommissionTypeDto dto = toDto(commissionType);
             listCommissionTypesDto.add(dto);
         }
-        return Optional.of(listCommissionTypesDto);
+        return listCommissionTypesDto;
     }
 
     /**

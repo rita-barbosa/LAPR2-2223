@@ -187,7 +187,7 @@ public class ScheduleVisitController {
      *
      * @return the user person
      */
-    public Optional<Person> getUserPerson() {
+    private Optional<Person> getUserPerson() {
         String userEmail = authenticationRepository.getCurrentUserSession().getUserId().toString();
         return personRepository.getPersonByEmail(userEmail);
     }

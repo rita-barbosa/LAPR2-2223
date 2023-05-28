@@ -1,0 +1,4 @@
+To: client1@this.app
+Topic: Order Acceptance
+
+The purchase order submitted in 2023-05-28 has been analyzed. The final decision was: accept
