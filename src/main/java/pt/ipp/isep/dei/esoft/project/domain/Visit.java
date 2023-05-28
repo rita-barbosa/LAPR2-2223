@@ -74,6 +74,15 @@ public class Visit implements Notification {
         return this.visitDate;
     }
 
+    /**
+     * Instantiates a new Visit.
+     *
+     * @param visitDate       the visit date
+     * @param startHour       the start hour
+     * @param endHour         the end hour
+     * @param userName        the user name
+     * @param userPhoneNumber the user phone number
+     */
     public Visit(LocalDate visitDate, Integer startHour, Integer endHour, String userName, String userPhoneNumber) {
         this.id = counter++;
         this.startHour = startHour;
@@ -141,6 +150,12 @@ public class Visit implements Notification {
     }
 
 
+    /**
+     * Equals boolean.
+     *
+     * @param o the o
+     * @return the boolean
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -149,6 +164,11 @@ public class Visit implements Notification {
         return Objects.equals(id, visit.id) && Objects.equals(startHour, visit.startHour) && Objects.equals(endHour, visit.endHour) && Objects.equals(visitDate, visit.visitDate) && Objects.equals(userName, visit.userName) && Objects.equals(userPhoneNumber, visit.userPhoneNumber) && Objects.equals(acceptanceStatus, visit.acceptanceStatus);
     }
 
+    /**
+     * Hash code int.
+     *
+     * @return the int
+     */
     @Override
     public int hashCode() {
         return Objects.hash(id, startHour, endHour, visitDate, userName, userPhoneNumber, acceptanceStatus);
@@ -165,10 +185,20 @@ public class Visit implements Notification {
     }
 
 
+    /**
+     * Gets user name.
+     *
+     * @return the user name
+     */
     public String getUserName() {
         return userName;
     }
 
+    /**
+     * Gets user phone number.
+     *
+     * @return the user phone number
+     */
     public String getUserPhoneNumber() {
         return userPhoneNumber;
     }

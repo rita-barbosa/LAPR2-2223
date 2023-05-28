@@ -3,11 +3,27 @@ package pt.ipp.isep.dei.esoft.project.domain;
 
 import java.util.List;
 
+/**
+ * The type Legacy system mapper.
+ */
 public class LegacySystemMapper {
+    /**
+     * To dto legacy system dto.
+     *
+     * @param legacySystemInformationList the legacy system information list
+     * @return the legacy system dto
+     */
     public static LegacySystemDto toDto(List<String> legacySystemInformationList) {
         return new LegacySystemDto(legacySystemInformationList);
     }
 
+    /**
+     * To model agency agency.
+     *
+     * @param dto the dto
+     * @return the agency
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     public static Agency toModelAgency(LegacySystemDto dto) throws IllegalArgumentException{
         int agencyId = dto.getAgencyID();
         String agencyName = dto.getAgencyName();
@@ -18,6 +34,12 @@ public class LegacySystemMapper {
         return new Agency(agencyId, agencyName, agencyEmailAddress, agencyPhoneNumber, agencyLocation);
     }
 
+    /**
+     * To model person person.
+     *
+     * @param dto the dto
+     * @return the person
+     */
     public static Person toModelPerson(LegacySystemDto dto) {
         String ownerDefaultPassportNumber = "000000000";
         String ownerName = dto.getOwnerName();
@@ -28,6 +50,12 @@ public class LegacySystemMapper {
         return new Person(ownerName, ownerTIN, ownerPhoneNumber, ownerEmail,ownerDefaultPassportNumber);
     }
 
+    /**
+     * To model request request.
+     *
+     * @param dto the dto
+     * @return the request
+     */
     public static Request toModelRequest(LegacySystemDto dto) {
         Request newRequest = null;
         String dateAnnounceRequest = dto.getPropertyDateAnnounceRequest();
@@ -63,6 +91,12 @@ public class LegacySystemMapper {
         return newRequest;
     }
 
+    /**
+     * Gets commission value.
+     *
+     * @param dto the dto
+     * @return the commission value
+     */
     public static double getCommissionValue(LegacySystemDto dto) {
         return dto.getCommission();
     }
