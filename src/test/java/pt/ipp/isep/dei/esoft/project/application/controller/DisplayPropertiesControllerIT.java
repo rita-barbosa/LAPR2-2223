@@ -171,8 +171,6 @@ class DisplayPropertiesControllerIT {
 
         List<Announcement> resultAnnouncements = new ArrayList<>();
         resultAnnouncements = controller.getAnnouncementsByBusinessType("Sale");
-
-
     }
 
     @Test
