@@ -85,6 +85,6 @@ public class AvailableEquipment {
      */
     @Override
     public String toString() {
-        return "    description='" + description + '\'';
+        return "    * " + description;
     }
 }

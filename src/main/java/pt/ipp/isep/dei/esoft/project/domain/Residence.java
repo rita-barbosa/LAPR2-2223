@@ -180,11 +180,10 @@ public class Residence extends Property {
         if (numberBathroom == null) {
             numberBathroom = 0;
         }
-        StringBuilder residence = new StringBuilder(super.toString() + String.format("Number of Bedrooms: %d \nNumber of Bathrooms: %d \nParking Space: %d \nAvailableEquipment:\n", numberBedroom, numberBathroom, parkingSpace));
+        StringBuilder residence = new StringBuilder(super.toString() + String.format("Number of Bedrooms: %d \nNumber of Bathrooms: %d \nParking Spaces: %d \nAvailable Equipments:\n", numberBedroom, numberBathroom, parkingSpace));
         for (AvailableEquipment equipment : availableEquipment) {
             residence.append(String.format("%s\n", equipment));
         }
-
         return residence.toString();
     }
 

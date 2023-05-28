@@ -76,6 +76,6 @@ public class Photograph {
      */
     @Override
     public String toString() {
-        return "    uri=" + uri ;
+        return "    * " + uri ;
     }
 }

@@ -39,14 +39,4 @@ public class AnnouncementMapper {
 
         return new AnnouncementDto(id, requestAttributes, commissionAttributes, acceptanceDate, listOrdersDto);
     }
-
-    /**
-     * Get announcement id from dto integer.
-     *
-     * @param announcementDto the announcement dto
-     * @return the id integer
-     */
-    public Integer getAnnouncementIdFromDto(AnnouncementDto announcementDto){
-        return announcementDto.getAnnouncementId();
-    }
 }

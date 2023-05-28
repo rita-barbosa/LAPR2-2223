@@ -1,6 +1,7 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -36,7 +37,7 @@ public class Announcement {
     private OrderList orders;
 
     private List<Visit> visitList;
-    private static final LocalDate DATE_BY_DEFAULT= LocalDate.of(0,0,0);
+    private static final LocalDate DATE_BY_DEFAULT= LocalDate.of(1,1,1);
 
     /**
      * The id iteration variable.
@@ -59,6 +60,7 @@ public class Announcement {
         this.acceptanceDate = LocalDate.now();
         this.orders = new OrderList();
         this.id = counter++;
+        this.visitList = new ArrayList<>();
     }
 
     /**
@@ -74,6 +76,7 @@ public class Announcement {
         this.request = request;
         this.agent = agent;
         this.orders = new OrderList();
+        this.visitList = new ArrayList<>();
         this.id = counter++;
     }
 
@@ -93,6 +96,7 @@ public class Announcement {
         this.request = request;
         this.acceptanceDate = acceptanceDate;
         this.orders = orders;
+        this.visitList = new ArrayList<>();
         this.id = id;
     }
 
@@ -272,7 +276,7 @@ public class Announcement {
         if (validateVisit(visit)) {
             return false;
         } else {
-            this.visitList.add(visit);
+            this.visitList.add(visit.clone());
             return true;
         }
     }
