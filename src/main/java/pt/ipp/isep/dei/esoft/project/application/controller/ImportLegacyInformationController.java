@@ -34,37 +34,40 @@ public class ImportLegacyInformationController {
         Optional<List<LegacySystemDto>> newList;
 
         newList = LegacySystem.importInformation(filePath);
-
-        if (newList.isPresent()) {
-            for (LegacySystemDto dto : newList.get()) {
-                Optional<Agency> newAgency = registerAgency(dto);
-                if (newAgency.isPresent()) {
-                    Employee newAgent = registerAgent(newAgency.get());
-                    Person newOwner = registerOwner(dto);
-                    String ownerEmail = newOwner.getEmailAddress().getEmail();
-                    success = publishAnnouncement(dto, newAgency.get(), newAgent, ownerEmail);
-                }
-                if (!success) {
-                    return false;
+        try {
+            if (newList.isPresent()) {
+                for (LegacySystemDto dto : newList.get()) {
+                    Optional<Agency> newAgency = registerAgency(dto);
+                    if (newAgency.isPresent()) {
+                        Employee newAgent = registerAgent(newAgency.get());
+                        Person newOwner = registerOwner(dto);
+                        String ownerEmail = newOwner.getEmailAddress().getEmail();
+                        publishAnnouncement(dto, newAgency.get(), newAgent, ownerEmail);
+                    }
                 }
             }
+            success = true;
+        } catch (Exception e) {
+            success = false;
         }
         return success;
     }
 
-    private Boolean publishAnnouncement(LegacySystemDto dto, Agency agency, Employee agent, String ownerEmail) {
-        Boolean operationSuccess = false;
+    private Announcement publishAnnouncement(LegacySystemDto dto, Agency agency, Employee agent, String ownerEmail) throws
+            NumberFormatException {
 
-//        Request newRequest = getRequestFromLegacy(dto, agency, agent, ownerEmail);
-
-        return operationSuccess;
-
+        Request newRequest = getRequestFromLegacy(dto, agency, agent, ownerEmail);
+        return new Announcement(agent, LegacySystemMapper.getCommissionValue(dto), newRequest);
     }
 
-//    private Request getRequestFromLegacy(LegacySystemDto dto, Agency agency, Employee agent, String ownerEmail) {
-//        return LegacySystemMapper.toModelRequest(dto)
-//
-//    }
+    private Request getRequestFromLegacy(LegacySystemDto dto, Agency agency, Employee agent, String ownerEmail) throws
+            RuntimeException {
+        Request newRequest = LegacySystemMapper.toModelRequest(dto);
+        newRequest.setResponsibleAgent(agent);
+        newRequest.setOwnerEmail(ownerEmail);
+        agency.addRequest(newRequest);
+        return newRequest;
+    }
 
     private Person registerOwner(LegacySystemDto dto) {
         return getPersonRepository().registerPerson(dto);
@@ -76,7 +79,7 @@ public class ImportLegacyInformationController {
         return agent;
     }
 
-    private Optional<Agency> registerAgency(LegacySystemDto dto) {
+    private Optional<Agency> registerAgency(LegacySystemDto dto) throws IllegalArgumentException {
         return getAgencyRepository().registerAgency(dto);
     }
 }
