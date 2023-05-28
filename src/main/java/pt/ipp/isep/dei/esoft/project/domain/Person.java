@@ -176,14 +176,19 @@ public class Person {
      * @return the boolean
      */
     private boolean validatePassportCardNumber(String passportCardNumber) {
-        if (passportCardNumber.length() == PASSPORT_CARD_NUMBER_LENGTH && (passportCardNumber.charAt(0) != PASSPORT_FIRST_CHARACTER)) {
+        if (passportCardNumber.length() == PASSPORT_CARD_NUMBER_LENGTH || (passportCardNumber.charAt(0) != PASSPORT_FIRST_CHARACTER)) {
             String[] passp = passportCardNumber.split("");
-            for (int i = 0; i < passp.length - 1; i++) {
+            int i = 0;
+            if (passportCardNumber.charAt(0) == PASSPORT_FIRST_CHARACTER) {
+                i = 1;
+            }
+            while (i < passp.length - 1){
                 try {
                     Integer.parseInt(passp[i]);
                 } catch (NumberFormatException e) {
                     return false;
                 }
+                i++;
             }
             return true;
         }
@@ -203,6 +208,7 @@ public class Person {
             String[] firstSegment = phone[0].split("");
             String[] secondSegment = phone[1].split("");
             String[] thirdSegment = phone[2].split("");
+
             if ((Integer.parseInt(firstSegment[0]) < 2) || (Integer.parseInt(secondSegment[0]) < 2)) {
                 return false;
             }
@@ -212,10 +218,7 @@ public class Person {
             if (!validation(secondSegment) || secondSegment.length != THREE_DIGIT_SEGMENT_PHONE_NUMBER) {
                 return false;
             }
-            if (!validation(thirdSegment) || thirdSegment.length != FOUR_DIGIT_SEGMENT_PHONE_NUMBER) {
-                return false;
-            }
-            return true;
+            return validation(thirdSegment) && thirdSegment.length == FOUR_DIGIT_SEGMENT_PHONE_NUMBER;
         }
         return false;
     }

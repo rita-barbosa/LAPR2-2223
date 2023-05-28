@@ -103,12 +103,16 @@ public class AgencyRepository {
     }
 
     /**
-     * Get all announcements list list.
+     * Get all agencies' announcements list in a common list.
      *
      * @return the list
      */
     public List<Announcement> getAllAnnouncementsList() {
-        throw new NotImplementedException();
+        List<Announcement> list = new ArrayList<>();
+        for (Agency agency : agencies) {
+            list.addAll(agency.getAnnouncementsList());
+        }
+        return list;
     }
 
 

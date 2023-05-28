@@ -15,10 +15,29 @@ public class Bootstrap implements Runnable {
         addUserRoles();
         addUsers();
         addAgencies();
+        addPeople();
         addCommissionTypes();
         addPropertyTypes();
         addBusinessTypes();
         addCriteria();
+    }
+
+    private void addPeople() {
+        PersonRepository personRepository = new PersonRepository();
+
+        Person client = new Person("Katy WhiteHard", "C12452978",
+                "004-48-6973", "client@this.app", "623-408-7890", "client",
+                "Broadway", "Manhattan", "New York", "NY", "10001");
+        Person client2 = new Person("Jake Moon", "C12777778",
+                "134-23-2555", "client1@this.app", "client", "555-775-5555",
+                "Rua da Alegria, 123", "Porto", "Porto", "Porto", "43005");
+
+        Person client1 = new Person("Paulo Borges", "C04575989",
+                "843-88-4881", "client2@this.app", "911-264-5567", "client",
+                "Broadway St", "Manhattan", "New York", "NY", "10001");
+        personRepository.add(client);
+        personRepository.add(client1);
+        personRepository.add(client2);
     }
 
     private void addUserRoles() {
@@ -34,15 +53,20 @@ public class Bootstrap implements Runnable {
 
     public void addEmployees(Agency agency) {
         PersonRepository personRepository = new PersonRepository();
+
         Employee employee = new Employee(agency.getId(), "John Doe", "C12000078",
-                "004-45-6989", "employee@this.app", "agent", "623 456 7890",
+                "004-45-6989", "employee@this.app", "agent", "623-456-7890",
                 "New York", "Manhattan", "NY", "10001", "Broadway");
         Employee employee1 = new Employee(agency.getId(), "Annie Smith", "C04567089",
-                "927-65-4091", "employee1@this.app", "agent", "555 555 5555",
+                "927-65-4091", "employee1@this.app", "agent", "555-555-5555",
                 "New York", "Manhattan", "NY", "10001", "Broadway St");
         Employee employee2 = new Employee(agency.getId(), "Maria Silva", "C12339878",
-                "134-23-2555", "employee2@this.app", "agent", "911 234 5567",
+                "134-23-2555", "employee2@this.app", "agent", "911-234-5567",
                 "Porto", "Porto", "Porto", "43005", "Rua da Alegria, 123");
+
+//        personRepository.add(employee);
+//        personRepository.add(employee1);
+//        personRepository.add(employee2);
 
         agency.addEmployee(employee);
         agency.addEmployee(employee1);

@@ -1,0 +1,4 @@
+To:employee@this.app
+Topic:Visit Request Acceptance
+A client,  (), submitted a new visit request for +45678-09-14, beginning at 15 and ending at 19.
+Please check the visit request that was assigned to you, analyse it, and accept or reject it.

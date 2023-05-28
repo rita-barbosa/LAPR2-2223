@@ -1,6 +1,7 @@
 package pt.ipp.isep.dei.esoft.project.ui.console.menu;
 
 import pt.ipp.isep.dei.esoft.project.ui.console.CreateRequestUI;
+import pt.ipp.isep.dei.esoft.project.ui.console.ScheduleVisitUI;
 import pt.ipp.isep.dei.esoft.project.ui.console.utils.Utils;
 
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ public class ClientUI implements Runnable{
     public void run() {
         List<MenuItem> options = new ArrayList<MenuItem>();
         options.add(new MenuItem("Create a property request", new CreateRequestUI()));
+        options.add(new MenuItem("Schedule a visit to a property", new ScheduleVisitUI()));
         int option = 0;
         do {
             option = Utils.showAndSelectIndex(options, "\n\nClient Menu:");

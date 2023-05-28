@@ -1,12 +1,9 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
-import pt.isep.lei.esoft.auth.domain.model.Email;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
-import java.time.chrono.ChronoLocalDate;
 import java.util.Objects;
 
 /**
@@ -58,40 +55,14 @@ public class Visit implements Notification {
      * @param userName        the user's name
      * @param userPhoneNumber the user's phone number
      */
-    public Visit(Integer visitDay, Integer visitMonth, Integer visitYear, Integer startHour, Integer endHour,  String userName, String userPhoneNumber) {
+    public Visit(Integer visitDay, Integer visitMonth, Integer visitYear, Integer startHour, Integer endHour, String userName, String userPhoneNumber) {
         this.id = counter++;
         this.startHour = startHour;
         this.endHour = endHour;
         this.visitDate = LocalDate.of(visitYear, visitMonth, visitDay);
         this.userName = userName;
         this.userPhoneNumber = userPhoneNumber;
-    }
-
-    /**
-     * Gets visit id.
-     *
-     * @return the id
-     */
-    public String getId() {
-        return this.id.toString();
-    }
-
-    /**
-     * Gets start hour.
-     *
-     * @return the start hour
-     */
-    public String getStartHour() {
-        return this.startHour.toString();
-    }
-
-    /**
-     * Gets end hour.
-     *
-     * @return the end hour
-     */
-    public String getEndHour() {
-        return this.endHour.toString();
+        this.acceptanceStatus = false;
     }
 
     /**
@@ -99,8 +70,45 @@ public class Visit implements Notification {
      *
      * @return the visit date
      */
-    public String getVisitDate() {
-        return this.visitDate.toString();
+    public LocalDate getVisitDate() {
+        return this.visitDate;
+    }
+
+    public Visit(LocalDate visitDate, Integer startHour, Integer endHour, String userName, String userPhoneNumber) {
+        this.id = counter++;
+        this.startHour = startHour;
+        this.endHour = endHour;
+        this.visitDate = visitDate;
+        this.userName = userName;
+        this.userPhoneNumber = userPhoneNumber;
+        this.acceptanceStatus = false;
+    }
+
+    /**
+     * Gets visit id.
+     *
+     * @return the id
+     */
+    public Integer getId() {
+        return this.id;
+    }
+
+    /**
+     * Gets start hour.
+     *
+     * @return the start hour
+     */
+    public Integer getStartHour() {
+        return this.startHour;
+    }
+
+    /**
+     * Gets end hour.
+     *
+     * @return the end hour
+     */
+    public Integer getEndHour() {
+        return this.endHour;
     }
 
     /**
@@ -114,10 +122,10 @@ public class Visit implements Notification {
         File file = new File(FILE_NAME + getId() + "." + email + FILE_TYPE);
         try {
             PrintWriter text = new PrintWriter(file);
-            text.write(TEXT_TO + email+"\n");
+            text.write(TEXT_TO + email + "\n");
             text.write(TEXT_TOPIC + "Visit Request Acceptance\n");
-            text.write("A client, " + this.userName + " (" + this.userPhoneNumber + "), submitted a new visit request for " +
-                    this.visitDate + ", beginning at " + this.startHour + " and ending at " + this.endHour + ".\n");
+            text.write("A client, " + this.userName + " (Phone Number: " + this.userPhoneNumber + "), submitted a new visit request for " +
+                    this.getVisitDate().toString() + ", beginning at " + this.startHour + " and ending at " + this.endHour + ".\n");
             text.write("Please check the visit request that was assigned to you, analyse it, and accept or reject it.\n");
             text.close();
             return true;
@@ -138,5 +146,24 @@ public class Visit implements Notification {
     @Override
     public int hashCode() {
         return Objects.hash(id, startHour, endHour, visitDate, userName, userPhoneNumber, acceptanceStatus);
+    }
+
+
+    /**
+     * Clone visit.
+     *
+     * @return the visit
+     */
+    public Visit clone() {
+        return new Visit(this.getVisitDate(), this.getStartHour(), this.getEndHour(), this.getUserName(), this.getUserPhoneNumber());
+    }
+
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getUserPhoneNumber() {
+        return userPhoneNumber;
     }
 }

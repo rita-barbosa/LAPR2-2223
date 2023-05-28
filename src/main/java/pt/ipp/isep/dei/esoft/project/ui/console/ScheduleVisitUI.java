@@ -3,16 +3,14 @@ package pt.ipp.isep.dei.esoft.project.ui.console;
 import pt.ipp.isep.dei.esoft.project.application.controller.ScheduleVisitController;
 import pt.ipp.isep.dei.esoft.project.domain.*;
 
+import java.lang.reflect.Array;
 import java.time.LocalDate;
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Optional;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * The type Schedule visit ui.
  */
-public class ScheduleVisitUI {
+public class ScheduleVisitUI implements Runnable {
 
     /**
      * The constant MAX_HOUR_IN_DAY.
@@ -30,31 +28,52 @@ public class ScheduleVisitUI {
      * The constant MIN_MONTH_IN_YEAR.
      */
     private static final Integer MIN_MONTH_IN_YEAR = 1;
+    /**
+     * The constant MIN_DAYS_IN_MONTH.
+     */
+    private static final Integer MIN_DAYS_IN_MONTH = 1;
 
+    /**
+     * The constant MAX_DAYS_IN_MONTH.
+     */
+    private static final Integer MAX_DAYS_IN_MONTH = 31;
+    /**
+     * The constant AVERAGE_DAYS_IN_MONTH.
+     */
+    private static final Integer AVERAGE_DAYS_IN_MONTH = 30;
+    /**
+     * The constant DAYS_IN_FEBRUARY.
+     */
+    private static final Integer DAYS_IN_FEBRUARY = 28;
+    /**
+     * The constant LEAP_YEARL_DAYS_IN_FEBRUARY.
+     */
+    private static final Integer LEAP_YEARL_DAYS_IN_FEBRUARY = 29;
     /**
      * The Visit day.
      */
     private Integer visitDay;
-
     /**
      * The Visit month.
      */
     private Integer visitMonth;
-
     /**
      * The Visit year.
      */
     private Integer visitYear;
-
     /**
      * The Start hour.
      */
     private Integer startHour;
-
     /**
      * The End hour.
      */
     private Integer endHour;
+
+    /**
+     * The Announcement index.
+     */
+    private Integer announcementIndex;
 
     /**
      * The Controller.
@@ -74,41 +93,111 @@ public class ScheduleVisitUI {
      * Run.
      */
     public void run() {
-        Scanner input = new Scanner(System.in);
-        System.out.println("Schedule a Visit Request for an Announcement");
+        System.out.println("\nSchedule a visit to a property");
+        System.out.println("========================================================");
+        Optional<List<Announcement>> listToDisplay;
 
-        List<AnnouncementDto> listToDisplay = controller.getAnnouncementListDto();
-        String criteria;
-
-        displayList(listToDisplay);
-
+        Optional<List<AnnouncementDto>> listToDisplayDto = controller.getAnnouncementListDto();
+        Optional<AnnouncementDto> announcementDto = Optional.empty();
+        Optional<Announcement> announcement = Optional.empty();
         do {
+            displayUnfilteredList(listToDisplayDto);
             while (askQuestion("select any criteria")) {
-                criteria = displayAndSelectCriteria();
-                listToDisplay = controller.getFilteredList(criteria);
-                displayList(listToDisplay);
+                listToDisplay = getFilteredList();
+                if (listToDisplay.isPresent() && listToDisplay.get().size() > 0) {
+                    listToDisplayDto = controller.toDto(listToDisplay.get());
+                    if (listToDisplayDto.isPresent() && listToDisplayDto.get().size() > 0) {
+                        displayList(listToDisplayDto.get());
+                    }
+                }
             }
-
-            int listIndx = getIntAnswer();
-
-            AnnouncementDto announcementDto = listToDisplay.get(listIndx);
-
-            Announcement announcement = controller.toModel(announcementDto);
-
+            if (listToDisplayDto.isPresent() && listToDisplayDto.get().size() > 0) {
+                announcementIndex = requestAnnouncementIndex(listToDisplayDto.get());
+                announcementDto = Optional.of(listToDisplayDto.get().get(announcementIndex - 1));
+            }
+            if (announcementDto.isPresent()) {
+                announcement = controller.toModel(announcementDto.get());
+            }
             requestData();
-
             displaysData();
-
-            submitData(announcement);
-
+            announcement.ifPresent(this::submitData);
         } while (askQuestion("submit another visit request"));
+    }
+
+    /**
+     * Request announcement index integer.
+     *
+     * @param list the list
+     * @return the integer
+     */
+    private Integer requestAnnouncementIndex(List<AnnouncementDto> list) {
+        System.out.println("Please select an announcement by its index number.");
+        int idx;
+        idx = getIntAnswer();
+        while (idx > list.size() || idx < 1) {
+            System.out.println("The announcement index must be within the displayed list.");
+            idx = getIntAnswer();
+        }
+        return idx;
+    }
+
+    /**
+     * Gets filtered list.
+     *
+     * @return the filtered list
+     */
+    private Optional<List<Announcement>> getFilteredList() {
+        List<Announcement> listToDisplay = controller.getAllAnnouncementsList();
+        Object criteria;
+        switch (displayAndSelectCriteriaList(controller.getCriteriaList())) {
+            case 1:
+                criteria = displayAndSelectBusinessType().toLowerCase();
+                System.out.println("========================================================\nAnnouncements by type of business:");
+                listToDisplay = controller.getAnnouncementsByBusinessType(criteria.toString());
+                break;
+            case 2:
+                criteria = displayAndSelectPropertyType().toLowerCase();
+                System.out.println("========================================================\nAnnouncements by type of property:\n");
+                listToDisplay = controller.getAnnouncementsByPropertyType(criteria.toString());
+                break;
+            case 3:
+                criteria = displayAndSelectNumberBedrooms();
+                System.out.println("========================================================\nAnnouncements by Number of Bedrooms:");
+                listToDisplay = controller.getAnnouncementsByNumberBedrooms(Integer.parseInt(criteria.toString()));
+                break;
+            case 4:
+                criteria = displayAndSelectPrice();
+                System.out.println("========================================================\nAnnouncements by Price:");
+                listToDisplay = controller.getAnnouncementsByPrice(criteria.toString());
+                break;
+            case 5:
+                criteria = displayAndSelectCity();
+                System.out.println("========================================================\nAnnouncements by City:");
+                listToDisplay = controller.getAnnouncementsByCity(criteria.toString());
+                break;
+            case 6:
+                criteria = displayAndSelectState();
+                System.out.println("========================================================\nAnnouncements by State:");
+                listToDisplay = controller.getAnnouncementsByState(criteria.toString());
+                break;
+        }
+        return Optional.of(listToDisplay);
+    }
+
+    /**
+     * Display unfiltered list.
+     */
+    private void displayUnfilteredList(Optional<List<AnnouncementDto>> listToDisplayDto) {
+        if (listToDisplayDto.isPresent() && listToDisplayDto.get().size() > 0) {
+            displayList(listToDisplayDto.get());
+        }
     }
 
     /**
      * Displays data.
      */
     private void displaysData() {
-        System.out.printf("%n### Visit Data ###%nDate (Day/Month/Year): %d/%d/%d%nStarting hour: %d%nEnding hour: %d%n",
+        System.out.printf("### Visit Data ###%nDate (Day/Month/Year): %d/%d/%d%nStarting hour: %d%nEnding hour: %d%n",
                 visitDay, visitMonth, visitYear, startHour, endHour);
     }
 
@@ -120,9 +209,9 @@ public class ScheduleVisitUI {
     private void submitData(Announcement announcement) {
         Boolean confirmation = getController().scheduleVisit(announcement, startHour, endHour, visitDay, visitMonth, visitYear);
         if (confirmation) {
-            System.out.println("\nVisit request successfully sent to agent!");
+            System.out.println("\nVisit request successfully sent to agent!\n");
         } else {
-            System.out.println("\nERROR! Visit request not sent to agent!");
+            System.out.println("\nERROR! Visit request not sent to agent!\n");
         }
     }
 
@@ -130,9 +219,9 @@ public class ScheduleVisitUI {
      * Request data.
      */
     private void requestData() {
-        visitDay = requestVisitDay();
-        visitMonth = requestVisitMonth();
         visitYear = requestVisitYear();
+        visitMonth = requestVisitMonth();
+        visitDay = requestVisitDay();
         startHour = requestStartHour();
         endHour = requestEndHour(startHour);
     }
@@ -146,11 +235,10 @@ public class ScheduleVisitUI {
     private Integer requestEndHour(Integer startHour) {
         System.out.println("When do you want to end your visit? (24-hour format)");
         int time = getIntAnswer();
-        while (time > MAX_HOUR_IN_DAY && time < MIN_HOUR_IN_DAY && time < startHour) {
+        while (time > MAX_HOUR_IN_DAY || time < MIN_HOUR_IN_DAY || time < startHour) {
             System.out.println("Ending hour invalid!");
-            System.out.println("Note that the time for the end of the visit cannot be earlier than the beginning of said visit.");
-            System.out.printf("Starting hour: %d%n", startHour);
-            System.out.println("Please choose an hour between 0 and 23.");
+            System.out.println("Note that the time for the end of the visit cannot be earlier than the beginning of it.");
+            System.out.printf("Please choose an hour between 0 and 23, and later than %d.%n", startHour);
             time = getIntAnswer();
         }
         return time;
@@ -162,9 +250,9 @@ public class ScheduleVisitUI {
      * @return the integer
      */
     private Integer requestStartHour() {
-        System.out.println("When do you want to start your visit? (24 hours format)");
+        System.out.println("When do you want to start your visit? (24-hours format)");
         int time = getIntAnswer();
-        while (time > MAX_HOUR_IN_DAY && time < MIN_HOUR_IN_DAY) {
+        while (time > MAX_HOUR_IN_DAY || time < MIN_HOUR_IN_DAY) {
             System.out.println("Starting hour invalid! Please choose an hour between 0 and 23.");
             time = getIntAnswer();
         }
@@ -181,7 +269,7 @@ public class ScheduleVisitUI {
         int year = getIntAnswer();
         LocalDate date = LocalDate.now();
         while (year < date.getYear()) {
-            System.out.printf("Year invalid! Please choose a year from %d onwards.", date.getYear());
+            System.out.printf("Year invalid! Please choose a year from %d onwards.%n", date.getYear());
             year = getIntAnswer();
         }
         return year;
@@ -198,8 +286,8 @@ public class ScheduleVisitUI {
                 "5.May%n6.June%n7.July%n8.August%n" +
                 "9.September%n10.October%n11.November%n12.December%n");
         int month = getIntAnswer();
-        while (month > MAX_MONTH_IN_YEAR && month < MIN_MONTH_IN_YEAR) {
-            System.out.println("Starting hour invalid! Please choose an hour between 0 and 23.");
+        while (month > MAX_MONTH_IN_YEAR || month < MIN_MONTH_IN_YEAR) {
+            System.out.println("Month invalid! Please choose an month between 1 and 12.");
             month = getIntAnswer();
         }
         return month;
@@ -211,7 +299,46 @@ public class ScheduleVisitUI {
      * @return the integer
      */
     private Integer requestVisitDay() {
-        return null;
+        System.out.println("In what day do you want to schedule your visit?");
+        int day = getIntAnswer();
+        List<Integer> oddMonths = Arrays.asList(1, 3, 5, 7, 8, 10, 12);
+        List<Integer> evenMonths = Arrays.asList(4, 6, 9, 11);
+
+        if (oddMonths.contains(visitMonth)) {
+            while (day > MAX_DAYS_IN_MONTH || day < MIN_DAYS_IN_MONTH) {
+                System.out.println("Day invalid! Please choose a day between 1 and 31.");
+                day = getIntAnswer();
+            }
+        } else if (evenMonths.contains(visitMonth)) {
+            while (day > AVERAGE_DAYS_IN_MONTH || day < MIN_DAYS_IN_MONTH) {
+                System.out.println("Day invalid! Please choose a day between 1 and 30.");
+                day = getIntAnswer();
+            }
+        } else {
+            if (isItLeapYear(visitYear)) {
+                while (day > LEAP_YEARL_DAYS_IN_FEBRUARY || day < MIN_DAYS_IN_MONTH) {
+                    System.out.println("Day invalid! Please choose a day between 1 and 29.");
+                    day = getIntAnswer();
+                }
+            } else {
+                while (day > DAYS_IN_FEBRUARY || day < MIN_DAYS_IN_MONTH) {
+                    System.out.println("Day invalid! Please choose a day between 1 and 28.");
+                    day = getIntAnswer();
+                }
+            }
+        }
+        return day;
+    }
+
+    /**
+     * Returns true if the year passed as a parameter is a leap year. If the year
+     * passed as a parameter is not a leap year, returns false.
+     *
+     * @param visitYear the year to validate.
+     * @return true if the year passed as a parameter is a leap year, otherwise returns false.
+     */
+    private boolean isItLeapYear(Integer visitYear) {
+        return visitYear % 4 == 0 && visitYear % 100 != 0 || visitYear % 400 == 0;
     }
 
     /**
@@ -223,51 +350,42 @@ public class ScheduleVisitUI {
         int i = 1;
         for (AnnouncementDto a : listToDisplay) {
             System.out.printf("#%d%n", i++);
-            System.out.println(a.getRequestAttributes());
-            System.out.println();
+            System.out.printf("%s", a.getRequestAttributes());
+            System.out.println("========================================================");
         }
         System.out.println();
     }
 
     /**
-     * Display and select criteria string.
+     * This method display and aks to select criteria from the criteria list.
      *
-     * @return the string
+     * @param criterias the list of criterias
+     * @return the criteria chosen
      */
-    private String displayAndSelectCriteria() {
-        List<String> criteriaList = controller.getCriteriaList();
-        int listSize = criteriaList.size();
-        int answer = -1;
+    private Integer displayAndSelectCriteriaList(List<String> criterias) {
+        Scanner sc = new Scanner(System.in);
+        int count = 0;
+        System.out.println("Criteria available:");
+        for (String criteria : criterias) {
+            count++;
+            System.out.printf("%d - %s\n", count, criteria);
+        }
+        int option = 0;
         boolean invalid = true;
-        Scanner input = new Scanner(System.in);
         do {
             try {
-                while (answer < 1 || answer > listSize) {
-                    displayCriteriaOptions(criteriaList);
-                    System.out.println("Select a criteria:");
-                    answer = input.nextInt();
+                System.out.println("Which one do you want to choose?\n");
+                while (option < 1 || option > 6) {
+                    option = sc.nextInt();
                 }
                 invalid = false;
             } catch (InputMismatchException e) {
-                System.out.println("\nERROR: Option selected is invalid"
+                System.out.println("\nERROR: Option selected is invalid!"
                         + " (" + e.getClass().getSimpleName() + ")");
-                input.nextLine();
+                sc.nextLine();
             }
         } while (invalid);
-        return (criteriaList.get(answer - 1));
-    }
-
-    /**
-     * Display criteria options.
-     *
-     * @param criteriaList the criteria list
-     */
-    private void displayCriteriaOptions(List<String> criteriaList) {
-        int i = 1;
-        for (String criteria : criteriaList) {
-            System.out.println(i + " - " + criteria);
-            i++;
-        }
+        return option;
     }
 
     /**
@@ -298,7 +416,7 @@ public class ScheduleVisitUI {
      * @param sentence the sentence
      * @return the boolean
      */
-    private boolean askQuestion(String sentence) {
+    private Boolean askQuestion(String sentence) {
         System.out.printf("Would you like to %s?%n1. Yes%n2. No%n", sentence);
         boolean invalid = true;
         int answer = -1;
@@ -319,4 +437,177 @@ public class ScheduleVisitUI {
         return answer == 1;
     }
 
+    /**
+     * This method display and aks to select a type of business.
+     *
+     * @return the type of business chosen
+     */
+    private String displayAndSelectBusinessType() {
+        Scanner sc = new Scanner(System.in);
+        List<BusinessType> businessTypes = controller.getBusinessTypeList();
+        displayBusinessTypeOptions(businessTypes);
+        int option = 0;
+        boolean invalid = true;
+        do {
+            try {
+                while (option < 1 || option > businessTypes.size()) {
+                    System.out.println("Select type of business:");
+                    option = sc.nextInt();
+                }
+                invalid = false;
+            } catch (InputMismatchException e) {
+                System.out.println("\nERROR: Option selected is invalid"
+                        + " (" + e.getClass().getSimpleName() + ")");
+                sc.nextLine();
+            }
+        } while (invalid);
+        return (businessTypes.get(option - 1).getDesignation());
+    }
+
+    /**
+     * This method display the type of business options.
+     *
+     * @param businessTypes the business types
+     */
+    private void displayBusinessTypeOptions(List<BusinessType> businessTypes) {
+        int count = 0;
+        System.out.println("Type of business:");
+        for (BusinessType businessType : businessTypes) {
+            count++;
+            System.out.printf("%d - %s\n", count, businessType);
+        }
+    }
+
+    /**
+     * This method display and aks to select a type of property.
+     *
+     * @return the type of property chosen
+     */
+    private String displayAndSelectPropertyType() {
+        Scanner sc = new Scanner(System.in);
+        List<PropertyType> propertyTypes = controller.getPropertyTypeList();
+        displayPropertiesTypeOptions(propertyTypes);
+        int option = 0;
+        boolean invalid = true;
+        do {
+            try {
+                while (option < 1 || option > propertyTypes.size()) {
+                    System.out.println("Select type of property:");
+                    option = sc.nextInt();
+                }
+                invalid = false;
+            } catch (InputMismatchException e) {
+                System.out.println("\nERROR: Option selected is invalid"
+                        + " (" + e.getClass().getSimpleName() + ")");
+                sc.nextLine();
+            }
+        } while (invalid);
+        return (propertyTypes.get(option - 1).getDesignation());
+    }
+
+    /**
+     * This method display the type of properties options.
+     *
+     * @param propertyTypes the property types
+     */
+    private void displayPropertiesTypeOptions(List<PropertyType> propertyTypes) {
+        int count = 0;
+        System.out.println("Type of properties:");
+        for (PropertyType propertyType : propertyTypes) {
+            count++;
+            System.out.printf("%d - %s\n", count, propertyType);
+        }
+    }
+
+
+    /**
+     * This method display and aks to select number of bedrooms.
+     *
+     * @return the number of bedrooms chosen
+     */
+    private Integer displayAndSelectNumberBedrooms() {
+        Scanner sc = new Scanner(System.in);
+        int option = -1;
+        boolean invalid = true;
+        do {
+            try {
+                while (option < 0) {
+                    System.out.println("Enter number of bedrooms:");
+                    option = sc.nextInt();
+                    if (option <= 0) {
+                        System.out.println("ERROR: Number of bedrooms is invalid.");
+                    }
+                }
+                invalid = false;
+            } catch (InputMismatchException e) {
+                System.out.println("\nERROR: Option selected is invalid"
+                        + " (" + e.getClass().getSimpleName() + ")");
+                sc.nextLine();
+            }
+        } while (invalid);
+        return option;
+
+    }
+
+    /**
+     * This method display and aks to select a type of sorting to price.
+     *
+     * @return the type of sorting select to price
+     */
+    private String displayAndSelectPrice() {
+        System.out.println("Price:");
+        return sortSelection();
+    }
+
+    /**
+     * This method display and aks to select a type of sorting to city.
+     *
+     * @return the type of sorting select to city
+     */
+    private String displayAndSelectCity() {
+        System.out.println("City:");
+        return sortSelection();
+    }
+
+    /**
+     * This method display and aks to select a type of sorting to state.
+     *
+     * @return the type of sorting select to state
+     */
+    private String displayAndSelectState() {
+        System.out.println("State:");
+        return sortSelection();
+    }
+
+    /**
+     * This method display and aks to select a type of sorting.
+     *
+     * @return the type of sorting chosen
+     */
+    private String sortSelection() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Sort types available:");
+        System.out.println("1. Ascending");
+        System.out.println("2. Descending");
+        int option = 0;
+        boolean invalid = true;
+        do {
+            try {
+                while (option < 1 || option > 2) {
+                    option = sc.nextInt();
+                    if (option == 1) {
+                        return "Ascending";
+                    } else if (option == 2) {
+                        return "Descending";
+                    }
+                }
+                invalid = false;
+            } catch (InputMismatchException e) {
+                System.out.println("\nERROR: Option selected is invalid"
+                        + " (" + e.getClass().getSimpleName() + ")");
+                sc.nextLine();
+            }
+        } while (invalid);
+        return null;
+    }
 }
