@@ -2,19 +2,16 @@ package pt.ipp.isep.dei.esoft.project.application.controller;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import pt.ipp.isep.dei.esoft.project.application.controller.authorization.AuthenticationController;
 import pt.ipp.isep.dei.esoft.project.domain.*;
 import pt.ipp.isep.dei.esoft.project.repository.*;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ScheduleVisitControllerTest {
+class ScheduleVisitControllerIT {
 
     @Test
     void ensureGetPropertyTypeListWorks() {

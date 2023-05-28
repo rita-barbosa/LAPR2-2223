@@ -13,7 +13,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class AcceptOrdersControllerTest {
+class AcceptOrdersControllerIT {
 
     @Test
     void ensureGetAnnouncementsListWorks() {
