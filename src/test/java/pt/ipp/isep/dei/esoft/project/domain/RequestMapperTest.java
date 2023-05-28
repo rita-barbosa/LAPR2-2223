@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class RequestMapperTest {
 
     @Test
-    void toDto() {
+    void ensureToDtoWorks() {
     }
 
     @Test
