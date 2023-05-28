@@ -81,10 +81,10 @@ class PropertyTest {
                 "city", "district", "state", "12345");
         String expected = String.format("Property Type: land\n" +
                 "Area: 35,50 m²\n" +
-                "Distance from city center: 89,30 m\n" +
+                "Distance from city center: 89,30 miles\n" +
                 "Location: street, city, district, state, 12345\n" +
                 "Photographs:\n" +
-                "    uri=https://www.example.com/images/photo.jpg\n");
+                "    * https://www.example.com/images/photo.jpg\n");
         assertEquals(expected, property.toString());
     }
 

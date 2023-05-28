@@ -143,20 +143,20 @@ class ResidenceTest {
                 null, 15.2, uriList);
         String expected = String.format("Property Type: land\n" +
                 "Area: 35,50 m²\n" +
-                "Distance from city center: 15,20 m\n" +
+                "Distance from city center: 15,20 miles\n" +
                 "Location: street, city, district, state, 12345\n" +
                 "Photographs:\n" +
-                "    uri=https://www.example.com/images/photo.jpg\n" +
+                "    * https://www.example.com/images/photo.jpg\n" +
                 "Number of Bedrooms: 2 \n" +
                 "Number of Bathrooms: 0 \n" +
-                "Parking Space: 2 \n" +
-                "AvailableEquipment:\n" +
-                "    description='AC'\n" +
-                "    description='Coffee Machine'\n" +
-                "    description='Heating Floor'\n" +
-                "    description='Massage Chair'\n" +
-                "    description='Jacuzzi'\n" +
-                "    description='Automatic Lights System'\n");
+                "Parking Spaces: 2 \n" +
+                "Available Equipments:\n" +
+                "    * AC\n" +
+                "    * Coffee Machine\n" +
+                "    * Heating Floor\n" +
+                "    * Massage Chair\n" +
+                "    * Jacuzzi\n" +
+                "    * Automatic Lights System\n");
         assertEquals(expected, residence.toString());
     }
 

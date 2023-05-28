@@ -145,24 +145,25 @@ class HouseTest {
                 false, 2, SunExposureTypes.NORTH, 2, null,
                 12.5, uriList);
         String expected = String.format("Property Type: house\n" +
-                "Area: 32,40 m²\n" +
-                "Distance from city center: 12,50 m\n" +
-                "Location: street 3, city 3, district 3, st3, 12340\n" +
-                "Photographs:\n" +
-                "    uri=https://www.example.com/images/photo.jpg\n" +
-                "Number of Bedrooms: 2 \n" +
-                "Number of Bathrooms: 0 \n" +
-                "Parking Space: 2 \n" +
-                "AvailableEquipment:\n" +
-                "    description='AC'\n" +
-                "    description='Coffee Machine'\n" +
-                "    description='Heating Floor'\n" +
-                "    description='Massage Chair'\n" +
-                "    description='Jacuzzi'\n" +
-                "    description='Automatic Lights System'\n" +
-                "Basement: true \n" +
-                "Inhabitable Loft: false \n" +
-                "Sun Exposure: NORTH\n");
+                        "Area: 32,40 m²\n" +
+                        "Distance from city center: 12,50 miles\n" +
+                        "Location: street 3, city 3, district 3, st3, 12340\n" +
+                        "Photographs:\n" +
+                        "    * https://www.example.com/images/photo.jpg\n" +
+                        "Number of Bedrooms: 2 \n" +
+                        "Number of Bathrooms: 0 \n" +
+                        "Parking Spaces: 2 \n" +
+                        "Available Equipments:\n" +
+                        "    * AC\n" +
+                        "    * Coffee Machine\n" +
+                        "    * Heating Floor\n" +
+                        "    * Massage Chair\n" +
+                        "    * Jacuzzi\n" +
+                        "    * Automatic Lights System\n" +
+                        "Basement: true \n" +
+                        "Inhabitable Loft: false \n" +
+                        "Sun Exposure: North\n"
+        );
         assertEquals(expected, house.toString());
     }
 
