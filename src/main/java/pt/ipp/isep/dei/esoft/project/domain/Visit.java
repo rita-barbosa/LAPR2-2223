@@ -161,7 +161,7 @@ public class Visit implements Notification {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Visit visit = (Visit) o;
-        return Objects.equals(id, visit.id) && Objects.equals(startHour, visit.startHour) && Objects.equals(endHour, visit.endHour) && Objects.equals(visitDate, visit.visitDate) && Objects.equals(userName, visit.userName) && Objects.equals(userPhoneNumber, visit.userPhoneNumber) && Objects.equals(acceptanceStatus, visit.acceptanceStatus);
+        return Objects.equals(startHour, visit.startHour) && Objects.equals(endHour, visit.endHour) && Objects.equals(visitDate, visit.visitDate) && Objects.equals(userName, visit.userName) && Objects.equals(userPhoneNumber, visit.userPhoneNumber) && Objects.equals(acceptanceStatus, visit.acceptanceStatus);
     }
 
     /**
@@ -171,7 +171,7 @@ public class Visit implements Notification {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(id, startHour, endHour, visitDate, userName, userPhoneNumber, acceptanceStatus);
+        return Objects.hash(startHour, endHour, visitDate, userName, userPhoneNumber, acceptanceStatus);
     }
 
 

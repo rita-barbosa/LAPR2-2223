@@ -35,7 +35,7 @@ class PublishAnnouncementControllerIT {
                 AuthenticationController.ROLE_AGENT);
 
         Agency agency = new Agency(1234);
-        Employee employee = new Employee("agent1@this.app", "agent");
+        Employee employee = new Employee(1234, "Elsa", "C12345678", "123-23-2345", "1agent1@this.app","agent", "423-423-2345","city", "district", "AK", "12345", "street");
         agency.addEmployee(employee);
         agencyRepository.add(agency);
 
@@ -75,7 +75,7 @@ class PublishAnnouncementControllerIT {
                 AuthenticationController.ROLE_AGENT);
 
         Agency agency = new Agency(1234);
-        Employee employee = new Employee("1agent1@this.app", "agent");
+        Employee employee = new Employee(1234, "Elsa", "C12345678", "123-23-2345", "1agent1@this.app","agent", "423-423-2345","city", "district", "AK", "12345", "street");
         agency.addEmployee(employee);
         agencyRepository.add(agency);
 
@@ -115,7 +115,7 @@ class PublishAnnouncementControllerIT {
         expected.add(commissionType2);
 
         Agency agency = new Agency(1234);
-        Employee employee = new Employee("agent1@this.app","agent");
+        Employee employee = new Employee(1234, "Elsa", "C12345678", "123-23-2345", "1agent1@this.app","agent", "423-423-2345","city", "district", "AK", "12345", "street");
         agency.addEmployee(employee);
         agencyRepository.add(agency);
 
@@ -153,7 +153,7 @@ class PublishAnnouncementControllerIT {
         expected.add(propertyType2);
 
         Agency agency = new Agency(1234);
-        Employee employee = new Employee("agent1@this.app","agent");
+        Employee employee = new Employee(1234, "Elsa", "C12345678", "123-23-2345", "1agent1@this.app","agent", "423-423-2345","city", "district", "AK", "12345", "street");
         agency.addEmployee(employee);
         agencyRepository.add(agency);
 

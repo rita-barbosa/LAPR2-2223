@@ -132,7 +132,6 @@ public class Announcement {
         int[] date = mapStringToLocalDate(propertyDateSale);
         this.saleDate = LocalDate.of(date[2], date[1], date[0]);
         this.id = counter++;
-        System.out.println(id);
     }
 
     /**
@@ -359,7 +358,7 @@ public class Announcement {
         Announcement that = (Announcement) o;
         return Objects.equals(acceptanceDate, that.acceptanceDate) && Objects.equals(saleDate, that.saleDate) &&
                 Objects.equals(commission, that.commission) && Objects.equals(request, that.request) &&
-                Objects.equals(agent, that.agent) && Objects.equals(id, that.id) && Objects.equals(orders, that.orders)
+                Objects.equals(agent, that.agent) && Objects.equals(orders, that.orders)
                 && Objects.equals(visitList, that.visitList);
     }
 
@@ -370,7 +369,7 @@ public class Announcement {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(acceptanceDate, saleDate, commission, request, agent, id, orders, visitList);
+        return Objects.hash(acceptanceDate, saleDate, commission, request, agent, orders, visitList);
     }
 }
 

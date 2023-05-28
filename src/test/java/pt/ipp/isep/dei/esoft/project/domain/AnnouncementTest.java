@@ -262,7 +262,7 @@ class AnnouncementTest {
                 uriList, "street", "city", "district", "state", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
 
-        Announcement announcement = new Announcement(employee, commission, request);
+        Announcement announcement = new Announcement(employee, commission, request, acceptanceDate, new OrderList(), 0);
         assertEquals(0, announcement.getId());
     }
 

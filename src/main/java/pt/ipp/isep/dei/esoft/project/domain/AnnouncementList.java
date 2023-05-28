@@ -163,7 +163,7 @@ public class AnnouncementList {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AnnouncementList that = (AnnouncementList) o;
-        return Objects.equals(announcements, that.announcements) && Objects.equals(acceptanceDate, that.acceptanceDate);
+        return Objects.equals(announcements, that.announcements);
     }
 
     /**
@@ -173,7 +173,7 @@ public class AnnouncementList {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(announcements, acceptanceDate);
+        return Objects.hash(announcements);
     }
 
     /**

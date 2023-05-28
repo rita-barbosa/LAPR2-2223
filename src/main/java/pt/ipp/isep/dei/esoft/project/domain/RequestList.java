@@ -119,7 +119,7 @@ public class RequestList {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         RequestList that = (RequestList) o;
-        return Objects.equals(requests, that.requests) && Objects.equals(requestDate, that.requestDate);
+        return Objects.equals(requests, that.requests);
     }
 
     /**
@@ -129,7 +129,7 @@ public class RequestList {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(requests, requestDate);
+        return Objects.hash(requests);
     }
 
     /**
