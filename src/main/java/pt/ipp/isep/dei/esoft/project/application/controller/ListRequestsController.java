@@ -6,6 +6,7 @@ import pt.ipp.isep.dei.esoft.project.repository.AuthenticationRepository;
 import pt.ipp.isep.dei.esoft.project.repository.CommissionTypeRepository;
 import pt.ipp.isep.dei.esoft.project.repository.Repositories;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,7 +33,7 @@ public class ListRequestsController {
     /**
      * Instantiates a new List requests controller.
      */
-    public ListRequestsController(){
+    public ListRequestsController() {
         getAuthenticationRepository();
         getAgencyRepository();
         getCommissionTypeRepository();
@@ -46,7 +47,7 @@ public class ListRequestsController {
      * @param agencyRepository         the agency repository
      * @param commissionTypeRepository the commission type repository
      */
-    public ListRequestsController(AuthenticationRepository authenticationRepository, AgencyRepository agencyRepository, CommissionTypeRepository commissionTypeRepository){
+    public ListRequestsController(AuthenticationRepository authenticationRepository, AgencyRepository agencyRepository, CommissionTypeRepository commissionTypeRepository) {
         this.authenticationRepository = authenticationRepository;
         this.agencyRepository = agencyRepository;
         this.commissionTypeRepository = commissionTypeRepository;
@@ -96,7 +97,7 @@ public class ListRequestsController {
      *
      * @return the optional
      */
-    public Optional<List<RequestDto>> getRequestsList(){
+    public Optional<List<RequestDto>> getRequestsList() {
         Optional<List<RequestDto>> newListRequestsDto = Optional.empty();
         String agentEmail = getAgentEmail();
         Optional<List<Request>> requestsList = getRequestsListByAgentEmail(agentEmail);
@@ -105,6 +106,13 @@ public class ListRequestsController {
         }
         return newListRequestsDto;
     }
+
+
+    public List<Request> getPureRequestsList() {
+        String agentEmail = getAgentEmail();
+        return getRequestsListByAgentEmail(agentEmail).get();
+    }
+
 
     /**
      * Gets requests list by agent email.
@@ -190,15 +198,10 @@ public class ListRequestsController {
     /**
      * Send email.
      *
-     * @param message   the message
-     * @param requestId the request id
+     * @param request the request
      */
-    public void sendEmail(String message, Integer requestId){
-        Optional<Request> newRequest;
-        newRequest = getRequestFromDto(requestId);
-        if (newRequest.isPresent()){
-            newRequest.get().sendEmail();
-        }
+    public void sendEmail( Request request) {
+        request.sendEmail();
     }
 
     /**
@@ -217,11 +220,12 @@ public class ListRequestsController {
      * @param requestIdDto the request id dto
      * @return the optional
      */
-    public Optional <Request> getRequestByIdDto(Integer requestIdDto){
+    public Optional<Request> getRequestByDtoId(RequestDto requestIdDto) {
+
         Integer requestId = RequestMapper.getRequestIdFromDto(requestIdDto);
-        Optional <Request> newRequest;
+        Optional<Request> newRequest;
         newRequest = getRequestFromDto(requestId);
-                //getRequestByIdDto(requestId);
+        //getRequestByIdDto(requestId);
 
         return newRequest;
     }
@@ -282,19 +286,12 @@ public class ListRequestsController {
     /**
      * Define justification message.
      *
-     * @param message   the message
-     * @param requestId the request id
+     * @param message the message
+     * @param request the request
      */
-    public void defineJustificationMessage(String message, Integer requestId){
-        Optional<Request> newRequest;
-        newRequest = getRequestFromDto(requestId);
-        if (newRequest.isPresent()){
-            newRequest.get().defineJustificationMessage(message);
-        }
-
-
+    public void defineJustificationMessage(String message, Request request) {
+        request.defineJustificationMessage(message);
     }
-
 
 
 }

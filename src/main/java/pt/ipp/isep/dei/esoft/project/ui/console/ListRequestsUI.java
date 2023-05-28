@@ -1,6 +1,5 @@
 package pt.ipp.isep.dei.esoft.project.ui.console;
 
-import org.apache.commons.lang3.NotImplementedException;
 import pt.ipp.isep.dei.esoft.project.application.controller.ListRequestsController;
 import pt.ipp.isep.dei.esoft.project.domain.*;
 
@@ -12,7 +11,7 @@ import java.util.Scanner;
 /**
  * The type List requests ui.
  */
-public class ListRequestsUI implements Runnable{
+public class ListRequestsUI implements Runnable {
 
     /**
      * The Controller.
@@ -33,6 +32,10 @@ public class ListRequestsUI implements Runnable{
      * The commission value.
      */
     private Double commissionValue;
+    /**
+     * The Request index.
+     */
+    private Integer requestIndex;
 
     /**
      * The email address of the owner of the property.
@@ -44,51 +47,97 @@ public class ListRequestsUI implements Runnable{
      *
      * @return the list requests controller
      */
-    private ListRequestsController getController(){
+    private ListRequestsController getController() {
         return controller;
     }
 
     public void run() {
         Scanner input = new Scanner(System.in);
-        System.out.println("Property announcement requests:\n");
+        System.out.println("Property requests to be published:\n");
         Optional<List<RequestDto>> listRequests = controller.getRequestsList();
+        Optional<RequestDto> requestDto = Optional.empty();
         boolean continueLoop = true;
-        Integer requestIdDto;
+        Optional<Request> originalRequest = null;
         do {
-            if (listRequests.isPresent() && listRequests.get().size() > 0){
+            if (listRequests.isPresent() && listRequests.get().size() > 0) {
                 for (RequestDto request : listRequests.get()) {
                     System.out.println(request.toString());
                 }
                 boolean option = askOption();
-                if (option){
-                    requestIdDto = askRequestId();
-                    Optional<Request> request = controller.getRequestByIdDto(requestIdDto);
-//                    if (request.isPresent()){
-                        System.out.println(request.toString());
-                        boolean optionForRequest = askOptionForRequest();
-                        if (optionForRequest) {
-                            commissionTypeDesignation = displayAndSelectCommissionType();
-                            commissionValue = requestCommissionValue();
-                            if (requestConfirmation()) {
-                                submitData(request);
-                            }
-                        } else {
-                            System.out.println("Write a justification message:\n");
-                            String message = input.nextLine();
-                            controller.defineJustificationMessage(message, requestIdDto);
-//                            ownerEmail = controller.getOwnerEmail();
-                            controller.sendEmail(message, requestIdDto);
+                if (option) {
+                    if (listRequests.get().size() > 0) {
+                        requestIndex = requestRequestIndex(listRequests.get());
+                        requestDto = Optional.of(listRequests.get().get(requestIndex));
+                    }
+                    if (requestDto.isPresent()) {
+                        originalRequest = controller.getRequestByDtoId(requestDto.get());
+                    }
+                    if (originalRequest.isPresent()) {
+                        System.out.println(originalRequest.get());
+                    }
+                    boolean optionForRequest = askOptionForRequest();
+                    if (optionForRequest) {
+                        commissionTypeDesignation = displayAndSelectCommissionType();
+                        commissionValue = requestCommissionValue();
+                        if (requestConfirmation() && requestDto.isPresent()) {
+                            submitData(originalRequest);
+                            listRequests.get().remove(requestDto.get());
                         }
-//                    } else {
-//                        System.out.println("There isn't any property announcement request with that Id.\n \n");
-//                    }
+                    } else {
+                        System.out.println("Write a justification message:");
+                        String message = input.nextLine();
+                        if (originalRequest.isPresent() && requestDto.isPresent()) {
+                            controller.defineJustificationMessage(message, originalRequest.get());
+                            controller.sendEmail(originalRequest.get());
+                            listRequests.get().remove(requestDto.get());
+                        }
+                    }
                 } else {
                     continueLoop = false;
                 }
             } else {
-                System.out.println("There isn't any property announcement request available.");
+                System.out.println("There isn't any property request available.");
             }
-        }while(continueLoop);
+        } while (continueLoop);
+    }
+
+    /**
+     * Request announcement index integer.
+     *
+     * @param list the list
+     * @return the integer
+     */
+    private Integer requestRequestIndex(List<RequestDto> list) {
+        System.out.println("Please select a request by its index number.");
+        int idx;
+        idx = getIntAnswer();
+        while (idx > list.size() || idx < 0) {
+            System.out.println("The request index must be within the displayed list.");
+            idx = getIntAnswer();
+        }
+        return idx;
+    }
+
+    /**
+     * Gets int answer.
+     *
+     * @return the int answer
+     */
+    private Integer getIntAnswer() {
+        Scanner input = new Scanner(System.in);
+        boolean invalid = true;
+        Integer value = null;
+        do {
+            try {
+                value = input.nextInt();
+                invalid = false;
+            } catch (InputMismatchException e) {
+                System.out.println("\nERROR: Value typed is invalid"
+                        + " (" + e.getClass().getSimpleName() + ")");
+                input.nextLine();
+            }
+        } while (invalid);
+        return value;
     }
 
 
@@ -97,7 +146,7 @@ public class ListRequestsUI implements Runnable{
      *
      * @return the integer
      */
-    private Integer askRequestId(){
+    private Integer askRequestId() {
         Scanner input = new Scanner(System.in);
         boolean invalid = true;
         Integer value = null;
@@ -277,15 +326,12 @@ public class ListRequestsUI implements Runnable{
      * @param request the request
      */
     private void submitData(Optional<Request> request) {
-
         Optional<Announcement> announcement = getController().publishAnnouncement(commissionTypeDesignation, commissionValue, request);
-
         if (announcement.isPresent()) {
-            System.out.println("\nAnnouncement published successfully\n.");
+            System.out.println("\nAnnouncement published successfully.\n");
         } else {
             System.out.println("\nERROR: announcement was not published\n.");
         }
-
     }
 
 
