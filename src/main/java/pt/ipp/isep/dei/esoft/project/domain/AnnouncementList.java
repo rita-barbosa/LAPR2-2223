@@ -42,11 +42,6 @@ public class AnnouncementList {
         return success;
     }
 
-    public void sortListByCriteria(String criteria){
-        //in this method we sort the announcement list by the choosen criteria.
-        throw new NotImplementedException();
-    }
-
     /**
      * This method checks if the list of announcements already contains the announcement received.
      *
@@ -121,11 +116,12 @@ public class AnnouncementList {
     /**
      * This method sorts the list of announcements by most recent acceptance date.
      *
-     * @param listAnnouncements
      */
-    private void sortAnnouncementsByMostRecentAcceptanceDate(List<Announcement> listAnnouncements) {
-        Collections.sort(listAnnouncements, acceptanceDate);
-        Collections.reverse(listAnnouncements);
+    public List<Announcement> sortAnnouncementsByMostRecentAcceptanceDate() {
+        List<Announcement> sortedList = new ArrayList<>(this.announcements);
+        sortedList.sort(Comparator.comparing(Announcement::getAcceptanceDate));
+        Collections.reverse(sortedList);
+        return sortedList;
     }
 
     /**
@@ -178,5 +174,14 @@ public class AnnouncementList {
     @Override
     public int hashCode() {
         return Objects.hash(announcements, acceptanceDate);
+    }
+
+    /**
+     * Sets announcements.
+     *
+     * @param announcements the announcements
+     */
+    public void setAnnouncements(List<Announcement> announcements) {
+        this.announcements = announcements;
     }
 }

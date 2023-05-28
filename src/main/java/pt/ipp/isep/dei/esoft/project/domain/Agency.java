@@ -53,6 +53,15 @@ public class Agency {
     RequestList requests;
 
     /**
+     * Gets announcements.
+     *
+     * @return the announcements
+     */
+    public AnnouncementList getAnnouncements() {
+        return announcements;
+    }
+
+    /**
      * Constructs a new Agency object with the specified id, description, email address, phone number and location.
      *
      * @param id           the unique identifier of the agency.
