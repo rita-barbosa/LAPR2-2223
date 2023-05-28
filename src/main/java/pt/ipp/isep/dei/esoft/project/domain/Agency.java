@@ -81,7 +81,7 @@ public class Agency {
      * @param phoneNumber  the phone number of the agency.
      * @param location     the location of the agency.
      */
-    public Agency(Integer id, String description, String emailAddress, String phoneNumber, String location) {
+    public Agency(Integer id, String description, String emailAddress, String phoneNumber, String location) throws IllegalArgumentException {
         this.id = id;
         this.description = description;
         this.emailAddress = new Email(emailAddress);

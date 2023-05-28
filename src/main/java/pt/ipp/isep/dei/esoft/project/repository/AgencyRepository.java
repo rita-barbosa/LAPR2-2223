@@ -123,7 +123,7 @@ public class AgencyRepository {
     }
 
 
-    public Optional<Agency> registerAgency(LegacySystemDto dto) {
+    public Optional<Agency> registerAgency(LegacySystemDto dto) throws IllegalArgumentException {
         Optional<Agency> newAgency;
         int agencyId = dto.getAgencyID();
         if (!anyAgencyHasAgencyId(agencyId)) {
