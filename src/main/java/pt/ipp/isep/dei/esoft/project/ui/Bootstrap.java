@@ -23,7 +23,7 @@ public class Bootstrap implements Runnable {
     }
 
     private void addPeople() {
-        PersonRepository personRepository = new PersonRepository();
+        PersonRepository personRepository = Repositories.getInstance().getPersonRepository();
 
         Person client = new Person("Katy WhiteHard", "C12452978",
                 "004-48-6973", "client@this.app", "623-408-7890", "client",
@@ -52,7 +52,7 @@ public class Bootstrap implements Runnable {
     }
 
     public void addEmployees(Agency agency) {
-        PersonRepository personRepository = new PersonRepository();
+        PersonRepository personRepository = Repositories.getInstance().getPersonRepository();
 
         Employee employee = new Employee(agency.getId(), "John Doe", "C12000078",
                 "004-45-6989", "employee@this.app", "agent", "623-456-7890",
@@ -64,9 +64,9 @@ public class Bootstrap implements Runnable {
                 "134-23-2555", "employee2@this.app", "agent", "911-234-5567",
                 "Porto", "Porto", "Porto", "43005", "Rua da Alegria, 123");
 
-//        personRepository.add(employee);
-//        personRepository.add(employee1);
-//        personRepository.add(employee2);
+        personRepository.add(employee);
+        personRepository.add(employee1);
+        personRepository.add(employee2);
 
         agency.addEmployee(employee);
         agency.addEmployee(employee1);
