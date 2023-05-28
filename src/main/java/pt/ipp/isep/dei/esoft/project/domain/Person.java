@@ -33,7 +33,7 @@ public class Person {
     /**
      * The Roles.
      */
-    private List<String> roles;
+    private List<String> roles = new ArrayList<>();
     /**
      * The Location.
      */
@@ -161,11 +161,12 @@ public class Person {
         this.setPhoneNumber(phoneNumber);
     }
 
-    public Person(String name, String taxNumber, String phoneNumber, String email) {
+    public Person(String name, String taxNumber, String phoneNumber, String email,String passportCardNumber) {
         this.name = name;
         this.setEmailAddress(email);
         this.setTaxNumber(taxNumber);
         this.setPhoneNumber(phoneNumber);
+        this.setPassportCardNumber(passportCardNumber);
     }
 
 
