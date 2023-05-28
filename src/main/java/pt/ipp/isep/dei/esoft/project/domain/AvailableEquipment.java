@@ -12,6 +12,15 @@ public class AvailableEquipment {
     private String description;
 
     /**
+     * The constant for central heating.
+     */
+    public static final String CENTRAL_HEATING = "central heating";
+    /**
+     * The constant for air conditioning.
+     */
+    public static final String AIR_CONDITIONING = "air conditioning";
+
+    /**
      * Constructs an Available Equipment instance.
      */
     public AvailableEquipment() {
