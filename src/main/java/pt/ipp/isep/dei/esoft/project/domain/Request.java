@@ -333,10 +333,10 @@ public class Request implements Notification {
      * @return the int [ ]
      */
     private int[] mapStringToLocalDate(String value) {
-        String[] dateString = value.split("/");
+        String[] dateString = value.split("-");
         int[] date = new int[dateString.length];
         try {
-            for (int i = 0; i < value.length(); i++) {
+            for (int i = 0; i < dateString.length; i++) {
                 date[i] = Integer.parseInt(dateString[i]);
             }
         } catch (NumberFormatException e) {

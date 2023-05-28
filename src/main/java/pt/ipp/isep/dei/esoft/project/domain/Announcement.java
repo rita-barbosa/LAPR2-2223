@@ -14,6 +14,11 @@ public class Announcement {
      * The date of acceptance for the request
      */
     private LocalDate acceptanceDate;
+
+    /**
+     * The date of acceptance for the request
+     */
+    private LocalDate saleDate;
     /**
      * The commission chosen by the agent associated with the announcement.
      */
@@ -64,6 +69,7 @@ public class Announcement {
         this.commission = new Commission(commissionType, commissionValue);
         this.agent = agent;
         this.request = request;
+        this.saleDate = DATE_BY_DEFAULT;
         this.acceptanceDate = LocalDate.now();
         this.orders = new OrderList();
         this.id = counter++;
@@ -80,6 +86,7 @@ public class Announcement {
      */
     public Announcement(Employee agent, Commission commission, Request request) {
         this.acceptanceDate = LocalDate.now();
+        this.saleDate = DATE_BY_DEFAULT;
         this.commission = commission;
         this.request = request;
         this.agent = agent;
@@ -102,6 +109,7 @@ public class Announcement {
         this.commission = commission;
         this.agent = agent;
         this.request = request;
+        this.saleDate = DATE_BY_DEFAULT;
         this.acceptanceDate = acceptanceDate;
         this.orders = orders;
         this.visitList = new ArrayList<>();
@@ -112,16 +120,39 @@ public class Announcement {
      * Constructs an Announcement object with the specified responsible agent,
      * commission, request and acceptance date.
      *
-     * @param agent the agent
+     * @param agent           the agent
      * @param commissionValue the commission value
-     * @param request        the request
+     * @param request         the request
      */
-    public Announcement(Employee agent, double commissionValue, Request request) {
+    public Announcement(Employee agent, double commissionValue, Request request, String propertyDateSale) {
         this.commission = new Commission(new CommissionType("fixed"), commissionValue);
         this.request = request;
         this.agent = agent;
-        this.id = counter++;
         this.acceptanceDate = DATE_BY_DEFAULT;
+        int[] date = mapStringToLocalDate(propertyDateSale);
+        this.saleDate = LocalDate.of(date[2], date[1], date[0]);
+        this.id = counter++;
+        System.out.println(id);
+    }
+
+    /**
+     * Maps string to an array, with the day,month and year.
+     *
+     * @param value the value
+     * @return the int [ ]
+     */
+    private int[] mapStringToLocalDate(String value) {
+        String[] dateString = value.split("-");
+
+        int[] date = new int[dateString.length];
+        try {
+            for (int i = 0; i < dateString.length; i++) {
+                date[i] = Integer.parseInt(dateString[i]);
+            }
+        } catch (NumberFormatException e) {
+            throw e;
+        }
+        return date;
     }
 
     /**
@@ -229,11 +260,14 @@ public class Announcement {
     /**
      * Defines the acceptance status of an order.
      *
-     * @param answer   The acceptance answer
-     * @param orderId  The ID of the order
+     * @param answer  The acceptance answer
+     * @param orderId The ID of the order
      * @return {@code true} if the order acceptance was successfully defined; {@code false} otherwise
      */
     public Boolean defineOrderAcceptance(String answer, int orderId) {
+        if (answer.equalsIgnoreCase("accept")) {
+            this.saleDate = LocalDate.now();
+        }
         return orders.defineOrderAcceptance(answer, orderId);
     }
 
@@ -253,7 +287,11 @@ public class Announcement {
      * @return the string
      */
     public String toString() {
-        return getRequest().toString() + String.format("Acceptance Date: %s\n", acceptanceDate);
+        if (this.saleDate != DATE_BY_DEFAULT) {
+            return getRequest().toString() + String.format("Acceptance Date: %s\n", acceptanceDate);
+        } else {
+            return getRequest().toString() + String.format("Acceptance Date: %s\nSale Date: %s\n", acceptanceDate, saleDate);
+        }
     }
 
     /**
@@ -319,9 +357,10 @@ public class Announcement {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Announcement that = (Announcement) o;
-        return Objects.equals(acceptanceDate, that.acceptanceDate) && Objects.equals(commission, that.commission)
-                && Objects.equals(request, that.request) && Objects.equals(agent, that.agent) &&
-                Objects.equals(id, that.id) && Objects.equals(orders, that.orders) && Objects.equals(visitList, that.visitList);
+        return Objects.equals(acceptanceDate, that.acceptanceDate) && Objects.equals(saleDate, that.saleDate) &&
+                Objects.equals(commission, that.commission) && Objects.equals(request, that.request) &&
+                Objects.equals(agent, that.agent) && Objects.equals(id, that.id) && Objects.equals(orders, that.orders)
+                && Objects.equals(visitList, that.visitList);
     }
 
     /**
@@ -331,6 +370,9 @@ public class Announcement {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(acceptanceDate, commission, request, agent, id, orders, visitList);
+        return Objects.hash(acceptanceDate, saleDate, commission, request, agent, id, orders, visitList);
     }
 }
+
+
+

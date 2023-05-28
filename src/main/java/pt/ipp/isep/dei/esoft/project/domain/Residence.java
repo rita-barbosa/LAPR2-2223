@@ -73,18 +73,19 @@ public class Residence extends Property {
     public Residence(PropertyType propertyType, Double area, Double distanceCityCenter, String location,
                      Integer numberBedrooms, Integer numberBathrooms, Integer numberParkingSpaces, boolean centralHeating, boolean airConditioning) {
         super(propertyType, area, distanceCityCenter, location);
-
-        List<String> availableEquipments = new ArrayList<>();
-        if (centralHeating) {
-            availableEquipments.add(AvailableEquipment.CENTRAL_HEATING);
-        }
-        if (airConditioning) {
-            availableEquipments.add(AvailableEquipment.AIR_CONDITIONING);
-        }
         this.numberBedroom = numberBedrooms;
         this.numberBathroom = numberBathrooms;
         this.parkingSpace = numberParkingSpaces;
-        fillAvailableEquipmentList(availableEquipments);
+        this.availableEquipment = new ArrayList<>();
+        List<String> availableEquipments = new ArrayList<>();
+        if (centralHeating) {
+            availableEquipments.add(AvailableEquipment.CENTRAL_HEATING);
+            fillAvailableEquipmentList(availableEquipments);
+        }
+        if (airConditioning) {
+            availableEquipments.add(AvailableEquipment.AIR_CONDITIONING);
+            fillAvailableEquipmentList(availableEquipments);
+        }
     }
 
 
