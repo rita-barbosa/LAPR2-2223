@@ -45,6 +45,11 @@ public class Request implements Notification {
     private static int counter = 0;
 
     /**
+     * The justification message for declining the property announcement request.
+     */
+    private String justificationMessage = null;
+
+    /**
      * The String boolean value.
      */
     private final String STRING_BOOLEAN_VALUE = "Y";
@@ -278,6 +283,7 @@ public class Request implements Notification {
      * @param inhabitableLoft         the inhabitable loft
      * @param sunExposure             the sun exposure
      * @param dateAnnounceRequest     the date announce request
+     * @throws NumberFormatException the number format exception
      */
     public Request(String businessTypeDesignation, String contractDuration, Double amount, String propertyTypeDesignation,
                    Double area, String location, Double distanceCityCenter, String numberBedrooms, String numberBathrooms,
@@ -501,14 +507,34 @@ public class Request implements Notification {
         return this.agent.getEmailAddress().getEmail();
     }
 
+    /**
+     * Returns the owner email of the order.
+     *
+     * @return the owner email
+     */
+    public Email getOwnerEmail() {
+        return ownerEmail;
+    }
+
+    /**
+     * Send notification boolean.
+     *
+     * @param email the email
+     * @return the boolean
+     */
     @Override
     public Boolean sendNotification(String email) {
-        File file = new File(FILE_NAME + getId() + "." + email + FILE_TYPE);
+        String fileName = "Notifications/" + FILE_NAME + "Request" + getId() + "." + email + FILE_TYPE;
+        File file = new File(fileName);
+        File parentDir = file.getParentFile();
+        if (!parentDir.exists()) {
+            parentDir.mkdirs();
+        }
         try {
             PrintWriter text = new PrintWriter(file);
             text.write(TEXT_TO + email + "\n");
-            text.write(TEXT_TOPIC + "Property Announcement Request Acceptance\n");
-            text.write("The property announcement request submitted in " + getRequestDate().toString() + " has been analysed. Your request was declined. Here is the justification message:\n ");
+            text.write(TEXT_TOPIC + "Property Announcement Request Acceptance\n\n");
+            text.write("The property announcement request submitted in " + getRequestDate().toString() + " has been analysed. Your request was declined. \n\nHere is the justification message:\n" + defineJustificationMessage(justificationMessage));
 
             text.close();
             return true;
@@ -529,19 +555,40 @@ public class Request implements Notification {
     }
 
     /**
-     * Send email.
+     * Send email boolean.
      *
-     * @param ownerEmail the owner email
-     * @param message    the message
+     * @return the boolean
      */
-    public void sendEmail(String ownerEmail, String message) {
-        throw new NotImplementedException();
+    public Boolean sendEmail(){
+        String ownerEmail = getOwnerEmail().toString();
+        return sendNotification(ownerEmail);
     }
 
+    /**
+     * Define justification message string.
+     *
+     * @param message the message
+     * @return the string
+     */
+    public String defineJustificationMessage(String message){
+         return justificationMessage = message;
+    }
+
+    /**
+     * Sets responsible agent.
+     *
+     * @param agent the agent
+     */
     public void setResponsibleAgent(Employee agent) {
         this.agent = agent;
     }
 
+    /**
+     * Sets owner email.
+     *
+     * @param ownerEmail the owner email
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     public void setOwnerEmail(String ownerEmail) throws IllegalArgumentException {
         this.ownerEmail = new Email(ownerEmail);
     }
