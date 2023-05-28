@@ -6,6 +6,8 @@ skinparam shadowing false
 
 participant ":ListRequestsController" as CTRL
 participant "requestMapper\n: RequestMapper" as ReqMapper
+participant "request\n: Request" as REQUEST
+participant "requestListDto\n:List<RequestDto>" as REQLISTDTO
 participant "requestDto\n: RequestDto" as ReqDto
 
 autonumber 14
@@ -18,46 +20,46 @@ autonumber 14.1
     CTRL -> ReqMapper : toDto(requestList)
     activate ReqMapper
 
+    ReqMapper -> REQLISTDTO** : create()
+
     loop for each request
     ReqMapper -> ReqMapper : toDto(request)
     activate ReqMapper
 
-    ReqMapper -> ReqDto : getPropertyAttributes()
-    activate ReqDto
+    ReqMapper -> REQUEST : getPropertyAttributes()
+    activate REQUEST
 
-    ReqDto --> ReqMapper : propertyAttributes
+    REQUEST --> ReqMapper : propertyAttributes
+    deactivate REQUEST
+
+    ReqMapper -> REQUEST : getBusinessAttributes()
+    activate REQUEST
+
+    REQUEST --> ReqMapper : businessAttributes
+    deactivate REQUEST
+
+    ReqMapper -> REQUEST : getRequestDate()
+    activate REQUEST
+
+    REQUEST --> ReqMapper : requestDate
+    deactivate REQUEST
+
+    ReqMapper -> REQUEST : getRequestID()
+    activate REQUEST
+
+    REQUEST --> ReqMapper : requestID
+    deactivate REQUEST
+
+    ReqMapper -> ReqDto : create(propertyAttributes, businessAttributes, requestDate, requestID)
+    activate ReqDto
     deactivate ReqDto
 
-    ReqMapper -> ReqDto : getBusinessAttributes()
-    activate ReqDto
-
-    ReqDto --> ReqMapper : businessAttributes
-    deactivate ReqDto
-
-    ReqMapper -> ReqDto : getRequestDate()
-        activate ReqDto
-
-        ReqDto --> ReqMapper : requestDate
-        deactivate ReqDto
-
-    ReqMapper -> ReqDto : getRequestID()
-    activate ReqDto
-
-    ReqDto --> ReqMapper : requestID
-    deactivate ReqDto
-
-    ReqMapper -> ReqDto : create
-    activate ReqDto
-    deactivate ReqDto
-
-    ReqMapper -> ReqMapper : add()
-    activate ReqMapper
-
-    ReqMapper --> ReqMapper :
+    ReqMapper --> ReqMapper : requestDto
     deactivate ReqMapper
 
-    ReqMapper --> ReqMapper :
-    deactivate ReqMapper
+    ReqMapper -> REQLISTDTO : add(requestDto)
+    activate REQLISTDTO
+    deactivate REQLISTDTO
     |||
     end
 
