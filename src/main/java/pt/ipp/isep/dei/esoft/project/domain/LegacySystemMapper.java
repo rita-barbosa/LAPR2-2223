@@ -1,9 +1,7 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
-import pt.ipp.isep.dei.esoft.project.repository.PropertyTypeRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 public class LegacySystemMapper {
     public static LegacySystemDto toDto(List<String> legacySystemInformationList) {
@@ -18,7 +16,6 @@ public class LegacySystemMapper {
         String agencyEmailAddress = dto.getAgencyEmailAddress();
 
         return new Agency(agencyId, agencyName, agencyEmailAddress, agencyPhoneNumber, agencyLocation);
-
     }
 
     public static Person toModelPerson(LegacySystemDto dto) {

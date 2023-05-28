@@ -65,7 +65,7 @@ public class Location {
     }
 
     public Location(String address) {
-        String[] values = address.split(",");
+        String[] values = address.trim().split(",");
         if ((values.length == 4) || (values.length == 7)) {
             setLocationWithoutDistrict(values);
         } else if ((values.length == 5) || (values.length == 8)) {
@@ -156,6 +156,9 @@ public class Location {
      */
     @Override
     public String toString() {
+        if (this.district == null){
+            return String.format("%s, %s, %s, %s", this.streetName, this.city, this.state, this.zipCode);
+        }
         return String.format("%s, %s, %s, %s, %s", this.streetName, this.city, this.district, this.state, this.zipCode);
     }
 

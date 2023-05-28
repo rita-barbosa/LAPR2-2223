@@ -209,8 +209,10 @@ public class ScheduleVisitController {
      */
     public Optional<List<Announcement>> getAllAnnouncementsList() {
         Agency agency = new Agency();
-        List<Announcement> list = agencyRepository.getAllAnnouncementsList();
-        agency.getAnnouncements().setAnnouncements(list);
+        Optional<List<Announcement>> list = agencyRepository.getAllAnnouncementsList();
+        if (list.isPresent() && list.get().size() > 0){
+            agency.getAnnouncements().setAnnouncements(list.get());
+        }
         return Optional.of(agency.getAnnouncements().sortAnnouncementsByMostRecentAcceptanceDate());
     }
 

@@ -1,7 +1,6 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
@@ -120,7 +119,7 @@ public class Visit implements Notification {
      */
     @Override
     public Boolean sendNotification(String email) {
-        String fileName = "Notifications/" + FILE_NAME + "Order" + getId() + "." + email + FILE_TYPE;
+        String fileName = "Notifications/" + FILE_NAME + "Visit" + getId() + "." + email + FILE_TYPE;
         File file = new File(fileName);
         File parentDir = file.getParentFile();
         if (!parentDir.exists()) {

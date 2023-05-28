@@ -107,12 +107,12 @@ public class AgencyRepository {
      *
      * @return the list
      */
-    public List<Announcement> getAllAnnouncementsList() {
+    public Optional<List<Announcement>> getAllAnnouncementsList() {
         List<Announcement> list = new ArrayList<>();
         for (Agency agency : agencies) {
             list.addAll(agency.getAnnouncementsList());
         }
-        return list;
+        return Optional.of(list);
     }
 
 
