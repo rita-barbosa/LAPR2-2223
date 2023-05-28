@@ -19,7 +19,7 @@ class PersonRepositoryTest {
     @Test
     void testAddPerson() {
         PersonRepository personRepository = new PersonRepository();
-        Person person = new Person("client1@this.app");
+        Person person = new Person("name", "C12345678", "234-34-4567", "client1@this.app", "345-345-5678", "client", "street", "city", "district", "state", "12345");
 
         Boolean returnPerson = personRepository.add(person);
 
@@ -29,9 +29,9 @@ class PersonRepositoryTest {
     @Test
     void ensureAddFailsforExistingPerson() {
         PersonRepository personRepository = new PersonRepository();
-        Person person = new Person("name", "C12345678", "234-34-4567", "client1@this.app", "345 345 5678", "client", "street", "city", "district", "state", "12345");
+        Person person = new Person("name", "C12345678", "234-34-4567", "client1@this.app", "345-345-5678", "client", "street", "city", "district", "state", "12345");
         personRepository.add(person);
-        Person person1 = new Person("name", "C12345678", "234-34-4567", "client1@this.app", "345 345 5678", "client", "street", "city", "district", "state", "12345");
+        Person person1 = new Person("name", "C12345678", "234-34-4567", "client1@this.app", "345-345-5678", "client", "street", "city", "district", "state", "12345");
 
         assertFalse(personRepository.add(person1));
     }
@@ -39,7 +39,8 @@ class PersonRepositoryTest {
     @Test
     void ensureGetPersonByEmailWorks() {
         PersonRepository personRepository = new PersonRepository();
-        Person person = new Person("client1@this.app");
+        Person person = new Person("name", "C12345678", "234-34-4567", "client1@this.app", "345-345-5678", "client", "street", "city", "district", "state", "12345");
+
         personRepository.add(person);
 
         Optional<Person> returnPerson = personRepository.getPersonByEmail("client1@this.app");
@@ -51,7 +52,8 @@ class PersonRepositoryTest {
     void ensureGetPersonByEmailFailsForNonExistingPerson() {
         PersonRepository personRepository = new PersonRepository();
         String personEmail = "client1@this.app";
-        Person person = new Person(personEmail);
+        Person person = new Person("name", "C12345678", "234-34-4567", "client1@this.app", "345-345-5678", "client", "street", "city", "district", "state", "12345");
+
         personRepository.add(person);
         String personEmail1 = "client2@this.app";
 
