@@ -36,6 +36,7 @@ public class Announcement {
     private OrderList orders;
 
     private List<Visit> visitList;
+    private static final LocalDate DATE_BY_DEFAULT= LocalDate.of(0,0,0);
 
     /**
      * The id iteration variable.
@@ -93,6 +94,14 @@ public class Announcement {
         this.acceptanceDate = acceptanceDate;
         this.orders = orders;
         this.id = id;
+    }
+
+    public Announcement(Employee agent, double commissionValue, Request newRequest) {
+        this.commission = new Commission(new CommissionType("fixed"), commissionValue);
+        this.request = newRequest;
+        this.agent = agent;
+        this.id = counter++;
+        this.acceptanceDate = DATE_BY_DEFAULT;
     }
 
     /**
