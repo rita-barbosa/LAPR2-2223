@@ -257,6 +257,8 @@ class AgencyTest {
     @Test
     void testHashCodeDifferentObjectsSameAttributes() {
         Location location = new Location("Saint Avenue", "Heaven", "Sky", "SK", "12345");
+
+
         Agency agency = new Agency(1234, "agency 1", "agency@this.app", "999 444 5656", location);
         Agency agency1 = new Agency(1234, "agency 1", "agency@this.app", "999 444 5656", location);
 
