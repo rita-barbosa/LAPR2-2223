@@ -71,7 +71,7 @@ public class RegisterUserUI implements Runnable {
     }
 
     private String requestPhoneNumber() {
-        System.out.println("Phone Number (Format: XXX XXX XXXX):");
+        System.out.println("Phone Number (Format: XXX-XXX-XXXX):");
         return getStringAnswer();
     }
 
@@ -87,7 +87,7 @@ public class RegisterUserUI implements Runnable {
     }
 
     private String requestPassportCardNumber() {
-        System.out.println("Passport Card Number (Example: C98745634):");
+        System.out.println("Passport Card Number (Example: C12345678):");
         return getStringAnswer();
     }
 

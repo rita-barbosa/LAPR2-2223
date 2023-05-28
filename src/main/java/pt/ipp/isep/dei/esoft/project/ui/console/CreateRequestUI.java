@@ -138,19 +138,7 @@ public class CreateRequestUI implements Runnable {
     public void run() {
         System.out.println("Create Request for Property Announcement");
 
-        businessTypeDesignation = displayAndSelectBusinessType();
-
-        if (businessTypeDesignation.equalsIgnoreCase(LEASE_BUSINESS_TYPE)) {
-            contractDuration = requestRequestContractDuration();
-        }
-
-        propertyTypeDesignation = displayAndSelectPropertyType();
-
         requestData();
-
-        agency = displayAndSelectAgenciesList();
-
-        agent = displayAndSelectAgentsList(agency);
 
         displaysData();
 
@@ -253,6 +241,11 @@ public class CreateRequestUI implements Runnable {
      * Request data for Property's Request creation.
      */
     private void requestData() {
+        businessTypeDesignation = displayAndSelectBusinessType();
+        if (businessTypeDesignation.equalsIgnoreCase(LEASE_BUSINESS_TYPE)) {
+            contractDuration = requestRequestContractDuration();
+        }
+        propertyTypeDesignation = displayAndSelectPropertyType();
         amount = requestRequestAmount();
         area = requestRequestArea();
         distanceCityCenter = requestRequestDistanceCityCenter();
@@ -279,6 +272,8 @@ public class CreateRequestUI implements Runnable {
             }
         }
         uri = requestRequestPhotographURI();
+        agency = displayAndSelectAgenciesList();
+        agent = displayAndSelectAgentsList(agency);
     }
 
     /**
