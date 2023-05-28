@@ -38,7 +38,8 @@ class CreateRequestControllerIT {
 
         Agency agency = new Agency("RE/MAX");
         agencyRepository.add(agency);
-        Employee employee = new Employee("employee@this.app", "agent");
+        Employee employee = new Employee(1234, "Elsa", "C12345678", "123-23-2345", "employee@this.app","agent", "423-423-2345","city", "district", "AK", "12345", "street");
+
         agency.addEmployee(employee);
 
         //String ownerEmail = "owner@email.com";
@@ -160,8 +161,10 @@ class CreateRequestControllerIT {
         agencyRepository.add(agency);
 
 
-        Employee employee = new Employee("employee@this.app", "agent");
-        Employee employee1 = new Employee("employee1@this.app", "agent");
+        Employee employee = new Employee(1234, "Elsa", "C12345678", "123-23-2345", "employee@this.app","agent", "423-423-2345","city", "district", "AK", "12345", "street");
+
+        Employee employee1 = new Employee(1234, "Elsa", "C12345678", "123-23-2345", "employee1@this.app","agent", "423-423-2345","city", "district", "AK", "12345", "street");
+
 
         agency.addEmployee(employee);
         agency.addEmployee(employee1);
@@ -200,7 +203,7 @@ class CreateRequestControllerIT {
         bussType.add(businessType);
 
         Agency agency = new Agency("RE/MAX");
-        Employee employee = new Employee("employee@this.app", "agent");
+        Employee employee = new Employee(1234, "Elsa", "C12345678", "123-23-2345", "employee@this.app","agent", "423-423-2345","city", "district", "AK", "12345", "street");
         agency.addEmployee(employee);
 
         List<String> uriList = new ArrayList<>();
