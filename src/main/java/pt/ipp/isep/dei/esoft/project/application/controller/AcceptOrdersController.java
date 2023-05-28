@@ -23,6 +23,11 @@ public class AcceptOrdersController {
         getAgencyRepository();
     }
 
+    public AcceptOrdersController(AgencyRepository agencyRepository, AuthenticationRepository authenticationRepository) {
+        this.agencyRepository = agencyRepository;
+        this.authenticationRepository = authenticationRepository;
+    }
+
     /**
      * Gets authentication repository.
      *

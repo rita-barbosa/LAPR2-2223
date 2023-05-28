@@ -32,16 +32,14 @@ public class AcceptOrdersUI implements Runnable {
      */
     @Override
     public void run() {
-        System.out.println("\nAccept Purchase Orders");
+        System.out.println("\nAccept Purchase Orders\n");
 
         Boolean success;
-        String acceptanceAnswer;
         Optional<List<AnnouncementDto>> listAnnouncements = controller.getAnnouncementsList();
         if (listAnnouncements.isPresent() && listAnnouncements.get().size() > 0) {
             for (AnnouncementDto a : listAnnouncements.get()) {
                 System.out.println(a.toString());
                 for (OrderDto o : a.getListOrdersDto()) {
-
                     acceptanceAnswer = selectAcceptanceAnswerOfOrder(o);
                     success = controller.defineOrderAcceptance(acceptanceAnswer, a.getAnnouncementId(), o.getId());
                     successMessage(success, acceptanceAnswer);
