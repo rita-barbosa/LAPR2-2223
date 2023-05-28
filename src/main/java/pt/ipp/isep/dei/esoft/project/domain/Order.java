@@ -35,7 +35,7 @@ public class Order implements Notification {
     /**
      * The default value of the acceptanceAnswer.
      */
-    private static final String ACCEPTANCE_ANSWER_BY_DEFAULT = "non existent";
+    public static final String ACCEPTANCE_ANSWER_BY_DEFAULT = "non existent";
     /**
      * The rejection answer.
      */
