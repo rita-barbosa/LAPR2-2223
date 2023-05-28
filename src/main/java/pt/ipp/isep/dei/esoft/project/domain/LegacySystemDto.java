@@ -59,8 +59,8 @@ public class LegacySystemDto {
         this.propertyBasement = legacySystemInformationList.get(14);
         this.propertyLoft = legacySystemInformationList.get(15);
         this.propertySunExposure = legacySystemInformationList.get(16);
-        this.propertyRequestedPrice = Integer.parseInt(legacySystemInformationList.get(17));
-        this.propertyPrice = Integer.parseInt(legacySystemInformationList.get(18));
+        this.propertyRequestedPrice = (double) Integer.parseInt(legacySystemInformationList.get(17));
+        this.propertyPrice = (double) Integer.parseInt(legacySystemInformationList.get(18));
         this.commission = Integer.parseInt(legacySystemInformationList.get(19));
         this.contractDuration = legacySystemInformationList.get(20);
         this.propertyDateAnnounceRequest = legacySystemInformationList.get(21);

@@ -22,12 +22,13 @@ public class LegacySystemMapper {
     }
 
     public static Person toModelPerson(LegacySystemDto dto) {
+        String ownerDefaultPassportNumber = "000000000";
         String ownerName = dto.getOwnerName();
         String ownerTIN = dto.getOwnerTIN();
         String ownerPhoneNumber = dto.getOwnerPhone();
         String ownerEmail = dto.getOwnerEmail();
 
-        return new Person(ownerName, ownerTIN, ownerPhoneNumber, ownerEmail);
+        return new Person(ownerName, ownerTIN, ownerPhoneNumber, ownerEmail,ownerDefaultPassportNumber);
     }
 
     public static Request toModelRequest(LegacySystemDto dto) {
