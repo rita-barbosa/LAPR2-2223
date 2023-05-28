@@ -9,26 +9,26 @@ public class LegacySystemDto {
     private String ownerEmail;
     private String ownerPhone;
     private String propertyType;
-    private int propertyArea;
+    private double propertyArea;
     private String propertyLocation;
 
-    private int propertyDistanceFromCenter;
+    private double propertyDistanceFromCenter;
 
-    private int propertyNumberBedrooms;
-    private int propertyNumberBathrooms;
-    private int propertyNumberParkingSpaces;
-    private boolean propertyCentralHeating;
-    private boolean propertyAirConditioning;
-    private boolean propertyBasement;
-    private boolean propertyLoft;
+    private String propertyNumberBedrooms;
+    private String propertyNumberBathrooms;
+    private String propertyNumberParkingSpaces;
+    private String propertyCentralHeating;
+    private String  propertyAirConditioning;
+    private String  propertyBasement;
+    private String  propertyLoft;
     private String propertySunExposure;
-    private int propertyRequestedPrice;
+    private double propertyRequestedPrice;
 
-    private int propertyPrice;
+    private double propertyPrice;
 
-    private int commission;
+    private double commission;
 
-    private int contractDuration;
+    private String contractDuration;
 
     private String propertyDateAnnounceRequest;
     private String propertyDateSale;
@@ -39,7 +39,7 @@ public class LegacySystemDto {
     private String agencyPhoneNumber;
     private String agencyEmailAddress;
 
-    private final String FILE_BOOLEAN_VALUE = "Y";
+
 
     public LegacySystemDto(List<String> legacySystemInformationList) {
         this.ownerName = legacySystemInformationList.get(0);
@@ -51,18 +51,18 @@ public class LegacySystemDto {
         this.propertyArea = Integer.parseInt(legacySystemInformationList.get(6));
         this.propertyLocation = legacySystemInformationList.get(7);
         this.propertyDistanceFromCenter = Integer.parseInt(legacySystemInformationList.get(8));
-        this.propertyNumberBedrooms = Integer.parseInt(legacySystemInformationList.get(9));
-        this.propertyNumberBathrooms = Integer.parseInt(legacySystemInformationList.get(10));
-        this.propertyNumberParkingSpaces = Integer.parseInt(legacySystemInformationList.get(11));
-        this.propertyCentralHeating = mapStringToBoolean(legacySystemInformationList.get(12));
-        this.propertyAirConditioning = mapStringToBoolean(legacySystemInformationList.get(13));
-        this.propertyBasement = mapStringToBoolean(legacySystemInformationList.get(14));
-        this.propertyLoft = mapStringToBoolean(legacySystemInformationList.get(15));
+        this.propertyNumberBedrooms = legacySystemInformationList.get(9);
+        this.propertyNumberBathrooms = legacySystemInformationList.get(10);
+        this.propertyNumberParkingSpaces = legacySystemInformationList.get(11);
+        this.propertyCentralHeating = legacySystemInformationList.get(12);
+        this.propertyAirConditioning = legacySystemInformationList.get(13);
+        this.propertyBasement = legacySystemInformationList.get(14);
+        this.propertyLoft = legacySystemInformationList.get(15);
         this.propertySunExposure = legacySystemInformationList.get(16);
         this.propertyRequestedPrice = Integer.parseInt(legacySystemInformationList.get(17));
         this.propertyPrice = Integer.parseInt(legacySystemInformationList.get(18));
         this.commission = Integer.parseInt(legacySystemInformationList.get(19));
-        this.contractDuration = Integer.parseInt(legacySystemInformationList.get(20));
+        this.contractDuration = legacySystemInformationList.get(20);
         this.propertyDateAnnounceRequest = legacySystemInformationList.get(21);
         this.propertyDateSale = legacySystemInformationList.get(22);
         this.typeBusiness = legacySystemInformationList.get(23);
@@ -73,9 +73,7 @@ public class LegacySystemDto {
         this.agencyEmailAddress = legacySystemInformationList.get(28);
     }
 
-    private boolean mapStringToBoolean(String value) {
-        return value.equalsIgnoreCase(FILE_BOOLEAN_VALUE);
-    }
+
 
     public String getOwnerName() {
         return ownerName;
@@ -101,7 +99,7 @@ public class LegacySystemDto {
         return propertyType;
     }
 
-    public int getPropertyArea() {
+    public double getPropertyArea() {
         return propertyArea;
     }
 
@@ -109,35 +107,35 @@ public class LegacySystemDto {
         return propertyLocation;
     }
 
-    public int getPropertyDistanceFromCenter() {
+    public double getPropertyDistanceFromCenter() {
         return propertyDistanceFromCenter;
     }
 
-    public int getPropertyNumberBedrooms() {
+    public String  getPropertyNumberBedrooms() {
         return propertyNumberBedrooms;
     }
 
-    public int getPropertyNumberBathrooms() {
+    public String  getPropertyNumberBathrooms() {
         return propertyNumberBathrooms;
     }
 
-    public int getPropertyNumberParkingSpaces() {
+    public String  getPropertyNumberParkingSpaces() {
         return propertyNumberParkingSpaces;
     }
 
-    public boolean isPropertyCentralHeating() {
+    public String  getPropertyCentralHeating() {
         return propertyCentralHeating;
     }
 
-    public boolean isPropertyAirConditioning() {
+    public String  getPropertyAirConditioning() {
         return propertyAirConditioning;
     }
 
-    public boolean isPropertyBasement() {
+    public String  getPropertyBasement() {
         return propertyBasement;
     }
 
-    public boolean isPropertyLoft() {
+    public String  getPropertyLoft() {
         return propertyLoft;
     }
 
@@ -145,19 +143,19 @@ public class LegacySystemDto {
         return propertySunExposure;
     }
 
-    public int getPropertyRequestedPrice() {
+    public double getPropertyRequestedPrice() {
         return propertyRequestedPrice;
     }
 
-    public int getPropertyPrice() {
+    public double getPropertyPrice() {
         return propertyPrice;
     }
 
-    public int getCommission() {
+    public double getCommission() {
         return commission;
     }
 
-    public int getContractDuration() {
+    public String getContractDuration() {
         return contractDuration;
     }
 
