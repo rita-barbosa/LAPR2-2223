@@ -170,36 +170,62 @@ public class Person {
 
 
     /**
-     * Validate passport card number boolean.
+     * This method checks if the passport card number is valid, has the appropriate format.
      *
-     * @param passportCardNumber the passport card number
-     * @return the boolean
+     * @param passportCardNumber the passport card number to be validated.
+     * @return {@code true} if the passport card number has the appropriate format;{@code false} otherwise;
      */
     private boolean validatePassportCardNumber(String passportCardNumber) {
-        if (passportCardNumber.length() == PASSPORT_CARD_NUMBER_LENGTH || (passportCardNumber.charAt(0) != PASSPORT_FIRST_CHARACTER)) {
-            String[] passp = passportCardNumber.split("");
-            int i = 0;
-            if (passportCardNumber.charAt(0) == PASSPORT_FIRST_CHARACTER) {
-                i = 1;
+        if (passportCardNumber.length() == PASSPORT_CARD_NUMBER_LENGTH) {
+            if (Character.isDigit(passportCardNumber.charAt(0))) {
+                return validatePassportCardNumberWithoutLetter(passportCardNumber);
+            } else if (passportCardNumber.charAt(0) == PASSPORT_FIRST_CHARACTER) {
+                return validatePassportCardNumberWithLetter(passportCardNumber);
             }
-            while (i < passp.length - 1){
-                try {
-                    Integer.parseInt(passp[i]);
-                } catch (NumberFormatException e) {
-                    return false;
-                }
-                i++;
-            }
-            return true;
         }
         return false;
     }
 
     /**
-     * Validate phone boolean.
+     * This method validates the passport card number in case it starts with the letter 'C'.
+     *
+     * @param passportCardNumber the passport card number to be validated.
+     * @return {@code true} if the passport card number has the appropriate format;{@code false} otherwise;
+     */
+    private boolean validatePassportCardNumberWithLetter(String passportCardNumber) {
+        boolean valid = true;
+        String numericPart = passportCardNumber.substring(1);
+        if (numericPart.length() == 8) {
+            for (char c : numericPart.toCharArray()) {
+                if (!Character.isDigit(c)) {
+                    valid = false;
+                }
+            }
+        }
+        return valid;
+    }
+
+    /**
+     * This method validates the passport card number in case it doesn't start with the letter 'C'.
+     *
+     * @param passportCardNumber the passport card number to be validated.
+     * @return {@code true} if the passport card number has the appropriate format;{@code false} otherwise;
+     */
+    private boolean validatePassportCardNumberWithoutLetter(String passportCardNumber) {
+        for (char c : passportCardNumber.toCharArray()) {
+            if (!Character.isDigit(c)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+    /**
+     * This method checks if the received phone number has the appropriate format.
      *
      * @param phoneNumber the phone number
-     * @return the boolean
+     * @return {@code true} if the phone number is correct;{@code false} otherwise;
      */
     private boolean validatePhone(String phoneNumber) {
 
@@ -212,68 +238,24 @@ public class Person {
             if ((Integer.parseInt(firstSegment[0]) < 2) || (Integer.parseInt(secondSegment[0]) < 2)) {
                 return false;
             }
-            if (!validation(firstSegment) || firstSegment.length != THREE_DIGIT_SEGMENT_PHONE_NUMBER) {
+            if (!validationDigists(firstSegment) || firstSegment.length != THREE_DIGIT_SEGMENT_PHONE_NUMBER) {
                 return false;
             }
-            if (!validation(secondSegment) || secondSegment.length != THREE_DIGIT_SEGMENT_PHONE_NUMBER) {
+            if (!validationDigists(secondSegment) || secondSegment.length != THREE_DIGIT_SEGMENT_PHONE_NUMBER) {
                 return false;
             }
-            return validation(thirdSegment) && thirdSegment.length == FOUR_DIGIT_SEGMENT_PHONE_NUMBER;
+            return validationDigists(thirdSegment) && thirdSegment.length == FOUR_DIGIT_SEGMENT_PHONE_NUMBER;
         }
         return false;
     }
 
-    public void setTaxNumber(String taxNumber) {
-        Scanner input = new Scanner(System.in);
-        while (!validateTaxNumber(taxNumber)) {
-            System.out.println("Invalid Tax Number. Provide a new one.");
-            taxNumber = input.nextLine();
-        }
-        this.taxNumber = taxNumber;
-    }
-
-    public void setEmailAddress(String email) {
-        boolean valid = false;
-        Scanner input = new Scanner(System.in);
-        while (!valid) {
-            try {
-                this.emailAddress = new Email(email);
-                valid = true;
-            } catch (IllegalArgumentException e) {
-                email = input.nextLine();
-            }
-        }
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        Scanner input = new Scanner(System.in);
-        while (!validatePhone(phoneNumber)) {
-            System.out.println("Invalid Phone Number. Provide a new one.");
-            phoneNumber = input.nextLine();
-        }
-        this.phoneNumber = phoneNumber;
-    }
-
-    public void setPassportCardNumber(String passportCardNumber) {
-        Scanner input = new Scanner(System.in);
-        while (!validatePassportCardNumber(passportCardNumber)) {
-            System.out.println("Invalid Passport Card Number. Provide a new one.");
-            passportCardNumber = input.nextLine();
-        }
-        this.passportCardNumber = passportCardNumber;
-    }
-
-    public void setLocation(Location location) {
-        this.location = location;
-    }
-
     /**
-     * Validation boolean.
+     * This method checks if the received String only has digits.
      *
      * @param segmentDigits the segment digits
-     * @return the boolean
+     * @return {@code true} if they are all digits;{@code false} otherwise;
      */
-    private boolean validation(String[] segmentDigits) {
+    private boolean validationDigists(String[] segmentDigits) {
         for (int i = 0; i < segmentDigits.length; i++) {
             try {
                 Integer.parseInt(segmentDigits[i]);
@@ -287,12 +269,91 @@ public class Person {
         return true;
     }
 
+    /**
+     * This method sets the tax number of an instance, after verifying if the tax number is correct.
+     *
+     * @param taxNumber - tax number.
+     */
+    public void setTaxNumber(String taxNumber) {
+        Scanner input = new Scanner(System.in);
+        while (!validateTaxNumber(taxNumber)) {
+            System.out.println("Invalid Tax Number. Provide a new one.");
+            taxNumber = input.nextLine();
+        }
+        this.taxNumber = taxNumber;
+    }
 
     /**
-     * Validate tax number boolean.
+     * This method sets the email of an instance, after verifying if the email address is correct.
+     *
+     * @param email - tax number.
+     */
+    public void setEmailAddress(String email) {
+        boolean valid = false;
+        Scanner input = new Scanner(System.in);
+        while (!valid) {
+            try {
+                this.emailAddress = new Email(email);
+                valid = true;
+            } catch (IllegalArgumentException e) {
+                email = input.nextLine();
+            }
+        }
+    }
+
+    /**
+     * This method sets the phone number of an instance, after verifying if the phone number is correct.
+     *
+     * @param phoneNumber - phone number.
+     */
+    public void setPhoneNumber(String phoneNumber) {
+        Scanner input = new Scanner(System.in);
+        while (!validatePhone(phoneNumber)) {
+            System.out.println("Invalid Phone Number. Provide a new one.");
+            phoneNumber = input.nextLine();
+        }
+        this.phoneNumber = phoneNumber;
+    }
+
+    /**
+     * This method sets the passport card number of an instance, after verifying if the passport card number is correct.
+     *
+     * @param passportCardNumber - passport card number
+     */
+    public void setPassportCardNumber(String passportCardNumber) {
+        Scanner input = new Scanner(System.in);
+        while (!validatePassportCardNumber(passportCardNumber)) {
+            System.out.println("Invalid Passport Card Number. Provide a new one.");
+            passportCardNumber = input.nextLine();
+        }
+        this.passportCardNumber = passportCardNumber;
+    }
+    /**
+     * This method sets the Person roles.
+     * @param roles - list of roles
+     */
+    public void setRole(List<String> roles) {
+        if (!new HashSet<>(this.roles).containsAll(roles)) {
+            roles.removeAll(this.roles);
+            this.roles.addAll(roles);
+        }
+    }
+
+    /**
+     * This method sets the location of an instance.
+     *
+     * @param location
+     */
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+
+    /**
+     * Validates tax number format.
      *
      * @param taxNumber the tax number
-     * @return the boolean
+     * @return {@code true} if tax number has the correct format;{@code false} otherwise;
      */
     private boolean validateTaxNumber(String taxNumber) {
         String[] segments = taxNumber.split("-");
@@ -385,19 +446,19 @@ public class Person {
 
 
     /**
-     * Has email boolean.
+     * Checks if person has the email received.
      *
      * @param emailAddress the email address
-     * @return the boolean
+     * @return {@code true} if the email is the same;{@code false} otherwise;
      */
     public boolean hasEmail(String emailAddress) {
         return (this.emailAddress.equals(new Email(emailAddress)));
     }
 
     /**
-     * Clone person.
+     * This method returns a copy of the Person.
      *
-     * @return the person
+     * @return copy (clone) of the Person
      */
     public Person clone() {
         return new Person(this.name, this.passportCardNumber, this.taxNumber, this.emailAddress, this.phoneNumber,
@@ -405,10 +466,10 @@ public class Person {
     }
 
     /**
-     * Equals boolean.
+     * This method checks if two instances are equal. Receiving an object that is to be compared.
      *
-     * @param o the o
-     * @return the boolean
+     * @param o - object to be compared
+     * @return {@code true} if they are equal;{@code false} otherwise;
      */
     @Override
     public boolean equals(Object o) {
@@ -419,13 +480,6 @@ public class Person {
                 && Objects.equals(emailAddress, person.emailAddress) && Objects.equals(phoneNumber, person.phoneNumber)
                 && Objects.equals(passportCardNumber, person.passportCardNumber) && Objects.equals(roles, person.roles)
                 && Objects.equals(location, person.location);
-    }
-
-    public void setRole(List<String> roles) {
-        if (!new HashSet<>(this.roles).containsAll(roles)) {
-            roles.removeAll(this.roles);
-            this.roles.addAll(roles);
-        }
     }
 }
 

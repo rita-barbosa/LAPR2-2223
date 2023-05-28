@@ -29,7 +29,7 @@ public class Bootstrap implements Runnable {
                 "004-48-6973", "client@this.app", "623-408-7890", "client",
                 "Broadway", "Manhattan", "New York", "NY", "10001");
         Person client2 = new Person("Jake Moon", "C12777778",
-                "134-23-2555", "client1@this.app", "client", "555-775-5555",
+                "134-23-2555", "client1@this.app", "555-775-5555","client",
                 "Rua da Alegria, 123", "Porto", "Porto", "Porto", "43005");
 
         Person client1 = new Person("Paulo Borges", "C04575989",
