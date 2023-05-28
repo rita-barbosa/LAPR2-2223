@@ -84,8 +84,6 @@ public class CreateRequestUI implements Runnable {
      * Number of parking spaces of a property.
      */
     private Integer parkingSpace;
-
-
     /**
      * The Max uris.
      */
