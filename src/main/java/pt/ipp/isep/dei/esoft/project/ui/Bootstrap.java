@@ -203,7 +203,7 @@ public class Bootstrap implements Runnable {
         a3.addOrder(o2);
         a3.addOrder(o3);
 
-        Announcement a4 = new Announcement(employee, commissionType, 234.0, request2);
+        Announcement a4 = new Announcement(employee, commissionType, 234.0, request3);
         Announcement a5 = new Announcement(employee, commissionType, 234.0, request4);
         Announcement a6 = new Announcement(employee, commissionType, 234.0, request5);
 
