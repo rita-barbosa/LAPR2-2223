@@ -453,7 +453,7 @@ public class Request implements Notification {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Request request = (Request) o;
-        return Objects.equals(requestDate, request.requestDate) && Objects.equals(agent, request.agent) && Objects.equals(business, request.business) && Objects.equals(property, request.property) && Objects.equals(ownerEmail, request.ownerEmail) && Objects.equals(id, request.id);
+        return Objects.equals(requestDate, request.requestDate) && Objects.equals(agent, request.agent) && Objects.equals(business, request.business) && Objects.equals(property, request.property) && Objects.equals(ownerEmail, request.ownerEmail);
     }
 
     /**
@@ -463,7 +463,7 @@ public class Request implements Notification {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(requestDate, agent, business, property, ownerEmail, id);
+        return Objects.hash(requestDate, agent, business, property, ownerEmail);
     }
 
 //    public String getId() {
