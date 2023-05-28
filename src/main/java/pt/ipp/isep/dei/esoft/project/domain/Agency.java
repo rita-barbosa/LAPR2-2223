@@ -52,6 +52,7 @@ public class Agency {
      */
     RequestList requests;
 
+
     /**
      * Gets announcements.
      *
@@ -445,27 +446,18 @@ public class Agency {
      */
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof Agency)) {
-            return false;
-        }
-        Agency that = (Agency) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(description, that.description) &&
-                Objects.equals(emailAddress, that.emailAddress) &&
-                Objects.equals(phoneNumber, that.phoneNumber) &&
-                Objects.equals(location, that.location) &&
-                Objects.equals(employees, that.employees) &&
-                Objects.equals(announcements, that.announcements) &&
-                Objects.equals(requests, that.requests);
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Agency agency = (Agency) o;
+        return Objects.equals(id, agency.id) && Objects.equals(description, agency.description) &&
+                Objects.equals(emailAddress, agency.emailAddress) && Objects.equals(phoneNumber, agency.phoneNumber)
+                && Objects.equals(location, agency.location) && Objects.equals(employees, agency.employees) &&
+                Objects.equals(announcements, agency.announcements) && Objects.equals(requests, agency.requests);
     }
 
     /**
-     * Generates a hash code for this Agency object.
-     *
-     * @return The hash code of the Agency object.
+     * The agency hashCode
+     * @return the hashcode
      */
     @Override
     public int hashCode() {
