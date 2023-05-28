@@ -1,6 +1,5 @@
 package pt.ipp.isep.dei.esoft.project.application.controller;
 
-import org.apache.commons.lang3.NotImplementedException;
 import pt.ipp.isep.dei.esoft.project.domain.*;
 import pt.ipp.isep.dei.esoft.project.repository.AgencyRepository;
 import pt.ipp.isep.dei.esoft.project.repository.AuthenticationRepository;
@@ -10,14 +9,29 @@ import pt.ipp.isep.dei.esoft.project.repository.Repositories;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The type List requests controller.
+ */
 public class ListRequestsController {
 
+    /**
+     * The Authentication repository.
+     */
     private AuthenticationRepository authenticationRepository;
 
+    /**
+     * The Agency repository.
+     */
     private AgencyRepository agencyRepository;
 
+    /**
+     * The Commission type repository.
+     */
     private CommissionTypeRepository commissionTypeRepository;
 
+    /**
+     * Instantiates a new List requests controller.
+     */
     public ListRequestsController(){
         getAuthenticationRepository();
         getAgencyRepository();
@@ -25,12 +39,24 @@ public class ListRequestsController {
 
     }
 
+    /**
+     * Instantiates a new List requests controller.
+     *
+     * @param authenticationRepository the authentication repository
+     * @param agencyRepository         the agency repository
+     * @param commissionTypeRepository the commission type repository
+     */
     public ListRequestsController(AuthenticationRepository authenticationRepository, AgencyRepository agencyRepository, CommissionTypeRepository commissionTypeRepository){
         this.authenticationRepository = authenticationRepository;
         this.agencyRepository = agencyRepository;
         this.commissionTypeRepository = commissionTypeRepository;
     }
 
+    /**
+     * Gets authentication repository.
+     *
+     * @return the authentication repository
+     */
     private AuthenticationRepository getAuthenticationRepository() {
         if (authenticationRepository == null) {
             Repositories repositories = Repositories.getInstance();
@@ -39,6 +65,11 @@ public class ListRequestsController {
         return authenticationRepository;
     }
 
+    /**
+     * Gets agency repository.
+     *
+     * @return the agency repository
+     */
     private AgencyRepository getAgencyRepository() {
         if (agencyRepository == null) {
             Repositories repositories = Repositories.getInstance();
@@ -47,6 +78,11 @@ public class ListRequestsController {
         return agencyRepository;
     }
 
+    /**
+     * Gets commission type repository.
+     *
+     * @return the commission type repository
+     */
     private CommissionTypeRepository getCommissionTypeRepository() {
         if (commissionTypeRepository == null) {
             Repositories repositories = Repositories.getInstance();
@@ -55,6 +91,11 @@ public class ListRequestsController {
         return commissionTypeRepository;
     }
 
+    /**
+     * Get requests list optional.
+     *
+     * @return the optional
+     */
     public Optional<List<RequestDto>> getRequestsList(){
         Optional<List<RequestDto>> newListRequestsDto = Optional.empty();
         String agentEmail = getAgentEmail();
@@ -65,6 +106,12 @@ public class ListRequestsController {
         return newListRequestsDto;
     }
 
+    /**
+     * Gets requests list by agent email.
+     *
+     * @param email the email
+     * @return the requests list by agent email
+     */
     private Optional<List<Request>> getRequestsListByAgentEmail(String email) {
         Optional<List<Request>> newList = Optional.empty();
         Optional<Agency> newAgency;
@@ -76,66 +123,176 @@ public class ListRequestsController {
         return newList;
     }
 
+//    public Optional<List<CommissionTypeDto>> getCommissionTypeList(){
+//        Optional<List<CommissionTypeDto>> newListCommissionTypeDto = Optional.empty();
+//        CommissionTypeRepository commissionTypeRepository = getCommissionTypeRepository();
+//        Optional<List<CommissionType>> commissionTypeList = Optional.of(commissionTypeRepository.getCommissionTypeList());
+//        if (commissionTypeList.isPresent()){
+//            newListCommissionTypeDto = CommissionTypeMapper.toDto(commissionTypeList.get());
+//        }
+//        return newListCommissionTypeDto;
+//    }
+
 //    public Integer getRequestByIdDto(){
 //
 //    }
 
+    /**
+     * Gets email from session.
+     *
+     * @return the email from session
+     */
     private String getEmailFromSession() {
         return getAuthenticationRepository().getCurrentUserSession().getUserId().toString();
     }
 
+    /**
+     * Gets agency by email.
+     *
+     * @param email the email
+     * @return the agency by email
+     */
     private Optional<Agency> getAgencyByEmail(String email) {
         return getAgencyRepository().getAgencyByEmployeeEmail(email);
     }
 
+    /**
+     * Gets commission type list.
+     *
+     * @return the commission type list
+     */
     public List<CommissionType> getCommissionTypeList() {
         CommissionTypeRepository commissionTypeRepository = getCommissionTypeRepository();
         return commissionTypeRepository.getCommissionTypeList();
     }
 
+    /**
+     * Gets commission type by designation.
+     *
+     * @param designation the designation
+     * @return the commission type by designation
+     */
     private CommissionType getCommissionTypeByDesignation(String designation) {
         return getCommissionTypeRepository().getCommissionTypeByDesignation(designation).get();
     }
 
+    /**
+     * Gets agent by email.
+     *
+     * @param email  the email
+     * @param agency the agency
+     * @return the agent by email
+     */
     private Employee getAgentByEmail(String email, Agency agency) {
         return agency.getAgentByEmail(email);
     }
 
-    public void sendEmail(String ownerEmail, String message){
-        throw new NotImplementedException();
+    /**
+     * Send email.
+     *
+     * @param message   the message
+     * @param requestId the request id
+     */
+    public void sendEmail(String message, Integer requestId){
+        Optional<Request> newRequest;
+        newRequest = getRequestFromDto(requestId);
+        if (newRequest.isPresent()){
+            newRequest.get().sendEmail();
+        }
     }
 
+    /**
+     * Gets agent email.
+     *
+     * @return the agent email
+     */
     private String getAgentEmail() {
-        String email = getAuthenticationRepository().getCurrentUserSession().getUserId().getEmail();
-        return email;
+        String agentEmail = getAuthenticationRepository().getCurrentUserSession().getUserId().getEmail();
+        return agentEmail;
     }
 
-    public Request getRequestByIdDto(Integer requestIdDto){
-        Integer id = RequestMapper.getRequestIdFromDto(requestIdDto);
-        Request newRequest;
-        newRequest = getRequestByIdDto(id);
+    /**
+     * Get request by id dto optional .
+     *
+     * @param requestIdDto the request id dto
+     * @return the optional
+     */
+    public Optional <Request> getRequestByIdDto(Integer requestIdDto){
+        Integer requestId = RequestMapper.getRequestIdFromDto(requestIdDto);
+        Optional <Request> newRequest;
+        newRequest = getRequestFromDto(requestId);
+                //getRequestByIdDto(requestId);
 
         return newRequest;
     }
 
+    /**
+     * Gets request from dto.
+     *
+     * @param requestId the request id
+     * @return the request from dto
+     */
     private Optional<Request> getRequestFromDto(Integer requestId) {
         Optional<Request> newRequest = Optional.empty();
         Optional<Agency> newAgency;
 
-        newAgency = getAgencyRepository().getAgencyByAnnouncementId(requestId);
+        newAgency = getAgencyRepository().getAgencyByRequestId(requestId);
         if (newAgency.isPresent()) {
             newRequest = newAgency.get().getRequestById(requestId);
         }
         return newRequest;
     }
 
-    public Optional<Announcement> publishAnnouncement(String commissionTypeDesignation, Double commissionValue, Request request, String ownerEmail) {
-        throw new NotImplementedException();
+    /**
+     * Publish announcement optional.
+     *
+     * @param commissionTypeDesignation the commission type designation
+     * @param commissionValue           the commission value
+     * @param request                   the request
+     * @return the optional
+     */
+    public Optional<Announcement> publishAnnouncement(String commissionTypeDesignation, Double commissionValue, Optional<Request> request) {
+        String email = getEmailFromSession();
+        Optional<Agency> agency = getAgencyByEmail(email);
 
+        Optional<Announcement> newAnnouncement = Optional.empty();
+
+        CommissionType commissionType = getCommissionTypeByDesignation(commissionTypeDesignation);
+
+        if (agency.isPresent()) {
+            Employee agent = getAgentByEmail(email, agency.get());
+            if (request.isPresent()) {
+                newAnnouncement = agency.get().publishAnnouncement(agent, commissionType, commissionValue, request.get());
+            }
+        }
+        return newAnnouncement;
     }
 
-    public String getOwnerEmail(){
-        throw new NotImplementedException();
+//    public String getOwnerEmail(){
+//        String email = getEmailFromSession();
+//        Optional<Agency> agency = getAgencyByEmail(email);
+//        String ownerEmail = null;
+//        if (agency.isPresent()){
+//            ownerEmail = agency.get().getOwnerEmail();
+//        }
+//
+//        return ownerEmail;
+//    }
+
+    /**
+     * Define justification message.
+     *
+     * @param message   the message
+     * @param requestId the request id
+     */
+    public void defineJustificationMessage(String message, Integer requestId){
+        Optional<Request> newRequest;
+        newRequest = getRequestFromDto(requestId);
+        if (newRequest.isPresent()){
+            newRequest.get().defineJustificationMessage(message);
+        }
+
+
     }
 
 

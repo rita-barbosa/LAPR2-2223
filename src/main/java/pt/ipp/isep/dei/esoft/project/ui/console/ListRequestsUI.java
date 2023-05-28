@@ -9,8 +9,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
+/**
+ * The type List requests ui.
+ */
 public class ListRequestsUI implements Runnable{
 
+    /**
+     * The Controller.
+     */
     private final ListRequestsController controller = new ListRequestsController();
 
     /**
@@ -24,10 +30,20 @@ public class ListRequestsUI implements Runnable{
     private String commissionTypeDesignation;
 
     /**
+     * The commission value.
+     */
+    private Double commissionValue;
+
+    /**
      * The email address of the owner of the property.
      */
     private String ownerEmail;
 
+    /**
+     * Get controller list requests controller.
+     *
+     * @return the list requests controller
+     */
     private ListRequestsController getController(){
         return controller;
     }
@@ -39,42 +55,55 @@ public class ListRequestsUI implements Runnable{
         boolean continueLoop = true;
         Integer requestIdDto;
         do {
-            for (RequestDto request : listRequests.get()) {
-                System.out.println(request.toString());
-            }
-            boolean option = askOption();
-            if (option){
-                requestIdDto = askRequestId();
-                Request request = controller.getRequestByIdDto(requestIdDto);
-                System.out.println(request.toString());
-                boolean optionForRequest = askOptionForRequest();
-                if (optionForRequest) {
-                    commissionTypeDesignation = displayAndSelectCommissionType();
-                    if (requestConfirmation()) {
-                        submitData();
-                    }
+            if (listRequests.isPresent() && listRequests.get().size() > 0){
+                for (RequestDto request : listRequests.get()) {
+                    System.out.println(request.toString());
+                }
+                boolean option = askOption();
+                if (option){
+                    requestIdDto = askRequestId();
+                    Optional<Request> request = controller.getRequestByIdDto(requestIdDto);
+//                    if (request.isPresent()){
+                        System.out.println(request.toString());
+                        boolean optionForRequest = askOptionForRequest();
+                        if (optionForRequest) {
+                            commissionTypeDesignation = displayAndSelectCommissionType();
+                            commissionValue = requestCommissionValue();
+                            if (requestConfirmation()) {
+                                submitData(request);
+                            }
+                        } else {
+                            System.out.println("Write a justification message:\n");
+                            String message = input.nextLine();
+                            controller.defineJustificationMessage(message, requestIdDto);
+//                            ownerEmail = controller.getOwnerEmail();
+                            controller.sendEmail(message, requestIdDto);
+                        }
+//                    } else {
+//                        System.out.println("There isn't any property announcement request with that Id.\n \n");
+//                    }
                 } else {
-                    System.out.println("Writte a justification message:\n");
-                    String message = input.nextLine();
-                    ownerEmail = controller.getOwnerEmail();
-                    controller.sendEmail(ownerEmail, message);
+                    continueLoop = false;
                 }
             } else {
-                continueLoop = false;
+                System.out.println("There isn't any property announcement request available.");
             }
         }while(continueLoop);
-
-
     }
 
 
-
+    /**
+     * Ask request id integer.
+     *
+     * @return the integer
+     */
     private Integer askRequestId(){
         Scanner input = new Scanner(System.in);
         boolean invalid = true;
         Integer value = null;
         do {
             try {
+                System.out.println("\nSelect and id:");
                 value = input.nextInt();
                 invalid = false;
             } catch (InputMismatchException e) {
@@ -86,6 +115,11 @@ public class ListRequestsUI implements Runnable{
         return value;
     }
 
+    /**
+     * Ask option boolean.
+     *
+     * @return the boolean
+     */
     private boolean askOption() {
         System.out.println("Do you want to select any request? \n1 - Yes \n2 - No");
         Scanner sc = new Scanner(System.in);
@@ -108,6 +142,11 @@ public class ListRequestsUI implements Runnable{
         return option == 1;
     }
 
+    /**
+     * Ask option for request boolean.
+     *
+     * @return the boolean
+     */
     private boolean askOptionForRequest() {
         System.out.println("Do you want to accept or decline the request? \n1 - Accept \n2 - Decline");
         Scanner sc = new Scanner(System.in);
@@ -130,15 +169,11 @@ public class ListRequestsUI implements Runnable{
         return option == 1;
     }
 
-
-//    private void successMessage(Boolean success, String acceptanceAnswer) {
-//        if (success) {
-//            System.out.println("The order was successfully " + acceptanceAnswer + "ed.\n");
-//        } else {
-//            System.out.println(" ERROR: The order wasn't successfully " + acceptanceAnswer + "ed.\n");
-//        }
-//    }
-
+    /**
+     * Display and select commission type string.
+     *
+     * @return the string
+     */
     private String displayAndSelectCommissionType() {
         List<CommissionType> commissionTypes = controller.getCommissionTypeList();
         boolean invalid = true;
@@ -163,6 +198,12 @@ public class ListRequestsUI implements Runnable{
         return (commissionTypes.get(answer - 1).getDesignation());
     }
 
+
+    /**
+     * Display commission type options.
+     *
+     * @param commissionTypes the commission types
+     */
     private void displayCommissionTypeOptions(List<CommissionType> commissionTypes) {
         int i = 1;
         System.out.println();
@@ -172,6 +213,45 @@ public class ListRequestsUI implements Runnable{
         }
     }
 
+    /**
+     * This method requests the commission value of the agent.
+     *
+     * @return commission value of the agent.
+     */
+    private Double requestCommissionValue() {
+        System.out.println("Commission Value:");
+        return getDoubleAnswer();
+    }
+
+    /**
+     * This method obtains and verifies a Double user input.
+     * If the user doesn't type in a Double, then an Input Mismatch Exception will be "catched".
+     *
+     * @return the Double user inputted answer.
+     */
+    private Double getDoubleAnswer() {
+        Scanner input = new Scanner(System.in);
+        boolean invalid = true;
+        Double value = null;
+        do {
+            try {
+                value = input.nextDouble();
+                invalid = false;
+            } catch (InputMismatchException e) {
+                System.out.println("\nERROR: Value typed is invalid"
+                        + " (" + e.getClass().getSimpleName() + ")");
+                input.nextLine();
+            }
+        } while (invalid);
+
+        return value;
+    }
+
+    /**
+     * Request confirmation boolean.
+     *
+     * @return the boolean
+     */
     private boolean requestConfirmation() {
         Scanner input = new Scanner(System.in);
         Boolean value = null;
@@ -191,16 +271,20 @@ public class ListRequestsUI implements Runnable{
         return value;
     }
 
-    private void submitData() {
-        throw new NotImplementedException();
-//
-//        Optional<Announcement> announcement = getController().publishAnnouncement( commissionTypeDesignation, commissionValue, request, ownerEmail,);
-//
-//        if (announcement.isPresent()) {
-//            System.out.println("\nAnnouncement published successfully.");
-//        } else {
-//            System.out.println("\nERROR: announcement was not published.");
-//        }
+    /**
+     * Submit data.
+     *
+     * @param request the request
+     */
+    private void submitData(Optional<Request> request) {
+
+        Optional<Announcement> announcement = getController().publishAnnouncement(commissionTypeDesignation, commissionValue, request);
+
+        if (announcement.isPresent()) {
+            System.out.println("\nAnnouncement published successfully\n.");
+        } else {
+            System.out.println("\nERROR: announcement was not published\n.");
+        }
 
     }
 
