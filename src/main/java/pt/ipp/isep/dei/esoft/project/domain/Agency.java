@@ -45,11 +45,11 @@ public class Agency {
      */
     AnnouncementList announcements;
 
+    //List<Request> requests;
+
     /**
      * Represents the list of requests associated with the agency.
      */
-    //List<Request> requests;
-
     RequestList requests;
 
     /**
@@ -89,6 +89,7 @@ public class Agency {
      * @param emailAddress the email address of the agency.
      * @param phoneNumber  the phone number of the agency.
      * @param location     the location of the agency.
+     * @throws IllegalArgumentException the illegal argument exception
      */
     public Agency(Integer id, String description, String emailAddress, String phoneNumber, String location) throws IllegalArgumentException {
         this.id = id;
@@ -151,10 +152,22 @@ public class Agency {
         return result;
     }
 
+    /**
+     * Any announcement has id boolean.
+     *
+     * @param id the id
+     * @return the boolean
+     */
     public Boolean anyAnnouncementHasId(Integer id) {
         return announcements.anyAnnouncementHasId(id);
     }
 
+    /**
+     * Any request has id boolean.
+     *
+     * @param id the id
+     * @return the boolean
+     */
     public Boolean anyRequestHasId(Integer id) {
         return requests.anyRequestHasId(id);
     }
@@ -174,10 +187,22 @@ public class Agency {
         return null;
     }
 
+    /**
+     * Gets announcement by id.
+     *
+     * @param announcementId the announcement id
+     * @return the announcement by id
+     */
     public Optional<Announcement> getAnnouncementById(Integer announcementId) {
         return announcements.getAnnouncementById(announcementId);
     }
 
+    /**
+     * Gets request by id.
+     *
+     * @param requestId the request id
+     * @return the request by id
+     */
     public Optional<Request> getRequestById(Integer requestId) {
         return requests.getRequestById(requestId);
     }
@@ -242,26 +267,26 @@ public class Agency {
     /**
      * This method creates a new sale Request instance, and adds it to the list of requests already existent.
      *
-     * @param ownerEmail
-     * @param propertyType
-     * @param businessType
-     * @param amount
-     * @param area
-     * @param availableEquipment
-     * @param streetName
-     * @param city
-     * @param district
-     * @param state
-     * @param zipCode
-     * @param basement
-     * @param inhabitableLoft
-     * @param parkingSpace
-     * @param sunExposure
-     * @param numberBedroom
-     * @param numberBathroom
-     * @param agent
-     * @param distanceCityCenter
-     * @param photograph
+     * @param ownerEmail         the owner email
+     * @param propertyType       the property type
+     * @param businessType       the business type
+     * @param amount             the amount
+     * @param area               the area
+     * @param availableEquipment the available equipment
+     * @param streetName         the street name
+     * @param city               the city
+     * @param district           the district
+     * @param state              the state
+     * @param zipCode            the zip code
+     * @param basement           the basement
+     * @param inhabitableLoft    the inhabitable loft
+     * @param parkingSpace       the parking space
+     * @param sunExposure        the sun exposure
+     * @param numberBedroom      the number bedroom
+     * @param numberBathroom     the number bathroom
+     * @param agent              the agent
+     * @param distanceCityCenter the distance city center
+     * @param photograph         the photograph
      * @return an Optional object of Request, allowing the calling code to handle the possibility of null values without the need for explicit null checks.
      */
     public Optional<Request> createSaleRequest(String ownerEmail, PropertyType propertyType, String businessType, Double amount, Double area, List<String> availableEquipment, String streetName, String city, String district, String state, String zipCode, Boolean basement, Boolean inhabitableLoft, Integer parkingSpace, Enum<SunExposureTypes> sunExposure, Integer numberBedroom, Integer numberBathroom, Employee agent, Double distanceCityCenter, List<String> photograph) {
@@ -279,6 +304,12 @@ public class Agency {
     }
 
 
+    /**
+     * Add request boolean.
+     *
+     * @param request the request
+     * @return the boolean
+     */
     public Boolean addRequest(Request request) {
         return requests.addRequest(request);
     }
@@ -333,10 +364,22 @@ public class Agency {
         return agents;
     }
 
+    /**
+     * Gets announcements by agent email.
+     *
+     * @param email the email
+     * @return the announcements by agent email
+     */
     public List<Announcement> getAnnouncementsByAgentEmail(String email) {
         return announcements.getAnnouncementsByAgentEmail(email);
     }
 
+    /**
+     * Gets requests by agent email.
+     *
+     * @param email the email
+     * @return the requests by agent email
+     */
     public List<Request> getRequestsByAgentEmail(String email) {
         return requests.getRequestsByAgentEmail(email);
     }
@@ -605,14 +648,21 @@ public class Agency {
         }
     };
 
-    public String getOwnerEmail() {
-        throw new NotImplementedException();
-    }
-
+    /**
+     * Has id boolean.
+     *
+     * @param agencyId the agency id
+     * @return the boolean
+     */
     public boolean hasId(int agencyId) {
         return (this.id == agencyId);
     }
 
+    /**
+     * Create default agent employee.
+     *
+     * @return the employee
+     */
     public Employee createDefaultAgent() {
         String role = "agent";
         return new Employee(role);
