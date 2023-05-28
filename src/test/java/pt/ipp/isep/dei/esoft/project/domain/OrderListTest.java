@@ -86,7 +86,7 @@ class OrderListTest {
         double amount1 = 245000;
         Integer id1 = 21;
         Email clientEmail1 = new Email("client@email.com");
-        String acceptanceAnswer1 = "acceptance";
+        String acceptanceAnswer1 = "accept";
         Order o2 = new Order(id1, amount1, orderDate, clientEmail1, acceptanceAnswer1);
 
         orderList.addOrder(o2);
@@ -125,13 +125,51 @@ class OrderListTest {
 
     @Test
     void testEqualsSameObjectsDifferentAttributes() {
+        LocalDate orderDate = LocalDate.now();
+        double amount = 503000;
+        Integer id = 20;
+        Email clientEmail = new Email("client@email.com");
+        String acceptanceAnswer = "reject";
+        Order o1 = new Order(id, amount, orderDate, clientEmail, acceptanceAnswer);
+
+        double amount1 = 245000;
+        Integer id1 = 21;
+        Email clientEmail1 = new Email("client1@email.com");
+        String acceptanceAnswer1 = "accept";
+        Order o2 = new Order(id1, amount1, orderDate, clientEmail1, acceptanceAnswer1);
+
+        assertNotEquals(o1, o2);
+
     }
 
     @Test
     void testHashCodeDifferentObjects() {
+        LocalDate orderDate = LocalDate.now();
+        double amount = 503000;
+        Integer id = 20;
+        Email clientEmail = new Email("client@email.com");
+        String acceptanceAnswer = "reject";
+        Order o1 = new Order(id, amount, orderDate, clientEmail, acceptanceAnswer);
+
+        double amount1 = 245000;
+        Integer id1 = 21;
+        Email clientEmail1 = new Email("client@email.com");
+        String acceptanceAnswer1 = "acceptance";
+        Order o2 = new Order(id1, amount1, orderDate, clientEmail1, acceptanceAnswer1);
+
+        assertNotEquals(o1.hashCode(), o2.hashCode());
     }
 
     @Test
     void testHashCodeSameObjects() {
+        LocalDate orderDate = LocalDate.now();
+        double amount = 503000;
+        Integer id = 20;
+        Email clientEmail = new Email("client@email.com");
+        String acceptanceAnswer = "reject";
+        Order o1 = new Order(id, amount, orderDate, clientEmail, acceptanceAnswer);
+        Order o2 = new Order(id, amount, orderDate, clientEmail, acceptanceAnswer);
+
+        assertEquals(o1.hashCode(), o2.hashCode());
     }
 }
