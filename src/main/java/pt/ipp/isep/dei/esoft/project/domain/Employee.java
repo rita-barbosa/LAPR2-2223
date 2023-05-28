@@ -19,9 +19,9 @@ public class Employee extends Person {
     private static final Integer AGENCY_ID_BY_DEFAULT = 0;
     private static final String LEGACY_AGENT_NAME = "Legacy Agent";
     private static final String LEGACY_AGENT_PASSPORT_CARD_NUMBER = "000000000";
-    private static final String LEGACY_AGENT_TAX_NUMBER = "000000000";
+    private static final String LEGACY_AGENT_TAX_NUMBER = "000-000-000";
     private static final String LEGACY_AGENT_EMAIL_ADDRESS = "legacy@realstateUSA.com";
-    private static final String LEGACY_AGENT_PHONE_NUMBER = "0000000000";
+    private static final String LEGACY_AGENT_PHONE_NUMBER = "999-999-9999";
 
     /**
      * Instantiates a new Employee.
