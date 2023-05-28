@@ -181,7 +181,9 @@ public class Visit implements Notification {
      * @return the visit
      */
     public Visit clone() {
-        return new Visit(this.getVisitDate(), this.getStartHour(), this.getEndHour(), this.getUserName(), this.getUserPhoneNumber());
+        Visit visit = new Visit(this.getVisitDate(), this.getStartHour(), this.getEndHour(), this.getUserName(), this.getUserPhoneNumber());
+        visit.id = this.id;
+        return visit;
     }
 
 

@@ -14,20 +14,27 @@ class AgencyTest {
 
     @Test
     void ensureAnyAgentHasEmailWorks() {
-        Employee employee = new Employee("employee@thisapp.com", "agent");
-
+        Employee employee = new Employee(1234, "John Doe", "C12000078",
+                "004-45-6989", "employee@this.app", "agent", "623-456-7890",
+                "New York", "Manhattan", "NY", "10001", "Broadway");
         Location location = new Location("street", "city", "district", "state", "12345");
         Agency agency1 = new Agency(1234, "Description", "agency@email.com", "345 567 3456", location);
         agency1.addEmployee(employee);
 
-        assertTrue(agency1.anyAgentHasEmail("employee@thisapp.com"));
+        assertTrue(agency1.anyAgentHasEmail("employee@this.app"));
     }
 
     @Test
     void ensureGetAgentByEmailWorks() {
-        Employee employee1 = new Employee("employee@thisapp.com", "agent");
-        Employee employee2 = new Employee("employee1@thisapp.com", "agent");
-        Employee employee3 = new Employee("employee2@thisapp.com", "agent");
+        Employee employee1 = new Employee(1234, "John Doe", "C12000078",
+                "004-45-6989", "employee@this.app", "agent", "623-456-7890",
+                "New York", "Manhattan", "NY", "10001", "Broadway");
+        Employee employee2 = new Employee(1234, "Annie Smith", "C04567089",
+                "927-65-4091", "employee1@this.app", "agent", "555-555-5555",
+                "New York", "Manhattan", "NY", "10001", "Broadway St");
+        Employee employee3 = new Employee(1234, "Maria Silva", "C12339878",
+                "134-23-2555", "employee2@this.app", "agent", "911-234-5567",
+                "Porto", "Porto", "Porto", "43005", "Rua da Alegria, 123");
 
         Location location = new Location("street", "city", "district", "state", "12345");
         Agency agency1 = new Agency(1234, "Description", "agency@email.com", "345 567 3456", location);
@@ -35,13 +42,15 @@ class AgencyTest {
         agency1.addEmployee(employee2);
         agency1.addEmployee(employee3);
 
-        assertEquals(agency1.getAgentByEmail("employee@thisapp.com"), employee1);
+        assertEquals(agency1.getAgentByEmail("employee@this.app"), employee1);
     }
 
     //Test is failing due to this.property being null
     @Test
     void ensureCreateRequestWorks() {
-        Employee employee = new Employee("employee@this.app.com", "Agent");
+        Employee employee = new Employee(1234, "John Doe", "C12000078",
+                "004-45-6989", "employee@this.app", "agent", "623-456-7890",
+                "New York", "Manhattan", "NY", "10001", "Broadway");
         Location location = new Location("street", "city", "district", "state", "12345");
         Agency agency1 = new Agency(1234, "Description", "agency@email.com", "345 567 3456", location);
         agency1.addEmployee(employee);
@@ -67,7 +76,9 @@ class AgencyTest {
     //Test is failing due to this.property being null
     @Test
     void ensureCreateSaleRequestWorks() {
-        Employee employee = new Employee("employee@this.app.com", "Agent");
+        Employee employee = new Employee(1234, "John Doe", "C12000078",
+                "004-45-6989", "employee@this.app", "agent", "623-456-7890",
+                "New York", "Manhattan", "NY", "10001", "Broadway");
         Location location = new Location("street", "city", "district", "state", "12345");
         Agency agency = new Agency(1234, "Description", "agency@email.com", "345 567 3456", location);
         agency.addEmployee(employee);
@@ -94,7 +105,9 @@ class AgencyTest {
         Location location = new Location("street", "city", "district", "state", "12345");
         Agency agency = new Agency(1234, "Description", "agency@email.com", "345 567 3456", location);
 
-        Employee employee1 = new Employee("employee@thisapp.com", "agent");
+        Employee employee1 = new Employee(1234, "John Doe", "C12000078",
+                "004-45-6989", "employee@this.app", "agent", "623-456-7890",
+                "New York", "Manhattan", "NY", "10001", "Broadway");
         assertTrue(agency.addEmployee(employee1));
     }
 
@@ -102,8 +115,9 @@ class AgencyTest {
     void ensureAddDuplicatedEmployeeFails() {
         Location location = new Location("street", "city", "district", "state", "12345");
         Agency agency = new Agency(1234, "Description", "agency@email.com", "345 567 3456", location);
-        Employee employee1 = new Employee("employee@thisapp.com", "agent");
-
+        Employee employee1 = new Employee(1234, "John Doe", "C12000078",
+                "004-45-6989", "employee@this.app", "agent", "623-456-7890",
+                "New York", "Manhattan", "NY", "10001", "Broadway");
         assertTrue(agency.addEmployee(employee1));
         assertFalse(agency.addEmployee(employee1));
     }
@@ -120,9 +134,15 @@ class AgencyTest {
     @Test
     void ensureGetAgentListWorks() {
         List<Employee> expected = new ArrayList<>();
-        Employee employee1 = new Employee("employee@thisapp.com", "agent");
-        Employee employee2 = new Employee("employee1@thisapp.com", "agent");
-        Employee employee3 = new Employee("employee2@thisapp.com", "agent");
+        Employee employee1 = new Employee(1234, "John Doe", "C12000078",
+                "004-45-6989", "employee@this.app", "agent", "623-456-7890",
+                "New York", "Manhattan", "NY", "10001", "Broadway");
+        Employee employee2 = new Employee(1234, "Annie Smith", "C04567089",
+                "927-65-4091", "employee1@this.app", "agent", "555-555-5555",
+                "New York", "Manhattan", "NY", "10001", "Broadway St");
+        Employee employee3 = new Employee(1234, "Maria Silva", "C12339878",
+                "134-23-2555", "employee2@this.app", "agent", "911-234-5567",
+                "Porto", "Porto", "Porto", "43005", "Rua da Alegria, 123");
         expected.add(employee1);
         expected.add(employee2);
         expected.add(employee3);
@@ -149,7 +169,9 @@ class AgencyTest {
         Location location = new Location("street", "city", "district", "state", "12345");
         Agency agency = new Agency(1234, "Description", "agency@email.com", "345 567 3456", location);
         String ownerEmail = "owner@email.com";
-        Employee employee = new Employee("employee@this.app.com", "Agent");
+        Employee employee = new Employee(1234, "John Doe", "C12000078",
+                "004-45-6989", "employee@this.app", "agent", "623-456-7890",
+                "New York", "Manhattan", "NY", "10001", "Broadway");
         CommissionType commissionType = new CommissionType("Commission Type");
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
@@ -173,7 +195,9 @@ class AgencyTest {
         Agency agency = new Agency(1234, "Description", "agency@email.com", "345 567 3456", location);
         String ownerEmail = "owner@email.com";
         String ownerEmail1 = "owner1@email.com";
-        Employee employee = new Employee("employee@this.app.com", "Agent");
+        Employee employee = new Employee(1234, "John Doe", "C12000078",
+                "004-45-6989", "employee@this.app", "agent", "623-456-7890",
+                "New York", "Manhattan", "NY", "10001", "Broadway");
         CommissionType commissionType = new CommissionType("Commission Type");
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
@@ -277,7 +301,9 @@ class AgencyTest {
 
         String ownerEmail = "owner@email.com";
         String ownerEmail1 = "owner1@email.com";
-        Employee employee = new Employee("employee@this.app.com", "Agent");
+        Employee employee = new Employee(1234, "John Doe", "C12000078",
+                "004-45-6989", "employee@this.app", "agent", "623-456-7890",
+                "New York", "Manhattan", "NY", "10001", "Broadway");
         CommissionType commissionType = new CommissionType("Commission Type");
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
@@ -307,7 +333,9 @@ class AgencyTest {
 
         String ownerEmail = "owner@email.com";
         String ownerEmail1 = "owner1@email.com";
-        Employee employee = new Employee("employee@this.app.com", "Agent");
+        Employee employee = new Employee(1234, "John Doe", "C12000078",
+                "004-45-6989", "employee@this.app", "agent", "623-456-7890",
+                "New York", "Manhattan", "NY", "10001", "Broadway");
         CommissionType commissionType = new CommissionType("Commission Type");
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
@@ -347,7 +375,9 @@ class AgencyTest {
 
         String ownerEmail = "owner@email.com";
         String ownerEmail1 = "owner1@email.com";
-        Employee employee = new Employee("employee@this.app.com", "Agent");
+        Employee employee = new Employee(1234, "John Doe", "C12000078",
+                "004-45-6989", "employee@this.app", "agent", "623-456-7890",
+                "New York", "Manhattan", "NY", "10001", "Broadway");
         CommissionType commissionType = new CommissionType("Commission Type");
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
@@ -386,7 +416,9 @@ class AgencyTest {
 
         String ownerEmail = "owner@email.com";
         String ownerEmail1 = "owner1@email.com";
-        Employee employee = new Employee("employee@this.app.com", "Agent");
+        Employee employee = new Employee(1234, "John Doe", "C12000078",
+                "004-45-6989", "employee@this.app", "agent", "623-456-7890",
+                "New York", "Manhattan", "NY", "10001", "Broadway");
         CommissionType commissionType = new CommissionType("Commission Type");
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
@@ -426,7 +458,9 @@ class AgencyTest {
 
         String ownerEmail = "owner@email.com";
         String ownerEmail1 = "owner1@email.com";
-        Employee employee = new Employee("employee@this.app.com", "Agent");
+        Employee employee = new Employee(1234, "John Doe", "C12000078",
+                "004-45-6989", "employee@this.app", "agent", "623-456-7890",
+                "New York", "Manhattan", "NY", "10001", "Broadway");
         CommissionType commissionType = new CommissionType("Commission Type");
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
@@ -466,7 +500,9 @@ class AgencyTest {
 
         String ownerEmail = "owner@email.com";
         String ownerEmail1 = "owner1@email.com";
-        Employee employee = new Employee("employee@this.app.com", "Agent");
+        Employee employee = new Employee(1234, "John Doe", "C12000078",
+                "004-45-6989", "employee@this.app", "agent", "623-456-7890",
+                "New York", "Manhattan", "NY", "10001", "Broadway");
         CommissionType commissionType = new CommissionType("Commission Type");
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
@@ -507,7 +543,9 @@ class AgencyTest {
 
         String ownerEmail = "owner@email.com";
         String ownerEmail1 = "owner1@email.com";
-        Employee employee = new Employee("employee@this.app.com", "Agent");
+        Employee employee = new Employee(1234, "John Doe", "C12000078",
+                "004-45-6989", "employee@this.app", "agent", "623-456-7890",
+                "New York", "Manhattan", "NY", "10001", "Broadway");
         CommissionType commissionType = new CommissionType("Commission Type");
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
@@ -547,7 +585,9 @@ class AgencyTest {
 
         String ownerEmail = "owner@email.com";
         String ownerEmail1 = "owner1@email.com";
-        Employee employee = new Employee("employee@this.app.com", "Agent");
+        Employee employee = new Employee(1234, "John Doe", "C12000078",
+                "004-45-6989", "employee@this.app", "agent", "623-456-7890",
+                "New York", "Manhattan", "NY", "10001", "Broadway");
         CommissionType commissionType = new CommissionType("Commission Type");
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
@@ -587,7 +627,9 @@ class AgencyTest {
 
         String ownerEmail = "owner@email.com";
         String ownerEmail1 = "owner1@email.com";
-        Employee employee = new Employee("employee@this.app.com", "Agent");
+        Employee employee = new Employee(1234, "John Doe", "C12000078",
+                "004-45-6989", "employee@this.app", "agent", "623-456-7890",
+                "New York", "Manhattan", "NY", "10001", "Broadway");
         CommissionType commissionType = new CommissionType("Commission Type");
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
