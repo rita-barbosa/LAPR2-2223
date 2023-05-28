@@ -3,6 +3,8 @@ package pt.ipp.isep.dei.esoft.project.domain;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -53,5 +55,63 @@ class OrderDtoTest {
         double orderAmount = 245555.0;
         int id = 0;
         OrderDto dto = new OrderDto(orderDate, orderAmount, clientEmail, id);
+    }
+
+    @Test
+    void testEqualsDifferentObjects() {
+        String orderDate = "23-12-2004";
+        String clientEmail = "client@this.app";
+        double orderAmount = 245555.0;
+        int id = 0;
+        OrderDto dto = new OrderDto(orderDate, orderAmount, clientEmail, id);
+
+        String orderDate1 = "3-12-2004";
+        String clientEmail1 = "client1@this.app";
+        double orderAmount1 = 2405555.0;
+        int id1 = 1;
+        OrderDto dto1 = new OrderDto(orderDate1, orderAmount1, clientEmail1, id1);
+
+        assertNotEquals(dto, dto1);
+    }
+
+    @Test
+    void testEqualsSameObjects() {
+        String orderDate = "23-12-2004";
+        String clientEmail = "client@this.app";
+        double orderAmount = 245555.0;
+        int id = 0;
+        OrderDto dto = new OrderDto(orderDate, orderAmount, clientEmail, id);
+
+        assertEquals(dto, dto);
+    }
+
+    @Test
+    void testHashCodeDifferentObject() {
+        String orderDate = "23-12-2004";
+        String clientEmail = "client@this.app";
+        double orderAmount = 245555.0;
+        int id = 0;
+        OrderDto dto = new OrderDto(orderDate, orderAmount, clientEmail, id);
+
+        String orderDate1 = "3-12-2004";
+        String clientEmail1 = "client1@this.app";
+        double orderAmount1 = 2405555.0;
+        int id1 = 1;
+        OrderDto dto1 = new OrderDto(orderDate1, orderAmount1, clientEmail1, id1);
+
+        assertNotEquals(dto.hashCode(), dto1.hashCode());
+
+
+    }
+
+    @Test
+    void testHashCodeSameObject() {
+        String orderDate = "23-12-2004";
+        String clientEmail = "client@this.app";
+        double orderAmount = 245555.0;
+        int id = 0;
+        OrderDto dto = new OrderDto(orderDate, orderAmount, clientEmail, id);
+
+        assertEquals(dto.hashCode(), dto.hashCode());
     }
 }
