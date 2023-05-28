@@ -198,8 +198,8 @@ public class ScheduleVisitController {
      *
      * @return the announcement list dto
      */
-    public Optional<List<AnnouncementDto>> getAnnouncementListDto() {
-        return toDto(getAllAnnouncementsList());
+    public Optional<List<AnnouncementDto>> getAnnouncementListDto(List<Announcement> list) {
+        return toDto(list);
     }
 
     /**
@@ -207,8 +207,11 @@ public class ScheduleVisitController {
      *
      * @return the list
      */
-    public List<Announcement> getAllAnnouncementsList() {
-        return this.agencyRepository.getAllAnnouncementsList();
+    public Optional<List<Announcement>> getAllAnnouncementsList() {
+        Agency agency = new Agency();
+        List<Announcement> list = agencyRepository.getAllAnnouncementsList();
+        agency.getAnnouncements().setAnnouncements(list);
+        return Optional.of(agency.getAnnouncements().sortAnnouncementsByMostRecentAcceptanceDate());
     }
 
     /**
@@ -236,7 +239,6 @@ public class ScheduleVisitController {
      */
     public Optional<List<AnnouncementDto>> toDto(List<Announcement> announcementList) {
         List<AnnouncementDto> listDto = new ArrayList<>();
-
         for (Announcement announcement : announcementList) {
             listDto.add(AnnouncementMapper.toDto(announcement));
         }

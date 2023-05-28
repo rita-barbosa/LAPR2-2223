@@ -3,7 +3,6 @@ package pt.ipp.isep.dei.esoft.project.ui.console;
 import pt.ipp.isep.dei.esoft.project.application.controller.ScheduleVisitController;
 import pt.ipp.isep.dei.esoft.project.domain.*;
 
-import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -95,19 +94,24 @@ public class ScheduleVisitUI implements Runnable {
     public void run() {
         System.out.println("\nSchedule a visit to a property");
         System.out.println("========================================================");
-        Optional<List<Announcement>> listToDisplay;
-
-        Optional<List<AnnouncementDto>> listToDisplayDto = controller.getAnnouncementListDto();
+        Optional<List<Announcement>> listToDisplay = controller.getAllAnnouncementsList();
+        Optional<List<AnnouncementDto>> listToDisplayDto = Optional.empty();
         Optional<AnnouncementDto> announcementDto = Optional.empty();
         Optional<Announcement> announcement = Optional.empty();
+
+        if (listToDisplay.isPresent() && listToDisplay.get().size() > 0) {
+            listToDisplayDto = controller.getAnnouncementListDto(listToDisplay.get());
+        }
         do {
-            displayUnfilteredList(listToDisplayDto);
-            while (askQuestion("select any criteria")) {
-                listToDisplay = getFilteredList();
-                if (listToDisplay.isPresent() && listToDisplay.get().size() > 0) {
-                    listToDisplayDto = controller.toDto(listToDisplay.get());
-                    if (listToDisplayDto.isPresent() && listToDisplayDto.get().size() > 0) {
-                        displayList(listToDisplayDto.get());
+            if (listToDisplayDto.isPresent() && listToDisplayDto.get().size() > 0) {
+                displayList(listToDisplayDto.get());
+                while (askQuestion("select any criteria")) {
+                    listToDisplay = filterList();
+                    if (listToDisplay.isPresent() && listToDisplay.get().size() > 0) {
+                        listToDisplayDto = controller.toDto(listToDisplay.get());
+                        if (listToDisplayDto.isPresent() && listToDisplayDto.get().size() > 0) {
+                            displayList(listToDisplayDto.get());
+                        }
                     }
                 }
             }
@@ -146,51 +150,42 @@ public class ScheduleVisitUI implements Runnable {
      *
      * @return the filtered list
      */
-    private Optional<List<Announcement>> getFilteredList() {
-        List<Announcement> listToDisplay = controller.getAllAnnouncementsList();
+    private Optional<List<Announcement>> filterList() {
+        Optional<List<Announcement>> listToDisplay = controller.getAllAnnouncementsList();
         Object criteria;
         switch (displayAndSelectCriteriaList(controller.getCriteriaList())) {
             case 1:
                 criteria = displayAndSelectBusinessType().toLowerCase();
                 System.out.println("========================================================\nAnnouncements by type of business:");
-                listToDisplay = controller.getAnnouncementsByBusinessType(criteria.toString());
+                listToDisplay = Optional.of(controller.getAnnouncementsByBusinessType(criteria.toString()));
                 break;
             case 2:
                 criteria = displayAndSelectPropertyType().toLowerCase();
                 System.out.println("========================================================\nAnnouncements by type of property:\n");
-                listToDisplay = controller.getAnnouncementsByPropertyType(criteria.toString());
+                listToDisplay = Optional.of(controller.getAnnouncementsByPropertyType(criteria.toString()));
                 break;
             case 3:
                 criteria = displayAndSelectNumberBedrooms();
                 System.out.println("========================================================\nAnnouncements by Number of Bedrooms:");
-                listToDisplay = controller.getAnnouncementsByNumberBedrooms(Integer.parseInt(criteria.toString()));
+                listToDisplay = Optional.of(controller.getAnnouncementsByNumberBedrooms((Integer) criteria));
                 break;
             case 4:
                 criteria = displayAndSelectPrice();
                 System.out.println("========================================================\nAnnouncements by Price:");
-                listToDisplay = controller.getAnnouncementsByPrice(criteria.toString());
+                listToDisplay = Optional.of(controller.getAnnouncementsByPrice(criteria.toString()));
                 break;
             case 5:
                 criteria = displayAndSelectCity();
                 System.out.println("========================================================\nAnnouncements by City:");
-                listToDisplay = controller.getAnnouncementsByCity(criteria.toString());
+                listToDisplay = Optional.of(controller.getAnnouncementsByCity(criteria.toString()));
                 break;
             case 6:
                 criteria = displayAndSelectState();
                 System.out.println("========================================================\nAnnouncements by State:");
-                listToDisplay = controller.getAnnouncementsByState(criteria.toString());
+                listToDisplay = Optional.of(controller.getAnnouncementsByState(criteria.toString()));
                 break;
         }
-        return Optional.of(listToDisplay);
-    }
-
-    /**
-     * Display unfiltered list.
-     */
-    private void displayUnfilteredList(Optional<List<AnnouncementDto>> listToDisplayDto) {
-        if (listToDisplayDto.isPresent() && listToDisplayDto.get().size() > 0) {
-            displayList(listToDisplayDto.get());
-        }
+        return listToDisplay;
     }
 
     /**

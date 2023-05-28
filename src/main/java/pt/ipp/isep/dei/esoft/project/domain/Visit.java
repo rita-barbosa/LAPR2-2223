@@ -125,7 +125,7 @@ public class Visit implements Notification {
             text.write(TEXT_TO + email + "\n");
             text.write(TEXT_TOPIC + "Visit Request Acceptance\n");
             text.write("A client, " + this.userName + " (Phone Number: " + this.userPhoneNumber + "), submitted a new visit request for " +
-                    this.getVisitDate().toString() + ", beginning at " + this.startHour + " and ending at " + this.endHour + ".\n");
+                    this.getVisitDate().toString() + " from " + this.startHour + ":00 to " + this.endHour + ":00.\n");
             text.write("Please check the visit request that was assigned to you, analyse it, and accept or reject it.\n");
             text.close();
             return true;
