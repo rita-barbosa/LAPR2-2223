@@ -9,7 +9,7 @@ public class LegacySystemDto {
     private String ownerEmail;
     private String ownerPhone;
     private String propertyType;
-    private double propertyArea;
+    private Double propertyArea;
     private String propertyLocation;
 
     private double propertyDistanceFromCenter;
@@ -48,7 +48,7 @@ public class LegacySystemDto {
         this.ownerEmail = legacySystemInformationList.get(3);
         this.ownerPhone = legacySystemInformationList.get(4);
         this.propertyType = legacySystemInformationList.get(5);
-        this.propertyArea = Integer.parseInt(legacySystemInformationList.get(6));
+        this.propertyArea = (double) Integer.parseInt(legacySystemInformationList.get(6));
         this.propertyLocation = legacySystemInformationList.get(7);
         this.propertyDistanceFromCenter = Integer.parseInt(legacySystemInformationList.get(8));
         this.propertyNumberBedrooms = legacySystemInformationList.get(9);
@@ -72,8 +72,6 @@ public class LegacySystemDto {
         this.agencyPhoneNumber = legacySystemInformationList.get(27);
         this.agencyEmailAddress = legacySystemInformationList.get(28);
     }
-
-
 
     public String getOwnerName() {
         return ownerName;

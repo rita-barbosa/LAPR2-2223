@@ -14,7 +14,7 @@ public class LegacySystem {
 
         File file = new File(filePath);
         if (!verifyFile(file)) {
-            return Optional.ofNullable(legacySystemInformationDtoList);
+            return Optional.of(legacySystemInformationDtoList);
         }
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;

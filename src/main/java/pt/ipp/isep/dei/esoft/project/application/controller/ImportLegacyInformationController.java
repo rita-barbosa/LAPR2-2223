@@ -30,7 +30,7 @@ public class ImportLegacyInformationController {
     }
 
     public Boolean importInformationFromFile(String filePath) {
-        Boolean success = false;
+        boolean success = false;
         Optional<List<LegacySystemDto>> newList;
 
         newList = LegacySystem.importInformation(filePath);
