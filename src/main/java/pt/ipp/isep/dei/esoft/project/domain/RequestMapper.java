@@ -34,20 +34,19 @@ public class RequestMapper {
     public static RequestDto toDto(Request request){
         String propertyAttributes = request.getPropertyAttributes();
         String businessAttributes = request.getBusinessAttributes();
-        int id = request.getId();
+        Integer id = request.getId();
         String requestDate  = request.getRequestDate().toString();
 
         return new RequestDto(propertyAttributes, businessAttributes, id, requestDate);
     }
 
-
     /**
      * Get request id from dto integer.
      *
-     * @param requestIdDto the request id dto
+     * @param requestDto the request dto
      * @return the integer
      */
-    public static Integer getRequestIdFromDto(Integer requestIdDto){
-        return RequestDto.getRequestId();
+    public static Integer getRequestIdFromDto(RequestDto requestDto) {
+        return requestDto.getRequestId();
     }
 }

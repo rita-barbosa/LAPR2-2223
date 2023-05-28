@@ -21,7 +21,7 @@ public class RequestDto {
     /**
      * The constant id.
      */
-    private static Integer id;
+    private Integer id;
 
     /**
      * The Request date.
@@ -75,7 +75,7 @@ public class RequestDto {
      *
      * @return the integer
      */
-    public static Integer getRequestId(){
+    public Integer getRequestId(){
         return id;
     }
 

@@ -430,7 +430,7 @@ public class Request implements Notification {
      * @return the property
      */
     public Property getProperty() {
-        return property;
+        return this.property;
     }
 
     /**
@@ -439,7 +439,7 @@ public class Request implements Notification {
      * @return the request date
      */
     public LocalDate getRequestDate() {
-        return requestDate;
+        return this.requestDate;
     }
 
     /**
@@ -453,7 +453,7 @@ public class Request implements Notification {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Request request = (Request) o;
-        return Objects.equals(requestDate, request.requestDate) && Objects.equals(agent, request.agent) && Objects.equals(business, request.business) && Objects.equals(property, request.property) && Objects.equals(ownerEmail, request.ownerEmail);
+        return Objects.equals(requestDate, request.requestDate) && Objects.equals(agent, request.agent) && Objects.equals(business, request.business) && Objects.equals(property, request.property) && Objects.equals(ownerEmail, request.ownerEmail) && Objects.equals(id, request.id);
     }
 
     /**
@@ -463,7 +463,7 @@ public class Request implements Notification {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(requestDate, agent, business, property, ownerEmail);
+        return Objects.hash(requestDate, agent, business, property, ownerEmail, id);
     }
 
 //    public String getId() {
@@ -476,7 +476,7 @@ public class Request implements Notification {
      * @return the id
      */
     public Integer getId() {
-        return id;
+        return this.id;
     }
 
     /**
@@ -485,7 +485,7 @@ public class Request implements Notification {
      * @return the acceptance date
      */
     public LocalDate getAcceptanceDate() {
-        return requestDate;
+        return this.requestDate;
     }
 
     /**
@@ -513,7 +513,7 @@ public class Request implements Notification {
      * @return the owner email
      */
     public Email getOwnerEmail() {
-        return ownerEmail;
+        return this.ownerEmail;
     }
 
     /**
@@ -559,7 +559,7 @@ public class Request implements Notification {
      *
      * @return the boolean
      */
-    public Boolean sendEmail(){
+    public Boolean sendEmail() {
         String ownerEmail = getOwnerEmail().toString();
         return sendNotification(ownerEmail);
     }
@@ -570,8 +570,8 @@ public class Request implements Notification {
      * @param message the message
      * @return the string
      */
-    public String defineJustificationMessage(String message){
-         return justificationMessage = message;
+    public String defineJustificationMessage(String message) {
+        return this.justificationMessage = message;
     }
 
     /**
