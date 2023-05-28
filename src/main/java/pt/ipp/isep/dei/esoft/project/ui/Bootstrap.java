@@ -80,6 +80,7 @@ public class Bootstrap implements Runnable {
         Location location = new Location("Saint Avenue", "Heaven", "Sky", "SK", "12345");
         Agency agency4 = new Agency(1234, "Make It Home Deluxe", "agency4@this.app", "999 444 5656", location);
         addEmployees(agency4);
+        addRequests(agency4);
         addAnnouncements(agency4);
         agencyRepository.add(agency4);
 
@@ -136,6 +137,56 @@ public class Bootstrap implements Runnable {
         criteriaRepository.add("Price");
         criteriaRepository.add("City");
         criteriaRepository.add("State");
+    }
+
+    private void addRequests(Agency agency){
+        String ownerEmail = "jack@email.com";
+        String ownerEmail1 = "finn@email.com";
+        String ownerEmail2 = "lila@email.com";
+        Employee employee = new Employee("employee@this.app", "Agent");
+        List<String> uriList = new ArrayList<>();
+        uriList.add("https://www.example.com/images/amazingphoto.jpg%22");
+        uriList.add("https://www.example.com/images/photosky.jpg%22");
+
+        Property property = new Property(new PropertyType("land"), (35.5), (89.3),
+                uriList, "street", "city", "district", "state", "12345");
+        Request request = new Request(ownerEmail, property, new Business("sale", 2500.0), LocalDate.now(), employee);
+
+        Property property1 = new Property(new PropertyType("land"), (100.0), (70.3),
+                uriList, "street 1", "city 1", "district 1", "st1", "12346");
+        Request request1 = new Request(ownerEmail1, property1, new Business("sale", 300.0), LocalDate.now(), employee);
+
+        Property property2 = new Property(new PropertyType("land"), (30.5), (456.3),
+                uriList, "street 2", "city 2", "district 2", "st2", "12347");
+        Request request2 = new Request(ownerEmail2, property2, new Business("sale", 2345.0), LocalDate.now(), employee);
+
+        List<String> av = new ArrayList<>();
+        av.add("AC");
+        av.add("Coffee Machine");
+        av.add("Heating Floor");
+        av.add("Massage Chair");
+        av.add("Jacuzzi");
+        av.add("Automatic Lights System");
+
+        Property property3 = new House(new PropertyType("house"), av, 32.4,
+                "street 33", "city 33", "district 33", "st33", "12340", true, false, 2,
+                SunExposureTypes.NORTH, 2, null, 12.5, uriList);
+        Request request3 = new Request(ownerEmail2, property3, new Business("lease", 1234.0), LocalDate.now(), employee);
+
+        Property property4 = new Residence(new PropertyType("apartment"), 125.4, av, "street 44",
+                "city 44", "district 44", "st44", "12348", 2, 25, 3, 15.2, uriList);
+        Request request4 = new Request(ownerEmail2, property4, new Business("lease", 2345.0), LocalDate.now(), employee);
+
+        Property property5 = new Residence(new PropertyType("apartment"), 125.4, av, "street 5",
+                "city 5", "district 55", "st55", "12348", 2, 25, 3, 20.0, uriList);
+        Request request5 = new Request(ownerEmail2, property5, new Business("sale", 9740.0), LocalDate.now(), employee);
+
+        agency.addRequest(request);
+        agency.addRequest(request1);
+        agency.addRequest(request2);
+        agency.addRequest(request3);
+        agency.addRequest(request4);
+        agency.addRequest(request5);
     }
 
     private void addAnnouncements(Agency agency) {
