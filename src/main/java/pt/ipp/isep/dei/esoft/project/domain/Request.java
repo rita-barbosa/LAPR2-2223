@@ -26,7 +26,7 @@ public class Request implements Notification {
     /**
      * The Agent.
      */
-    private final Employee agent;
+    private Employee agent;
     /**
      * The Business.
      */
@@ -38,12 +38,16 @@ public class Request implements Notification {
     /**
      * The Owner email.
      */
-    private final Email ownerEmail;
+    private Email ownerEmail;
     /**
      * The id iteration variable.
      */
     private static int counter = 0;
 
+    /**
+     * The String boolean value.
+     */
+    private final String STRING_BOOLEAN_VALUE = "Y";
 
     /**
      * Instantiates a new Request.
@@ -165,6 +169,7 @@ public class Request implements Notification {
      * @param business    the business
      * @param requestDate the request date
      * @param agent       the agent
+     * @param id          the id
      */
     public Request(String ownerEmail, Property property, Business business, LocalDate requestDate, Employee agent, Integer id) {
         this.ownerEmail = new Email(ownerEmail);
@@ -175,6 +180,15 @@ public class Request implements Notification {
         this.id = id;
     }
 
+    /**
+     * Instantiates a new Request.
+     *
+     * @param ownerEmail  the owner email
+     * @param property    the property
+     * @param business    the business
+     * @param requestDate the request date
+     * @param agent       the agent
+     */
     public Request(String ownerEmail, Property property, Business business, LocalDate requestDate, Employee agent) {
         this.ownerEmail = new Email(ownerEmail);
         this.requestDate = requestDate;
@@ -184,10 +198,193 @@ public class Request implements Notification {
         this.id = counter++;
     }
 
+    /**
+     * Instantiates a new Request.
+     *
+     * @param businessTypeDesignation the business type designation
+     * @param contractDuration        the contract duration
+     * @param amount                  the amount
+     * @param propertyTypeDesignation the property type designation
+     * @param area                    the area
+     * @param location                the location
+     * @param distanceCityCenter      the distance city center
+     * @param dateAnnounceRequest     the date announce request
+     */
+    public Request(String businessTypeDesignation, String contractDuration, Double amount, String propertyTypeDesignation,
+                   Double area, String location, Double distanceCityCenter, String dateAnnounceRequest) {
+
+        this.property = new Property(new PropertyType(propertyTypeDesignation), area, distanceCityCenter, location);
+        if (contractDuration.equalsIgnoreCase("NA")) {
+            this.business = new Business(businessTypeDesignation, amount);
+        } else {
+            this.business = new Lease(mapStringToInteger(contractDuration), businessTypeDesignation, amount);
+        }
+        this.ownerEmail = null;
+        this.agent = null;
+        int[] date = mapStringToLocalDate(dateAnnounceRequest);
+        this.requestDate = LocalDate.of(date[2], date[1], date[0]);
+    }
+
+
+    /**
+     * Instantiates a new Request.
+     *
+     * @param businessTypeDesignation the business type designation
+     * @param contractDuration        the contract duration
+     * @param amount                  the amount
+     * @param propertyTypeDesignation the property type designation
+     * @param area                    the area
+     * @param location                the location
+     * @param distanceCityCenter      the distance city center
+     * @param numberBedrooms          the number bedrooms
+     * @param numberBathrooms         the number bathrooms
+     * @param numberParkingSpaces     the number parking spaces
+     * @param centralHeating          the central heating
+     * @param airConditioning         the air conditioning
+     * @param dateAnnounceRequest     the date announce request
+     */
+    public Request(String businessTypeDesignation, String contractDuration, Double amount, String propertyTypeDesignation,
+                   Double area, String location, Double distanceCityCenter, String numberBedrooms, String numberBathrooms,
+                   String numberParkingSpaces, String centralHeating, String airConditioning, String dateAnnounceRequest) {
+
+        this.property = new Residence(new PropertyType(propertyTypeDesignation), area, distanceCityCenter, location, mapStringToInteger(numberBedrooms), mapStringToInteger(numberBathrooms), mapStringToInteger(numberParkingSpaces), mapStringToBoolean(centralHeating), mapStringToBoolean(airConditioning));
+        if (contractDuration.equalsIgnoreCase("NA")) {
+            this.business = new Business(businessTypeDesignation, amount);
+        } else {
+            this.business = new Lease(mapStringToInteger(contractDuration), businessTypeDesignation, amount);
+        }
+        this.ownerEmail = null;
+        this.agent = null;
+        int[] date = mapStringToLocalDate(dateAnnounceRequest);
+        this.requestDate = LocalDate.of(date[2], date[1], date[0]);
+    }
+
+    /**
+     * Instantiates a new Request.
+     *
+     * @param businessTypeDesignation the business type designation
+     * @param contractDuration        the contract duration
+     * @param amount                  the amount
+     * @param propertyTypeDesignation the property type designation
+     * @param area                    the area
+     * @param location                the location
+     * @param distanceCityCenter      the distance city center
+     * @param numberBedrooms          the number bedrooms
+     * @param numberBathrooms         the number bathrooms
+     * @param numberParkingSpaces     the number parking spaces
+     * @param airConditioning         the air conditioning
+     * @param centralHeating          the central heating
+     * @param basement                the basement
+     * @param inhabitableLoft         the inhabitable loft
+     * @param sunExposure             the sun exposure
+     * @param dateAnnounceRequest     the date announce request
+     */
+    public Request(String businessTypeDesignation, String contractDuration, Double amount, String propertyTypeDesignation,
+                   Double area, String location, Double distanceCityCenter, String numberBedrooms, String numberBathrooms,
+                   String numberParkingSpaces, String airConditioning, String centralHeating, String basement, String inhabitableLoft,
+                   String sunExposure, String dateAnnounceRequest) throws NumberFormatException {
+        this.property = new House(new PropertyType(propertyTypeDesignation), area, distanceCityCenter, location, mapStringToInteger(numberBedrooms), mapStringToInteger(numberBathrooms),
+                mapStringToInteger(numberParkingSpaces), mapStringToBoolean(centralHeating), mapStringToBoolean(airConditioning), mapStringToBoolean(basement),
+                mapStringToBoolean(inhabitableLoft), mapStringToSunExposure(sunExposure));
+        if (contractDuration.equalsIgnoreCase("NA")) {
+            this.business = new Business(businessTypeDesignation, amount);
+        } else {
+            this.business = new Lease(mapStringToInteger(contractDuration), businessTypeDesignation, amount);
+        }
+        this.ownerEmail = null;
+        this.agent = null;
+        int[] date = mapStringToLocalDate(dateAnnounceRequest);
+        this.requestDate = LocalDate.of(date[2], date[1], date[0]);
+    }
+
+    /**
+     * Map string to sun exposure enum.
+     *
+     * @param sunExposureChar the sun exposure char
+     * @return the enum
+     */
+    private Enum<SunExposureTypes> mapStringToSunExposure(String sunExposureChar) {
+        SunExposureTypes sunExposure = null;
+        switch (sunExposureChar.toLowerCase()) {
+            case "n":
+                sunExposure = SunExposureTypes.NORTH;
+                break;
+            case "e":
+                sunExposure = SunExposureTypes.EAST;
+                break;
+            case "w":
+                sunExposure = SunExposureTypes.WEST;
+                break;
+            case "s":
+                sunExposure = SunExposureTypes.SOUTH;
+                break;
+            default:
+                System.out.println("ERROR: Invalid data in file.");
+                System.exit(1);
+                break;
+        }
+        return sunExposure;
+    }
+
+    /**
+     * Map string to local date int [ ].
+     *
+     * @param value the value
+     * @return the int [ ]
+     */
+    private int[] mapStringToLocalDate(String value) {
+        String[] dateString = value.split("/");
+        int[] date = new int[dateString.length];
+        try {
+            for (int i = 0; i < value.length(); i++) {
+                date[i] = Integer.parseInt(dateString[i]);
+            }
+        } catch (NumberFormatException e) {
+            throw e;
+        }
+        return date;
+    }
+
+    /**
+     * Map string to boolean boolean.
+     *
+     * @param value the value
+     * @return the boolean
+     */
+    private boolean mapStringToBoolean(String value) {
+        return value.equalsIgnoreCase(STRING_BOOLEAN_VALUE);
+    }
+
+    /**
+     * Map string to integer integer.
+     *
+     * @param value the value
+     * @return the integer
+     */
+    private Integer mapStringToInteger(String value) {
+        Integer number = null;
+        try {
+            number = Integer.parseInt(value);
+        } catch (NumberFormatException e) {
+            throw e;
+        }
+        return number;
+    }
+
+    /**
+     * Gets property attributes.
+     *
+     * @return the property attributes
+     */
     public String getPropertyAttributes() {
         return this.property.toString();
     }
 
+    /**
+     * Gets business attributes.
+     *
+     * @return the business attributes
+     */
     public String getBusinessAttributes() {
         return this.business.toString();
     }
@@ -230,6 +427,11 @@ public class Request implements Notification {
         return property;
     }
 
+    /**
+     * Gets request date.
+     *
+     * @return the request date
+     */
     public LocalDate getRequestDate() {
         return requestDate;
     }
@@ -262,18 +464,39 @@ public class Request implements Notification {
 //        return this.id.toString();
 //    }
 
+    /**
+     * Gets id.
+     *
+     * @return the id
+     */
     public Integer getId() {
         return id;
     }
 
+    /**
+     * Gets acceptance date.
+     *
+     * @return the acceptance date
+     */
     public LocalDate getAcceptanceDate() {
         return requestDate;
     }
 
+    /**
+     * Has agent with email boolean.
+     *
+     * @param agentEmail the agent email
+     * @return the boolean
+     */
     public Boolean hasAgentWithEmail(String agentEmail) {
         return this.getAgentEmail().equals(agentEmail);
     }
 
+    /**
+     * Gets agent email.
+     *
+     * @return the agent email
+     */
     public String getAgentEmail() {
         return this.agent.getEmailAddress().getEmail();
     }
@@ -295,12 +518,31 @@ public class Request implements Notification {
         }
     }
 
+    /**
+     * Has id boolean.
+     *
+     * @param requestId the request id
+     * @return the boolean
+     */
     public Boolean hasId(Integer requestId) {
         return this.getId().equals(requestId);
     }
 
+    /**
+     * Send email.
+     *
+     * @param ownerEmail the owner email
+     * @param message    the message
+     */
     public void sendEmail(String ownerEmail, String message) {
         throw new NotImplementedException();
     }
 
+    public void setResponsibleAgent(Employee agent) {
+        this.agent = agent;
+    }
+
+    public void setOwnerEmail(String ownerEmail) throws IllegalArgumentException {
+        this.ownerEmail = new Email(ownerEmail);
+    }
 }
