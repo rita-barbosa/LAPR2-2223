@@ -188,6 +188,39 @@ class AgencyTest {
         assertTrue(announcement.isPresent());
         assertEquals(announcement.get(), expected);
     }
+    @Test
+    void ensureGetAnnouncementsWorks() {
+        Location location = new Location("street", "city", "district", "state", "12345");
+        Agency agency = new Agency(1234, "Description", "agency@email.com", "345 567 3456", location);
+        String ownerEmail = "owner@email.com";
+        String ownerEmail1 = "owner1@email.com";
+        Employee employee = new Employee(1234, "John Doe", "C12000078",
+                "004-45-6989", "employee@this.app", "agent", "623-456-7890",
+                "New York", "Manhattan", "NY", "10001", "Broadway");
+        CommissionType commissionType = new CommissionType("Commission Type");
+        List<String> uriList = new ArrayList<>();
+        uriList.add("https://www.example.com/images/photo.jpg");
+
+        Property property = new Property(new PropertyType("land"), (35.5), (89.3),
+                uriList, "street", "city", "district", "state", "12345");
+        Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
+
+        Property property1 = new Property(new PropertyType("land"), (65.5), (89.3),
+                uriList, "street 1", "city 1", "district 1", "st1", "12345");
+        Request request1 = new Request(ownerEmail1, property1, new Business("sale", 2345.0), LocalDate.now(), employee);
+
+        Announcement announcement = new Announcement(employee, commissionType, 234.0, request);
+        Announcement announcement1 = new Announcement(employee, commissionType, 234.0, request1);
+
+        AnnouncementList expected = new AnnouncementList();
+        expected.addAnnouncement(announcement);
+        expected.addAnnouncement(announcement1);
+
+        agency.publishAnnouncement(employee, commissionType, 234.0, request);
+        agency.publishAnnouncement(employee, commissionType, 234.0, request1);
+
+        assertEquals(expected, agency.getAnnouncements());
+    }
 
     @Test
     void ensureGetAnnouncementsListWorks() {
