@@ -159,7 +159,7 @@ public Boolean sendNotification(String email){
 
 # 6. Integration and Demo
 
-* A new option on the Employee menu options was added.
+* A new option on the Agent menu options was added.
 * For demonstration purposes, some orders and announcements are bootstrapped while the system starts.
 
 # 7. Observations

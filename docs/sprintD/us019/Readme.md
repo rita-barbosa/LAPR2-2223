@@ -1,4 +1,4 @@
-# US 006 - To create a Task 
+# US 019 - To divide the set of all stores into two subsets
 
 [Requirements Engineering](01.requirements-engineering/Readme.md)
 

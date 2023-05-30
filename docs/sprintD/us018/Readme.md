@@ -1,4 +1,4 @@
-# US 006 - To create a Task 
+# US 018 - To analyze sale deals of houses and apartments
 
 [Requirements Engineering](01.requirements-engineering/Readme.md)
 
