@@ -1,6 +1,7 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
 import org.junit.jupiter.api.Test;
+import pt.isep.lei.esoft.auth.domain.model.Email;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -136,4 +137,201 @@ class RequestTest {
         Request clone = request.clone();
         assertEquals(request, clone);
     }
+
+
+    @Test
+    void ensureGetPropertyAttributesWorks() {
+        String ownerEmail = "owner@email.com";
+        Employee employee = new Employee("employee@this.app.com", "Agent");
+        List<String> uriList = new ArrayList<>();
+        uriList.add("https://www.example.com/images/photo.jpg");
+        Property property = new Property(new PropertyType("land"), (35.5), (89.3), uriList, "street",
+                "city", "district", "state", "12345");
+        Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
+
+        assertEquals(property.toString(), request.getPropertyAttributes());
+
+    }
+
+    @Test
+    void ensureGetBusinessAttributesWorks() {
+        String ownerEmail = "owner@email.com";
+        Employee employee = new Employee("employee@this.app.com", "Agent");
+        List<String> uriList = new ArrayList<>();
+        uriList.add("https://www.example.com/images/photo.jpg");
+        Property property = new Property(new PropertyType("land"), (35.5), (89.3), uriList, "street",
+                "city", "district", "state", "12345");
+        Business business = new Business("sale", 2345.0);
+        Request request = new Request(ownerEmail, property, business, LocalDate.now(), employee);
+
+        assertEquals(business.toString(), request.getBusinessAttributes());
+    }
+
+    @Test
+    void testToString() {
+        String ownerEmail = "owner@email.com";
+        Employee employee = new Employee("employee@this.app.com", "Agent");
+        List<String> uriList = new ArrayList<>();
+        uriList.add("https://www.example.com/images/photo.jpg");
+        Property property = new Property(new PropertyType("land"), (35.5), (89.3), uriList, "street",
+                "city", "district", "state", "12345");
+        Business business = new Business("sale", 2345.0);
+        Request request = new Request(ownerEmail, property, business, LocalDate.now(), employee);
+
+        String expected = "Type of Business: sale\nPrice: $2345,00\nProperty Type: land\nArea: 35,50 m²\nDistance from city center: 89,30 miles\n" +
+                "Location: street, city, district, state, 12345\nPhotographs:\n    * https://www.example.com/images/photo.jpg\n";
+
+        assertEquals(expected, request.toString());
+    }
+
+    @Test
+    void ensureGetBusinessWorks() {
+        String ownerEmail = "owner@email.com";
+        Employee employee = new Employee("employee@this.app.com", "Agent");
+        List<String> uriList = new ArrayList<>();
+        uriList.add("https://www.example.com/images/photo.jpg");
+        Property property = new Property(new PropertyType("land"), (35.5), (89.3), uriList, "street",
+                "city", "district", "state", "12345");
+        Business business = new Business("sale", 2345.0);
+        Request request = new Request(ownerEmail, property, business, LocalDate.now(), employee);
+
+        assertEquals(business, request.getBusiness());
+    }
+
+    @Test
+    void ensureGetPropertyWorks() {
+        String ownerEmail = "owner@email.com";
+        Employee employee = new Employee("employee@this.app.com", "Agent");
+        List<String> uriList = new ArrayList<>();
+        uriList.add("https://www.example.com/images/photo.jpg");
+        Property property = new Property(new PropertyType("land"), (35.5), (89.3), uriList, "street",
+                "city", "district", "state", "12345");
+        Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
+
+        assertEquals(property, request.getProperty());
+    }
+
+    @Test
+    void getRequestDate() {
+        String ownerEmail = "owner@email.com";
+        Employee employee = new Employee("employee@this.app.com", "Agent");
+        List<String> uriList = new ArrayList<>();
+        uriList.add("https://www.example.com/images/photo.jpg");
+        Property property = new Property(new PropertyType("land"), (35.5), (89.3), uriList, "street",
+                "city", "district", "state", "12345");
+        Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
+
+        assertEquals(LocalDate.now(), request.getRequestDate());
+    }
+
+    @Test
+    void getId() {
+        String ownerEmail = "owner@email.com";
+        Employee employee = new Employee("employee@this.app.com", "Agent");
+        List<String> uriList = new ArrayList<>();
+        uriList.add("https://www.example.com/images/photo.jpg");
+        Property property = new Property(new PropertyType("land"), (35.5), (89.3), uriList, "street",
+                "city", "district", "state", "12345");
+        Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee, 0);
+
+        assertEquals(0, request.getId());
+
+    }
+
+    @Test
+    void ensureHasAgentWithEmailWorks() {
+        String agentEmail = "employee@this.app";
+        String ownerEmail = "owner@email.com";
+        Employee employee = new Employee(agentEmail, "Agent");
+        List<String> uriList = new ArrayList<>();
+        uriList.add("https://www.example.com/images/photo.jpg");
+        Property property = new Property(new PropertyType("land"), (35.5), (89.3), uriList, "street",
+                "city", "district", "state", "12345");
+        Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee, 0);
+
+        assertEquals(true, request.hasAgentWithEmail(agentEmail));
+    }
+
+    @Test
+    void ensureGetAgentEmailWorks() {
+        String agentEmail = "employee@this.app";
+        String ownerEmail = "owner@email.com";
+        Employee employee = new Employee("employee@this.app", "Agent");
+        List<String> uriList = new ArrayList<>();
+        uriList.add("https://www.example.com/images/photo.jpg");
+        Property property = new Property(new PropertyType("land"), (35.5), (89.3), uriList, "street",
+                "city", "district", "state", "12345");
+        Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee, 0);
+
+        assertEquals(agentEmail, request.getAgentEmail());
+    }
+
+    @Test
+    void ensureGetOwnerEmailWorks() {
+        String ownerEmail = "owner@email.com";
+        Email email = new Email(ownerEmail);
+        Employee employee = new Employee("employee@this.app", "Agent");
+        List<String> uriList = new ArrayList<>();
+        uriList.add("https://www.example.com/images/photo.jpg");
+        Property property = new Property(new PropertyType("land"), (35.5), (89.3), uriList, "street",
+                "city", "district", "state", "12345");
+        Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee, 0);
+
+        assertEquals(email, request.getOwnerEmail());
+    }
+
+    @Test
+    void ensureSendNotificationWorks() {
+        String ownerEmail = "owner@email.com";
+        Employee employee = new Employee("employee@this.app", "Agent");
+        List<String> uriList = new ArrayList<>();
+        uriList.add("https://www.example.com/images/photo.jpg");
+        Property property = new Property(new PropertyType("land"), (35.5), (89.3), uriList, "street",
+                "city", "district", "state", "12345");
+        Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee, 0);
+
+        assertEquals(true, request.sendNotification(ownerEmail));
+    }
+
+    @Test
+    void ensureHasIdWorks() {
+        String ownerEmail = "owner@email.com";
+        Employee employee = new Employee("employee@this.app", "Agent");
+        List<String> uriList = new ArrayList<>();
+        uriList.add("https://www.example.com/images/photo.jpg");
+        Property property = new Property(new PropertyType("land"), (35.5), (89.3), uriList, "street",
+                "city", "district", "state", "12345");
+        Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee, 200);
+
+        assertEquals(true, request.hasId(200));
+    }
+
+    @Test
+    void ensureSendEmailWorks() {
+        String ownerEmail = "owner@email.com";
+        Employee employee = new Employee("employee@this.app", "Agent");
+        List<String> uriList = new ArrayList<>();
+        uriList.add("https://www.example.com/images/photo.jpg");
+        Property property = new Property(new PropertyType("land"), (35.5), (89.3), uriList, "street",
+                "city", "district", "state", "12345");
+        Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee, 0);
+
+        assertEquals(true, request.sendEmail());
+    }
+
+    @Test
+    void ensureDefineJustificationMessageWorks() {
+        String ownerEmail = "owner@email.com";
+        Employee employee = new Employee("employee@this.app", "Agent");
+        List<String> uriList = new ArrayList<>();
+        uriList.add("https://www.example.com/images/photo.jpg");
+        Property property = new Property(new PropertyType("land"), (35.5), (89.3), uriList, "street",
+                "city", "district", "state", "12345");
+        Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee, 0);
+
+        String message = "This is the message";
+
+        assertEquals(message, request.defineJustificationMessage(message));
+    }
+
 }
