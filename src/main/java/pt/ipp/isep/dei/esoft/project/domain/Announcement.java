@@ -286,7 +286,7 @@ public class Announcement {
      * @return the string
      */
     public String toString() {
-        if (this.saleDate != DATE_BY_DEFAULT) {
+        if (this.saleDate == DATE_BY_DEFAULT) {
             return getRequest().toString() + String.format("Acceptance Date: %s\n", acceptanceDate);
         } else {
             return getRequest().toString() + String.format("Acceptance Date: %s\nSale Date: %s\n", acceptanceDate, saleDate);
