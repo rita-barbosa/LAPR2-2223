@@ -1,0 +1,72 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+
+participant ":OrderRequestController" as CTRL
+participant "agencyRepository\n:AgencyRepository" as AgencyRepository
+participant "agency\n:Agency" as AGC
+participant "announcementList\n:AnnouncementList" as LISTCLASS
+participant "listAnnouncements\n: List<Announcement>" as AnnounceList
+
+
+autonumber 4
+
+ -> CTRL : getAllAnnouncementsList()
+
+activate CTRL
+
+    autonumber 4.1
+
+    group Get Announcements List
+|||
+        CTRL -> AgencyRepository : getAllAnnouncementsList()
+        activate AgencyRepository
+
+        AgencyRepository -> AnnounceList** : listToDisplay = create()
+
+       loop for all agencies
+
+
+            AgencyRepository -> AGC : getAnnouncementList()
+            activate AGC
+
+            AGC -> LISTCLASS : getAnnouncementList()
+            activate LISTCLASS
+
+                LISTCLASS --> AGC : announcementList
+            deactivate LISTCLASS
+
+                AGC --> AgencyRepository : announcementList
+            deactivate AGC
+
+            AgencyRepository -> AnnounceList : addAll(announcementList)
+            activate AnnounceList
+            deactivate AnnounceList
+|||
+       end loop
+
+            AgencyRepository -> LISTCLASS : sortAnnouncementsByMostRecentAcceptanceDate(listToDisplay)
+            activate LISTCLASS
+
+                LISTCLASS --> AgencyRepository : listToDisplay
+            deactivate LISTCLASS
+|||
+        end group
+
+            AgencyRepository --> CTRL : listToDisplay
+        deactivate AgencyRepository
+
+
+    autonumber 5
+    <-- CTRL  : listToDisplay
+deactivate CTRL
+
+
+@enduml
+
+
+
+
+@enduml

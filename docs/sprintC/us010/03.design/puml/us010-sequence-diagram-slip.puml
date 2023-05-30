@@ -9,16 +9,12 @@ autonumber
 actor "Client" as Costumer
 participant ":OrderRequestUI" as UI
 participant ":OrderRequestController" as CTRL
-participant ":Repositories" as RepositorySingleton
-participant "repositories\n:Repositories" as PLAT
-participant "criteriaRepository\n:CriteriaRepository" as CRITERIAREP
-participant "agencyRepository\n: AgencyRepository" as AGENCYREP
-participant "agency\n: Agency" as AGENCY
+participant "announcementList\n:AnnouncementList" as LISTCLASS
 
 
 activate Costumer
 
-    Costumer -> UI : asks to schedule a new visit
+    Costumer -> UI : asks to initiate an order request for a property
             activate UI
 
         UI -> CTRL** : create
@@ -48,43 +44,64 @@ activate Costumer
             UI --> Costumer : shows announcements list
         deactivate UI
 
-        opt Selection of Filters
+            opt Selection of criterias
 
-            loop For each filter
-                Costumer -> UI : selects filter
-                activate UI
+            Costumer -> UI : asks to select filter for list
+            activate UI
 
-                UI -> CTRL : filter
-
+            UI -> CTRL : getCriteriaList()
+            activate CTRL
+               CTRL -> CTRL : getCriteriaList()
                 activate CTRL
-
-                    CTRL -> LISTCLASS : listToDisplay = sortListByFilter(filter)
-                    activate LISTCLASS
-
-                        LISTCLASS --> CTRL : listToDisplay
-                    deactivate LISTCLASS
-
-                    |||
-                        CTRL -> CTRL : toDto(listToDisplay)
-                        activate CTRL
-                                ref over CTRL
-                                    Convert Display List to DTO
-                                end ref
-                            CTRL --> CTRL : listToDisplayDto
-                        deactivate CTRL
-
-                            CTRL --> UI : listToDisplayDto
-                        deactivate CTRL
-
-                            UI --> Costumer : shows announcements list
-                        deactivate UI
-
+                        ref over CTRL
+                            Get Criteria List
+                        end ref
+                    CTRL --> CTRL : criteriaList
                 deactivate CTRL
 
-                deactivate UI
+            CTRL --> UI : criteriaList
+            deactivate CTRL
 
-            end loop
-        end opt
+            UI --> Costumer : shows criteria list
+
+            deactivate UI
+
+                loop For each criterion
+
+                    Costumer -> UI : selects criteria
+                    activate UI
+
+                    UI -> CTRL : getFilteredList(criteria)
+
+                    activate CTRL
+
+                        CTRL -> LISTCLASS : listToDisplay = sortListByCriteria(criteria)
+                        activate LISTCLASS
+
+                            LISTCLASS --> CTRL : listToDisplay
+                        deactivate LISTCLASS
+
+                        |||
+                            CTRL -> CTRL : toDto(listToDisplay)
+                            activate CTRL
+                                    ref over CTRL
+                                        Convert Display List to DTO
+                                    end ref
+                                CTRL --> CTRL : listToDisplayDto
+                            deactivate CTRL
+
+                                CTRL --> UI : listToDisplayDto
+                            deactivate CTRL
+
+                                UI --> Costumer : shows announcements list
+                            deactivate UI
+
+                    deactivate CTRL
+
+                    deactivate UI
+
+                end loop
+            end opt
 
     Costumer -> UI : selects an announcement
             activate UI

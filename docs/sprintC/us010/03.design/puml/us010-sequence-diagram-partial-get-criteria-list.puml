@@ -1,0 +1,49 @@
+@startuml
+
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+participant ":OrderRequestController" as CTRL
+participant ":Repositories" as RepositorySingleton
+participant "repositories\n:Repositories" as PLAT
+participant "criteriaRepository\n:CriteriaRepository" as CriteriaRepository
+
+autonumber 12
+
+-> CTRL : getCriteriaList()
+
+activate CTRL
+autonumber 12.1
+
+    group Get Criteria List
+
+CTRL -> RepositorySingleton : getInstance()
+
+        activate RepositorySingleton
+
+            RepositorySingleton --> CTRL : repositories
+        deactivate RepositorySingleton
+
+        CTRL -> PLAT : getCriteriaRepository()
+
+        activate PLAT
+
+            PLAT --> CTRL : CriteriaRepository
+
+        deactivate PLAT
+
+        CTRL -> CriteriaRepository : getCriteriaList
+
+        activate CriteriaRepository
+
+        CriteriaRepository --> CTRL : criteriaList
+
+        deactivate CriteriaRepository
+     end
+     autonumber 13
+
+        <-- CTRL : criteriaList
+
+        deactivate CTRL
+@enduml

@@ -1,0 +1,94 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+
+participant ":OrderRequestController" as CTRL
+participant ":AnnouncementMapper" as MAPPER
+participant "announcementDto\n:AnnouncementDto" as ANCDTO
+participant "agencyRepository\n:AgencyRepository" as AgencyRepository
+participant "agency\n:Agency" as AGC
+participant "announcementList\n:AnnouncementList" as LISTCLASS
+participant "announcement\n:Announcement" as ANNOUNCE
+
+
+autonumber 26
+
+ -> CTRL : toModel(announcementDto)
+
+activate CTRL
+
+    autonumber 26.1
+
+    group Convert Announcement DTO to Model
+
+        CTRL -> MAPPER : announcementId = getAnnouncementIdFromDto(announcementDto)
+        activate MAPPER
+
+        MAPPER -> ANCDTO : getAnnouncementId()
+        activate ANCDTO
+
+            ANCDTO --> MAPPER : announcementId
+        deactivate ANCDTO
+
+            MAPPER --> CTRL : announcementId
+        deactivate MAPPER
+
+
+        CTRL -> AgencyRepository : getAgencyByAnnouncementId(announcementId)
+         activate AgencyRepository
+
+            loop for all agencies
+
+                AgencyRepository -> AGC : anyAnnouncementHasId(announcementId)
+                activate AGC
+
+                    AGC -> LISTCLASS : anyAnnouncementHasId(announcementId)
+
+                    loop for all announcements
+
+                        activate LISTCLASS
+
+                        LISTCLASS --> ANNOUNCE : hasId(announcementId)
+
+                        activate ANNOUNCE
+
+                            ANNOUNCE --> LISTCLASS : true/false
+                        deactivate ANNOUNCE
+
+                    end loop
+
+                LISTCLASS --> AGC : true/false
+                deactivate LISTCLASS
+
+            AGC --> AgencyRepository : true/false
+            deactivate AGC
+
+        end loop
+
+        AgencyRepository --> CTRL : agency
+        deactivate AgencyRepository
+|||
+
+        CTRL -> AGC : getAnnouncementById(announcementId)
+        activate AGC
+
+        AGC -> LISTCLASS : getAnnouncementById(announcementId)
+        activate LISTCLASS
+
+            LISTCLASS --> AGC : announcement
+        deactivate LISTCLASS
+
+            AGC --> CTRL : announcement
+        deactivate AGC
+
+
+    end group
+
+    autonumber 27
+
+    <-- CTRL  : announcement
+deactivate CTRL
+
+@enduml
