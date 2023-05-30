@@ -1,4 +1,4 @@
-# US 006 - To create a Task 
+# US 017 - To list all deals made
 
 ## 2. Analysis
 
