@@ -65,7 +65,6 @@ class ListRequestsControllerIT {
 
     @Test
     void ensureGetCommissionTypeListWorks() {
-        Repositories repositories = Repositories.getInstance();
         CommissionTypeRepository commissionTypeRepository = new CommissionTypeRepository();
         AgencyRepository agencyRepository = new AgencyRepository();
         AuthenticationRepository authenticationRepository = new AuthenticationRepository();
@@ -105,14 +104,20 @@ class ListRequestsControllerIT {
         assertArrayEquals(expected.toArray(), commissionTypeList.toArray());
     }
 
-    @Disabled
-    @Test
-    void ensureSendEmailWorks() {
-    }
-
-    @Disabled
     @Test
     void ensureGetRequestByIdDtoWorks() {
+        String ownerEmail = "owner@email.com";
+        Employee employee = new Employee("employee@this.app.com", "Agent");
+        List<String> uriList = new ArrayList<>();
+        uriList.add("https://www.example.com/images/photo.jpg");
+        Property property = new Property(new PropertyType("land"), (35.5), (89.3), uriList, "street",
+                "city", "district", "state", "12345");
+        Business business = new Business("sale", 2345.0);
+        Request request = new Request(ownerEmail, property, business, LocalDate.now(), employee);
+
+        RequestDto dto = new RequestDto(property.toString(), business.toString(), 0, LocalDate.now().toString());
+
+//        Optional<Request> newRequest = new Optional<Request>(2345.0);
     }
 
     @Disabled
