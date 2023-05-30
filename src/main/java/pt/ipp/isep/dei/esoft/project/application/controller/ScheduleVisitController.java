@@ -328,19 +328,13 @@ public class ScheduleVisitController {
      * @return the announcement list
      */
     public List<Announcement> getAnnouncementsByPrice(String priceSorting, List<Announcement> list) {
-        List<Announcement> listToDisplay = new ArrayList<>();
-        List<Agency> agencies = agencyRepository.getAgenciesList();
+        Agency agency = new Agency();
+        agency.getAnnouncements().setAnnouncements(list);
 
         if (priceSorting.equals("Ascending")) {
-            for (Agency agency : agencies) {
-                listToDisplay.addAll(agency.sortAnnouncementsByAscendingPrice(agency.getAnnouncementsList()));
-            }
-        } else {
-            for (Agency agency : agencies) {
-                listToDisplay.addAll(agency.sortAnnouncementsByDescendingPrice(agency.getAnnouncementsList()));
-            }
+            return new ArrayList<>(agency.sortAnnouncementsByAscendingPrice(list));
         }
-        return listToDisplay;
+        return new ArrayList<>(agency.sortAnnouncementsByDescendingPrice(list));
     }
 
     /**
@@ -350,19 +344,13 @@ public class ScheduleVisitController {
      * @return the announcement list
      */
     public List<Announcement> getAnnouncementsByCity(String citySorting, List<Announcement> list) {
-        List<Announcement> listToDisplay = new ArrayList<>();
-        List<Agency> agencies = agencyRepository.getAgenciesList();
+        Agency agency = new Agency();
+        agency.getAnnouncements().setAnnouncements(list);
 
         if (citySorting.equals("Ascending")) {
-            for (Agency agency : agencies) {
-                listToDisplay.addAll(agency.sortAnnouncementsByAscendingCity(agency.getAnnouncementsList()));
-            }
-        } else {
-            for (Agency agency : agencies) {
-                listToDisplay.addAll(agency.sortAnnouncementsByDescendingCity(agency.getAnnouncementsList()));
-            }
+            return new ArrayList<>(agency.sortAnnouncementsByAscendingCity(list));
         }
-        return listToDisplay;
+        return new ArrayList<>(agency.sortAnnouncementsByDescendingCity(list));
     }
 
     /**
@@ -372,18 +360,12 @@ public class ScheduleVisitController {
      * @return the announcement list
      */
     public List<Announcement> getAnnouncementsByState(String stateSorting, List<Announcement> list) {
-        List<Announcement> listToDisplay = new ArrayList<>();
-        List<Agency> agencies = agencyRepository.getAgenciesList();
+        Agency agency = new Agency();
+        agency.getAnnouncements().setAnnouncements(list);
 
         if (stateSorting.equals("Ascending")) {
-            for (Agency agency : agencies) {
-                listToDisplay.addAll(agency.sortAnnouncementsByAscendingState(agency.getAnnouncementsList()));
-            }
-        } else {
-            for (Agency agency : agencies) {
-                listToDisplay.addAll(agency.sortAnnouncementsByDescendingState(agency.getAnnouncementsList()));
-            }
+            return new ArrayList<>(agency.sortAnnouncementsByAscendingState(list));
         }
-        return listToDisplay;
+        return new ArrayList<>(agency.sortAnnouncementsByDescendingState(list));
     }
 }

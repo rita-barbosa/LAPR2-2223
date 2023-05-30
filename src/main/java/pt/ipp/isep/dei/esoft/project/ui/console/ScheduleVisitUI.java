@@ -603,8 +603,8 @@ public class ScheduleVisitUI implements Runnable {
     private String sortSelection() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Sort types available:");
-        System.out.println("1. Ascending (A-Z)");
-        System.out.println("2. Descending (Z-A)");
+        System.out.println("1. Ascending");
+        System.out.println("2. Descending");
         int option = 0;
         boolean invalid = true;
         do {
