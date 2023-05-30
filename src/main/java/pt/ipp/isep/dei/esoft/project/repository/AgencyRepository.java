@@ -127,15 +127,21 @@ public class AgencyRepository {
     }
 
 
+    /**
+     * This method regiters a new agency, receiving a dto with the necessary information.
+     * @param dto - dto with information necessary.
+     * @return an Optional instance with the agency.
+     * @throws IllegalArgumentException
+     */
     public Optional<Agency> registerAgency(LegacySystemDto dto) throws IllegalArgumentException {
         Optional<Agency> newAgency;
         int agencyId = dto.getAgencyID();
         if (!anyAgencyHasAgencyId(agencyId)) {
-            newAgency = add(LegacySystemMapper.toModelAgency(dto));
+            Agency agency = LegacySystemMapper.toModelAgency(dto);
+            newAgency = add(agency);
         } else {
             newAgency = getAgencyByID(agencyId);
         }
-
         return newAgency;
     }
 

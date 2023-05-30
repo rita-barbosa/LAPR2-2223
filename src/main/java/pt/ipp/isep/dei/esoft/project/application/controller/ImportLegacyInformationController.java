@@ -32,7 +32,6 @@ public class ImportLegacyInformationController {
     public Boolean importInformationFromFile(String filePath) {
         boolean success;
         Optional<List<LegacySystemDto>> newList;
-
         newList = LegacySystem.importInformation(filePath);
         try {
             if (newList.isPresent()) {
@@ -53,11 +52,11 @@ public class ImportLegacyInformationController {
         return success;
     }
 
-    private Announcement publishAnnouncement(LegacySystemDto dto, Agency agency, Employee agent, String ownerEmail) throws
+    private Boolean publishAnnouncement(LegacySystemDto dto, Agency agency, Employee agent, String ownerEmail) throws
             NumberFormatException {
-
         Request newRequest = getRequestFromLegacy(dto, agency, agent, ownerEmail);
-        return new Announcement(agent,dto.getCommission(), newRequest,dto.getPropertyDateSale());
+        Announcement newAnnouncement = new Announcement(agent, dto.getCommission(), newRequest, dto.getPropertyDateSale());
+        return agency.addAnnouncement(newAnnouncement);
     }
 
     private Request getRequestFromLegacy(LegacySystemDto dto, Agency agency, Employee agent, String ownerEmail) throws

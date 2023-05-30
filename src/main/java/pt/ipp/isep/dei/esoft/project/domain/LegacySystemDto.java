@@ -63,15 +63,15 @@ public class LegacySystemDto {
     /**
      * The Property air conditioning.
      */
-    private String  propertyAirConditioning;
+    private String propertyAirConditioning;
     /**
      * The Property basement.
      */
-    private String  propertyBasement;
+    private String propertyBasement;
     /**
      * The Property loft.
      */
-    private String  propertyLoft;
+    private String propertyLoft;
     /**
      * The Property sun exposure.
      */
@@ -140,6 +140,9 @@ public class LegacySystemDto {
         this.ownerPassportNum = legacySystemInformationList.get(1);
         this.ownerTIN = legacySystemInformationList.get(2);
         this.ownerEmail = legacySystemInformationList.get(3);
+        if (this.ownerEmail.contains("'")) {
+            this.ownerEmail = this.ownerEmail.replace("'", "");
+        }
         this.ownerPhone = legacySystemInformationList.get(4);
         this.propertyType = legacySystemInformationList.get(5);
         this.propertyArea = (double) Integer.parseInt(legacySystemInformationList.get(6));
@@ -253,7 +256,7 @@ public class LegacySystemDto {
      *
      * @return the property number bedrooms
      */
-    public String  getPropertyNumberBedrooms() {
+    public String getPropertyNumberBedrooms() {
         return propertyNumberBedrooms;
     }
 
@@ -262,7 +265,7 @@ public class LegacySystemDto {
      *
      * @return the property number bathrooms
      */
-    public String  getPropertyNumberBathrooms() {
+    public String getPropertyNumberBathrooms() {
         return propertyNumberBathrooms;
     }
 
@@ -271,7 +274,7 @@ public class LegacySystemDto {
      *
      * @return the property number parking spaces
      */
-    public String  getPropertyNumberParkingSpaces() {
+    public String getPropertyNumberParkingSpaces() {
         return propertyNumberParkingSpaces;
     }
 
@@ -280,7 +283,7 @@ public class LegacySystemDto {
      *
      * @return the property central heating
      */
-    public String  getPropertyCentralHeating() {
+    public String getPropertyCentralHeating() {
         return propertyCentralHeating;
     }
 
@@ -289,7 +292,7 @@ public class LegacySystemDto {
      *
      * @return the property air conditioning
      */
-    public String  getPropertyAirConditioning() {
+    public String getPropertyAirConditioning() {
         return propertyAirConditioning;
     }
 
@@ -298,7 +301,7 @@ public class LegacySystemDto {
      *
      * @return the property basement
      */
-    public String  getPropertyBasement() {
+    public String getPropertyBasement() {
         return propertyBasement;
     }
 
@@ -307,7 +310,7 @@ public class LegacySystemDto {
      *
      * @return the property loft
      */
-    public String  getPropertyLoft() {
+    public String getPropertyLoft() {
         return propertyLoft;
     }
 
