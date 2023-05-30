@@ -17,10 +17,6 @@ class CreateRequestControllerIT {
 
     @Test
     void ensureCreateRequestWorks() {
-
-        //Arrange
-        //Get Repositories
-        Repositories repositories = Repositories.getInstance();
         PropertyTypeRepository propertyTypeRepository = new PropertyTypeRepository();
         AgencyRepository agencyRepository = new AgencyRepository();
         BusinessTypeRepository businessTypeRepository = new BusinessTypeRepository();
@@ -42,7 +38,6 @@ class CreateRequestControllerIT {
 
         agency.addEmployee(employee);
 
-        //String ownerEmail = "owner@email.com";
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
         List<String> av = new ArrayList<>();
@@ -56,7 +51,6 @@ class CreateRequestControllerIT {
         CreateRequestController controller =
                 new CreateRequestController(agencyRepository, propertyTypeRepository, businessTypeRepository, authenticationRepository);
 
-        //Act
         Optional<Request> result = controller.createRequest("Land", "Sale", 2345.0,
                 35.5, 0, av, "street", "city", "district", "state", "12345", null,
                 null, null, null, null, null, employee, 89.3, uriList, agency);
@@ -65,8 +59,6 @@ class CreateRequestControllerIT {
 
     @Test
     void ensureGetPropertyTypeListWorks() {
-
-        Repositories repositories = Repositories.getInstance();
         PropertyTypeRepository propertyTypeRepository = new PropertyTypeRepository();
         AgencyRepository agencyRepository = new AgencyRepository();
         BusinessTypeRepository businessTypeRepository = new BusinessTypeRepository();
@@ -93,8 +85,6 @@ class CreateRequestControllerIT {
 
     @Test
     void ensureGetBusinessTypeListWorks() {
-
-        Repositories repositories = Repositories.getInstance();
         PropertyTypeRepository propertyTypeRepository = new PropertyTypeRepository();
         AgencyRepository agencyRepository = new AgencyRepository();
         BusinessTypeRepository businessTypeRepository = new BusinessTypeRepository();
@@ -122,8 +112,6 @@ class CreateRequestControllerIT {
 
     @Test
     void ensureGetAgenciesListWorks() {
-
-        Repositories repositories = Repositories.getInstance();
         PropertyTypeRepository propertyTypeRepository = new PropertyTypeRepository();
         AgencyRepository agencyRepository = new AgencyRepository();
         BusinessTypeRepository businessTypeRepository = new BusinessTypeRepository();
@@ -151,7 +139,6 @@ class CreateRequestControllerIT {
 
     @Test
     void ensureGetAgentsListWorks() {
-        Repositories repositories = Repositories.getInstance();
         PropertyTypeRepository propertyTypeRepository = new PropertyTypeRepository();
         AgencyRepository agencyRepository = new AgencyRepository();
         BusinessTypeRepository businessTypeRepository = new BusinessTypeRepository();
@@ -184,9 +171,6 @@ class CreateRequestControllerIT {
 
     @Test
     void ensureCreateRequestForNonExistingAgencyFails() {
-        //Arrange
-        //Get Repositories
-        Repositories repositories = Repositories.getInstance();
         PropertyTypeRepository propertyTypeRepository = new PropertyTypeRepository();
         AgencyRepository agencyRepository = new AgencyRepository();
         BusinessTypeRepository businessTypeRepository = new BusinessTypeRepository();
