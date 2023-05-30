@@ -14,20 +14,26 @@ link as suggested below.**
 
 # Use Cases / User Stories
 
-| UC/US  | Description                                                   |                   
-|:-------|:--------------------------------------------------------------|
-| US 001 | [Display listed properties](../../us001/Readme.md)            |
-| US 002 | [Publish an announcement](../../us002/Readme.md)              |
-| US 003 | [Register new employees](../../us003/Readme.md)               |
-| US 004 | [Submit a request for an announcement](../../us004/Readme.md) |
-| US 005 | [Register new store](../../us005/Readme.md)                   |
-| US 007 | [Register user in the system](../../us007/Readme.md)          |
-| US 008 | [List property announcement requests](../../us008/Readme.md)  |
-| US 009 | [Schedule a visit to a property](../../us009/Readme.md)       |
-| US 010 | [To submit a purchase order](../../us010/Readme.md)           |
-| US 011 | [Accept purchase orders](../../us011/Readme.md)               |
-| US 012 | [Import legacy system's file](../../us012/Readme.md)          |
-| US 013 | [List all employees in all agencies](../../us013/Readme.md)   |
+| UC/US  | Description                                                               |                   
+|:-------|:--------------------------------------------------------------------------|
+| US 001 | [Display listed properties](../../us001/Readme.md)                        |
+| US 002 | [Publish an announcement](../../us002/Readme.md)                          |
+| US 003 | [Register new employees](../../us003/Readme.md)                           |
+| US 004 | [Submit a request for an announcement](../../us004/Readme.md)             |
+| US 005 | [Register new store](../../us005/Readme.md)                               |
+| US 007 | [Register user in the system](../../us007/Readme.md)                      |
+| US 008 | [List property announcement requests](../../us008/Readme.md)              |
+| US 009 | [Schedule a visit to a property](../../us009/Readme.md)                   |
+| US 010 | [To submit a purchase order](../../us010/Readme.md)                       |
+| US 011 | [Accept purchase orders](../../us011/Readme.md)                           |
+| US 012 | [Import legacy system's file](../../us012/Readme.md)                      |
+| US 013 | [List all employees in all agencies](../../us013/Readme.md)               |
+| US 015 | [List all booking requests for properties](../../us015/Readme.md)         |
+| US 016 | [Respond to scheduled visit](../../us016/Readme.md)                       |
+| US 017 | [To list all deals made](../../us017/Readme.md)                           |
+| US 018 | [To analyse sale deals for house and apartments](../../us018/Readme.md)   |
+| US 019 | [To divide the set of all stores into two subsets](../../us019/Readme.md) |
+
 
 
 
