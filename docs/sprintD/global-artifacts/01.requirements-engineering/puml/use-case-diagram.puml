@@ -11,9 +11,9 @@ title Use Case Diagram
 
 left to right direction
 
-    usecase "UC1 - Display listed properties" as UC1
+    usecase "UC1 - Display listed\n properties" as UC1
         "Unregistered User" --> UC1
-    usecase "UC2 - Publish an announcement" as UC2
+    usecase "UC2 - Publish an\n announcement" as UC2
         "Agent" --> UC2
     usecase "UC3 - Register new employees" as UC3
         "System Administrator" --> UC3
@@ -21,19 +21,29 @@ left to right direction
         "Owner" --> UC4
     usecase "UC5 - Register new store" as UC5
         "System Administrator" --> UC5
-    usecase "UC7 - Register a user in the system" as UC7
+    usecase "UC7 - Register a user\n in the system" as UC7
         "Unregistered User" --> UC7
     usecase "UC8 - List property\n announcement requests" as UC8
        "Agent" --> UC8
-    usecase "UC9 - Schedule a visit to a property" as UC9
+    usecase "UC9 - Schedule a\n visit to a property" as UC9
        "Registered User" --> UC9
-    usecase "UC10 - To submit a purchase order" as UC10
+    usecase "UC10 - To submit a\n purchase order" as UC10
        "Registered User" --> UC10
-    usecase "UC11 - Accept purchase orders" as UC11
+    usecase "UC11 - Accept purchase\n orders" as UC11
        "Agent" --> UC11
     usecase "UC12 - Import legacy system's file" as UC12
        "System Administrator" --> UC12
-    usecase "UC13 - List all employees in\n all agencies" as UC13
+    usecase "UC13 - List all employees\n in all agencies" as UC13
        "Network Manager" --> UC13
+    usecase "UC15 - List all booking\n requests for properties" as UC15
+       "Agent" --> UC15
+    usecase "UC16 - Respond to\n scheduled visit" as UC16
+       "Agent" --> UC16
+    usecase "UC17 - To list all deals made" as UC17
+       "Network Manager" --> UC17
+    usecase "UC18 - To analyse sale deals\n for house and apartments" as UC18
+       "Store Manager" --> UC18
+    usecase "UC19 - To divide the set\n of all stores into two subsets" as UC19
+       "Network Manager" --> UC19
 
 @enduml

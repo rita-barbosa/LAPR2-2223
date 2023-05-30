@@ -19,6 +19,7 @@
 | **Commission**	           | An amount of money paid to an employee upon completing sale or rent of a property.											                                              |
 | **Criteria**		            | Selection of categories that, when choosen, define the showned properties. 										                                                      |
 | **Customer**              | Synonym of _Buyer_.                                                                                                                        |
+| **Deal**                  | Purchase of a property.                                                                                                                    |
 | **Designation**	          | Name of a store.										                                                                                                                 |							                                                                                 |
 | **Employee** 		           | Person that is working in the company.									                                                                                            |
 | **Inhabitable Loft**      | A space available for storage. 											                                                                                                 |
