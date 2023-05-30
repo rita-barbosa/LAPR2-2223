@@ -95,38 +95,60 @@ public class ScheduleVisitUI implements Runnable {
         System.out.println("\nSchedule a visit to a property");
         System.out.println("========================================================");
         Optional<List<Announcement>> listToDisplay = controller.getAllAnnouncementsList();
+        Optional<List<Announcement>> copycat;
         Optional<List<AnnouncementDto>> listToDisplayDto = Optional.empty();
-        Optional<AnnouncementDto> announcementDto = Optional.empty();
-        Optional<Announcement> announcement = Optional.empty();
+        Optional<AnnouncementDto> announcementDto;
+        Optional<Announcement> announcement;
 
-        if (listToDisplay.isPresent() && listToDisplay.get().size() > 0) {
-            listToDisplayDto = controller.getAnnouncementListDto(listToDisplay.get());
-        }
         do {
-            if (listToDisplayDto.isPresent() && listToDisplayDto.get().size() > 0) {
-                displayList(listToDisplayDto.get());
-                while (askQuestion("select any criteria")) {
-                    listToDisplay = filterList();
-                    if (listToDisplay.isPresent() && listToDisplay.get().size() > 0) {
-                        listToDisplayDto = controller.toDto(listToDisplay.get());
-                        if (listToDisplayDto.isPresent() && listToDisplayDto.get().size() > 0) {
-                            displayList(listToDisplayDto.get());
-                        }
-                    }
+            do {
+                if (listToDisplay.get().size() > 0) {
+                    listToDisplayDto = controller.getAnnouncementListDto(listToDisplay.get());
                 }
-            }
-            if (listToDisplayDto.isPresent() && listToDisplayDto.get().size() > 0) {
-                announcementIndex = requestAnnouncementIndex(listToDisplayDto.get());
-                announcementDto = Optional.of(listToDisplayDto.get().get(announcementIndex - 1));
-            }
-            if (announcementDto.isPresent()) {
-                announcement = controller.toModel(announcementDto.get());
-            }
+                if (listToDisplayDto.isPresent() && listToDisplayDto.get().size() > 0) {
+                    boolean answer;
+                    do {
+                        displayList(listToDisplayDto.get());
+                        answer = askQuestion("select any criteria");
+                        copycat = Optional.of(new ArrayList<>(listToDisplay.get()));
+                        while (answer && listToDisplayDto.get().size() > 0) {
+                            copycat = filterList(copycat.get());
+                            if (copycat.isPresent()) {
+                                listToDisplayDto = controller.toDto(copycat.get());
+
+                                if (listToDisplayDto.isPresent() && listToDisplayDto.get().size() > 0) {
+                                    displayList(listToDisplayDto.get());
+                                }
+                            }
+                            if (listToDisplayDto.get().size() == 0) {
+                                System.out.println("...\nNo announcements with chosen sequence of criteria!\nReturning to initial list.");
+                                System.out.println("========================================================");
+                                // Reset listToDisplay and listToDisplayDto to the original list and its DTO
+                                copycat = Optional.of(new ArrayList<>(listToDisplay.get()));
+                                listToDisplayDto = controller.getAnnouncementListDto(copycat.get());
+                                try {
+                                    Thread.sleep(3500);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                                displayList(listToDisplayDto.get());  // Display the original list again
+                            } else {
+                                answer = askQuestion("select any criteria");
+                            }
+                        }
+                    } while (answer);
+                }
+            } while (listToDisplayDto.get().size() == 0);
+            listToDisplayDto.get();
+            announcementIndex = requestAnnouncementIndex(listToDisplayDto.get());
+            announcementDto = Optional.of(listToDisplayDto.get().get(announcementIndex - 1));
+            announcement = controller.toModel(announcementDto.get());
             requestData();
             displaysData();
             announcement.ifPresent(this::submitData);
         } while (askQuestion("submit another visit request"));
     }
+
 
     /**
      * Request announcement index integer.
@@ -150,42 +172,41 @@ public class ScheduleVisitUI implements Runnable {
      *
      * @return the filtered list
      */
-    private Optional<List<Announcement>> filterList() {
-        Optional<List<Announcement>> listToDisplay = controller.getAllAnnouncementsList();
+    private Optional<List<Announcement>> filterList(List<Announcement> list) {
         Object criteria;
         switch (displayAndSelectCriteriaList(controller.getCriteriaList())) {
             case 1:
                 criteria = displayAndSelectBusinessType().toLowerCase();
                 System.out.println("========================================================\nAnnouncements by type of business:");
-                listToDisplay = Optional.of(controller.getAnnouncementsByBusinessType(criteria.toString()));
+                list = controller.getAnnouncementsByBusinessType(criteria.toString(), list);
                 break;
             case 2:
                 criteria = displayAndSelectPropertyType().toLowerCase();
                 System.out.println("========================================================\nAnnouncements by type of property:\n");
-                listToDisplay = Optional.of(controller.getAnnouncementsByPropertyType(criteria.toString()));
+                list = controller.getAnnouncementsByPropertyType(criteria.toString(), list);
                 break;
             case 3:
                 criteria = displayAndSelectNumberBedrooms();
                 System.out.println("========================================================\nAnnouncements by Number of Bedrooms:");
-                listToDisplay = Optional.of(controller.getAnnouncementsByNumberBedrooms((Integer) criteria));
+                list = controller.getAnnouncementsByNumberBedrooms((Integer) criteria, list);
                 break;
             case 4:
                 criteria = displayAndSelectPrice();
                 System.out.println("========================================================\nAnnouncements by Price:");
-                listToDisplay = Optional.of(controller.getAnnouncementsByPrice(criteria.toString()));
+                list = controller.getAnnouncementsByPrice(criteria.toString(), list);
                 break;
             case 5:
                 criteria = displayAndSelectCity();
                 System.out.println("========================================================\nAnnouncements by City:");
-                listToDisplay = Optional.of(controller.getAnnouncementsByCity(criteria.toString()));
+                list = controller.getAnnouncementsByCity(criteria.toString(), list);
                 break;
             case 6:
                 criteria = displayAndSelectState();
                 System.out.println("========================================================\nAnnouncements by State:");
-                listToDisplay = Optional.of(controller.getAnnouncementsByState(criteria.toString()));
+                list = controller.getAnnouncementsByState(criteria.toString(), list);
                 break;
         }
-        return listToDisplay;
+        return Optional.of(list);
     }
 
     /**
@@ -369,7 +390,7 @@ public class ScheduleVisitUI implements Runnable {
         boolean invalid = true;
         do {
             try {
-                System.out.println("Which one do you want to choose?\n");
+                System.out.println("Which one do you want to choose?");
                 while (option < 1 || option > 6) {
                     option = sc.nextInt();
                 }
@@ -582,8 +603,8 @@ public class ScheduleVisitUI implements Runnable {
     private String sortSelection() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Sort types available:");
-        System.out.println("1. Ascending");
-        System.out.println("2. Descending");
+        System.out.println("1. Ascending (A-Z)");
+        System.out.println("2. Descending (Z-A)");
         int option = 0;
         boolean invalid = true;
         do {

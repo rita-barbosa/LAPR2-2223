@@ -210,7 +210,7 @@ public class ScheduleVisitController {
     public Optional<List<Announcement>> getAllAnnouncementsList() {
         Agency agency = new Agency();
         Optional<List<Announcement>> list = agencyRepository.getAllAnnouncementsList();
-        if (list.isPresent() && list.get().size() > 0){
+        if (list.isPresent() && list.get().size() > 0) {
             agency.getAnnouncements().setAnnouncements(list.get());
         }
         return Optional.of(agency.getAnnouncements().sortAnnouncementsByMostRecentAcceptanceDate());
@@ -282,57 +282,52 @@ public class ScheduleVisitController {
      * Get announcement list by business type.
      *
      * @param businessType the business type
+     * @param list         the list
      * @return the announcement list
      */
-    public List<Announcement> getAnnouncementsByBusinessType(String businessType) {
-        List<Announcement> listToDisplay = new ArrayList<>();
-        List<Agency> agencies = agencyRepository.getAgenciesList();
+    public List<Announcement> getAnnouncementsByBusinessType(String businessType, List<Announcement> list) {
+        Agency agency = new Agency();
+        agency.getAnnouncements().setAnnouncements(list);
 
-        for (Agency agency : agencies) {
-            listToDisplay.addAll(agency.announcementHasBusinessType(agency.getAnnouncementsList(), businessType));
-        }
-        return listToDisplay;
+        return new ArrayList<>(agency.announcementHasBusinessType(agency.getAnnouncementsList(), businessType));
     }
 
     /**
      * Get announcements list by property type.
      *
      * @param propertyType the property type
+     * @param list         the list
      * @return the announcement list
      */
-    public List<Announcement> getAnnouncementsByPropertyType(String propertyType) {
-        List<Announcement> listToDisplay = new ArrayList<>();
-        List<Agency> agencies = agencyRepository.getAgenciesList();
+    public List<Announcement> getAnnouncementsByPropertyType(String propertyType, List<Announcement> list) {
+        Agency agency = new Agency();
+        agency.getAnnouncements().setAnnouncements(list);
 
-        for (Agency agency : agencies) {
-            listToDisplay.addAll(agency.announcementHasPropertyType(agency.getAnnouncementsList(), propertyType));
-        }
-        return listToDisplay;
+        return new ArrayList<>(agency.announcementHasPropertyType(agency.getAnnouncementsList(), propertyType));
     }
 
     /**
      * Get announcements list by number bedrooms.
      *
      * @param numberBedrooms the number bedrooms
+     * @param list           the list
      * @return the announcement list
      */
-    public List<Announcement> getAnnouncementsByNumberBedrooms(Integer numberBedrooms) {
-        List<Announcement> listToDisplay = new ArrayList<>();
-        List<Agency> agencies = agencyRepository.getAgenciesList();
+    public List<Announcement> getAnnouncementsByNumberBedrooms(Integer numberBedrooms, List<Announcement> list) {
+        Agency agency = new Agency();
+        agency.getAnnouncements().setAnnouncements(list);
 
-        for (Agency agency : agencies) {
-            listToDisplay.addAll(agency.announcementHasNumberBedrooms(agency.getAnnouncementsList(), numberBedrooms));
-        }
-        return listToDisplay;
+        return new ArrayList<>(agency.announcementHasNumberBedrooms(agency.getAnnouncementsList(), numberBedrooms));
     }
 
     /**
      * Get announcements list by price.
      *
      * @param priceSorting the price sorting order
+     * @param list         the list
      * @return the announcement list
      */
-    public List<Announcement> getAnnouncementsByPrice(String priceSorting) {
+    public List<Announcement> getAnnouncementsByPrice(String priceSorting, List<Announcement> list) {
         List<Announcement> listToDisplay = new ArrayList<>();
         List<Agency> agencies = agencyRepository.getAgenciesList();
 
@@ -354,7 +349,7 @@ public class ScheduleVisitController {
      * @param citySorting the city sorting order
      * @return the announcement list
      */
-    public List<Announcement> getAnnouncementsByCity(String citySorting) {
+    public List<Announcement> getAnnouncementsByCity(String citySorting, List<Announcement> list) {
         List<Announcement> listToDisplay = new ArrayList<>();
         List<Agency> agencies = agencyRepository.getAgenciesList();
 
@@ -376,7 +371,7 @@ public class ScheduleVisitController {
      * @param stateSorting the state sorting order
      * @return the announcement list
      */
-    public List<Announcement> getAnnouncementsByState(String stateSorting) {
+    public List<Announcement> getAnnouncementsByState(String stateSorting, List<Announcement> list) {
         List<Announcement> listToDisplay = new ArrayList<>();
         List<Agency> agencies = agencyRepository.getAgenciesList();
 

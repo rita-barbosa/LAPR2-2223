@@ -323,7 +323,7 @@ public class Announcement {
      * @return the boolean
      */
     public Boolean addVisit(Visit visit) {
-        if (validateVisit(visit)) {
+        if (!validateVisit(visit)) {
             return false;
         } else {
             this.visitList.add(visit.clone());
@@ -339,10 +339,21 @@ public class Announcement {
      */
     private boolean validateVisit(Visit createdVisit) {
         for (Visit visit : this.visitList) {
-            if (visit.equals(createdVisit))
-                return true;
+            if (visit.equals(createdVisit)) {
+                return false;
+            }
+            if (visit.getVisitDate().equals(createdVisit.getVisitDate())) {
+                if (createdVisit.getStartHour() > visit.getStartHour() && createdVisit.getStartHour() < visit.getEndHour()) {
+                    System.out.println("\nCONFLICT! The start hour of the visit request you want to submit conflicts with a visit taking place at that time in the same property.");
+                    return false;
+                }
+                if (createdVisit.getEndHour() > visit.getStartHour() && createdVisit.getEndHour() < visit.getEndHour()) {
+                    System.out.println("\nCONFLICT! The end hour of the visit request you want to submit conflicts with a visit taking place at that time in the same property.");
+                    return false;
+                }
+            }
         }
-        return false;
+        return true;
     }
 
     /**
