@@ -1,0 +1,103 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+
+
+participant "announcementMapper\n: AnnouncementMapper" as AnnMAPPER
+participant "announcement\n: Announcement" as Announce
+participant "request\n: Request" as Request
+participant "orderList\n: OrderList" as OrderList
+participant "announcementDto\n: AnnouncementDto" as AnnDTO
+participant "orderMapper\n: OrderMapper" as OrderMapper
+participant "order\n: Order" as Order
+participant "listOrdersDto\n: List<OrderDto>" as OrderDTOList
+participant "orderDto\n: OrderDto" as OrderDTO
+
+
+autonumber 18
+         -> AnnMAPPER : toDto(announcement)
+         activate AnnMAPPER
+autonumber 18.1
+group Create AnnouncementDto
+
+         AnnMAPPER -> Announce: getRequestAttributes()
+         activate Announce
+         Announce --> AnnMAPPER : requestAttributes
+         deactivate Announce
+
+         AnnMAPPER -> Announce: getCommissionAttributes()
+         activate Announce
+         Announce --> AnnMAPPER : commissionAttributes
+         deactivate Announce
+
+         AnnMAPPER -> Announce : getId()
+         activate Announce
+         Announce --> AnnMAPPER : id
+         deactivate Announce
+
+         AnnMAPPER -> Announce: getAcceptanceDate()
+         activate Announce
+         Announce --> AnnMAPPER : acceptanceDate
+         deactivate Announce
+
+         AnnMAPPER -> Announce:  getListOrders()
+         activate Announce
+         Announce -> OrderList : getList()
+         activate OrderList
+
+         OrderList --> Announce : listOrders
+         deactivate OrderList
+         Announce --> AnnMAPPER : listOrders
+         deactivate Announce
+
+         AnnMAPPER -> OrderMapper : toDto(listOrders)
+         activate OrderMapper
+
+        OrderMapper -> OrderDTOList** : create()
+                loop for each order
+                OrderMapper -> OrderMapper : toDto(order)
+                activate OrderMapper
+                     OrderMapper -> Order : getOrderAmount()
+                     activate Order
+                     Order --> OrderMapper : orderAmount
+                     deactivate Order
+
+                     OrderMapper -> Order : getClientEmail()
+                     activate Order
+                     Order --> OrderMapper : orderAmount
+                     deactivate Order
+
+                     OrderMapper -> Order : getOrderDate()
+                     activate Order
+                     Order --> OrderMapper : orderDate
+                     deactivate Order
+
+                     OrderMapper -> Order : getId()
+                     activate Order
+                     Order--> OrderMapper: orderId
+                     deactivate Order
+                     |||
+                     OrderMapper -> OrderDTO** : create(orderAmount, orderDate, clientEmail,orderId)
+                     OrderMapper --> OrderMapper: orderDto
+                     deactivate OrderMapper
+
+                     OrderMapper -> OrderDTOList : add(orderDto)
+                     activate OrderDTOList
+                     deactivate OrderDTOList
+                |||
+                end loop
+
+         OrderMapper --> AnnMAPPER: listOrdersDto
+         deactivate OrderMapper
+
+         AnnMAPPER -> AnnDTO**: create(requestAttributes, listOrdersDto,\n commissionAttributes, acceptanceDate, id)
+         end group
+
+autonumber 19
+
+     <-- AnnMAPPER : announcementDto
+     deactivate AnnMAPPER
+
+@enduml

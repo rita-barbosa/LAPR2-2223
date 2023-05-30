@@ -1,0 +1,132 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+'hide footbox
+actor "System Administrator" as ADM
+participant ":RegisterEmployeeUI" as UI
+participant ":RegisterEmployeeController" as CTRL
+participant ":Repositories" as RepositorySingleton
+participant "repositories\n:Repositories" as PLAT
+participant "agencyRepository:\nAgencyRepository" as AgencyRepository
+participant "roleRepository:\nRoleRepository" as RoleRepository
+participant ":ApplicationSession" as _APP
+participant "appSession\n:ApplicationSession" as APP
+participant "currentSession\n:UserSession" as SESSAO
+participant "person\n:Person" as PERSON
+participant "agency\n:Agency" as AGENCY
+
+activate ADM
+
+        ADM -> UI : asks to register a new employee
+
+        activate UI
+
+'            UI --> ADM : requests data (name, passport card number, tax number, location, email, phone number)
+            'create CTRL
+            UI -> CTRL** : register
+
+            UI -> CTRL : getAgency()
+            activate CTRL
+
+                CTRL -> RepositorySingleton : getInstance()
+                activate RepositorySingleton
+
+                    RepositorySingleton --> CTRL: repositories
+                deactivate RepositorySingleton
+
+                CTRL -> PLAT : getAgencyRepository()
+                activate PLAT
+
+                    PLAT --> CTRL: AgencyRepository
+                deactivate PLAT
+
+                CTRL -> AgencyRepository : getAgency()
+                activate AgencyRepository
+
+                    AgencyRepository --> CTRL : AgencyList
+                deactivate AgencyRepository
+
+                CTRL --> UI : AgencyList
+            deactivate CTRL
+
+            UI --> ADM : shows agency list\n and asks to select one
+        deactivate UI
+
+
+             ADM -> UI : selects an agency
+             activate UI
+
+UI -> CTRL : getRole()
+            activate CTRL
+
+
+
+                    RepositorySingleton --> CTRL: repositories
+                deactivate RepositorySingleton
+
+                CTRL -> PLAT : getRoleRepository()
+                activate PLAT
+
+                    PLAT --> CTRL: RoleRepository
+                deactivate PLAT
+
+                CTRL -> RoleRepository : getRole()
+                activate RoleRepository
+
+                    RoleRepository --> CTRL : RoleList
+                deactivate RoleRepository
+
+                CTRL --> UI : RoleList
+            deactivate CTRL
+
+            UI --> ADM : shows role list and asks to select one
+        deactivate UI
+
+    ADM -> UI : selects a role
+    activate UI
+
+        UI --> ADM : requests data (name, passport \ncard number, tax number, location,\n email, phone number)
+    deactivate UI
+
+    ADM -> UI : types requested data
+    activate UI
+
+        UI --> ADM : shows selected agency, role and requested data
+    deactivate UI
+
+    ADM -> UI : submits data
+    activate UI
+
+            |||
+            CTRL -> PERSON: registerEmployee(name, passport card number,\n tax number, location, email, phone\n number)
+            activate PERSON
+
+                PERSON -> AGENCY**: register(name, passport card \nnumber, tax number, location,\n email, phone number)
+                PERSON -> PERSON: addPerson (person)
+
+
+                activate PERSON
+                    PERSON -> PERSON: validatePerson (person)
+                    activate PERSON
+                        PERSON --> PERSON
+                    deactivate PERSON
+
+                    PERSON --> PERSON
+                deactivate PERSON
+
+                PERSON --> CTRL : register
+
+            deactivate PERSON
+
+            CTRL --> UI: register
+            deactivate CTRL
+            UI --> ADM: displays operation success
+    deactivate UI
+
+deactivate ADM
+
+@enduml

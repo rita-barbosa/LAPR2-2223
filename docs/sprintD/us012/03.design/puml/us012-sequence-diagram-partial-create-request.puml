@@ -1,0 +1,216 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+participant ":ImportLegacyInformationController" as CTRL
+participant ":LegacySystemMapper" as MAPPER
+participant "legacySystemDto\n:legacySystemDto" as DTO
+participant "request\n:Request" as REQUEST
+participant "propertyType\n:PropertyType" as PROPTYPE
+participant "business\n:Business" as BUSINESS
+participant "lease\n:Lease" as LEASE
+participant "property\n:Property" as PROPERTY
+participant "residence\n:Residence" as RESIDENCE
+participant "house\n:House" as HOUSE
+participant "location\n:Location" as LOCATION
+participant "availableEquipment\n:AvailableEquipment" as AEQUIP
+
+
+autonumber 23.1
+
+    -> CTRL: getRequestFromLegacy(legacySystemDto, agent, ownerEmail)
+
+     activate CTRL
+
+autonumber 23.1.1
+
+    group Create Request
+
+    CTRL -> MAPPER : toModelRequest(legacyInformationDto)
+    activate MAPPER
+
+    MAPPER -> DTO : businessTypeDesignation = getBusinessTypeDesignation()
+    activate DTO
+    deactivate DTO
+
+    MAPPER -> DTO : contractDuration = getContractDuration()
+    activate DTO
+    deactivate DTO
+
+    MAPPER -> DTO : amount = getAmount()
+    activate DTO
+    deactivate DTO
+
+    MAPPER -> DTO : propertyTypeDesignation = getPropertyTypeDesignation()
+    activate DTO
+    deactivate DTO
+
+    MAPPER -> DTO : area = getArea()
+    activate DTO
+    deactivate DTO
+
+    MAPPER -> DTO : location = getLocation()
+    activate DTO
+    deactivate DTO
+
+    MAPPER -> DTO : distanceCityCenter = getDistanceCityCenter()
+    activate DTO
+    deactivate DTO
+
+    alt Property Type = Land
+
+        MAPPER -> REQUEST : createLandFromLegacy(propertyTypeDesignation,\n businessTypeDesignation, contractDuration, amount,\n area, location, distanceCityCenter)
+        activate REQUEST
+
+            alt Business Type Designation = Lease
+
+                REQUEST -> LEASE** : create(businessTypeDesignation, amount, contractDuration)
+
+            else Business Type Designation = Sale
+
+                REQUEST -> BUSINESS** : create(businessTypeDesignation, amount)
+
+            end alt
+
+        REQUEST -> PROPTYPE** : create(propertyTypeDesignation)
+
+        ' AQUI TINHAMOS COMBINADO QUE PROPERTY-TYPE FICAVA NO REQUEST
+
+        REQUEST -> PROPERTY** : create(area, location, distanceCityCenter)
+
+        activate PROPERTY
+
+            PROPERTY -> LOCATION** : createLocationFromString(location)
+
+        deactivate PROPERTY
+
+        REQUEST --> MAPPER : request
+        deactivate REQUEST
+|||
+    end alt
+
+    alt propertyTypeDesignation = House || propertyTypeDesignation = Apartment
+
+    MAPPER -> DTO : numberBedrooms = getNumberBedrooms()
+    activate DTO
+    deactivate DTO
+
+    MAPPER -> DTO : numberBathrooms = getNumberBathrooms()
+    activate DTO
+    deactivate DTO
+
+    MAPPER -> DTO : parkingSpace = getParkingSpace()
+    activate DTO
+    deactivate DTO
+
+    MAPPER -> DTO : centralHeating = getCentralHeating()
+    activate DTO
+    deactivate DTO
+
+    MAPPER -> DTO : airConditioning = getAirConditioning()
+    activate DTO
+    deactivate DTO
+
+
+    alt propertyTypeDesignation = Apartment
+
+
+    MAPPER -> REQUEST : createResidenceFromLegacy(propertyTypeDesignation,\n businessTypeDesignation, amount, contractDuration, area,\n location, distanceCityCenter, numberBedrooms,\n numberBathrooms, parkingSpace, centralHeating,\n airConditioning)
+    activate REQUEST
+
+        alt Business Type Designation = Lease
+
+            REQUEST -> LEASE** : create(businessTypeDesignation, amount, contractDuration)
+
+        else Business Type Designation = Sale
+
+            REQUEST -> BUSINESS** : create(businessTypeDesignation, amount)
+
+        end alt
+
+    ' AQUI TINHAMOS COMBINADO QUE PROPERTY-TYPE FICAVA NO REQUEST
+
+    REQUEST -> PROPTYPE** : create(propertyTypeDesignation)
+
+    REQUEST -> RESIDENCE** : create(area, location, distanceCityCenter,\n numberBedrooms, numberBathrooms,\n parkingSpace, centralHeating, airConditioning)
+    activate RESIDENCE
+
+    RESIDENCE -> AEQUIP** : create(centralHeating, airConditioning)
+
+    RESIDENCE -> LOCATION** : createLocationFromString(location)
+
+    deactivate RESIDENCE
+
+        REQUEST --> MAPPER : request
+
+    end alt
+
+
+    alt propertyTypeDesignation = House
+
+    MAPPER -> DTO : basement = getBasement()
+    activate DTO
+    deactivate DTO
+
+    MAPPER -> DTO : inhabitableLoft = getInhabitableLoft()
+    activate DTO
+    deactivate DTO
+
+    MAPPER -> DTO : sunExposure = getSunExposure()
+    activate DTO
+    deactivate DTO
+
+        MAPPER -> REQUEST : createHouseFromLegacy(propertyTypeDesignation,\n businessTypeDesignation, amount, contractDuration,\n area, location, distanceCityCenter, numberBedrooms,\n numberBathrooms, parkingSpace, centralHeating,\n airConditioning, basement, inhabitableLoft, sunExposure)
+        activate REQUEST
+
+
+            alt Business Type Designation = Lease
+
+                REQUEST -> LEASE** : create(businessTypeDesignation, amount, contractDuration)
+
+            else Business Type Designation = Sale
+
+                REQUEST -> BUSINESS** : create(businessTypeDesignation, amount)
+
+            end alt
+
+        REQUEST -> PROPTYPE** : create(propertyTypeDesignation)
+
+        ' AQUI TINHAMOS COMBINADO QUE PROPERTY-TYPE FICAVA NO REQUEST
+
+        REQUEST -> PROPERTY** : create(area, location, distanceCityCenter)
+
+        REQUEST -> HOUSE** : create(area, location, distanceCityCenter,\n numberBedrooms, numberBathrooms,\n parkingSpace, centralHeating, airConditioning,\n basement, inhabitableLoft, sunExposure)
+        activate HOUSE
+
+        HOUSE -> AEQUIP** : create(centralHeating, airConditioning)
+
+        HOUSE -> LOCATION** : createLocationFromString(location)
+
+        deactivate HOUSE
+
+            REQUEST --> MAPPER : request
+        deactivate REQUEST
+|||
+
+   ' end alt
+
+    deactivate REQUEST
+
+    end alt
+
+    end alt
+
+        MAPPER --> CTRL : request
+    deactivate MAPPER
+
+    end group
+
+autonumber 23.2
+
+    <-- CTRL: request
+    deactivate CTRL
+
+
+@enduml

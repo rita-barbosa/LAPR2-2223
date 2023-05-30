@@ -1,0 +1,62 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+
+participant ":ListRequestsController" as CTRL
+participant "commissionTypeMapper\n: CommissionTypeMapper" as ComTypeMapper
+participant "commissionType\n: CommissionType" as ComType
+participant "listCommissionType\n: List<CommissionTypeDto>" as ComTypeList
+participant "commissionTypeDto\n: CommissionTypeDto" as ComTypeDto
+
+autonumber 32
+    -> CTRL: toDto(commissionTypeList)
+    activate CTRL
+
+group Convert commission type list to DTO
+
+autonumber 32.1
+
+
+    CTRL -> ComTypeMapper : toDto(commissionTypeList)
+    activate ComTypeMapper
+
+    ComTypeMapper -> ComTypeList** : create()
+
+
+ loop for each commission type
+
+ ComTypeMapper -> ComTypeMapper : toDto(commissionType)
+ activate ComTypeMapper
+
+
+    ComTypeMapper -> ComType : getCommissionType()
+    activate ComType
+
+    ComType --> ComTypeMapper : commissionType
+    deactivate ComType
+
+    ComTypeMapper -> ComTypeDto : create(commissionType)
+    activate ComTypeDto
+    deactivate ComTypeDto
+
+ ComTypeMapper --> ComTypeMapper : commissionTypeDto
+ deactivate ComTypeMapper
+
+ ComTypeMapper -> ComTypeList : add(commissionTypeDto)
+ activate ComTypeList
+ deactivate ComTypeList
+ |||
+
+end loop
+    ComTypeMapper --> CTRL : commissionTypeListDto
+    deactivate ComTypeMapper
+
+
+end group
+autonumber 33
+     <-- CTRL: commissionTypeListDto
+     deactivate CTRL
+
+@enduml

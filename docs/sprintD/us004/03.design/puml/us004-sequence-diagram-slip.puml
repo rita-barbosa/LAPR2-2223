@@ -1,0 +1,296 @@
+@startuml
+
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+actor "<b>Owner</b>" as Owner
+participant "<b>:CreateRequestUI</b>" as UI
+participant "<b>:CreateRequestController</b>" as CTRL
+participant "<b>agency</b>\n<b>:Agency </b>" as AGC
+participant "<b>request</b>\n<b>:Request</b>" as REQUEST
+
+autonumber
+
+activate Owner
+
+    Owner -> UI : asks to create a new Request
+
+        activate UI
+
+            UI -> CTRL** : create
+
+            UI --> Owner : requests data
+
+        deactivate UI
+
+    Owner -> UI : types requested data (amount, area, distanceCityCenter, streetName, city,\n district, state, zipCode)
+
+        activate UI
+
+            UI -> CTRL : getBusinessType()
+
+            activate CTRL
+
+               ref over CTRL
+                    Get Business Type List
+
+               end ref
+
+               CTRL --> UI : businessTypeList
+
+            deactivate CTRL
+
+            UI --> Owner : shows business types list and asks to select one
+
+        deactivate UI
+
+    Owner -> UI : selects a business type
+
+    activate UI
+
+        alt Lease
+
+            autonumber 9.1
+            UI --> Owner : requests data
+
+            deactivate UI
+
+            Owner -> UI : types requested data (contractDuration)
+
+            activate UI
+        end alt
+
+
+    activate UI
+        autonumber 10
+        UI -> CTRL : getPropertyType()
+
+        activate CTRL
+
+            ref over CTRL
+                Get Property Type List
+
+            end ref
+
+        CTRL --> UI : propertyTypeList
+
+        deactivate CTRL
+
+    UI --> Owner : shows property types list and asks to select one
+
+    deactivate UI
+
+     Owner -> UI : selects a property type
+
+     activate UI
+
+     UI --> Owner : requests data
+     deactivate UI
+
+      alt Property Type = House or Apartment
+
+          autonumber 15.1
+
+          Owner -> UI : selects requested data (parkingSpace)
+
+               activate UI
+
+          UI --> Owner : requests data
+               deactivate UI
+
+          Owner -> UI : types requested data (numberBedroom)
+
+              activate UI
+
+               UI --> Owner : requests data
+                deactivate UI
+
+         opt number of bathrooms
+
+              Owner -> UI : types requested data (numberBathroom)
+                      activate UI
+
+         end  opt
+
+         UI --> Owner : request data
+
+           deactivate UI
+
+             opt list of available equipments
+
+
+                  loop availableEquipment
+                      Owner -> UI : types requested data (availableEquipment)
+                      activate UI
+
+                  end loop
+
+             end opt
+
+                 UI --> Owner : requests data
+                 deactivate UI
+
+                 alt Property Type = House
+
+                    Owner -> UI : selects requested data (basement, inhabitableLoft)
+
+                    activate UI
+
+                    UI --> Owner : requests data
+                    deactivate UI
+
+                    opt direction of sun exposure
+
+                         Owner -> UI : selects requested data (sunExposure)
+                         activate UI
+                         |||
+                    end opt
+
+                 end alt
+
+           end alt
+
+
+
+    loop min = 1 & max = 30
+
+    autonumber 16.1
+
+    UI --> Owner : requests data
+            deactivate UI
+    Owner -> UI : types requested data (uri)
+    activate UI
+
+    end loop
+
+    autonumber 17
+    UI -> CTRL : getAgencies()
+    activate CTRL
+
+            ref over CTRL
+                Get Agencies List
+
+            end ref
+    CTRL --> UI : agencyList
+    deactivate CTRL
+
+    UI --> Owner : shows list of agencies and asks to select one
+    deactivate UI
+
+     Owner -> UI : selects an Agency
+
+        activate UI
+
+            UI -> CTRL : getAgentsFromAgencyID(id)
+
+            activate CTRL
+
+                activate CTRL
+
+                    ref over CTRL
+                     Get Agents List
+
+                    end ref
+
+                CTRL --> UI : agentsList
+                deactivate CTRL
+
+            deactivate CTRL
+
+            UI --> Owner : shows list of agents in previously chosen agency and asks to select one
+            deactivate UI
+
+            Owner -> UI : selects an agent
+
+            activate UI
+
+            UI --> Owner : shows all data and asks to submit
+
+            deactivate UI
+
+           Owner -> UI : submits data
+
+           activate UI
+
+            UI -> CTRL : createRequest(propertyTypeDesignation, businessTypeDesignation, amount, area,\n contractDuration, availableEquipmentDesignationList, streetName, city, district, state,\n zipCode, basement, inhabitableLoft, parkingSpace, sunExposure, numberBedroom,\n numberBathroom, agent, distanceCityCenter, photographUriList, agency)
+
+            activate CTRL
+
+            CTRL -> CTRL : getBusinessTypeByDesignation(businessTypeDesignation)
+            activate CTRL
+
+                ref over CTRL
+                Get Business Type Object
+
+                end ref
+
+            CTRL --> CTRL : businessType
+            deactivate CTRL
+
+            |||
+            CTRL -> CTRL : getPropertyTypeByDesignation(propertyTypeDesignation)
+                        activate CTRL
+
+                            ref over CTRL
+                            Get Property Type Object
+
+                            end ref
+
+                        CTRL --> CTRL : propertyType
+                        deactivate CTRL
+
+            |||
+             CTRL -> CTRL : getOwnerEmail()
+                activate CTRL
+
+                    ref over CTRL
+                        Get Owner Email
+
+                    end ref
+
+                CTRL --> CTRL : ownerEmail
+                deactivate CTRL
+
+        |||
+        CTRL -> AGC : createRequest(ownerEmail, agent, agency, propertyType, businessType, amount,\n area, contractDuration, streetName, city, district, state, zipCode, basement,\n availableEquipmentDesignationList, inhabitableLoft, parkingSpace, sunExposure,\n numberBedroom, numberBathroom, distanceCityCenter, photographUriList)
+
+       activate AGC
+
+        AGC -> REQUEST** : createRequest(ownerEmail, agent, agency, propertyType, businessType, amount,\n area, contractDuration, streetName, city, district, state, zipCode, basement,\n availableEquipmentDesignationList, inhabitableLoft, parkingSpace, sunExposure,\n numberBedroom, numberBathroom, distanceCityCenter, photographUriList)
+
+       activate REQUEST
+
+            |||
+           ref over REQUEST
+           Create Request
+
+           end ref
+       REQUEST --> AGC : request
+       deactivate REQUEST
+
+        |||
+        AGC -> AGC : addRequest(request)
+
+        activate AGC
+
+            AGC --> AGC : validateRequest(request)
+            activate AGC
+
+            AGC --> AGC
+            deactivate AGC
+
+            AGC --> AGC
+            deactivate AGC
+
+        AGC --> CTRL : request
+        deactivate AGC
+
+        CTRL --> UI : request
+    deactivate CTRL
+
+     UI --> Owner : displays operation success
+        deactivate UI
+
+deactivate Owner
+@enduml

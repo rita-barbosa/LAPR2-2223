@@ -1,0 +1,272 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+'hide footbox
+actor "Agent" as ADM
+participant ":ListRequestsUI" as UI
+participant ":ListRequestsController" as CTRL
+participant ":Repositories" as RepositorySingleton
+participant "repositories\n:Repositories" as PLAT
+participant "agencyRepository:\nAgencyRepository" as AgencyRepository
+participant "agency\n: Agency" as AGENCY
+'participant "requestList\n: RequestList" as ReqList
+participant "requestMapper\n: RequestMapper" as ReqMapper
+participant "requestDto\n: RequestDto" as ReqDto
+participant "request\n: Request" as REQUEST
+
+activate ADM
+
+        ADM -> UI : asks to display the requests made to himself
+
+        activate UI
+
+            UI -> CTRL** : create
+
+    loop for the requests of the agent
+
+    UI -> CTRL : getRequestList()
+    activate CTRL
+
+        CTRL -> CTRL : getAgentEmail()
+        activate CTRL
+
+        ref over CTRL
+            Get Agent Email
+        end ref
+
+         CTRL --> CTRL : agentEmail
+         deactivate CTRL
+
+        CTRL -> PLAT : getAgencyRepository()
+        activate PLAT
+
+            PLAT --> CTRL: agencyRepository
+        deactivate PLAT
+
+        CTRL -> AgencyRepository : getAgencyByEmployeeEmail(agentEmail)
+        activate AgencyRepository
+
+        loop for each agency
+             AgencyRepository -> AGENCY : anyAgentHasEmail(agentEmail)
+             activate AGENCY
+
+              AGENCY --> AgencyRepository : true/false
+             deactivate AGENCY
+        end
+
+        AgencyRepository --> CTRL : agency
+        deactivate AgencyRepository
+
+        CTRL -> AGENCY : getRequestListByAgentEmail(agentEmail)
+        activate AGENCY
+
+        ref over AGENCY
+        Get Requests List
+        end ref
+
+
+        AGENCY --> CTRL : requestList
+        deactivate AGENCY
+
+
+        CTRL -> CTRL : toDto(requestList)
+        activate CTRL
+
+        ref over CTRL
+        Convert Request List to DTO
+        end ref
+
+        CTRL --> CTRL : requestListDto
+        deactivate CTRL
+
+        |||
+
+        CTRL --> UI : requestListDto
+    deactivate CTRL
+
+    UI --> ADM : shows the list of requests
+    deactivate UI
+
+
+    opt selects a request
+
+    ADM -> UI : selects a request
+    activate UI
+
+    UI -> CTRL : getRequestByIdDto(requestIdDto)
+    activate CTRL
+
+    CTRL -> ReqMapper : requestId =  getRequestIdFromDto(requestIdDto)
+    activate ReqMapper
+
+    ReqMapper -> ReqDto : getRequestID
+    activate ReqDto
+
+    ReqDto --> ReqMapper : requestId
+    deactivate ReqDto
+
+    ReqMapper --> CTRL : requestId
+    deactivate ReqMapper
+
+    CTRL -> CTRL : getRequestByID(requestId)
+    activate CTRL
+
+    ref over CTRL
+    Get Request By ID
+    end ref
+
+    CTRL --> CTRL : request
+    deactivate CTRL
+
+
+    CTRL --> UI : request
+    deactivate CTRL
+
+
+    UI --> ADM : shows the request and asks data (option)
+    deactivate UI
+
+    ADM -> UI : submits data (option)
+    activate UI
+
+    alt option == accept
+
+          UI -> CTRL : getCommissionTypeLis()
+          activate CTRL
+
+          CTRL -> CTRL : getCommissionTypeList()
+          activate CTRL
+
+            ref over CTRL
+            Get Commission Type List
+            end ref
+
+            CTRL --> CTRL : commissionTypeList
+            deactivate CTRL
+
+                CTRL -> CTRL : toDto(commissionTypeList)
+                activate CTRL
+
+                ref over CTRL
+                Convert Commission Type List to DTO
+                end ref
+
+                CTRL --> CTRL : commissionTypeListDto
+                deactivate CTRL
+
+
+              CTRL --> UI : commissionTypeListDto
+              deactivate CTRL
+
+            UI --> ADM : shows types of commission and asks to select one
+            deactivate UI
+
+            ADM -> UI : selects type of commission
+            activate UI
+
+            UI --> ADM : requests value of commission
+            deactivate UI
+
+            ADM -> UI : enters commission value
+            activate UI
+
+            UI --> ADM : shows all data and asks to submits
+            deactivate UI
+
+            ADM -> UI : submits data
+            activate UI
+
+            UI -> CTRL : publishAnnouncement(commissionTypeDesignation, commissionValue, request, email)
+            activate CTRL
+
+
+            CTRL -> AGENCY: getAgentByEmail(email, agency)
+            activate AGENCY
+
+            AGENCY --> CTRL : agent
+            deactivate AGENCY
+            |||
+
+            CTRL -> CTRL : getCommissionTypeByDescription(commissionTypeDesignation)
+            activate CTRL
+                ref over CTRL
+                Get Commission Type
+                end ref
+            CTRL --> CTRL : commissionType
+            deactivate CTRL
+             |||
+
+                CTRL -> AGENCY: publishAnnouncement(agent, commissionType commissionValue, request)
+
+                    ref over AGENCY
+                        Publish Announcement
+                    end ref
+
+                    activate AGENCY
+
+                AGENCY --> CTRL: announcement
+                deactivate AGENCY
+
+                CTRL --> UI: announcement
+                deactivate CTRL
+
+    else option == decline
+
+            UI --> ADM : asks for justification message
+            deactivate UI
+
+            ADM -> UI : submits message
+            activate UI
+
+            UI -> CTRL : getOwnerEmail()
+            activate CTRL
+
+            CTRL -> AGENCY : getOwnerEmail()
+            activate AGENCY
+
+            AGENCY -> REQUEST : getOwnerEmail()
+            activate REQUEST
+
+            REQUEST --> AGENCY : ownerEmail
+            deactivate REQUEST
+
+            AGENCY --> CTRL : ownerEmail
+            deactivate AGENCY
+
+            CTRL --> UI : ownerEmail
+            deactivate CTRL
+
+            UI -> CTRL : sendEmail(ownerEmail, message)
+            activate CTRL
+
+            CTRL -> REQUEST : sendEmail(ownerEmail, message)
+            activate REQUEST
+
+            REQUEST -> Notification : sendNotification(ownerEmail)
+            activate Notification
+
+            Notification --> REQUEST : confirmation
+            deactivate Notification
+
+            REQUEST --> CTRL : confirmation
+            deactivate REQUEST
+
+            CTRL --> UI : confirmation
+            deactivate CTRL
+
+    end
+
+
+    UI --> ADM : shows operation success and shows the list of requests
+    deactivate UI
+    end
+
+deactivate ADM
+
+end
+
+@enduml

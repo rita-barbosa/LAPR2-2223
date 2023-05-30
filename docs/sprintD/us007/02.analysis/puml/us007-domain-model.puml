@@ -1,0 +1,31 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+'left to right direction
+
+skinparam classAttributeIconSize 0
+
+hide circle
+hide methods
+
+
+class Customer{
+}
+class Owner{
+}
+class Person{
+passportCardNumber
+taxNumber
+phoneNumber
+name
+email
+}
+
+Customer "1 "-- "1" Person : represented in
+Owner -- Person
+Owner "0..*" - Customer: plays a <
+
+
+@enduml

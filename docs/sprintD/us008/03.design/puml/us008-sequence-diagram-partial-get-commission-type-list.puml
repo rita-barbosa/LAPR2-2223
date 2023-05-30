@@ -1,0 +1,51 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+'hide footbox
+
+participant ":ListRequestsController" as CTRL
+participant ":Repositories" as RepositorySingleton
+participant "repositories\n:Repositories" as PLAT
+participant "commissionTypeRepository\n:CommissionTypeRepository" as CommissionTypeRepository
+
+
+autonumber 30
+
+            -> CTRL :  getCommissionTypeList()
+            activate CTRL
+
+autonumber 30.1
+
+    group Get Commission Type List
+
+                CTRL -> RepositorySingleton : getInstance()
+                activate RepositorySingleton
+
+                    RepositorySingleton --> CTRL: repositories
+                deactivate RepositorySingleton
+
+                CTRL -> PLAT : getCommissionTypeRepository()
+                activate PLAT
+
+                    PLAT --> CTRL: commissionTypeRepository
+                deactivate PLAT
+
+                CTRL -> CommissionTypeRepository : getCommissionTypeList()
+                activate CommissionTypeRepository
+
+                CommissionTypeRepository --> CTRL : commissionTypeList
+                deactivate CommissionTypeRepository
+
+    end
+
+autonumber 31
+
+    <-- CTRL : commissionTypeList
+    deactivate CTRL
+
+
+@enduml

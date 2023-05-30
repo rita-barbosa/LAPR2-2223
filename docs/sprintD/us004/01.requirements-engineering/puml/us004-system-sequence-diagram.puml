@@ -1,0 +1,169 @@
+@startuml
+
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+actor "<b>Owner</b>" as Owner
+participant "<b>:System</b>" as System
+
+title System Sequence Diagram (SSD) - US004
+
+autonumber
+
+activate Owner
+
+    Owner -> System : asks to create a new Request
+
+        activate System
+
+        System --> Owner : requests data
+
+        deactivate System
+
+    Owner -> System : types requested data (amount, area, distanceCityCenter,\n streetName, city, district, state, zipCode)
+
+        activate System
+
+        System --> Owner : shows business types list and asks to select one
+
+        deactivate System
+
+    Owner -> System : selects a business type
+
+        activate System
+
+            alt Lease
+
+                autonumber 5.1
+                System --> Owner : requests data
+
+                deactivate System
+
+                Owner -> System : types requested data (contractDuration)
+
+                activate System
+
+            end alt
+
+        autonumber 6
+
+        activate System
+
+        System --> Owner : shows property types list and asks to select one
+
+        deactivate System
+
+    Owner -> System : selects a property type
+
+     activate System
+
+     System --> Owner : requests data
+
+     deactivate System
+
+     alt Property Type = House or Apartment
+
+            Owner -> System : selects requested data (parkingSpace)
+
+                 activate System
+
+            System --> Owner : requests data
+                 deactivate System
+
+            Owner -> System : types requested data (numberBedroom)
+
+                activate System
+
+                System --> Owner : requests data
+                deactivate System
+
+           opt number of bathrooms
+
+
+
+                Owner -> System : types requested data (numberBathroom)
+                        activate System
+
+           end  opt
+
+           System --> Owner : request data
+           deactivate System
+
+                       opt list of available equipments
+
+
+
+                            loop availableEquipment
+
+                Owner -> System : types requested data (availableEquipment)
+
+                                activate System
+                            end loop
+
+                end opt
+
+            deactivate System
+
+            System --> Owner : requests data
+
+
+
+           alt Property Type = House
+
+              Owner -> System : selects requested data (basement, inhabitableLoft)
+
+              activate System
+
+              System --> Owner : requests data
+              deactivate System
+
+              opt direction of sun exposure
+
+                   Owner -> System : selects requested data (sunExposure)
+                   activate System
+              end opt
+
+               System --> Owner : requests data
+               deactivate System
+
+           end alt
+
+     end alt
+
+        loop min = 1 & max = 30
+
+            autonumber 9
+
+     Owner -> System : types requested data (uri)
+
+            activate System
+        end loop
+
+    System --> Owner : shows list of agencies and asks to select one
+    deactivate System
+
+     Owner -> System : selects an Agency
+
+        activate System
+
+        System --> Owner : shows list of agents in chosen agency and asks to select one
+        deactivate System
+
+     Owner -> System : selects an agent
+
+        activate System
+
+        System --> Owner : shows all data and asks to submit
+
+        deactivate System
+
+     Owner -> System : submits data
+
+        activate System
+
+        System --> Owner : displays operation success
+        deactivate System
+
+deactivate Owner
+@enduml

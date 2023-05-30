@@ -1,0 +1,73 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+
+participant ":AcceptOrdersController" as CTRL
+participant "announcementMapper\n: AnnouncementMapper" as AnnMAPPER
+participant "announcementDto\n: AnnouncementDto" as AnnDTO
+participant "agencyRepository\n: AgencyRepository" as AgRep
+participant "agency\n: Agency" as AGENCY
+participant "announcementList\n: AnnouncementList" as AnnList
+participant "announcement\n: Announcement" as Announce
+
+autonumber 28
+    -> CTRL: getAnnouncementFromId(announcementId)
+    activate CTRL
+group Get Announcement
+autonumber 28.1
+
+
+    CTRL -> AgRep: getAgencyByAnnouncementId(announcementId)
+    activate AgRep
+
+        loop for each agency
+
+        AgRep -> AGENCY :  anyAnnouncementHasId(announcementId)
+        activate AGENCY
+            loop for each announcement
+
+            AGENCY -> AnnList:  anyAnnouncementHasId(announcementId)
+            activate AnnList
+            AnnList --> AGENCY: true/false
+            deactivate AnnList
+
+            end loop
+        AGENCY --> AgRep: true/false
+        deactivate AGENCY
+
+        end loop
+
+    AgRep --> CTRL : agency
+    deactivate AgRep
+
+    CTRL -> AGENCY :  getAnnouncementById(announcementId)
+    activate AGENCY
+
+    AGENCY -> AnnList : getAnnouncementById(announcementId)
+    activate AnnList
+
+        loop  for each announcement
+
+        AnnList -> Announce : hasId(announcementId)
+        activate Announce
+
+        Announce -->AnnList :true/false
+        deactivate Announce
+
+        end loop
+
+    AnnList --> AGENCY : announcement
+    deactivate AnnList
+
+    AGENCY --> CTRL : announcement
+    deactivate AGENCY
+
+end group
+
+autonumber 29
+    <-- CTRL: announcement
+    deactivate CTRL
+
+@enduml

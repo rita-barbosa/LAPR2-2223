@@ -1,0 +1,154 @@
+@startuml
+'skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam linetype polyline
+'skinparam linetype orto
+
+skinparam classAttributeIconSize 0
+
+
+class Order {
+    - Double orderAmount
+    - LocalDate orderDate
+    - Email clientEmail
+    - String acceptanceAnswer
+    + Order(orderAmount, orderDate, clientEmail)
+    + getOrderAmount()
+    + getClientEmail()
+    + getOrderDate()
+    + setAcceptanceAnswer(answer)
+    + rejectOrder()
+}
+
+class OrderMapper {
+    + toDto(listOrders)
+    + toDto(order)
+}
+
+class OrderList {
+    - List<Order> orders
+    + sortOrdersByHighestOrderAmount()
+    + getList()
+    + getOrderById(orderId)
+    + defineOrderAcceptance(answer, order)
+}
+
+class OrderDto {
+    - int id
+    - String orderDate
+    - double orderAmount
+    - String clientEmail
+    + OrderDto(orderAmount, orderDate, clientEmail)
+    + getOrderId()
+}
+
+class Announcement {
+    - Request request
+    - Commission commission
+    - Integer id
+    - Employee agent
+    - LocalDate acceptanceDate
+    + defineOrderAcceptance(answer, orderDto)
+    + hasAgentWithEmail(agentEmail)
+    + hasId(announcementId)
+    + getListOfOrders()
+    + getOrderList()
+    + getRequestAttributes()
+    + getCommissionAttributes()
+    + getId()
+    + getAcceptanceDate()
+}
+
+class AnnouncementDto {
+    - int id
+    - String requestAtributtes
+    - String commissionAtributtes
+    - String acceptanceDate
+    - List<OrderDto> listOrdersDto
+    + AnnouncementDto(requestAtributtes, listOrdersDto, commissionAtributtes, acceptanceDate,id)
+}
+
+class AnnouncementList {
+    - List<Announcement> announcements
+    + getAnnouncementsByAgentEmail(agentEmail)
+    + getAnnouncementById(announcementId)
+    + anyAnnouncementHasId(announcementId)
+    - sortAnnouncementsByOldestAcceptanceDate(listAnnouncements)
+}
+
+class AnnouncementMapper {
+    + toDto(listAnnouncements)
+    + toDto(announcement)
+}
+
+class Agency {
+    - AnnouncementList announcements
+    - RequestList requests
+    - String description
+    - Email emailAdress
+    - List<Employee> employees
+    - Integer id
+    - Location location
+    - String phoneNumber
+    + Agency()
+    + anyAgentHasEmail(agentEmail)
+    + getAnnouncementsByAgentEmail(agentEmail)
+    + getAnnouncementById(announcementId)
+    + anyAnnouncementHasId(announcementId)
+}
+
+class AgencyRepository {
+    - List<Agency> agencies
+    + getAgencyByEmployeeEmail(agentEmail)
+    + getAgencyByAnnouncementId(announcementId)
+}
+class AuthenticationRepository{
+ + getCurrentSession()
+}
+
+class Repositories {
+    - Repositories()
+    + getInstance() : repositories
+    + getAgencyRepository()
+    + getAuthenticationRepository()
+
+}
+
+class AcceptOrdersController {
+    + AcceptOrdersController(agencyRepository)
+    + getAnnouncementList()
+    + defineOrderAcceptance (answer, orderId, announcementDto)
+    - getAgentEmail()
+    - getAnnouncementListByAgentEmail(agentEmail)
+    - getAnnouncementFromId(announcementId)
+}
+
+
+class AcceptOrdersUI {
+}
+
+Repositories -> Repositories : instance
+
+AcceptOrdersUI .> AcceptOrdersController
+AcceptOrdersController .> Repositories : repositories
+AcceptOrdersController .-> AgencyRepository : agencyRepository
+AcceptOrdersController .-> AuthenticationRepository :  authenticationRepository
+AcceptOrdersController .-> AnnouncementMapper
+AnnouncementMapper .-> AnnouncementDto
+AnnouncementMapper .> Announcement
+AcceptOrdersController .-> OrderMapper
+OrderMapper .-> OrderDto
+OrderMapper.> Order
+AcceptOrdersUI .> AnnouncementDto
+AcceptOrdersUI .> OrderDto
+Repositories --> "1" AuthenticationRepository
+Repositories --> "1" AgencyRepository
+AgencyRepository --> "*" Agency
+Agency ---> "1" AnnouncementList
+AnnouncementList "1" --> "*" Announcement
+Announcement -> "1" OrderList
+OrderList "1" --> "*" Order
+
+
+@enduml

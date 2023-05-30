@@ -1,0 +1,83 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false\
+
+
+participant ":ScheduleVisitController" as CTRL
+participant ":Repositories" as RepositorySingleton
+participant "repositories\n:Repositories" as PLAT
+participant "authenticationRepository\n:AuthenticationRepository" as AuthenticationRepository
+participant "userSession\n:UserSession" as SESSION
+participant "personRepository\n:PersonRepository" as PersonRepository
+participant "person:\nPerson" as PERSON
+
+autonumber 34.1
+
+     -> CTRL : getUserPerson()
+     activate CTRL
+
+autonumber 34.1.1
+
+    group Get User Person
+
+        CTRL -> RepositorySingleton : getInstance()
+        activate RepositorySingleton
+
+            RepositorySingleton --> CTRL : repositories
+        deactivate RepositorySingleton
+
+        CTRL -> PLAT : getAuthenticationRepository()
+        activate PLAT
+
+            PLAT --> CTRL : AuthenticationRepository
+        deactivate PLAT
+
+        CTRL -> AuthenticationRepository : getCurrentUserSession()
+        activate AuthenticationRepository
+
+           AuthenticationRepository --> CTRL : userSession
+        deactivate AuthenticationRepository
+
+        CTRL -> SESSION : getUserId()
+        activate SESSION
+
+            SESSION --> CTRL : userEmail
+        deactivate SESSION
+|||
+        CTRL -> RepositorySingleton : getInstance()
+        activate RepositorySingleton
+
+            RepositorySingleton --> CTRL : repositories
+        deactivate RepositorySingleton
+
+        CTRL -> PLAT : getPersonRepository()
+        activate PLAT
+
+            PLAT -> CTRL : PersonRepository
+        deactivate PLAT
+
+        CTRL -> PersonRepository : getPersonByEmail(userEmail)
+        activate PersonRepository
+
+        loop for each person
+
+            PersonRepository -> PERSON : hasEmail(userEmail)
+            activate PERSON
+
+                PERSON --> PersonRepository : true/false
+            deactivate PERSON
+
+        end loop
+
+            PersonRepository --> CTRL : person
+        deactivate PersonRepository
+
+     end group
+
+autonumber 34.2
+
+        <-- CTRL : person
+    deactivate CTRL
+
+@enduml

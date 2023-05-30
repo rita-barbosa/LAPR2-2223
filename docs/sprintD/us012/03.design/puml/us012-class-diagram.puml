@@ -1,0 +1,270 @@
+@startuml
+'skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam linetype polyline
+'skinparam linetype orto
+
+skinparam classAttributeIconSize 0
+
+
+class ImportLegacySystemInformationController {
++ importInformation(filePath)
++ createRequest(legacySystemDto,agency,agent,ownerEmail)
++ registerAgency(legacySystemDto)
++ registerAgent(agency)
++ registerOwner(legacySystemDto)
++ publishAnnouncement(legacySystemDto, agency, agent, ownerEmail)
++ getRequestFromLegacy(legacySystemDto, agency, agent, ownerEmail)
+}
+
+class ImportLegacySystemInformationUI {
+
+}
+
+class Lease extends Business{
+    - int contractDuration
+
+}
+
+class LegacySystem {
+
++ importInformation(filePath)
+- readLineInformationFromFIle(filePath)
+}
+
+class LegacySystemMapper{
++ getAgencyId()
++ getCommissionValue()
++ getAnnouncementAcceptanceDate()
++ toDto(legacySystemInformationList)
++ toModelPerson(legacySystemDto)
++ toModelAgency(legacySystemDto)
++ toModelRequest(legacySystemDto)
+}
+
+
+class LegacySystemDto {
+- String ownerName
+- String ownerPassportCardNumber
+- String ownerTaxNumber
+- String ownerEmailAddress
+- String ownerPhoneNumber
+- String ownerLocation
+- String agencyName
+- String agencyLocation
+- String agencyPhoneNumber
+- String agencyEmailAddress
+- int agencyId
+- int commissionValue
+- String announcementAcceptanceDate
+- String businessTypeDesignation
+- int contractDuration
+- int amount
+- String propertyTypeDesignation
+- int area
+- String location
+- int distanceCityCenter
+- int numberBedrooms
+- int numberBathrooms
+- int parkingSpace
+- String centralHeating
+- String airConditioning
+- String basement
+- String inhabitableLoft
+- String sunExposure
++ getOwnerName()
++ getOwnerPassportCardNumber()
++ getOwnerTaxNumber()
++ getOwnerEmailAddress()
++ getOwnerPhoneNumber()
++ getOwnerLocation()
++ getAgencyName();
++ getAgencyLocation()
++ getAgencyPhoneNumber()
++ getAgencyEmailAddress()
++ getAgencyId()
++ getCommissionValue()
++ getAnnouncementAcceptanceDate()
++ getBusinessTypeDesignation()
++ getContractDuration()
++ getAmount()
++ getPropertyTypeDesignation()
++ getArea()
++ getLocation()
++ getDistanceCityCentre()
++ getNumberBedrooms()
++ getNumberBathrooms()
++ getParkingSpace()
++ getCentralHeating()
++ getAirConditioning()
++ getBasement()
++ getInhabitableLoft()
++ getSunExposure()
++ LegacySystemDto(legacySystemInformationList)
+}
+
+class Repositories {
+- Repositories()
++ getInstance() : repositories
++getPersonRepository()
++getAgencyRepository()
+
+}
+class AgencyRepository{
++anyAgencyHasAgencyId(agencyId)
++add(agency)
++validateAgency(agency)
+}
+class PersonRepository {
++ registerPerson(legacySystemDto)
++ add(person)
++ validatePerson(person)
+}
+
+class Person {
++ createOwner(name, passportCardNumber,\ntaxNumber, taxNumber, emailAddress,\n phoneNumber, location)
++ getEmailAddress()
+}
+
+class Agency{
++ Agency(agencyId, agencyName, agencyPhoneNumber,\n agencyEmailAdress, agencyId)
++ hasId(agencyId)
++ addEmployee(agent)
++ validateEmployee(agent)
++ createDefaultAgent()
++ publishAnnouncementFromLegacy(agent, acceptanceDate,\n commissionValue, request)
+}
+class Announcement{
++Announcement(agent, announcementAcceptanceDate,\n commissionValue, request)
+}
+
+class Commission{
++ Commission(commissionValue)
+}
+
+class AnnouncementList{
++ addAnnouncement(announcement)
++ validateAnnouncement()
+}
+
+
+class Employee {
++ Employee()
+}
+
+class Property {
+    - Double area
+    - Double distanceCityCenter
+    - Boolean basement
+    - Boolean inhabitableLoft
+    - Boolean parkingSpace
+    - String sunExposure
+    - Integer numberBedroom
+    - Integer numberBathroom
+    + Property(streetName, city, district, state, zipCode, propertyType,\n area, basement, availableEquipment, inhabitableLoft, parkingSpace,\n sunExposure, numberBedroom, numberBathroom, distanceCityCenter,\n photograph)
+    }
+
+class Location {
+    - String streetName
+    - String city
+    - String district
+    - String state
+    - Integer zipCode
+    + Location(streetName, city, district, state, zipCode)
+    + Location(locationString)
+    - validateLocation()
+}
+
+class Photograph{
+    - String uri
+    + addPhotographUri(uri)
+}
+
+class AvailableEquipment{
+    - String description
+    + addAvailableEquipment(description)
+}
+
+class Request{
+    - String requestDate
+    - Agent agent
+    - String ownerEmail
+    - Business business
+    - Lease lease
+    - Property property
+    + Request()
+    + Request(agency, agent, ownerEmail, businessType, propertyType, area,\n streetName, city, district, state, zipCode, basement, availableEquipment,\n inhabitableLoft, parkingSpace, sunExposure, numberBedroom,\n numberBathroom, distanceCityCenter, contractDuration, photograph)
+    - getCurrentDate()
+    + createLandFromLegacy(propertyTypeDesignation, businessTypeDesignation,\n contractDuration, amount, area, location, distanceCityCenter)
+    + createResidenceFromLegacy(propertyTypeDesignation,\n businessTypeDesignation, amount, contractDuration, area,\n location, distanceCityCenter, numberBedrooms, numberBathrooms,\n parkingSpace, centralHeating, airConditioning)
+    + createHouseFromLegacy(propertyTypeDesignation,\n businessTypeDesignation, amount, contractDuration, area, location,\n distanceCityCenter, numberBedrooms, numberBathrooms, parkingSpace,\n centralHeating, airConditioning, basement, inhabitableLoft, sunExposure
+}
+
+class Residence extends Property{
+    - Integer numberBedrooms
+    - Integer numberBathrooms
+    - Integer parkingSpace
+    + Residence(propertyType, area, availableEquipment, streetName, city,\n district, state, zipCode, parkingSpace, numberBedroom, numberBathroom,\n distanceCityCenter, photograph)
+    + fillAvailableEquipmentList(availableEquipment)
+
+}
+
+class House extends Residence{
+     - Boolean basement
+     - Boolean inhabitableLoft
+     - Enum sunExposure
+     + House(propertyType, availableEquipment, area, streetName, city,\n district, state, zipCode, basement, inhabitableLoft, parkingSpace,\n sunExposure, numberBedroom, numberBathroom, distanceCityCenter,\n photograph)
+}
+
+class Business{
+    - Double amount
+    - businessTypeDesignation
+}
+class PropertyType {
+    - String propertyTypeDesignation
+    + PropertyType(propertyTypeDesignation)
+}
+
+class BusinessType {
+    - String businessTypeDesignation
+    + BusinessType(businessTypeDesignation)
+}
+
+Repositories -> Repositories : instance
+
+ImportLegacySystemInformationUI .> ImportLegacySystemInformationController
+ImportLegacySystemInformationController .> Repositories : repositories
+ImportLegacySystemInformationController .-> AgencyRepository : agencyRepository
+ImportLegacySystemInformationController .-> PersonRepository :  personRepository
+ImportLegacySystemInformationController ..> LegacySystem : LegacySystem
+ImportLegacySystemInformationController...> LegacySystemMapper
+ImportLegacySystemInformationController .> Person : person
+
+LegacySystemMapper --> LegacySystemDto
+LegacySystemMapper .> LegacySystem
+Repositories --> "1" AgencyRepository
+Repositories ---> "1" PersonRepository
+AgencyRepository --> "*" Agency
+PersonRepository --> "*" Person
+Employee -up|> Person
+Agency -> "1" AnnouncementList
+AnnouncementList "1" --> "*" Announcement
+Announcement "1" --> "1" Commission
+Request  --> "1" Property
+Request  --> "1" Residence
+Request  --> "1" House
+Property  ---> "1" Location
+Property  --> "1" Photograph
+Residence "1" ---> "1" AvailableEquipment
+PropertyType "1" -> "1" Request
+BusinessType "1" --> Business
+Request "1" -right-> Business
+Agency "1" -> "*" Request
+Employee "1" --> "*" Request
+Agency "1" --> "1" Location
+Person "1" --> "1" Location
+Agency "1" --> "*" Announcement
+
+@enduml
+

@@ -1,0 +1,137 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+'hide footbox
+actor "Client" as Costumer
+participant ":OrderRequestUI" as UI
+participant ":OrderRequestController" as CTRL
+participant ":Repositories" as RepositorySingleton
+participant "repositories\n:Repositories" as PLAT
+participant "criteriaRepository\n:CriteriaRepository" as CRITERIAREP
+participant "agencyRepository\n: AgencyRepository" as AGENCYREP
+participant "agency\n: Agency" as AGENCY
+
+
+activate Costumer
+
+    Costumer -> UI : asks to schedule a new visit
+            activate UI
+
+        UI -> CTRL** : create
+
+        UI -> CTRL : getAnnouncementListDto()
+            activate CTRL
+
+        CTRL -> CTRL : getAnnouncementList()
+        activate CTRL
+                ref over CTRL
+                    Get Announcements List
+                end ref
+            CTRL --> CTRL : listToDisplay
+        deactivate CTRL
+    |||
+        CTRL -> CTRL : toDto(listToDisplay)
+        activate CTRL
+                ref over CTRL
+                    Convert Display List to DTO
+                end ref
+            CTRL --> CTRL : listToDisplayDto
+        deactivate CTRL
+
+            CTRL --> UI : listToDisplayDto
+        deactivate CTRL
+
+            UI --> Costumer : shows announcements list
+        deactivate UI
+
+        opt Selection of Filters
+
+            loop For each filter
+                Costumer -> UI : selects filter
+                activate UI
+
+                UI -> CTRL : filter
+
+                activate CTRL
+
+                    CTRL -> LISTCLASS : listToDisplay = sortListByFilter(filter)
+                    activate LISTCLASS
+
+                        LISTCLASS --> CTRL : listToDisplay
+                    deactivate LISTCLASS
+
+                    |||
+                        CTRL -> CTRL : toDto(listToDisplay)
+                        activate CTRL
+                                ref over CTRL
+                                    Convert Display List to DTO
+                                end ref
+                            CTRL --> CTRL : listToDisplayDto
+                        deactivate CTRL
+
+                            CTRL --> UI : listToDisplayDto
+                        deactivate CTRL
+
+                            UI --> Costumer : shows announcements list
+                        deactivate UI
+
+                deactivate CTRL
+
+                deactivate UI
+
+            end loop
+        end opt
+
+    Costumer -> UI : selects an announcement
+            activate UI
+
+        UI -> CTRL : toModel(announcementDto)
+        activate CTRL
+            ref over CTRL
+                Convert Announcement DTO
+                 to Model
+            end ref
+
+            CTRL --> UI : announcement
+        deactivate CTRL
+
+
+    UI --> Costumer : Requests data
+    deactivate UI
+
+    loop While orderAmount > amount
+
+        Costumer --> UI : Types requested data (orderAmount)
+        activate UI
+
+        UI --> CTRL : orderRequestFromAnnouncement(announcement, orderAmount)
+        activate CTRL
+
+        CTRL --> CTRL : orderRequest(orderAmount)
+
+        ref over CTRL
+            Place Order Request
+        end ref
+
+        CTRL --> CTRL : confirmation
+    end loop
+
+    CTRL --> UI : Confirmation
+    deactivate CTRL
+
+    UI --> Costumer : Display operation success
+    deactivate UI
+
+
+
+
+
+
+
+deactivate Costumer
+
+@enduml

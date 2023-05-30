@@ -1,0 +1,77 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+
+participant "announcement\n: Announcement" as Announce
+participant "orderList\n: OrderList" as OrderList
+participant "orderMapper\n: OrderMapper" as OrderMapper
+participant "orderDto\n: OrderDto" as OrderDTO
+participant "order\n: Order" as Order
+
+
+autonumber 30
+    -> Announce : defineOrderAcceptance(answer,orderId)
+    activate Announce
+
+group Define Acceptance of Order
+autonumber 30.1
+
+    Announce -> OrderList : defineOrderAcceptance(answer, orderId)
+    activate OrderList
+
+    OrderList -> OrderList : getOrderById(orderId)
+    activate OrderList
+
+    OrderList --> OrderList : order
+    deactivate OrderList
+    |||
+    OrderList -> Order : setAcceptanceAnswer(answer)
+    activate Order
+
+    Order -> Order: sendOrderAcceptanceNotification(clientEmail, answer)
+    activate Order
+    Order --> Order : success
+    deactivate Order
+    Order -> OrderList : success
+    deactivate Order
+
+        alt answer == accept
+
+            loop for all the other orders
+
+            OrderList -> Order : rejectOrder()
+            activate Order
+
+            alt acceptanceAnswer != null
+            Order -> Order : setAcceptanceAnswer(answer)
+            activate Order
+
+            Order -> Order: sendOrderAcceptanceNotification(clientEmail,answer)
+            activate Order
+            Order --> Order :
+            deactivate Order
+
+            Order --> Order:
+            deactivate Order
+             |||
+            end alt
+            deactivate Order
+            |||
+            end loop
+
+        end alt
+    OrderList --> Announce: success
+    deactivate OrderList
+
+end group
+
+autonumber 31
+    <-- Announce: success
+    deactivate Announce
+
+
+
+
+@enduml

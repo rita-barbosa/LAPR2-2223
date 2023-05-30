@@ -1,0 +1,159 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title Sequence Diagram (SD) - US009
+
+autonumber
+
+actor "<b> Customer </b>" as CTM
+participant "<b> :ScheduleVisitUI </b>" as UI
+participant "<b> :ScheduleVisitController </b>" as CTRL
+participant "<b> announcementList</b>\n<b> :AnnouncementList </b>" as LISTCLASS
+
+activate CTM
+
+    CTM -> UI : asks to schedule a new visit
+        activate UI
+
+    UI -> CTRL** : create
+
+    UI -> CTRL : getAnnouncementListDto()
+        activate CTRL
+
+    CTRL -> CTRL : getAllAnnouncementsList()
+    activate CTRL
+            ref over CTRL
+                Get Announcements List
+            end ref
+        CTRL --> CTRL : listToDisplay
+    deactivate CTRL
+|||
+    CTRL -> CTRL : toDto(listToDisplay)
+    activate CTRL
+            ref over CTRL
+                Convert Display List to DTO
+            end ref
+        CTRL --> CTRL : listToDisplayDto
+    deactivate CTRL
+
+        CTRL --> UI : listToDisplayDto
+    deactivate CTRL
+
+        UI --> CTM : shows announcements list
+    deactivate UI
+
+    opt Selection of criterias
+
+    CTM -> UI : asks to select filter for list
+    activate UI
+
+    UI -> CTRL : getCriteriaList()
+    activate CTRL
+       CTRL -> CTRL : getCriteriaList()
+        activate CTRL
+                ref over CTRL
+                    Get Criteria List
+                end ref
+            CTRL --> CTRL : criteriaList
+        deactivate CTRL
+
+    CTRL --> UI : criteriaList
+    deactivate CTRL
+
+    UI --> CTM : shows criteria list
+
+    deactivate UI
+
+        loop For each criterion
+
+            CTM -> UI : selects criteria
+            activate UI
+
+            UI -> CTRL : getFilteredList(criteria)
+
+            activate CTRL
+
+                CTRL -> LISTCLASS : listToDisplay = sortListByCriteria(criteria)
+                activate LISTCLASS
+
+                    LISTCLASS --> CTRL : listToDisplay
+                deactivate LISTCLASS
+
+                |||
+                    CTRL -> CTRL : toDto(listToDisplay)
+                    activate CTRL
+                            ref over CTRL
+                                Convert Display List to DTO
+                            end ref
+                        CTRL --> CTRL : listToDisplayDto
+                    deactivate CTRL
+
+                        CTRL --> UI : listToDisplayDto
+                    deactivate CTRL
+
+                        UI --> CTM : shows announcements list
+                    deactivate UI
+
+            deactivate CTRL
+
+            deactivate UI
+
+        end loop
+    end opt
+
+    CTM -> UI : selects an announcement
+        activate UI
+
+    UI -> CTRL : toModel(announcementDto)
+    activate CTRL
+    CTRL -> CTRL : toModel(announcementDto)
+    activate CTRL
+        ref over CTRL
+            Convert Announcement DTO
+             to Model
+        end ref
+
+    CTRL --> CTRL : announcement
+    deactivate CTRL
+
+        CTRL --> UI : announcement
+    deactivate CTRL
+
+    UI --> CTM : requests data
+        deactivate UI
+
+    loop While Costumer intends
+    CTM -> UI : types requested data (visitDay, visitMonth, visitYear,\n startHour, endHour)
+        activate UI
+
+    UI --> CTM : shows all data and asks to submit
+    deactivate UI
+
+    CTM -> UI : submits data
+    activate UI
+
+        UI -> CTRL : scheduleVisit(announcement, visitDay,\n visitMonth, visitYear, startHour, endHour)
+
+        activate CTRL
+
+        CTRL -> CTRL : scheduleVisit(announcement, visitDay,\n visitMonth, visitYear, startHour, endHour)
+        activate CTRL
+
+        ref over CTRL
+            Schedule Visit
+        end ref
+
+            CTRL --> CTRL : confirmation
+        deactivate CTRL
+    |||
+    end loop
+
+    CTRL --> UI : confirmation
+    deactivate CTRL
+
+    UI --> CTM : displays operation success
+        deactivate UI
+
+@enduml

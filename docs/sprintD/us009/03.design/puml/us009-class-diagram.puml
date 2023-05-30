@@ -1,0 +1,285 @@
+@startuml
+'skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam linetype polyline
+'skinparam linetype orto
+
+skinparam classAttributeIconSize 0
+
+'left to right direction
+
+class AuthenticationRepository
+{
+    + getCurrentUserSession()
+}
+
+class UserSession
+{
+    + getUserId()
+}
+
+class Visit {
+    - Integer id
+    - String userName
+    - String userPhoneNumber
+    - Integer startHour
+    - Integer endHour
+    - LocalDate visitDate
+    - Boolean acceptanceStatus
+    + Visit(visitDay, visitMonth, visitYear, startHour, endHour,\n userName, userPhoneNumber)
+    + getVisitDate()
+    + getStartHour()
+    + getEndHour()
+    + sendNotification(agentEmail)
+}
+
+class AgencyRepository {
+    + getAllAnnouncementsList()
+    + getAgencyByAnnouncementId(announcementId)
+}
+
+class Agency {
+    - Integer id
+    - String designation
+    - String emailAddress
+    - Integer phoneNumber
+    + getAnnouncementList()
+    + getAnnouncementById(announcementId)
+    + anyAnnouncementHasId(announcementId)
+}
+
+class Repositories {
+    - Repositories()
+    + getInstance() : Repositories
+    + getPersonRepository()
+    + getAgencyRepository()
+    + getAuthenticationRepository()
+    + getCriteriaRepository()
+}
+
+class ScheduleVisitController {
+    + ScheduleVisitController(agencyRepository, personRepository,\n criteriaRepository, AuthenticationRepository)
+    + getAnnouncementListDto()
+    + getAllAnnouncementsList()
+    + toModel(announcementDto)
+    + scheduleVisit(announcement, visitDay, visitMonth, visitYear,\n startHour, endHour)
+    + getCriteriaList()
+    + toDto(listToDisplay)
+    + getFilteredList(criteria)
+    + getUserPerson()
+}
+
+note top of ScheduleVisitController
+    - announcementDto is retrieved
+      from selected data
+    - announcement is retrieved from
+      convertion of announcementDto
+      to Model
+    - visit is retrieved from announcement
+    - visitDay, visitMonth, visitYear, startHour,
+     endHour are retrieved from Visit
+    - listToDisplay is the list of properties
+      to display
+    - criteria is a string with the criteria choosen
+end note
+
+class ScheduleVisitUI {
+}
+
+class Announcement {
+    - List<Visit> visits
+    - LocalDate acceptanceDate
+    - Integer id
+    - Employee agent
+    + getId()
+    + hasId(announcementId)
+    + getAnnouncementInfoToDisplay()
+    + createVisit(visitDay, visitMonth, visitYear, startHour,\n endHour, userName, userPhoneNumber)
+    + addVisit(visit)
+    - validateVisit(visit)
+    + getAgentEmail()
+}
+
+class AnnouncementMapper {
+    + toDto(listToDisplay)
+    + getAnnouncementIdFromDto(announcementDto)
+}
+
+class AnnouncementList {
+    - List<Announcement> announcements
+    + AnnouncementList()
+    + getAnnouncementList()
+    + getAnnouncement(idx)
+    + addAll(announcementList)
+    + hasSameId(announcementId)
+    + sortListByCriteria(criteria)
+    + sortAnnouncementsByMostRecentAcceptanceDate(listToDisplay)
+}
+
+note right of AnnouncementList::getAnnouncement
+The variable idx refers to the
+position of the announcement
+in the Announcement List
+end note
+
+note left of AnnouncementList::sortListByFilter
+This method compares "criteria" (a string)
+ to a list of criteria available and redirects
+ the output to its respective sorting method.
+end note
+
+
+class AnnouncementDto{
+    + create(announcementId, requestInfo)
+    + getAnnouncementId()
+}
+
+note bottom of AnnouncementDto
+    - requestInfo is String
+     from the Announcement
+     Request's toString()
+end note
+
+class AnnouncementListDto << List<AnnouncementDto> >>{
+
+    + add(announcementDto)
+}
+
+class Request{
+    - LocalDate requestDate
+    - Integer id
+    - Employee Employee
+    - Email ownerEmail
+    - Business business
+    - Property property
+    + getLocation()
+    + toString()
+}
+
+'class Business{
+'    - Double amount
+'    - BusinessType businessType
+'    + toString()
+'}
+
+class Property {
+    - PropertyType propertyType
+    - Double area
+    - Double distanceCityCenter
+    - Location location
+    - List<Photograph> photograph
+    + getLocation()
+    + toString()
+    }
+
+class Employee{
+    - String agencyId
+    + getEmailAddress()
+}
+
+class Person{
+    - String name;
+    - String taxNumber;
+    - Email emailAddress;
+    - String phoneNumber;
+    - String passportCardNumber;
+    - List<String> roles;
+    - Location location;
+    + getName()
+    + getPhoneNumber()
+    + getEmailAddress()
+    + hasEmail(userEmail)
+}
+
+class PersonRepository {
+    + getPersonByEmail(userEmail)
+}
+
+class CriteriaRepository {
+    + getCriteriaList()
+}
+
+note left of PersonRepository
+    - userEmail is retrieved
+    from user session
+end note
+
+Interface Notification << Interface >> {
+    + sendNotification(email)
+}
+
+'RELATIONS
+
+ScheduleVisitUI ..> ScheduleVisitController
+
+Repositories -> Repositories : instance
+
+AuthenticationRepository -> AuthenticationRepository : instance
+
+AuthenticationRepository --> "1" UserSession
+
+ScheduleVisitController ..> AuthenticationRepository
+
+ScheduleVisitController ..> Repositories
+
+Repositories "1" --> "1" PersonRepository
+
+Repositories "1" --> "1" CriteriaRepository
+
+Repositories "1" --> "1" AgencyRepository
+
+Repositories "1" --> "1" AuthenticationRepository
+
+ScheduleVisitController ..> PersonRepository
+
+ScheduleVisitController ..> CriteriaRepository
+
+ScheduleVisitController ..> AgencyRepository
+
+ScheduleVisitController ..> Agency
+
+AgencyRepository "1" --> "*" Agency : aggregates
+
+PersonRepository "1" --> "*" Person : aggregates
+
+ScheduleVisitController ..> Person
+
+ScheduleVisitController ..> Visit
+
+ScheduleVisitController .> Announcement
+
+ScheduleVisitController ..> AnnouncementMapper
+
+AnnouncementMapper ..> Announcement
+
+AnnouncementMapper ..> AnnouncementDto
+
+AnnouncementMapper .right.> AnnouncementListDto
+
+ScheduleVisitController .> AnnouncementListDto
+
+ScheduleVisitController .> AnnouncementDto
+
+ScheduleVisitUI .> AnnouncementListDto
+
+ScheduleVisitUI .> AnnouncementDto
+
+AnnouncementListDto -> AnnouncementDto : contains >
+
+Person "1" -up-> "1" Employee: represented in <
+Employee "1" --> "*" Announcement: is published by <
+Employee "1" -> "*" Visit: schedules >
+Person "1" --> "*" Visit:  requests >
+Visit "1" -right-> "1" Property: done to >
+Announcement "1" -down-> "*" Visit : records >
+Employee "1" -> "1" Agency: works in  >
+Agency "1" --> "1" AnnouncementList : owns >
+AnnouncementList "1" --> "*" Announcement: records >
+Property "1" -left-> "1" Request : < has information about
+'Request "1" -left "1" Business: is described by >
+Announcement "1" -left-> "1" Request : is  based on >
+Agency "1" --> "*" Request : is assigned to >
+Visit .up|> Notification : implements >
+
+@enduml

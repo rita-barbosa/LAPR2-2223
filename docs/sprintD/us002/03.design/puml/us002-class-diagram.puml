@@ -1,0 +1,201 @@
+@startuml
+'skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam linetype polyline
+'skinparam linetype orto
+
+skinparam classAttributeIconSize 0
+
+'left to right direction
+
+class ApplicationSession
+{
+    + static getInstance()
+    + getCurrentUserSession()
+}
+class Property
+{
+    - Double distanceCityCentre
+    - Double area
+    + Property(propertyType, area, distanceCityCenter, photograph,\n streetName, city, district, state, zipCode)
+}
+class Location
+{
+    - String streetName
+    - String city
+    - String district
+    - String state
+    - Integer zipCode
+    + Location(streetName, city, district, state,zipCode)
+}
+class Photograph
+{
+    - URI uri
+    + Photograph(uri)
+}
+class AvailableEquipment
+{
+    - List<String> description
+    - addAvailableEquipment(availableEquipmentList)
+}
+
+class UserSession
+{
+    + getUserEmail()
+}
+
+class Employee {
+- String agency;
+}
+
+class Announcement {
+    - LocalDate acceptanceDate
+    + Announcement(agent, commissionType, commissionValue, request)
+}
+class Commission {
+    - double commissionValue
+    + Commission(commissionValue,commissionType)
+}
+class Request
+{
+    - LocalDate requestDate
+    - String ownerEmail
+    + Request(ownerEmail, propertyType,streetName, city, district, state,\nzipCode, distanceCityCentre, price, photograph,numberBedroom,\nnumberParkingSpace,existenceBasement,inhabitableLoft, numberBathroom,\n availableEquipment, sunExposure)
+
+}
+class Agency {
+    - integer id
+    - String designation
+    - String emailAddress
+    - String phoneNumber
+
+    - addAnnouncement(announcement)
+    - validateAnnouncement(announcement)
+    - getAgentByEmail(email)
+    - addRequest(request)
+    - validateRequest(request)
+    + anyAgentHasEmail(email)
+    + publishAnnouncement(agent, commissionType, commissionValue, request)
+    + createSaleRequest(ownerEmail, propertyType,businessType, streetName, city, district, state, zipCode, area, distanceCityCentre,\n price, photograph,numberBedroom,numberParkingSpace, existenceBasement,inhabitableLoft,\nnumberBathroom, availableEquipment, sunExposure)
+}
+
+class CommissionTypeRepository {
+    + getCommissionTypeList()
+    + getCommissionTypeByDesignation(designation)
+}
+class PropertyTypeRepository {
+    + getPropertyTypeList()
+    + getPropertyTypeByDesignation(designation)
+}
+
+class AgencyRepository {
+    + getAgencyByEmail(email)
+}
+
+class Repositories {
+    - Repositories()
+    + getInstance() : Repositories
+    + getCommissionTypeRepository()
+    + getPropertyTypeRepository()
+    + getAgencyRepository()
+}
+
+class PublishAnnouncementController {
+    + PublishAnnouncementController(PropertyTypeRepository,CommissionTypeRepository,AgencyRepository)
+    + publishAnnouncement(commissionValue, commissionTypeDescription, ownerEmail, propertyTypeDescription,\nstreetName, city, district, state, zipCode, area, distanceCityCentre,\nprice, photograph,numberBedroom,numberParkingSpace,\nexistenceBasement,inhabitableLoft, numberBathroom, availableEquipment, sunExposure)
+    + getCommissionTypeList()
+    + getPropertyTypeList()
+    - getAgentByEmail()
+    - getAgencyByEmail()
+    - getEmailFromSession()
+    - getPropertyTypeByDesignation(designation)
+    - getCommissionTypeByDesignation(designation)
+}
+class PropertyType
+{
+    - String designation
+    + PropertyType(designation)
+}
+class CommissionType
+{
+    - String designation
+    + CommissionType(designation)
+}
+class PublishAnnouncementUI {
+}
+class Business
+{
+    - Double price
+}
+class BusinessType
+{
+- String designation
++ BusinessType(designation)
+}
+class Person{
+- String name
+- String passportCardNumber
+- String phoneNumber
+- List<String> roles
+- String taxNumber
+- String emailAddress
+}
+class Residence
+{
+    - Integer numberBathroom
+    - Integer numberBedroom
+    - Integer numberParkingSpace
+    + Residence(propertyType, area, availableEquipment, streetName, \ncity, district, state,zipCode, parkingSpace, numberBedroom,\n numberBathroom, distanceCityCenter, photograph)
+}
+class House
+{
+    - Boolean existenceBasement
+    - Boolean inhabitableLoft
+    + House(propertyType, availableEquipment, area, streetName, \ncity, district, state, zipCode, basement, inhabitableLoft,\n parkingSpace, sunExposure, numberBedroom,\n numberBathroom,distanceCityCenter, photograph)
+}
+enum SunExposure
+{
+NORTH
+SOUTH
+WEST
+EAST
+}
+    PublishAnnouncementUI .> PublishAnnouncementController
+    PublishAnnouncementController .-> UserSession
+    PublishAnnouncementController .-> ApplicationSession
+    ApplicationSession -> ApplicationSession : instance
+    ApplicationSession --> "1" UserSession: userSession
+    PublishAnnouncementController .--> Repositories : repositories
+    PublishAnnouncementController .-> PropertyTypeRepository : PropertyTypeRepository
+    PublishAnnouncementController .-> CommissionTypeRepository : CommissionTypeRepository
+    PublishAnnouncementController .-> AgencyRepository : AgencyRepository
+    PublishAnnouncementController .---> Agency : Agency
+    Repositories -> Repositories : instance
+    Repositories --> "1" CommissionTypeRepository
+    Repositories --> "1" PropertyTypeRepository
+    Repositories --> "1" AgencyRepository
+    AgencyRepository --> "*" Agency
+    Agency "1" ----> "*" Announcement : announcements
+
+    Announcement "*" --> "1" Employee : responsibleFor
+    CommissionTypeRepository ---> "*" CommissionType : commissionType
+    CommissionType "1" <-- Commission : isCategorized
+    Announcement  --> "1" Commission
+    Request "1" <-- Announcement : isBasedOn
+    Request  ---> "1" Property
+    Agency ----> "*" Employee
+
+    PropertyTypeRepository  --> "*" PropertyType : propertyType
+    PropertyType "1" <-- "*" Property
+    Property  --> "1" Location : hasAddress
+    Property  --> "1" Photograph : isVisualized
+    Property  --> "1" AvailableEquipment : includes
+    Agency --> "*" Request : isAssignedTo
+    Request -> "1" Business
+    Business "1" <-- "1" BusinessType : describes
+    Residence --|> Property
+    House --|> Residence
+    House -> "1" SunExposure
+    Person "1" <-- "1" Employee
+@enduml

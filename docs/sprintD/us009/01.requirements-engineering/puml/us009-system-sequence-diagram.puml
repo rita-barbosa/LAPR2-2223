@@ -1,0 +1,56 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - US009
+
+autonumber
+
+actor "<b> Customer </b>" as CTM
+participant "<b> :System </b>" as System
+
+activate CTM
+
+    CTM -> System : asks to schedule a new visit
+        activate System
+
+    System --> CTM : shows the list of announcements available
+        deactivate System
+
+    opt Selection of criteria
+
+        CTM -> System : asks to select filter for list
+        activate System
+
+        System --> CTM : criteriaList
+        deactivate System
+
+        loop While Costumer intends
+
+            CTM -> System : selects list filter
+            activate System
+
+                System --> CTM : shows filtered announcements list
+            deactivate System
+        end loop
+
+    end opt
+
+    CTM -> System : selects an announcement
+        activate System
+
+    System --> CTM : requests data
+        deactivate System
+
+    loop While Costumer intends
+
+    CTM -> System : types requested data (visitDate, visitBeginning, visitEnd)
+        activate System
+
+    end loop
+
+    System --> CTM : displays operation success
+        deactivate System
+
+@enduml

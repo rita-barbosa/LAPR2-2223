@@ -1,0 +1,247 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+'hide footbox
+actor "Agent" as ADM
+participant ":PublishAnnouncementUI" as UI
+participant ":PublishAnnouncementController" as CTRL
+participant "agency\n:Agency" as AGENCY
+
+
+
+activate ADM
+
+            ADM -> UI : asks to publish an announcement
+            activate UI
+
+                UI -> CTRL** : create
+
+                UI -> CTRL : getCommissionTypeList()
+
+                    ref over CTRL
+                                Get Commission Type List
+                    end ref
+
+                    activate CTRL
+
+                    CTRL --> UI : commissionTypeList
+                deactivate CTRL
+
+                UI --> ADM : shows type of commission list\n and asks to select one
+
+            deactivate UI
+
+            ADM -> UI : selects a type of commission
+            activate UI
+
+
+            UI --> ADM : requests value of commission
+            deactivate UI
+
+            ADM -> UI : enters commission value
+            activate UI
+
+
+            UI --> ADM : requests owner email
+            deactivate UI
+
+            ADM -> UI : enters requested data (ownerEmail)
+            activate UI
+
+
+            UI -> CTRL : getTypePropertyList()
+
+            ref over CTRL
+                        Get Property Type List
+            end ref
+
+            activate CTRL
+
+            CTRL --> UI : PropertyTypeList
+            deactivate CTRL
+
+
+        UI --> ADM : shows types of properties and asks to select one
+        deactivate UI
+
+        ADM -> UI : selects a type of property
+        activate UI
+
+
+        UI --> ADM : requests streetName, city, district, state and zipCode of the property
+        deactivate UI
+
+        ADM -> UI : types requested data (streetName, city, district, state, zipCode)
+        activate UI
+
+
+        UI --> ADM :  requests area of the property
+        deactivate UI
+
+        ADM -> UI : types requested data (area)
+        activate UI
+
+
+        UI --> ADM :  requests distance from city center of the property
+        deactivate UI
+
+        ADM -> UI : types requested data (distanceCityCenter)
+        activate UI
+
+        UI --> ADM :  requests price of the property
+        deactivate UI
+
+        ADM -> UI : types requested data (price)
+        activate UI
+
+
+        loop  30 times
+            UI --> ADM : requests URI photograph of property
+                deactivate UI
+
+            ADM -> UI : types requested data (uri)
+            activate UI
+        end loop
+
+
+ alt type of property = residence
+
+        autonumber 30.1
+        UI --> ADM : requests data (number of bedrooms, number of parking spaces)
+        deactivate UI
+
+        ADM -> UI : types requested data
+        activate UI
+
+
+
+        UI --> ADM : requests number of bathrooms
+        deactivate UI
+
+                opt numberBathrooms
+                ADM -> UI : types requested data (numberBathrooms)
+                activate UI
+                end opt
+
+       loop while intends
+               UI --> ADM : requests available equipment
+               deactivate UI
+
+                       ADM -> UI : types requested data (availableEquipment)
+                       activate  UI
+
+               end loop
+
+        alt type of property = house
+
+        autonumber 30.1
+        UI --> ADM : requests data (existence of basement; inhabitable loft)
+        deactivate UI
+
+        ADM -> UI : types requested data
+        activate UI
+
+            opt sun exposure
+            UI --> ADM : asks to select sun exposure
+            deactivate UI
+
+            ADM -> UI : selects requested data (sunExposure)
+            activate UI
+            end opt
+
+         end
+     end
+
+    autonumber 31
+    UI --> ADM : shows all data and asks to submit
+        deactivate UI
+
+    ADM -> UI : submits data
+    activate UI
+
+        UI -> CTRL : publishAnnouncement(commissionValue, commissionTypeDesignation, ownerEmail, propertyTypeDesignation,\nstreetName, city, district, state, zipCode, area, distanceCityCenter,\nprice,numberBedroom,numberParkingSpace,\nexistenceBasement,inhabitableLoft, numberBathroom, availableEquipmentDescriptionList, uriList, sunExposure)
+        activate CTRL
+
+        CTRL -> CTRL : getEmailFromSession()
+
+            ref over CTRL
+                Get Email
+            end ref
+
+            activate CTRL
+
+        CTRL --> CTRL : email
+        deactivate CTRL
+        |||
+        CTRL -> CTRL : getAgencyByEmail(email)
+
+            ref over CTRL
+                Get Agency
+            end ref
+
+            activate CTRL
+
+        CTRL --> CTRL : agency
+        deactivate CTRL
+        |||
+        CTRL -> AGENCY: getAgentByEmail(email, agency)
+        activate AGENCY
+
+        AGENCY --> CTRL : agent
+        deactivate AGENCY
+
+        |||
+        CTRL-> CTRL : getPropertyTypeByDescription(propertyTypeDesignation)
+            activate CTRL
+                ref over CTRL
+                Get Property Type Object
+                end ref
+            CTRL -->  CTRL: propertyType
+            deactivate CTRL
+        |||
+        CTRL -> CTRL : getCommissionTypeByDescription(commissionTypeDesignation)
+            activate CTRL
+                ref over CTRL
+                Get Commission Type Object
+                end ref
+            CTRL --> CTRL : commissionType
+            deactivate CTRL
+        |||
+        CTRL -> AGENCY : createSaleRequest( ownerEmail, propertyType,\nstreetName, city, district, state, zipCode, area, distanceCityCenter,\nprice,businessType,numberBedroom,numberParkingSpace,\nexistenceBasement,inhabitableLoft, numberBathroom, availableEquipmentDescriptionList,uriList, sunExposure)
+        activate AGENCY
+
+        ref over AGENCY
+        Create Request
+        end ref
+
+        AGENCY -->CTRL : request
+
+        deactivate AGENCY
+
+
+
+            |||
+            CTRL -> AGENCY: publishAnnouncement(agent, commissionType, commissionValue, request)
+
+                ref over AGENCY
+                    Publish Announcement
+                end ref
+
+                activate AGENCY
+
+            AGENCY --> CTRL: announcement
+            deactivate AGENCY
+
+            CTRL --> UI: announcement
+            deactivate CTRL
+
+            UI --> ADM: displays operation success
+            deactivate UI
+
+deactivate ADM
+
+@enduml

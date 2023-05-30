@@ -1,0 +1,110 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+
+
+'hide footbox
+participant ":ImportLegacyInformationController" as CTRL
+participant ":Repositories" as RepositorySingleton
+participant "repositories\n:Repositories" as PLAT
+participant "personRepository\n:PersonRepository" as PERSONREP
+participant ":LegacySystemMapper" as LEGSYSTMAPPER
+participant "dto: legacySystemDto" as LEGSYSTDTO
+participant "person\n:Person" as PERSON
+participant "location\n:Location" as LOCATION
+
+
+activate CTRL
+
+autonumber 19
+
+    -> CTRL : registerOwner(legacySystemDto)
+
+    group Register Owner
+
+    autonumber 19.1
+
+    CTRL -> PLAT : getPersonRepository()
+    activate PLAT
+
+    PLAT --> CTRL : personRepository
+    deactivate PLAT
+
+    CTRL -> PERSONREP : registerPerson(legacySystemDto)
+    activate PERSONREP
+
+    PERSONREP -> LEGSYSTMAPPER : toModelPerson(legacySystemDto)
+    activate LEGSYSTMAPPER
+
+    LEGSYSTMAPPER -> LEGSYSTDTO : name = getPersonName()
+    activate LEGSYSTDTO
+
+    LEGSYSTDTO --> LEGSYSTMAPPER : name
+    deactivate LEGSYSTDTO
+
+    LEGSYSTMAPPER -> LEGSYSTDTO : passportCardNumber = getPersonPassportCardNumber()
+    activate LEGSYSTDTO
+
+    LEGSYSTDTO --> LEGSYSTMAPPER : passportCardNumber
+    deactivate LEGSYSTDTO
+
+    LEGSYSTMAPPER -> LEGSYSTDTO : taxNumber = getPersonTaxNumber()
+    activate LEGSYSTDTO
+
+    LEGSYSTDTO --> LEGSYSTMAPPER : taxNumber
+    deactivate LEGSYSTDTO
+
+    LEGSYSTMAPPER -> LEGSYSTDTO : emailAddress = getPersonEmailAddress()
+    activate LEGSYSTDTO
+
+    LEGSYSTDTO --> LEGSYSTMAPPER : emailAddress
+    deactivate LEGSYSTDTO
+
+    LEGSYSTMAPPER -> LEGSYSTDTO : phoneNumber = getPersonPhoneNumber()
+    activate LEGSYSTDTO
+
+    LEGSYSTDTO --> LEGSYSTMAPPER : phoneNumber
+    deactivate LEGSYSTDTO
+
+    LEGSYSTMAPPER -> LEGSYSTDTO : location = getPersonLocation()
+    activate LEGSYSTDTO
+
+    LEGSYSTDTO --> LEGSYSTMAPPER : location
+    deactivate LEGSYSTDTO
+
+    |||
+
+    LEGSYSTMAPPER -> PERSON** : create(name, passportCardNumber, taxNumber,\n emailAddress, phoneNumber, location)
+    activate PERSON
+
+    PERSON -> LOCATION** : createLocation(streetName, city, \ndistrict, state, zipcode)
+    deactivate PERSON
+
+    LEGSYSTMAPPER --> PERSONREP : person
+    deactivate LEGSYSTMAPPER
+
+    PERSONREP -> PERSONREP: add(person)
+    activate PERSONREP
+
+        PERSONREP -> PERSONREP: validatePerson(person)
+        activate PERSONREP
+
+        PERSONREP --> PERSONREP :
+        deactivate PERSONREP
+
+    PERSONREP --> PERSONREP :
+    deactivate PERSONREP
+    |||
+
+    end group
+
+    autonumber 20
+
+    <-- CTRL : person
+
+deactivate CTRL
+
+
+@enduml

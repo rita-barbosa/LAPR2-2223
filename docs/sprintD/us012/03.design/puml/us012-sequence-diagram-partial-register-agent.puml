@@ -1,0 +1,94 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+
+
+'hide footbox
+participant ":ImportLegacyInformationController" as CTRL
+participant "agency\n:Agency" as AGC
+participant "employee\n:Employee" as EMPLOYEE
+participant ":Repositories" as RepositorySingleton
+participant "repositories\n:Repositories" as PLAT
+participant "PersonRepository\n:PersonRepository" as PersonRepository
+
+autonumber 17
+
+    -> CTRL : registerAgent(agency)
+
+activate CTRL
+
+autonumber 17.1
+
+    group Register Agent
+
+    CTRL -> AGC : createDefaultAgent()
+    activate AGC
+
+    AGC -> EMPLOYEE** : create()
+    activate EMPLOYEE
+
+    EMPLOYEE --> AGC : agent
+    deactivate EMPLOYEE
+    |||
+    AGC -> AGC : addEmployee(agent)
+
+    activate AGC
+
+       AGC -> AGC : validateEmployee(agent)
+        activate AGC
+
+            AGC --> AGC
+        deactivate AGC
+
+        AGC --> AGC : agent
+    deactivate AGC
+
+
+    AGC --> CTRL : agent
+    deactivate AGC
+|||
+
+
+    CTRL -> RepositorySingleton: getInstance()
+    activate RepositorySingleton
+
+    RepositorySingleton --> CTRL : repositories
+    deactivate RepositorySingleton
+
+
+    CTRL -> PLAT : getPersonRepository()
+
+    activate PLAT
+
+        PLAT --> CTRL : PersonRepository
+
+    deactivate PLAT
+
+    CTRL -> PersonRepository : add(agent)
+    activate PersonRepository
+
+    PersonRepository -> PersonRepository : validatePerson(agent)
+    activate PersonRepository
+
+        PersonRepository --> PersonRepository
+    deactivate PersonRepository
+
+
+
+        PersonRepository --> CTRL : agent
+    deactivate PersonRepository
+
+    end group
+
+    autonumber 18
+    
+    <-- CTRL : agent
+
+deactivate CTRL
+
+    
+
+
+@enduml

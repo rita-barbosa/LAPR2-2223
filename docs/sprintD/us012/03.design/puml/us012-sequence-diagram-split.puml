@@ -1,0 +1,125 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+'hide footbox
+actor "System Administrator" as ADM
+participant ":ImportLegacyInformationUI" as UI
+participant ":ImportLegacyInformationController" as CTRL
+participant "person\n:Person" as PERSON
+participant "legacySystem\n:LegacySystem" as LS
+participant "legacySystemMapper\n:LegacySystemMapper" as LSMapper
+participant "legacySystemDto\n:LegacySystemDto" as LSDto
+participant "legacySystemDtoList\n: List<LegacySystemDto>" as LsDtoList
+activate ADM
+
+    ADM -> UI : asks to import information from a legacy system
+    activate UI
+
+    UI -> CTRL**: create
+
+    UI --> ADM : requests file path
+    deactivate UI
+
+    ADM -> UI : types file path
+    activate UI
+
+    UI --> ADM : asks to confirm and submit data
+    deactivate UI
+
+    ADM -> UI : submits data
+    activate UI
+
+    UI -> CTRL: importInformation(filePath)
+    activate CTRL
+
+      CTRL -> LS: importInformation(filepath)
+      activate LS
+
+      LS -> LsDtoList**: create()
+
+      loop while file has next line
+
+      LS -> LS : readLineInformationFromFile(filepath)
+      activate LS
+
+      LS --> LS: legacySystemInformationList
+      deactivate LS
+
+      |||
+      LS -> LSMapper : toDto(legacySystemInformationList)
+      activate LSMapper
+
+      LSMapper -> LSDto** : create(legacySystemInformationList)
+
+      LSMapper --> LS : legacySystemDto
+      deactivate LSMapper
+
+      LS -> LsDtoList : add(legacySystemDto)
+      activate LsDtoList
+      deactivate LsDtoList
+
+      |||
+       end loop
+
+
+    LS --> CTRL : legacySystemDtoList
+    deactivate LS
+
+         note right CTRL
+                **VER COMO COLOCAR AGORA O RESTO DAS CLASSES**
+         end note
+
+
+    |||
+    CTRL -> CTRL : registerAgency(legacySystemDto)
+    activate CTRL
+    ref over CTRL
+        Register Agency
+    end ref
+    CTRL --> CTRL : agency
+    deactivate CTRL
+    |||
+
+    CTRL -> CTRL : registerAgent(agency)
+    activate CTRL
+    ref over CTRL
+        Register Agent
+    end ref
+    CTRL --> CTRL : agent
+    deactivate CTRL
+    |||
+
+    CTRL -> CTRL : registerOwner(legacySystemDto)
+    activate CTRL
+    ref over CTRL
+        Register Owner
+    end ref
+    CTRL --> CTRL: person
+    deactivate CTRL
+    |||
+    CTRL -> PERSON : getEmailAddress()
+    activate PERSON
+
+    PERSON --> CTRL : ownerEmail
+    deactivate PERSON
+|||
+    CTRL -> CTRL : publishAnnouncement(legacySystemDto, agency, agent, ownerEmail)
+    activate CTRL
+    ref over CTRL
+        Publish Announcement
+    end ref
+        CTRL --> CTRL : operationSuccess
+    deactivate CTRL
+
+
+    CTRL --> UI: operationSuccess
+    deactivate CTRL
+
+    UI --> ADM : displays operation success
+    deactivate UI
+
+@enduml

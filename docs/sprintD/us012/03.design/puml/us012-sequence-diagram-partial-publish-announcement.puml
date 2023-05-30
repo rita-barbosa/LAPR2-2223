@@ -1,0 +1,89 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shANNOUNCEowing false\
+
+participant ":ImportLegacyInformationController" as CTRL
+participant ":LegacySystemMapper" as MAPPER
+participant "legacySystemDto\n:legacySystemDto" as DTO
+participant "agency\n:Agency" as AGENCY
+participant "announcementList\n:AnnouncementList" as LIST
+participant "announcement\n:Announcement" as ANNOUNCE
+participant "commission\n:Commission" as COMMISSION
+
+
+    autonumber 23
+
+     -> CTRL : publishAnnouncement(legacySystemDto, agency, agent, ownerEmail)
+    activate CTRL
+
+    autonumber 23.1
+
+    group Publish Announcement
+
+    |||
+    CTRL -> CTRL : getRequestFromLegacy(legacySystemDto, agency, agent, ownerEmail)
+    activate CTRL
+
+    ref over CTRL
+        Create Request
+    end ref
+
+        CTRL --> CTRL : request
+    deactivate CTRL
+|||
+    CTRL -> MAPPER : getCommissionValue()
+    activate MAPPER
+
+        MAPPER -> DTO : getCommissionValue()
+        activate DTO
+
+            DTO --> MAPPER : commissionValue
+        deactivate DTO
+
+        MAPPER --> CTRL : commissionValue
+    deactivate MAPPER
+
+    CTRL -> MAPPER : getAnnouncementAcceptanceDate()
+    activate MAPPER
+
+        MAPPER -> DTO : getAnnouncementAcceptanceDate()
+        activate DTO
+
+            DTO --> MAPPER : acceptanceDate
+        deactivate DTO
+
+        MAPPER --> CTRL : acceptanceDate
+    deactivate MAPPER
+
+    CTRL -> AGENCY : publishAnnouncementFromLegacy(agent, acceptanceDate, commissionValue, request)
+    activate AGENCY
+
+        AGENCY -> ANNOUNCE**: create(agent, acceptanceDate, commissionValue, request)
+        activate ANNOUNCE
+
+        ANNOUNCE -> COMMISSION** : create(commissionValue)
+     deactivate ANNOUNCE
+
+    AGENCY -> LIST: addAnnouncement(announcement)
+    activate LIST
+
+        LIST -> LIST: validateAnnouncement(announcement)
+        activate LIST
+            LIST --> LIST
+        deactivate LIST
+
+        LIST --> AGENCY : announcement
+    deactivate LIST
+
+        AGENCY --> CTRL : announcement
+    deactivate  AGENCY
+
+    end group
+
+autonumber 24
+
+    <-- CTRL : operationSucess
+    deactivate CTRL
+
+@enduml

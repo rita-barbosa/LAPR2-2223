@@ -1,0 +1,73 @@
+@startuml
+'skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam linetype polyline
+'skinparam linetype orto
+
+skinparam classAttributeIconSize 0
+
+class DisplayPropertiesUI {
+}
+
+class DisplayPropertiesController {
+-announcementList
+
++sortByMostRecentAdded(announcementList)
++getAgency()
++getAnnouncementList()
++getAnnouncementsByBusinessType(announcementList, businessType)
++getAnnouncementsByPropertyType(announcementList, propertyType)
++getAnnouncementsByNumberBedrooms(announcementList, numberBedrooms)
++getAnnouncementsByPrice(sortingType, announcementList)
++getAnnouncementsByCity(sortingType, announcementList)
++getAnnouncementsByState(sortingType, announcementList)
+}
+
+class Repositories {
+    - Repositories()
+    + getInstance() : Repositories
+    - getCriteriaRepository()
+    - getAgencyRepository()
+    - getAnnouncementList()
+
+}
+
+class CriteriaRepository {
++criteriaList
+}
+
+class AgencyRepository{
++agenciesList()
+
+}
+
+class Agency{
++announcementHasTypeBusiness(announcementList, businessType)
++announcementHasTypeProperties(announcementList, propertyType)
++announcementHasNumberBedrooms(announcementList, numberBedrooms)
++removeAnnouncement(announcementList)
++sortAnnouncementsByAscendingPrice(announcementList)
++sortAnnouncementsByDescendingPrice(announcementList)
++sortAnnouncementsByAscendingCity(announcementList)
++sortAnnouncementsByDescendingCity(announcementList)
++sortAnnouncementsByAscendingState(announcementList)
++sortAnnouncementsByDescendingState(announcementList)
+}
+
+
+DisplayPropertiesUI .> DisplayPropertiesController
+DisplayPropertiesController ..> Repositories
+DisplayPropertiesController ..> CriteriaRepository
+DisplayPropertiesController ..> AgencyRepository
+DisplayPropertiesController ..> Agency
+
+Repositories -> Repositories : instace
+AgencyRepository "1" --> "*" Agency : has
+
+
+
+
+
+
+@enduml

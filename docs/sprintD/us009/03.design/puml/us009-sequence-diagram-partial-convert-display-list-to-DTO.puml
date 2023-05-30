@@ -1,0 +1,75 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+
+participant ":ScheduleVisitController" as CTRL
+participant ":AnnouncementMapper" as MAPPER
+participant "announcementList\n:AnnouncementList" as LISTCLASS
+participant "announcement\n:Announcement" as ANNOUNCE
+participant "request\n:Request" as REQUEST
+participant "announcementListDto\n:List<AnnouncementDto>" as LISTDTO
+participant "announcementDto\n:AnnouncementDto" as ANCDTO
+
+
+autonumber 6
+
+ -> CTRL : toDto(listToDisplay)
+
+activate CTRL
+
+    autonumber 6.1
+
+    group Convert Display List to DTO
+
+        CTRL -> MAPPER : toDto(listToDisplay)
+        activate MAPPER
+
+        MAPPER -> LISTDTO** : listToDisplayDto = create()
+
+        loop for all announcements
+
+        MAPPER -> LISTCLASS : announcement = getAnnouncement(idx)
+        activate LISTCLASS
+
+            LISTCLASS --> MAPPER : announcement
+        deactivate LISTCLASS
+
+        MAPPER -> ANNOUNCE : announcementId = getId()
+        activate ANNOUNCE
+
+        ANNOUNCE --> MAPPER : announcementId
+        deactivate ANNOUNCE
+|||
+        MAPPER -> ANNOUNCE : requestInfo = getAnnouncementInfoToDisplay()
+        activate ANNOUNCE
+
+            ANNOUNCE -> REQUEST : toString()
+            activate REQUEST
+
+                REQUEST --> ANNOUNCE : requestInfo
+            deactivate REQUEST
+
+            ANNOUNCE --> MAPPER : requestInfo
+        deactivate ANNOUNCE
+|||
+
+        MAPPER --> ANCDTO**: create(announcementId, requestInfo)
+
+        MAPPER -> LISTDTO : add(announcementDto)
+        activate LISTDTO
+        deactivate LISTDTO
+
+        end loop
+
+        MAPPER -> CTRL : listToDisplayDto
+        deactivate MAPPER
+
+    end group
+
+    autonumber 7
+    <-- CTRL  : listToDisplayDto
+deactivate CTRL
+
+@enduml

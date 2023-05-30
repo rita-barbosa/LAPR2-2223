@@ -1,0 +1,163 @@
+@startuml
+'skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam linetype polyline
+'skinparam linetype orto
+
+skinparam classAttributeIconSize 0
+
+'left to right direction
+
+class ApplicationSession {
+    + static getInstance()
+    + getCurrentSession()
+}
+
+class UserSession {
+    + getUserEmail()
+}
+
+'class Person {
+'    - agentEmail
+'}
+
+class CommissionTypeRepository {
+    + getCommissionTypeList()
+    + getCommissionTypeByDesignation(designation)
+}
+
+class AgencyRepository {
+    + getAgencyByEmployeeEmail(agentEmail)
+}
+
+class Repositories {
+    - Repositories()
+    + getInstance() : repositories
+    + getCommissionTypeRepository()
+    + getAgencyRepository()
+    + getAuthenticationRepository()
+}
+
+class ListRequestsController {
+    + ListRequestsController(organizationRepository, taskCategoryRepository)
+    + getTaskCategories()
+    - getEmployeeFromSession()
+    - getRequestsListByAgentEmail()
+    - getRequestById(requestIdDto)
+
+}
+
+class ListRequestsUI {
+}
+
+class Email{
+ +toString()
+}
+
+class Announcement{
+    - LocalDate acceptanceDate
+    + Announcement(agent, commissionType, commissionValue, request)
+}
+
+class Commission{
+    - create(commissionValue,commissionType)
+    + Commission(commissionValue, commissionType)
+}
+
+class Agency{
+    + getAgentByEmail(email, agency)
+    - anyAgentHasEmail(agentEmail)
+}
+
+class Request{
+-Integer id
+-LocalDate requestDate
+-Employee agent
+-Property property
+-Business business
+-Email ownerEmail
+
++hasAgentWithEmail(agentEmail)
++add()
++getOwnerEmail()
++sendEmail(ownerEmail, message)
++hasSameId(id)
+}
+
+class RequestList{
+-List<Request> requests
+
++sortRequestByMostRecentAdded(listRequests)
++hasSAmeId(id)
++getRequestById(requestId)
+}
+
+class RequestMapper{
++toDto(request)
++add()
+}
+
+class RequestDto{
+-propertyAttributes
+-businessAttributes
+-id
+
++RequestDto(request)
++getPropertyAttributes()
++getBusinessAttributes()
++getRequestDate()
++getRequestIdFromDto()
+}
+
+interface Notification{
+}
+
+class CommissionMapper{
++toDto(commissionTypeList)
++getCommissionType()
+}
+
+class CommissionTypeDto{
++CommissionTypeDto(commissionTypeList)
+
+}
+
+
+
+Repositories -> Repositories : instance
+ApplicationSession -> ApplicationSession : instance
+
+ListRequestsUI .> ListRequestsController
+
+ListRequestsController .> Repositories : repositories
+
+Repositories --> "1" AgencyRepository
+Repositories --> "1" CommissionTypeRepository
+
+AgencyRepository --> "*" Agency
+
+ApplicationSession --> "1" UserSession : userSession
+UserSession --> Email
+
+ListRequestsController ..> ApplicationSession
+ListRequestsController ..> UserSession
+
+ListRequestsController ..> RequestMapper
+ListRequestsController ..> CommissionMapper
+ListRequestsController --> Announcement
+ListRequestsController -> Request
+Agency --> RequestList
+RequestList --> Request
+Request .> Notification
+CommissionTypeRepository -> Commission
+Announcement --> Commission
+CommissionMapper ..> CommissionTypeDto
+RequestMapper .> RequestDto
+
+
+
+
+
+
+@enduml

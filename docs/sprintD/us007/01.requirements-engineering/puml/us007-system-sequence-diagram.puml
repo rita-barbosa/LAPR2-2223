@@ -1,0 +1,41 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - US007
+
+autonumber
+
+actor "Unregistered User" as User
+participant ":System" as System
+
+activate User
+
+    User -> System : asks to register in the system
+    activate System
+
+    System --> User : requests data (name, passportCardNumber, tax number,\n emailAddress, phoneNumber, password)
+    deactivate System
+
+    User -> System : types requested data (name, passportCardNumber,taxNumber,\n emailAddress, phoneNumber, password)
+    activate System
+
+    opt user location
+    System --> User : requests data (streetName, city, district, state, zipCode)
+    deactivate System
+
+    User -> System : types requested data (streetName, city, district, state, zipCode)
+    activate System
+    end opt
+
+    System --> User : shows all data and asks to submit data
+    deactivate System
+
+    User -> System : submits data
+    activate System
+
+    System --> User : displays operation success
+    deactivate System
+
+@enduml
