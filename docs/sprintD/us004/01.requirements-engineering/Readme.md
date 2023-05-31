@@ -120,6 +120,7 @@ The access to the request is exclusive to the owner and respectively assigned ag
 ### 1.4. Found out Dependencies
 
 * There is a dependency of US004 to any agency created in US005. An agency is in charge of a request.
+* There is a dependency of US004 to any agent registered in US003. An agent is responsible for a request.
 
 ### 1.5 Input and Output Data
 
