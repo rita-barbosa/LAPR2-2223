@@ -1,0 +1,33 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - US015
+
+autonumber
+
+actor "Organization Employee" as Agent
+participant ":System" as System
+
+activate Agent
+
+    Agent -> System : asks to see all the booking requests made to properties \nmanage by himself
+    activate System
+
+        System --> Agent : requests data
+    deactivate System
+
+    Agent -> System : types requested data (begin date, end date)
+    activate System
+
+        System --> Agent : asks to select one sorting algorithm
+    deactivate System
+
+    Agent -> System : selects data
+    activate System
+
+        System --> Agent : display booking requests
+    deactivate System
+
+@enduml
