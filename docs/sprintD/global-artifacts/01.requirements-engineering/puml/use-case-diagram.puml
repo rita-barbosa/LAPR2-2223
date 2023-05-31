@@ -19,7 +19,7 @@ left to right direction
         "System Administrator" --> UC3
     usecase "UC4 - Submit a request for\n an announcement" as UC4
         "Owner" --> UC4
-    usecase "UC5 - Register new store" as UC5
+    usecase "UC5 - Register new agency" as UC5
         "System Administrator" --> UC5
     usecase "UC7 - Register a user\n in the system" as UC7
         "Unregistered User" --> UC7

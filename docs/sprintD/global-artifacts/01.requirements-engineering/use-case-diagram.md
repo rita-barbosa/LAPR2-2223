@@ -19,7 +19,7 @@ link as suggested below.**
 | US 002 | [Publish an announcement](../../us002/Readme.md)                          |
 | US 003 | [Register new employees](../../us003/Readme.md)                           |
 | US 004 | [Submit a request for an announcement](../../us004/Readme.md)             |
-| US 005 | [Register new store](../../us005/Readme.md)                               |
+| US 005 | [Register new agency](../../us005/Readme.md)                              |
 | US 007 | [Register user in the system](../../us007/Readme.md)                      |
 | US 008 | [List property announcement requests](../../us008/Readme.md)              |
 | US 009 | [Schedule a visit to a property](../../us009/Readme.md)                   |
