@@ -38,12 +38,37 @@ activate Employee
 
     Employee -> System : selects a type of property
     activate System
-
-    System --> Employee : requests streetName, city, district, state and zipCode of the property
+' zipCode of the property'
+    System --> Employee : requests streetName of the property
     deactivate System
 
-    Employee -> System : types requested data (streetName, city, district, state, zipCode)
+    Employee -> System : types requested data (streetName)
     activate System
+
+    System --> Employee : requests city of the property
+    deactivate System
+
+    Employee -> System : types requested data (city)
+    activate System
+
+    System --> Employee : requests district of the property
+    deactivate System
+
+    Employee -> System : types requested data (district)
+    activate System
+
+    System --> Employee : requests state of the property
+    deactivate System
+
+    Employee -> System : types requested data (state)
+    activate System
+
+    System --> Employee : requests zipcode of the property
+    deactivate System
+
+    Employee -> System : types requested data (zipcode)
+    activate System
+
 
     System --> Employee : requests area of the property
     deactivate System
@@ -73,7 +98,7 @@ activate Employee
 
     alt propertyType = apartment || propertyType = house
 
-     autonumber 17.1
+     autonumber 27.1
         System --> Employee : requests data (number of bedrooms, number of parking spaces)
         deactivate System
 
@@ -114,7 +139,7 @@ activate Employee
 
         end
     end
-    autonumber 18
+    autonumber 28
         System --> Employee : shows all data and requests confirmation
     deactivate System
 
