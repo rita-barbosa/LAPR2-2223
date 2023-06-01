@@ -1,5 +1,8 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -381,6 +384,24 @@ public class Announcement {
     @Override
     public int hashCode() {
         return Objects.hash(acceptanceDate, saleDate, commission, request, agent, orders, visitList);
+    }
+
+    public Boolean sendNotification(String agentName, String agentPhoneNumber, String location) throws IOException {
+        String fileName = "Notifications/" + "notification" + "Announcement" + getId() + ".txt";
+        File file = new File(fileName);
+        File parentDir = file.getParentFile();
+        if (!parentDir.exists()) {
+            parentDir.mkdirs();
+        }
+        try {
+            FileWriter text = new FileWriter(file);
+            text.write("The property located in " + location + " became available for purchase in " + this.acceptanceDate.toString() + ".\n");
+            text.write("For more information contact: \n" + agentName + "\n" + agentPhoneNumber);
+            text.close();
+            return true;
+        } catch (IOException e) {
+            throw e;
+        }
     }
 }
 

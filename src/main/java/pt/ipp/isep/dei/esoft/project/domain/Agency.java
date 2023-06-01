@@ -3,6 +3,7 @@ package pt.ipp.isep.dei.esoft.project.domain;
 import org.apache.commons.lang3.NotImplementedException;
 import pt.isep.lei.esoft.auth.domain.model.Email;
 
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -404,13 +405,14 @@ public class Agency {
      * @param request         - the request created by the agent.
      * @return an Optional object of Announcement, allowing the calling code to handle the possibility of null values without the need for explicit null checks.
      */
-    public Optional<Announcement> publishAnnouncement(Employee agent, CommissionType commissionType, Double commissionValue, Request request) {
+    public Optional<Announcement> publishAnnouncement(Employee agent, CommissionType commissionType, Double commissionValue, Request request) throws IOException {
 
         Optional<Announcement> optionalValue = Optional.empty();
 
         Announcement announcement = new Announcement(agent, commissionType, commissionValue, request);
 
         if (addAnnouncement(announcement)) {
+            announcement.sendNotification(agent.getName(), agent.getPhoneNumber(), request.getProperty().getLocation().toString());
             optionalValue = Optional.of(announcement);
         }
         return optionalValue;
@@ -457,6 +459,7 @@ public class Agency {
 
     /**
      * The agency hashCode
+     *
      * @return the hashcode
      */
     @Override
