@@ -11,7 +11,7 @@ import static java.awt.SystemColor.text;
 /**
  * The purchase order made by the client.
  */
-public class Order implements Notification {
+public class Order {
     /**
      * The Id.
      */
@@ -83,7 +83,7 @@ public class Order implements Notification {
      * @return the order amount
      */
     public Double getOrderAmount() {
-        return orderAmount;
+        return this.orderAmount;
     }
 
     /**
@@ -92,7 +92,7 @@ public class Order implements Notification {
      * @return the order date
      */
     public LocalDate getOrderDate() {
-        return orderDate;
+        return this.orderDate;
     }
 
     /**
@@ -101,7 +101,7 @@ public class Order implements Notification {
      * @return the client email
      */
     public Email getClientEmail() {
-        return clientEmail;
+        return this.clientEmail;
     }
 
 
@@ -111,7 +111,7 @@ public class Order implements Notification {
      * @return the id
      */
     public Integer getId() {
-        return id;
+        return this.id;
     }
 
     /**
@@ -141,46 +141,28 @@ public class Order implements Notification {
      */
     public Boolean setAcceptanceAnswer(String acceptanceAnswer) {
         this.acceptanceAnswer = acceptanceAnswer;
-        return sendNotification(getClientEmail().toString());
+        EmailNotification email = new EmailNotification();
+        return email.sendNotification(getClientEmail().toString(), "Order Acceptance", getNotificationMessage());
     }
 
     /**
-     * Sets the acceptance answer to the rejection value.
+     * Sets the acceptance answer to the rejection value and sends a notification to the client.
      *
      * @return true if the notification is sent successfully, false otherwise
      */
-    public Boolean rejectOrder() {
+    public boolean rejectOrder() {
         this.acceptanceAnswer = REJECTION_ANSWER;
-        return sendNotification(getClientEmail().toString());
+        EmailNotification email = new EmailNotification();
+        return email.sendNotification(getClientEmail().toString(), "Order Acceptance\n\n", getNotificationMessage());
     }
 
     /**
-     * Creates a file with the notification information.
-     *
-     * @param email the recipient's email address
-     * @return true if the notification is sent successfully, false otherwise
+     * This method returns the email message, that will be sent to the owner.
      */
-    @Override
-    public Boolean sendNotification(String email) {
-        String fileName = "Notifications/" + FILE_NAME + "Order" + getId() + "." + email + FILE_TYPE;
-        File file = new File(fileName);
-        File parentDir = file.getParentFile();
-        if (!parentDir.exists()) {
-            parentDir.mkdirs();
-        }
-        try {
-            FileWriter text = new FileWriter(file);
-            text.write(TEXT_TO + email + "\n");
-            text.write(TEXT_TOPIC + "Order Acceptance\n\n");
-            text.write("The purchase order submitted in " + getOrderDate().toString() + " has been analyzed. The final decision was: " + this.acceptanceAnswer);
-            text.close();
-            return true;
-        } catch (IOException e) {
-            System.out.println("ERROR: Failed to send notification.\n");
-            return false;
-        }
+    private String getNotificationMessage() {
+        return String.format("The purchase order submitted in " + getOrderDate().toString() + " has been analyzed. " +
+                "The final decision was: " + this.acceptanceAnswer);
     }
-
 
     /**
      * Creates a copy of the order object.

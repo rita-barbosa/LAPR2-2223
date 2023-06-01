@@ -290,7 +290,7 @@ class RequestTest {
                 "city", "district", "state", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee, 0);
 
-        assertEquals(true, request.sendNotification(ownerEmail));
+        assertEquals(true, request.sendEmail());
     }
 
     @Test

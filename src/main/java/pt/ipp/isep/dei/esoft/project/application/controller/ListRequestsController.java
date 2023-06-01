@@ -267,13 +267,10 @@ public class ListRequestsController {
         if (agency.isPresent()) {
             Employee agent = getAgentByEmail(email, agency.get());
             if (request.isPresent()) {
-                try {
-                    newAnnouncement = agency.get().publishAnnouncement(agent, commissionType, commissionValue, request.get());
-                    if (newAnnouncement.isPresent()) {
-                        success = true;
-                    }
-                } catch (IOException e) {
-                    success = false;
+
+                newAnnouncement = agency.get().publishAnnouncement(agent, commissionType, commissionValue, request.get());
+                if (newAnnouncement.isPresent()) {
+                    success = true;
                 }
             }
         }

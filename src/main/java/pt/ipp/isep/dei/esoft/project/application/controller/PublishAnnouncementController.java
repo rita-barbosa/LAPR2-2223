@@ -207,14 +207,12 @@ public class PublishAnnouncementController {
             newRequest = agency.get().createSaleRequest(ownerEmail, propertyType, "sale", price, area, availableEquipmentDescriptionList, streetName, city, district, state,
                     zipCode, existenceBasement, inhabitableLoft, numberParkingSpace, sunExposure, numberBedroom, numberBathroom, agent, distanceCityCenter, uriList);
             if (newRequest.isPresent()) {
-                try {
-                    newAnnouncement = agency.get().publishAnnouncement(agent, commissionType, commissionValue, newRequest.get());
-                    if (newAnnouncement.isPresent()) {
-                        success = true;
-                    }
-                } catch (IOException e) {
-                    success = false;
+
+                newAnnouncement = agency.get().publishAnnouncement(agent, commissionType, commissionValue, newRequest.get());
+                if (newAnnouncement.isPresent()) {
+                    success = true;
                 }
+
             }
         }
         return success;

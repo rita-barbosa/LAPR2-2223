@@ -89,18 +89,6 @@ class OrderTest {
     }
 
     @Test
-    void ensureSendNotificationWorks() {
-        Double orderAmount = 100.0;
-        Email clientEmail = new Email("example@example.com");
-        Order order = new Order(orderAmount, clientEmail);
-
-        String email = clientEmail.toString();
-        Boolean notificationSent = order.sendNotification(email);
-
-        assertTrue(notificationSent);
-    }
-
-    @Test
     void ensureTestCloneWorks() {
         double amount = 245000;
         Email clientEmail = new Email("client@email.com");

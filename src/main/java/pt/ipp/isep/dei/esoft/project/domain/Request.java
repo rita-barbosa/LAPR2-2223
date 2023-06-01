@@ -13,7 +13,7 @@ import java.util.Objects;
 /**
  * The type Request.
  */
-public class Request implements Notification {
+public class Request  {
 
     /**
      * The Id.
@@ -516,33 +516,7 @@ public class Request implements Notification {
         return this.ownerEmail;
     }
 
-    /**
-     * Send notification boolean.
-     *
-     * @param email the email
-     * @return the boolean
-     */
-    @Override
-    public Boolean sendNotification(String email) {
-        String fileName = "Notifications/" + FILE_NAME + "Request" + getId() + "." + email + FILE_TYPE;
-        File file = new File(fileName);
-        File parentDir = file.getParentFile();
-        if (!parentDir.exists()) {
-            parentDir.mkdirs();
-        }
-        try {
-            PrintWriter text = new PrintWriter(file);
-            text.write(TEXT_TO + email + "\n");
-            text.write(TEXT_TOPIC + "Property Announcement Request Acceptance\n\n");
-            text.write("The property announcement request submitted in " + getRequestDate().toString() + " has been analysed. Your request was declined. \n\nHere is the justification message:\n" + defineJustificationMessage(justificationMessage));
 
-            text.close();
-            return true;
-        } catch (IOException e) {
-            System.out.println("ERROR: Failed to send notification.");
-            return false;
-        }
-    }
 
     /**
      * Has id boolean.
@@ -561,7 +535,17 @@ public class Request implements Notification {
      */
     public Boolean sendEmail() {
         String ownerEmail = getOwnerEmail().toString();
-        return sendNotification(ownerEmail);
+        EmailNotification email = new EmailNotification();
+        return email.sendNotification(ownerEmail, "Property Announcement Request Acceptance\n\n" , getNotificationMessage());
+    }
+
+    /**
+     * This method returns the email message, that will be sent to the owner.
+     *
+     */
+    private String getNotificationMessage() {
+        return String.format("The property announcement request submitted in " + getRequestDate().toString() + " has been analysed. " +
+                "Your request was declined. \n\nHere is the justification message:\n" + defineJustificationMessage(justificationMessage));
     }
 
     /**

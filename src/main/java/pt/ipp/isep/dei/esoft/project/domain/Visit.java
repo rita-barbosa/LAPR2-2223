@@ -9,7 +9,7 @@ import java.util.Objects;
 /**
  * The type Visit.
  */
-public class Visit implements Notification {
+public class Visit {
 
     /**
      * The Id.
@@ -126,27 +126,19 @@ public class Visit implements Notification {
      * @param email the email
      * @return the boolean
      */
-    @Override
     public Boolean sendNotification(String email) {
-        String fileName = "Notifications/" + FILE_NAME + "Visit" + getId() + "." + email + FILE_TYPE;
-        File file = new File(fileName);
-        File parentDir = file.getParentFile();
-        if (!parentDir.exists()) {
-            parentDir.mkdirs();
-        }
-        try {
-            PrintWriter text = new PrintWriter(file);
-            text.write(TEXT_TO + email + "\n");
-            text.write(TEXT_TOPIC + "Visit Request Acceptance\n");
-            text.write("A client, " + this.userName + " (Phone Number: " + this.userPhoneNumber + "), submitted a new visit request for " +
-                    this.getVisitDate().toString() + " from " + this.startHour + ":00 to " + this.endHour + ":00.\n");
-            text.write("Please check the visit request that was assigned to you, analyse it, and accept or reject it.\n");
-            text.close();
-            return true;
-        } catch (IOException e) {
-            System.out.println("ERROR: Failed to send notification.");
-            return false;
-        }
+        EmailNotification e = new EmailNotification();
+        return e.sendNotification(email, "Visit Request Acceptance\n", getNotificationMessage());
+    }
+
+    /**
+     * This method returns the email message, that will be sent to the owner.
+     *
+     */
+    private String getNotificationMessage() {
+        return String.format("A client, " + this.userName + " (Phone Number: " + this.userPhoneNumber + "), submitted a new visit request for " +
+                this.getVisitDate().toString() + " from " + this.startHour + ":00 to " + this.endHour + ":00.\n" +
+                "Please check the visit request that was assigned to you, analyse it, and accept or reject it.\n");
     }
 
 
