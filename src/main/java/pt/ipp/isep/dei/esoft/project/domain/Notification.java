@@ -1,11 +1,13 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
-public interface Notification {
-    final String TEXT_TO = "To: ";
-    final String TEXT_TOPIC = "Topic: ";
-    final String FILE_NAME = "notification.";
-    final String FILE_TYPE = ".txt";
+import java.io.IOException;
 
-    Boolean sendNotification(String email);
+public interface Notification {
+    String TEXT_TO = "To: ";
+    String TEXT_TOPIC = "Topic: ";
+    String FILE_NAME = "notification.";
+    String FILE_TYPE = ".txt";
+
+    Boolean sendNotification(String to, String from, String message);
 
 }
