@@ -229,6 +229,26 @@ public class Announcement {
         return this.agent.getEmailAddress().getEmail();
     }
 
+
+    /**
+     * This method returns a string with the agent name.
+     *
+     * @return agent name
+     */
+    public String getAgentName() {
+        return this.agent.getName();
+    }
+
+    /**
+     * This method returns a string with the agent phone number.
+     *
+     * @return agent phone number
+     */
+    public String getAgentPhoneNumber() {
+        return this.agent.getPhoneNumber();
+    }
+
+
     /**
      * This method adds an order to the existent OrderList.
      *
@@ -386,23 +406,6 @@ public class Announcement {
         return Objects.hash(acceptanceDate, saleDate, commission, request, agent, orders, visitList);
     }
 
-    public Boolean sendNotification(String agentName, String agentPhoneNumber, String location) throws IOException {
-        String fileName = "Notifications/" + "notification" + "Announcement" + getId() + ".txt";
-        File file = new File(fileName);
-        File parentDir = file.getParentFile();
-        if (!parentDir.exists()) {
-            parentDir.mkdirs();
-        }
-        try {
-            FileWriter text = new FileWriter(file);
-            text.write("The property located in " + location + " became available for purchase in " + this.acceptanceDate.toString() + ".\n");
-            text.write("For more information contact: \n" + agentName + "\n" + agentPhoneNumber);
-            text.close();
-            return true;
-        } catch (IOException e) {
-            throw e;
-        }
-    }
 }
 
 
