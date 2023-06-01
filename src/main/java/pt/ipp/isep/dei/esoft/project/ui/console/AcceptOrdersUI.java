@@ -38,7 +38,6 @@ public class AcceptOrdersUI implements Runnable {
         Optional<List<AnnouncementDto>> listAnnouncements = controller.getAnnouncementsList();
         if (listAnnouncements.isPresent() && listAnnouncements.get().size() > 0) {
             for (AnnouncementDto a : listAnnouncements.get()) {
-                System.out.println(a.getAnnouncementId());
                 System.out.println(a.toString());
                 for (OrderDto o : a.getListOrdersDto()) {
                     acceptanceAnswer = selectAcceptanceAnswerOfOrder(o);

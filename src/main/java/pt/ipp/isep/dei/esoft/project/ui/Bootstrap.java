@@ -233,27 +233,9 @@ public class Bootstrap implements Runnable {
                 "city 4", "district 4", "st4", "12348", 2, 25, 3, 15.2, uriList);
         Request request5 = new Request(ownerEmail2, property5, new Business("sale", 2345.0), LocalDate.now(), employee);
 
-        Email client1 = new Email("client1@this.app");
-        Email client2 = new Email("client2@this.app");
-        Email client3 = new Email("client3@this.app");
-        Order o1 = new Order(234574.89, client1);
-        Order o2 = new Order(2374.89, client2);
-        Order o3 = new Order(100034574.89, client3);
-
         Announcement a1 = new Announcement(employee, commissionType, 234.0, request);
-        a1.addOrder(o1);
-        a1.addOrder(o2);
-        a1.addOrder(o3);
-
         Announcement a2 = new Announcement(employee, commissionType, 234.0, request1);
-        a2.addOrder(o1);
-        a2.addOrder(o2);
-        a2.addOrder(o3);
         Announcement a3 = new Announcement(employee, commissionType, 234.0, request2);
-        a3.addOrder(o1);
-        a3.addOrder(o2);
-        a3.addOrder(o3);
-
         Announcement a4 = new Announcement(employee, commissionType, 234.0, request3);
         Announcement a5 = new Announcement(employee, commissionType, 234.0, request4);
         Announcement a6 = new Announcement(employee, commissionType, 234.0, request5);
