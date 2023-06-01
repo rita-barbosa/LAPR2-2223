@@ -1,4 +1,0 @@
-To: employee@this.app
-Topic: Visit Request Acceptance
-A client,  (Phone Number: ), submitted a new visit request for 2023-05-25 from 12:00 to 13:00.
-Please check the visit request that was assigned to you, analyse it, and accept or reject it.
