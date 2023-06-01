@@ -6,6 +6,7 @@ import pt.ipp.isep.dei.esoft.project.repository.AuthenticationRepository;
 import pt.ipp.isep.dei.esoft.project.repository.CommissionTypeRepository;
 import pt.ipp.isep.dei.esoft.project.repository.Repositories;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -200,7 +201,7 @@ public class ListRequestsController {
      *
      * @param request the request
      */
-    public void sendEmail( Request request) {
+    public void sendEmail(Request request) {
         request.sendEmail();
     }
 
@@ -255,21 +256,28 @@ public class ListRequestsController {
      * @param request                   the request
      * @return the optional
      */
-    public Optional<Announcement> publishAnnouncement(String commissionTypeDesignation, Double commissionValue, Optional<Request> request) {
+    public Boolean publishAnnouncement(String commissionTypeDesignation, Double commissionValue, Optional<Request> request) {
+        Boolean success = false;
         String email = getEmailFromSession();
         Optional<Agency> agency = getAgencyByEmail(email);
 
         Optional<Announcement> newAnnouncement = Optional.empty();
 
         CommissionType commissionType = getCommissionTypeByDesignation(commissionTypeDesignation);
-
         if (agency.isPresent()) {
             Employee agent = getAgentByEmail(email, agency.get());
             if (request.isPresent()) {
-                newAnnouncement = agency.get().publishAnnouncement(agent, commissionType, commissionValue, request.get());
+                try {
+                    newAnnouncement = agency.get().publishAnnouncement(agent, commissionType, commissionValue, request.get());
+                    if (newAnnouncement.isPresent()) {
+                        success = true;
+                    }
+                } catch (IOException e) {
+                    success = false;
+                }
             }
         }
-        return newAnnouncement;
+        return success;
     }
 
 //    public String getOwnerEmail(){

@@ -4,6 +4,7 @@ import pt.ipp.isep.dei.esoft.project.application.session.ApplicationSession;
 import pt.ipp.isep.dei.esoft.project.domain.*;
 import pt.ipp.isep.dei.esoft.project.repository.*;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -188,8 +189,8 @@ public class PublishAnnouncementController {
      * @param sunExposure                       the sun exposure
      * @return the optional
      */
-    public Optional<Announcement> publishAnnouncement(Double commissionValue, String commissionTypeDesignation, String ownerEmail, String propertyTypeDesignation, String streetName, String city, String district, String state, String zipCode, Double area, Double distanceCityCenter, Double price, Integer numberBedroom, Integer numberParkingSpace, Boolean existenceBasement, Boolean inhabitableLoft, Integer numberBathroom, List<String> availableEquipmentDescriptionList, List<String> uriList, SunExposureTypes sunExposure) {
-
+    public Boolean publishAnnouncement(Double commissionValue, String commissionTypeDesignation, String ownerEmail, String propertyTypeDesignation, String streetName, String city, String district, String state, String zipCode, Double area, Double distanceCityCenter, Double price, Integer numberBedroom, Integer numberParkingSpace, Boolean existenceBasement, Boolean inhabitableLoft, Integer numberBathroom, List<String> availableEquipmentDescriptionList, List<String> uriList, SunExposureTypes sunExposure) {
+        Boolean success = false;
         String email = getEmailFromSession();
         Optional<Agency> agency = getAgencyByEmail(email);
 
@@ -206,10 +207,17 @@ public class PublishAnnouncementController {
             newRequest = agency.get().createSaleRequest(ownerEmail, propertyType, "sale", price, area, availableEquipmentDescriptionList, streetName, city, district, state,
                     zipCode, existenceBasement, inhabitableLoft, numberParkingSpace, sunExposure, numberBedroom, numberBathroom, agent, distanceCityCenter, uriList);
             if (newRequest.isPresent()) {
-                newAnnouncement = agency.get().publishAnnouncement(agent, commissionType, commissionValue, newRequest.get());
+                try {
+                    newAnnouncement = agency.get().publishAnnouncement(agent, commissionType, commissionValue, newRequest.get());
+                    if (newAnnouncement.isPresent()) {
+                        success = true;
+                    }
+                } catch (IOException e) {
+                    success = false;
+                }
             }
         }
-        return newAnnouncement;
+        return success;
     }
 
 

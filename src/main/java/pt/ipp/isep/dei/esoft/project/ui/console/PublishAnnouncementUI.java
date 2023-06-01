@@ -195,18 +195,19 @@ public class PublishAnnouncementUI implements Runnable {
 
     /**
      * This method retrieves all data entered by the user and submits it to the controller to publish the announcement.
-     * It also prints a message indicating if the announcement was successfully published  or not.
+     * It also prints a message indicating if the announcement was successfully published or not.
      */
     private void submitData() {
 
-        Optional<Announcement> announcement = getController().publishAnnouncement(commissionValue, commissionTypeDesignation, ownerEmail, propertyTypeDesignation, streetName, city, district, state, zipCode, area, distanceCityCenter, price, numberBedroom, numberParkingSpace, existenceBasement, inhabitableLoft, numberBathroom, availableEquipmentDescriptionList, uriList, sunExposure);
+        Boolean success = getController().publishAnnouncement(commissionValue, commissionTypeDesignation, ownerEmail, propertyTypeDesignation,
+                streetName, city, district, state, zipCode, area, distanceCityCenter, price, numberBedroom, numberParkingSpace, existenceBasement,
+                inhabitableLoft, numberBathroom, availableEquipmentDescriptionList, uriList, sunExposure);
 
-        if (announcement.isPresent()) {
+        if (success) {
             System.out.println("\nAnnouncement published successfully.");
         } else {
-            System.out.println("\nERROR: announcement was not published.");
+            System.out.println("\nERROR: Announcement was not published and sms notification wasn't send.");
         }
-
     }
 
     /**
@@ -492,6 +493,7 @@ public class PublishAnnouncementUI implements Runnable {
 
     /**
      * This method requests the state where the property is located in.
+     *
      * @return state where the property is located in.
      */
     private String requestState() {
@@ -502,6 +504,7 @@ public class PublishAnnouncementUI implements Runnable {
 
     /**
      * This method requests the city where the property is located in.
+     *
      * @return city where the property is located in.
      */
     private String requestCity() {
@@ -512,6 +515,7 @@ public class PublishAnnouncementUI implements Runnable {
 
     /**
      * This method requests the district where the property is located in.
+     *
      * @return district where the property is located in.
      */
     private String requestDistrict() {
@@ -523,6 +527,7 @@ public class PublishAnnouncementUI implements Runnable {
     /**
      * This method requests the zipcode of area the property is located in.
      * If the user doesn't input digits, then a then an Input Mismatch Exception will be "catched".
+     *
      * @return zipcode of area the property is located in.
      */
     private String requestZipCode() {
@@ -545,6 +550,7 @@ public class PublishAnnouncementUI implements Runnable {
 
     /**
      * This method requests the street name of where the property is located in.
+     *
      * @return street name of where the property is located in.
      */
     private String requestStreetName() {
@@ -555,6 +561,7 @@ public class PublishAnnouncementUI implements Runnable {
 
     /**
      * This method requests the property owner email.
+     *
      * @return property owner email.
      */
     private String requestOwnerEmail() {
@@ -565,6 +572,7 @@ public class PublishAnnouncementUI implements Runnable {
 
     /**
      * This method requests the commission value of the agent.
+     *
      * @return commission value of the agent.
      */
     private Double requestCommissionValue() {
@@ -575,6 +583,7 @@ public class PublishAnnouncementUI implements Runnable {
     /**
      * This method requests the user to select commission type.
      * An Input Mismatch Exception will be thrown, if the user doesn't type in an Integer.
+     *
      * @return description of commission type.
      */
     private String displayAndSelectCommissionType() {
@@ -604,6 +613,7 @@ public class PublishAnnouncementUI implements Runnable {
     /**
      * This method requests the user to select commission type.
      * An Input Mismatch Exception will be thrown, if the user doesn't type in an Integer.
+     *
      * @return description of commission type.
      */
     private String displayAndSelectPropertyType() {
@@ -631,6 +641,7 @@ public class PublishAnnouncementUI implements Runnable {
 
     /**
      * This method displays the commission type options.
+     *
      * @param commissionTypes - the list of commission types.
      */
     private void displayCommissionTypeOptions(List<CommissionType> commissionTypes) {
@@ -644,6 +655,7 @@ public class PublishAnnouncementUI implements Runnable {
 
     /**
      * This method displays the property type options.
+     *
      * @param propertyTypes - the list of property types.
      */
     private void displayPropertyTypeOptions(List<PropertyType> propertyTypes) {

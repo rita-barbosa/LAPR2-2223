@@ -326,11 +326,12 @@ public class ListRequestsUI implements Runnable {
      * @param request the request
      */
     private void submitData(Optional<Request> request) {
-        Optional<Announcement> announcement = getController().publishAnnouncement(commissionTypeDesignation, commissionValue, request);
-        if (announcement.isPresent()) {
-            System.out.println("\nAnnouncement published successfully.\n");
+        Boolean success = getController().publishAnnouncement(commissionTypeDesignation, commissionValue, request);
+
+        if (success) {
+            System.out.println("\nAnnouncement published successfully.");
         } else {
-            System.out.println("\nERROR: announcement was not published\n.");
+            System.out.println("\nERROR: Announcement was not published and sms notification wasn't send.");
         }
     }
 
