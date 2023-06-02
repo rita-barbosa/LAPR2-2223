@@ -36,7 +36,8 @@ As an agent, I can publish any sale announcement on the system, for example rece
 > **Question:** Are all the criteria for publishing the sale of a property in the system mandatory, or is there any data
 > that the owner can choose not to give?
 >
-> **Answer:** The number of bathrooms, the available equipment and the sun exposure are not mandatory. At least one photograph is required.
+> **Answer:** The number of bathrooms, the available equipment and the sun exposure are not mandatory. At least one
+> photograph is required.
 
 > **Question:** Is it required that the owner identifies themselves in the announcement?
 >
@@ -51,9 +52,10 @@ As an agent, I can publish any sale announcement on the system, for example rece
 >
 > **Answer:** The agent should choose the type of commission and enter the value.
 
-> **Question:** How can the owner send the photograph for the announcement? 
-> 
-> **Answer:** The owner can send the photograph by e-mail or any other means. The owner can even deliver the photograph to the store.
+> **Question:** How can the owner send the photograph for the announcement?
+>
+> **Answer:** The owner can send the photograph by e-mail or any other means. The owner can even deliver the photograph
+> to the store.
 
 > **Question:** Is it possible to have multiple announcements for the same property?
 >
@@ -71,49 +73,82 @@ As an agent, I can publish any sale announcement on the system, for example rece
 >
 > **Answer:** No.
 
-> **Question:**  What are the limit values/percentage of the commission? 
+> **Question:**  What are the limit values/percentage of the commission?
 >
-> **Answer:** There is no maximum and the minimum is 0. 
+> **Answer:** There is no maximum and the minimum is 0.
 
-> **Question:** If it's a property for lease is the commission value adjusted for the monthly value and contract duration? 
+> **Question:** If it's a property for lease is the commission value adjusted for the monthly value and contract
+> duration?
 >
 > **Answer:** The commission is one value/percentage paid when the transaction is made.
 
 > **Question:** Does the agent actually have two ways of publishing the sales announcement?
-> 
-> **Answer:** In US2 we get "As an agent, I can publish any sale announcement on the system, for example received through a phone call". This will be a feature/functionality of the system. The agent may receive the information by any means.
+>
+> **Answer:** In US2 we get "As an agent, I can publish any sale announcement on the system, for example received
+> through a phone call". This will be a feature/functionality of the system. The agent may receive the information by any
+> means.
 
-> **Question:** When the request arrives at the agent, are all the essential characteristics of the property in question already present?
-> 
+> **Question:** When the request arrives at the agent, are all the essential characteristics of the property in question
+> already present?
+>
 > **Answer:** Yes.
 
->**Question:** Does the agency have any commission (fixed or percentage) on top of the one that the agent sets, or the agent must set a commission that already includes the company's?
-> 
+> **Question:** Does the agency have any commission (fixed or percentage) on top of the one that the agent sets, or the
+> agent must set a commission that already includes the company's?
+>
 > **Answer:** The commission value includes the agent and the company commission.
 
->**Question:** When the agent receives the phone call is it the agent who registers the order in the system?
-> 
+> **Question:** When the agent receives the phone call is it the agent who registers the order in the system?
+>
 > **Answer:** The agent registers the order in the system.
 
-> The agent should identify, in the system, the owner that wants to sell a property. The agent should use the owner e-mail address to identify the owner. The owner who is contacting the agent (for example, through a phone call) must be registered in the system. The agent that receives the phone call is the property responsible agent.
+> The agent should identify, in the system, the owner that wants to sell a property. The agent should use the owner
+> e-mail address to identify the owner. The owner who is contacting the agent (for example, through a phone call) must be
+> registered in the system. The agent that receives the phone call is the property responsible agent.
 
->**Question:**  In the project description it is mentioned that in the case of a request for the sale of a property, the owner must provide "one or more photographs". Taking that into account, is there a maximum number of photos that can be submitted when publishing an announcement? If so, how many?
-> 
->**Answer:**  The maximum number of photos is 30.
+> **Question:** In the project description it is mentioned that in the case of a request for the sale of a property, the
+> owner must provide "one or more photographs". Taking that into account, is there a maximum number of photos that can be
+> submitted when publishing an announcement? If so, how many?
+>
+>**Answer:** The maximum number of photos is 30.
+
+> **Question:** Are the SMS's created the same way as the emails? The emails are made through a text file, are the SMS
+> notifications the same way?
+>
+> **Answer:** A file named SMS.txt should be used.
+
+> **Question:** Which number should be used to send the SMS, the responsible agent's number or the agency where the
+> agent works?
+>
+> **Answer:** The responsible agent phone number.
+
+> **Question:** It is stated, in AC9, that "The notification must include the property identification...". Is this
+> property identification the address of said property or something else?
+>
+> **Answer:** Yes, the identification is the property address.
 
 ### 1.3. Acceptance Criteria
 
 * **AC1:** The type of property must be specified.
-* **AC2:** All the information, except number of bathrooms, available equipment and sun exposure, describing a property has to be submitted.
+* **AC2:** All the information, except number of bathrooms, available equipment and sun exposure, describing a property
+  has to be submitted.
 * **AC3:** The area of the property needs to be expressed in m<sup>2</sup>.
 * **AC4:** The minimum value of the commission is 0 and there is no maximum.
 * **AC5:** At least one photograph is required and maximum 30 photos.
 * **AC6:** The owner that wants to sell a property must be identified in the system, by its email.
 * **AC7:** When publishing an announcement of an already existing property, the system must reject such operation.
+* **AC8:** An SMS notification should be sent to the owner when the listing of the property becomes available.
+* **AC9:** The notification must include the property identification and the date it became available.
+* **AC10:** The Notification must include the name and phone number of the responsible Agent.
+* **AC11:** The property must be identified by its address (location).
+* **AC12:** The user must be logged in as an agent.
 
 ### 1.4. Found out Dependencies
 
-* There are no dependencies.
+* There is a dependency to "US003 Register a new employee" since at least an agent has to be registered so that an
+  announcement
+* can be published. Additionally, there is also a dependency to "US005 - Register new agency" because an agency needs to
+* exist so that an employee can registered, and an announcement can be published.
 
 ### 1.5 Input and Output Data
 
