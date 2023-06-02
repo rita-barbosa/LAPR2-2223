@@ -50,7 +50,7 @@ must appear first.
 >
 > **Answer:** The client is the registered user that placed the order (in US10).
 
-> **Question:** Assuming the previous answer is the potential buyer, should the owner be informed about the sale success?
+> **Question:** Should the owner be informed about the sale success?
 >
 > **Answer:** The owner will be contacted by means of a phone call. This is not a feature of the system.
 
@@ -67,7 +67,9 @@ must appear first.
   and a message sent to the client.
 * **AC4:** If a property does not contain any offers, the system should show an empty
   list of offers.
-
+* **AC5:** All the property characteristics should be displayed.
+* **AC6:** The user must be logged in as an agent.
+ 
 ### 1.4. Found out Dependencies
 
 * There is a dependency to "US010 To submit a purchase order" since at least an order has to 
