@@ -5,10 +5,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 public class EmailNotification implements Notification {
-    private static int counter = 0;
+
     @Override
     public Boolean sendNotification(String to, String topic, String message) {
-        String fileName = "Notifications/" + "Email." + counter + FILE_TYPE;
+        String fileName = "Notifications/" + "EMAIL." + FILE_TYPE;
         File file = new File(fileName);
         File parentDir = file.getParentFile();
         if (!parentDir.exists()) {

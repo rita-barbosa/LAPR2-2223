@@ -5,11 +5,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class SmsNotification implements Notification {
-    private static int counter = 0;
 
     @Override
     public Boolean sendNotification(String name, String phoneNumber, String message) {
-        String fileName = "Notifications/" + "SMS." + counter++ + ".txt";
+        String fileName = "Notifications/" + "SMS." + ".txt";
         File file = new File(fileName);
         File parentDir = file.getParentFile();
         if (!parentDir.exists()) {
