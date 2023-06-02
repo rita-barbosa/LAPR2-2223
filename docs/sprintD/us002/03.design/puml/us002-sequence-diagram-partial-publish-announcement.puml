@@ -6,8 +6,8 @@ skinparam shadowing false\
 
 participant "agency\n:Agency" as AGENCY
 participant "announcementList\n:AnnouncementList" as ADList
-participant "smsNotification\n:SmsNotification" as SMSNOT
 participant "announcement\n:Announcement" as AD
+participant "smsNotification\n:SmsNotification" as SMSNOT
 participant "commission\n:Commission" as COMMISSION
 
 autonumber 23
@@ -38,11 +38,17 @@ autonumber 23.1
                 deactivate ADList
 
                 opt  announcement is valid
-                ADList -> SMSNOT : sendNotification(agentPhoneNumber, \npropertyLocation,acceptanceDate)
+                ADList -> AD : sendNotification()
+                activate AD
+
+                AD -> SMSNOT : sendNotification(agentPhoneNumber, \npropertyLocation,acceptanceDate)
                 activate SMSNOT
 
-                SMSNOT --> ADList : success
+                SMSNOT --> AD: success
                 deactivate SMSNOT
+
+                AD --> ADList : success
+                deactivate AD
                 end opt
 
                 ADList --> AGENCY : success

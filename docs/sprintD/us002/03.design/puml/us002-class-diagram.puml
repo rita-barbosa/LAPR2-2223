@@ -52,6 +52,10 @@ class Employee {
 class Announcement {
     - LocalDate acceptanceDate
     + Announcement(agent, commissionType, commissionValue, request)
+    + sendNotification()
+}
+class SmsNotification{
+    + sendNotification(phoneNumber,propertyLocation,acceptanceDate)
 }
 class Commission {
     - double commissionValue
@@ -70,16 +74,18 @@ class Agency {
     - String emailAddress
     - String phoneNumber
 
-    - addAnnouncement(announcement)
-    - validateAnnouncement(announcement)
-    - getAgentByEmail(email)
+   - getAgentByEmail(email)
     - addRequest(request)
     - validateRequest(request)
     + anyAgentHasEmail(email)
     + publishAnnouncement(agent, commissionType, commissionValue, request)
     + createSaleRequest(ownerEmail, propertyType,businessType, streetName, city, district, state, zipCode, area, distanceCityCentre,\n price, photograph,numberBedroom,numberParkingSpace, existenceBasement,inhabitableLoft,\nnumberBathroom, availableEquipment, sunExposure)
 }
+class AnnouncementList{
+ + addAnnouncement(announcement)
+ - validateAnnouncement(announcement)
 
+}
 class CommissionTypeRepository {
     + getCommissionTypeList()
     + getCommissionTypeByDesignation(designation)
@@ -176,8 +182,6 @@ EAST
     Repositories --> "1" PropertyTypeRepository
     Repositories --> "1" AgencyRepository
     AgencyRepository --> "*" Agency
-    Agency "1" ----> "*" Announcement : announcements
-
     Announcement "*" --> "1" Employee : responsibleFor
     CommissionTypeRepository ---> "*" CommissionType : commissionType
     CommissionType "1" <-- Commission : isCategorized
@@ -185,7 +189,8 @@ EAST
     Request "1" <-- Announcement : isBasedOn
     Request  ---> "1" Property
     Agency ----> "*" Employee
-
+    Agency ---> "1" AnnouncementList
+    AnnouncementList "1" --> "*" Announcement
     PropertyTypeRepository  --> "*" PropertyType : propertyType
     PropertyType "1" <-- "*" Property
     Property  --> "1" Location : hasAddress
@@ -198,4 +203,5 @@ EAST
     House --|> Residence
     House -> "1" SunExposure
     Person "1" <-- "1" Employee
+    Announcement -.> SmsNotification
 @enduml
