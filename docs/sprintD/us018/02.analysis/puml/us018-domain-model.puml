@@ -10,52 +10,55 @@ skinparam classAttributeIconSize 0
 hide circle
 hide methods
 
-'title Domain Model
-
-'class Platform {
-'  -description
-'}
-
-class Organization {
-    name
-    vatNumber
-    website
-    phoneNumber
-    email
+class Announcement{
+id
+acceptanceDate
+saleDate
+}
+class Property{
+ area
+ distanceCityCenter
+}
+class Residence{
+ numberBedrooms
+ numberBathrooms
+ parkingSpace
+}
+class House{
+ basement
+ inhabitableLoft
+ sunExposure
+}
+class PropertyType{
+designation
+}
+class Business{
+price
+}
+class BusinessType{
+designation
+}
+class Request{
+id
+requestDate
+justificationMessage
+}
+class Agency {
+id
+designation
+emailAddress
+phoneNumber
 }
 
-class Task {
-    reference
-    description
-    informalDesc
-    technicalDesc
-    duration
-    cost
-}
 
-class Category {
-    description
-}
-
-class Employee {
-    name
-    email
-    position
-    phone
-}
-
-'class User {
-'    name
-'    email
-'    password
-'}
-
-'Platform "1" -- "*" Organization : has registered >
-'Platform "1" -- "*" Category : defines >
-Organization "1" - "0..*" Employee : has >
-Organization "1" - "0..*" Task: owns >
-'Task "*" -- "1" Employee: created by >
-Employee "1" -- "*" Task : creates >
-'Employee "0..1" -- "1" User: acts as >
-Task "*" - "1" Category: cataloged as >
+Residence  --|>  Property
+House --|> Residence
+PropertyType "1" -- "1" Property: is a description of >
+StoreManager "1" -- "1" Agency: manages >
+Property "1" -up- "1" Request : < has information about
+Request "1" -- "1" Business: is described by >
+BusinessType "1" - "1" Business : describes >
+Announcement "1" - "1" Request : is  based on >
+Agency "1" -- "*" Announcement: owns >
+StoreManager "1" -- "*" Announcement: analyzes >
 @enduml
