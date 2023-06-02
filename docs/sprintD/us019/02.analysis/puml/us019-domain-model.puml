@@ -10,52 +10,39 @@ skinparam classAttributeIconSize 0
 hide circle
 hide methods
 
-'title Domain Model
-
-'class Platform {
-'  -description
-'}
-
-class Organization {
-    name
-    vatNumber
-    website
-    phoneNumber
-    email
+class Agency {
+id
+designation
+emailAddress
+phoneNumber
 }
 
-class Task {
-    reference
-    description
-    informalDesc
-    technicalDesc
-    duration
-    cost
+class Announcement{
+id
+acceptanceDate
+saleDate
 }
 
-class Category {
-    description
+class Property{
+ area
+ distanceCityCenter
 }
 
-class Employee {
-    name
-    email
-    position
-    phone
+class Request{
+id
+requestDate
+justificationMessage
 }
 
-'class User {
-'    name
-'    email
-'    password
-'}
 
-'Platform "1" -- "*" Organization : has registered >
-'Platform "1" -- "*" Category : defines >
-Organization "1" - "0..*" Employee : has >
-Organization "1" - "0..*" Task: owns >
-'Task "*" -- "1" Employee: created by >
-Employee "1" -- "*" Task : creates >
-'Employee "0..1" -- "1" User: acts as >
-Task "*" - "1" Category: cataloged as >
+Agency "1" -- "*" Announcement: owns >
+Property "1" -- "1" Request : < has information about
+Announcement "1" - "1" Request : is based on >
+Agency "1" - "*" Request : is assigned to >
+Agency "1" --- "*" Announcement: owns >
+NetworkManager "1" - "*" Announcement: analyzes >
+NetworkManager "1" -- "1" Network: manages >
+Agency "1..*" -- "1" Network: is part of >
+
+
 @enduml
