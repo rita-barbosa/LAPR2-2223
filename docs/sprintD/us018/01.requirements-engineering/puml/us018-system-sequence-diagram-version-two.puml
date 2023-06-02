@@ -21,8 +21,14 @@ activate Employee
     Employee -> System : selects regression model.
     activate System
 
+    alt regressionModel == simple linear
+        System --> Employee: shows the independent variables\nand asks to select one.
+         deactivate System
+        Employee -> System: selects independent variable.
+        activate System
+    end alt
 
-    System --> Employee : shows the estimated price for each house\nand apartment deal, and the selected \nregression model and its statistics.
+    System --> Employee : shows the estimated price for each house\nand apartment deal, and the selected \nregression model report.
     deactivate System
 
 
