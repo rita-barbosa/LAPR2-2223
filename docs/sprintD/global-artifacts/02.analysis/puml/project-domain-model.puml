@@ -46,7 +46,9 @@ class StoreManager{
 class NetworkManager{
 }
 class Announcement{
+id
 acceptanceDate
+saleDate
 }
 
 class Visit{
@@ -85,9 +87,7 @@ class Network{}
 class PropertyType{
 designation
 }
-class ResidenceType{
-designation
-}
+
 class Photograph{
 uri
 }
@@ -116,6 +116,7 @@ designation
 class Request{
 id
 requestDate
+justificationMessage
 }
 class Order {
 orderAmount
@@ -147,7 +148,6 @@ Visit "1" --- "1"  VisitReport: is a description of <
 Agent "1" -- "*" VisitReport: registers >
 Employee "1" ----- "1" Agency: works in  >
 PropertyType "1" -- "1" Property: is a description of >
-ResidenceType "1" -- "1" Residence: is a description of >
 Property "1" -- "1..*" Photograph: is visualized in >
 Property "1"--"1" Location: has address >
 Person "1" -- "1" Location: has address >
@@ -166,5 +166,6 @@ Agent "1" --- "*" Request : is responsible for >
 Agent "1" -- "*" Order : is accepted by <
 Order "*" -up- "1" Announcement : is associated to >
 Customer "1" -- "*" Order : places a >
+StoreManager "1" --> "*" Announcement : analyses >
 
 @enduml

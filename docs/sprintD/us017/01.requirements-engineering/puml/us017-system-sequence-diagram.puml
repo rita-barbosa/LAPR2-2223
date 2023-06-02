@@ -1,0 +1,38 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - US017
+
+autonumber
+
+actor "<b> Network Manager </b>" as NWM
+participant "<b> :System </b>" as System
+
+activate NWM
+
+    NWM -> System : asks to analyse the performance of network
+        activate System
+
+    loop At least once until when the user intends
+
+    System --> NWM : shows types of sorting order (Ascending/Descending)\n and asks to select one
+        deactivate System
+
+    NWM -> System : selects a sorting order
+        activate System
+
+    System --> NWM : shows types of sorting algorithms and asks to select one
+        deactivate System
+
+    NWM -> System : selects a sorting algorithm
+    activate System
+
+    System --> NWM : displays results and asks if the user wants to sort list again
+    end loop
+
+    System --> NWM : displays operation success
+    deactivate System
+
+@enduml

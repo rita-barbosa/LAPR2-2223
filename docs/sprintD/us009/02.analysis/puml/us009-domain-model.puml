@@ -71,8 +71,8 @@ class Location {
 
 class Announcement {
     id
-    agencyId
     acceptanceDate
+    saleDate
 }
 
 
@@ -101,10 +101,6 @@ class PropertyType{
     designation
 }
 
-class ResidenceType{
-    designation
-}
-
 class Photograph{
     uri
 }
@@ -126,7 +122,6 @@ Property "1" - "1" Location : has address >
 Visit "1" -- "1" Property : done to >
 Residence  ---|>  Property
 House --|> Residence
-ResidenceType "1" -- "1" Residence: is a description of >
 Residence "1" -left "*"AvailableEquipment: includes >
 Lease -left-|> BusinessType
 BusinessType "1" -up- "1" Business : describes >

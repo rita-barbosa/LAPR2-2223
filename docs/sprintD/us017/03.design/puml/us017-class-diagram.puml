@@ -1,0 +1,86 @@
+@startuml
+'skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam linetype polyline
+'skinparam linetype orto
+
+skinparam classAttributeIconSize 0
+
+'left to right direction
+
+class Agency {
+    - Integer id
+    - String description
+    - Email emailAddress
+    - String phoneNumber
+    - Location location
+    - List<Employee> employees
+    - AnnouncementList announcements
+    - RequestList requests
+    + getDealsAnnouncementList()
+}
+
+class AnnouncementList{
+    - List<Announcement> announcements
+    + sortAnnouncementsByMostRecentSaleDate()
+    + sortAnnouncementsByOldestSaleDate()
+    + sortByAlgorithm(algorithm)
+    + clone()
+    + getList()
+    + remove(announcement)
+}
+
+class Announcement{
+    - LocalDate acceptanceDate
+    - LocalDate saleDate
+    - Commission commission
+    - Request request
+    - Employee agent
+    - Integer id
+    - OrderList orders
+    - List<Visit> visitList
+    + isItSold()
+}
+
+class AgencyRepository {
+    + getAllSoldAnnouncements()
+}
+
+class Repositories {
+    - Repositories()
+    + getInstance() : repositories
+    + getAgencyRepository()
+}
+
+class ListDealsNetworkController {
+    + ListDealsNetworkController(AgencyRepository)
+    + getListSortedByAlgorithm(order, algorithm)
+}
+
+note right of ListDealsNetworkController
+    order and algorithm
+    are retrieved from
+    selected data
+end note
+
+class ListDealsNetworkUI {
+}
+
+Repositories -> Repositories : instance
+
+ListDealsNetworkUI .> ListDealsNetworkController
+
+ListDealsNetworkController .> Repositories : repositories
+
+Repositories -> "1" AgencyRepository
+
+ListDealsNetworkController ..> Agency
+ListDealsNetworkController ..> AgencyRepository : AgencyRepository
+
+AgencyRepository "1" -right-> "*" Agency : Agency
+Agency "1" --> "1" AnnouncementList
+
+AnnouncementList "1" -left-> "*" Announcement
+
+@enduml

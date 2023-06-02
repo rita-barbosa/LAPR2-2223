@@ -2,11 +2,19 @@
 skinparam monochrome true
 skinparam packageStyle rectangle
 skinparam shadowing false
+
+'left to right direction
+
 skinparam classAttributeIconSize 0
+
 hide circle
 hide methods
 
+title Domain Model - US017
 
+' COLOCAR VISIT E VISIT REPORT?
+
+'US17: As a network manager, I want to list all deals made.
 
 class Agency {
 id
@@ -26,48 +34,29 @@ taxNumber
 phoneNumber
 }
 
-class Owner{
+class Customer{
 }
 
 class Agent{
 }
 
-
-
+class NetworkManager{
+}
 class Announcement{
 id
 acceptanceDate
 saleDate
 }
 
-
 class Property{
  area
  distanceCityCenter
 }
 
-class Residence{
- numberBedrooms
- numberBathrooms
- parkingSpace
-}
-
-class AvailableEquipment{
-description
-}
-
-class House{
- basement
- inhabitableLoft
- sunExposure
-}
+class Network{}
 
 class PropertyType{
 designation
-}
-
-class Photograph{
-uri
 }
 
 class Location{
@@ -77,58 +66,57 @@ district
 state
 zipCode
 }
-
 class Business{
 price
 }
-
 class BusinessType{
 designation
 }
-
 class Lease{
 contractDuration
 }
-
 class Commission {
 commissionValue
 }
-
 class CommissionType {
 designation
 }
-
 class Request{
 id
 requestDate
 }
-
+class Order {
+orderAmount
+orderDate
+acceptanceAnswer
+}
 
 Person "1" -- "1" Employee: represented in <
-Agent "0..*" -- "1" Employee: plays as <
-Agent "1" - "*" Announcement: is published by <
 Customer "1"  -- "1" Person: represented in >
 Owner "0..*" -- Customer: plays as <
+Agent "0..*" -- "1" Employee: plays as <
+NetworkManager "0..*" -- "1" Employee: plays as <
+Agent "1" -- "*" Announcement: is published by <
+NetworkManager "1" - "1" Network: manages >
+Agency "1..*" -- "1" Network: is part of >
 Request "*" -- "1" Owner: submits <
-Residence  --|>  Property
-House --|> Residence
 Employee "1" -- "1" Agency: works in  >
-PropertyType "1" -- "1" Property: is a description of >
-Property "1" -- "1..*" Photograph: is visualized in >
-Property "1"--"1" Location: has address >
+PropertyType "1" - "1" Property: is a description of >
+Property "1" -- "1" Location: has address >
 Person "1" -- "1" Location: has address >
 Agency "1" -- "1" Location: has address >
-Residence "1" -left "*"AvailableEquipment: includes >
 Announcement "1" -- "1" Commission: is assigned to <
 Agency "1" -- "*" Announcement: owns >
-Property "1" -up- "1" Request : < has information about
+Property "1" -- "1" Request : < has information about
 Request "1" -- "1" Business: is described by >
 Business <|-- Lease
 BusinessType "1" - "1" Business : describes >
 Announcement "1" - "1" Request : is  based on >
-Commission "*" -down- "1" CommissionType : is categorized in >
-Agency "1" - "*" Request : is assigned to >
+Commission "*" - "1" CommissionType : is categorized in >
+Agency "1" -- "*" Request : is assigned to >
 Agent "1" -- "*" Request : is responsible for >
-
+Agent "1" -- "*" Order : is accepted by <
+Order "*" -- "1" Announcement : is associated to >
+Customer "1" -- "*" Order : places a >
 
 @enduml

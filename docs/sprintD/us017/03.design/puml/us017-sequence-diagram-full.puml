@@ -1,0 +1,176 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+'hide footbox
+actor "Network Manager" as NWM
+participant ":ListDealsNetworkUI" as UI
+participant ":ListDealsNetworkController" as CTRL
+participant ":Repositories" as RepositorySingleton
+participant "repositories\n:Repositories" as PLAT
+participant "agencyRepository\n:AgencyRepository" as AgencyRepository
+participant "agency\n:Agency" as AGC
+participant "announcementList\n:AnnouncementList" as ANNOUNCELIST
+participant ":List<Announcements>" as LIST
+participant "announcement\n:Announcement" as ANNOUNCE
+
+title Sequence Diagram (SD) - US017
+
+autonumber
+
+activate NWM
+
+    NWM -> UI : asks to analyse the performance of the network
+        activate UI
+
+    UI -> CTRL**
+
+    loop At least once until when the user intends
+
+    UI --> NWM : shows types of sorting order (Ascending/Descending)\n and asks to select one
+        deactivate UI
+
+    NWM -> UI : selects a sorting order
+        activate UI
+
+
+    UI --> NWM : shows types of sorting algorithms and asks to select one
+        deactivate UI
+
+    NWM -> UI : selects a sorting algorithm
+           activate UI
+
+    UI -> CTRL : getListSortedByAlgorithm(order, algorithm)
+    activate CTRL
+
+    CTRL -> RepositorySingleton : getInstance()
+
+            activate RepositorySingleton
+
+                RepositorySingleton --> CTRL : repositories
+            deactivate RepositorySingleton
+
+            CTRL -> PLAT : getAgencyRepository()
+
+            activate PLAT
+
+                PLAT --> CTRL : AgencyRepository
+
+            deactivate PLAT
+
+
+        CTRL -> AgencyRepository : getAllSoldAnnouncements()
+        activate AgencyRepository
+
+        AgencyRepository -> LIST** : listOfAllDeals = create()
+
+        loop for all agencies
+
+            AgencyRepository -> AGC : getDealsAnnouncementList()
+            activate AGC
+
+            AGC -> ANNOUNCELIST : clone()
+
+            activate ANNOUNCELIST
+
+            ANNOUNCELIST --> AGC : announcementListClone
+
+            deactivate ANNOUNCELIST
+
+            AGC -> ANNOUNCELIST : getList()
+
+            activate ANNOUNCELIST
+
+            ANNOUNCELIST --> AGC : list
+
+            deactivate ANNOUNCELIST
+
+            loop for all announcements
+
+            AGC -> ANNOUNCE : isItSold()
+
+            activate ANNOUNCE
+
+            ANNOUNCE --> AGC : true/false
+
+            deactivate ANNOUNCE
+
+            opt false
+
+            AGC -> ANNOUNCELIST : remove(announcement)
+
+            activate ANNOUNCELIST
+            deactivate ANNOUNCELIST
+
+            end opt
+
+            end loop
+
+            AGC --> AgencyRepository : dealsList
+
+            deactivate AGC
+
+            AgencyRepository -> LIST : addAll(dealsList)
+            activate LIST
+            deactivate LIST
+
+         end loop
+
+        AgencyRepository --> CTRL : listOfAllDeals
+
+        deactivate AgencyRepository
+
+        'PROBABLY CHANGE THIS
+
+        CTRL -> ANNOUNCELIST : sortByAlgorithm(algorithm)
+
+        activate ANNOUNCELIST
+
+        ANNOUNCELIST --> CTRL : listOfAllDeals
+
+        deactivate ANNOUNCELIST
+|||
+        alt order = "Ascending"
+
+        CTRL -> ANNOUNCELIST : sortAnnouncementsByMostRecentSaleDate()
+
+        activate ANNOUNCELIST
+
+        ANNOUNCELIST --> CTRL : listOfAllDeals
+
+        deactivate ANNOUNCELIST
+
+        else order = "Descending"
+
+        CTRL -> ANNOUNCELIST : sortAnnouncementsByOldestSaleDate()
+
+        activate ANNOUNCELIST
+
+        ANNOUNCELIST --> CTRL : listOfAllDeals
+
+        deactivate ANNOUNCELIST
+        end alt
+
+        ' ATENÇÃO PERGUNTAR AO GRUPO SE VAMOS USAR DTO's NAS NOVAS US's
+
+|||
+        ref over CTRL
+
+        Probably convert it to DTO
+
+        end ref
+
+        CTRL --> UI : listOfAllDeals
+
+    deactivate CTRL
+
+       UI --> NWM : displays results and asks if the user wants to sort list again
+
+end loop
+
+    UI --> NWM : displays operation success
+
+    deactivate UI
+
+@enduml
