@@ -1,0 +1,156 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+'left to right direction
+
+skinparam classAttributeIconSize 0
+
+hide circle
+hide methods
+
+title Domain Model - US015
+
+
+class Agency {
+id
+designation
+emailAddress
+phoneNumber
+}
+
+class Employee {
+}
+
+class Person{
+name
+email
+passportCardNumber
+taxNumber
+phoneNumber
+}
+
+class Agent{
+}
+
+class Announcement{
+acceptanceDate
+}
+
+class Visit{
+id
+visitDate
+startHour
+endHour
+acceptanceStatus
+}
+
+'class VisitReport{
+' dealProspect
+' description
+'}
+
+class Property{
+ area
+ distanceCityCenter
+}
+
+class Residence{
+ numberBedrooms
+ numberBathrooms
+ parkingSpace
+}
+
+class AvailableEquipment{
+description
+}
+
+class House{
+ basement
+ inhabitableLoft
+ sunExposure
+}
+
+'class Network{}
+
+class PropertyType{
+designation
+}
+
+class ResidenceType{
+designation
+}
+
+class Photograph{
+uri
+}
+
+class Location{
+streetName
+city
+district
+state
+zipCode
+}
+
+class Business{
+price
+}
+
+class BusinessType{
+designation
+}
+
+class Lease{
+contractDuration
+}
+
+'class Commission {
+'commissionValue
+'}
+'
+'class CommissionType {
+'designation
+'}
+
+class Request{
+id
+requestDate
+}
+
+
+PropertyType "1" -- "1" Property: is a description of >
+Property "1" -- "1..*" Photograph: is visualized in >
+Announcement "1" - "1" Request : is a based on >
+Agency "1" -- "*" Announcement : owns >
+Agency "1" - "1" Location : has address >
+Agency "1" - "*" Request : is assigned to >
+Customer "1" -- "*" Visit : requests >
+Agent "1" -- "*" Visit : schedule >
+Announcement "*" -- "1" Agent : is published by >
+Agent "1" - "*" Request : is responsable for >
+Agent "0*" -- "1" Employee : plays as >
+Employee "*" -right- "1" Agency : works in >
+Property "1" -- "1" Location : has address >
+Visit "1" -- "1" Property : done to >
+Residence  ---|>  Property
+House --|> Residence
+ResidenceType "1" -- "1" Residence: is a description of >
+Residence "1" -left "*"AvailableEquipment: includes >
+Lease -left-|> BusinessType
+BusinessType "1" -up- "1" Business : describes >
+Request "1" -right "1" Business : is described by >
+Employee "1" -- "1" Person : is represented in >
+Request "1" - "1" Property : has information about >
+
+
+''Platform "1" -- "*" Organization : has registered >
+''Platform "1" -- "*" Category : defines >
+'Organization "1" - "0..*" Employee : has >
+'Organization "1" - "0..*" Task: owns >
+''Task "*" -- "1" Employee: created by >
+'Employee "1" -- "*" Task : creates >
+''Employee "0..1" -- "1" User: acts as >
+'Task "*" - "1" Category: cataloged as >
+@enduml
