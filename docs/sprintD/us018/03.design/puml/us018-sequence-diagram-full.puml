@@ -6,16 +6,141 @@ skinparam shadowing false
 autonumber
 
 'hide footbox
-actor "Organization Employee" as ADM
+actor "Store Manager" as ADM
 participant ":AnalyzeDealsUI" as UI
 participant ":AnalyzeDealsController" as CTRL
 participant ":Repositories" as RepositorySingleton
 participant "repositories\n:Repositories" as PLAT
-participant ":ApplicationSession" as _APP
-participant "appSession\n:ApplicationSession" as APP
-participant "currentSession\n:UserSession" as SESSAO
+participant "regressionModelTypeRepository\n:RegressionModelTypeRepository" as RMTRep
+participant ":RegressionModel" as RM
+participant "independentVariablesRepository\n:IndependentVariablesRepository" as IVRep
+participant "regressionModelTypeMapper\n:RegressionModelTypeMapper" as RMTMapper
+participant "regressionModelTypeDto\n:RegressionModelTypeDto" as RMTDto
+participant "regressionModelTypeDtoList\n:List<RegressionModelTypeDto>" as RMTDtoList
+participant "regressionModelType\n:RegressionModelType" as RMT
 
 activate ADM
+
+    ADM -> UI : asks to analyze property deals.
+    activate UI
+
+    UI -> CTRL**: create()
+
+    UI -> CTRL : getRegressionModelTypeList()
+    activate CTRL
+
+    CTRL -> RepositorySingleton : getInstance()
+    activate RepositorySingleton
+
+        RepositorySingleton --> CTRL: repositories
+    deactivate RepositorySingleton
+
+    CTRL -> PLAT : getRegressionModelTypeRepository()
+    activate PLAT
+
+        PLAT --> CTRL: RegressionModelTypeRepository
+    deactivate PLAT
+
+    CTRL -> RMTRep : getRegressionModelTypeList()
+    activate RMTRep
+
+    RMTRep --> CTRL : regressionModelTypeList
+    deactivate RMTRep
+
+    CTRL -> RMTMapper: toDto(regressionModelTypeList)
+    activate RMTMapper
+
+    RMTMapper -> RMTDtoList** : create()
+
+    loop for each regressionModelType
+
+    RMTMapper -> RMTMapper : toDto(regressionModelType)
+    activate RMTMapper
+
+    RMTMapper -> RMT : getRegressionModelTypeDesignation()
+    activate RMT
+
+    RMT --> RMTMapper : regressionModelTypeDesignation
+    deactivate RMT
+
+    |||
+    RMTMapper -> RMTDto** : create(regressionModelTypeDesignation)
+
+
+    RMTMapper --> RMTMapper: regressionModelTypeDto
+    deactivate RMTMapper
+    |||
+    RMTMapper -> RMTDtoList: add(regressionModelTypeDto)
+    activate RMTDtoList
+    deactivate RMTDtoList
+    end loop
+
+    RMTMapper --> CTRL : regressionModelTypeDtoList
+    deactivate RMTMapper
+
+    CTRL --> UI: regressionModelTypeDtoList
+    deactivate CTRL
+
+
+    UI --> ADM : shows regression models available \nand asks to select one.
+    deactivate UI
+
+    ADM -> UI : selects regression model.
+    activate UI
+
+    alt regressionModelTypeDto == simple linear regression
+        UI --> ADM: shows the independent variables\nand asks to select one.
+         deactivate UI
+        ADM -> UI: selects independent variable.
+        activate UI
+        |||
+    end alt
+
+    UI -> CTRL : getRegressionModelStatisticsAndForecastValues(regressionModelTypeDto, independentVariable)
+    activate CTRL
+
+    CTRL -> RMTMapper : toModel(regressionModelTypeDto)
+    activate RMTMapper
+
+    RMTMapper -> RMTDto : getRegressionModelTypeDesignation()
+    activate RMTDto
+
+    RMTDto --> RMTMapper : regressionModelTypeDesignation
+    deactivate RMTDto
+
+    RMTMapper -> RMT** : create(regressionModelTypeDesignation)
+
+    RMTMapper --> CTRL : regressionModelType
+    deactivate RMTMapper
+    note right CTRL
+       **VER MELHOR ESTA PARTE: baseada na tp09**
+    end note
+    CTRL -> RMT : getRegressionModel()
+    activate RMT
+
+    RMT --> CTRL : regressionModel
+    deactivate RMT
+
+    note right CTRL
+     **DOUBTS IN HOW TO THE NEXT STEPS**
+    end note
+
+
+    CTRL -> RM  : getStatistics(independentVariable)
+    activate RM
+    RM --> CTRL: statistics
+    deactivate RM
+
+
+
+
+    CTRL --> UI : regressionModelStatistics
+    deactivate CTRL
+
+
+
+    UI --> ADM : shows the estimated price for each house\nand apartment deal, and the selected \nregression model report.
+    deactivate UI
 
 
 deactivate ADM
