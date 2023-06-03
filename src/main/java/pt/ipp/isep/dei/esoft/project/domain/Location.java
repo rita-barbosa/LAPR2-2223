@@ -156,7 +156,7 @@ public class Location {
      */
     @Override
     public String toString() {
-        if (this.district == null){
+        if (this.district == null) {
             return String.format("%s, %s, %s, %s", this.streetName, this.city, this.state, this.zipCode);
         }
         return String.format("%s, %s, %s, %s, %s", this.streetName, this.city, this.district, this.state, this.zipCode);
@@ -173,7 +173,10 @@ public class Location {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Location location = (Location) o;
-        return streetName.equals(location.streetName) && city.equals(location.city) && district.equals(location.district) && state.equals(location.state) && zipCode.equals(location.zipCode);
+        if (!(location.district == null)) {
+            return streetName.equals(location.streetName) && city.equals(location.city) && district.equals(location.district) && state.equals(location.state) && zipCode.equals(location.zipCode);
+        }
+        return streetName.equals(location.streetName) && city.equals(location.city) && state.equals(location.state) && zipCode.equals(location.zipCode);
     }
 
     /**
@@ -215,16 +218,16 @@ public class Location {
 
 
     private void setLocationWithoutDistrict(String[] values) {
-            this.zipCode = values[values.length - 1];
-            this.state = values[values.length - 2];
-            this.city = values[values.length - 3];
+        this.zipCode = values[values.length - 1];
+        this.state = values[values.length - 2];
+        this.city = values[values.length - 3];
 
-            if (values.length == 7) {
-                this.streetName = String.join(",", Arrays.copyOfRange(values, 0, 3));
-            } else if (values.length == 4) {
-                this.streetName = values[0];
-            }
+        if (values.length == 7) {
+            this.streetName = String.join(",", Arrays.copyOfRange(values, 0, 3));
+        } else if (values.length == 4) {
+            this.streetName = values[0];
         }
+    }
 
     private void setLocationWithDistrict(String[] values) {
         this.zipCode = values[values.length - 1];

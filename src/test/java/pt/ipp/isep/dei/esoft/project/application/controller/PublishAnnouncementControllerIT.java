@@ -48,7 +48,7 @@ class PublishAnnouncementControllerIT {
 
         PublishAnnouncementController ctrl = new PublishAnnouncementController(commissionTypeRepository, authenticationRepository, propertyTypeRepository, agencyRepository);
 
-        Optional<Announcement> result = ctrl.publishAnnouncement(234.4, c1.getDesignation(), ownerEmail, propertyType.getDesignation(),
+        Boolean result = ctrl.publishAnnouncement(234.4, c1.getDesignation(), ownerEmail, propertyType.getDesignation(),
                 "street", "city", "district", "AK", "12345", 234.4, 23.4, 456.6,
                 null, null, null, null, null,
                 null, uriList, null);
@@ -88,12 +88,12 @@ class PublishAnnouncementControllerIT {
 
         PublishAnnouncementController ctrl = new PublishAnnouncementController(commissionTypeRepository, authenticationRepository, propertyTypeRepository, agencyRepository);
 
-        Optional<Announcement> result = ctrl.publishAnnouncement(234.4, c1.getDesignation(), ownerEmail, propertyType.getDesignation(),
+        Boolean result = ctrl.publishAnnouncement(234.4, c1.getDesignation(), ownerEmail, propertyType.getDesignation(),
                 "street", "city", "district", "AK", "12345", 234.4, 23.4, 456.6,
                 null, null, null, null, null,
                 null, uriList, null);
 
-        assertTrue(result.isEmpty());
+        assertTrue(result);
 
     }
 

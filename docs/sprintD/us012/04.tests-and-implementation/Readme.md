@@ -2,39 +2,147 @@
 
 # 4. Tests 
 
-*Yet to be done.*
+**Test 1:** Check that it is possible to create a legacyDto from an array of attributes gotten from the legacy system csv file.
 
-[//]: # ()
-[//]: # ()
-[//]: # (**Test 1:** Check that it is not possible to create an instance of the Task class with null values. )
+```java
+    @Test
+    void toDto() {
+        List<String> legacySystemInformationList = null;
+        LegacySystemDto legacyDto = null;
+        String line = "1;Georgia PEDDIE;711111111;111-11-0000;GeorgiaPEDDIE2155@gmail.com;907-488-1419;" +
+                "house;1710;449 N Santa Claus Lane, North Pole, AK, 99705;29;3;4;2;Y;Y;Y;Y;S;208500;203748;" +
+                "5;NA;08-01-2001;10-01-2001;sale;" +
+                "1;North Pole;71 ST. NICHOLAS DRIVE, NORTH POLE, FAIRBANKS NORTH STAR, AK, 99705;907-488-4800;northpole@realstateUSA.com";
+        String[] attributes = line.split(";");
+        if (attributes.length > 1) {
+            legacySystemInformationList = new ArrayList<>();
+            for (int i = 1; i < attributes.length; i++) {
+                legacySystemInformationList.add(attributes[i].trim());
+            }
+            legacyDto = new LegacySystemDto(legacySystemInformationList);
+        }
 
-[//]: # ()
-[//]: # (	@Test&#40;expected = IllegalArgumentException.class&#41;)
+        assertEquals(legacyDto, LegacySystemMapper.toDto(legacySystemInformationList));
+    }
+```
 
-[//]: # (		public void ensureNullIsNotAllowed&#40;&#41; {)
+**Test 2:** Check that it is possible to create an agency from an array of attributes gotten from the legacy system csv file.
 
-[//]: # (		Task instance = new Task&#40;null, null, null, null, null, null, null&#41;;)
+```java
+    @Test
+    void toModelAgency() {
+        List<String> legacySystemInformationList;
+        LegacySystemDto legacyDto = null;
+        String line = "1;Georgia PEDDIE;711111111;111-11-0000;GeorgiaPEDDIE2155@gmail.com;907-488-1419;" +
+                "house;1710;449 N Santa Claus Lane, North Pole, AK, 99705;29;3;4;2;Y;Y;Y;Y;S;208500;203748;" +
+                "5;NA;08-01-2001;10-01-2001;sale;" +
+                "1;North Pole;71 ST. NICHOLAS DRIVE, NORTH POLE, FAIRBANKS NORTH STAR, AK, 99705;907-488-4800;northpole@realstateUSA.com";
+        String[] attributes = line.split(";");
+        if (attributes.length > 1) {
+            legacySystemInformationList = new ArrayList<>();
+            for (int i = 1; i < attributes.length; i++) {
+                legacySystemInformationList.add(attributes[i].trim());
+            }
+            legacyDto = new LegacySystemDto(legacySystemInformationList);
+        }
 
-[//]: # (	})
+        Location location = new Location("71 ST. NICHOLAS DRIVE, NORTH POLE, FAIRBANKS NORTH STAR, AK, 99705");
+        Agency expected = new Agency(1, "North Pole", "northpole@realstateUSA.com", "907-488-4800", location);
 
-[//]: # (	)
-[//]: # ()
-[//]: # (**Test 2:** Check that it is not possible to create an instance of the Task class with a reference containing less than five chars - AC2. )
+        assert legacyDto != null;
+        assertEquals(expected, LegacySystemMapper.toModelAgency(legacyDto));
+    }
+```
 
-[//]: # ()
-[//]: # (	@Test&#40;expected = IllegalArgumentException.class&#41;)
+**Test 3:** Check that it is possible to create a person from an array of attributes gotten from the legacy system csv file.
 
-[//]: # (		public void ensureReferenceMeetsAC2&#40;&#41; {)
+```java
+    @Test
+    void toModelPerson() {
+        List<String> legacySystemInformationList;
+        LegacySystemDto legacyDto = null;
+        String line = "1;Georgia PEDDIE;711111111;111-11-0000;GeorgiaPEDDIE2155@gmail.com;907-488-1419;" +
+                "house;1710;449 N Santa Claus Lane, North Pole, AK, 99705;29;3;4;2;Y;Y;Y;Y;S;208500;203748;" +
+                "5;NA;08-01-2001;10-01-2001;sale;" +
+                "1;North Pole;71 ST. NICHOLAS DRIVE, NORTH POLE, FAIRBANKS NORTH STAR, AK, 99705;907-488-4800;northpole@realstateUSA.com";
+        String[] attributes = line.split(";");
+        if (attributes.length > 1) {
+            legacySystemInformationList = new ArrayList<>();
+            for (int i = 1; i < attributes.length; i++) {
+                legacySystemInformationList.add(attributes[i].trim());
+            }
+            legacyDto = new LegacySystemDto(legacySystemInformationList);
+        }
 
-[//]: # (		Category cat = new Category&#40;10, "Category 10"&#41;;)
+        Person expected = new Person("Georgia PEDDIE", "111-11-0000", "907-488-1419", "GeorgiaPEDDIE2155@gmail.com", "711111111");
 
-[//]: # (		)
-[//]: # (		Task instance = new Task&#40;"Ab1", "Task Description", "Informal Data", "Technical Data", 3, 3780, cat&#41;;)
+        assert legacyDto != null;
+        Person actual = LegacySystemMapper.toModelPerson(legacyDto);
 
-[//]: # (	})
+        actual.setPassportCardNumber("711111111");
+
+        assertEquals(expected, actual);
+    }
+```
+
+**Test 4:** Check that it is possible to create a request from an array of attributes gotten from the legacy system csv file.
+
+```java
+    @Test
+    void toModelRequest() {
+        List<String> legacySystemInformationList;
+        LegacySystemDto legacyDto = null;
+        String line = "1;Georgia PEDDIE;711111111;111-11-0000;GeorgiaPEDDIE2155@gmail.com;907-488-1419;" +
+                "house;1710;449 N Santa Claus Lane, North Pole, AK, 99705;29;3;4;2;Y;Y;Y;Y;S;208500;203748;" +
+                "5;NA;08-01-2001;10-01-2001;sale;" +
+                "1;North Pole;71 ST. NICHOLAS DRIVE, NORTH POLE, FAIRBANKS NORTH STAR, AK, 99705;907-488-4800;northpole@realstateUSA.com";
+        String[] attributes = line.split(";");
+        if (attributes.length > 1) {
+            legacySystemInformationList = new ArrayList<>();
+            for (int i = 1; i < attributes.length; i++) {
+                legacySystemInformationList.add(attributes[i].trim());
+            }
+            legacyDto = new LegacySystemDto(legacySystemInformationList);
+        }
+
+        String location = "449 N Santa Claus Lane, North Pole, AK, 99705";
+
+        Request expected = new Request("sale", "NA", (double) 208500, "house",
+                (double) 1710, location, (double) 29, "3", "4", "2", "Y", "Y",
+                "Y", "Y", "S", "08-01-2001");
+
+        assert legacyDto != null;
+        assertEquals(expected, LegacySystemMapper.toModelRequest(legacyDto));
+    }
+```
+
+**Test 5:** Check that it is possible to get the commision value of a legacyDto created from the legacy system csv file information.
+
+```java
+    @Test
+    void getCommissionValue() {
+        List<String> legacySystemInformationList;
+        LegacySystemDto legacyDto = null;
+        String line = "1;Georgia PEDDIE;711111111;111-11-0000;GeorgiaPEDDIE2155@gmail.com;907-488-1419;" +
+                "house;1710;449 N Santa Claus Lane, North Pole, AK, 99705;29;3;4;2;Y;Y;Y;Y;S;208500;203748;" +
+                "5;NA;08-01-2001;10-01-2001;sale;" +
+                "1;North Pole;71 ST. NICHOLAS DRIVE, NORTH POLE, FAIRBANKS NORTH STAR, AK, 99705;907-488-4800;northpole@realstateUSA.com";
+        String[] attributes = line.split(";");
+        if (attributes.length > 1) {
+            legacySystemInformationList = new ArrayList<>();
+            for (int i = 1; i < attributes.length; i++) {
+                legacySystemInformationList.add(attributes[i].trim());
+            }
+            legacyDto = new LegacySystemDto(legacySystemInformationList);
+        }
+
+        Double expected = (double) 5;
 
 
-*It is also recommended to organize this content by subsections.* 
+        assert legacyDto != null;
+        assertEquals(expected, LegacySystemMapper.getCommissionValue(legacyDto));
+    }
+```
 
 # 5. Construction (Implementation)
 
@@ -42,7 +150,7 @@
 ## Class ImportLegacyInformationController 
 
 ```java
-public Boolean importInformationFromFile(String filePath) {
+    public Boolean importInformationFromFile(String filePath) {
         boolean success;
         Optional<List<LegacySystemDto>> newList;
     

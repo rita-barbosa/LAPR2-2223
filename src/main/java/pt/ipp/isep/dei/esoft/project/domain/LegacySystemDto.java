@@ -1,6 +1,7 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * The type Legacy system dto.
@@ -429,5 +430,18 @@ public class LegacySystemDto {
      */
     public String getAgencyEmailAddress() {
         return agencyEmailAddress;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        LegacySystemDto that = (LegacySystemDto) o;
+        return Double.compare(that.propertyDistanceFromCenter, propertyDistanceFromCenter) == 0 && Double.compare(that.propertyRequestedPrice, propertyRequestedPrice) == 0 && Double.compare(that.propertyPrice, propertyPrice) == 0 && Double.compare(that.commission, commission) == 0 && agencyID == that.agencyID && Objects.equals(ownerName, that.ownerName) && Objects.equals(ownerPassportNum, that.ownerPassportNum) && Objects.equals(ownerTIN, that.ownerTIN) && Objects.equals(ownerEmail, that.ownerEmail) && Objects.equals(ownerPhone, that.ownerPhone) && Objects.equals(propertyType, that.propertyType) && Objects.equals(propertyArea, that.propertyArea) && Objects.equals(propertyLocation, that.propertyLocation) && Objects.equals(propertyNumberBedrooms, that.propertyNumberBedrooms) && Objects.equals(propertyNumberBathrooms, that.propertyNumberBathrooms) && Objects.equals(propertyNumberParkingSpaces, that.propertyNumberParkingSpaces) && Objects.equals(propertyCentralHeating, that.propertyCentralHeating) && Objects.equals(propertyAirConditioning, that.propertyAirConditioning) && Objects.equals(propertyBasement, that.propertyBasement) && Objects.equals(propertyLoft, that.propertyLoft) && Objects.equals(propertySunExposure, that.propertySunExposure) && Objects.equals(contractDuration, that.contractDuration) && Objects.equals(propertyDateAnnounceRequest, that.propertyDateAnnounceRequest) && Objects.equals(propertyDateSale, that.propertyDateSale) && Objects.equals(typeBusiness, that.typeBusiness) && Objects.equals(agencyName, that.agencyName) && Objects.equals(agencyLocation, that.agencyLocation) && Objects.equals(agencyPhoneNumber, that.agencyPhoneNumber) && Objects.equals(agencyEmailAddress, that.agencyEmailAddress);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(ownerName, ownerPassportNum, ownerTIN, ownerEmail, ownerPhone, propertyType, propertyArea, propertyLocation, propertyDistanceFromCenter, propertyNumberBedrooms, propertyNumberBathrooms, propertyNumberParkingSpaces, propertyCentralHeating, propertyAirConditioning, propertyBasement, propertyLoft, propertySunExposure, propertyRequestedPrice, propertyPrice, commission, contractDuration, propertyDateAnnounceRequest, propertyDateSale, typeBusiness, agencyID, agencyName, agencyLocation, agencyPhoneNumber, agencyEmailAddress);
     }
 }

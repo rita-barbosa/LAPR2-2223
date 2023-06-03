@@ -2,11 +2,32 @@ package pt.ipp.isep.dei.esoft.project.domain;
 
 import org.junit.jupiter.api.Test;
 
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class LegacySystemTest {
 
     @Test
-    void importInformation() {
+    void importInformation() throws IOException {
+        List<String> legacySystemInformationList;
+        LegacySystemDto legacyDto = null;
+
+        File file = new File("importInformationTestFile");
+        BufferedReader reader = new BufferedReader(new FileReader(file));
+        String line = reader.readLine();
+        String[] attributes = line.split(";");
+        if (attributes.length > 1) {
+            legacySystemInformationList = new ArrayList<>();
+            for (int i = 1; i < attributes.length; i++) {
+                legacySystemInformationList.add(attributes[i].trim());
+            }
+            legacyDto = new LegacySystemDto(legacySystemInformationList);
+        }
+
+        assertNotNull(legacyDto);
     }
 }
