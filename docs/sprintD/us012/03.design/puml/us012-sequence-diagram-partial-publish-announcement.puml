@@ -4,7 +4,6 @@ skinparam packageStyle rectangle
 skinparam shANNOUNCEowing false\
 
 participant ":ImportLegacyInformationController" as CTRL
-participant ":LegacySystemMapper" as MAPPER
 participant "legacySystemDto\n:legacySystemDto" as DTO
 participant "agency\n:Agency" as AGENCY
 participant "announcementList\n:AnnouncementList" as LIST
@@ -32,34 +31,29 @@ participant "commission\n:Commission" as COMMISSION
         CTRL --> CTRL : request
     deactivate CTRL
 |||
-    CTRL -> MAPPER : getCommissionValue()
-    activate MAPPER
+    CTRL -> DTO : getCommissionValue()
+    activate DTO
 
-        MAPPER -> DTO : getCommissionValue()
-        activate DTO
+    DTO --> CTRL : commissionValue
+    deactivate DTO
 
-            DTO --> MAPPER : commissionValue
-        deactivate DTO
 
-        MAPPER --> CTRL : commissionValue
-    deactivate MAPPER
+    CTRL -> DTO : getAnnouncementAcceptanceDate()
+    activate DTO
 
-    CTRL -> MAPPER : getAnnouncementAcceptanceDate()
-    activate MAPPER
+        DTO --> CTRL : acceptanceDate
+    deactivate DTO
 
-        MAPPER -> DTO : getAnnouncementAcceptanceDate()
-        activate DTO
+ CTRL -> DTO : getPropertySalePrice()
+    activate DTO
 
-            DTO --> MAPPER : acceptanceDate
-        deactivate DTO
+        DTO --> CTRL : propertySalePrice
+    deactivate DTO
 
-        MAPPER --> CTRL : acceptanceDate
-    deactivate MAPPER
-
-    CTRL -> AGENCY : publishAnnouncementFromLegacy(agent, acceptanceDate, commissionValue, request)
+    CTRL -> AGENCY : publishAnnouncementFromLegacy(agent, acceptanceDate, commissionValue, request,propertySalePrice)
     activate AGENCY
 
-        AGENCY -> ANNOUNCE**: create(agent, acceptanceDate, commissionValue, request)
+        AGENCY -> ANNOUNCE**: create(agent, acceptanceDate, commissionValue, request,propertySalePrice)
         activate ANNOUNCE
 
         ANNOUNCE -> COMMISSION** : create(commissionValue)
