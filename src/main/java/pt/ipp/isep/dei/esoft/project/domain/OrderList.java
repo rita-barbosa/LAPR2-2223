@@ -49,7 +49,7 @@ public class OrderList {
      * @param orderId the ID of the order to retrieve
      * @return an Optional containing the order if found, or an empty Optional otherwise
      */
-    private Optional<Order> getOrderById(Integer orderId) {
+    public Optional<Order> getOrderById(Integer orderId) {
         Optional<Order> newOrder = Optional.empty();
         for (Order order : orders) {
             if (order.hasId(orderId)) {
