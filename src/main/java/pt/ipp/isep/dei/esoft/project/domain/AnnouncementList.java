@@ -38,24 +38,12 @@ public class AnnouncementList {
         Boolean success = false;
         if (validateAnnouncement(announcement)) {
             announcements.add(announcement.clone());
-            success = sendSms(announcement);
+            success = announcement.sendSMS(announcement);
         }
         return success;
     }
 
-    /**
-     * This method sends an sms to the client warning them that the property is available of sale.
-     *
-     * @param announcement - the announcement that became available for purchase
-     * @return {@code true} if sms was sent successfully;{@code false} otherwise;
-     */
-    private Boolean sendSms(Announcement announcement) {
-        SmsNotification sms = new SmsNotification();
-        String location = announcement.getRequest().getProperty().getLocation().toString();
-        String message = "The property located in " + location +
-                " became available for purchase in" + announcement.getAcceptanceDate();
-        return sms.sendNotification(announcement.getAgentName(), announcement.getAgentPhoneNumber(), message);
-    }
+
 
     /**
      * This method checks if the list of announcements already contains the announcement received.
