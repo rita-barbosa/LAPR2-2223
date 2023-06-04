@@ -12,12 +12,15 @@ participant ":AnalyzeDealsController" as CTRL
 participant ":Repositories" as RepositorySingleton
 participant "repositories\n:Repositories" as PLAT
 participant "regressionModelTypeRepository\n:RegressionModelTypeRepository" as RMTRep
+participant "agencyRepository\n:AgencyRepository" as AgencyRepository
 participant ":RegressionModel" as RM
 participant "independentVariablesRepository\n:IndependentVariablesRepository" as IVRep
 participant "regressionModelTypeMapper\n:RegressionModelTypeMapper" as RMTMapper
 participant "regressionModelTypeDto\n:RegressionModelTypeDto" as RMTDto
 participant "regressionModelTypeDtoList\n:List<RegressionModelTypeDto>" as RMTDtoList
 participant "regressionModelType\n:RegressionModelType" as RMT
+
+
 
 activate ADM
 
@@ -88,15 +91,15 @@ activate ADM
     ADM -> UI : selects regression model.
     activate UI
 
-    alt regressionModelTypeDto == simple linear regression
-        UI --> ADM: shows the independent variables\nand asks to select one.
+    alt regressionModelTypeDto == simple linear
+        UI --> ADM: shows the parameters available for regression \nmodels and asks to select one.
          deactivate UI
-        ADM -> UI: selects independent variable.
+        ADM -> UI: selects parameter.
         activate UI
         |||
     end alt
 
-    UI -> CTRL : getRegressionModelStatisticsAndForecastValues(regressionModelTypeDto, independentVariable)
+    UI -> CTRL : getRegressionModelStatisticsAndForecastValues(regressionModelTypeDto, parameter)
     activate CTRL
 
     CTRL -> RMTMapper : toModel(regressionModelTypeDto)
@@ -112,32 +115,74 @@ activate ADM
 
     RMTMapper --> CTRL : regressionModelType
     deactivate RMTMapper
-    note right CTRL
-       **VER MELHOR ESTA PARTE: baseada na tp09**
-    end note
-    CTRL -> RMT : getRegressionModel()
-    activate RMT
-
-    RMT --> CTRL : regressionModel
-    deactivate RMT
-
-    note right CTRL
-     **DOUBTS IN HOW TO THE NEXT STEPS**
-    end note
 
 
-    CTRL -> RM  : getStatistics(independentVariable)
+    |||
+    CTRL -> CTRL : getDataForAnalysis(parameter)
+    activate CTRL
+
+    CTRL -> PLAT : getAgencyRepository()
+    activate PLAT
+
+    PLAT --> CTRL : agencyRepository
+    deactivate PLAT
+
+    alt regressionModelType == simple linear
+
+    CTRL -> AgencyRepository : getAgenciesAnnouncementDataListForSLR(parameter)
+    activate AgencyRepository
+        ref over AgencyRepository
+         Get all data for SLR analysis
+        end ref
+
+    AgencyRepository --> CTRL  : allDataList
+    deactivate AgencyRepository
+
+
+    |||
+
+    else regressionModelType == simple linear
+
+            CTRL -> AgencyRepository : getAgenciesAnnouncementDataListForMLR()
+            activate AgencyRepository
+                ref over AgencyRepository
+                 Get all data for MLR analysis
+                end ref
+
+            AgencyRepository --> CTRL  : allDataList
+            deactivate AgencyRepository
+
+
+    |||
+    end alt
+
+    CTRL --> CTRL: allDataList
+    deactivate CTRL
+
+
+
+    CTRL -> RM  : getRegressionModelStatistics(allDataList)
     activate RM
+
+        note right RM
+            RegressionModel implementation will
+            depend on the regressionModelType
+        end note
+
+
     RM --> CTRL: statistics
     deactivate RM
 
-
+    note right CTRL
+        VER MELHOR COMO FAZER ESTE GET
+        NO FINAL PRETENDE-SE QUE POSSA IR BUSCAR:
+            SLOPE
+            INTERCEPT
+    end note
 
 
     CTRL --> UI : regressionModelStatistics
     deactivate CTRL
-
-
 
     UI --> ADM : shows the estimated price for each house\nand apartment deal, and the selected \nregression model report.
     deactivate UI

@@ -1,0 +1,96 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+participant "agencyRepository\n:AgencyRepository" as AgencyRepository
+participant "agency\n:Agency" as AGC
+participant "announcementList\n:AnnouncementList" as AnnounceList
+participant "allDataList\n: List<List<Double>>" as AllDataList
+participant "dataList\n: List<List<Double>>" as DL
+participant "announcement\n:Announcement" as Announce
+participant "data\n: List<Double>" as Data
+participant "request\n:Request" as Request
+
+autonumber
+-> AgencyRepository : getAgenciesAnnouncementDataListForMLR()
+    activate AgencyRepository
+
+group Get all data for MLR analysis
+
+    AgencyRepository -> AllDataList** : create()
+        note right
+        **THIS IS A BIDIMENSIONAL LIST**
+        end note
+
+         loop for all agencies
+               AgencyRepository -> AGC : getAnnouncementDataForMLR()
+               activate AGC
+
+
+               AGC -> AnnounceList : getAnnouncementDataMLR()
+               activate AnnounceList
+
+               AnnounceList -> DL** : create()
+
+               loop while has announcements with saleAmount != 0
+
+               AnnounceList -> Announce : getDataForMLR(parameter)
+               activate Announce
+
+                Announce -> Data**: create()
+
+               Announce -> Announce: getSaleAmount()
+               activate Announce
+
+               Announce --> Announce: saleAmount
+               deactivate Announce
+                |||
+               Announce -> Data: add(orderValue)
+               activate Data
+               deactivate Data
+
+               Announce -> Request: getNumberBedrooms(parameter)
+               activate Request
+
+               Request -> Announce: numberBedrooms
+               deactivate Request
+                |||
+               Announce -> Data: add(parameterValue)
+               activate Data
+               deactivate Data
+
+
+               note right Announce
+                    This method will return
+                    the value of parameter and
+                    the property deal price
+               end note
+
+               Announce --> AnnounceList : data
+               deactivate Announce
+
+
+               AnnounceList -> DL : add(data)
+               activate DL
+               deactivate DL
+
+               end loop
+               AnnounceList --> AGC : dataList
+               deactivate AnnounceList
+
+               AGC --> AgencyRepository : dataList
+               deactivate AGC
+
+               AgencyRepository -> AllDataList : addAll(dataList)
+               activate AllDataList
+               deactivate AllDataList
+          |||
+          end loop
+
+end group
+        <-- AgencyRepository  : allDataList
+        deactivate AgencyRepository
+
+
+@enduml
