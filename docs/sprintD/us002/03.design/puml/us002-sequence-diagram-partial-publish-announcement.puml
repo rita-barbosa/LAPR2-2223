@@ -38,7 +38,7 @@ autonumber 23.1
                 deactivate ADList
 
                 opt  announcement is valid
-                ADList -> AD : sendNotification()
+                ADList -> AD : sendSMS()
                 activate AD
 
                 AD -> SMSNOT : sendNotification(agentPhoneNumber, \npropertyLocation,acceptanceDate)

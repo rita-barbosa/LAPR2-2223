@@ -52,7 +52,7 @@ class Employee {
 class Announcement {
     - LocalDate acceptanceDate
     + Announcement(agent, commissionType, commissionValue, request)
-    + sendNotification()
+    + sendSMS()
 }
 class SmsNotification{
     + sendNotification(phoneNumber,propertyLocation,acceptanceDate)
