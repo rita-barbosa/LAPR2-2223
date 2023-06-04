@@ -22,7 +22,7 @@ activate Employee
     activate System
 
     alt regressionModel == simple linear
-        System --> Employee: shows the independent variables\nand asks to select one.
+        System --> Employee:  shows the parameters available for regression \nmodels and asks to select one.
          deactivate System
         Employee -> System: selects independent variable.
         activate System
