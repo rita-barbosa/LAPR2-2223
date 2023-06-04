@@ -15,7 +15,7 @@ public class Order {
     /**
      * The Id.
      */
-    private Integer id = 0;
+    private Integer id;
     /**
      * The amount of the order.
      */

@@ -55,7 +55,7 @@ public class ImportLegacyInformationController {
     private Boolean publishAnnouncement(LegacySystemDto dto, Agency agency, Employee agent, String ownerEmail) throws
             NumberFormatException {
         Request newRequest = getRequestFromLegacy(dto, agency, agent, ownerEmail);
-        Announcement newAnnouncement = new Announcement(agent, dto.getCommission(), newRequest, dto.getPropertyDateSale());
+        Announcement newAnnouncement = new Announcement(agent, dto.getCommission(), newRequest, dto.getPropertyDateSale(), dto.getPropertyPrice());
         return agency.addAnnouncement(newAnnouncement);
     }
 

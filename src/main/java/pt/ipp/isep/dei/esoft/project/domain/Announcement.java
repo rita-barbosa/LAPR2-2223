@@ -52,12 +52,21 @@ public class Announcement {
     /**
      * The default date value.
      */
-    private static final LocalDate DATE_BY_DEFAULT = LocalDate.of(1, 1, 1);
+    private final LocalDate DATE_BY_DEFAULT = LocalDate.of(1, 1, 1);
 
     /**
      * The id iteration variable.
      */
     private static int counter = 0;
+    /**
+     * The sale price of the deal.
+     */
+    private Double saleAmount;
+    /**
+     * The default sale amount value.
+     */
+    private final Double SALE_AMOUNT_BY_DEFAULT = (double) 0;
+
 
     /**
      * Constructs an Announcement object with the specified agent, commission type,
@@ -73,6 +82,7 @@ public class Announcement {
         this.agent = agent;
         this.request = request;
         this.saleDate = DATE_BY_DEFAULT;
+        this.saleAmount = SALE_AMOUNT_BY_DEFAULT;
         this.acceptanceDate = LocalDate.now();
         this.orders = new OrderList();
         this.id = counter++;
@@ -90,6 +100,7 @@ public class Announcement {
     public Announcement(Employee agent, Commission commission, Request request) {
         this.acceptanceDate = LocalDate.now();
         this.saleDate = DATE_BY_DEFAULT;
+        this.saleAmount = SALE_AMOUNT_BY_DEFAULT;
         this.commission = commission;
         this.request = request;
         this.agent = agent;
@@ -113,6 +124,7 @@ public class Announcement {
         this.agent = agent;
         this.request = request;
         this.saleDate = DATE_BY_DEFAULT;
+        this.saleAmount = SALE_AMOUNT_BY_DEFAULT;
         this.acceptanceDate = acceptanceDate;
         this.orders = orders;
         this.visitList = new ArrayList<>();
@@ -127,13 +139,14 @@ public class Announcement {
      * @param commissionValue the commission value
      * @param request         the request
      */
-    public Announcement(Employee agent, double commissionValue, Request request, String propertyDateSale) {
+    public Announcement(Employee agent, double commissionValue, Request request, String propertyDateSale, Double propertySalePrice) {
         this.commission = new Commission(new CommissionType("fixed"), commissionValue);
         this.request = request;
         this.agent = agent;
         this.acceptanceDate = DATE_BY_DEFAULT;
         int[] date = mapStringToLocalDate(propertyDateSale);
         this.saleDate = LocalDate.of(date[2], date[1], date[0]);
+        this.saleAmount = propertySalePrice;
         this.id = counter++;
     }
 
@@ -289,6 +302,8 @@ public class Announcement {
     public Boolean defineOrderAcceptance(String answer, int orderId) {
         if (answer.equalsIgnoreCase("accept")) {
             this.saleDate = LocalDate.now();
+            Optional<Order> order = orders.getOrderById(orderId);
+            order.ifPresent(value -> this.saleAmount = value.getOrderAmount());
         }
         return orders.defineOrderAcceptance(answer, orderId);
     }
@@ -380,6 +395,20 @@ public class Announcement {
     }
 
     /**
+     * This method sends an sms to the client warning them that the property is available of sale.
+     *
+     * @param announcement - the announcement that became available for purchase
+     * @return {@code true} if sms was sent successfully;{@code false} otherwise;
+     */
+    public Boolean sendSMS(Announcement announcement) {
+        SmsNotification sms = new SmsNotification();
+        String location = announcement.getRequest().getProperty().getLocation().toString();
+        String message = "The property located in " + location +
+                " became available for purchase in" + announcement.getAcceptanceDate();
+        return sms.sendNotification(announcement.getAgentName(), announcement.getAgentPhoneNumber(), message);
+    }
+
+    /**
      * Indicates whether some other object is "equal to" this one.
      *
      * @param o The reference object with which to compare
@@ -406,6 +435,13 @@ public class Announcement {
         return Objects.hash(acceptanceDate, saleDate, commission, request, agent, orders, visitList);
     }
 
+    /**
+     * This method returns the sale amount value.
+     * @return sale amount
+     */
+    private Double getSaleAmount() {
+        return saleAmount;
+    }
 }
 
 

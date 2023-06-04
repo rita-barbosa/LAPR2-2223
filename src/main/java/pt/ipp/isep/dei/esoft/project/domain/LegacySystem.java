@@ -2,10 +2,7 @@ package pt.ipp.isep.dei.esoft.project.domain;
 
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Scanner;
+import java.util.*;
 
 public class LegacySystem {
 
@@ -34,6 +31,7 @@ public class LegacySystem {
         } catch (IOException e) {
             System.out.println("ERROR: Couldn't read information from file. ");
         }
+
         return Optional.empty();
 
     }
