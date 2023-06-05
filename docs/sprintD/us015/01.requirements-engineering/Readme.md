@@ -90,14 +90,16 @@ Please study ESOFT and discuss your question with ESOFT teatchers. In AC2 of US1
 
 **Input Data:**
 
-* Typed data:
-	* a being date 
-	* an end date
+[//]: # (* Typed data:)
+
+[//]: # (	* a being date )
+
+[//]: # (	* an end date)
 	
 * Selected data:
     * a being date
     * an end date
-    * algorithm 
+    * sorting algorithm 
 
 
 **Output Data:**
