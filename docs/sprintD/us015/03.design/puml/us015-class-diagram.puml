@@ -1,0 +1,129 @@
+@startuml
+'skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam linetype polyline
+'skinparam linetype orto
+
+skinparam classAttributeIconSize 0
+
+'left to right direction
+
+'class ApplicationSession {
+'    + static getInstance()
+'    + getCurrentSession()
+'}
+
+'class UserSession{
+'    + getUserEmail()
+'}
+
+'class Employee {
+'    - name
+'    - email
+'    - position
+'    - phone
+'}
+'
+'class TaskCategory {
+'    - String description
+'
+'    + TaskCategory(description)
+'}
+
+class Repositories {
+    - Repositories()
+    + getInstance() : repositories
+    + getAlgorithmRepository()
+    + getAuthenticationRepository()
+    + getAgencyRepository()
+}
+
+class ListVisitsController {
+    + CreateTaskController(organizationRepository, taskCategoryRepository)
+    + getTaskCategories()
+    + createTask(userEmail, reference, description,\ninformalDescription, technicalDescription,\nduration, cost, categoryDescription)
+    - getTaskCategoryByDescription(taskCategoryDescription)
+    - getEmployeeFromSession()
+}
+
+class AlgorithmMapper{
++toDto(algorithmTypeDesignation)
+}
+
+class AlgorithmDto{
+}
+
+class Algorithm{
+}
+
+class AuthenticationRepository{
++getCurrentSession()
+}
+
+'class Email{
+'}
+
+class AgencyRepository{
+-List<Agency> agencies
+
++getAgencyByEmployeeEmail(agentEmail)
+}
+
+class Agency{
+'-VisitList visits
+
++anyAgentHasEmail(agentEmail)
++getVisitRequestsByAgentEmail(agentEmail, beginDate, endDate, sortingAlgorithm)
+}
+
+class AnnouncementList{
+-List<Visit> visits
+}
+
+class Announcement{
+}
+
+class VisitMapper{
++toDto(Visit)
+}
+
+class Visit{
+}
+
+class VisitDto{
+}
+
+class ListVisitsUI {
+}
+
+
+Repositories -> Repositories : instance
+ApplicationSession -> ApplicationSession : instance
+
+ListVisitsUI .> ListVisitsController
+
+ListVisitsController .> Repositories : repositories
+'
+'Repositories -> "1" TaskCategoryRepository
+'
+'CreateTaskController ..> TaskCategory
+'CreateTaskController ..> OrganizationRepository : organizationRepository
+'CreateTaskController ..> TaskCategoryRepository : TaskCategoryRepository
+'
+'Repositories --> "1" OrganizationRepository
+'
+'OrganizationRepository --> "*" Organization
+'ApplicationSession --> "1" UserSession : userSession
+'
+'CreateTaskController ..> "1" Organization : organization
+'CreateTaskController ..> ApplicationSession
+'CreateTaskController ..> UserSession
+'Task "*" --> "1" TaskCategory : taskCategory
+'TaskCategoryRepository "1" --> "*" TaskCategory : taskCategory
+'Organization "1" --> "*" Task : tasks
+'Task --> Employee : createdBy
+'
+'Organization --> "*" Employee : employs
+
+@enduml
