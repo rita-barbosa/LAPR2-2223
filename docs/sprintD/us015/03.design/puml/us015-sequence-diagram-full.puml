@@ -1,0 +1,290 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+'check if it's going to be ListVisitsUI or ListBookingRequestsUI
+
+'hide footbox
+actor "Agent" as ADM
+participant ":ListVisitsUI" as UI
+participant ":ListVisitsController" as CTRL
+participant ":Repositories" as RepositorySingleton
+participant "repositories\n:Repositories" as PLAT
+participant "algorithmRepository:\nAlgorithmRepository" as AlgorithmRepository
+participant "algorithmMapper\n:AlgorithmMapper" as AlgMapper
+participant "algorithmDto\n:AlgorithmDto" as AlgDto
+participant "algorithmDtoList\n:List<AlgorithmDto>" as AlgDtoList
+participant "algorithm\n:Algorithm" as Alg
+participant "authenticationRepository\n: AuthenticationRepository" as AuthRep
+participant "userSession\n: UserSession" as SESSION
+participant "email\n: Email" as Email
+participant "agencyRepository\n: AgencyRepository" as AgRep
+participant "agency\n: Agency" as AGENCY
+participant "announcementList\n: AnnouncementList" as AnnList
+participant "listAnnouncements\n: List<Announcement>" as AnnounceList
+participant "announcement\n: Announcement" as Announce
+participant "listVisits\n: List<Visit>" as VisitList
+participant "visitMapper\n: VisitMapper" as VisitMapper
+participant "visit\n: Visit" as Visit
+participant "listVisitsDto\n: List<VisitDto>" as VisitDtoList
+
+activate ADM
+
+        ADM -> UI : asks to see all the booking requests made to \nproperties manage by himself
+        activate UI
+
+            UI -> CTRL** : create
+
+            UI --> ADM : requests data
+        deactivate UI
+
+    ADM -> UI : selects requested data (begin date, end date)
+    activate UI
+
+        UI -> CTRL : getAlgorithms()
+        activate CTRL
+
+            CTRL -> RepositorySingleton : getInstance()
+            activate RepositorySingleton
+
+                RepositorySingleton --> CTRL: repositories
+            deactivate RepositorySingleton
+
+            CTRL -> PLAT : getAlgorithmRepository()
+            activate PLAT
+
+                PLAT --> CTRL: algorithmRepository
+            deactivate PLAT
+
+            CTRL -> AlgorithmRepository : getAlgorithmList()
+            activate AlgorithmRepository
+
+                AlgorithmRepository --> CTRL : algorithmList
+            deactivate AlgorithmRepository
+
+            CTRL -> AlgMapper: toDto(algorithmList)
+            activate AlgMapper
+
+            AlgMapper -> AlgDtoList** : create
+
+            loop for each algorithm
+
+                AlgMapper -> AlgMapper : toDto(algorithmList)
+                activate AlgMapper
+
+                AlgMapper -> Alg : getAlgorithmTypeDesignation()
+                activate Alg
+
+                Alg --> AlgMapper : algorithmTypeDesignation
+                deactivate Alg
+
+                |||
+                AlgMapper -> AlgDto** : create(algorithmTypeDesignation)
+
+
+                AlgMapper --> AlgMapper: algorithmTypeDto
+                deactivate AlgMapper
+                |||
+                AlgMapper -> AlgDtoList: add(algorithmTypeDto)
+                activate AlgDtoList
+                deactivate AlgDtoList
+                end loop
+
+            AlgMapper --> CTRL : algorithmDtoList
+            deactivate AlgMapper
+
+        CTRL --> UI : algorithmDtoList
+        deactivate CTRL
+
+        UI --> ADM : shows sorting algorithm options and asks to select one
+    deactivate UI
+
+    ADM -> UI : selects data (sorting algorithm)
+    activate UI
+
+    UI -> CTRL : getVisitRequestsList(beginDate, endDate, sortingAlgorithm)
+    activate CTRL
+
+        CTRL -> CTRL : getAgentEmail()
+        activate CTRL
+
+        CTRL -> RepositorySingleton : getInstance()
+        activate RepositorySingleton
+
+        RepositorySingleton --> CTRL : repositories
+        deactivate RepositorySingleton
+
+         CTRL -> PLAT : getAuthenticationRepository()
+         activate PLAT
+
+         PLAT --> CTRL : authenticationRepository
+         deactivate PLAT
+
+         CTRL -> AuthRep : getCurrentSession()
+         activate AuthRep
+
+         AuthRep --> CTRL : userSession
+         deactivate AuthRep
+
+         CTRL -> SESSION : getUserId()
+         activate SESSION
+
+         SESSION --> CTRL : email
+         deactivate SESSION
+
+        CTRL -> Email : getEmail()
+        activate Email
+
+        Email --> CTRL : agentEmail
+        deactivate Email
+
+        CTRL --> CTRL : agentEmail
+        deactivate CTRL
+        |||
+
+        CTRL -> CTRL: getVisitRequestsListByAgentEmail(agentEmail, beginDate, endDate, sortingAlgorithm)
+        activate CTRL
+
+        CTRL -> PLAT :  getAgencyRepository()
+        activate PLAT
+
+        PLAT -> CTRL : agencyRepository
+        deactivate PLAT
+        CTRL -> AgRep: getAgencyByEmployeeEmail(agentEmail)
+        activate AgRep
+
+         loop for each agency
+             AgRep -> AGENCY : anyAgentHasEmail(agentEmail)
+             activate AGENCY
+
+                  AGENCY --> AgRep : true/false
+             deactivate AGENCY
+         end
+         AgRep --> CTRL : agency
+        deactivate AgRep
+
+        CTRL -> AGENCY: getVisitRequestsByAgentEmail(agentEmail, beginDate, endDate, sortingAlgorithm)
+        activate AGENCY
+
+'        loop for each announcement
+        AGENCY -> AnnList : getVisitRequestsByAgentEmail(agentEmail, beginDate, endDate, sortingAlgorithm)
+             activate AnnList
+
+             AnnList -> VisitList**: create()
+
+
+             loop for each announcement
+             AnnList -> Announce : hasAgentWithEmail(agentEmail)
+             activate Announce
+
+             Announce --> AnnList : true/false
+             deactivate Announce
+
+                 alt true
+                    AnnList -> Announce : getVisitRequests(beginDate, endDate)
+                    activate Announce
+                    Announce --> AnnList: visitsList
+                    deactivate Announce
+
+                    loop for each visit
+                    AnnList -> VisitList : add(Visit)
+                    activate VisitList
+                    deactivate VisitList
+                    end loop
+
+                 |||
+                 end alt
+             end loop
+             AnnList -> AnnList : sortVisitsByAlgorithm(listVisits, sortingAlgorithm)
+             activate AnnList
+             AnnList --> AnnList: visitRequestsList
+             deactivate AnnList
+
+             AnnList --> AGENCY : visitRequestsList
+             deactivate AnnList
+
+'        end loop
+
+'        ref over AGENCY
+'        Get Visits List
+'        end ref
+
+        AGENCY --> CTRL : visitRequestsList
+        deactivate AGENCY
+
+        CTRL --> CTRL: visitRequestsList
+        deactivate CTRL
+
+        CTRL -> VisitMapper : toDto(visitRequestsList)
+             activate VisitMapper
+
+             VisitMapper -> VisitDtoList**: create()
+
+                    loop for each Visit Request
+
+                    VisitMapper -> VisitMapper : toDto(Visit)
+                    activate VisitMapper
+                         |||
+
+                        VisitMapper -> Visit : getId()
+                        activate Visit
+
+                        Visit --> VisitMapper : id
+                        deactivate Visit
+
+                        VisitMapper -> Visit : getVisitDate()
+                        activate Visit
+
+                        Visit --> VisitMapper : visitDate
+                        deactivate Visit
+
+                        VisitMapper -> Visit : getStartHour()
+                        activate Visit
+
+                        Visit --> VisitMapper : startHour
+                        deactivate Visit
+
+                        VisitMapper -> Visit : getEndHour()
+                        activate Visit
+
+                        Visit --> VisitMapper : endHour
+                        deactivate Visit
+
+                        VisitMapper -> Visit : getAcceptanceStatus()
+                        activate Visit
+
+                        Visit --> VisitMapper : acceptanceStatus
+                        deactivate Visit
+
+                        VisitMapper -> VisitDto : create(id, visitDate, startHour, endDate, acceptanceStatus)
+                        activate VisitDto
+                        deactivate VisitDto
+
+'                         ref over VisitMapper
+'                              Create VisitDto
+'                         end ref
+                    |||
+                    VisitMapper --> VisitMapper: VisitDto
+                    deactivate VisitMapper
+                    |||
+                    VisitMapper -> VisitDtoList: add(VisitDto)
+                    activate VisitDtoList
+                    deactivate VisitDtoList
+
+                    |||
+                    end loop
+
+                 VisitMapper --> CTRL : listVisitsDto
+                 deactivate VisitMapper
+
+             CTRL --> UI: listVisitsDto
+             deactivate CTRL
+
+        UI --> ADM : display all booking requests according to the \ndates and algorithm chosen
+    deactivate UI
+
+deactivate ADM
+
+@enduml
