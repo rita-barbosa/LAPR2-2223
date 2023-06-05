@@ -7,7 +7,7 @@ title System Sequence Diagram (SSD) - US015
 
 autonumber
 
-actor "Organization Employee" as Agent
+actor "Agent" as Agent
 participant ":System" as System
 
 activate Agent
@@ -26,7 +26,7 @@ activate Agent
 '   sorting algorithm
     deactivate System
 
-    Agent -> System : selects data
+    Agent -> System : selects data (sorting algorithm)
     activate System
 
     System --> Agent : display all booking requests according to the \ndates and algorithm chosen
