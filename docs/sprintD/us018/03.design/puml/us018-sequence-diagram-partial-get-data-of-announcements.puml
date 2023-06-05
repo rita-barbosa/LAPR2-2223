@@ -1,0 +1,120 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+participant "announcementList\n:AnnouncementList" as AnnounceList
+participant "dataList\n: List<List<Double>>" as DL
+participant "announcement\n:Announcement" as Announce
+participant "data\n: List<Double>" as Data
+participant "request\n:Request" as Request
+participant "residence\n:Residence" as Property
+
+autonumber
+ -> AnnounceList : getAnnouncementsData(regressionModelType,variable)
+               activate AnnounceList
+
+group Get Data of Announcements
+                |||
+               AnnounceList -> DL** : create()
+
+               loop for each announcement
+
+               AnnounceList -> Announce : validForAnalysis()
+               activate Announce
+
+                    Announce -> Announce : isDeal()
+                    activate Announce
+
+                    Announce --> Announce :true/false
+                    deactivate Announce
+
+                    Announce -> Request : isSaleResidence()
+                    activate Request
+
+                    Request --> Announce: true/false
+                    deactivate Request
+
+
+               Announce --> AnnounceList: true/false
+               deactivate Announce
+
+
+               alt true
+
+
+               AnnounceList -> Announce : getDataForRegression(regressionModelType, variable)
+               activate Announce
+
+                       |||
+                      Announce -> Data**: create()
+
+                      Announce -> Announce: getSaleAmount()
+                      activate Announce
+
+                      Announce --> Announce: saleAmount
+                      deactivate Announce
+                       |||
+                      Announce -> Data: add(saleAmount)
+                      activate Data
+                      deactivate Data
+
+       |||
+       alt regressionModelType == simple linear
+
+               Announce -> Request: getVariableValueByDesignation(variable)
+               activate Request
+
+               Request -> Property: getVariable(variable)
+               activate Property
+
+               Property --> Request : variableValue
+               deactivate Property
+
+               Request --> Announce: variableValue
+               deactivate Request
+                |||
+               Announce -> Data: add(variableValue)
+               activate Data
+               deactivate Data
+
+       else regressionModelType == multilinear
+       Announce -> Request: getVariablesValue()
+       activate Request
+
+            |||
+            ref over Request
+            Get Data For Multilinear Regression
+            end ref
+
+
+       Request --> Announce: variablesValue
+       deactivate Request
+
+         |||
+      Announce -> Data: addAll(variablesValue)
+      activate Data
+      deactivate Data
+      |||
+       end alt
+
+
+               Announce --> AnnounceList : data
+               deactivate Announce
+
+                AnnounceList -> DL : add(data)
+               activate DL
+               deactivate DL
+
+               end alt
+               |||
+               end loop
+
+
+
+end group
+        <--  AnnounceList : dataList
+       deactivate AnnounceList
+
+
+@enduml

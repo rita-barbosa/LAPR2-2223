@@ -13,8 +13,7 @@ participant ":Repositories" as RepositorySingleton
 participant "repositories\n:Repositories" as PLAT
 participant "regressionModelTypeRepository\n:RegressionModelTypeRepository" as RMTRep
 participant "agencyRepository\n:AgencyRepository" as AgencyRepository
-participant ":RegressionModel" as RM
-participant "independentVariablesRepository\n:IndependentVariablesRepository" as IVRep
+participant "statistic\n:Statistic" as ST
 participant "regressionModelTypeMapper\n:RegressionModelTypeMapper" as RMTMapper
 participant "regressionModelTypeDto\n:RegressionModelTypeDto" as RMTDto
 participant "regressionModelTypeDtoList\n:List<RegressionModelTypeDto>" as RMTDtoList
@@ -92,14 +91,14 @@ activate ADM
     activate UI
 
     alt regressionModelTypeDto == simple linear
-        UI --> ADM: shows the parameters available for regression \nmodels and asks to select one.
+        UI --> ADM: shows the variables available for regression \nmodels and asks to select one.
          deactivate UI
-        ADM -> UI: selects parameter.
+        ADM -> UI: selects variable.
         activate UI
         |||
     end alt
 
-    UI -> CTRL : getRegressionModelStatisticsAndForecastValues(regressionModelTypeDto, parameter)
+    UI -> CTRL : getRegressionModelStatisticsAndForecastValues(regressionModelTypeDto, variable)
     activate CTRL
 
     CTRL -> RMTMapper : toModel(regressionModelTypeDto)
@@ -118,7 +117,7 @@ activate ADM
 
 
     |||
-    CTRL -> CTRL : getDataForAnalysis(parameter)
+    CTRL -> CTRL : getDataForAnalysis(regressionModelType,variable)
     activate CTRL
 
     CTRL -> PLAT : getAgencyRepository()
@@ -127,51 +126,39 @@ activate ADM
     PLAT --> CTRL : agencyRepository
     deactivate PLAT
 
-    alt regressionModelType == simple linear
 
-    CTRL -> AgencyRepository : getAgenciesAnnouncementDataListForSLR(parameter)
+    CTRL -> AgencyRepository : getAgenciesDataList(regressionModelType,variable)
     activate AgencyRepository
         ref over AgencyRepository
-         Get all data for SLR analysis
+         Get all data for analysis
         end ref
 
-    AgencyRepository --> CTRL  : allDataList
+    AgencyRepository --> CTRL  : dealsDataList
     deactivate AgencyRepository
 
 
-    |||
 
-    else regressionModelType == simple linear
-
-            CTRL -> AgencyRepository : getAgenciesAnnouncementDataListForMLR()
-            activate AgencyRepository
-                ref over AgencyRepository
-                 Get all data for MLR analysis
-                end ref
-
-            AgencyRepository --> CTRL  : allDataList
-            deactivate AgencyRepository
-
-
-    |||
-    end alt
-
-    CTRL --> CTRL: allDataList
+    CTRL --> CTRL: dealsDataList
     deactivate CTRL
 
+    |||
+    CTRL -> CTRL: getRegressionModelStatistics(regressionModelType, dealsDataList)
+    activate CTRL
 
 
-    CTRL -> RM  : getRegressionModelStatistics(allDataList)
-    activate RM
 
-        note right RM
-            RegressionModel implementation will
-            depend on the regressionModelType
-        end note
+    CTRL -> ST  : getStatistics(regressionModelType, dealsDataList)
+    activate ST
+            |||
+            ref over ST
+            Get Statistics
+            end ref
 
+    ST --> CTRL: statistics
+    deactivate ST
 
-    RM --> CTRL: statistics
-    deactivate RM
+    CTRL --> CTRL: statistics
+    deactivate CTRL
 
     note right CTRL
         VER MELHOR COMO FAZER ESTE GET

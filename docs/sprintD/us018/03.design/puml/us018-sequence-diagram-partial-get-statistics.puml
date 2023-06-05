@@ -1,0 +1,42 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+
+participant "statistic\n:Statistic" as ST
+participant ":RegressionModel" as RM
+
+
+
+autonumber
+
+  -> ST  : getStatistics(regressionModelType, dealsDataList)
+    activate ST
+
+group   Get Statistics
+
+
+    ST -> RM**: create(dealsDataList)
+
+        note right RM
+        RegressionModel implementation will
+        depend on the regression model specified
+        in regressionModelType instance.
+        end note
+
+
+    ST -> RM: getForecastValuesForData(dealsDataList)
+    activate RM
+
+    RM--> ST: forecastValues
+    deactivate RM
+
+end group
+
+    <-- ST : statistic
+    deactivate ST
+
+@enduml

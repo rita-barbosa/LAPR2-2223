@@ -1,0 +1,77 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+
+participant "request\n:Request" as Request
+participant "residence\n:Residence" as Property
+participant "variablesValue\n:List<Double>" as ParameterValues
+
+autonumber
+
+       -> Request: getVariablesValue()
+       activate Request
+
+group Get data for multilinear regression
+
+
+              Request -> ParameterValues** : create()
+
+              Request -> Property: getArea()
+              activate Property
+
+              Property --> Request: area
+              deactivate Property
+
+              Request -> ParameterValues : add(area)
+              activate ParameterValues
+              deactivate ParameterValues
+
+              Request -> Property: getDistanceCityCenter()
+              activate Property
+
+              Property --> Request: distanceCityCenter
+              deactivate Property
+
+              Request -> ParameterValues : add(distanceCityCenter)
+                                    activate ParameterValues
+                                    deactivate ParameterValues
+
+              Request -> Property: getNumberBedrooms()
+              activate Property
+
+              Property --> Request: numberBedrooms
+              deactivate Property
+
+              Request -> ParameterValues : add(numberBedrooms)
+                                    activate ParameterValues
+                                    deactivate ParameterValues
+
+              Request -> Property: getNumberBathrooms()
+              activate Property
+
+              Property --> Request: numberBathrooms
+              deactivate Property
+
+              Request -> ParameterValues : add(numberBathrooms)
+                                    activate ParameterValues
+                                    deactivate ParameterValues
+
+              Request -> Property: getParkingSpace()
+              activate Property
+
+              Property --> Request: parkingSpaces
+              deactivate Property
+
+              Request -> ParameterValues : add(parkingSpaces)
+                                    activate ParameterValues
+                                    deactivate ParameterValues
+
+
+
+end group
+        <--  Request: variablesValue
+        deactivate Request
+
+@enduml
