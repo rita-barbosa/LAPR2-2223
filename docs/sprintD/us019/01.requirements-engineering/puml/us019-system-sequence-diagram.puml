@@ -14,7 +14,7 @@ activate Employee
     Employee -> System : asks to divide set of stores into two subsets.
     activate System
 
-    System --> Employee : shows sublists and difference of the number of properties.
+    System --> Employee : shows sublists, difference of the number\n of properties and operation success.
     deactivate System
 
 @enduml
