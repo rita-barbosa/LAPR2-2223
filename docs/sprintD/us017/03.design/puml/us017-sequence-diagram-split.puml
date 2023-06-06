@@ -61,7 +61,7 @@ activate NWM
 
             loop for all announcements
 
-            ANNOUNCELIST -> ANNOUNCE : isItDeal()
+            ANNOUNCELIST -> ANNOUNCE : isDeal()
             activate ANNOUNCE
 
                 ANNOUNCE --> ANNOUNCELIST : true/false
