@@ -73,8 +73,18 @@ class RegressionModelTypeDto {
 }
 
 class Statistic {
-**After studying package check design**
+- String equation
+- List<String> hypothesisTests
+- List<String> confidenceIntervals
+- List<List<Double>> dealsDataList
+- List<Double> forecastValues
+ + getRegressionModelEquation()
+ + getRegressionModelConfidenceIntervals()
+ + getRegressionModelHypothesisTests()
+ + getRegressionModelForecastValue()
+ + getRegressionModelDealsData()
  + getStatistics(regressionModelType,dealsDataList)
+ **After studying package check design**
 }
 
 class Business
@@ -113,11 +123,17 @@ class Multilinear implements RegressionModel {
 **After studying package check design**
 }
 interface RegressionModel {
+**CHECK ATTRIBUTES**
  + RegressionModel(dealsDataList)
- + calculateSlope()
- + calculateIntercept()
- + determineConfidenceIntervals()
- + determineHypothesisTests()
+ - calculateSlope()
+ - calculateIntercept()
+ - determineConfidenceIntervals(value)
+ - determineHypothesisTests(value)
+ **missing anova statistics**
+ + getModelEquation()
+ + getConfidenceIntervals()
+ + getHypothesisTests()
+ + getAnovaSignificanceModel()
  + getForecastValuesForData()
 }
 
@@ -145,13 +161,13 @@ RegressionModelTypeRepository --> "*" RegressionModelType
 
 AgencyRepository --> "*" Agency
 
-AnnouncementList "1" --> "*" Announcement
+AnnouncementList "1" --> "*" Announcement : announcements
 Announcement --> "1" Request
 Request  ---> "1" Property
     Request -> "1" Business
     Business "1" <-- "1" BusinessType
 Residence --|> Property
 Agency "1" --> "*" Announcement
-Agency  --> "1" AnnouncementList
+Agency  --> "1" AnnouncementList : announcements
 
 @enduml
