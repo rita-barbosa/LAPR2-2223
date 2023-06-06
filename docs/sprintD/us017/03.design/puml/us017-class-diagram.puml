@@ -68,7 +68,7 @@ class Announcement{
     - Commission commission
     - OrderList orders
     - List<Visit> visitList
-    + isItDeal()
+    + isDeal()
     + getSaleDate()
     + getId()
     + getRequestDate()
