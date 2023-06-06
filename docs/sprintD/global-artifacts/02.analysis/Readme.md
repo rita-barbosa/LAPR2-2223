@@ -26,12 +26,13 @@ Iterative Development".
 
 **Product/Service related to a Transaction or Transaction Line Item**
 
-* Visit
 * Land
 * House
 * Apartment
 * Announcement
-* Listing
+* Visit
+* Order
+* Request
 
 ---
 
@@ -59,7 +60,8 @@ Iterative Development".
 
 * Announcement
 * Visit
-* Listing
+* Request
+* Order
 
 ---
 
@@ -85,7 +87,7 @@ Iterative Development".
 
 **Elements of Containers**
 
-* Store
+* Agency
 
 ---
 
@@ -103,7 +105,7 @@ Iterative Development".
 
 ### **Rationale to identify associations between conceptual classes** ###
 
-An association is a relationship between instances of objects that indicates a relevant connection and that is worth of
+An association is a relationship between instances of objects that indicates a relevant connection, and that is worth of
 remembering, or it is derivable from the List of Common Associations:
 
 + **_A_** is physically or logically part of **_B_**
@@ -114,50 +116,53 @@ remembering, or it is derivable from the List of Common Associations:
 + **_A_** is related with a transaction (item) of **_B_**
 + etc.
 
-|     Concept (A)     |     Association     |     Concept (B)     |
-|:-------------------:|:-------------------:|:-------------------:|
-|       Agency        |      contains       |      Location       |
-|                     |    is a part of     |       Network       |
-|        Agent        |        is a         |      Employee       |
-|                     |      publishes      |    Announcement     |
-|                     |      registers      |     VisitReport     |
-|                     |      schedules      |        Visit        |
-|    Announcement     |      contains       |      Property       |
-|       Company       |        knows        | SystemAdministrator |
-|                     |        owns         |       Agency        |
-|                     |        owns         |       Network       |
-|       Client        |        views        |    Announcement     |
-|      Customer       |        is a         |       Person        |
-|                     |      requests       |        Visit        |
-|      Employee       |        is a         |       Person        |
-|                     |      works in       |       Agency        |
-|        House        |        is a         |      Residence      |
-|        Lease        |        is a         |        Price        |
-|   NetworkManager    |        is a         |      Employee       |
-|                     |       manages       |       Network       |
-|        Owner        |        is a         |       Person        |
-|                     |      requests       |       Listing       |
-|       Person        |      contains       |      Location       |
-|      Property       |      contains       |        Owner        |
-|                     |      contains       |     Photograph      |
-|                     |      contains       |        Price        |
-|      Residence      |      contains       | AvailableEquipment  |
-|                     |        is a         |      Property       |
-|    StoreManager     |        is a         |      Employee       |
-|                     |       manages       |       Agency        |
-| SystemAdministrator |        is a         |       Person        |
-|                     |      registers      |       Agency        |
-|                     |      registers      |      Employee       |
-|    TypeProperty     | is a description of |      Property       |
-|    TypeResidence    | is a description of |      Residence      |
-|        Visit        |       done to       |      Property       |
-|     VisitReport     | is a description of |        Visit        |
+|     Concept (A)     |      Association      |     Concept (B)      |
+|:-------------------:|:---------------------:|:--------------------:|
+|       Agency        |      has address      |       Location       |
+|                     |     is a part of      |       Network        |
+|                     |    is assigned to     |       Request        |
+|                     |         owns          |     Announcement     |
+|        Agent        |         is a          |       Employee       |
+|                     |  is responsible for   |       Request        |
+|                     |       registers       |     VisitReport      |
+|                     |       schedules       |        Visit         |
+|    Announcement     |       contains        |       Property       |
+|                     |      is based on      |       Request        |
+|                     |    is published by    |        Agent         |
+|     Commission      |    is assigned to     |     Announcement     |
+|      Customer       |    represented in     |        Person        |
+|                     |       requests        |        Visit         |
+|                     |       places a        |        Order         |
+|                     |       plays as        |        Owner         |
+|      Employee       |         is a          |        Person        |
+|                     |       plays as        |        Agent         |
+|                     |       plays as        |   Network Manager    |
+|                     |       plays as        |    Store Manager     |
+|                     |       plays as        | System Administrator |
+|                     |    represented in     |        Person        |
+|                     |       works in        |        Agency        |
+|        House        |         is a          |      Residence       |
+|        Lease        |         is a          |       Business       |
+|   NetworkManager    |        manages        |       Network        |
+|        Order        |    is accepted by     |        Agent         |
+|                     |   is associated to    |     Announcement     |
+|        Owner        |        submits        |       Request        |
+|       Person        |      has address      |       Location       |
+|      Property       |   is visualized in    |      Photograph      |
+|                     |      has address      |       Location       |
+|       Request       |    is described by    |       Business       |
+|                     | has information about |       Property       |
+|      Residence      |       includes        |  AvailableEquipment  |
+|                     |         is a          |       Property       |
+|    StoreManager     |       analyzes        |     Announcement     |
+|                     |        manages        |        Agency        |
+| SystemAdministrator |       registers       |        Agency        |
+|                     |       registers       |       Employee       |
+|    PropertyType     |  is a description of  |       Property       |
+|        Visit        |        done to        |       Property       |
+|     VisitReport     |  is a description of  |        Visit         |
 
 ## Domain Model
-
-**Do NOT forget to identify concepts attributes too.**
-
-**Insert below the Domain Model Diagram in a SVG format**
 
 ![Domain Model](svg/project-domain-model.svg)
 
