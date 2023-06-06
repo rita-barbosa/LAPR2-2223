@@ -1,0 +1,122 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+'hide footbox
+actor "Agent" as ADM
+participant ":ListVisitsUI" as UI
+participant ":ListVisitsController" as CTRL
+participant "repositories\n:Repositories" as PLAT
+participant "agencyRepository\n: AgencyRepository" as AgRep
+participant "agency\n: Agency" as AGENCY
+participant "<b><<Interface>></b>\n:SortingAlgorithm" as SORTALG
+
+activate ADM
+
+        ADM -> UI : asks to see all the booking requests made to \nproperties manage by himself
+        activate UI
+
+            UI -> CTRL** : create
+
+            UI --> ADM : requests data
+        deactivate UI
+
+    ADM -> UI : selects requested data (begin date, end date)
+    activate UI
+
+    UI -> CTRL : getVisitRequestsList(beginDate, endDate)
+    activate CTRL
+
+        CTRL -> CTRL : getAgentEmail()
+        activate CTRL
+
+           ref over CTRL
+           Get Agent Email
+           end ref
+
+        CTRL --> CTRL : agentEmail
+        deactivate CTRL
+        |||
+
+        CTRL -> CTRL: getVisitRequestsListByAgentEmail(agentEmail, beginDate, endDate)
+        activate CTRL
+
+        CTRL -> PLAT :  getAgencyRepository()
+        activate PLAT
+
+        PLAT -> CTRL : agencyRepository
+        deactivate PLAT
+        CTRL -> AgRep: getAgencyByEmployeeEmail(agentEmail)
+        activate AgRep
+
+         loop for each agency
+             AgRep -> AGENCY : anyAgentHasEmail(agentEmail)
+             activate AGENCY
+
+                  AGENCY --> AgRep : true/false
+             deactivate AGENCY
+         end
+         AgRep --> CTRL : agency
+        deactivate AgRep
+
+
+        CTRL -> CTRL : getVisitRequestsByAgentEmail(agentEmail, beginDate, endDate)
+        activate CTRL
+
+        ref over CTRL
+        Get Visit Requests by Agent Email
+        end ref
+
+
+        CTRL --> CTRL : visitRequestsList
+        deactivate CTRL
+
+        CTRL --> CTRL: visitRequestsList
+        deactivate CTRL
+        |||
+
+        CTRL -> CTRL : getSortedVisitRequestList(sortingOrder, visitRequestsList)
+        activate CTRL
+
+        CTRL -> SORTALG** : create()
+
+        note right SORTALG
+        SortingMethod implementation will
+        depend on the sorting method specified
+        in the configuration file.
+        end note
+
+        CTRL -> SORTALG : getSortedVisitRequestList(sortingOrder, visitRequestsList)
+        activate SORTALG
+
+        SORTALG --> CTRL : sortedVisitsList
+        deactivate SORTALG
+
+        CTRL --> CTRL : sortedVisitsList
+        deactivate CTRL
+        |||
+
+            CTRL -> CTRL : toDto(visitRequestsList)
+            activate CTRL
+
+            ref over CTRL
+            Convert Visits List to DTO
+            end ref
+
+
+            CTRL --> CTRL : listVisitsDto
+            deactivate CTRL
+
+             CTRL --> UI: listVisitsDto
+             deactivate CTRL
+
+
+        UI --> ADM : display all booking requests according to the \ndates chosen
+    deactivate UI
+
+deactivate ADM
+
+@enduml
