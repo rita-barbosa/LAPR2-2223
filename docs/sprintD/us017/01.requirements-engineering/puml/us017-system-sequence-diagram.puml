@@ -17,7 +17,7 @@ activate NWM
 
     loop At least once until when the user intends
 
-    System --> NWM : shows types of sorting order (Ascending/Descending)\n and asks to select one
+    System --> NWM : shows types of sorting order and asks to select one
         deactivate System
 
     NWM -> System : selects a sorting order
