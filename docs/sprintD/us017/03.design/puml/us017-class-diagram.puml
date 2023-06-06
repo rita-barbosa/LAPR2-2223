@@ -9,6 +9,8 @@ skinparam classAttributeIconSize 0
 
 'left to right direction
 
+title Class Diagram - US017
+
 class Agency {
     - Integer id
     - String description
@@ -23,28 +25,86 @@ class Agency {
 
 class AnnouncementList{
     - List<Announcement> announcements
+    + getDealsList()
     + sortAnnouncementsByMostRecentSaleDate()
-    + sortAnnouncementsByOldestSaleDate()
-    + sortByAlgorithm(algorithm)
-    + clone()
-    + getList()
-    + remove(announcement)
+    + getAnnouncement(idx)
 }
+
+note right of AnnouncementList::getAnnouncement
+The variable idx refers to the
+position of the announcement
+in the Announcement List
+end note
+
+class AnnouncementMapper {
+    + toDto(sortedListDto)
+}
+
+class AnnouncementDto{
+    + create(announcementId, requestInfo,\n saleDate, saleAmount, requestDate,\n commissionInfo, agentName, agencyId)
+}
+
+note top of AnnouncementDto
+    - requestInfo is String
+     from the Announcement
+     Request's toString()
+    - commissionInfo is
+    String from Announcement
+    Commission's toString()
+end note
+
+'class AnnouncementListDto << List<AnnouncementDto> >>{
+'    + add(announcementDto)
+'}
 
 class Announcement{
     - LocalDate acceptanceDate
     - LocalDate saleDate
+    - Double saleAmount
     - Commission commission
     - Request request
     - Employee agent
     - Integer id
+    - Commission commission
     - OrderList orders
     - List<Visit> visitList
-    + isItSold()
+    + isItDeal()
+    + getSaleDate()
+    + getId()
+    + getRequestDate()
+    + getCommissionInfo()
+    + getSaleAmount()
+    + getRequestInfo()
+    + getAgentName()
+'    + getAgentTaxNumber()
+    + getAgentAgencyId()
+}
+
+note left of Announcement::isItDeal
+This method checks if the
+saleDate of the Announcement
+is different from the default one
+(1-1-1)
+end note
+
+class Commission{
+    - Double commissionValue
+    - CommissionType commissionType
+    + toString()
+}
+
+class Request{
+    - LocalDate requestDate
+    - Integer id
+    - Employee Employee
+    - Email ownerEmail
+    - Business business
+    - Property property
+    + toString()
 }
 
 class AgencyRepository {
-    + getAllSoldAnnouncements()
+    + getAllDealsAnnouncements()
 }
 
 class Repositories {
@@ -55,32 +115,99 @@ class Repositories {
 
 class ListDealsNetworkController {
     + ListDealsNetworkController(AgencyRepository)
-    + getListSortedByAlgorithm(order, algorithm)
+    + getAllDealsList()
+    + getListSortedByAlgorithm(sortingOrder, algorithm)
+    + getSortedList(algorithm, sortingOrder, listOfAllDeals)
+    + convertToDto(listOfAllDeals)
 }
 
-note right of ListDealsNetworkController
-    order and algorithm
-    are retrieved from
-    selected data
+interface SortingAlgorithm  as "<b><<Interface>></b>\nSortingAlgorithm" {
+    - sort(order, list)
+}
+
+class MergeAlgorithm {
+    - sort(sortingOrder, listOfAllDeals)
+}
+
+class BubbleAlgorithm {
+    - sort(sortingOrder, listOfAllDeals)
+}
+
+note top of ListDealsNetworkController
+    - sortingOrder and algorithm
+    are retrieved from selected
+    data
+    - listOfAllDeals is retrieved
+    from the sorting method
 end note
 
 class ListDealsNetworkUI {
 }
 
-Repositories -> Repositories : instance
+class Person{
+    - String name;
+    - String taxNumber;
+    - Email emailAddress;
+    - String phoneNumber;
+    - String passportCardNumber;
+    - List<String> roles;
+    - Location location;
+    + getName()
+ }
+
+
+class Employee{
+    - String agencyId
+    + getName()
+    + getAgencyId()
+}
+
+
+'RELATIONS
 
 ListDealsNetworkUI .> ListDealsNetworkController
 
+Repositories -> Repositories : instance
+
 ListDealsNetworkController .> Repositories : repositories
 
-Repositories -> "1" AgencyRepository
+Repositories -left> "1" AgencyRepository
 
 ListDealsNetworkController ..> Agency
-ListDealsNetworkController ..> AgencyRepository : AgencyRepository
 
-AgencyRepository "1" -right-> "*" Agency : Agency
-Agency "1" --> "1" AnnouncementList
+ListDealsNetworkController .> SortingAlgorithm
 
-AnnouncementList "1" -left-> "*" Announcement
+ListDealsNetworkController ..> AgencyRepository
+
+AgencyRepository "1" --> "*" Agency : aggregates >
+
+Agency "1" --> "1" AnnouncementList : owns >
+
+ListDealsNetworkController ..> AnnouncementMapper
+
+AnnouncementMapper ..> AnnouncementList
+
+AnnouncementMapper ..> Announcement
+
+AnnouncementMapper ..> AnnouncementDto
+
+MergeAlgorithm ..up|> SortingAlgorithm : implements >
+
+BubbleAlgorithm ..left|> SortingAlgorithm : implements >
+
+'AnnouncementMapper .left.> AnnouncementListDto
+
+'ListDealsNetworkController .> AnnouncementListDto
+
+'ListDealsNetworkUI .> AnnouncementListDto
+
+'AnnouncementListDto -left> AnnouncementDto : contains >
+
+Person "1" -down-> "1" Employee: represented in <
+Employee "1" --> "*" Announcement: is published by <
+Employee "1" -> "1" Agency: works in  >
+AnnouncementList "1" --> "*" Announcement: records >
+Announcement "1" -> "1" Request : is  based on >
+Announcement "1" -right-> "1" Commission: is assigned to <
 
 @enduml
