@@ -1,0 +1,84 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+
+participant ":ListVisitsController" as CTRL
+participant "agency\n: Agency" as AGENCY
+participant "announcementList\n: AnnouncementList" as AnnList
+participant "listAnnouncements\n: List<Announcement>" as AnnounceList
+participant "announcement\n: Announcement" as Announce
+participant "listVisits\n: List<Visit>" as VisitList
+
+autonumber 25
+
+ -> CTRL : getVisitRequestsByAgentEmail(agentEmail, beginDate, endDate)
+autonumber 25.1
+activate CTRL
+    group Get Visit Requests by Agent Email
+
+
+            CTRL -> AGENCY: getVisitRequestsByAgentEmail(agentEmail, beginDate, endDate)
+                    activate AGENCY
+
+
+                    AGENCY -> AnnList : getVisitRequestsByAgentEmail(agentEmail, beginDate, endDate)
+                         activate AnnList
+
+                         AnnList -> VisitList**: create()
+
+
+                         loop for each announcement
+                         AnnList -> Announce : hasAgentWithEmail(agentEmail)
+                         activate Announce
+
+                         Announce --> AnnList : true/false
+                         deactivate Announce
+
+                             opt true
+                             AnnList -> Announce : getVisitDate()
+                             activate Announce
+
+                             Announce --> AnnList : visitDate
+                             deactivate Announce
+
+
+                             opt visitDate >= beginDate & visitDate <= endDate
+                                AnnList -> Announce : getVisitRequests(beginDate, endDate)
+                                activate Announce
+                                Announce --> AnnList: visitsList
+                                deactivate Announce
+
+
+                                loop for each visit
+                                    opt !acceptanceStatus
+                                       AnnList -> VisitList : add(Visit)
+            '                            AnnList -> VisitList : add(Visit, Location)
+                                        activate VisitList
+                                        deactivate VisitList
+                                    end opt
+                                end loop
+                            end opt
+
+                             |||
+                             end opt
+                         end loop
+
+                         AnnList --> AGENCY : visitRequestsList
+                         deactivate AnnList
+
+
+                    AGENCY --> CTRL : visitRequestsList
+                    deactivate AGENCY
+
+
+    end
+    autonumber 26
+    <-- CTRL  :  visitRequestsList
+deactivate CTRL
+
+
+@enduml

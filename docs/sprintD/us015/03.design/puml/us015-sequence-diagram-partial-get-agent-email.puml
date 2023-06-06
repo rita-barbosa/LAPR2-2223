@@ -1,0 +1,52 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+participant ":ListVisitsController" as CTRL
+participant ":Repositories" as RepositorySingleton
+participant "repositories\n:Repositories" as PLAT
+participant "authenticationRepository\n: AuthenticationRepository" as AuthRep
+participant "userSession\n: UserSession" as SESSION
+participant "email\n: Email" as Email
+
+autonumber 6
+    -> CTRL: getAgentEmail()
+    activate CTRL
+
+group Get Agent Email
+
+autonumber 6.1
+    CTRL -> RepositorySingleton : getInstance()
+    activate RepositorySingleton
+
+    RepositorySingleton --> CTRL : repositories
+    deactivate RepositorySingleton
+
+     CTRL -> PLAT : getAuthenticationRepository()
+     activate PLAT
+
+     PLAT --> CTRL : authenticationRepository
+     deactivate PLAT
+
+     CTRL -> AuthRep : getCurrentSession()
+     activate AuthRep
+
+     AuthRep --> CTRL : userSession
+     deactivate AuthRep
+
+     CTRL -> SESSION : getUserId()
+     activate SESSION
+
+     SESSION --> CTRL : email
+     deactivate SESSION
+
+    CTRL -> Email : getEmail()
+    activate Email
+
+    Email --> CTRL : agentEmail
+    deactivate Email
+
+end group
+autonumber 7
+     <-- CTRL: agentEmail
+     deactivate CTRL
+@enduml

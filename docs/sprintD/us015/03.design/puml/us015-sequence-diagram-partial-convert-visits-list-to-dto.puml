@@ -1,0 +1,83 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+participant ":ListVisitsController" as CTRL
+participant "visitMapper\n: VisitMapper" as VisitMapper
+participant "visit\n: Visit" as Visit
+participant "listVisitsDto\n: List<VisitDto>" as VisitDtoList
+
+autonumber 33
+-> ORG: toDto(visitRequestsList)
+
+autonumber 33.1
+activate CTRL
+    group Create Task
+
+        CTRL -> VisitMapper : toDto(visitRequestsList)
+                     activate VisitMapper
+
+                     VisitMapper -> VisitDtoList**: create()
+
+                            loop for each Visit Request
+
+                            VisitMapper -> VisitMapper : toDto(Visit)
+                            activate VisitMapper
+                                 |||
+
+                                VisitMapper -> Visit : getId()
+                                activate Visit
+
+                                Visit --> VisitMapper : id
+                                deactivate Visit
+
+                                VisitMapper -> Visit : getVisitDate()
+                                activate Visit
+
+                                Visit --> VisitMapper : visitDate
+                                deactivate Visit
+
+                                VisitMapper -> Visit : getStartHour()
+                                activate Visit
+
+                                Visit --> VisitMapper : startHour
+                                deactivate Visit
+
+                                VisitMapper -> Visit : getEndHour()
+                                activate Visit
+
+                                Visit --> VisitMapper : endHour
+                                deactivate Visit
+
+                                VisitMapper -> Visit : getAcceptanceStatus()
+                                activate Visit
+
+                                Visit --> VisitMapper : acceptanceStatus
+                                deactivate Visit
+
+                                VisitMapper -> VisitDto : create(id, visitDate, startHour, endDate, acceptanceStatus)
+                                activate VisitDto
+                                deactivate VisitDto
+
+                            |||
+                            VisitMapper --> VisitMapper: VisitDto
+                            deactivate VisitMapper
+                            |||
+                            VisitMapper -> VisitDtoList: add(VisitDto)
+                            activate VisitDtoList
+                            deactivate VisitDtoList
+
+                            |||
+                            end loop
+
+                         VisitMapper --> CTRL : listVisitsDto
+                         deactivate VisitMapper
+    end
+
+    autonumber 34
+    <-- CTRL : listVisitsDto
+deactivate CTRL
+
+
+@enduml
