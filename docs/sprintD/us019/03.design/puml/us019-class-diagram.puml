@@ -9,123 +9,114 @@ skinparam classAttributeIconSize 0
 
 'left to right direction
 
-class ApplicationSession
-{
-    + static getInstance()
-    + getCurrentSession()
-}
+title Class Diagram - US019
 
-class UserSession
-{
-    + getUserEmail()
-}
-
-class Employee {
-    - name
-    - email
-    - position
-    - phone
-}
-
-class Task {
-    - String reference
+class Agency {
+    - Integer id
     - String description
-    - String informalDescription
-    - String technicalDescription
-    - Integer duration
-    - Double cost
-
-    + Task(reference, description,\ninformalDescription, technicalDescription,\nduration, cost, createdBy, taskCategory)
+    - Email emailAddress
+    - String phoneNumber
+    - Location location
+    - List<Employee> employees
+    - AnnouncementList announcements
+    - RequestList requests
+    + getAgencyId()
+    + getNumberOfDeals()
 }
 
-class TaskCategory {
-    - String description
-
-    + TaskCategory(description)
+class AnnouncementList{
+    - List<Announcement> announcements
+    + getList()
 }
 
-class Organization {
-    - String name
-    - String vatNumber
-    - String website
-    - String phone
-    - String email
 
-    - addTask(task)
-    - validateTask(task)
-    + anyEmployeeHasEmail(email)
-    + Organization(name, vatNumber, webSite, phone, email, postalAddress, manager)
-    + createTask(reference, description, informalDesccription,\ntechnicalDescription, duration, cost, taskCategoryDescription)
-    - getEmployeeByEmail(email)
-
-'  +saveTask(task)
+class Announcement{
+    - LocalDate acceptanceDate
+    - LocalDate saleDate
+    - Double saleAmount
+    - Commission commission
+    - Request request
+    - Employee agent
+    - Integer id
+    - Commission commission
+    - OrderList orders
+    - List<Visit> visitList
+    + isDeal()
 }
 
-class TaskCategoryRepository {
-    + getTaskCategoryByDescription(description)
+class Partition {
+    + getSubLists(listOfDeals)
+    + getBinaryRepList(size)
+    + getPartitions(listOfDeals, binaryRepList)
+    + getBinaryRepresentation(idx)
+    + getPartitionInfo(listOfDeals, binaryRep)
+    + calculateDifference()
+    + getRuntime()
+    + toString()
 }
+
+note right of Partition::getBinaryRepList
+The variable size is
+retrieved from listOfDeals
+end note
+
+note right of Partition::getBinaryRepresentation
+idx equals 0, and will
+be incremented in every
+iteration
+end note
+
+'class ListInteger << List<Integer> >>{
+'    + add(agencyId, deals)
+'}
+
+'class ListString << List<String> >>{
+'    + add(sublistString)
+'}
 
 class AgencyRepository {
-    + getOrganizationByEmployeeEmail(email)
+    + getDealsNumberOfAgencies()
 }
 
 class Repositories {
     - Repositories()
     + getInstance() : repositories
-    + getTransactionTypeRepository()
-    + getPropertyTypeRepository()
     + getAgencyRepository()
 }
 
-class CreateTaskController {
-    + CreateTaskController(organizationRepository, taskCategoryRepository)
-    + getTaskCategories()
-    + createTask(userEmail, reference, description,\ninformalDescription, technicalDescription,\nduration, cost, categoryDescription)
-    - getTaskCategoryByDescription(taskCategoryDescription)
-    - getEmployeeFromSession()
+class SubdivideStoresController {
+    + SubdivideStoresController(AgencyRepository)
+    + getStorePartitions()
 }
 
-note right of CreateTaskController
-    - userEmail is obtained
-    from the user session
-    - categoryDescription
-    is retrieved from selected data
-end note
-
-note bottom of TaskCategoryRepository
-    - used for displaying
-    the category list
-end note
-
-class CreateTaskUI {
+class SubdivideStoresUI {
 }
 
 Repositories -> Repositories : instance
-ApplicationSession -> ApplicationSession : instance
 
-CreateTaskUI .> CreateTaskController
+SubdivideStoresUI .left> SubdivideStoresController
 
-CreateTaskController .> Repositories : repositories
+SubdivideStoresController .> Repositories : repositories
 
-Repositories -> "1" TaskCategoryRepository
+SubdivideStoresController .down.> Partition
 
-CreateTaskController ..> TaskCategory
-CreateTaskController ..> OrganizationRepository : organizationRepository
-CreateTaskController ..> TaskCategoryRepository : TaskCategoryRepository
+Repositories -> "1" AgencyRepository
 
-Repositories --> "1" OrganizationRepository
+SubdivideStoresController ..> Agency
+SubdivideStoresController ..> AgencyRepository : AgencyRepository
 
-OrganizationRepository --> "*" Organization
-ApplicationSession --> "1" UserSession : userSession
+AgencyRepository "1" --> "*" Agency : aggregates >
 
-CreateTaskController ..> "1" Organization : organization
-CreateTaskController ..> ApplicationSession
-CreateTaskController ..> UserSession
-Task "*" --> "1" TaskCategory : taskCategory
-TaskCategoryRepository "1" --> "*" TaskCategory : taskCategory
-Organization "1" --> "*" Task : tasks
-Task --> Employee : createdBy
+Agency "1" -left> "1" AnnouncementList : owns >
 
-Organization --> "*" Employee : employs
+AnnouncementList "1" -left> "*" Announcement: records >
+
+'AgencyRepository "1" -> "1" ListInteger : creates >
+
+'Partition "1" --> "1" ListString : creates >
+
+
+
+
 
 @enduml
