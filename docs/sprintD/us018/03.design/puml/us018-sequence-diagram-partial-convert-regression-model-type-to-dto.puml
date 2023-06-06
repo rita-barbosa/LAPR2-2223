@@ -1,0 +1,54 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+
+participant "regressionModelTypeMapper\n:RegressionModelTypeMapper" as RMTMapper
+participant "regressionModelType\n:RegressionModelType" as RMT
+participant "regressionModelTypeDto\n:RegressionModelTypeDto" as RMTDto
+participant "regressionModelTypeDtoList\n:List<RegressionModelTypeDto>" as RMTDtoList
+
+
+
+-> RMTMapper: toDto(regressionModelTypeList)
+    activate RMTMapper
+
+  group Convert RegressionModelType to Dto
+
+    RMTMapper -> RMTDtoList** : create()
+
+    loop for each regressionModelType
+
+    RMTMapper -> RMTMapper : toDto(regressionModelType)
+    activate RMTMapper
+
+    RMTMapper -> RMT : getRegressionModelTypeDesignation()
+    activate RMT
+
+    RMT --> RMTMapper : regressionModelTypeDesignation
+    deactivate RMT
+
+    |||
+    RMTMapper -> RMTDto** : create(regressionModelTypeDesignation)
+
+
+    RMTMapper --> RMTMapper: regressionModelTypeDto
+    deactivate RMTMapper
+    |||
+    RMTMapper -> RMTDtoList: add(regressionModelTypeDto)
+    activate RMTDtoList
+    deactivate RMTDtoList
+    end loop
+
+end group
+
+    <-- RMTMapper : regressionModelTypeDtoList
+    deactivate RMTMapper
+
+
+
+
+@enduml

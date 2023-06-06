@@ -1,0 +1,56 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+participant ":AnalyzeDealsController" as CTRL
+participant ":Repositories" as RepositorySingleton
+participant "repositories\n:Repositories" as PLAT
+participant "regressionModelTypeRepository\n:RegressionModelTypeRepository" as RMTRep
+participant "regressionModelTypeMapper\n:RegressionModelTypeMapper" as RMTMapper
+
+        -> CTRL : getRegressionModelTypeList()
+        activate CTRL
+
+        group Get Regression Model Type List
+
+        CTRL -> RepositorySingleton : getInstance()
+        activate RepositorySingleton
+
+        RepositorySingleton --> CTRL: repositories
+        deactivate RepositorySingleton
+
+        CTRL -> PLAT : getRegressionModelTypeRepository()
+        activate PLAT
+
+        PLAT --> CTRL: RegressionModelTypeRepository
+        deactivate PLAT
+
+        CTRL -> RMTRep : getRegressionModelTypeList()
+        activate RMTRep
+
+        RMTRep --> CTRL : regressionModelTypeList
+        deactivate RMTRep
+
+        CTRL -> RMTMapper: toDto(regressionModelTypeList)
+        activate RMTMapper
+
+        ref over RMTMapper
+        Convert RegressionModelType to Dto
+        end ref
+
+        RMTMapper --> CTRL : regressionModelTypeDtoList
+        deactivate RMTMapper
+
+
+end group
+
+    <-- CTRL: regressionModelTypeDtoList
+    deactivate CTRL
+
+
+
+
+@enduml

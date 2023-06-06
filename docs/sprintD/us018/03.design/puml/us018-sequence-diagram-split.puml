@@ -9,14 +9,12 @@ autonumber
 actor "Store Manager" as ADM
 participant ":AnalyzeDealsUI" as UI
 participant ":AnalyzeDealsController" as CTRL
-participant ":Repositories" as RepositorySingleton
 participant "repositories\n:Repositories" as PLAT
-participant "regressionModelTypeRepository\n:RegressionModelTypeRepository" as RMTRep
 participant "agencyRepository\n:AgencyRepository" as AgencyRepository
 participant "statistic\n:Statistic" as ST
+participant "statisticMapper\n:StatisticMapper" as STMapper
 participant "regressionModelTypeMapper\n:RegressionModelTypeMapper" as RMTMapper
 participant "regressionModelTypeDto\n:RegressionModelTypeDto" as RMTDto
-participant "regressionModelTypeDtoList\n:List<RegressionModelTypeDto>" as RMTDtoList
 participant "regressionModelType\n:RegressionModelType" as RMT
 
 
@@ -31,54 +29,11 @@ activate ADM
     UI -> CTRL : getRegressionModelTypeList()
     activate CTRL
 
-    CTRL -> RepositorySingleton : getInstance()
-    activate RepositorySingleton
-
-        RepositorySingleton --> CTRL: repositories
-    deactivate RepositorySingleton
-
-    CTRL -> PLAT : getRegressionModelTypeRepository()
-    activate PLAT
-
-        PLAT --> CTRL: RegressionModelTypeRepository
-    deactivate PLAT
-
-    CTRL -> RMTRep : getRegressionModelTypeList()
-    activate RMTRep
-
-    RMTRep --> CTRL : regressionModelTypeList
-    deactivate RMTRep
-
-    CTRL -> RMTMapper: toDto(regressionModelTypeList)
-    activate RMTMapper
-
-    RMTMapper -> RMTDtoList** : create()
-
-    loop for each regressionModelType
-
-    RMTMapper -> RMTMapper : toDto(regressionModelType)
-    activate RMTMapper
-
-    RMTMapper -> RMT : getRegressionModelTypeDesignation()
-    activate RMT
-
-    RMT --> RMTMapper : regressionModelTypeDesignation
-    deactivate RMT
-
-    |||
-    RMTMapper -> RMTDto** : create(regressionModelTypeDesignation)
+    ref over CTRL
+    Get Regression Model Type List
+    end ref
 
 
-    RMTMapper --> RMTMapper: regressionModelTypeDto
-    deactivate RMTMapper
-    |||
-    RMTMapper -> RMTDtoList: add(regressionModelTypeDto)
-    activate RMTDtoList
-    deactivate RMTDtoList
-    end loop
-
-    RMTMapper --> CTRL : regressionModelTypeDtoList
-    deactivate RMTMapper
 
     CTRL --> UI: regressionModelTypeDtoList
     deactivate CTRL
@@ -154,21 +109,24 @@ activate ADM
             Get Statistics
             end ref
 
-    ST --> CTRL: statistics
+    ST --> CTRL: statistic
     deactivate ST
 
-    CTRL --> CTRL: statistics
+    CTRL -> STMapper : toDto(statistic)
+    activate STMapper
+
+        ref over STMapper
+           Convert Statistic To Dto
+        end ref
+
+    STMapper --> CTRL : statisticDto
+    deactivate STMapper
+
+
+    CTRL --> CTRL: statisticDto
     deactivate CTRL
 
-    note right CTRL
-        VER MELHOR COMO FAZER ESTE GET
-        NO FINAL PRETENDE-SE QUE POSSA IR BUSCAR:
-            SLOPE
-            INTERCEPT
-    end note
-
-
-    CTRL --> UI : regressionModelStatistics
+    CTRL --> UI : statisticDto
     deactivate CTRL
 
     UI --> ADM : shows the estimated price for each house\nand apartment deal, and the selected \nregression model report.

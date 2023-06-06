@@ -1,0 +1,48 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+
+participant "statisticMapper\n:StatisticMapper" as STMapper
+participant "statistic\n:Statistic" as ST
+participant "statisticDto\n:StatisticDto" as STDto
+
+autonumber
+-> STMapper : toDto(statistic)
+    activate STMapper
+
+    group Convert ST To Dto
+
+        STMapper -> ST: equation = getRegressionModelEquation()
+        activate ST
+        deactivate ST
+
+        STMapper -> ST: confidenceIntervals = getRegressionModelConfidenceIntervals()
+        activate ST
+        deactivate ST
+
+        STMapper -> ST: hypothesisTests = getRegressionModelHypothesisTests()
+        activate ST
+        deactivate ST
+
+        STMapper -> ST: forecastValues = getRegressionModelForecastValues()
+        activate ST
+        deactivate ST
+
+        STMapper -> ST : dealsDataList = getRegressionModelDealsData()
+        activate ST
+        deactivate ST
+
+        STMapper -> STDto** : create(equation, confidenceIntervals, hypothesisTests, forecastValues, dealsDataList)
+
+
+ end group
+
+    <-- STMapper : statisticDto
+    deactivate STMapper
+
+
+@enduml

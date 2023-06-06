@@ -3,11 +3,9 @@ skinparam monochrome true
 skinparam packageStyle rectangle
 skinparam shadowing false
 
-autonumber
-
 
 participant "statistic\n:Statistic" as ST
-participant ":RegressionModel" as RM
+participant "regressionModel\n:RegressionModel" as RM
 
 
 
@@ -27,6 +25,30 @@ group   Get Statistics
         in regressionModelType instance.
         end note
 
+
+    ST -> RM : getModelEquation()
+    activate RM
+
+    RM --> ST : equation
+    deactivate RM
+
+    ST -> RM: getConfidenceIntervals(intercept, slope)
+    activate RM
+
+    RM --> ST: intervals
+    deactivate RM
+
+    ST -> RM: getHypothesisTests(intercept, slope)
+    activate RM
+
+    RM --> ST: hypothesisTests
+    deactivate RM
+
+    ST -> RM: getAnovaSignificanceModel()
+    activate RM
+
+    RM --> ST: anovaModel
+    deactivate RM
 
     ST -> RM: getForecastValuesForData(dealsDataList)
     activate RM
