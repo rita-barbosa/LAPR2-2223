@@ -1,0 +1,191 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+'hide footbox
+actor "Network Manager" as NWM
+participant ":ListDealsNetworkUI" as UI
+participant ":ListDealsNetworkController" as CTRL
+participant ":Repositories" as RepositorySingleton
+participant "repositories\n:Repositories" as PLAT
+participant "agencyRepository\n:AgencyRepository" as AgencyRepository
+participant "agency\n:Agency" as AGC
+participant "announcementList\n:AnnouncementList" as ANNOUNCELIST
+participant "<b><<Interface>></b>\n:SortingAlgorithm" as SORTALG
+participant "announcement\n:Announcement" as ANNOUNCE
+participant ":List<Announcements>" as LIST
+
+title Sequence Diagram (SD) - US017
+
+autonumber
+
+activate NWM
+
+    NWM -> UI : asks to analyse the performance of the network
+        activate UI
+
+    UI -> CTRL** : create()
+
+    UI -> CTRL : getAllDealsList()
+    activate CTRL
+
+    CTRL -> RepositorySingleton : getInstance()
+
+            activate RepositorySingleton
+
+                RepositorySingleton --> CTRL : repositories
+            deactivate RepositorySingleton
+
+            CTRL -> PLAT : getAgencyRepository()
+
+            activate PLAT
+
+                PLAT --> CTRL : AgencyRepository
+
+            deactivate PLAT
+
+
+        CTRL -> AgencyRepository : getAllDealsAnnouncements()
+        activate AgencyRepository
+
+        AgencyRepository -> LIST** : listOfAllDeals = create()
+
+        loop for all agencies
+
+            AgencyRepository -> AGC : getDealsAnnouncementList()
+            activate AGC
+
+            AGC -> ANNOUNCELIST : getDealsList()
+            activate ANNOUNCELIST
+
+            loop for all announcements
+
+            ANNOUNCELIST -> ANNOUNCE : isItDeal()
+            activate ANNOUNCE
+
+                ANNOUNCE --> ANNOUNCELIST : true/false
+            deactivate ANNOUNCE
+
+
+            end loop
+
+            ANNOUNCELIST --> AGC : dealsList
+
+            deactivate ANNOUNCELIST
+
+            AGC --> AgencyRepository : dealsList
+
+            deactivate AGC
+
+            AgencyRepository -> LIST : addAll(dealsList)
+            activate LIST
+            deactivate LIST
+
+            end loop
+
+            AgencyRepository -> ANNOUNCELIST : sortAnnouncementsByMostRecentSaleDate()
+            activate ANNOUNCELIST
+
+                ANNOUNCELIST --> AgencyRepository : dealsList
+            deactivate ANNOUNCELIST
+
+        AgencyRepository --> CTRL : listOfAllDeals
+        deactivate AgencyRepository
+|||
+        CTRL -> CTRL : convertToDto(listOfAllDeals)
+            activate CTRL
+
+            ref over CTRL
+            Convert List to DTO
+            end ref
+
+            CTRL --> CTRL : listOfAllDealsDto
+
+            deactivate CTRL
+
+            CTRL --> UI : listOfAllDealsDto
+
+        deactivate CTRL
+
+        loop At least once until when the user intends
+
+
+        UI --> NWM : shows list of all deals, types of sorting order and asks to select one
+
+        deactivate UI
+
+        NWM -> UI : selects a sorting order
+            activate UI
+
+
+        UI --> NWM : shows sorting algorithms available and asks to select one
+            deactivate UI
+
+        NWM -> UI : selects a sorting algorithm
+               activate UI
+
+        deactivate CTRL
+
+
+        UI -> CTRL : getListSortedByAlgorithm(sortingOrder, algorithm)
+        activate CTRL
+
+        CTRL -> CTRL : getSortedList(algorithm, sortingOrder,\n listOfAllDeals)
+
+        activate CTRL
+
+            'alt algorithm = "Bubble"
+
+            CTRL -> SORTALG : sort(sortingOrder, listOfAllDeals)
+            activate SORTALG
+
+            note left
+            It is an instance of any class
+            implementing the interface
+            "SortingAlgorithm" (MergeAlgorithm,
+            BubbleAlgorithm).
+
+            One cannot detail what happens in
+            “SortingAlgorithm” when the method
+            “sort()" is invoked since it depends
+             on the instance type.
+            end note
+
+           ' else algorithm = "Merge"
+
+'            CTRL -> SORTALG : sortListByMerge(sortingOrder, listOfAllDeals)
+'
+           ' end alt
+
+            SORTALG --> CTRL : sortedList
+
+            deactivate SORTALG
+
+
+        CTRL --> CTRL : sortedList
+
+        deactivate CTRL
+|||
+        CTRL -> CTRL : convertToDto(sortedList)
+        activate CTRL
+
+        ref over CTRL
+        Convert List to DTO
+        end ref
+
+        CTRL --> CTRL : sortedListDto
+
+        deactivate CTRL
+
+        CTRL --> UI : sortedListsDto
+
+    deactivate CTRL
+
+       UI --> NWM : displays results, asks if the user wants to sort list again\n and displays operation success
+
+end loop
+
+    deactivate UI
+
+@enduml

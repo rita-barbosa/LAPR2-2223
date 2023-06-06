@@ -1,0 +1,170 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+'hide footbox
+participant ":ListDealsNetworkController" as CTRL
+participant ":AnnouncementMapper" as MAPPER
+participant "announcementList\n:AnnouncementList" as ANNOUNCELIST
+participant "announcement\n:Announcement" as ANNOUNCE
+participant "commission\n:Commission" as COMMISSION
+'participant "orderList\n:OrderList" as ORDERLIST
+'participant "order\n:Order" as ORDER
+participant "request\n:Request" as REQUEST
+participant "employee\n:Employee" as EMPLOYEE
+participant "announcementListDto\n:List<AnnouncementDto>" as LISTDTO
+participant "announcementDto\n:AnnouncementDto" as ANCDTO
+
+autonumber 20
+
+    -> CTRL : convertToDto(listOfAllDeals)
+
+    activate CTRL
+
+group Convert List to DTO
+
+    autonumber 20.1
+
+       CTRL -> MAPPER : toDto(sortedList)
+        activate MAPPER
+
+        MAPPER -> LISTDTO** : listOfAllDealsDto = create()
+
+        loop for all announcements
+
+        MAPPER -> ANNOUNCELIST : getAnnouncement(idx)
+        activate ANNOUNCELIST
+
+            ANNOUNCELIST --> MAPPER : announcement
+        deactivate ANNOUNCELIST
+
+        MAPPER -> ANNOUNCE : getSaleDate()
+        activate ANNOUNCE
+
+            ANNOUNCE --> MAPPER : saleDate
+        deactivate ANNOUNCE
+
+        MAPPER -> ANNOUNCE : getId()
+        activate ANNOUNCE
+
+        ANNOUNCE --> MAPPER : announcementId
+        deactivate ANNOUNCE
+
+        MAPPER -> ANNOUNCE : getRequestDate()
+        activate ANNOUNCE
+
+        ANNOUNCE --> MAPPER : requestDate
+        deactivate ANNOUNCE
+|||
+        MAPPER -> ANNOUNCE : getCommissionInfo()
+        activate ANNOUNCE
+
+            ANNOUNCE -> COMMISSION : toString()
+            activate COMMISSION
+
+                COMMISSION --> ANNOUNCE : commissionInfo
+            deactivate COMMISSION
+
+        ANNOUNCE --> MAPPER : commissionInfo
+        deactivate ANNOUNCE
+|||
+
+        MAPPER -> ANNOUNCE : getSaleAmount()
+        activate ANNOUNCE
+'
+'        ANNOUNCE -> ORDERLIST : getFinalSalePrice()
+'                activate ORDERLIST
+'
+'                    loop for all orders
+'
+'                         ORDERLIST -> ORDER : getAcceptanceAnswer()
+'
+'                            activate ORDER
+'
+'                                ORDER --> ORDERLIST : saleDate
+'                                deactivate ORDER
+'
+'                                opt acceptanceAnswer = "accept"
+'
+'                                    ORDERLIST -> ORDER : getOrderAmount()
+'                                    activate ORDER
+'
+'                                end opt
+'                    end loop
+'
+'                            ORDER --> ORDERLIST : orderAmount
+'                        deactivate ORDER
+'
+'                        ORDERLIST --> ANNOUNCE : salePrice
+'                deactivate ORDERLIST
+
+            ANNOUNCE --> MAPPER : saleAmount
+        deactivate ANNOUNCE
+
+|||
+        MAPPER -> ANNOUNCE : getRequestInfo()
+        activate ANNOUNCE
+
+            ANNOUNCE -> REQUEST : toString()
+            activate REQUEST
+
+                REQUEST --> ANNOUNCE : requestInfo
+            deactivate REQUEST
+
+            ANNOUNCE --> MAPPER : requestInfo
+        deactivate ANNOUNCE
+  
+        MAPPER -> ANNOUNCE : getAgentName()
+        activate ANNOUNCE
+
+            ANNOUNCE -> EMPLOYEE : getName()
+            activate EMPLOYEE
+
+                EMPLOYEE --> ANNOUNCE : agentName
+            deactivate EMPLOYEE
+
+            ANNOUNCE --> MAPPER : agentName
+        deactivate ANNOUNCE
+
+'        MAPPER -> ANNOUNCE : getAgentTaxNumber()
+'         activate ANNOUNCE
+'
+'        ANNOUNCE --> MAPPER : agentTaxNumberNumber
+'        deactivate ANNOUNCE
+
+        MAPPER -> ANNOUNCE : getAgentAgencyId()
+        activate ANNOUNCE
+
+            ANNOUNCE -> EMPLOYEE : getAgencyId()
+            activate EMPLOYEE
+
+                EMPLOYEE --> ANNOUNCE : agencyId
+            deactivate EMPLOYEE
+
+        ANNOUNCE --> MAPPER : agencyId
+        deactivate ANNOUNCE
+|||
+
+        'CHECK TAX NUMBER
+
+        MAPPER --> ANCDTO**: create(announcementId, requestInfo, saleDate, saleAmount, requestDate, commissionInfo, agentName, agencyId)
+
+        MAPPER -> LISTDTO : add(announcementDto)
+        activate LISTDTO
+        deactivate LISTDTO
+
+        end loop
+
+        MAPPER -> CTRL : listOfAllDealsDto
+        deactivate MAPPER
+
+end group
+
+    autonumber 21
+
+    <-- CTRL : listOfAllDealsDto
+
+    deactivate CTRL
+
+@enduml
