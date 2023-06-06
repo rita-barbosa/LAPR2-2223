@@ -63,10 +63,14 @@ of the property and using linear and multilinear regression algorithms.
 > in US17, US18 and US19" available in moodle)."
 
 > **Question:** When the store manager selects simple-linear regression to analyse the deals, does he also select one of
-> the specified relevant parameters to serve as the dependent variable in the regression model? ("property area in m2, the
+> the specified relevant parameters to serve as the dependent variable in the regression model? ("property area in m2,
+> the
 > distance from the center, the number of bedrooms, the number of bathroomsand the number of parking spaces")
 >
-> **Answer:** _Yet to be answered_
+> **Answer:** The store manager should choose the independent variable and the regression model to be used to fit the
+> data.
+> **Important**: The property area is always in square feet. There is no need to convert the values loaded from the
+> file.
 
 ### 1.3. Acceptance Criteria
 
@@ -86,20 +90,21 @@ of the property and using linear and multilinear regression algorithms.
   regression model used to estimate each value, R(SLR), R2 and R2 adjusted for SLR
   and MLR, confidence intervals and hypothesis tests for regression coefficients
   and significance model with Anova.
-* 
+
 * **AC2:** All houses and apartments business registered in the system should be used
   to fit the regression models.
-* 
+
 * **AC3:** The system should enable the actor to select each regression model and
   should present the price estimates using the selected model. Moreover, the
   system should show the selected regression model and all required statistics.
-* 
+
 * **AC4:** To implement this US the org.apache.commons.math4.stat package
   (https://commons.apache.org/proper/commons-math/userguide/stat.html)
   should be used.
-* **AC5:** The system must clean/empty, it should be only loaded the information from the CSV file in moodle.
 
 * **AC6:** The store manager should be able to analyze all deals that are registered in the system.
+
+* **AC7:** The store manager should be able to select the independent variable, if selects the simple linear regression.
 
 ### 1.4. Found out Dependencies
 
