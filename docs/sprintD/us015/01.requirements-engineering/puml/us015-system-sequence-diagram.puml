@@ -22,14 +22,15 @@ activate Agent
     'types
     activate System
 
-    System --> Agent : shows sorting algorithm options and asks to select one
-'   sorting algorithm
-    deactivate System
+'    System --> Agent : shows sorting algorithm options and asks to select one
+''   sorting algorithm
+'    deactivate System
+'
+'    Agent -> System : selects data (sorting algorithm)
+'    activate System
 
-    Agent -> System : selects data (sorting algorithm)
-    activate System
-
-    System --> Agent : display all booking requests according to the \ndates and algorithm chosen
+    System --> Agent : display all booking requests according to the \ndates chosen
+'    and algorithm chosen
     deactivate System
 
 @enduml
