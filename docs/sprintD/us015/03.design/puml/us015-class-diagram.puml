@@ -7,62 +7,45 @@ skinparam linetype polyline
 
 skinparam classAttributeIconSize 0
 
-'left to right direction
-
-'class ApplicationSession {
-'    + static getInstance()
-'    + getCurrentSession()
-'}
-
-'class UserSession{
-'    + getUserEmail()
-'}
-
-'class Employee {
-'    - name
-'    - email
-'    - position
-'    - phone
-'}
-'
-'class TaskCategory {
-'    - String description
-'
-'    + TaskCategory(description)
-'}
-
 class Repositories {
     - Repositories()
     + getInstance() : repositories
-    + getAlgorithmRepository()
+'    + getAlgorithmRepository()
     + getAuthenticationRepository()
     + getAgencyRepository()
 }
 
 class ListVisitsController {
-    + CreateTaskController(organizationRepository, taskCategoryRepository)
-    + getTaskCategories()
-    + createTask(userEmail, reference, description,\ninformalDescription, technicalDescription,\nduration, cost, categoryDescription)
-    - getTaskCategoryByDescription(taskCategoryDescription)
-    - getEmployeeFromSession()
+    + ListVisitsController(agencyRepository, authenticationRepository, algorithmRepository)
+    + getAlgorithms()
+    + getVisitRequestsList(beginDate, endDate, sortingAlgorithm)
+    - getAgentEmail()
+    - getVisitRequestsListVyAgentEmail(agentEmail, beginDate, endDate, sortingAlgorithm)
 }
 
-class AlgorithmMapper{
-+toDto(algorithmTypeDesignation)
-}
-
-class AlgorithmDto{
-}
-
-class Algorithm{
-}
+'class AlgorithmRepository{
+'+ getAlgorithmList()
+'}
+'
+'class AlgorithmMapper{
+'+toDto(algorithmList)
+'}
+'
+'class AlgorithmDto{
+'-String algorithmType
+'
+'+AlgorithmDto(AlgorithmTypeDesignation)
+'}
+'
+'class Algorithm{
+'-String algorithmType
+'
+'+getAlgorithmTypeDesignation()
+'}
 
 class AuthenticationRepository{
 +getCurrentSession()
 }
-
-'class Email{
-'}
 
 class AgencyRepository{
 -List<Agency> agencies
@@ -71,59 +54,134 @@ class AgencyRepository{
 }
 
 class Agency{
-'-VisitList visits
+- Integer id
+- String designation
+- String emailAddress
+- Integer phoneNumber
 
-+anyAgentHasEmail(agentEmail)
-+getVisitRequestsByAgentEmail(agentEmail, beginDate, endDate, sortingAlgorithm)
++ anyAgentHasEmail(agentEmail)
++ getVisitRequestsByAgentEmail(agentEmail, beginDate, endDate, sortingAlgorithm)
 }
 
 class AnnouncementList{
--List<Visit> visits
+- List<Visit> visits
+
++ getVisitRequestsByAgentEmail(agentEmail, beginDate, endDate, sortingAlgorithm)
+- sortingVisitsByAlgorithm(listVisits, sortingAlgorithm)
 }
 
 class Announcement{
+    - List<Visit> visits
+    - LocalDate acceptanceDate
+    - Integer id
+    - Employee agent
+
++ hasAgentWithEmail(agentEmail)
++ getVisitRequests(beginDate, endDate)
++ getVisitDate()
 }
 
 class VisitMapper{
-+toDto(Visit)
++toDto(VisitRequestsList)
 }
 
 class Visit{
+- Integer id
+- Integer startHour
+- Integer endHour
+- LocalDate visitDate
+- Boolean acceptanceStatus
+
++getId()
++getVisitDate()
++getStartHour()
++getEndHour()
++getAcceptanceStatus()
 }
 
 class VisitDto{
+- Integer id
+- Integer startHour
+- Integer endHour
+- LocalDate visitDate
+- Boolean acceptanceStatus
+
++VisitDto(id, visitDate, startHour, endHour, acceptanceStatus)
 }
+
+class Request{
+- LocalDate requestDate
+- Integer id
+- Employee Employee
+- Email ownerEmail
+- Business business
+- Property property
+
++getLocation()
+}
+
+class Property{
+- PropertyType propertyType
+- Double area
+- Double distanceCityCenter
+- Location location
+- List<Photograph> photograph
+
++getLocation()
+}
+
+'class Location{
+'
+'+getLocation()
+'}
+
+interface SortingMethods{
++getSortedVisitRequestList(visitRequestsList)
+}
+
+class SortingMethods1 implements SortingMethods{
++getSortedVisitRequestList(visitRequestsList)
+}
+
+class SortingMethods2 implements SortingMethods{
++getSortedVisitRequestList(visitRequestsList)
+}
+
 
 class ListVisitsUI {
 }
 
 
 Repositories -> Repositories : instance
-ApplicationSession -> ApplicationSession : instance
 
 ListVisitsUI .> ListVisitsController
 
 ListVisitsController .> Repositories : repositories
-'
-'Repositories -> "1" TaskCategoryRepository
-'
-'CreateTaskController ..> TaskCategory
-'CreateTaskController ..> OrganizationRepository : organizationRepository
-'CreateTaskController ..> TaskCategoryRepository : TaskCategoryRepository
-'
-'Repositories --> "1" OrganizationRepository
-'
-'OrganizationRepository --> "*" Organization
-'ApplicationSession --> "1" UserSession : userSession
-'
-'CreateTaskController ..> "1" Organization : organization
-'CreateTaskController ..> ApplicationSession
-'CreateTaskController ..> UserSession
-'Task "*" --> "1" TaskCategory : taskCategory
-'TaskCategoryRepository "1" --> "*" TaskCategory : taskCategory
-'Organization "1" --> "*" Task : tasks
-'Task --> Employee : createdBy
-'
-'Organization --> "*" Employee : employs
 
+'ListVisitsController ..> AlgorithmMapper
+ListVisitsController .> VisitMapper
+
+'AlgorithmMapper ..> AlgorithmDto
+'AlgorithmDto ..> Algorithm
+'AlgorithmMapper ..> Algorithm
+VisitMapper ..> VisitDto
+VisitDto ..> Visit
+VisitMapper ..> Visit
+
+ListVisitsController ..> AgencyRepository : agencyRepository
+ListVisitsController ..> AuthenticationRepository : authenticationRepository
+'ListVisitsController ..> AlgorithmRepository : algorithmRepository
+Repositories --> "1" AgencyRepository
+'Repositories --> "1" AlgorithmRepository
+Repositories --> "1" AuthenticationRepository
+AgencyRepository --> "*" Agency
+Agency --> "1" AnnouncementList
+AnnouncementList "1" --> "*" Announcement
+Announcement "1"--> "*" Visit
+'AlgorithmRepository --> "*" Algorithm
+ListVisitsController --> "1"SortingMethods : makes use of
+Announcement "1" -> "1" Request : is based on
+Request "1" -> "1" Property : has information about
+'00
+Visit "1" -> "1" Property : is done to
 @enduml
