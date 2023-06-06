@@ -1,0 +1,142 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+'hide footbox
+actor "Network Manager" as NWM
+participant ":SubdivideAgenciesUI" as UI
+participant ":SubdivideAgenciesController" as CTRL
+participant ":Repositories" as RepositorySingleton
+participant "repositories\n:Repositories" as PLAT
+participant "agencyRepository:\nAgencyRepository" as AgencyRepository
+participant "agency\n:Agency" as AGC
+participant "announcementList\n:AnnouncementList" as ANNOUNCELIST
+participant "announcement\n:Announcement" as ANNOUNCE
+participant "partition\n:Partition" as PART
+participant ":List<Integer>" as INTEGERLIST
+participant ":List<String>" as STRINGLIST
+
+
+title Sequence Diagram (SD) - US019
+
+activate NWM
+
+        NWM -> UI : asks to divide set of Agencies into two subsets
+
+        activate UI
+
+            UI -> CTRL** : create
+
+            UI -> CTRL : getAgenciesPartitions()
+            activate CTRL
+
+                CTRL -> RepositorySingleton : getInstance()
+                activate RepositorySingleton
+
+                    RepositorySingleton --> CTRL: repositories
+                deactivate RepositorySingleton
+
+                CTRL -> PLAT : getAgencyRepository()
+                activate PLAT
+
+                    PLAT --> CTRL: agencyRepository
+                deactivate PLAT
+
+            CTRL -> AgencyRepository : getDealsNumberOfAgencies()
+
+            activate AgencyRepository
+
+            AgencyRepository -> INTEGERLIST** : listOfDeals = create()
+
+            loop for all agencies
+
+                AgencyRepository -> AGC : agencyId = getAgencyId()
+                activate AGC
+                deactivate AGC
+
+                AgencyRepository -> AGC : getNumberOfDeals()
+                activate AGC
+
+                AGC -> ANNOUNCELIST : getDealsNumber()
+                activate ANNOUNCELIST
+
+                loop for all announcements
+
+                ANNOUNCELIST -> ANNOUNCE : isDeal()
+
+                activate ANNOUNCE
+
+                ANNOUNCE --> ANNOUNCELIST : true/false
+
+                deactivate ANNOUNCE
+
+                end loop
+
+                ANNOUNCELIST --> AGC : dealsNumber
+                deactivate ANNOUNCELIST
+
+                AGC --> AgencyRepository : dealsNumber
+
+                deactivate AGC
+
+                AgencyRepository -> INTEGERLIST : add(agencyId, dealsNumber)
+                note left
+                Lists in JAVA have a
+                method to place an object
+                in a specific slot.
+
+                In this case, dealsNumber
+                will be placed on the slot
+                in which its index is the
+                same as agencyId.
+                end note
+
+                activate INTEGERLIST
+                deactivate INTEGERLIST
+
+             end loop
+
+            AgencyRepository --> CTRL : listOfDeals
+            deactivate AgencyRepository
+
+            CTRL -> PART : getSubLists(listOfDeals)
+            activate PART
+
+            PART -> INTEGERLIST : size = getSize()
+            activate INTEGERLIST
+            deactivate INTEGERLIST
+
+            PART -> STRINGLIST** : sublistStringList = create()
+
+            PART -> PART : getBinaryRepList(size)
+            activate PART
+
+            PART --> PART : binaryRepList
+            deactivate PART
+|||
+            PART -> PART : getPartitions(listOfDeals, binaryRepList)
+            activate PART
+
+            ref over PART
+            Get List of Sublists Strings
+            end ref
+
+            PART --> PART : sublistStringList
+            deactivate PART
+
+            PART -->  CTRL : sublistStringList
+            deactivate PART
+
+            CTRL --> UI: sublistStringList
+            deactivate CTRL
+
+            UI --> NWM: shows sublists, difference of the number of\n properties and displays operation success
+
+    deactivate UI
+
+deactivate NWM
+
+@enduml

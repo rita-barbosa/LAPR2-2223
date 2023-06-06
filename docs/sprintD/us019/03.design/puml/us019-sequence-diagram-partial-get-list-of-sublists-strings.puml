@@ -1,0 +1,74 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+'hide footbox
+participant "partition\n:Partition" as PART
+participant ":List<String>" as STRINGLIST
+
+autonumber 20
+
+          -> PART : getPartitions(listOfDeals, binaryRepList)
+          activate PART
+
+         group Get List of Sublists Strings
+
+          loop for each binary representation
+
+           PART -> PART :  getBinaryRepresentation(idx)
+           activate PART
+
+           note right
+           idx equals 0, and will
+           be incremented in every
+           iteration of the loop
+           end note
+
+               PART --> PART : binaryRep
+           deactivate PART
+|||
+          PART -> PART : getPartitionInfo(listOfDeals, binaryRep)
+          activate PART
+
+          PART -> PART : calculateDifference()
+          activate PART
+
+              PART -> PART : getRuntime()
+
+              note right
+              calculateDifference() returns
+              a pair with the difference
+              the runtime
+              end note
+
+
+              activate PART
+
+                  PART --> PART
+              deactivate PART
+
+              PART --> PART
+          deactivate PART
+
+              PART --> PART : partitionInfoList
+          deactivate PART
+|||
+          PART -> PART : toString()
+          activate PART
+
+              PART --> PART : sublistString
+          deactivate PART
+
+          PART -> STRINGLIST : add(sublistString)
+          activate STRINGLIST
+          deactivate STRINGLIST
+
+      end loop
+
+      end group
+
+      <--  PART : sublistStringList
+      deactivate PART
+
+@enduml
