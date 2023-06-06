@@ -67,9 +67,12 @@ Please study ESOFT and discuss your question with ESOFT teatchers. In AC2 of US1
 > Important: In US15 the Agent gets a list of booking requests (made to him). Then, the agent, may want to respond to the user (as defined in US16). US15 and US16 are executed sequentially. Even so, the agent should be able to see a list of all booking requests made to him (US15) without answer any booking request.
 
 
-> **Question:**
+> **Question:** One of our questions' answers made us believe there might have been some miscommunication, as it had some significant mistakes in phrasing and your answer wasn't clear enough. As such, here is that same question, in a simpler and clearer way:
+US017's AC2 states that "Two sorting algorithms should be implemented (to be chosen manually by the network manager)."
+US015's AC2 states that "The list of requests must be sorted by date in ascending order. The sorting algorithm to be used by the application must be defined through a configuration file. At least two sorting algorithms should be available."
+As such, the team would like to know if, just like in US017, the sorting methods would be chosen manually in US015.
 >
-> **Answer:**
+> **Answer:** In US 15 the sorting algorithm to be used by the application must be defined through a configuration file. This is a diferent strategy from what I want in US17. Please study ESOFT.
 
 
 
@@ -99,7 +102,8 @@ Please study ESOFT and discuss your question with ESOFT teatchers. In AC2 of US1
 * Selected data:
     * a being date
     * an end date
-    * sorting algorithm 
+
+[//]: # (    * sorting algorithm )
 
 
 **Output Data:**
