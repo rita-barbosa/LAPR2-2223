@@ -38,7 +38,7 @@ public class AnnouncementList {
         Boolean success = false;
         if (validateAnnouncement(announcement)) {
             announcements.add(announcement.clone());
-            success = announcement.sendSMS(announcement);
+            success = announcement.sendSMS();
         }
         return success;
     }

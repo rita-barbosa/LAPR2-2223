@@ -1,8 +1,9 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
+import org.apache.commons.math3.stat.regression.MultipleLinearRegression;
+import org.apache.commons.math3.stat.regression.OLSMultipleLinearRegression;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -397,15 +398,16 @@ public class Announcement {
     /**
      * This method sends an sms to the client warning them that the property is available of sale.
      *
-     * @param announcement - the announcement that became available for purchase
      * @return {@code true} if sms was sent successfully;{@code false} otherwise;
      */
-    public Boolean sendSMS(Announcement announcement) {
+    public Boolean sendSMS() {
         SmsNotification sms = new SmsNotification();
-        String location = announcement.getRequest().getProperty().getLocation().toString();
+        String location = this.getRequest().getProperty().getLocation().toString();
         String message = "The property located in " + location +
-                " became available for purchase in" + announcement.getAcceptanceDate();
-        return sms.sendNotification(announcement.getAgentName(), announcement.getAgentPhoneNumber(), message);
+                " became available for purchase in " + this.getAcceptanceDate() + ".";
+        double[][] array = new double[5][5];
+
+        return sms.sendNotification(this.getAgentName(), this.getAgentPhoneNumber(), message);
     }
 
     /**
@@ -437,6 +439,7 @@ public class Announcement {
 
     /**
      * This method returns the sale amount value.
+     *
      * @return sale amount
      */
     private Double getSaleAmount() {
