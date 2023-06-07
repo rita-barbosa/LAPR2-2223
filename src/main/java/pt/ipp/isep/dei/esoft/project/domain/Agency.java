@@ -405,7 +405,7 @@ public class Agency {
      * @param request         - the request created by the agent.
      * @return an Optional object of Announcement, allowing the calling code to handle the possibility of null values without the need for explicit null checks.
      */
-    public Optional<Announcement> publishAnnouncement(Employee agent, CommissionType commissionType, Double commissionValue, Request request)  {
+    public Optional<Announcement> publishAnnouncement(Employee agent, CommissionType commissionType, Double commissionValue, Request request) {
 
         Optional<Announcement> optionalValue = Optional.empty();
 
@@ -660,5 +660,10 @@ public class Agency {
     public Employee createDefaultAgent() {
         String role = "agent";
         return new Employee(role);
+    }
+
+    public List<List<Double>> getAnnouncementListDealData(RegressionModelType regressionModelType, Optional<String> variable) {
+        return announcements.getAnnouncementsData(regressionModelType, variable);
+
     }
 }

@@ -7,13 +7,12 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * The type Request.
  */
-public class Request  {
+public class Request {
 
     /**
      * The Id.
@@ -517,7 +516,6 @@ public class Request  {
     }
 
 
-
     /**
      * Has id boolean.
      *
@@ -536,12 +534,11 @@ public class Request  {
     public Boolean sendEmail() {
         String ownerEmail = getOwnerEmail().toString();
         EmailNotification email = new EmailNotification();
-        return email.sendNotification(ownerEmail, "Property Announcement Request Acceptance\n\n" , getNotificationMessage());
+        return email.sendNotification(ownerEmail, "Property Announcement Request Acceptance\n\n", getNotificationMessage());
     }
 
     /**
      * This method returns the email message, that will be sent to the owner.
-     *
      */
     private String getNotificationMessage() {
         return String.format("The property announcement request submitted in " + getRequestDate().toString() + " has been analysed. " +
@@ -575,5 +572,42 @@ public class Request  {
      */
     public void setOwnerEmail(String ownerEmail) throws IllegalArgumentException {
         this.ownerEmail = new Email(ownerEmail);
+    }
+
+    /**
+     * This method checks if its a sale request of a residence (apartment or house).
+     *
+     * @return {@code true} if its sale request of a residence (apartment or house); {@code false} otherwise;
+     */
+    public boolean isSaleResidence() {
+        return (this.business.getBusinessType().equals("sale")) && (this.property instanceof Residence);
+    }
+
+    /**
+     * This method returns the value of the specified variable (attribute)
+     *
+     * @param variable - the variable/attribute of the desired value.
+     * @return the specified variable value
+     */
+    public Double getVariableValueByDesignation(String variable) {
+        return this.property.getVariable(variable);
+    }
+
+    /**
+     * This method returns a list with the values of the variables for the regression model analysis.
+     * Specifically, the values of the area, distance from a city center, number of bedrooms, bathrooms and parking spaces.
+     *
+     * @return the list with the variables values.
+     */
+    public List<Double> getVariablesValue() {
+        List<Double> variablesValue = new ArrayList<>();
+
+        variablesValue.add(this.property.getArea());
+        variablesValue.add(this.property.getDistanceCityCenter());
+        variablesValue.add(((Residence) this.property).getNumberBedroom().doubleValue());
+        variablesValue.add(((Residence) this.property).getNumberBathroom().doubleValue());
+        variablesValue.add(((Residence) this.property).getParkingSpace().doubleValue());
+
+        return variablesValue;
     }
 }

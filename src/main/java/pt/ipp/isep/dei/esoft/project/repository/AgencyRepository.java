@@ -129,6 +129,7 @@ public class AgencyRepository {
 
     /**
      * This method regiters a new agency, receiving a dto with the necessary information.
+     *
      * @param dto - dto with information necessary.
      * @return an Optional instance with the agency.
      * @throws IllegalArgumentException
@@ -145,6 +146,12 @@ public class AgencyRepository {
         return newAgency;
     }
 
+    /**
+     * This method checks if any agency instance has the specified ID.
+     *
+     * @param agencyId - the ID
+     * @return {@code true} if there is an agency with the ID; {@code false} otherwise.
+     */
     private boolean anyAgencyHasAgencyId(int agencyId) {
         for (Agency agency : agencies) {
             if (agency.hasId(agencyId)) {
@@ -153,4 +160,15 @@ public class AgencyRepository {
         }
         return false;
     }
+
+    public Optional<List<List<Double>>> getAgenciesDataList(RegressionModelType regressionModelType, Optional<String> variable) {
+        List<List<Double>> dealsDataList = new ArrayList<>();
+
+        for (Agency agency : agencies) {
+            dealsDataList.addAll(agency.getAnnouncementListDealData(regressionModelType, variable));
+        }
+        return Optional.of(dealsDataList);
+    }
+
+
 }

@@ -44,7 +44,6 @@ public class AnnouncementList {
     }
 
 
-
     /**
      * This method checks if the list of announcements already contains the announcement received.
      *
@@ -185,5 +184,22 @@ public class AnnouncementList {
      */
     public void setAnnouncements(List<Announcement> announcements) {
         this.announcements = announcements;
+    }
+
+    /**
+     * Returns all the deals data of an agency necessary for the regression model.
+     * @param regressionModelType - the type of regression model
+     * @param variable - the variable of the wanted data if the regression model type is simple linear.
+     * @return a list with all the deals data of an agency.
+     */
+    public List<List<Double>> getAnnouncementsData(RegressionModelType regressionModelType, Optional<String> variable) {
+        List<List<Double>> dataList = new ArrayList<>();
+
+        for (Announcement announcement : announcements) {
+            if (announcement.validForAnalysis()) {
+                dataList.add(announcement.getDataForRegression(regressionModelType, variable));
+            }
+        }
+        return dataList;
     }
 }

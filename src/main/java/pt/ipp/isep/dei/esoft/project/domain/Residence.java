@@ -171,6 +171,20 @@ public class Residence extends Property {
         return parkingSpace;
     }
 
+    public Double getVariable(String variable) {
+        super.getVariable(variable);
+        switch (variable.toLowerCase()) {
+            case "number bedrooms":
+                return this.getNumberBedroom().doubleValue();
+            case "number bathrooms":
+                return this.getNumberBathroom().doubleValue();
+            case "number parking spaces":
+                return this.getParkingSpace().doubleValue();
+            default:
+                return -1d;
+        }
+    }
+
     /**
      * To string string.
      *

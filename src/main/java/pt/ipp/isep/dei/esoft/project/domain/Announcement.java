@@ -66,7 +66,7 @@ public class Announcement {
     /**
      * The default sale amount value.
      */
-    private final Double SALE_AMOUNT_BY_DEFAULT = (double) 0;
+    private final Double SALE_AMOUNT_BY_DEFAULT = (double) -1;
 
 
     /**
@@ -444,6 +444,44 @@ public class Announcement {
      */
     private Double getSaleAmount() {
         return saleAmount;
+    }
+
+    /**
+     * This method checks if the announcement is fit for an analysis. It
+     * checks if its sale deal of a residence (apartment or house).
+     *
+     * @return {@code true} if its sale deal of a residence (apartment or house); {@code false} otherwise;
+     */
+    public boolean validForAnalysis() {
+        return this.isDeal() && this.request.isSaleResidence();
+    }
+
+    /**
+     * Checks if the announcement is a deal.
+     *
+     * @return {@code true} if an announcement is a deal; {@code false} otherwise;
+     */
+    private boolean isDeal() {
+        return !this.saleAmount.equals(SALE_AMOUNT_BY_DEFAULT);
+    }
+
+    /**
+     * Returns all the deals data of an announcement necessary for the regression model.
+     * @param regressionModelType - the type of regression model
+     * @param variable - the variable of the wanted data if the regression model type is simple linear.
+     * @return a list with all the deals data of an announcement.
+     */
+    public List<Double> getDataForRegression(RegressionModelType regressionModelType, Optional<String> variable) {
+        List<Double> data = new ArrayList<>();
+
+        data.add(this.getSaleAmount());
+
+        if (regressionModelType.isSimpleLinear() && variable.isPresent()) {
+            data.add(this.request.getVariableValueByDesignation(variable.get()));
+        } else if (regressionModelType.isMultilinear()) {
+            data.addAll(this.request.getVariablesValue());
+        }
+        return data;
     }
 }
 

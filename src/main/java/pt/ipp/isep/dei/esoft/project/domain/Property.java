@@ -89,7 +89,6 @@ public class Property {
     }
 
 
-
     /**
      * Fill photograph list.
      *
@@ -198,5 +197,30 @@ public class Property {
     @Override
     public int hashCode() {
         return Objects.hash(propertyType, area, distanceCityCenter, location, photograph);
+    }
+
+    /**
+     * Returns the area of the property.
+     *
+     * @return the area
+     */
+    public Double getArea() {
+        return this.area;
+    }
+
+    public Double getDistanceCityCenter() {
+        return this.distanceCityCenter;
+    }
+
+    public Double getVariable(String variable) {
+        switch (variable.toLowerCase()) {
+            case "area":
+                return this.getArea();
+            case "distance city center":
+                return this.getDistanceCityCenter();
+            default:
+                return -1d;
+        }
+
     }
 }
