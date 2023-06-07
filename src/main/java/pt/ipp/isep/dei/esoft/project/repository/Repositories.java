@@ -9,11 +9,10 @@ public class Repositories {
      * The constant instance.
      */
     private static final Repositories instance = new Repositories();
+
     /**
      * The Authentication repository.
      */
-//    TaskCategoryRepository taskCategoryRepository = new TaskCategoryRepository();
-//    OrganizationRepository organizationRepository = new OrganizationRepository();
     AuthenticationRepository authenticationRepository = new AuthenticationRepository();
     /**
      * The Commission type repository.
@@ -40,6 +39,7 @@ public class Repositories {
      */
     CriteriaRepository criteriaRepository = new CriteriaRepository();
 
+    RegressionModelTypeRepository regressionModelTypeRepository = new RegressionModelTypeRepository();
 
     /**
      * Instantiates a new Repositories.
@@ -52,12 +52,6 @@ public class Repositories {
      *
      * @return the instance
      */
-//    public TaskCategoryRepository getTaskCategoryRepository() {
-//        return taskCategoryRepository;
-//    }
-//    public OrganizationRepository getOrganizationRepository() {
-//        return organizationRepository;
-//    }
     public static Repositories getInstance() {
         return instance;
     }
@@ -67,7 +61,7 @@ public class Repositories {
      *
      * @return the commission type repository
      */
-    public CommissionTypeRepository getCommissionTypeRepository(){
+    public CommissionTypeRepository getCommissionTypeRepository() {
         return commissionTypeRepository;
     }
 
@@ -76,7 +70,7 @@ public class Repositories {
      *
      * @return the property type repository
      */
-    public PropertyTypeRepository getPropertyTypeRepository(){
+    public PropertyTypeRepository getPropertyTypeRepository() {
         return propertyTypeRepository;
     }
 
@@ -94,7 +88,7 @@ public class Repositories {
      *
      * @return the business type repository
      */
-    public BusinessTypeRepository getBusinessTypeRepository(){
+    public BusinessTypeRepository getBusinessTypeRepository() {
         return businessTypeRepository;
     }
 
@@ -103,7 +97,7 @@ public class Repositories {
      *
      * @return the agency repository
      */
-    public AgencyRepository getAgencyRepository(){
+    public AgencyRepository getAgencyRepository() {
         return agencyRepository;
     }
 
@@ -112,7 +106,7 @@ public class Repositories {
      *
      * @return the person repository
      */
-    public PersonRepository getPersonRepository(){
+    public PersonRepository getPersonRepository() {
         return personRepository;
     }
 
@@ -121,8 +115,16 @@ public class Repositories {
      *
      * @return the criteria repository
      */
-    public CriteriaRepository getCriteriaRepository(){
+    public CriteriaRepository getCriteriaRepository() {
         return criteriaRepository;
+    }
+
+    /**
+     * Returns the regression model type repository.
+     * @return the regression model type repository
+     */
+    public RegressionModelTypeRepository getRegressionModelTypeRepository() {
+        return regressionModelTypeRepository;
     }
 
 }
