@@ -41,10 +41,11 @@ class Residence {
  + getNumberBathrooms()
  + getParkingSpace()
  + getVariable(variable)
+}
+class Property {
  **+ getArea()**
  **+ getDistanceCityCenter()**
 }
-
 
 class AgencyRepository {
     - List<Agency> agencies
