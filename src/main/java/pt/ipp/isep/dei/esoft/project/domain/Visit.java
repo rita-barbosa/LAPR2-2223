@@ -196,4 +196,13 @@ public class Visit {
     public String getUserPhoneNumber() {
         return userPhoneNumber;
     }
+
+    /**
+     * Gets acceptance status.
+     *
+     * @return the acceptance status
+     */
+    public Boolean getAcceptanceStatus(){
+        return acceptanceStatus;
+    }
 }
