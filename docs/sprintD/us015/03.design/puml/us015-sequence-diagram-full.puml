@@ -22,7 +22,7 @@ participant "email\n: Email" as Email
 participant "agencyRepository\n: AgencyRepository" as AgRep
 participant "agency\n: Agency" as AGENCY
 participant "announcementList\n: AnnouncementList" as AnnList
-participant "listAnnouncements\n: List<Announcement>" as AnnounceList
+'participant "listAnnouncements\n: List<Announcement>" as AnnounceList
 participant "announcement\n: Announcement" as Announce
 'participant "request\n: Request" as REQ
 'participant "property\n: Property" as PROPER
@@ -264,7 +264,7 @@ activate ADM
         in the configuration file.
         end note
 
-        CTRL -> SORTALG : getSortedVisitRequestList(sortingOrder, visitRequestsList)
+        CTRL -> SORTALG : sort(order, visitRequestsList)
         activate SORTALG
 
         SORTALG --> CTRL : sortedVisitsList

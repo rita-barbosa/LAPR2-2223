@@ -89,7 +89,7 @@ activate ADM
         in the configuration file.
         end note
 
-        CTRL -> SORTALG : getSortedVisitRequestList(sortingOrder, visitRequestsList)
+        CTRL -> SORTALG : sort(order, visitRequestsList)
         activate SORTALG
 
         SORTALG --> CTRL : sortedVisitsList
