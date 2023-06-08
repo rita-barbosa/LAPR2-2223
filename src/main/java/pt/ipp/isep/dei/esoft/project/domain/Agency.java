@@ -295,9 +295,10 @@ public class Agency {
 
         Optional<Request> optionalValue = Optional.empty();
         Request request;
-        request = new Request(ownerEmail, propertyType, businessType, amount, area, availableEquipment, streetName,
-                city, district, state, zipCode, basement, inhabitableLoft, parkingSpace, sunExposure, numberBedroom,
-                numberBathroom, agent, distanceCityCenter, photograph);
+
+            request = new Request(ownerEmail, propertyType, businessType, amount, area, availableEquipment, streetName,
+                    city, district, state, zipCode, basement, inhabitableLoft, parkingSpace, sunExposure, numberBedroom,
+                    numberBathroom, agent, distanceCityCenter, photograph);
 
         if (addRequest(request)) {
             optionalValue = Optional.of(request);
@@ -405,7 +406,8 @@ public class Agency {
      * @param request         - the request created by the agent.
      * @return an Optional object of Announcement, allowing the calling code to handle the possibility of null values without the need for explicit null checks.
      */
-    public Optional<Announcement> publishAnnouncement(Employee agent, CommissionType commissionType, Double commissionValue, Request request) {
+    public Optional<Announcement> publishAnnouncement(Employee agent, CommissionType commissionType, Double
+            commissionValue, Request request) {
 
         Optional<Announcement> optionalValue = Optional.empty();
 
@@ -482,7 +484,8 @@ public class Agency {
      * @param businessType     the business type
      * @return the list
      */
-    public List<Announcement> announcementHasBusinessType(List<Announcement> announcementList, String businessType) {
+    public List<Announcement> announcementHasBusinessType(List<Announcement> announcementList, String
+            businessType) {
         List<Announcement> copyList = new ArrayList<>(announcementList);
         for (Announcement announcement : copyList) {
             if (!(announcement.getRequest().getBusiness().getBusinessType().getDesignation().equalsIgnoreCase((businessType)))) {
@@ -499,7 +502,8 @@ public class Agency {
      * @param propertyType     the property type
      * @return the list
      */
-    public List<Announcement> announcementHasPropertyType(List<Announcement> announcementList, String propertyType) {
+    public List<Announcement> announcementHasPropertyType(List<Announcement> announcementList, String
+            propertyType) {
         List<Announcement> copyList = new ArrayList<>(announcementList);
         for (Announcement announcement : copyList) {
             if (!((announcement.getRequest().getProperty().getPropertyType().getDesignation()).equalsIgnoreCase(propertyType))) {
@@ -516,7 +520,8 @@ public class Agency {
      * @param numberBedrooms   the number bedrooms
      * @return the list
      */
-    public List<Announcement> announcementHasNumberBedrooms(List<Announcement> announcementList, Integer numberBedrooms) {
+    public List<Announcement> announcementHasNumberBedrooms(List<Announcement> announcementList, Integer
+            numberBedrooms) {
         List<Announcement> copyList = new ArrayList<>(announcementList);
         for (Announcement announcement : copyList) {
             if (announcement.getRequest().getProperty() instanceof Residence) {
@@ -662,7 +667,8 @@ public class Agency {
         return new Employee(role);
     }
 
-    public List<List<Double>> getAnnouncementListDealData(RegressionModelType regressionModelType, Optional<String> variable) {
+    public List<List<Double>> getAnnouncementListDealData(RegressionModelType
+                                                                  regressionModelType, Optional<String> variable) {
         return announcements.getAnnouncementsData(regressionModelType, variable);
 
     }

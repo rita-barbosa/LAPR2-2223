@@ -95,10 +95,15 @@ public class Property {
      * @param uriList the uri list
      */
     private void fillPhotographList(List<String> uriList) {
+
         for (String uri : uriList) {
-            URI actualUri = URI.create(uri);
-            Photograph photo = new Photograph(actualUri);
-            addPhotograph(photo);
+            try {
+                URI actualUri = URI.create(uri);
+                Photograph photo = new Photograph(actualUri);
+                addPhotograph(photo);
+            } catch (IllegalArgumentException e) {
+                throw new IllegalArgumentException("Invalid URI.");
+            }
         }
     }
 

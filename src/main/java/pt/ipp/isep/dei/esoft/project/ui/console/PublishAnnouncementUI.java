@@ -198,16 +198,20 @@ public class PublishAnnouncementUI implements Runnable {
      * It also prints a message indicating if the announcement was successfully published or not.
      */
     private void submitData() {
-
-        Boolean success = getController().publishAnnouncement(commissionValue, commissionTypeDesignation, ownerEmail, propertyTypeDesignation,
-                streetName, city, district, state, zipCode, area, distanceCityCenter, price, numberBedroom, numberParkingSpace, existenceBasement,
-                inhabitableLoft, numberBathroom, availableEquipmentDescriptionList, uriList, sunExposure);
-
-        if (success) {
-            System.out.println("\nAnnouncement published successfully.");
-        } else {
-            System.out.println("\nERROR: Announcement was not published and sms notification wasn't send.");
+        try {
+            Boolean success = getController().publishAnnouncement(commissionValue, commissionTypeDesignation, ownerEmail, propertyTypeDesignation,
+                    streetName, city, district, state, zipCode, area, distanceCityCenter, price, numberBedroom, numberParkingSpace, existenceBasement,
+                    inhabitableLoft, numberBathroom, availableEquipmentDescriptionList, uriList, sunExposure);
+            if (success) {
+                System.out.println("\nAnnouncement published successfully.");
+            } else {
+                System.out.println("\nERROR: Announcement was not published and sms notification wasn't send.");
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("ERROR: " + e.getMessage());
         }
+
+
     }
 
     /**

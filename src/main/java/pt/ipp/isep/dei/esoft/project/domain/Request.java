@@ -139,13 +139,13 @@ public class Request {
                    List<String> availableEquipment, String streetName, String city, String district,
                    String state, String zipCode, Boolean basement, Boolean inhabitableLoft, Integer parkingSpace,
                    Enum<SunExposureTypes> sunExposure, Integer numberBedroom, Integer numberBathroom, Employee agent,
-                   Double distanceCityCenter, List<String> uri) {
+                   Double distanceCityCenter, List<String> uri){
+
         this.ownerEmail = new Email(ownerEmail);
         this.requestDate = LocalDate.now();
         this.business = new Business(businessTypeDesignation, amount);
         this.agent = agent;
         this.id = counter++;
-
         switch (propertyType.toString().toLowerCase()) {
             case "land":
                 this.property = new Property(propertyType, area, distanceCityCenter, uri, streetName, city,
