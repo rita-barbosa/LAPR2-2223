@@ -109,42 +109,54 @@ class VisitDto{
 +VisitDto(id, visitDate, startHour, endHour, acceptanceStatus)
 }
 
-class Request{
-- LocalDate requestDate
-- Integer id
-- Employee Employee
-- Email ownerEmail
-- Business business
-- Property property
-
-+getLocation()
-}
-
-class Property{
-- PropertyType propertyType
-- Double area
-- Double distanceCityCenter
-- Location location
-- List<Photograph> photograph
-
-+getLocation()
-}
+'class Request{
+'- LocalDate requestDate
+'- Integer id
+'- Employee Employee
+'- Email ownerEmail
+'- Business business
+'- Property property
+'
+'+getLocation()
+'}
+'
+'class Property{
+'- PropertyType propertyType
+'- Double area
+'- Double distanceCityCenter
+'- Location location
+'- List<Photograph> photograph
+'
+'+getLocation()
+'}
 
 'class Location{
 '
 '+getLocation()
 '}
 
-interface SortingMethods{
-+getSortedVisitRequestList(visitRequestsList)
+'interface SortingMethods{
+'+getSortedVisitRequestList(visitRequestsList)
+'}
+'
+'class SortingMethods1 implements SortingMethods{
+'+getSortedVisitRequestList(visitRequestsList)
+'}
+'
+'class SortingMethods2 implements SortingMethods{
+'+getSortedVisitRequestList(visitRequestsList)
+'}
+
+interface SortingAlgorithm  as "<b><<Interface>></b>\nSortingAlgorithm" {
+    - sort(order, visitRequestsList)
 }
 
-class SortingMethods1 implements SortingMethods{
-+getSortedVisitRequestList(visitRequestsList)
+class SortingAlgorithm1 implements SortingAlgorithm{
+-sort(order, visitRequestsList)
 }
 
-class SortingMethods2 implements SortingMethods{
-+getSortedVisitRequestList(visitRequestsList)
+class SortingAlgorithm2 implements SortingAlgorithm{
+-sort(order, visitRequestsList)
 }
 
 
@@ -179,9 +191,9 @@ Agency --> "1" AnnouncementList
 AnnouncementList "1" --> "*" Announcement
 Announcement "1"--> "*" Visit
 'AlgorithmRepository --> "*" Algorithm
-ListVisitsController --> "1"SortingMethods : makes use of
-Announcement "1" -> "1" Request : is based on
-Request "1" -> "1" Property : has information about
-'00
-Visit "1" -> "1" Property : is done to
+ListVisitsController --> "1"SortingAlgorithm : makes use of
+'Announcement "1" -> "1" Request : is based on
+'Request "1" -> "1" Property : has information about
+''00
+'Visit "1" -> "1" Property : is done to
 @enduml
