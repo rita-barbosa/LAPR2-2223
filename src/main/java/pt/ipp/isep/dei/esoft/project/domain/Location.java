@@ -1,11 +1,12 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
  * The type Location.
  */
-public class Location {
+public class Location implements Serializable {
     /**
      * The State string max length.
      */

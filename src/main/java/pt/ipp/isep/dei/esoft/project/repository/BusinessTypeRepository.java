@@ -3,11 +3,12 @@ package pt.ipp.isep.dei.esoft.project.repository;
 
 import pt.ipp.isep.dei.esoft.project.domain.BusinessType;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class BusinessTypeRepository {
+public class BusinessTypeRepository implements Serializable {
 
     /**
      * The list with existent business types.

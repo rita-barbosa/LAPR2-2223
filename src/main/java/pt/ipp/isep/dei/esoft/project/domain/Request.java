@@ -6,13 +6,14 @@ import pt.isep.lei.esoft.auth.domain.model.Email;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.*;
 
 /**
  * The type Request.
  */
-public class Request {
+public class Request implements Serializable {
 
     /**
      * The Id.

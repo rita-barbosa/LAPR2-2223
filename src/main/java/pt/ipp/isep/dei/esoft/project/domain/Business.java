@@ -1,11 +1,12 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * The type Business.
  */
-public class Business {
+public class Business implements Serializable {
     /**
      * The Business type.
      */

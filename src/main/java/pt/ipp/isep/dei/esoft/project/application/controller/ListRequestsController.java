@@ -1,13 +1,13 @@
 package pt.ipp.isep.dei.esoft.project.application.controller;
 
 import pt.ipp.isep.dei.esoft.project.domain.*;
+import pt.ipp.isep.dei.esoft.project.domain.dto.RequestDto;
+import pt.ipp.isep.dei.esoft.project.domain.mapper.RequestMapper;
 import pt.ipp.isep.dei.esoft.project.repository.AgencyRepository;
 import pt.ipp.isep.dei.esoft.project.repository.AuthenticationRepository;
 import pt.ipp.isep.dei.esoft.project.repository.CommissionTypeRepository;
 import pt.ipp.isep.dei.esoft.project.repository.Repositories;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 

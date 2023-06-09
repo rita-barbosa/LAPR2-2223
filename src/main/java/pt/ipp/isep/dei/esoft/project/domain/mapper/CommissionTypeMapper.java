@@ -1,8 +1,10 @@
-package pt.ipp.isep.dei.esoft.project.domain;
+package pt.ipp.isep.dei.esoft.project.domain.mapper;
+
+import pt.ipp.isep.dei.esoft.project.domain.CommissionType;
+import pt.ipp.isep.dei.esoft.project.domain.dto.CommissionTypeDto;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * The type CommissionType mapper.

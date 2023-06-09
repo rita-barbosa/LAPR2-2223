@@ -1,11 +1,10 @@
 package pt.ipp.isep.dei.esoft.project.repository;
 
-import pt.ipp.isep.dei.esoft.project.domain.Agency;
-import pt.ipp.isep.dei.esoft.project.domain.LegacySystemDto;
-import pt.ipp.isep.dei.esoft.project.domain.LegacySystemMapper;
+import pt.ipp.isep.dei.esoft.project.domain.dto.LegacySystemDto;
+import pt.ipp.isep.dei.esoft.project.domain.mapper.LegacySystemMapper;
 import pt.ipp.isep.dei.esoft.project.domain.Person;
 
-import javax.swing.text.html.Option;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -13,7 +12,7 @@ import java.util.Optional;
 /**
  * The type Person repository.
  */
-public class PersonRepository {
+public class PersonRepository implements Serializable {
 
     /**
      * The People.

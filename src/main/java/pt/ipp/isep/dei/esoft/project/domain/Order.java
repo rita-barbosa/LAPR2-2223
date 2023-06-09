@@ -11,7 +11,7 @@ import static java.awt.SystemColor.text;
 /**
  * The purchase order made by the client.
  */
-public class Order {
+public class Order implements Serializable{
     /**
      * The Id.
      */

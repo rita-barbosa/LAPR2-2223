@@ -1,11 +1,12 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
+import java.io.Serializable;
 import java.util.Optional;
 
 /**
  * The type Lease.
  */
-public class Lease extends Business{
+public class Lease extends Business implements Serializable {
     /**
      * The Contract duration.
      */

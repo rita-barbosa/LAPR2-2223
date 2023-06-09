@@ -1,5 +1,10 @@
-package pt.ipp.isep.dei.esoft.project.domain;
+package pt.ipp.isep.dei.esoft.project.domain.mapper;
 
+
+import pt.ipp.isep.dei.esoft.project.domain.Agency;
+import pt.ipp.isep.dei.esoft.project.domain.Person;
+import pt.ipp.isep.dei.esoft.project.domain.Request;
+import pt.ipp.isep.dei.esoft.project.domain.dto.LegacySystemDto;
 
 import java.util.List;
 

@@ -1,5 +1,6 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -8,7 +9,7 @@ import java.util.Objects;
 /**
  * The type Residence.
  */
-public class Residence extends Property {
+public class Residence extends Property  implements Serializable {
 
 
     /**

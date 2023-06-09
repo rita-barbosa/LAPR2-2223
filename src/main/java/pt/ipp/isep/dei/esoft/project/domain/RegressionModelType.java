@@ -1,11 +1,12 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * The Regression model type.
  */
-public class RegressionModelType {
+public class RegressionModelType implements Serializable {
 
     /**
      * The RegressionModelType designation;

@@ -1,4 +1,7 @@
-package pt.ipp.isep.dei.esoft.project.domain;
+package pt.ipp.isep.dei.esoft.project.domain.mapper;
+
+import pt.ipp.isep.dei.esoft.project.domain.Visit;
+import pt.ipp.isep.dei.esoft.project.domain.dto.VisitDto;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

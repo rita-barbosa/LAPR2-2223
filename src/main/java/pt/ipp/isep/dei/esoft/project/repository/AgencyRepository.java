@@ -1,8 +1,10 @@
 package pt.ipp.isep.dei.esoft.project.repository;
 
-import org.apache.commons.lang3.NotImplementedException;
 import pt.ipp.isep.dei.esoft.project.domain.*;
+import pt.ipp.isep.dei.esoft.project.domain.dto.LegacySystemDto;
+import pt.ipp.isep.dei.esoft.project.domain.mapper.LegacySystemMapper;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -10,7 +12,7 @@ import java.util.Optional;
 /**
  * A repository for storing and retrieving agencies.
  */
-public class AgencyRepository {
+public class AgencyRepository implements Serializable {
     /**
      * The list with existent agencies.
      */

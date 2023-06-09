@@ -1,4 +1,7 @@
-package pt.ipp.isep.dei.esoft.project.domain;
+package pt.ipp.isep.dei.esoft.project.domain.mapper;
+
+import pt.ipp.isep.dei.esoft.project.domain.Order;
+import pt.ipp.isep.dei.esoft.project.domain.dto.OrderDto;
 
 import java.util.ArrayList;
 import java.util.List;

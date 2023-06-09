@@ -1,12 +1,13 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
 /**
  * The type House.
  */
-public class House extends Residence {
+public class House extends Residence implements Serializable {
     /**
      * The Basement.
      */
