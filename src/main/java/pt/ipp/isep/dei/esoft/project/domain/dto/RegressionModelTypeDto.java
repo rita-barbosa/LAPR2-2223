@@ -1,4 +1,4 @@
-package pt.ipp.isep.dei.esoft.project.domain;
+package pt.ipp.isep.dei.esoft.project.domain.dto;
 
 /**
  * Represents a Regression Model Type DTO (Data Transfer Object).

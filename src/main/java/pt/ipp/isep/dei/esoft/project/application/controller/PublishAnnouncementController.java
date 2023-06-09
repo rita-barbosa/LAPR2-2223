@@ -1,10 +1,8 @@
 package pt.ipp.isep.dei.esoft.project.application.controller;
 
-import pt.ipp.isep.dei.esoft.project.application.session.ApplicationSession;
+
 import pt.ipp.isep.dei.esoft.project.domain.*;
 import pt.ipp.isep.dei.esoft.project.repository.*;
-
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 

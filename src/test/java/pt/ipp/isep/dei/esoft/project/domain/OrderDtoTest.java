@@ -1,10 +1,7 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
 import org.junit.jupiter.api.Test;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import pt.ipp.isep.dei.esoft.project.domain.dto.OrderDto;
 
 import static org.junit.jupiter.api.Assertions.*;
 

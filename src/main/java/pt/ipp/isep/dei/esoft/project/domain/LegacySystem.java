@@ -1,6 +1,9 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
 
+import pt.ipp.isep.dei.esoft.project.domain.dto.LegacySystemDto;
+import pt.ipp.isep.dei.esoft.project.domain.mapper.LegacySystemMapper;
+
 import java.io.*;
 import java.util.*;
 

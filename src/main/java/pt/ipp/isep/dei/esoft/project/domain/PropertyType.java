@@ -1,9 +1,10 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 
-public class PropertyType {
+public class PropertyType implements Serializable {
     /**
      * The designation of the property types.
      */

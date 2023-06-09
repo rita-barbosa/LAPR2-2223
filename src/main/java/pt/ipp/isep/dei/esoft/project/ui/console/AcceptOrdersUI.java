@@ -1,8 +1,8 @@
 package pt.ipp.isep.dei.esoft.project.ui.console;
 
 import pt.ipp.isep.dei.esoft.project.application.controller.AcceptOrdersController;
-import pt.ipp.isep.dei.esoft.project.domain.AnnouncementDto;
-import pt.ipp.isep.dei.esoft.project.domain.OrderDto;
+import pt.ipp.isep.dei.esoft.project.domain.dto.AnnouncementDto;
+import pt.ipp.isep.dei.esoft.project.domain.dto.OrderDto;
 
 import java.util.InputMismatchException;
 import java.util.List;

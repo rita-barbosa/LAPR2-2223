@@ -1,11 +1,12 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
  * A list of orders.
  */
-public class OrderList {
+public class OrderList implements Serializable {
 
     /**
      * The list of orders.

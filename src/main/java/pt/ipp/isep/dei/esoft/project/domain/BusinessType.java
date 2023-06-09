@@ -1,8 +1,9 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class BusinessType {
+public class BusinessType implements Serializable {
     /**
      * The designation of business type.
      */

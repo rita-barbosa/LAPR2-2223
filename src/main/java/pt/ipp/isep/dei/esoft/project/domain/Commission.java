@@ -2,9 +2,10 @@ package pt.ipp.isep.dei.esoft.project.domain;
 
 import pt.ipp.isep.dei.esoft.project.repository.CommissionTypeRepository;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Commission {
+public class Commission implements Serializable {
     /**
      * The type of the commission
      */

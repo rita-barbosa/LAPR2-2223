@@ -1,9 +1,10 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class CommissionType {
+public class CommissionType implements Serializable {
     /**
      * The designation of the commission type
      */

@@ -5,10 +5,12 @@ import pt.ipp.isep.dei.esoft.project.domain.Agency;
 import pt.isep.lei.esoft.auth.AuthFacade;
 import pt.isep.lei.esoft.auth.UserSession;
 
+import java.io.Serializable;
+
 /**
  * The type Authentication repository.
  */
-public class AuthenticationRepository {
+public class AuthenticationRepository implements Serializable {
     /**
      * The Authentication facade.
      */

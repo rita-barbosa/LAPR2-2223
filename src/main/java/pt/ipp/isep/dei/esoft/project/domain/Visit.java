@@ -3,13 +3,14 @@ package pt.ipp.isep.dei.esoft.project.domain;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
 /**
  * The type Visit.
  */
-public class Visit {
+public class Visit implements Serializable {
 
     /**
      * The Id.

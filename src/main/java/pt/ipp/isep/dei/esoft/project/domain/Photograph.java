@@ -1,12 +1,13 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
+import java.io.Serializable;
 import java.net.URI;
 import java.util.Objects;
 
 /**
  * The type Photograph.
  */
-public class Photograph {
+public class Photograph implements Serializable {
     /**
      * The Photograph's Uri.
      */

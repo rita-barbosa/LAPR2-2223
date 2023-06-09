@@ -2,13 +2,14 @@ package pt.ipp.isep.dei.esoft.project.domain;
 
 import pt.isep.lei.esoft.auth.domain.model.Email;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
 /**
  * The type Employee.
  */
-public class Employee extends Person {
+public class Employee extends Person implements Serializable {
     /**
      * The Agency id.
      */

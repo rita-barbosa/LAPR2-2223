@@ -4,11 +4,12 @@ package pt.ipp.isep.dei.esoft.project.repository;
 
 import pt.ipp.isep.dei.esoft.project.domain.CommissionType;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class CommissionTypeRepository {
+public class CommissionTypeRepository implements Serializable {
 
     /**
      * The list with existent commission types.

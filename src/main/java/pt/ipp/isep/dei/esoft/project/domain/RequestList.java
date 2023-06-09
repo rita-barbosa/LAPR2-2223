@@ -1,12 +1,13 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.*;
 
 /**
  * The type Request list.
  */
-public class RequestList {
+public class RequestList implements Serializable {
 
     /**
      * The Requests.

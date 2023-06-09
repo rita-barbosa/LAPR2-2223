@@ -1,6 +1,9 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
 import org.junit.jupiter.api.Test;
+import pt.ipp.isep.dei.esoft.project.domain.dto.AnnouncementDto;
+import pt.ipp.isep.dei.esoft.project.domain.dto.OrderDto;
+import pt.ipp.isep.dei.esoft.project.domain.mapper.AnnouncementMapper;
 import pt.isep.lei.esoft.auth.domain.model.Email;
 
 import java.time.LocalDate;

@@ -2,12 +2,13 @@ package pt.ipp.isep.dei.esoft.project.domain;
 
 import pt.isep.lei.esoft.auth.domain.model.Email;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
  * The type Person.
  */
-public class Person {
+public class Person  implements Serializable {
     /**
      * The Name.
      */

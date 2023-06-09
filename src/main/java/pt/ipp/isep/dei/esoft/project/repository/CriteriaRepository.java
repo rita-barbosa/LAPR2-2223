@@ -1,5 +1,6 @@
 package pt.ipp.isep.dei.esoft.project.repository;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -8,7 +9,7 @@ import java.util.Optional;
 /**
  * The type Criteria repository.
  */
-public class CriteriaRepository {
+public class CriteriaRepository implements Serializable {
 
     /**
      * The list with the existing criterias.

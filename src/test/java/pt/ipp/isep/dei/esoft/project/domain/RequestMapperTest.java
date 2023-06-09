@@ -1,10 +1,8 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
 import org.junit.jupiter.api.Test;
-import pt.ipp.isep.dei.esoft.project.application.controller.authorization.AuthenticationController;
-import pt.ipp.isep.dei.esoft.project.repository.AgencyRepository;
-import pt.ipp.isep.dei.esoft.project.repository.AuthenticationRepository;
-import pt.isep.lei.esoft.auth.domain.model.Email;
+import pt.ipp.isep.dei.esoft.project.domain.dto.RequestDto;
+import pt.ipp.isep.dei.esoft.project.domain.mapper.RequestMapper;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

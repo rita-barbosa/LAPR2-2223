@@ -1,11 +1,12 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * Represents the available equipment of a property (Apartment or House).
  */
-public class AvailableEquipment {
+public class AvailableEquipment implements Serializable {
     /**
      * The description of the Available Equipment.
      */
