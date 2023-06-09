@@ -1,5 +1,8 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
+import pt.ipp.isep.dei.esoft.project.repository.AgencyRepository;
+import pt.ipp.isep.dei.esoft.project.repository.Repositories;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -38,5 +41,34 @@ public class AnnouncementMapper {
         List<OrderDto> listOrdersDto = OrderMapper.toDto(listOrders);
 
         return new AnnouncementDto(id, requestAttributes, commissionAttributes, acceptanceDate, listOrdersDto);
+    }
+
+    public static Optional<List<AnnouncementDto>> toNetworkDto(List<Announcement> announcements) {
+        List<AnnouncementDto> listAnnouncementsDto = new ArrayList<>();
+        for (Announcement announce : announcements) {
+            AnnouncementDto dto = toNetworkDto(announce);
+            listAnnouncementsDto.add(dto);
+        }
+        return Optional.of(listAnnouncementsDto);
+    }
+
+    public static AnnouncementDto toNetworkDto(Announcement announcement) {
+        int id = announcement.getId();
+        String saleDate = announcement.getSaleDate().toString();
+        double saleAmount = announcement.getSaleAmount();
+        String requestDate = announcement.getRequest().getRequestDate().toString();
+        String acceptanceDate = announcement.getAcceptanceDate().toString();
+        String commissionAttributes = announcement.getCommissionAttributes();
+        String requestAttributes = announcement.getRequestAttributes();
+        AgencyRepository agencyRepository = Repositories.getInstance().getAgencyRepository();
+        Optional<Agency> agency = agencyRepository.getAgencyByEmployeeEmail(announcement.getAgentEmail());
+        String agencyDescription = "";
+        int agencyId = 0;
+        if (agency.isPresent()) {
+            agencyId = agency.get().getId();
+            agencyDescription = agency.get().getDescription();
+        }
+        return new AnnouncementDto(id, saleDate, saleAmount, requestDate, acceptanceDate, commissionAttributes,
+                requestAttributes, agencyDescription, agencyId);
     }
 }

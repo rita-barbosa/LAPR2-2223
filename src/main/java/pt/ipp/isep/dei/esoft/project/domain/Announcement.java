@@ -4,6 +4,7 @@ import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import org.apache.commons.math3.stat.regression.MultipleLinearRegression;
 import org.apache.commons.math3.stat.regression.OLSMultipleLinearRegression;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.Optional;
 /**
  * Represents an Announcement made by a agent, based on a request.
  */
-public class Announcement {
+public class Announcement implements Serializable {
     /**
      * The date of acceptance for the request
      */
@@ -442,7 +443,7 @@ public class Announcement {
      *
      * @return sale amount
      */
-    private Double getSaleAmount() {
+    public Double getSaleAmount() {
         return saleAmount;
     }
 
@@ -461,14 +462,15 @@ public class Announcement {
      *
      * @return {@code true} if an announcement is a deal; {@code false} otherwise;
      */
-    private boolean isDeal() {
+    public boolean isDeal() {
         return !this.saleAmount.equals(SALE_AMOUNT_BY_DEFAULT);
     }
 
     /**
      * Returns all the deals data of an announcement necessary for the regression model.
+     *
      * @param regressionModelType - the type of regression model
-     * @param variable - the variable of the wanted data if the regression model type is simple linear.
+     * @param variable            - the variable of the wanted data if the regression model type is simple linear.
      * @return a list with all the deals data of an announcement.
      */
     public List<Double> getDataForRegression(RegressionModelType regressionModelType, Optional<String> variable) {
@@ -482,6 +484,10 @@ public class Announcement {
             data.addAll(this.request.getVariablesValue());
         }
         return data;
+    }
+
+    public LocalDate getSaleDate() {
+        return this.saleDate;
     }
 }
 

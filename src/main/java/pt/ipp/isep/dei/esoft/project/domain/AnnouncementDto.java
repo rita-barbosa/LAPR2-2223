@@ -7,6 +7,11 @@ import java.util.Objects;
  * The type Announcement dto.
  */
 public class AnnouncementDto {
+    private String saleDate;
+    private Double saleAmount;
+    private String requestDate;
+    private String agencyDescription;
+    private Integer agencyId;
     /**
      * The Id.
      */
@@ -44,6 +49,20 @@ public class AnnouncementDto {
         this.commissionAttributes = commissionAttributes;
         this.acceptanceDate = acceptanceDate;
         this.listOrdersDto = listOrdersDto;
+    }
+
+
+    public AnnouncementDto(Integer id, String saleDate, Double saleAmount, String requestDate, String acceptanceDate,
+                           String commissionAttributes, String requestAttributes, String agencyDescription, Integer agencyId) {
+        this.id = id;
+        this.requestAttributes = requestAttributes;
+        this.commissionAttributes = commissionAttributes;
+        this.acceptanceDate = acceptanceDate;
+        this.saleDate = saleDate;
+        this.saleAmount = saleAmount;
+        this.requestDate = requestDate;
+        this.agencyDescription = agencyDescription;
+        this.agencyId = agencyId;
     }
 
     /**

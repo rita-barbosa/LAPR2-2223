@@ -1,14 +1,13 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
-import org.apache.commons.lang3.NotImplementedException;
-
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.*;
 
 /**
  * A List with the announcements of an agency.
  */
-public class AnnouncementList {
+public class AnnouncementList implements Serializable {
 
     /**
      * The list with the announcements.
@@ -188,8 +187,9 @@ public class AnnouncementList {
 
     /**
      * Returns all the deals data of an agency necessary for the regression model.
+     *
      * @param regressionModelType - the type of regression model
-     * @param variable - the variable of the wanted data if the regression model type is simple linear.
+     * @param variable            - the variable of the wanted data if the regression model type is simple linear.
      * @return a list with all the deals data of an agency.
      */
     public List<List<Double>> getAnnouncementsData(RegressionModelType regressionModelType, Optional<String> variable) {
@@ -201,5 +201,15 @@ public class AnnouncementList {
             }
         }
         return dataList;
+    }
+
+    public List<Announcement> getDealsList() {
+        List<Announcement> dealsList = new ArrayList<>();
+        for (Announcement announcement : announcements) {
+            if (announcement.isDeal()) {
+                dealsList.add(announcement);
+            }
+        }
+        return dealsList;
     }
 }
