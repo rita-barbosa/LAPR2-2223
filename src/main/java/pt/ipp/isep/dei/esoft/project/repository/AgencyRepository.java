@@ -171,4 +171,11 @@ public class AgencyRepository {
     }
 
 
+    public List<Announcement> getAllDealsAnnouncements() {
+        List<Announcement> listOfAllDeals = new ArrayList<>();
+        for (Agency agency : agencies) {
+            listOfAllDeals.addAll(agency.getDealsAnnouncementList());
+        }
+        return listOfAllDeals;
+    }
 }

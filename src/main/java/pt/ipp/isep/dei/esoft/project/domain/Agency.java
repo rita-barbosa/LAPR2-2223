@@ -1,15 +1,14 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
-import org.apache.commons.lang3.NotImplementedException;
 import pt.isep.lei.esoft.auth.domain.model.Email;
 
-import java.io.IOException;
+import java.io.Serializable;
 import java.util.*;
 
 /**
  * The Agency class represents a real estate agency that contains information about employees, announcements, and requests.
  */
-public class Agency {
+public class Agency implements Serializable {
     /**
      * The id of the agency;
      */
@@ -671,5 +670,9 @@ public class Agency {
                                                                   regressionModelType, Optional<String> variable) {
         return announcements.getAnnouncementsData(regressionModelType, variable);
 
+    }
+
+    public List<Announcement> getDealsAnnouncementList() {
+        return announcements.getDealsList();
     }
 }
