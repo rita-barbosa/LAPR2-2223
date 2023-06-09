@@ -14,7 +14,7 @@ public class ScheduleVisitUI implements Runnable {
     /**
      * The constant MAX_HOUR_IN_DAY.
      */
-    private static final Integer MAX_HOUR_IN_DAY = 24;
+    private static final Integer MAX_HOUR_IN_DAY = 23;
     /**
      * The constant MIN_HOUR_IN_DAY.
      */
