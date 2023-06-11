@@ -167,6 +167,63 @@ SOUTH
 WEST
 EAST
 }
+
+class AnnouncementDto {
+- int commissionValue
+- String commissionTypeDesignation
+- int amount
+- String propertyTypeDesignation
+- int area
+- String streetName
+- String city
+- String district
+- String state
+- String zipcode
+- int distanceCityCenter
+- int numberBedrooms
+- int numberBathrooms
+- int parkingSpace
+- List<String>  availableEquipmentDescriptionList
+- List<String>  uriList
+- String existenceBasement
+- String inhabitableLoft
+- String sunExposure
+
++ getCommissionValue()
++ getCommissionTypeDesignation()
++ getAmount()
++ getPropertyTypeDesignation()
++ getArea()
++ getStreetName()
++ getCity()
++ getDistrict()
++ getState()
++ getZipcode()
++ getDistanceCityCentre()
++ getUriList()
++ getNumberBedrooms()
++ getNumberBathrooms()
++ getParkingSpace()
++ getAvailableEquipmentList()
++ getBasement()
++ getInhabitableLoft()
++ getSunExposure()
++ AnnouncementDto()
+}
+class AnnouncementMapper{
++ toModelRequest(announcementDto,propertyType)
+}
+
+
+
+
+
+    PublishAnnouncementUI .-> AnnouncementDto
+    AnnouncementMapper .-> AnnouncementDto
+    AnnouncementMapper .--> Announcement
+     AnnouncementMapper .--> Request
+    PublishAnnouncementController ..> AnnouncementDto
+    PublishAnnouncementController ..> AnnouncementMapper
     PublishAnnouncementUI .> PublishAnnouncementController
     PublishAnnouncementController .-> UserSession
     PublishAnnouncementController .-> ApplicationSession

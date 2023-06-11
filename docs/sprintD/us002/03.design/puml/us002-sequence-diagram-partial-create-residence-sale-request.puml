@@ -1,0 +1,108 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+
+participant "request\n:Request" as REQUEST
+participant "residence\n:Residence" as RESIDENCE
+participant "property\n:Property" as RESIDENCE
+participant "location\n:Location" as LOCATION
+participant "availableEquipment\n:AvailableEquipment" as AEQUIP
+participant "photograph\n:Photograph" as PHOTO
+participant "business\n:Business" as BUSINESS
+
+
+autonumber 42
+
+
+        -> REQUEST **: createSaleRequest(propertyType, amount,\n area, streetName, city, district,\nstate, zipCode, distanceCityCenter,\nnumberBedrooms,numberBathrooms,\nnumberParkingSpace,availableEquipmentDescriptionList)
+            activate REQUEST
+
+autonumber 42.1
+
+    group Create Residence Sale Request
+
+           REQUEST -> BUSINESS** : createBusiness(amount)
+
+            REQUEST -> RESIDENCE** : createResidence(area, streetName, city, district,\nstate, zipCode, distanceCityCenter,\nnumberBedrooms,numberBathrooms,\nnumberParkingSpace,availableEquipmentDescriptionList)
+              activate RESIDENCE
+
+
+                RESIDENCE -> RESIDENCE: fillPhotographList(uriList)
+                activate RESIDENCE
+
+                loop for each uri
+
+                RESIDENCE -> PHOTO**: create(uri)
+
+                RESIDENCE -> RESIDENCE: addPhotograph(photograph)
+                activate RESIDENCE
+
+                RESIDENCE -> RESIDENCE: validate(photograph)
+                activate RESIDENCE
+
+                RESIDENCE --> RESIDENCE:
+                deactivate RESIDENCE
+
+                RESIDENCE --> RESIDENCE:
+                deactivate RESIDENCE
+                |||
+                end loop
+
+                RESIDENCE --> RESIDENCE:
+                deactivate RESIDENCE
+
+
+                |||
+                RESIDENCE -> LOCATION** : createLocation(streetName, city, district, state, zipCode)
+                activate LOCATION
+
+                LOCATION -> LOCATION : validateLocation(location)
+                activate LOCATION
+
+                LOCATION--> LOCATION
+                deactivate LOCATION
+
+                LOCATION --> RESIDENCE : location
+                deactivate LOCATION
+                |||
+                RESIDENCE -> RESIDENCE : fillAvailableEquipmentList(availableEquipmentDescriptionList)
+                activate RESIDENCE
+
+               loop for each availableEquipmentDescription
+
+               RESIDENCE -> AEQUIP**: create(availableEquipmentDescription)
+
+               RESIDENCE -> RESIDENCE : addAvailableEquipment(availableEquipment)
+               activate RESIDENCE
+
+               RESIDENCE -> RESIDENCE : validate(availableEquipment)
+               activate RESIDENCE
+
+               RESIDENCE --> RESIDENCE :
+               deactivate RESIDENCE
+
+               RESIDENCE --> RESIDENCE :
+               deactivate RESIDENCE
+              |||
+              end loop
+
+            RESIDENCE --> RESIDENCE : availableEquipmentList
+            deactivate RESIDENCE
+
+            RESIDENCE --> REQUEST: residence
+            deactivate RESIDENCE
+
+
+
+
+
+      end group
+
+autonumber 43
+        <--REQUEST : request
+                       deactivate REQUEST
+
+
+@enduml

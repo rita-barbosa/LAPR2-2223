@@ -38,7 +38,27 @@ activate Employee
 
     Employee -> System : selects a type of property
     activate System
-' zipCode of the property'
+
+    System --> Employee : requests price of the property
+    deactivate System
+
+    Employee -> System : types requested data (price)
+    activate System
+
+
+    System --> Employee : requests area of the property
+    deactivate System
+
+    Employee -> System : types requested data (area)
+    activate System
+
+    System --> Employee : requests distance from city center of the property
+    deactivate System
+
+    Employee -> System : types requested data (distanceCityCentre)
+    activate System
+
+
     System --> Employee : requests streetName of the property
     deactivate System
 
@@ -70,23 +90,6 @@ activate Employee
     activate System
 
 
-    System --> Employee : requests area of the property
-    deactivate System
-
-    Employee -> System : types requested data (area)
-    activate System
-
-    System --> Employee : requests distance from city center of the property
-    deactivate System
-
-    Employee -> System : types requested data (distanceCityCentre)
-    activate System
-
-    System --> Employee : requests price of the property
-    deactivate System
-
-    Employee -> System : types requested data (price)
-    activate System
 
         loop 30 times
         System --> Employee : requests the photograph URI of the property

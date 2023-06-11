@@ -1,0 +1,78 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+
+participant "request\n:Request" as REQUEST
+participant "business\n:Business" as BUSINESS
+participant "property\n:Property" as PROPERTY
+participant "location\n:Location" as LOCATION
+participant "photograph\n:Photograph" as PHOTO
+
+
+
+autonumber 42
+
+        -> REQUEST **: createSaleRequest(propertyType, amount,\n area, streetName, city, district,\nstate, zipCode, distanceCityCenter)
+        activate REQUEST
+
+autonumber 42.1
+
+    group Create Property Sale Request
+
+
+        REQUEST -> BUSINESS** : createBusiness(amount)
+
+                REQUEST -> PROPERTY** : createProperty(business, streetName, city, district, state,zipCode,\n distanceCityCenter, area, uriList)
+                activate PROPERTY
+                PROPERTY -> PROPERTY: fillPhotographList(uriList)
+                activate PROPERTY
+
+                loop for each uri
+
+                PROPERTY -> PHOTO**: create(uri)
+
+                PROPERTY -> PROPERTY: addPhotograph(photograph)
+                activate PROPERTY
+
+                PROPERTY -> PROPERTY: validate(photograph)
+                activate PROPERTY
+
+                PROPERTY --> PROPERTY:
+                deactivate PROPERTY
+
+                PROPERTY --> PROPERTY:
+                deactivate PROPERTY
+                |||
+                end loop
+
+                PROPERTY --> PROPERTY:
+                deactivate PROPERTY
+
+
+                |||
+                PROPERTY -> LOCATION** : createLocation(streetName, city, district, state, zipCode)
+                activate LOCATION
+
+                LOCATION -> LOCATION : validateLocation(location)
+                activate LOCATION
+
+                LOCATION--> LOCATION
+                deactivate LOCATION
+
+                LOCATION --> PROPERTY : location
+                deactivate LOCATION
+
+                PROPERTY --> REQUEST: property
+                deactivate PROPERTY
+
+
+
+
+end group
+autonumber 43
+        <-- REQUEST : request
+       deactivate REQUEST
+
+@enduml

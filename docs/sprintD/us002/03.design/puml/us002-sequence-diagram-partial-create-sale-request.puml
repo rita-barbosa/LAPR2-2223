@@ -4,80 +4,160 @@ skinparam packageStyle rectangle
 skinparam shadowing false
 
 participant "agency\n:Agency" as AGENCY
+participant "requestList\n:RequestList" as REPLIST
+participant "announcementMapper\n:AnnouncementMapper" as MAPPER
+participant "announcementDto\n:AnnouncementDto" as DTO
 participant "request\n:Request" as REQUEST
-participant "property\n:Property" as PROPERTY
-participant "residence\n:Residence" as RESIDENCE
-participant "house\n:House" as HOUSE
-participant "location\n:Location" as LOCATION
-participant "availableEquipment\n:AvailableEquipment" as AEQUIP
-participant "photograph\n:Photograph" as PHOTO
-participant "business\n:Business" as BUSINESS
+
 
 
 autonumber 42
 
-        -> AGENCY: createSaleRequest(agent,agency,ownerEmail,propertyType,streetName, city, district, state,\nzipCode, distanceCityCenter, price, businessType, numberBedrooms,\nnumberParkingSpaces,existenceBasement,inhabitableLoft, numberBathrooms,\n availableEquipmentList,uriList,sunExposure,area)
+        -> AGENCY: createSaleRequest(announcementDto, propertyType)
          activate AGENCY
 
 autonumber 42.1
 
     group Create Request
 
-        AGENCY -> REQUEST **: createSaleRequest(ownerEmail, propertyType,streetName, city, district, state,\nzipCode, distanceCityCenter, price,businessType, numberBedrooms,\nnumberParkingSpaces,existenceBasement,inhabitableLoft, numberBathrooms,\n availableEquipmentList,uriList,sunExposure,area)
+        AGENCY -> MAPPER: toModelRequest(announcementDto,propertyType)
+        activate MAPPER
+
+        MAPPER -> DTO : amount = getAmount()
+        activate DTO
+        deactivate DTO
+
+        MAPPER -> DTO : area = getArea()
+        activate DTO
+        deactivate DTO
+
+        MAPPER -> DTO : streetName = getStreetName()
+        activate DTO
+        deactivate DTO
+
+        MAPPER -> DTO : city = getCity()
+        activate DTO
+        deactivate DTO
+
+        MAPPER -> DTO : district = getDistrict()
+        activate DTO
+        deactivate DTO
+
+        MAPPER -> DTO : state = getState()
+        activate DTO
+        deactivate DTO
+
+        MAPPER -> DTO : zipcode = getZipcode()
+        activate DTO
+        deactivate DTO
+
+        MAPPER -> DTO : distanceCityCenter = getDistanceCityCenter()
+        activate DTO
+        deactivate DTO
+
+        MAPPER -> DTO: uriList = getUriList()
+        activate DTO
+        deactivate DTO
+        alt propertyType == land
+
+        MAPPER -> REQUEST **: createSaleRequest(propertyType, amount,\n area, streetName, city, district,\nstate, zipCode, distanceCityCenter)
         activate REQUEST
+            |||
+           ref over REQUEST
 
-       REQUEST -> BUSINESS** : createBusiness(price)
+                Create Property Sale Request
 
-        alt propertyType = land
-                REQUEST -> PROPERTY** : createProperty(price,business, streetName, city, district, state,zipCode,\n distanceCityCenter, area, uriList)
-                activate PROPERTY
+           end ref
 
-                PROPERTY -> LOCATION** : createLocation(streetName, city, district, state, zipCode)
+        REQUEST --> MAPPER : request
+        deactivate REQUEST
+        end alt
 
-                PROPERTY -> PHOTO** : createPhotograph(uriList)
-                PROPERTY -> AEQUIP** : createAvailableEquipment(availableEquipmentList)
-                PROPERTY --> REQUEST : property
-                deactivate PROPERTY
+        alt propertyTypeDesignation = house || propertyTypeDesignation = apartment
 
-        end
-        alt propertyType = apartment
+            MAPPER -> DTO : numberBedrooms = getNumberBedrooms()
+            activate DTO
+            deactivate DTO
 
-                REQUEST -> RESIDENCE** : createResidence(price,business, streetName, city, district, state,zipCode,\ndistanceCityCenter, area, uriList,numberBedroom,\nnumberParkingSpace,numberBathroom,availableEquipmentList)
-                activate RESIDENCE
+            MAPPER -> DTO : numberBathrooms = getNumberBathrooms()
+            activate DTO
+            deactivate DTO
 
-                RESIDENCE -> LOCATION** : createLocation(streetName, city, district, state, zipCode)
+            MAPPER -> DTO : numberParkingSpace = getParkingSpace()
+            activate DTO
+            deactivate DTO
 
-                RESIDENCE -> PHOTO** : createPhotograph(uriList)
-                RESIDENCE -> AEQUIP** : createAvailableEquipment(availableEquipmentList)
-                RESIDENCE --> REQUEST : property
-                deactivate RESIDENCE\
+            MAPPER -> DTO : availableEquipmentDescriptionList= getAvailableEquipmentList()
+            activate DTO
+            deactivate DTO
 
-        end
-        alt propertyType = house
-                REQUEST -> HOUSE** : createHouse(price, business, streetName, city, district, state,zipCode,\ndistanceCityCenter, area, uriList,numberBedroom,\nnumberParkingSpace,numberBathroom,availableEquipmentList,\nexistenceBasement,inhabitableLoft,sunExposure)
-                activate HOUSE
 
-                HOUSE -> LOCATION** : createLocation(streetName, city, district, state, zipCode)
+                alt propertyTypeDesignation = Apartment
+            MAPPER -> REQUEST **: createSaleRequest(propertyType, amount,\n area, streetName, city, district,\nstate, zipCode, distanceCityCenter,\nnumberBedrooms,numberBathrooms,\nnumberParkingSpace,availableEquipmentDescriptionList)
+            activate REQUEST
 
-                HOUSE -> PHOTO** : createPhotograph(uriList)
-                HOUSE -> AEQUIP** : createAvailableEquipment(availableEquipmentList)
-                HOUSE --> REQUEST : property
-                deactivate HOUSE
-        end
+                  |||
+                  ref over REQUEST
 
-            REQUEST --> AGENCY: request
+                       Create Residence Sale Request
+
+                  end ref
+
+
+            REQUEST --> MAPPER : request
             deactivate REQUEST
+        end alt
+
+        alt propertyType = house
+
+            MAPPER -> DTO : existenceBasement = getBasement()
+            activate DTO
+            deactivate DTO
+
+            MAPPER -> DTO : inhabitableLoft = getInhabitableLoft()
+            activate DTO
+            deactivate DTO
+
+            MAPPER -> DTO : sunExposure = getSunExposure()
+            activate DTO
+            deactivate DTO
+
+             MAPPER -> REQUEST **: createSaleRequest(propertyType, amount,\n area, streetName, city, district,\nstate, zipCode, distanceCityCenter,\nnumberBedrooms,numberBathrooms,\nnumberParkingSpace,availableEquipment,\nexistenceBasement,inhabitableLoft,sunExposure)
+             activate REQUEST
+
+                  |||
+                  ref over REQUEST
+
+                       Create House Sale Request
+
+                  end ref
+
+            REQUEST --> MAPPER : request
+            deactivate REQUEST
+             |||
+             end alt
+
+            |||
+             end alt
+            MAPPER --> AGENCY: request
+            deactivate MAPPER
             |||
             AGENCY -> AGENCY: addRequest(request)
-                activate AGENCY
-                    AGENCY -> AGENCY: validateRequest(request)
-                    activate AGENCY
-                        AGENCY --> AGENCY
-                    deactivate AGENCY
+            activate AGENCY
 
-                    AGENCY --> AGENCY
+            AGENCY -> REPLIST : addRequest(request)
+            activate REPLIST
 
-            deactivate  AGENCY
+                REPLIST -> REPLIST: validateRequest(request)
+                activate REPLIST
+                REPLIST --> REPLIST
+                deactivate REPLIST
+
+            REPLIST --> AGENCY
+            deactivate REPLIST
+
+            AGENCY --> AGENCY
+            deactivate AGENCY
     |||
     end
 
