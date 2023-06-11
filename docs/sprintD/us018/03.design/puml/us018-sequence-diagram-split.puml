@@ -12,6 +12,7 @@ participant ":AnalyzeDealsController" as CTRL
 participant "repositories\n:Repositories" as PLAT
 participant "agencyRepository\n:AgencyRepository" as AgencyRepository
 participant "statistic\n:Statistic" as ST
+participant "<interface>\n:RegressionModel" as RM
 participant "statisticMapper\n:StatisticMapper" as STMapper
 participant "regressionModelTypeMapper\n:RegressionModelTypeMapper" as RMTMapper
 participant "regressionModelTypeDto\n:RegressionModelTypeDto" as RMTDto
@@ -100,17 +101,31 @@ activate ADM
     CTRL -> CTRL: getRegressionModelStatistics(regressionModelType, dealsDataList)
     activate CTRL
 
-
-
-    CTRL -> ST  : getStatistics(regressionModelType, dealsDataList)
+    CTRL -> ST** : create(regressionModelType, dealsDataList)
     activate ST
-            |||
-            ref over ST
-            Get Statistics
-            end ref
+    ST -> RM**: create(dealsDataList)
 
-    ST --> CTRL: regressionModel
-    deactivate ST
+          note right RM
+          RegressionModel implementation will
+          depend on the regression model specified
+          in regressionModelType instance.
+          end note
+
+
+      ST -> RM : getRegressionReport()
+      activate RM
+
+      RM --> ST : report
+      deactivate RM
+
+      ST -> RM: getForecastValues()
+      activate RM
+
+      RM--> ST: forecastValues
+      deactivate RM
+
+      ST --> CTRL :
+      deactivate ST
 
     CTRL -> STMapper : toDto(statistic)
     activate STMapper

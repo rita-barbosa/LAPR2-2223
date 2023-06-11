@@ -20,6 +20,17 @@ public class Bootstrap implements Runnable {
         addPropertyTypes();
         addBusinessTypes();
         addCriteria();
+        addRegressionModels();
+    }
+
+    private void addRegressionModels() {
+
+        RegressionModelTypeRepository regressionModelTypeRepository = Repositories.getInstance().getRegressionModelTypeRepository();
+        RegressionModelType r = new RegressionModelType("Simple Linear");
+        RegressionModelType r2 = new RegressionModelType("Multilinear");
+
+        regressionModelTypeRepository.add(r);
+        regressionModelTypeRepository.add(r2);
     }
 
     private void addPeople() {
@@ -29,7 +40,7 @@ public class Bootstrap implements Runnable {
                 "004-48-6973", "client@this.app", "623-408-7890", "client",
                 "Broadway", "Manhattan", "New York", "NY", "10001");
         Person client2 = new Person("Jake Moon", "C12777778",
-                "134-23-2555", "client1@this.app", "555-775-5555","client",
+                "134-23-2555", "client1@this.app", "555-775-5555", "client",
                 "Rua da Alegria, 123", "Porto", "Porto", "Porto", "43005");
 
         Person client1 = new Person("Paulo Borges", "C04575989",
@@ -94,14 +105,13 @@ public class Bootstrap implements Runnable {
 
         authenticationRepository.addUserWithRole("Administrator", "admin@this.app", "01ADMin",
                 AuthenticationController.ROLE_ADMIN);
-
+        authenticationRepository.addUserWithRole("Store Manager", "strManager@this.app", "01EMPlo",
+                AuthenticationController.ROLE_STORE_MANAGER);
         authenticationRepository.addUserWithRole("Agent", "employee@this.app", "01AGEnt",
-                AuthenticationController.ROLE_AGENT);
-        authenticationRepository.addUserWithRole("Agent", "employee3@this.app", "01AGEnt",
                 AuthenticationController.ROLE_AGENT);
         authenticationRepository.addUserWithRole("Client 1", "client1@this.app", "01CLIen",
                 AuthenticationController.ROLE_CLIENT);
-        authenticationRepository.addUserWithRole("Network", "teste@this.app", "01CLIen",
+        authenticationRepository.addUserWithRole("Network", "netManager@this.app", "02EMPlo",
                 AuthenticationController.ROLE_NETWORK_MANAGER);
 
     }
@@ -139,7 +149,7 @@ public class Bootstrap implements Runnable {
         criteriaRepository.add("State");
     }
 
-    private void addRequests(Agency agency){
+    private void addRequests(Agency agency) {
         String ownerEmail = "jack@email.com";
         String ownerEmail1 = "finn@email.com";
         String ownerEmail2 = "lila@email.com";

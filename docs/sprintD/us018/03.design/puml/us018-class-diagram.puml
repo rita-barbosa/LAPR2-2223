@@ -43,8 +43,8 @@ class Residence {
  + getVariable(variable)
 }
 class Property {
- **+ getArea()**
- **+ getDistanceCityCenter()**
+ + getArea()
+ + getDistanceCityCenter()
 }
 
 class AgencyRepository {
@@ -77,10 +77,10 @@ class Statistic {
 - String report
 - List<List<Double>> dealsDataList
 - List<Double> forecastValues
++ Statistic(regressionModelType,dealsDataList)
  + getReport()
- + getRegressionModelForecastValue()
- + getRegressionModelDealsData()
- + getStatistics(regressionModelType,dealsDataList)
+ + getForecastValues()
+ + getDealsDataList()
 }
 
 class Business
@@ -103,7 +103,7 @@ class Repositories {
 class AnalyzeDealsController {
     + AnalyzeDealsController(organizationRepository, taskCategoryRepository)
     + getRegressionModelTypeList()
-    + getRegressionModelStatisticsAndForecastValues(regressionModelTypeDto, variable)
+    + getStatisticsAndForecastValues(regressionModelTypeDto, variable)
     - getDataForAnalysis(regressionModelType, variable)
     - getRegressionModelStatistics(regressionModelType, dealsDataList)
 }
@@ -142,6 +142,7 @@ class SimpleLinear implements RegressionModel {
 + SimpleLinear(List<List<Double>> data)
 - slopeHypothesisTest()
 - interceptHypothesisTest()
+- getConfidenceIntervals()
 }
 class Multilinear implements RegressionModel {
 - long n
