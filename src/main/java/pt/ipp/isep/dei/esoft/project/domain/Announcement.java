@@ -486,8 +486,22 @@ public class Announcement implements Serializable {
         return data;
     }
 
+    /**
+     * Gets sale date.
+     *
+     * @return the sale date
+     */
     public LocalDate getSaleDate() {
         return this.saleDate;
+    }
+
+    /**
+     * Get the visit list.
+     *
+     * @return the list
+     */
+    public List<Visit> getVisitList(){
+        return this.visitList;
     }
 }
 
