@@ -161,7 +161,7 @@ public class Order implements Serializable{
      */
     private String getNotificationMessage() {
         return String.format("The purchase order submitted in " + getOrderDate().toString() + " has been analyzed. " +
-                "The final decision was: " + this.acceptanceAnswer);
+                "The final decision was: " + this.acceptanceAnswer + ".");
     }
 
     /**

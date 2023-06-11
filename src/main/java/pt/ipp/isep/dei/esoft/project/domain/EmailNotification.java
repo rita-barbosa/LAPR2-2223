@@ -17,7 +17,7 @@ public class EmailNotification implements Notification {
         try {
             PrintWriter text = new PrintWriter(file);
             text.write(TEXT_TO + to + "\n");
-            text.write(TEXT_TOPIC + topic);
+            text.write(TEXT_TOPIC + topic + "\n");
             text.write(message);
             text.close();
             return true;
