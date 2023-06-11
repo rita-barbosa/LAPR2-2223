@@ -1,9 +1,11 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
+import java.io.Serializable;
+
 /**
  * Represents the sun exposure directions.
  */
-public  enum SunExposureTypes {
+public  enum SunExposureTypes implements Serializable {
 
     /**
      * The directions.

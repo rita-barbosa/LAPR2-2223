@@ -1,9 +1,11 @@
 package pt.ipp.isep.dei.esoft.project.repository;
 
+import java.io.Serializable;
+
 /**
  * The type Repositories.
  */
-public class Repositories {
+public class Repositories implements Serializable {
 
     /**
      * The constant instance.
