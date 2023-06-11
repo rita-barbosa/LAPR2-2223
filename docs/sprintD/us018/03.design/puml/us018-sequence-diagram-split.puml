@@ -109,7 +109,7 @@ activate ADM
             Get Statistics
             end ref
 
-    ST --> CTRL: statistic
+    ST --> CTRL: regressionModel
     deactivate ST
 
     CTRL -> STMapper : toDto(statistic)

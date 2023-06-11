@@ -5,7 +5,7 @@ skinparam shadowing false
 
 
 participant "statistic\n:Statistic" as ST
-participant "regressionModel\n:RegressionModel" as RM
+participant "<interface>\n:RegressionModel" as RM
 
 
 
@@ -26,31 +26,13 @@ group   Get Statistics
         end note
 
 
-    ST -> RM : getModelEquation()
+    ST -> RM : getRegressionReport()
     activate RM
 
-    RM --> ST : equation
+    RM --> ST : report
     deactivate RM
 
-    ST -> RM: getConfidenceIntervals(intercept, slope)
-    activate RM
-
-    RM --> ST: intervals
-    deactivate RM
-
-    ST -> RM: getHypothesisTests(intercept, slope)
-    activate RM
-
-    RM --> ST: hypothesisTests
-    deactivate RM
-
-    ST -> RM: getAnovaSignificanceModel()
-    activate RM
-
-    RM --> ST: anovaModel
-    deactivate RM
-
-    ST -> RM: getForecastValuesForData(dealsDataList)
+    ST -> RM: getForecastValues()
     activate RM
 
     RM--> ST: forecastValues

@@ -74,18 +74,13 @@ class RegressionModelTypeDto {
 }
 
 class Statistic {
-- String equation
-- List<String> hypothesisTests
-- List<String> confidenceIntervals
+- String report
 - List<List<Double>> dealsDataList
 - List<Double> forecastValues
- + getRegressionModelEquation()
- + getRegressionModelConfidenceIntervals()
- + getRegressionModelHypothesisTests()
+ + getReport()
  + getRegressionModelForecastValue()
  + getRegressionModelDealsData()
  + getStatistics(regressionModelType,dealsDataList)
- **After studying package check design**
 }
 
 class Business
@@ -118,24 +113,71 @@ class AnalyzeDealsUI{
 }
 
 class SimpleLinear implements RegressionModel {
-**After studying package check design**
+- long n
+- double intercept
+- double slope
+- double rSquare
+- double r
+- double xAverage
+- double yAverage
+- double Sxx
+- double Syy
+- double Sxy
+- double SE
+- double SR
+- double ST
+- double MSE
+- double MSR
+- double fObs
+- double fSnedecor
+- long degreeOfFreedom
+- double slopeStdErr
+- double slopeLower
+- double slopeUpper
+- double interceptStdErr
+- double interceptLower
+- double interceptUpper
+- List<List<Double>> dealsData
+- SimpleRegression regression
++ SimpleLinear(List<List<Double>> data)
+- slopeHypothesisTest()
+- interceptHypothesisTest()
 }
 class Multilinear implements RegressionModel {
-**After studying package check design**
+- long n
+- long k
+- double yAverage
+- double[] xAverage
+- double[] matrixY
+- double[][] matrixX
+- double[] beta
+- double SE
+- double SR
+- double ST
+- double rSquare
+- double rSquareAdjusted
+- double MQE
+- double MQR
+- double fObs
+- double fSnedecor
+- double[] parametersStdErr
+- List<List<Double>> dealsData
+- OLSMultipleLinearRegression regression
++ Multilinear(List<List<Double>> data)
+- calculateAdjustedRSquared()
+- getHypothesisTests()
+- getConfidenceIntervals()
+
 }
 interface RegressionModel {
-**CHECK ATTRIBUTES**
- + RegressionModel(dealsDataList)
- - calculateSlope()
- - calculateIntercept()
- - determineConfidenceIntervals(value)
- - determineHypothesisTests(value)
- **missing anova statistics**
- + getModelEquation()
- + getConfidenceIntervals()
- + getHypothesisTests()
- + getAnovaSignificanceModel()
- + getForecastValuesForData()
++ getRegressionReport()
++ getHypothesisTestDecision(double tObs, double tc)
++ tStudent(double alpha, int degreesOfFreedom)
++ fSnedecor(double alpha, int numeratorDegreeOfFreedom, int denominatorDegreeOfFreedom)
++ addData()
++ getForecastValues()
++ calculateVariablesAverage()
++ compareAnovaSigModel()
 }
 
 

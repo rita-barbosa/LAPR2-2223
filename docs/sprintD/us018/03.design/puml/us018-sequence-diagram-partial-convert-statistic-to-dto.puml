@@ -16,15 +16,7 @@ autonumber
 
     group Convert ST To Dto
 
-        STMapper -> ST: equation = getRegressionModelEquation()
-        activate ST
-        deactivate ST
-
-        STMapper -> ST: confidenceIntervals = getRegressionModelConfidenceIntervals()
-        activate ST
-        deactivate ST
-
-        STMapper -> ST: hypothesisTests = getRegressionModelHypothesisTests()
+        STMapper -> ST: report = getReport()
         activate ST
         deactivate ST
 
@@ -36,8 +28,7 @@ autonumber
         activate ST
         deactivate ST
 
-        STMapper -> STDto** : create(equation, confidenceIntervals, hypothesisTests, forecastValues, dealsDataList)
-
+        STMapper -> STDto** : create(report, forecastValues, dealsDataList
 
  end group
 
