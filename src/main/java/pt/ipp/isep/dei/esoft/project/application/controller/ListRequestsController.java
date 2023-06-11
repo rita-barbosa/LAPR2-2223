@@ -1,13 +1,16 @@
 package pt.ipp.isep.dei.esoft.project.application.controller;
 
 import pt.ipp.isep.dei.esoft.project.domain.*;
+import pt.ipp.isep.dei.esoft.project.domain.dto.CommissionTypeDto;
 import pt.ipp.isep.dei.esoft.project.domain.dto.RequestDto;
+import pt.ipp.isep.dei.esoft.project.domain.mapper.CommissionTypeMapper;
 import pt.ipp.isep.dei.esoft.project.domain.mapper.RequestMapper;
 import pt.ipp.isep.dei.esoft.project.repository.AgencyRepository;
 import pt.ipp.isep.dei.esoft.project.repository.AuthenticationRepository;
 import pt.ipp.isep.dei.esoft.project.repository.CommissionTypeRepository;
 import pt.ipp.isep.dei.esoft.project.repository.Repositories;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -109,12 +112,6 @@ public class ListRequestsController {
     }
 
 
-    public List<Request> getPureRequestsList() {
-        String agentEmail = getAgentEmail();
-        return getRequestsListByAgentEmail(agentEmail).get();
-    }
-
-
     /**
      * Gets requests list by agent email.
      *
@@ -131,20 +128,6 @@ public class ListRequestsController {
         }
         return newList;
     }
-
-//    public Optional<List<CommissionTypeDto>> getCommissionTypeList(){
-//        Optional<List<CommissionTypeDto>> newListCommissionTypeDto = Optional.empty();
-//        CommissionTypeRepository commissionTypeRepository = getCommissionTypeRepository();
-//        Optional<List<CommissionType>> commissionTypeList = Optional.of(commissionTypeRepository.getCommissionTypeList());
-//        if (commissionTypeList.isPresent()){
-//            newListCommissionTypeDto = CommissionTypeMapper.toDto(commissionTypeList.get());
-//        }
-//        return newListCommissionTypeDto;
-//    }
-
-//    public Integer getRequestByIdDto(){
-//
-//    }
 
     /**
      * Gets email from session.
@@ -170,9 +153,33 @@ public class ListRequestsController {
      *
      * @return the commission type list
      */
-    public List<CommissionType> getCommissionTypeList() {
+    public Optional<List<CommissionType>> getCommissionTypeList() {
         CommissionTypeRepository commissionTypeRepository = getCommissionTypeRepository();
-        return commissionTypeRepository.getCommissionTypeList();
+        return Optional.of(commissionTypeRepository.getCommissionTypeList());
+    }
+
+    /**
+     * Get commission type list dto optional.
+     *
+     * @param commissionTypes the commission types
+     * @return the optional
+     */
+    public Optional<List<CommissionTypeDto>> getCommissionTypeListDto(List<CommissionType> commissionTypes){
+        return toDto(commissionTypes);
+    }
+
+    /**
+     * To dto optional.
+     *
+     * @param commissionTypeList the commission type list
+     * @return the optional
+     */
+    public Optional<List<CommissionTypeDto>> toDto(List<CommissionType> commissionTypeList) {
+        List<CommissionTypeDto> listDto = new ArrayList<>();
+        for (CommissionType commissionType : commissionTypeList) {
+            listDto.add(CommissionTypeMapper.toDto(commissionType));
+        }
+        return Optional.of(listDto);
     }
 
     /**
@@ -226,7 +233,6 @@ public class ListRequestsController {
         Integer requestId = RequestMapper.getRequestIdFromDto(requestIdDto);
         Optional<Request> newRequest;
         newRequest = getRequestFromDto(requestId);
-        //getRequestByIdDto(requestId);
 
         return newRequest;
     }
@@ -277,17 +283,6 @@ public class ListRequestsController {
         return success;
     }
 
-//    public String getOwnerEmail(){
-//        String email = getEmailFromSession();
-//        Optional<Agency> agency = getAgencyByEmail(email);
-//        String ownerEmail = null;
-//        if (agency.isPresent()){
-//            ownerEmail = agency.get().getOwnerEmail();
-//        }
-//
-//        return ownerEmail;
-//    }
-
     /**
      * Define justification message.
      *
@@ -297,6 +292,5 @@ public class ListRequestsController {
     public void defineJustificationMessage(String message, Request request) {
         request.defineJustificationMessage(message);
     }
-
 
 }

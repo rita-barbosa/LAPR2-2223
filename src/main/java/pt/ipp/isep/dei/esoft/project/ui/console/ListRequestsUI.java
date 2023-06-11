@@ -2,12 +2,11 @@ package pt.ipp.isep.dei.esoft.project.ui.console;
 
 import pt.ipp.isep.dei.esoft.project.application.controller.ListRequestsController;
 import pt.ipp.isep.dei.esoft.project.domain.*;
+import pt.ipp.isep.dei.esoft.project.domain.dto.AnnouncementDto;
+import pt.ipp.isep.dei.esoft.project.domain.dto.CommissionTypeDto;
 import pt.ipp.isep.dei.esoft.project.domain.dto.RequestDto;
 
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Optional;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * The type List requests ui.
@@ -37,7 +36,6 @@ public class ListRequestsUI implements Runnable {
      * The Request index.
      */
     private Integer requestIndex;
-
     /**
      * The email address of the owner of the property.
      */
@@ -61,9 +59,7 @@ public class ListRequestsUI implements Runnable {
         Optional<Request> originalRequest = null;
         do {
             if (listRequests.isPresent() && listRequests.get().size() > 0) {
-                for (RequestDto request : listRequests.get()) {
-                    System.out.println(request.toString());
-                }
+                displayList(listRequests.get());
                 boolean option = askOption();
                 if (option) {
                     if (listRequests.get().size() > 0) {
@@ -90,6 +86,7 @@ public class ListRequestsUI implements Runnable {
                         if (originalRequest.isPresent() && requestDto.isPresent()) {
                             controller.defineJustificationMessage(message, originalRequest.get());
                             controller.sendEmail(originalRequest.get());
+                            originalRequest.get().setvalidationStatus(true);
                             listRequests.get().remove(requestDto.get());
                         }
                     }
@@ -103,6 +100,20 @@ public class ListRequestsUI implements Runnable {
     }
 
     /**
+     * Display list.
+     *
+     * @param list the RequestDTo list
+     */
+    private void displayList(List<RequestDto> list) {
+        int i = 0;
+        for (RequestDto request : list) {
+            System.out.printf("#%d\n", i++);
+            System.out.printf("%s\n", request.toString());
+        }
+        System.out.println();
+    }
+
+    /**
      * Request announcement index integer.
      *
      * @param list the list
@@ -112,8 +123,8 @@ public class ListRequestsUI implements Runnable {
         System.out.println("Please select a request by its index number.");
         int idx;
         idx = getIntAnswer();
-        while (idx > list.size() || idx < 0) {
-            System.out.println("The request index must be within the displayed list.");
+        while (idx > list.size() - 1 || idx < 0) {
+            System.out.println("\nThe request index must be within the displayed list.");
             idx = getIntAnswer();
         }
         return idx;
@@ -130,30 +141,6 @@ public class ListRequestsUI implements Runnable {
         Integer value = null;
         do {
             try {
-                value = input.nextInt();
-                invalid = false;
-            } catch (InputMismatchException e) {
-                System.out.println("\nERROR: Value typed is invalid"
-                        + " (" + e.getClass().getSimpleName() + ")");
-                input.nextLine();
-            }
-        } while (invalid);
-        return value;
-    }
-
-
-    /**
-     * Ask request id integer.
-     *
-     * @return the integer
-     */
-    private Integer askRequestId() {
-        Scanner input = new Scanner(System.in);
-        boolean invalid = true;
-        Integer value = null;
-        do {
-            try {
-                System.out.println("\nSelect and id:");
                 value = input.nextInt();
                 invalid = false;
             } catch (InputMismatchException e) {
@@ -225,16 +212,17 @@ public class ListRequestsUI implements Runnable {
      * @return the string
      */
     private String displayAndSelectCommissionType() {
-        List<CommissionType> commissionTypes = controller.getCommissionTypeList();
+        Optional<List<CommissionType>> commissionTypes = controller.getCommissionTypeList();
+        Optional<List<CommissionTypeDto>> commissionTypeDtos = controller.getCommissionTypeListDto(commissionTypes.get());
         boolean invalid = true;
-        int listSize = commissionTypes.size();
+        int listSize = commissionTypeDtos.get().size();
         int answer = -1;
         Scanner input = new Scanner(System.in);
 
         do {
             try {
                 while (answer < 1 || answer > listSize) {
-                    displayCommissionTypeOptions(commissionTypes);
+                    displayCommissionTypeOptions(commissionTypeDtos.get());
                     System.out.println("Select a type of commission:");
                     answer = input.nextInt();
                 }
@@ -245,7 +233,7 @@ public class ListRequestsUI implements Runnable {
                 input.nextLine();
             }
         } while (invalid);
-        return (commissionTypes.get(answer - 1).getDesignation());
+        return (commissionTypes.get().get(answer - 1).getDesignation());
     }
 
 
@@ -254,15 +242,14 @@ public class ListRequestsUI implements Runnable {
      *
      * @param commissionTypes the commission types
      */
-    private void displayCommissionTypeOptions(List<CommissionType> commissionTypes) {
+    private void displayCommissionTypeOptions(List<CommissionTypeDto> commissionTypes) {
         int i = 1;
         System.out.println();
-        for (CommissionType commissionType : commissionTypes) {
-            System.out.println(i + " - " + commissionType.getDesignation());
+        for (CommissionTypeDto commissionType : commissionTypes) {
+            System.out.println(i + " - " + commissionType.getCommissionType());
             i++;
         }
     }
-
     /**
      * This method requests the commission value of the agent.
      *
@@ -331,6 +318,7 @@ public class ListRequestsUI implements Runnable {
 
         if (success) {
             System.out.println("\nAnnouncement published successfully.");
+            request.get().setvalidationStatus(true);
         } else {
             System.out.println("\nERROR: Announcement was not published and sms notification wasn't send.");
         }
