@@ -5,7 +5,9 @@ import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -54,6 +56,49 @@ public class Utils {
                 Logger.getLogger(Utils.class.getName()).log(Level.SEVERE, null, ex);
             }
         } while (true);
+    }
+
+    public static Boolean showAndAnswerDirectQuestion(String message) {
+        System.out.printf("\n%s \n1. Yes \n2. No\n", message);
+        boolean invalid = true;
+        int answer = -1;
+        Scanner input = new Scanner(System.in);
+        do {
+            try {
+                answer = input.nextInt();
+                if (answer != 1 && answer != 2) {
+                    System.out.println("\nERROR: Option selected is invalid. (1 or 2)");
+                } else {
+                    invalid = false;
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("\nERROR: Option selected is not a number. (1 or 2)");
+                input.nextLine();
+            }
+        } while (invalid);
+        return answer == 1;
+    }
+
+
+    public static boolean askOptionalData(String optionalData) {
+        System.out.printf("Would you like to provide data about the Property's %s?%n1. Yes%n2. No%n", optionalData);
+        boolean invalid = true;
+        int answer = -1;
+        Scanner input = new Scanner(System.in);
+        do {
+            try {
+                answer = input.nextInt();
+                if (answer != 1 && answer != 2) {
+                    System.out.println("\nERROR: Option selected is invalid. (1 or 2)");
+                } else {
+                    invalid = false;
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("\nERROR: Option selected is not a number. (1 or 2)");
+                input.nextLine();
+            }
+        } while (invalid);
+        return answer == 1;
     }
 
     static public Date readDateFromConsole(String prompt) {
