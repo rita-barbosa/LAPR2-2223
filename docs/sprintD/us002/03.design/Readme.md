@@ -92,6 +92,20 @@ It uses interaction occurrence.
 
 ![Sequence Diagram - Partial - Create Sale Request ](svg/us002-sequence-diagram-partial-create-sale-request.svg)
 
+
+**Create Property Sale Request SD**
+
+![Sequence Diagram - Partial - Create Property Sale Request ](svg/us002-sequence-diagram-partial-create-property-sale-request.svg)
+
+**Create Residence Sale Request SD**
+
+![Sequence Diagram - Partial - Create Residence Sale Request ](svg/us002-sequence-diagram-partial-create-residence-sale-request.svg)
+
+
+**Create House Sale Request SD**
+
+![Sequence Diagram - Partial - Create House Sale Request ](svg/us002-sequence-diagram-partial-create-house-sale-request.svg)
+
 **Publish Announcement - Partial SD**
 
 ![Sequence Diagram - Partial - Publish Announcement](svg/us002-sequence-diagram-partial-publish-announcement.svg)
