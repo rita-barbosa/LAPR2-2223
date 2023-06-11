@@ -200,7 +200,7 @@ public class PublishAnnouncementController {
         PropertyType propertyType = getPropertyTypeByDesignation(propertyTypeDesignation);
 
         Optional<Request> newRequest;
-        Optional<Announcement> newAnnouncement = Optional.empty();
+        Optional<Announcement> newAnnouncement;
 
         CommissionType commissionType = getCommissionTypeByDesignation(commissionTypeDesignation);
 

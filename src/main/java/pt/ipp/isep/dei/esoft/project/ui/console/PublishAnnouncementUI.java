@@ -1,10 +1,10 @@
 package pt.ipp.isep.dei.esoft.project.ui.console;
 
 import pt.ipp.isep.dei.esoft.project.application.controller.PublishAnnouncementController;
-import pt.ipp.isep.dei.esoft.project.domain.Announcement;
 import pt.ipp.isep.dei.esoft.project.domain.CommissionType;
 import pt.ipp.isep.dei.esoft.project.domain.PropertyType;
 import pt.ipp.isep.dei.esoft.project.domain.SunExposureTypes;
+import pt.ipp.isep.dei.esoft.project.ui.console.utils.Utils;
 
 
 import java.util.*;
@@ -170,24 +170,30 @@ public class PublishAnnouncementUI implements Runnable {
         commissionValue = requestCommissionValue();
         ownerEmail = requestOwnerEmail();
         propertyTypeDesignation = displayAndSelectPropertyType();
-        streetName = requestStreetName();
-        state = requestState();
-        city = requestCity();
-        district = requestDistrict();
-        zipCode = requestZipCode();
+        price = requestPrice();
         area = requestArea();
         distanceCityCenter = requestDistanceCityCenter();
-        price = requestPrice();
+        streetName = requestStreetName();
+        city = requestCity();
+        district = requestDistrict();
+        state = requestState();
+        zipCode = requestZipCode();
         uriList = requestUri();
         if (propertyTypeDesignation.equalsIgnoreCase(APARTMENT_DESIGNATION) || propertyTypeDesignation.equalsIgnoreCase(HOUSE_DESIGNATION)) {
-            numberBedroom = requestNumberBedroom();
             numberParkingSpace = requestNumberParkingSpace();
-            numberBathroom = requestNumberBathroom(); //optional
-            availableEquipmentDescriptionList = requestAvailableEquipment(); //optional + loop
+            numberBedroom = requestNumberBedroom();
+            if (Utils.askOptionalData("number of bathrooms")) {
+                numberBathroom = requestNumberBathroom(); //optional
+            }
+            if (Utils.askOptionalData("available equipments")) {
+                availableEquipmentDescriptionList = requestAvailableEquipment(); //optional + loop
+            }
             if (propertyTypeDesignation.equalsIgnoreCase(HOUSE_DESIGNATION)) {
-                existenceBasement = requestExistenceBasement();
                 inhabitableLoft = requestInhabitableLoft();
-                sunExposure = requestSunExposure(); // optional
+                existenceBasement = requestExistenceBasement();
+                if (Utils.askOptionalData("sun exposure")) {
+                    sunExposure = requestSunExposure(); // optional
+                }
             }
         }
 
@@ -205,14 +211,14 @@ public class PublishAnnouncementUI implements Runnable {
             if (success) {
                 System.out.println("\nAnnouncement published successfully.");
             } else {
-                System.out.println("\nERROR: Announcement was not published and sms notification wasn't send.");
+                System.out.println("\nERROR: Announcement wasn't published.");
             }
         } catch (IllegalArgumentException e) {
+            System.out.println("\nERROR: Announcement wasn't published.");
             System.out.println("ERROR: " + e.getMessage());
         }
-
-
     }
+
 
     /**
      * This method asks the user if they want to submit the data that was typed/selected.
@@ -258,11 +264,8 @@ public class PublishAnnouncementUI implements Runnable {
         Scanner input = new Scanner(System.in);
         SunExposureTypes sunExposure = null;
         while (sunExposure == null) {
-            System.out.println("Enter the sun exposure (North, South, East or West) or press enter to skip:");
+            System.out.println("Enter the sun exposure (North, South, East or West):");
             String answer = input.nextLine().trim();
-            if (answer.isEmpty()) {
-                return null;
-            }
             try {
                 sunExposure = SunExposureTypes.valueOf(answer.toUpperCase());
             } catch (IllegalArgumentException e) {
@@ -270,7 +273,6 @@ public class PublishAnnouncementUI implements Runnable {
             }
         }
         return sunExposure;
-
     }
 
 
@@ -280,9 +282,7 @@ public class PublishAnnouncementUI implements Runnable {
      * @return {@code true} if property has an inhabitable loft;  {@code false} otherwise;
      */
     private Boolean requestInhabitableLoft() {
-        System.out.println("Inhabitable loft (T/F):");
-        return getBooleanAnswer();
-
+        return Utils.showAndAnswerDirectQuestion("Does the property have an Inhabitable Loft?");
     }
 
     /**
@@ -291,8 +291,7 @@ public class PublishAnnouncementUI implements Runnable {
      * @return {@code true} if property has a basement;  {@code false} otherwise;
      */
     private Boolean requestExistenceBasement() {
-        System.out.println("Existence of a basement (T/F):");
-        return getBooleanAnswer();
+        return Utils.showAndAnswerDirectQuestion("Does the property have a basement?");
     }
 
     /**
@@ -306,15 +305,14 @@ public class PublishAnnouncementUI implements Runnable {
         Scanner input = new Scanner(System.in);
         String answer;
         while (true) {
-            System.out.print("Enter a description for an available equipment or 'done' to skip): ");
-            answer = input.nextLine();
-            if (answer.equalsIgnoreCase("done")) {
-                break;
+            System.out.print("Enter a description for an available equipment or press to skip: ");
+            answer = input.nextLine().trim();
+            if (answer.isEmpty()) {
+                return descriptionList;
             } else {
                 descriptionList.add(answer);
             }
         }
-        return descriptionList;
     }
 
     /**
@@ -324,30 +322,8 @@ public class PublishAnnouncementUI implements Runnable {
      * @return number of bathrooms in the property.
      */
     private Integer requestNumberBathroom() {
-        Scanner input = new Scanner(System.in);
-        boolean invalid = true;
-        String answer;
-        Integer value = null;
-
-        System.out.println("Number of bathrooms (or press enter to skip): ");
-        answer = input.nextLine().trim();
-
-        while (invalid) {
-            if (answer.isEmpty()) {
-                return null;
-            }
-            try {
-                System.out.println("Number of bathrooms: ");
-                answer = input.nextLine();
-                value = Integer.parseInt(answer);
-                invalid = false;
-            } catch (NumberFormatException e) {
-                System.out.println("\nERROR: Value typed is invalid"
-                        + " (" + e.getClass().getSimpleName() + ")");
-                input.nextLine();
-            }
-        }
-        return value;
+        System.out.println("Property's number of bathrooms:");
+        return getIntegerAnswer();
     }
 
     /**
@@ -439,8 +415,7 @@ public class PublishAnnouncementUI implements Runnable {
                 value = input.nextDouble();
                 invalid = false;
             } catch (InputMismatchException e) {
-                System.out.println("\nERROR: Value typed is invalid"
-                        + " (" + e.getClass().getSimpleName() + ")");
+                System.out.println("\nERROR: Value typed is invalid.");
                 input.nextLine();
             }
         } while (invalid);
@@ -448,29 +423,6 @@ public class PublishAnnouncementUI implements Runnable {
         return value;
     }
 
-    /**
-     * This method obtains and verifies a boolean user input. If the inputted letter is 't' - for True - and  'f' - for False.
-     *
-     * @return the boolean value of the user answer. {@code true} if user input is letter 't'; {@code false} if it is letter 'f'.
-     */
-    private Boolean getBooleanAnswer() {
-        Scanner input = new Scanner(System.in);
-        String answer;
-        Boolean value = null;
-        answer = input.nextLine();
-        while (value == null) {
-            if (answer.equalsIgnoreCase("t")) {
-                value = true;
-            } else if (answer.equalsIgnoreCase("f")) {
-                value = false;
-            } else {
-                System.out.println("\nERROR: The input provided is not valid. Please try again.");
-                answer = input.nextLine();
-            }
-        }
-        return value;
-
-    }
 
     /**
      * This method obtains and verifies an Integer user input.
@@ -487,8 +439,7 @@ public class PublishAnnouncementUI implements Runnable {
                 value = input.nextInt();
                 invalid = false;
             } catch (InputMismatchException e) {
-                System.out.println("\nERROR: Value typed is invalid"
-                        + " (" + e.getClass().getSimpleName() + ")");
+                System.out.println("\nERROR: Value typed is invalid.");
                 input.nextLine();
             }
         } while (invalid);
@@ -545,8 +496,7 @@ public class PublishAnnouncementUI implements Runnable {
                 Integer value = Integer.parseInt(answer);
                 invalid = false;
             } catch (NumberFormatException e) {
-                System.out.println("\nERROR: Value typed is invalid"
-                        + " (" + e.getClass().getSimpleName() + ")");
+                System.out.println("\nERROR: Value typed is invalid.");
             }
         } while (invalid);
         return answer;
@@ -606,8 +556,7 @@ public class PublishAnnouncementUI implements Runnable {
                 }
                 invalid = false;
             } catch (InputMismatchException e) {
-                System.out.println("\nERROR: Option selected is invalid"
-                        + " (" + e.getClass().getSimpleName() + ")");
+                System.out.println("\nERROR: Option selected is invalid.");
                 input.nextLine();
             }
         } while (invalid);
@@ -635,8 +584,7 @@ public class PublishAnnouncementUI implements Runnable {
                 }
                 invalid = false;
             } catch (InputMismatchException e) {
-                System.out.println("\nERROR: Option selected is invalid"
-                        + " (" + e.getClass().getSimpleName() + ")");
+                System.out.println("\nERROR: Option selected is invalid.");
                 input.nextLine();
             }
         } while (invalid);
