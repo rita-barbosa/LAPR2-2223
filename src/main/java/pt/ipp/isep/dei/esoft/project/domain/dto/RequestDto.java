@@ -88,7 +88,7 @@ public class RequestDto {
      */
     @Override
     public String toString() {
-        return String.format("Request ID: %s \n%s%sRequest Date: %s\n", getRequestId(), propertyAttributes, businessAttributes, requestDate);
+        return String.format("%s%sRequest Date: %s\n", businessAttributes, propertyAttributes, requestDate);
     }
 
     /**

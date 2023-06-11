@@ -1,11 +1,7 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
-import org.apache.commons.lang3.NotImplementedException;
 import pt.isep.lei.esoft.auth.domain.model.Email;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.*;
@@ -39,6 +35,11 @@ public class Request implements Serializable {
      * The Owner email.
      */
     private Email ownerEmail;
+
+    /**
+     * The Validation status.
+     */
+    private Boolean validationStatus;
     /**
      * The id iteration variable.
      */
@@ -92,6 +93,7 @@ public class Request implements Serializable {
 
         this.agent = agent;
         this.id = counter++;
+        this.validationStatus = false;
 
         switch (propertyType.toString().toLowerCase()) {
             case "land":
@@ -147,6 +149,7 @@ public class Request implements Serializable {
         this.business = new Business(businessTypeDesignation, amount);
         this.agent = agent;
         this.id = counter++;
+        this.validationStatus = false;
         switch (propertyType.toString().toLowerCase()) {
             case "land":
                 this.property = new Property(propertyType, area, distanceCityCenter, uri, streetName, city,
@@ -183,6 +186,7 @@ public class Request implements Serializable {
         this.agent = agent;
         this.property = property;
         this.id = id;
+        this.validationStatus = false;
     }
 
     /**
@@ -201,6 +205,7 @@ public class Request implements Serializable {
         this.agent = agent;
         this.property = property;
         this.id = counter++;
+        this.validationStatus = false;
     }
 
     /**
@@ -228,6 +233,7 @@ public class Request implements Serializable {
         this.agent = null;
         int[] date = mapStringToLocalDate(dateAnnounceRequest);
         this.requestDate = LocalDate.of(date[2], date[1], date[0]);
+        this.validationStatus = false;
     }
 
 
@@ -262,6 +268,7 @@ public class Request implements Serializable {
         this.agent = null;
         int[] date = mapStringToLocalDate(dateAnnounceRequest);
         this.requestDate = LocalDate.of(date[2], date[1], date[0]);
+        this.validationStatus = false;
     }
 
     /**
@@ -301,6 +308,7 @@ public class Request implements Serializable {
         this.agent = null;
         int[] date = mapStringToLocalDate(dateAnnounceRequest);
         this.requestDate = LocalDate.of(date[2], date[1], date[0]);
+        this.validationStatus = false;
     }
 
     /**
@@ -480,12 +488,16 @@ public class Request implements Serializable {
     }
 
     /**
-     * Gets acceptance date.
+     * Gets acceptance status.
      *
-     * @return the acceptance date
+     * @return the acceptance status
      */
-    public LocalDate getAcceptanceDate() {
-        return this.requestDate;
+    public Boolean getValidationStatus(){
+        return validationStatus;
+    }
+
+    public void setvalidationStatus(Boolean validationStatus) {
+        this.validationStatus = validationStatus;
     }
 
     /**

@@ -64,7 +64,7 @@ public class RequestList implements Serializable {
         List<Request> listRequests = new ArrayList<>();
 
         for (Request a : requests) {
-            if (a.hasAgentWithEmail(agentEmail)) {
+            if (a.hasAgentWithEmail(agentEmail) && !a.getValidationStatus()) {
                 listRequests.add(a.clone());
             }
         }
