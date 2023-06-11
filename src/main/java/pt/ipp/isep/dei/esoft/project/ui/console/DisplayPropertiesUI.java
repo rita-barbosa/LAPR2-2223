@@ -42,10 +42,10 @@ public class DisplayPropertiesUI implements Runnable {
      */
     private String stateSorting;
 
-    /**
-     * The Announcements.
-     */
-    private List<Announcement> announcementList;
+//    /**
+//     * The Announcements.
+//     */
+//    private List<Announcement> announcementList;
 
 
     /**
@@ -63,62 +63,67 @@ public class DisplayPropertiesUI implements Runnable {
      *
      */
     public void run() {
-        announcementList = controller.sortAnnouncementsByMostRecentAdded();
+        Optional<List<Announcement>> announcementList = controller.getAllAnnouncementsList();
+        if (announcementList.isPresent()) {
+            List<Announcement> copyList = new ArrayList<>(announcementList.get());
+//        announcementList = controller.sortAnnouncementsByMostRecentAdded();
+//            if (announcementList.isPresent()) {
+                System.out.println("Listed Properties:\n");
+                displayAnnouncements(announcementList.get());
+                boolean continueLoop = true;
+                do {
+                    boolean option = askOption();
+                    if (option) {
+//                    List<Announcement> copyList = new ArrayList<>(announcementList.get());
+                        List<String> criterias = getController().getCriteriaRepository().getCriteriaList();
+                        switch (displayAndSelectCriteriaList(criterias)) {
+                            case 1:
+                                businessType = displayAndSelectBusinessType().toLowerCase();
+                                copyList = controller.getAnnouncementsByBusinessType(businessType, copyList);
+                                System.out.println("Announcements by type of business:\n");
+                                displayAnnouncements(copyList);
+                                break;
 
-        System.out.println("Listed Properties:\n");
-        displayAnnouncements(announcementList);
-        boolean continueLoop = true;
-        do {
-            boolean option = askOption();
-            if (option) {
-                List<Announcement> copyList = new ArrayList<>();
-                List<String> criterias = getController().getCriteriaRepository().getCriteriaList();
-                switch (displayAndSelectCriteriaList(criterias)) {
-                    case 1:
-                        businessType = displayAndSelectBusinessType().toLowerCase();
-                        copyList = controller.getAnnouncementsByBusinessType(businessType);
-                        System.out.println("Announcements by type of business:\n");
-                        displayAnnouncements(copyList);
-                        break;
+                            case 2:
+                                propertyType = displayAndSelectPropertyType().toLowerCase();
+                                copyList = controller.getAnnouncementsByPropertyType(propertyType, copyList);
+                                System.out.println("Announcements by type of property:\n");
+                                displayAnnouncements(copyList);
+                                break;
 
-                    case 2:
-                        propertyType = displayAndSelectPropertyType().toLowerCase();
-                        copyList = controller.getAnnouncementsByPropertyType(propertyType);
-                        System.out.println("Announcements by type of property:\n");
-                        displayAnnouncements(copyList);
-                        break;
+                            case 3:
+                                if (!Objects.equals(propertyType, "land")) {
+                                    numberBedrooms = displayAndSelectNumberBedrooms();
+                                    copyList = controller.getAnnouncementsByNumberBedrooms(numberBedrooms, copyList);
+                                    displayAnnouncements(copyList);
+                                } else {
+                                    System.out.println("That option isn't available\n");
+                                }
+                                break;
 
-                    case 3:
-                        if (!Objects.equals(propertyType, "land")) {
-                            numberBedrooms = displayAndSelectNumberBedrooms();
-                            announcementList = controller.getAnnouncementsByNumberBedrooms(announcementList, numberBedrooms);
-                            displayAnnouncements(announcementList);
-                        } else {
-                            System.out.println("That option isn't available");
+                            case 4:
+                                priceSorting = displayAndSelectPrice();
+                                copyList = controller.getAnnouncementsByPrice(priceSorting, copyList);
+                                displayAnnouncements(copyList);
+                                break;
+
+                            case 5:
+                                citySorting = displayAndSelectCity();
+                                copyList = controller.getAnnouncementsByCity(citySorting, copyList);
+                                displayAnnouncements(copyList);
+                                break;
+                            case 6:
+                                stateSorting = displayAndSelectState();
+                                copyList = controller.getAnnouncementsByState(stateSorting, copyList);
+                                displayAnnouncements(copyList);
+                                break;
                         }
-                        break;
-
-                    case 4:
-                        priceSorting = displayAndSelectPrice();
-                        announcementList = controller.getAnnouncementsByPrice(announcementList, priceSorting);
-                        displayAnnouncements(announcementList);
-                        break;
-
-                    case 5:
-                        citySorting = displayAndSelectCity();
-                        announcementList = controller.getAnnouncementsByCity(announcementList, citySorting);
-                        displayAnnouncements(announcementList);
-                        break;
-                    case 6:
-                        stateSorting = displayAndSelectState();
-                        announcementList = controller.getAnnouncementsByState(announcementList, stateSorting);
-                        displayAnnouncements(announcementList);
-                        break;
-                }
-            } else {
-                continueLoop = false;
-            }
-        } while (continueLoop);
+                    } else {
+                        continueLoop = false;
+                    }
+                } while (continueLoop);
+//            }
+        }
     }
 
     /**
@@ -169,7 +174,7 @@ public class DisplayPropertiesUI implements Runnable {
     private Integer displayAndSelectCriteriaList(List<String> criterias) {
         Scanner sc = new Scanner(System.in);
         int count = 0;
-        System.out.println("Criteria available:");
+        System.out.println("\nCriteria available:");
         for (String criteria : criterias) {
             count++;
             System.out.printf("%d - %s\n", count, criteria);
@@ -179,7 +184,7 @@ public class DisplayPropertiesUI implements Runnable {
         boolean invalid = true;
         do {
             try {
-                System.out.println("Which one do you want to choose?\n");
+                System.out.println("Which one do you want to choose?");
                 while (option < 1 || option > 6) {
                     option = sc.nextInt();
                 }
@@ -285,7 +290,7 @@ public class DisplayPropertiesUI implements Runnable {
      * @return the type of sorting select to price
      */
     private String displayAndSelectPrice() {
-        System.out.println("Price:");
+        System.out.println("\nPrice:");
         return sortSelection();
     }
 
@@ -295,7 +300,7 @@ public class DisplayPropertiesUI implements Runnable {
      * @return the type of sorting select to city
      */
     private String displayAndSelectCity() {
-        System.out.println("City:");
+        System.out.println("\nCity:");
         return sortSelection();
     }
 
@@ -305,7 +310,7 @@ public class DisplayPropertiesUI implements Runnable {
      * @return the type of sorting select to state
      */
     private String displayAndSelectState() {
-        System.out.println("State:");
+        System.out.println("\nState:");
         return sortSelection();
     }
 
@@ -349,7 +354,7 @@ public class DisplayPropertiesUI implements Runnable {
      */
     private void displayBusinessTypeOptions(List<BusinessType> businessTypes) {
         int count = 0;
-        System.out.println("Type of business:");
+        System.out.println("\nType of business:");
         for (BusinessType businessType : businessTypes) {
             count++;
             System.out.printf("%d - %s\n", count, businessType);
@@ -363,7 +368,7 @@ public class DisplayPropertiesUI implements Runnable {
      */
     private void displayPropertiesTypeOptions(List<PropertyType> propertyTypes) {
         int count = 0;
-        System.out.println("Type of properties:");
+        System.out.println("\nType of properties:");
         for (PropertyType propertyType : propertyTypes) {
             count++;
             System.out.printf("%d - %s\n", count, propertyType);
