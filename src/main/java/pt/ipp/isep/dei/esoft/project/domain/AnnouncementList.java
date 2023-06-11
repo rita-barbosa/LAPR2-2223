@@ -210,7 +210,7 @@ public class AnnouncementList implements Serializable {
      * @param variable            - the variable of the wanted data if the regression model type is simple linear.
      * @return a list with all the deals data of an agency.
      */
-    public List<List<Double>> getAnnouncementsData(RegressionModelType regressionModelType, Optional<String> variable) {
+    public List<List<Double>> getAnnouncementsData(RegressionModelType regressionModelType, String variable) {
         List<List<Double>> dataList = new ArrayList<>();
 
         for (Announcement announcement : announcements) {

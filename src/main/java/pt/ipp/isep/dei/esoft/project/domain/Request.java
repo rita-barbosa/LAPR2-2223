@@ -593,7 +593,7 @@ public class Request implements Serializable {
      * @return {@code true} if its sale request of a residence (apartment or house); {@code false} otherwise;
      */
     public boolean isSaleResidence() {
-        return (this.business.getBusinessType().equals("sale")) && (this.property instanceof Residence);
+        return (this.business.getBusinessType().getDesignation().equalsIgnoreCase("sale")) && (this.property instanceof Residence);
     }
 
     /**

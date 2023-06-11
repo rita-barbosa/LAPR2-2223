@@ -9,7 +9,7 @@ import java.util.Objects;
 /**
  * The type Residence.
  */
-public class Residence extends Property  implements Serializable {
+public class Residence extends Property implements Serializable {
 
 
     /**
@@ -160,6 +160,9 @@ public class Residence extends Property  implements Serializable {
      * @return the number bathroom
      */
     public Integer getNumberBathroom() {
+        if (numberBathroom == null) {
+            return 0;
+        }
         return numberBathroom;
     }
 
@@ -175,11 +178,15 @@ public class Residence extends Property  implements Serializable {
     public Double getVariable(String variable) {
         super.getVariable(variable);
         switch (variable.toLowerCase()) {
-            case "number bedrooms":
+            case "area":
+                return this.getArea();
+            case "distance of city center":
+                return this.getDistanceCityCenter();
+            case "number of bedrooms":
                 return this.getNumberBedroom().doubleValue();
-            case "number bathrooms":
+            case "number of bathrooms":
                 return this.getNumberBathroom().doubleValue();
-            case "number parking spaces":
+            case "number of parking spaces":
                 return this.getParkingSpace().doubleValue();
             default:
                 return -1d;

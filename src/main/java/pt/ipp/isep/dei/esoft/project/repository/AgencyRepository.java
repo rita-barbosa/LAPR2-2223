@@ -163,7 +163,7 @@ public class AgencyRepository implements Serializable {
         return false;
     }
 
-    public Optional<List<List<Double>>> getAgenciesDataList(RegressionModelType regressionModelType, Optional<String> variable) {
+    public Optional<List<List<Double>>> getAgenciesDataList(RegressionModelType regressionModelType, String variable) {
         List<List<Double>> dealsDataList = new ArrayList<>();
 
         for (Agency agency : agencies) {

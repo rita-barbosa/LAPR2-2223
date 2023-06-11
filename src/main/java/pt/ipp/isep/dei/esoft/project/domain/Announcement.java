@@ -121,12 +121,12 @@ public class Announcement implements Serializable {
      * @param request        the request
      * @param acceptanceDate the acceptance date
      */
-    public Announcement(Employee agent, Commission commission, Request request, LocalDate acceptanceDate, OrderList orders, Integer id) {
+    public Announcement(Employee agent, Commission commission, Request request, LocalDate acceptanceDate, OrderList orders, Integer id, Double saleAmount, LocalDate saleDate) {
         this.commission = commission;
         this.agent = agent;
         this.request = request;
-        this.saleDate = DATE_BY_DEFAULT;
-        this.saleAmount = SALE_AMOUNT_BY_DEFAULT;
+        this.saleDate = saleDate;
+        this.saleAmount = saleAmount;
         this.acceptanceDate = acceptanceDate;
         this.orders = orders;
         this.visitList = new ArrayList<>();
@@ -317,7 +317,7 @@ public class Announcement implements Serializable {
      * @return A new copy of this Announcement object
      */
     public Announcement clone() {
-        return new Announcement(this.agent, this.commission, this.request, this.acceptanceDate, this.orders, this.id);
+        return new Announcement(this.agent, this.commission, this.request, this.acceptanceDate, this.orders, this.id, this.saleAmount, this.saleDate);
     }
 
     /**
@@ -326,10 +326,10 @@ public class Announcement implements Serializable {
      * @return the string
      */
     public String toString() {
-        if (this.saleDate == DATE_BY_DEFAULT) {
+        if (Objects.equals(this.saleAmount, SALE_AMOUNT_BY_DEFAULT)) {
             return getRequest().toString() + String.format("Acceptance Date: %s\n", acceptanceDate);
         } else {
-            return getRequest().toString() + String.format("Acceptance Date: %s\nSale Date: %s\n", acceptanceDate, saleDate);
+            return getRequest().toString() + String.format("Acceptance Date: %s\nSale Date: %s\nSale Amount: %s\n", acceptanceDate, saleDate, saleAmount);
         }
     }
 
@@ -422,20 +422,16 @@ public class Announcement implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Announcement that = (Announcement) o;
-        return Objects.equals(acceptanceDate, that.acceptanceDate) && Objects.equals(saleDate, that.saleDate) &&
-                Objects.equals(commission, that.commission) && Objects.equals(request, that.request) &&
-                Objects.equals(agent, that.agent) && Objects.equals(orders, that.orders)
-                && Objects.equals(visitList, that.visitList);
+        return Objects.equals(acceptanceDate, that.acceptanceDate) && Objects.equals(saleDate, that.saleDate) && Objects.equals(commission, that.commission) && Objects.equals(request, that.request) && Objects.equals(agent, that.agent) && Objects.equals(id, that.id) && Objects.equals(orders, that.orders) && Objects.equals(visitList, that.visitList) && Objects.equals(DATE_BY_DEFAULT, that.DATE_BY_DEFAULT) && Objects.equals(saleAmount, that.saleAmount) && Objects.equals(SALE_AMOUNT_BY_DEFAULT, that.SALE_AMOUNT_BY_DEFAULT);
     }
 
     /**
-     * Returns a hash code value for the object.
-     *
-     * @return A hash code value for this object
+     * Returns the hash code of the Announcement instance.
+     * @return the hashcode
      */
     @Override
     public int hashCode() {
-        return Objects.hash(acceptanceDate, saleDate, commission, request, agent, orders, visitList);
+        return Objects.hash(acceptanceDate, saleDate, commission, request, agent, id, orders, visitList, DATE_BY_DEFAULT, saleAmount, SALE_AMOUNT_BY_DEFAULT);
     }
 
     /**
@@ -473,13 +469,12 @@ public class Announcement implements Serializable {
      * @param variable            - the variable of the wanted data if the regression model type is simple linear.
      * @return a list with all the deals data of an announcement.
      */
-    public List<Double> getDataForRegression(RegressionModelType regressionModelType, Optional<String> variable) {
+    public List<Double> getDataForRegression(RegressionModelType regressionModelType, String variable) {
         List<Double> data = new ArrayList<>();
 
         data.add(this.getSaleAmount());
-
-        if (regressionModelType.isSimpleLinear() && variable.isPresent()) {
-            data.add(this.request.getVariableValueByDesignation(variable.get()));
+        if (regressionModelType.isSimpleLinear()) {
+            data.add(this.request.getVariableValueByDesignation(variable));
         } else if (regressionModelType.isMultilinear()) {
             data.addAll(this.request.getVariablesValue());
         }
@@ -500,7 +495,7 @@ public class Announcement implements Serializable {
      *
      * @return the list
      */
-    public List<Visit> getVisitList(){
+    public List<Visit> getVisitList() {
         return this.visitList;
     }
 }

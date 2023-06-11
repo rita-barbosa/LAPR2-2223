@@ -225,8 +225,7 @@ public class Property implements Serializable {
             case "distance city center":
                 return this.getDistanceCityCenter();
             default:
-                return -1d;
+                return 0d;
         }
-
     }
 }

@@ -701,7 +701,7 @@ public class Agency implements Serializable {
      * @return the announcement list deal data
      */
     public List<List<Double>> getAnnouncementListDealData(RegressionModelType
-                                                                  regressionModelType, Optional<String> variable) {
+                                                                  regressionModelType, String variable) {
         return announcements.getAnnouncementsData(regressionModelType, variable);
 
     }
