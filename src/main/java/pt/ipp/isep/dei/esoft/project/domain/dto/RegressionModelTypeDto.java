@@ -29,4 +29,12 @@ public class RegressionModelTypeDto {
     public String getDesignation() {
         return designation;
     }
+
+    /**
+     * Returns a string representation of the dto.
+     * @return string representation of the dto.
+     */
+    public String toString() {
+        return String.format(designation);
+    }
 }
