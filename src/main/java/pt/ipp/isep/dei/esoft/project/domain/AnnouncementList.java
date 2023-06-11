@@ -75,6 +75,24 @@ public class AnnouncementList implements Serializable {
         return listAnnouncements;
     }
 
+    //Still needs to be made things
+    public List<Visit> getVisitRequestsByAgentEmail(String agentEmail, LocalDate beginDate, LocalDate endDate){
+        List <Visit> visitsList = new ArrayList<>();
+
+        for (Announcement announcement : announcements){
+            if (announcement.hasAgentWithEmail(agentEmail)){
+                List <Visit> copyVisitList = announcement.getVisitList();
+                for (Visit visit : copyVisitList){
+                    LocalDate visitDate = visit.getVisitDate();
+                    if ((visitDate.isEqual(beginDate) || visitDate.isAfter(beginDate)) && (visitDate.isEqual(endDate) || visitDate.isBefore(endDate))){
+                        visitsList.add(visit.clone());
+                    }
+                }
+            }
+        }
+        return visitsList;
+    }
+
     /**
      * This method checks if any announcement in the list has the specified ID.
      *
@@ -212,4 +230,172 @@ public class AnnouncementList implements Serializable {
         }
         return dealsList;
     }
+
+    /**
+     * Checks if an announcement has a business type.
+     *
+     * @param announcementList the announcement list
+     * @param businessType     the business type
+     * @return the list
+     */
+    public List<Announcement> announcementHasBusinessType(List<Announcement> announcementList, String businessType) {
+        List<Announcement> copyList = new ArrayList<>(announcementList);
+        for (Announcement announcement : announcementList) {
+            if (!(announcement.getRequest().getBusiness().getBusinessType().getDesignation().equalsIgnoreCase((businessType)))) {
+                copyList.remove(announcement);
+            }
+        }
+        return copyList;
+    }
+
+    /**
+     * Checks if an announcement has a specified a property type.
+     *
+     * @param announcementList the announcement list
+     * @param propertyType     the property type
+     * @return the list
+     */
+    public List<Announcement> announcementHasPropertyType(List<Announcement> announcementList, String propertyType) {
+        List<Announcement> copyList = new ArrayList<>(announcementList);
+        for (Announcement announcement : announcementList) {
+            if (!((announcement.getRequest().getProperty().getPropertyType().getDesignation()).equalsIgnoreCase(propertyType))) {
+                copyList.remove(announcement);
+            }
+        }
+        return copyList;
+    }
+
+    /**
+     * Checks if  an announcement has a specified number of bedrooms.
+     *
+     * @param announcementList the announcement list
+     * @param numberBedrooms   the number bedrooms
+     * @return the list
+     */
+    public List<Announcement> announcementHasNumberBedrooms(List<Announcement> announcementList, Integer numberBedrooms) {
+        List<Announcement> copyList = new ArrayList<>(announcementList);
+        for (Announcement announcement : announcementList) {
+            if (announcement.getRequest().getProperty() instanceof Residence) {
+                Residence residence = (Residence) announcement.getRequest().getProperty();
+                if (!(residence.getNumberBedroom().equals(numberBedrooms))) {
+                    copyList.remove(announcement);
+                }
+            } else {
+                copyList.remove(announcement);
+            }
+        }
+        return copyList;
+    }
+
+    /**
+     * Sort announcements list by ascending price.
+     *
+     * @param announcementList the announcement list.
+     * @return the sorted list.
+     */
+    public List<Announcement> sortAnnouncementsByAscendingPrice(List<Announcement> announcementList) {
+        List<Announcement> copyList = new ArrayList<>(announcementList);
+        copyList.sort(sortPricesByAscendingOrder);
+        return copyList;
+
+    }
+
+    /**
+     * Sort announcements list by descending price.
+     *
+     * @param announcementList the announcement list.
+     * @return the sorted list.
+     */
+    public List<Announcement> sortAnnouncementsByDescendingPrice(List<Announcement> announcementList) {
+        List<Announcement> copyList = new ArrayList<>(announcementList);
+        copyList.sort(Collections.reverseOrder(sortPricesByAscendingOrder));
+        return copyList;
+
+    }
+
+    /**
+     * Sort announcements list by city in ascending alphabetic order.
+     *
+     * @param announcementList the announcement list.
+     * @return the sorted list.
+     */
+    public List<Announcement> sortAnnouncementsByAscendingCity(List<Announcement> announcementList) {
+        List<Announcement> copyList = new ArrayList<>(announcementList);
+        copyList.sort(sortCitiesByAlphabeticOrder);
+        return copyList;
+    }
+
+    /**
+     * Sort announcements list by city in descending alphabetic order.
+     *
+     * @param announcementList the announcement list.
+     * @return the sorted list.
+     */
+    public List<Announcement> sortAnnouncementsByDescendingCity(List<Announcement> announcementList) {
+        List<Announcement> copyList = new ArrayList<>(announcementList);
+        copyList.sort(Collections.reverseOrder(sortCitiesByAlphabeticOrder));
+        return copyList;
+    }
+
+    /**
+     * Sort announcements list by state in ascending alphabetic order.
+     *
+     * @param announcementList the announcement list.
+     * @return the sorted list.
+     */
+    public List<Announcement> sortAnnouncementsByAscendingState(List<Announcement> announcementList) {
+        List<Announcement> copyList = new ArrayList<>(announcementList);
+        copyList.sort(sortStatesByAlphabeticOrder);
+        return copyList;
+
+    }
+
+    /**
+     * Sort announcements list by state in descending alphabetic order.
+     *
+     * @param announcementList the announcement list.
+     * @return the sorted list.
+     */
+    public List<Announcement> sortAnnouncementsByDescendingState(List<Announcement> announcementList) {
+        List<Announcement> copyList = new ArrayList<>(announcementList);
+        copyList.sort(Collections.reverseOrder(sortStatesByAlphabeticOrder));
+        return copyList;
+    }
+
+    /**
+     * Comparator that sorts prices by ascending order.
+     */
+    Comparator<Announcement> sortPricesByAscendingOrder = new Comparator<Announcement>() {
+        public int compare(Announcement a1, Announcement a2) {
+            Double value1 = a1.getRequest().getBusiness().getPrice();
+            Double value2 = a2.getRequest().getBusiness().getPrice();
+
+            return value1.compareTo(value2);
+        }
+    };
+
+    /**
+     * Comparator that sorts cities by ascending alphabetic order.
+     */
+    Comparator<Announcement> sortCitiesByAlphabeticOrder = new Comparator<Announcement>() {
+        public int compare(Announcement a1, Announcement a2) {
+            String value1 = a1.getRequest().getProperty().getLocation().getCity();
+            String value2 = a2.getRequest().getProperty().getLocation().getCity();
+
+            return value1.compareTo(value2);
+        }
+    };
+
+    /**
+     * Comparator that sorts cities by descending alphabetic order.
+     */
+    Comparator<Announcement> sortStatesByAlphabeticOrder = new Comparator<Announcement>() {
+        public int compare(Announcement a1, Announcement a2) {
+            String value1 = a1.getRequest().getProperty().getLocation().getState();
+            String value2 = a2.getRequest().getProperty().getLocation().getState();
+
+            return value1.compareTo(value2);
+        }
+    };
+
 }

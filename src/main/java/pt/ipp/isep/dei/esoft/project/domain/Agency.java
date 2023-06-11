@@ -3,6 +3,7 @@ package pt.ipp.isep.dei.esoft.project.domain;
 import pt.isep.lei.esoft.auth.domain.model.Email;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -386,6 +387,21 @@ public class Agency implements Serializable {
         return requests.getRequestsByAgentEmail(email);
     }
 
+    /**
+     * Get visit requests by agent email list.
+     *
+     * @param agentEmail the agent email
+     * @param beginDate  the begin date
+     * @param endDate    the end date
+     * @return the list
+     */
+    public List<Visit> getVisitRequestsByAgentEmail(String agentEmail, LocalDate beginDate, LocalDate endDate){
+        List<Visit> newList = new ArrayList<>();
+        return newList;
+//        return announcements.
+
+    }
+
 
     /**
      * This method returns the agency description.
@@ -483,8 +499,8 @@ public class Agency implements Serializable {
      * @param businessType     the business type
      * @return the list
      */
-    public List<Announcement> announcementHasBusinessType(List<Announcement> announcementList, String
-            businessType) {
+    //DELETE AFTER ALL THE CHANGES ARE MADE
+    public List<Announcement> announcementHasBusinessType(List<Announcement> announcementList, String businessType) {
         List<Announcement> copyList = new ArrayList<>(announcementList);
         for (Announcement announcement : copyList) {
             if (!(announcement.getRequest().getBusiness().getBusinessType().getDesignation().equalsIgnoreCase((businessType)))) {
@@ -501,6 +517,7 @@ public class Agency implements Serializable {
      * @param propertyType     the property type
      * @return the list
      */
+    //DELETE AFTER ALL THE CHANGES ARE MADE
     public List<Announcement> announcementHasPropertyType(List<Announcement> announcementList, String
             propertyType) {
         List<Announcement> copyList = new ArrayList<>(announcementList);
@@ -519,6 +536,7 @@ public class Agency implements Serializable {
      * @param numberBedrooms   the number bedrooms
      * @return the list
      */
+    //DELETE AFTER ALL THE CHANGES ARE MADE
     public List<Announcement> announcementHasNumberBedrooms(List<Announcement> announcementList, Integer
             numberBedrooms) {
         List<Announcement> copyList = new ArrayList<>(announcementList);
@@ -541,6 +559,7 @@ public class Agency implements Serializable {
      * @param announcementList the announcement list.
      * @return the sorted list.
      */
+    //DELETE AFTER ALL THE CHANGES ARE MADE
     public List<Announcement> sortAnnouncementsByAscendingPrice(List<Announcement> announcementList) {
         List<Announcement> clonedAnnouncementList = new ArrayList<>(announcementList);
         clonedAnnouncementList.sort(sortPricesByAscendingOrder);
@@ -554,6 +573,7 @@ public class Agency implements Serializable {
      * @param announcementList the announcement list.
      * @return the sorted list.
      */
+    //DELETE AFTER ALL THE CHANGES ARE MADE
     public List<Announcement> sortAnnouncementsByDescendingPrice(List<Announcement> announcementList) {
         List<Announcement> clonedAnnouncementList = new ArrayList<>(announcementList);
         clonedAnnouncementList.sort(Collections.reverseOrder(sortPricesByAscendingOrder));
@@ -567,6 +587,7 @@ public class Agency implements Serializable {
      * @param announcementList the announcement list.
      * @return the sorted list.
      */
+    //DELETE AFTER ALL THE CHANGES ARE MADE
     public List<Announcement> sortAnnouncementsByAscendingCity(List<Announcement> announcementList) {
         List<Announcement> clonedAnnouncementList = new ArrayList<>(announcementList);
         clonedAnnouncementList.sort(sortCitiesByAlphabeticOrder);
@@ -579,6 +600,7 @@ public class Agency implements Serializable {
      * @param announcementList the announcement list.
      * @return the sorted list.
      */
+    //DELETE AFTER ALL THE CHANGES ARE MADE
     public List<Announcement> sortAnnouncementsByDescendingCity(List<Announcement> announcementList) {
         List<Announcement> clonedAnnouncementList = new ArrayList<>(announcementList);
         clonedAnnouncementList.sort(Collections.reverseOrder(sortCitiesByAlphabeticOrder));
@@ -591,6 +613,7 @@ public class Agency implements Serializable {
      * @param announcementList the announcement list.
      * @return the sorted list.
      */
+    //DELETE AFTER ALL THE CHANGES ARE MADE
     public List<Announcement> sortAnnouncementsByAscendingState(List<Announcement> announcementList) {
         List<Announcement> clonedAnnouncementList = new ArrayList<>(announcementList);
         clonedAnnouncementList.sort(sortStatesByAlphabeticOrder);
@@ -604,6 +627,7 @@ public class Agency implements Serializable {
      * @param announcementList the announcement list.
      * @return the sorted list.
      */
+    //DELETE AFTER ALL THE CHANGES ARE MADE
     public List<Announcement> sortAnnouncementsByDescendingState(List<Announcement> announcementList) {
         List<Announcement> clonedAnnouncementList = new ArrayList<>(announcementList);
         clonedAnnouncementList.sort(Collections.reverseOrder(sortStatesByAlphabeticOrder));
@@ -613,6 +637,7 @@ public class Agency implements Serializable {
     /**
      * Comparator that sorts prices by ascending order.
      */
+    //DELETE AFTER ALL THE CHANGES ARE MADE
     Comparator<Announcement> sortPricesByAscendingOrder = new Comparator<Announcement>() {
         public int compare(Announcement a1, Announcement a2) {
             Double value1 = a1.getRequest().getBusiness().getPrice();
@@ -625,6 +650,7 @@ public class Agency implements Serializable {
     /**
      * Comparator that sorts cities by ascending alphabetic order.
      */
+    //DELETE AFTER ALL THE CHANGES ARE MADE
     Comparator<Announcement> sortCitiesByAlphabeticOrder = new Comparator<Announcement>() {
         public int compare(Announcement a1, Announcement a2) {
             String value1 = a1.getRequest().getProperty().getLocation().getCity();
@@ -637,6 +663,7 @@ public class Agency implements Serializable {
     /**
      * Comparator that sorts cities by descending alphabetic order.
      */
+    //DELETE AFTER ALL THE CHANGES ARE MADE
     Comparator<Announcement> sortStatesByAlphabeticOrder = new Comparator<Announcement>() {
         public int compare(Announcement a1, Announcement a2) {
             String value1 = a1.getRequest().getProperty().getLocation().getState();
@@ -666,12 +693,24 @@ public class Agency implements Serializable {
         return new Employee(role);
     }
 
+    /**
+     * Gets announcement list deal data.
+     *
+     * @param regressionModelType the regression model type
+     * @param variable            the variable
+     * @return the announcement list deal data
+     */
     public List<List<Double>> getAnnouncementListDealData(RegressionModelType
                                                                   regressionModelType, Optional<String> variable) {
         return announcements.getAnnouncementsData(regressionModelType, variable);
 
     }
 
+    /**
+     * Gets deals announcement list.
+     *
+     * @return the deals announcement list
+     */
     public List<Announcement> getDealsAnnouncementList() {
         return announcements.getDealsList();
     }
