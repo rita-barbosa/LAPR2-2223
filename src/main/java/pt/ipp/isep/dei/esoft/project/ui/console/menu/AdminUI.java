@@ -4,7 +4,6 @@ package pt.ipp.isep.dei.esoft.project.ui.console.menu;
 import pt.ipp.isep.dei.esoft.project.ui.console.AddAgencyUI;
 import pt.ipp.isep.dei.esoft.project.ui.console.ImportLegacyInformationUI;
 import pt.ipp.isep.dei.esoft.project.ui.console.PublishAnnouncementUI;
-import pt.ipp.isep.dei.esoft.project.ui.console.ShowTextUI;
 import pt.ipp.isep.dei.esoft.project.ui.console.utils.Utils;
 
 import java.util.ArrayList;
