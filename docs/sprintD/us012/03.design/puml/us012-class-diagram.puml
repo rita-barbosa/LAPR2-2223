@@ -243,6 +243,10 @@ ImportLegacySystemInformationController .> Person : person
 
 LegacySystemMapper --> LegacySystemDto
 LegacySystemMapper .> LegacySystem
+LegacySystemMapper .-> Person
+LegacySystemMapper .-> Agency
+LegacySystemMapper .-> Request
+LegacySystemMapper .-> Announcement
 Repositories --> "1" AgencyRepository
 Repositories ---> "1" PersonRepository
 AgencyRepository --> "*" Agency
