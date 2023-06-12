@@ -13,15 +13,19 @@ participant "request\n:Request" as REQUEST
 
 autonumber 42
 
-        -> AGENCY: createSaleRequest(announcementDto, propertyType)
+        -> AGENCY: createSaleRequest(announcementDto, propertyType,agent)
          activate AGENCY
 
 autonumber 42.1
 
     group Create Request
 
-        AGENCY -> MAPPER: toModelRequest(announcementDto,propertyType)
+        AGENCY -> MAPPER: toModelRequest(announcementDto,propertyType,agent)
         activate MAPPER
+
+       MAPPER -> DTO : ownerEmail = getOwnerEmail()
+      activate DTO
+      deactivate DTO
 
         MAPPER -> DTO : amount = getAmount()
         activate DTO
@@ -60,7 +64,7 @@ autonumber 42.1
         deactivate DTO
         alt propertyType == land
 
-        MAPPER -> REQUEST **: createSaleRequest(propertyType, amount,\n area, streetName, city, district,\nstate, zipCode, distanceCityCenter)
+        MAPPER -> REQUEST **: createSaleRequest(propertyType, amount,\n area, streetName, city, district,\nstate, zipCode, distanceCityCenter,uriList,agent)
         activate REQUEST
             |||
            ref over REQUEST
@@ -93,7 +97,7 @@ autonumber 42.1
 
 
                 alt propertyTypeDesignation = Apartment
-            MAPPER -> REQUEST **: createSaleRequest(propertyType, amount,\n area, streetName, city, district,\nstate, zipCode, distanceCityCenter,\nnumberBedrooms,numberBathrooms,\nnumberParkingSpace,availableEquipmentDescriptionList)
+            MAPPER -> REQUEST **: createSaleRequest(propertyType, amount,\n area, streetName, city, district,\nstate, zipCode, distanceCityCenter,uriList,agent,\nnumberBedrooms,numberBathrooms,\nnumberParkingSpace,availableEquipmentDescriptionList)
             activate REQUEST
 
                   |||
@@ -122,7 +126,7 @@ autonumber 42.1
             activate DTO
             deactivate DTO
 
-             MAPPER -> REQUEST **: createSaleRequest(propertyType, amount,\n area, streetName, city, district,\nstate, zipCode, distanceCityCenter,\nnumberBedrooms,numberBathrooms,\nnumberParkingSpace,availableEquipment,\nexistenceBasement,inhabitableLoft,sunExposure)
+             MAPPER -> REQUEST **: createSaleRequest(propertyType, amount,\n area, streetName, city, district,\nstate, zipCode, distanceCityCenter,uriList,agent,\nnumberBedrooms,numberBathrooms,\nnumberParkingSpace,availableEquipment,\nexistenceBasement,inhabitableLoft,sunExposure)
              activate REQUEST
 
                   |||

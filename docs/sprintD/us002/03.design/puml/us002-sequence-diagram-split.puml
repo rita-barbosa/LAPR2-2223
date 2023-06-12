@@ -221,7 +221,7 @@ activate ADM
             CTRL --> CTRL : commissionType
             deactivate CTRL
         |||
-        CTRL -> AGENCY : createSaleRequest(announcementDto,propertyType)
+        CTRL -> AGENCY : createSaleRequest(announcementDto,propertyType,agent)
         activate AGENCY
 
         ref over AGENCY
