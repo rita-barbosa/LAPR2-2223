@@ -4,7 +4,7 @@ import pt.ipp.isep.dei.esoft.project.domain.dto.LegacySystemDto;
 import pt.ipp.isep.dei.esoft.project.domain.mapper.LegacySystemMapper;
 import pt.ipp.isep.dei.esoft.project.domain.Person;
 
-import java.io.Serializable;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -17,7 +17,7 @@ public class PersonRepository implements Serializable {
     /**
      * The People.
      */
-    private final List<Person> people = new ArrayList<>();
+    private List<Person> people = new ArrayList<>();
 
     /**
      * Add optional.
@@ -89,5 +89,26 @@ public class PersonRepository implements Serializable {
         Person newPerson = LegacySystemMapper.toModelPerson(dto);
         add(newPerson);
         return newPerson;
+    }
+
+    public void savePeople() {
+        try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("binaryFile/personBin.data"))) {
+            outputStream.writeObject((List<Person>) people);
+            System.out.println("Saved person.");
+        } catch (IOException e) {
+            System.out.println("ERROR: Couldn't save person.");
+        }
+    }
+
+    public void loadPeople() {
+        File file = new File("binaryFile/personBin.data");
+        if (file.exists()) {
+            try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(file.getPath()))) {
+                people = (ArrayList<Person>) inputStream.readObject();
+                System.out.println("Loaded people.");
+            } catch (IOException | ClassNotFoundException e) {
+                System.out.println("ERROR: Couldn't load people.");
+            }
+        }
     }
 }

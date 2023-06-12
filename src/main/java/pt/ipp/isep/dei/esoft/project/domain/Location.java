@@ -53,6 +53,8 @@ public class Location implements Serializable {
             this.district = district;
             this.state = state;
             this.zipCode = zipCode;
+        } else {
+            throw new IllegalArgumentException("Invalid information inputted for location [Zip Code (5 characters) | State (2 characters)].");
         }
 
 //            System.out.println("Location is not correct. Please submit new data. Zip Code (5 characters) | State (2 characters)");

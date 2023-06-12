@@ -35,12 +35,16 @@ public class AcceptOrdersUI implements Runnable {
         System.out.println("\nAccept Purchase Orders\n");
 
         Boolean success;
+
+
         Optional<List<AnnouncementDto>> listAnnouncements = controller.getAnnouncementsList();
         if (listAnnouncements.isPresent() && listAnnouncements.get().size() > 0) {
             for (AnnouncementDto a : listAnnouncements.get()) {
                 System.out.println(a.toString());
+                int idx = 1;
                 for (OrderDto o : a.getListOrdersDto()) {
-                    acceptanceAnswer = selectAcceptanceAnswerOfOrder(o);
+                    acceptanceAnswer = selectAcceptanceAnswerOfOrder(o, idx);
+                    idx++;
                     success = controller.defineOrderAcceptance(acceptanceAnswer, a.getAnnouncementId(), o.getId());
                     successMessage(success, acceptanceAnswer);
                     if (acceptanceAnswer.equals(Answers.ACCEPT.toString().toLowerCase())) {
@@ -54,21 +58,27 @@ public class AcceptOrdersUI implements Runnable {
     }
 
     private void successMessage(Boolean success, String acceptanceAnswer) {
-        if (success) {
-            System.out.println("The order was successfully " + acceptanceAnswer + "ed.\n");
-        } else {
-            System.out.println(" ERROR: The order wasn't successfully " + acceptanceAnswer + "ed.\n");
+        try {
+            if (success) {
+                System.out.println("The order was successfully " + acceptanceAnswer + "ed.\n");
+            } else {
+                System.out.println(" ERROR: The order wasn't successfully " + acceptanceAnswer + "ed.\n");
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("ERROR: " + e.getMessage());
+        } catch (NullPointerException e) {
+            System.out.println("ERROR: ");
         }
     }
 
-    private String selectAcceptanceAnswerOfOrder(OrderDto orderDto) {
+    private String selectAcceptanceAnswerOfOrder(OrderDto orderDto, int idx) {
         int answer = -1;
-
         boolean invalid = true;
         Scanner input = new Scanner(System.in);
         do {
             try {
-                System.out.printf("\n[ORDER %s] Select an option to confirm your order acceptance:\n", orderDto.getId());
+                System.out.printf("\n[ORDER %s] Select an option to confirm your order acceptance:\n", idx);
+
                 displayAcceptanceOptions();
                 answer = input.nextInt();
                 if (answer < 1 || answer > Answers.values().length) {

@@ -44,12 +44,17 @@ public class RegisterUserUI implements Runnable {
     }
 
     private void submitData() {
-        Boolean success = getController().createPerson(name, passportCardNumber, taxNumber, emailAddress,
-                phoneNumber, password, streetName, city, district, state, zipCode);
-        if (success) {
+        try {
+            Boolean success = getController().createPerson(name, passportCardNumber, taxNumber, emailAddress,
+                    phoneNumber, password, streetName, city, district, state, zipCode);
+            if (success) {
                 System.out.println("Successfully registered!");
-        } else {
+            } else {
+                System.out.println("ERROR: Failed registration.");
+            }
+        } catch (IllegalArgumentException e) {
             System.out.println("ERROR: Failed registration.");
+            System.out.println("ERROR: " + e.getMessage());
         }
     }
 
@@ -60,7 +65,7 @@ public class RegisterUserUI implements Runnable {
         System.out.println("Password (Format: 7 alphanumeric characters, including 3 capital letters and 2 digits)");
         while (invalid) {
             answer = input.nextLine().trim();
-           if (answer.length() != PASSWORD_LENGHT) {
+            if (answer.length() != PASSWORD_LENGHT) {
                 System.out.println("ERROR: Password must have 7 alphanumeric characters.");
             } else {
                 invalid = false;

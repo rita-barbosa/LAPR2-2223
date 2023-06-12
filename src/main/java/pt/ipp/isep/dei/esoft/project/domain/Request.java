@@ -142,7 +142,7 @@ public class Request implements Serializable {
                    List<String> availableEquipment, String streetName, String city, String district,
                    String state, String zipCode, Boolean basement, Boolean inhabitableLoft, Integer parkingSpace,
                    Enum<SunExposureTypes> sunExposure, Integer numberBedroom, Integer numberBathroom, Employee agent,
-                   Double distanceCityCenter, List<String> uri){
+                   Double distanceCityCenter, List<String> uri) {
 
         this.ownerEmail = new Email(ownerEmail);
         this.requestDate = LocalDate.now();
@@ -233,6 +233,7 @@ public class Request implements Serializable {
         this.agent = null;
         int[] date = mapStringToLocalDate(dateAnnounceRequest);
         this.requestDate = LocalDate.of(date[2], date[1], date[0]);
+        this.id = counter++;
         this.validationStatus = false;
     }
 
@@ -268,6 +269,7 @@ public class Request implements Serializable {
         this.agent = null;
         int[] date = mapStringToLocalDate(dateAnnounceRequest);
         this.requestDate = LocalDate.of(date[2], date[1], date[0]);
+        this.id = counter++;
         this.validationStatus = false;
     }
 
@@ -307,12 +309,47 @@ public class Request implements Serializable {
         this.ownerEmail = null;
         this.agent = null;
         int[] date = mapStringToLocalDate(dateAnnounceRequest);
+        this.id = counter++;
         this.requestDate = LocalDate.of(date[2], date[1], date[0]);
         this.validationStatus = false;
     }
 
+    public Request(String ownerEmail, PropertyType propertyType, Double amount, Double area, String streetName, String city, String district, String state, String zipcode, List<String> uriList, Double distanceCityCenter, Employee agent) {
+        this.business = new Business("sale", amount);
+        this.property = new Property(propertyType, area, distanceCityCenter, uriList, streetName, city, district, state, zipcode);
+        this.ownerEmail = new Email(ownerEmail);
+        this.agent = agent;
+        this.id = counter++;
+        this.requestDate = LocalDate.now();
+    }
+
+    public Request(String ownerEmail, PropertyType propertyType, Double amount, Double area, String streetName, String city, String district,
+                   String state, String zipcode, List<String> uriList, Double distanceCityCenter, Employee agent, Integer numberBathrooms,
+                   Integer numberBedrooms, Integer numberParkingSpaces, List<String> availableEquipmentDescription) {
+
+        this.business = new Business("sale", amount);
+        this.property = new Residence(propertyType, area, availableEquipmentDescription, streetName, city, district, state, zipcode, numberParkingSpaces, numberBedrooms, numberBathrooms, distanceCityCenter, uriList);
+        this.ownerEmail = new Email(ownerEmail);
+        this.agent = agent;
+        this.id = counter++;
+        this.requestDate = LocalDate.now();
+
+    }
+
+    public Request(String ownerEmail, PropertyType propertyType, Double amount, Double area, String streetName, String city, String district,
+                   String state, String zipcode, List<String> uriList, Double distanceCityCenter, Employee agent, Integer numberBathrooms,
+                   Integer numberBedrooms, Integer numberParkingSpaces, List<String> availableEquipmentDescription, Boolean existenceBasement, Boolean inhabitableLoft, String sunExposure) {
+
+        this.business = new Business("sale", amount);
+        this.property = new House(propertyType, availableEquipmentDescription, area, streetName, city, district, state, zipcode, existenceBasement, inhabitableLoft, numberParkingSpaces, mapStringToSunExposure(sunExposure), numberBedrooms, numberBathrooms, distanceCityCenter, uriList);
+        this.ownerEmail = new Email(ownerEmail);
+        this.agent = agent;
+        this.id = counter++;
+        this.requestDate = LocalDate.now();
+    }
+
     /**
-     * Map string to sun exposure enum.
+     * Map string to sun exposure enum.\
      *
      * @param sunExposureChar the sun exposure char
      * @return the enum
@@ -321,15 +358,19 @@ public class Request implements Serializable {
         SunExposureTypes sunExposure = null;
         switch (sunExposureChar.toLowerCase()) {
             case "n":
+            case "north":
                 sunExposure = SunExposureTypes.NORTH;
                 break;
             case "e":
+            case "east":
                 sunExposure = SunExposureTypes.EAST;
                 break;
             case "w":
+            case "west":
                 sunExposure = SunExposureTypes.WEST;
                 break;
             case "s":
+            case "south":
                 sunExposure = SunExposureTypes.SOUTH;
                 break;
             default:
@@ -492,7 +533,7 @@ public class Request implements Serializable {
      *
      * @return the acceptance status
      */
-    public Boolean getValidationStatus(){
+    public Boolean getValidationStatus() {
         return validationStatus;
     }
 

@@ -45,6 +45,7 @@ public class RegisterUserController {
 
         PersonRepository personRepository = getPersonRepository();
 
+
         Person person = new Person(name, passportCardNumber, taxNumber, emailAddress, phoneNumber, AuthenticationController.ROLE_CLIENT,
                 streetName, city, district, state, zipcode);
 
@@ -54,5 +55,6 @@ public class RegisterUserController {
         } else {
             return true;
         }
+
     }
 }

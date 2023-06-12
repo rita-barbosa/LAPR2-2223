@@ -8,7 +8,7 @@ import java.util.*;
 /**
  * The type Person.
  */
-public class Person  implements Serializable {
+public class Person implements Serializable {
     /**
      * The Name.
      */
@@ -17,7 +17,6 @@ public class Person  implements Serializable {
      * The Tax number.
      */
     private String taxNumber;
-
 
     /**
      * The Email address.
@@ -162,7 +161,7 @@ public class Person  implements Serializable {
         this.setPhoneNumber(phoneNumber);
     }
 
-    public Person(String name, String taxNumber, String phoneNumber, String email,String passportCardNumber) {
+    public Person(String name, String taxNumber, String phoneNumber, String email, String passportCardNumber) {
         this.name = name;
         this.setEmailAddress(email);
         this.setTaxNumber(taxNumber);
@@ -277,12 +276,11 @@ public class Person  implements Serializable {
      * @param taxNumber - tax number.
      */
     public void setTaxNumber(String taxNumber) {
-        Scanner input = new Scanner(System.in);
-        while (!validateTaxNumber(taxNumber)) {
-            System.out.println("Invalid Tax Number. Provide a new one.");
-            taxNumber = input.nextLine();
+        try {
+            this.taxNumber = taxNumber;
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Invalid Tax Number.");
         }
-        this.taxNumber = taxNumber;
     }
 
     /**
@@ -291,16 +289,12 @@ public class Person  implements Serializable {
      * @param email - tax number.
      */
     public void setEmailAddress(String email) {
-        boolean valid = false;
-        Scanner input = new Scanner(System.in);
-        while (!valid) {
-            try {
-                this.emailAddress = new Email(email);
-                valid = true;
-            } catch (IllegalArgumentException e) {
-                email = input.nextLine();
-            }
+        try {
+            this.emailAddress = new Email(email);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Invalid email.");
         }
+
     }
 
     /**
@@ -309,12 +303,11 @@ public class Person  implements Serializable {
      * @param phoneNumber - phone number.
      */
     public void setPhoneNumber(String phoneNumber) {
-        Scanner input = new Scanner(System.in);
-        while (!validatePhone(phoneNumber)) {
-            System.out.println("Invalid Phone Number. Provide a new one.");
-            phoneNumber = input.nextLine();
+        try {
+            this.phoneNumber = phoneNumber;
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Invalid Phone Number.");
         }
-        this.phoneNumber = phoneNumber;
     }
 
     /**
@@ -323,15 +316,16 @@ public class Person  implements Serializable {
      * @param passportCardNumber - passport card number
      */
     public void setPassportCardNumber(String passportCardNumber) {
-        Scanner input = new Scanner(System.in);
-        while (!validatePassportCardNumber(passportCardNumber)) {
-            System.out.println("Invalid Passport Card Number. Provide a new one.");
-            passportCardNumber = input.nextLine();
+        try {
+            this.passportCardNumber = passportCardNumber;
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Invalid Passport Card Number.");
         }
-        this.passportCardNumber = passportCardNumber;
     }
+
     /**
      * This method sets the Person roles.
+     *
      * @param roles - list of roles
      */
     public void setRole(List<String> roles) {
