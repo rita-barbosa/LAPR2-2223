@@ -21,7 +21,7 @@ class HouseTest {
         av.add("Jacuzzi");
         av.add("Automatic Lights System");
         House house = new House(new PropertyType("house"), av, 32.4,
-                "street 3", "city 3", "district 3", "st3", "12340", true,
+                "street 3", "city 3", "district 3", "ST", "12340", true,
                 false, 2, SunExposureTypes.NORTH, 2, null,
                 12.5, uriList);
     }
@@ -38,7 +38,7 @@ class HouseTest {
         av.add("Jacuzzi");
         av.add("Automatic Lights System");
         House house = new House(new PropertyType("house"), av, 32.4,
-                "street 3", "city 3", "district 3", "st3", "12340", true,
+                "street 3", "city 3", "district 3", "ST", "12340", true,
                 false, 2, SunExposureTypes.NORTH, 2, null,
                 12.5, uriList);
 
@@ -57,7 +57,7 @@ class HouseTest {
         av.add("Jacuzzi");
         av.add("Automatic Lights System");
         House house = new House(new PropertyType("house"), av, 32.4,
-                "street 3", "city 3", "district 3", "st3", "12340", true,
+                "street 3", "city 3", "district 3", "ST", "12340", true,
                 false, 2, SunExposureTypes.NORTH, 2, null,
                 12.5, uriList);
 
@@ -76,7 +76,7 @@ class HouseTest {
         av.add("Jacuzzi");
         av.add("Automatic Lights System");
         House house = new House(new PropertyType("house"), av, 32.4,
-                "street 3", "city 3", "district 3", "st3", "12340", true,
+                "street 3", "city 3", "district 3", "ST", "12340", true,
                 false, 2, SunExposureTypes.NORTH, 2, null,
                 12.5, uriList);
 
@@ -95,11 +95,11 @@ class HouseTest {
         av.add("Jacuzzi");
         av.add("Automatic Lights System");
         House house = new House(new PropertyType("house"), av, 32.4,
-                "street 3", "city 3", "district 3", "st3", "12340", true,
+                "street 3", "city 3", "district 3", "ST", "12340", true,
                 false, 2, SunExposureTypes.NORTH, 2, null,
                 12.5, uriList);
         House house1 = new House(new PropertyType("house"), av, 32.4,
-                "street 3", "city 3", "district 3", "st3", "12340", true,
+                "street 3", "city 3", "district 3", "ST", "12340", true,
                 false, 2, SunExposureTypes.NORTH, 2, null,
                 12.5, uriList);
 
@@ -118,7 +118,7 @@ class HouseTest {
         av.add("Jacuzzi");
         av.add("Automatic Lights System");
         House house = new House(new PropertyType("house"), av, 32.4,
-                "street 3", "city 3", "district 3", "st3", "12340", true,
+                "street 3", "city 3", "district 3", "ST", "12340", true,
                 false, 2, SunExposureTypes.NORTH, 2, null,
                 12.5, uriList);
         House house1 = new House(new PropertyType("house"), av, 38.4,
@@ -141,13 +141,13 @@ class HouseTest {
         av.add("Jacuzzi");
         av.add("Automatic Lights System");
         House house = new House(new PropertyType("house"), av, 32.4,
-                "street 3", "city 3", "district 3", "st3", "12340", true,
+                "street 3", "city 3", "district 3", "ST", "12340", true,
                 false, 2, SunExposureTypes.NORTH, 2, null,
                 12.5, uriList);
         String expected = String.format("Property Type: house\n" +
                         "Area: 32,40 m²\n" +
                         "Distance from city center: 12,50 miles\n" +
-                        "Location: street 3, city 3, district 3, st3, 12340\n" +
+                        "Location: street 3, city 3, district 3, ST, 12340\n" +
                         "Photographs:\n" +
                         "    * https://www.example.com/images/photo.jpg\n" +
                         "Number of Bedrooms: 2 \n" +
@@ -179,7 +179,7 @@ class HouseTest {
         av.add("Jacuzzi");
         av.add("Automatic Lights System");
         House house = new House(new PropertyType("house"), av, 32.4,
-                "street 3", "city 3", "district 3", "st3", "12340", true,
+                "street 3", "city 3", "district 3", "ST", "12340", true,
                 false, 2, SunExposureTypes.NORTH, 2, null,
                 12.5, uriList);
 
@@ -198,7 +198,7 @@ class HouseTest {
         av.add("Jacuzzi");
         av.add("Automatic Lights System");
         House house = new House(new PropertyType("house"), av, 32.4,
-                "street 3", "city 3", "district 3", "st3", "12340", true,
+                "street 3", "city 3", "district 3", "ST", "12340", true,
                 false, 2, SunExposureTypes.NORTH, 2, null,
                 12.5, uriList);
         House house1 = new House(new PropertyType("house"), av, 38.4,

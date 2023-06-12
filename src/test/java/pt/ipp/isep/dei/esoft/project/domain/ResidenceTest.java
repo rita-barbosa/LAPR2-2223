@@ -22,7 +22,7 @@ class ResidenceTest {
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
         Residence residence = new Residence(new PropertyType("land"), (35.5), av, "street",
-                "city", "district", "state", "12345", 2, 2,
+                "city", "district", "ST", "12345", 2, 2,
                 null, 15.2, uriList);
     }
 
@@ -39,7 +39,7 @@ class ResidenceTest {
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
         Residence residence = new Residence(new PropertyType("land"), (35.5), av, "street",
-                "city", "district", "state", "12345", 2, 2,
+                "city", "district", "ST", "12345", 2, 2,
                 null, 15.2, uriList);
 
         assertNotEquals(residence, null);
@@ -58,7 +58,7 @@ class ResidenceTest {
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
         Residence residence = new Residence(new PropertyType("land"), (35.5), av, "street",
-                "city", "district", "state", "12345", 2, 2,
+                "city", "district", "ST", "12345", 2, 2,
                 null, 15.2, uriList);
 
         assertNotEquals(residence, new Object());
@@ -77,7 +77,7 @@ class ResidenceTest {
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
         Residence residence = new Residence(new PropertyType("land"), (35.5), av, "street",
-                "city", "district", "state", "12345", 2, 2,
+                "city", "district", "ST", "12345", 2, 2,
                 null, 15.2, uriList);
         assertEquals(residence, residence);
     }
@@ -95,10 +95,10 @@ class ResidenceTest {
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
         Residence residence = new Residence(new PropertyType("land"), (35.5), av, "street",
-                "city", "district", "state", "12345", 2, 2,
+                "city", "district", "ST", "12345", 2, 2,
                 null, 15.2, uriList);
         Residence residence1 = new Residence(new PropertyType("land"), (35.5), av, "street",
-                "city", "district", "state", "12345", 2, 2,
+                "city", "district", "ST", "12345", 2, 2,
                 null, 15.2, uriList);
 
         assertEquals(residence, residence1);
@@ -117,10 +117,10 @@ class ResidenceTest {
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
         Residence residence = new Residence(new PropertyType("land"), (35.5), av, "street",
-                "city", "district", "state", "12345", 2, 2,
+                "city", "district", "ST", "12345", 2, 2,
                 null, 15.2, uriList);
         Residence residence1 = new Residence(new PropertyType("land"), (35.5), av, "street",
-                "city", "district", "state", "12845", 5, 2,
+                "city", "district", "ST", "12845", 5, 2,
                 null, 15.2, uriList);
 
         assertNotEquals(residence, residence1);
@@ -139,12 +139,12 @@ class ResidenceTest {
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
         Residence residence = new Residence(new PropertyType("land"), (35.5), av, "street",
-                "city", "district", "state", "12345", 2, 2,
+                "city", "district", "ST", "12345", 2, 2,
                 null, 15.2, uriList);
         String expected = String.format("Property Type: land\n" +
                 "Area: 35,50 m²\n" +
                 "Distance from city center: 15,20 miles\n" +
-                "Location: street, city, district, state, 12345\n" +
+                "Location: street, city, district, ST, 12345\n" +
                 "Photographs:\n" +
                 "    * https://www.example.com/images/photo.jpg\n" +
                 "Number of Bedrooms: 2 \n" +
@@ -173,7 +173,7 @@ class ResidenceTest {
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
         Residence residence = new Residence(new PropertyType("land"), (35.5), av, "street",
-                "city", "district", "state", "12345", 2, 2,
+                "city", "district", "ST", "12345", 2, 2,
                 null, 15.2, uriList);
 
         List<AvailableEquipment> avEquip = new ArrayList<>();
@@ -200,7 +200,7 @@ class ResidenceTest {
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
         Residence residence = new Residence(new PropertyType("land"), (35.5), av, "street",
-                "city", "district", "state", "12345", 2, 9,
+                "city", "district", "ST", "12345", 2, 9,
                 null, 15.2, uriList);
 
         assertEquals(residence.getNumberBedroom(), 9);
@@ -219,14 +219,14 @@ class ResidenceTest {
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
         Residence residence = new Residence(new PropertyType("land"), (35.5), av, "street",
-                "city", "district", "state", "12345", 2, 2,
+                "city", "district", "ST", "12345", 2, 2,
                 4, 15.2, uriList);
 
         assertEquals(residence.getNumberBathroom(), 4);
     }
 
     @Test
-    void ensureGetNumberBathroomisNullWorks() {
+    void ensureGetNumberBathroomisEqualsZeroWhenNullWorks() {
         List<String> av = new ArrayList<>();
         av.add("AC");
         av.add("Coffee Machine");
@@ -238,10 +238,9 @@ class ResidenceTest {
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
         Residence residence = new Residence(new PropertyType("land"), (35.5), av, "street",
-                "city", "district", "state", "12345", 2, 2,
+                "city", "district", "ST", "12345", 2, 2,
                 null, 15.2, uriList);
-
-        assertNull(residence.getNumberBathroom());
+        assertEquals(0, residence.getNumberBathroom());
     }
 
     @Test
@@ -257,7 +256,7 @@ class ResidenceTest {
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
         Residence residence = new Residence(new PropertyType("land"), (35.5), av, "street",
-                "city", "district", "state", "12345", 1, 2,
+                "city", "district", "ST", "12345", 1, 2,
                 null, 15.2, uriList);
 
         assertEquals(residence.getParkingSpace(), 1);
@@ -276,7 +275,7 @@ class ResidenceTest {
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
         Residence residence = new Residence(new PropertyType("land"), (35.5), av, "street",
-                "city", "district", "state", "12345", 2, 2,
+                "city", "district", "ST", "12345", 2, 2,
                 null, 15.2, uriList);
 
         assertEquals(residence.hashCode(), residence.hashCode());
@@ -295,10 +294,10 @@ class ResidenceTest {
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
         Residence residence = new Residence(new PropertyType("land"), (35.5), av, "street",
-                "city", "district", "state", "12345", 2, 2,
+                "city", "district", "ST", "12345", 2, 2,
                 null, 15.2, uriList);
         Residence residence1 = new Residence(new PropertyType("land"), (35.5), av, "street",
-                "city", "district", "state", "12845", 5, 2,
+                "city", "district", "ST", "12845", 5, 2,
                 null, 15.2, uriList);
 
         assertNotEquals(residence.hashCode(), residence1.hashCode());

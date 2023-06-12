@@ -15,7 +15,7 @@ class PropertyTest {
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3), uriList, "street",
-                "city", "district", "state", "12345");
+                "city", "district", "ST", "12345");
     }
 
     @Test
@@ -23,7 +23,7 @@ class PropertyTest {
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3), uriList, "street",
-                "city", "district", "state", "12345");
+                "city", "district", "ST", "12345");
 
         assertNotEquals(property, null);
     }
@@ -33,7 +33,7 @@ class PropertyTest {
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3), uriList, "street",
-                "city", "district", "state", "12345");
+                "city", "district", "ST", "12345");
 
         assertNotEquals(property, new Object());
     }
@@ -43,7 +43,7 @@ class PropertyTest {
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3), uriList, "street",
-                "city", "district", "state", "12345");
+                "city", "district", "ST", "12345");
         assertEquals(property, property);
     }
 
@@ -52,9 +52,9 @@ class PropertyTest {
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3), uriList, "street",
-                "city", "district", "state", "12345");
+                "city", "district", "ST", "12345");
         Property property1 = new Property(new PropertyType("land"), (35.5), (89.3), uriList, "street",
-                "city", "district", "state", "12345");
+                "city", "district", "ST", "12345");
 
         assertEquals(property, property1);
     }
@@ -68,7 +68,7 @@ class PropertyTest {
         Property property1 = new Property(new PropertyType("Apartment"), 12.6, 150.8, uriList1,
                 "May Av.", "New York", "York", "AL", "58240");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3), uriList, "street",
-                "city", "district", "state", "12345");
+                "city", "district", "ST", "12345");
 
         assertNotEquals(property, property1);
     }
@@ -78,11 +78,11 @@ class PropertyTest {
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3), uriList, "street",
-                "city", "district", "state", "12345");
+                "city", "district", "ST", "12345");
         String expected = String.format("Property Type: land\n" +
                 "Area: 35,50 m²\n" +
                 "Distance from city center: 89,30 miles\n" +
-                "Location: street, city, district, state, 12345\n" +
+                "Location: street, city, district, ST, 12345\n" +
                 "Photographs:\n" +
                 "    * https://www.example.com/images/photo.jpg\n");
         assertEquals(expected, property.toString());
@@ -93,7 +93,7 @@ class PropertyTest {
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3), uriList, "street",
-                "city", "district", "state", "12345");
+                "city", "district", "ST", "12345");
 
         PropertyType propertyType = new PropertyType("land");
 
@@ -105,9 +105,9 @@ class PropertyTest {
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3), uriList, "street",
-                "city", "district", "state", "12345");
+                "city", "district", "ST", "12345");
 
-        Location location = new Location("street", "city", "district", "state", "12345");
+        Location location = new Location("street", "city", "district", "ST", "12345");
 
         assertEquals(property.getLocation(), location);
     }
@@ -118,7 +118,7 @@ class PropertyTest {
         uriList.add("https://www.example.com/images/photo.jpg");
         uriList.add("https://i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187_2x3.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3), uriList, "street",
-                "city", "district", "state", "12345");
+                "city", "district", "ST", "12345");
 
         assertEquals(property.hashCode(), property.hashCode());
     }
@@ -132,7 +132,7 @@ class PropertyTest {
         Property property1 = new Property(new PropertyType("Apartment"), 12.6, 150.8, uriList1,
                 "May Av.", "New York", "York", "AL", "58240");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3), uriList, "street",
-                "city", "district", "state", "12345");
+                "city", "district", "ST", "12345");
 
         assertNotEquals(property.hashCode(), property1.hashCode());
     }
@@ -143,7 +143,7 @@ class PropertyTest {
         uriList.add("https://www.example.com/images/photo.jpg");
         uriList.add("https://i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187_2x3.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3), uriList, "street",
-                "city", "district", "state", "12345");
+                "city", "district", "ST", "12345");
         Property clone = property.clone();
         assertEquals(property, clone);
     }

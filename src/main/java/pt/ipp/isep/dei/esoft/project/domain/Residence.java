@@ -111,7 +111,6 @@ public class Residence extends Property implements Serializable {
      */
     private void addAvailableEquipment(AvailableEquipment equipment) {
         if (validate(equipment)) {
-            // A clone of the equipment is added to the list of equipments, to avoid side effects and outside manipulation.
             this.availableEquipment.add(equipment.clone());
         }
     }
