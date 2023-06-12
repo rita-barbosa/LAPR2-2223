@@ -1,5 +1,6 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
+import javafx.util.Pair;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import org.apache.commons.math3.stat.regression.MultipleLinearRegression;
 import org.apache.commons.math3.stat.regression.OLSMultipleLinearRegression;
@@ -345,15 +346,15 @@ public class Announcement implements Serializable {
      * @param userPhoneNumber the user's phone number
      * @return the visit
      */
-    public Optional<Visit> createVisit(Integer visitDay, Integer visitMonth, Integer visitYear, Integer startHour, Integer endHour, String userName, String userPhoneNumber) {
+    public Pair<Optional<Visit>, Integer> createVisit(Integer visitDay, Integer visitMonth, Integer visitYear, Integer startHour, Integer endHour, String userName, String userPhoneNumber) {
         Optional<Visit> optionalValue = Optional.empty();
 
         Visit visit = new Visit(visitDay, visitMonth, visitYear, startHour, endHour, userName, userPhoneNumber);
 
-        if (addVisit(visit)) {
+        if (addVisit(visit).getValue()) {
             optionalValue = Optional.of(visit);
         }
-        return optionalValue;
+        return new Pair<>(optionalValue, addVisit(visit).getKey());
     }
 
     /**
@@ -362,12 +363,12 @@ public class Announcement implements Serializable {
      * @param visit the visit
      * @return the boolean
      */
-    public Boolean addVisit(Visit visit) {
-        if (!validateVisit(visit)) {
-            return false;
+    public Pair<Integer, Boolean> addVisit(Visit visit) {
+        if (!validateVisit(visit).getValue()) {
+            return new Pair<>(validateVisit(visit).getKey(), false);
         } else {
             this.visitList.add(visit.clone());
-            return true;
+            return new Pair<>(validateVisit(visit).getKey(), true);
         }
     }
 
@@ -377,23 +378,21 @@ public class Announcement implements Serializable {
      * @param createdVisit the created visit
      * @return the boolean
      */
-    private boolean validateVisit(Visit createdVisit) {
+    private Pair<Integer, Boolean> validateVisit(Visit createdVisit) {
         for (Visit visit : this.visitList) {
             if (visit.equals(createdVisit)) {
-                return false;
+                return new Pair<>(1, false);
             }
             if (visit.getVisitDate().equals(createdVisit.getVisitDate())) {
                 if (createdVisit.getStartHour() > visit.getStartHour() && createdVisit.getStartHour() < visit.getEndHour()) {
-                    System.out.println("\nCONFLICT! The start hour of the visit request you want to submit conflicts with a visit taking place at that time in the same property.");
-                    return false;
+                    return new Pair<>(2, false);
                 }
                 if (createdVisit.getEndHour() > visit.getStartHour() && createdVisit.getEndHour() < visit.getEndHour()) {
-                    System.out.println("\nCONFLICT! The end hour of the visit request you want to submit conflicts with a visit taking place at that time in the same property.");
-                    return false;
+                    return new Pair<>(3, false);
                 }
             }
         }
-        return true;
+        return new Pair<>(0, true);
     }
 
     /**
@@ -427,6 +426,7 @@ public class Announcement implements Serializable {
 
     /**
      * Returns the hash code of the Announcement instance.
+     *
      * @return the hashcode
      */
     @Override

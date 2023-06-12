@@ -24,6 +24,10 @@ public class Lease extends Business implements Serializable {
         this.contractDuration = contractDuration;
     }
 
+    public String getDesignation(){
+        return super.getBusinessType().getDesignation();
+    }
+
     /**
      * Gets contract duration.
      *
