@@ -41,7 +41,7 @@ public class Bootstrap implements Runnable {
                 "Broadway", "Manhattan", "New York", "NY", "10001");
         Person client2 = new Person("Jake Moon", "C12777778",
                 "134-23-2555", "client1@this.app", "555-775-5555", "client",
-                "Rua da Alegria, 123", "Porto", "Porto", "Porto", "43005");
+                "Rua da Alegria, 123", "Porto", "Porto", "PT", "43005");
 
         Person client1 = new Person("Paulo Borges", "C04575989",
                 "843-88-4881", "client2@this.app", "911-264-5567", "client",
@@ -73,7 +73,7 @@ public class Bootstrap implements Runnable {
                 "New York", "Manhattan", "NY", "10001", "Broadway St");
         Employee employee2 = new Employee(agency.getId(), "Maria Silva", "C12339878",
                 "134-23-2555", "employee2@this.app", "agent", "911-234-5567",
-                "Porto", "Porto", "Porto", "43005", "Rua da Alegria, 123");
+                "Porto", "Porto", "PT", "43005", "Rua da Alegria, 123");
 
         personRepository.add(employee);
         personRepository.add(employee1);
@@ -159,15 +159,15 @@ public class Bootstrap implements Runnable {
         uriList.add("https://www.example.com/images/photosky.jpg%22");
 
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
-                uriList, "street", "city", "district", "state", "12345");
+                uriList, "street", "city", "district", "AR", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2500.0), LocalDate.now(), employee);
 
         Property property1 = new Property(new PropertyType("land"), (100.0), (70.3),
-                uriList, "street 1", "city 1", "district 1", "st1", "12346");
-        Request request1 = new Request(ownerEmail1, property1, new Business("sale", 300.0), LocalDate.now(), employee);
+                uriList, "street 1", "city 1", "district 1", "DE", "12346");
+        Request request1 = new Request(ownerEmail1, property1, new Lease(6, "lease", 300.0), LocalDate.now(), employee);
 
         Property property2 = new Property(new PropertyType("land"), (30.5), (456.3),
-                uriList, "street 2", "city 2", "district 2", "st2", "12347");
+                uriList, "street 2", "city 2", "district 2", "GA", "12347");
         Request request2 = new Request(ownerEmail2, property2, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         List<String> av = new ArrayList<>();
@@ -179,16 +179,16 @@ public class Bootstrap implements Runnable {
         av.add("Automatic Lights System");
 
         Property property3 = new House(new PropertyType("house"), av, 32.4,
-                "street 33", "city 33", "district 33", "st33", "12340", true, false, 2,
+                "street 33", "city 33", "district 33", "FL", "12340", true, false, 2,
                 SunExposureTypes.NORTH, 2, null, 12.5, uriList);
-        Request request3 = new Request(ownerEmail2, property3, new Business("lease", 1234.0), LocalDate.now(), employee);
+        Request request3 = new Request(ownerEmail2, property3, new Lease(3, "lease", 1234.0), LocalDate.now(), employee);
 
         Property property4 = new Residence(new PropertyType("apartment"), 125.4, av, "street 44",
-                "city 44", "district 44", "st44", "12348", 2, 25, 3, 15.2, uriList);
-        Request request4 = new Request(ownerEmail2, property4, new Business("lease", 2345.0), LocalDate.now(), employee);
+                "city 44", "district 44", "HI", "12348", 2, 25, 3, 15.2, uriList);
+        Request request4 = new Request(ownerEmail2, property4, new Lease(15, "lease", 2345.0), LocalDate.now(), employee);
 
         Property property5 = new Residence(new PropertyType("apartment"), 125.4, av, "street 5",
-                "city 5", "district 55", "st55", "12348", 2, 25, 3, 20.0, uriList);
+                "city 5", "district 55", "MN", "12348", 2, 25, 3, 20.0, uriList);
         Request request5 = new Request(ownerEmail2, property5, new Business("sale", 9740.0), LocalDate.now(), employee);
 
         agency.addRequest(request);
@@ -210,16 +210,16 @@ public class Bootstrap implements Runnable {
         uriList.add("https://www.example.com/images/photo123.jpg");
 
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
-                uriList, "street", "city", "district", "state", "12345");
+                uriList, "street", "city", "district", "MO", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2500.0), LocalDate.now(), employee);
 
         Property property1 = new Property(new PropertyType("land"), (100.0), (70.3),
-                uriList, "street 1", "city 1", "district 1", "st1", "12346");
-        Request request1 = new Request(ownerEmail1, property1, new Business("sale", 300.0), LocalDate.now(), employee);
+                uriList, "street 1", "city 1", "district 1", "NV", "12346");
+        Request request1 = new Request(ownerEmail1, property1, new Lease(6, "lease", 300.0), LocalDate.now(), employee);
 
         Property property2 = new Property(new PropertyType("land"), (30.5), (456.3),
-                uriList, "street 2", "city 2", "district 2", "st2", "12347");
-        Request request2 = new Request(ownerEmail1, property2, new Business("sale", 2345.0), LocalDate.now(), employee);
+                uriList, "street 2", "city 2", "district 2", "NY", "12347");
+        Request request2 = new Request(ownerEmail1, property2, new Business("sale", 2385.0), LocalDate.now(), employee);
 
         List<String> av = new ArrayList<>();
         av.add("AC");
@@ -230,17 +230,17 @@ public class Bootstrap implements Runnable {
         av.add("Automatic Lights System");
 
         Property property3 = new House(new PropertyType("house"), av, 32.4,
-                "street 3", "city 3", "district 3", "st3", "12340", true, false, 2,
+                "street 3", "city 3", "district 3", "OH", "12340", true, false, 2,
                 SunExposureTypes.NORTH, 2, null, 12.5, uriList);
-        Request request3 = new Request(ownerEmail2, property3, new Business("lease", 2345.0), LocalDate.now(), employee);
+        Request request3 = new Request(ownerEmail2, property3, new Lease(3, "lease", 1234.0), LocalDate.now(), employee);
 
 
         Property property4 = new Residence(new PropertyType("apartment"), 125.4, av, "street 4",
-                "city 4", "district 4", "st4", "12348", 2, 25, 3, 15.2, uriList);
-        Request request4 = new Request(ownerEmail2, property4, new Business("lease", 2345.0), LocalDate.now(), employee);
+                "city 4", "district 4", "PA", "12348", 2, 25, 3, 15.2, uriList);
+        Request request4 = new Request(ownerEmail2, property4, new Lease(15, "lease", 2345.0), LocalDate.now(), employee);
 
         Property property5 = new Residence(new PropertyType("apartment"), 125.4, av, "street 4",
-                "city 4", "district 4", "st4", "12348", 2, 25, 3, 15.2, uriList);
+                "city 4", "district 4", "SD", "12348", 2, 25, 3, 15.2, uriList);
         Request request5 = new Request(ownerEmail2, property5, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         Announcement a1 = new Announcement(employee, commissionType, 234.0, request);
@@ -256,7 +256,6 @@ public class Bootstrap implements Runnable {
         agency.addAnnouncement(a4);
         agency.addAnnouncement(a5);
         agency.addAnnouncement(a6);
-
     }
 
 }
