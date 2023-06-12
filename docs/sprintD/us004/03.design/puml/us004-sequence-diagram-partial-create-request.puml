@@ -5,12 +5,13 @@ skinparam packageStyle rectangle
 skinparam shadowing false
 
 participant "request\n:Request" as REQUEST
-participant "house\n:House" as HOUSE
-participant "residence\n:Residence" as RESIDENCE
-participant "availableEquipment\n:List<AvailableEquipment>" as AEQUIP
 participant "property\n:Property" as PROPERTY
+participant "residence\n:Residence" as RESIDENCE
+participant "house\n:House" as HOUSE
 participant "photograph\n:List<Photograph>" as PHOTO
 participant "location\n:Location" as LOCATION
+participant "availableEquipment\n:List<AvailableEquipment>" as AEQUIP
+
 
 autonumber 35
 
@@ -24,16 +25,12 @@ autonumber 35
 
                 autonumber 35.1
 
-                REQUEST -> PROPERTY** : Property(propertyType, area, streetName, city, district, state,\n zipCode, distanceCityCenter, photographUriList)
+                REQUEST -> PROPERTY** : Property(propertyType, area, streetName, city, district,\n state, zipCode, distanceCityCenter, photographUriList)
 
                     activate PROPERTY
 
                     PROPERTY -> PHOTO** : photographList = fillPhotographList(photographUriList)
 
-                    activate PHOTO
-
-                    PHOTO --> PROPERTY : photographList
-                    deactivate PHOTO
 
                     |||
 
@@ -84,20 +81,11 @@ autonumber 35
                 deactivate AEQUIP
 
                 |||
-                RESIDENCE -> PROPERTY** : super(propertyType, area, distanceCityCenter, photographUriList, streetName, city, district, state, zipCode)
-
-                activate PROPERTY
-
-                PROPERTY -> PHOTO** : photographList = fillPhotographList(photographUriList)
-
-                activate PHOTO
-
-                PHOTO --> PROPERTY : photographList
-                deactivate PHOTO
+                RESIDENCE -> PHOTO** : photographList = fillPhotographList(photographUriList)
 
                 |||
 
-               PROPERTY -> LOCATION** : createLocation(streetName, city, district, state, zipCode)
+               RESIDENCE -> LOCATION** : createLocation(streetName, city, district, state, zipCode)
 
                activate LOCATION
 
@@ -109,24 +97,11 @@ autonumber 35
 
                    deactivate LOCATION
 
-               LOCATION --> PROPERTY : location
+               LOCATION --> RESIDENCE : location
 
                deactivate LOCATION
 
-               |||
-               PROPERTY -> PROPERTY : validateProperty(property)
-
-                    activate PROPERTY
-
-                    PROPERTY --> PROPERTY
-
-                    deactivate PROPERTY
-
-               PROPERTY --> RESIDENCE : property
-
-               deactivate PROPERTY
-
-               RESIDENCE --> REQUEST : residence
+                RESIDENCE --> REQUEST : property
 
                deactivate RESIDENCE
 
@@ -138,65 +113,23 @@ autonumber 35
 
                activate HOUSE
 
-               HOUSE -> RESIDENCE** : super(propertyType, area, availableEquipmentDesignationList,\n streetName, city, district, state, zipCode, parkingSpace,\n numberBedroom, numberBathroom, distanceCityCenter,\n photographUriList)
-                activate RESIDENCE
+                HOUSE -> AEQUIP** : availableEquipmentList = fillAvailableEquipmentList(availableEquipmentDesignationList)
 
-                RESIDENCE -> AEQUIP** : availableEquipmentList = fillAvailableEquipmentList(availableEquipmentDesignationList)
+                HOUSE -> PHOTO** : photographList = fillPhotographList(photographUriList)
 
-                activate AEQUIP
-
-                AEQUIP --> RESIDENCE : availableEquipmentList
-
-                deactivate AEQUIP
-
-                |||
-                RESIDENCE -> PROPERTY** : super(propertyType, area, distanceCityCenter, photographUriList, streetName, city, district, state, zipCode)
-
-                activate PROPERTY
-
-                PROPERTY -> PHOTO** : photographList = fillPhotographList(photographUriList)
-
-                activate PHOTO
-
-                PHOTO --> PROPERTY : photographList
-                deactivate PHOTO
-
-                |||
-
-               PROPERTY -> LOCATION** : createLocation(streetName, city, district, state, zipCode)
-
+               HOUSE -> LOCATION** : createLocation(streetName, city, district, state, zipCode)
                activate LOCATION
 
                LOCATION -> LOCATION : validateLocation(location)
-
                    activate LOCATION
 
                    LOCATION --> LOCATION
-
                    deactivate LOCATION
 
-               LOCATION --> PROPERTY : location
-
+               LOCATION --> HOUSE : location
                deactivate LOCATION
 
-               |||
-               PROPERTY -> PROPERTY : validateProperty(property)
-
-                    activate PROPERTY
-
-                    PROPERTY --> PROPERTY
-
-                    deactivate PROPERTY
-
-               PROPERTY --> RESIDENCE : property
-
-               deactivate PROPERTY
-
-               RESIDENCE --> HOUSE : residence
-
-               deactivate RESIDENCE
-
-           HOUSE --> REQUEST : house
+           HOUSE --> REQUEST : property
            deactivate HOUSE
             |||
             end alt
