@@ -496,7 +496,12 @@ public class Request implements Serializable {
         return validationStatus;
     }
 
-    public void setvalidationStatus(Boolean validationStatus) {
+    /**
+     * Sets validation status.
+     *
+     * @param validationStatus the validation status
+     */
+    public void setValidationStatus(Boolean validationStatus) {
         this.validationStatus = validationStatus;
     }
 
