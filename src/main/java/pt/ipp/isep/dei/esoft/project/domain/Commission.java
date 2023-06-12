@@ -61,7 +61,7 @@ public class Commission implements Serializable {
     }
 
     public String toString() {
-        StringBuilder s = new StringBuilder("Commission Type: " + commissionType.getDesignation() + "\nCommission Value" + commissionValue);
+        StringBuilder s = new StringBuilder("Commission Type: " + commissionType.getDesignation() + "\nCommission Value: " + commissionValue);
         if (commissionType.getDesignation().equalsIgnoreCase("percentual")) {
             s.append("%");
         } else {

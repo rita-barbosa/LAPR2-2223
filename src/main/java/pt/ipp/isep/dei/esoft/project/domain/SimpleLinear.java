@@ -41,7 +41,7 @@ public class SimpleLinear implements RegressionModel {
         this.regression = new SimpleRegression();
         addData();
         n = this.regression.getN();
-        System.out.println("SIMPLES LINEAR " + n);
+        System.out.println("simple linear:"+n);
         degreeOfFreedom = this.n - 2;
         intercept = this.regression.getIntercept();
         slope = this.regression.getSlope();

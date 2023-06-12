@@ -37,7 +37,11 @@ public class AnnouncementList implements Serializable {
         Boolean success = false;
         if (validateAnnouncement(announcement)) {
             announcements.add(announcement.clone());
-            success = announcement.sendSMS();
+            if (!announcement.isDeal()) {
+                success = announcement.sendSMS();
+            } else {
+                success = true;
+            }
         }
         return success;
     }
@@ -63,7 +67,7 @@ public class AnnouncementList implements Serializable {
         List<Announcement> listAnnouncements = new ArrayList<>();
 
         for (Announcement a : announcements) {
-            if (a.hasAgentWithEmail(agentEmail)) {
+            if (!a.isDeal() && a.hasAgentWithEmail(agentEmail)) {
                 Optional<OrderList> newOrderList = a.getOrderList();
                 if (newOrderList.isPresent()) {
                     newOrderList.get().sortOrdersByHighestOrderAmount();
@@ -75,15 +79,15 @@ public class AnnouncementList implements Serializable {
         return listAnnouncements;
     }
 
-    public List<Visit> getVisitRequestsByAgentEmail(String agentEmail, LocalDate beginDate, LocalDate endDate){
-        List <Visit> visitsList = new ArrayList<>();
+    public List<Visit> getVisitRequestsByAgentEmail(String agentEmail, LocalDate beginDate, LocalDate endDate) {
+        List<Visit> visitsList = new ArrayList<>();
 
-        for (Announcement announcement : announcements){
-            if (announcement.hasAgentWithEmail(agentEmail)){
-                List <Visit> copyVisitList = announcement.getVisitList();
-                for (Visit visit : copyVisitList){
+        for (Announcement announcement : announcements) {
+            if (announcement.hasAgentWithEmail(agentEmail)) {
+                List<Visit> copyVisitList = announcement.getVisitList();
+                for (Visit visit : copyVisitList) {
                     LocalDate visitDate = visit.getVisitDate();
-                    if ((visitDate.isEqual(beginDate) || visitDate.isAfter(beginDate)) && (visitDate.isEqual(endDate) || visitDate.isBefore(endDate))){
+                    if ((visitDate.isEqual(beginDate) || visitDate.isAfter(beginDate)) && (visitDate.isEqual(endDate) || visitDate.isBefore(endDate))) {
                         visitsList.add(visit.clone());
                     }
                 }
@@ -158,7 +162,7 @@ public class AnnouncementList implements Serializable {
      *
      * @param listAnnouncements
      */
-    private void  sortAnnouncementsByOldestSaleDate (List<Announcement> listAnnouncements) {
+    private void sortAnnouncementsByOldestSaleDate(List<Announcement> listAnnouncements) {
         Collections.sort(listAnnouncements, saleDate);
     }
 

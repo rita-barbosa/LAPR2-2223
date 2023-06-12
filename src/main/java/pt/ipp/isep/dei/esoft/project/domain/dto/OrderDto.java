@@ -82,7 +82,7 @@ public class OrderDto {
      */
     @Override
     public String toString() {
-        return String.format("Order %s | Amount offered : %s ", id, orderAmount);
+        return String.format("Order | Amount offered : %s ", orderAmount);
     }
 
     /**
