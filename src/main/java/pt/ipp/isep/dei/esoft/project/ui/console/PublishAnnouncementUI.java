@@ -1,9 +1,11 @@
 package pt.ipp.isep.dei.esoft.project.ui.console;
 
 import pt.ipp.isep.dei.esoft.project.application.controller.PublishAnnouncementController;
+import pt.ipp.isep.dei.esoft.project.domain.Announcement;
 import pt.ipp.isep.dei.esoft.project.domain.CommissionType;
 import pt.ipp.isep.dei.esoft.project.domain.PropertyType;
 import pt.ipp.isep.dei.esoft.project.domain.SunExposureTypes;
+import pt.ipp.isep.dei.esoft.project.domain.dto.AnnouncementDto;
 import pt.ipp.isep.dei.esoft.project.ui.console.utils.Utils;
 
 
@@ -118,6 +120,9 @@ public class PublishAnnouncementUI implements Runnable {
      */
     private SunExposureTypes sunExposure;
 
+
+    private AnnouncementDto announcementDto;
+
     /**
      * The maximum number of URIs allowed for the images of the property.
      */
@@ -136,6 +141,7 @@ public class PublishAnnouncementUI implements Runnable {
      */
     public PublishAnnouncementUI() {
         this.controller = new PublishAnnouncementController();
+        this.announcementDto = new AnnouncementDto();
     }
 
     /**
@@ -166,37 +172,36 @@ public class PublishAnnouncementUI implements Runnable {
      * This method requests necessary data from the user to create a new request.
      */
     private void requestData() {
-        commissionTypeDesignation = displayAndSelectCommissionType();
-        commissionValue = requestCommissionValue();
-        ownerEmail = requestOwnerEmail();
-        propertyTypeDesignation = displayAndSelectPropertyType();
-        price = requestPrice();
-        area = requestArea();
-        distanceCityCenter = requestDistanceCityCenter();
-        streetName = requestStreetName();
-        city = requestCity();
-        district = requestDistrict();
-        state = requestState();
-        zipCode = requestZipCode();
-        uriList = requestUri();
-        if (propertyTypeDesignation.equalsIgnoreCase(APARTMENT_DESIGNATION) || propertyTypeDesignation.equalsIgnoreCase(HOUSE_DESIGNATION)) {
-            numberParkingSpace = requestNumberParkingSpace();
-            numberBedroom = requestNumberBedroom();
+        announcementDto.setCommissionTypeDesignation(displayAndSelectCommissionType());
+        announcementDto.setCommissionValue(requestCommissionValue());
+        announcementDto.setOwnerEmail(requestOwnerEmail());
+        announcementDto.setPropertyTypeDesignation(displayAndSelectPropertyType());
+        announcementDto.setPrice(requestPrice());
+        announcementDto.setArea(requestArea());
+        announcementDto.setDistanceCityCenter(requestDistanceCityCenter());
+        announcementDto.setStreetName(requestStreetName());
+        announcementDto.setCity(requestCity());
+        announcementDto.setDistrict(requestDistrict());
+        announcementDto.setState(requestState());
+        announcementDto.setZipCode(requestZipCode());
+        announcementDto.setUriList(requestUri());
+        if (announcementDto.getPropertyTypeDesignation().equalsIgnoreCase(APARTMENT_DESIGNATION) || announcementDto.getPropertyTypeDesignation().equalsIgnoreCase(HOUSE_DESIGNATION)) {
+            announcementDto.setNumberParkingSpace(requestNumberParkingSpace());
+            announcementDto.setNumberBedroom(requestNumberBedroom());
             if (Utils.askOptionalData("number of bathrooms")) {
-                numberBathroom = requestNumberBathroom(); //optional
+                announcementDto.setNumberBathroom(requestNumberBathroom());
             }
             if (Utils.askOptionalData("available equipments")) {
-                availableEquipmentDescriptionList = requestAvailableEquipment(); //optional + loop
+                announcementDto.setAvailableEquipmentDescriptionList(requestAvailableEquipment());
             }
-            if (propertyTypeDesignation.equalsIgnoreCase(HOUSE_DESIGNATION)) {
-                inhabitableLoft = requestInhabitableLoft();
-                existenceBasement = requestExistenceBasement();
+            if (announcementDto.getPropertyTypeDesignation().equalsIgnoreCase(HOUSE_DESIGNATION)) {
+                announcementDto.setInhabitableLoft(requestInhabitableLoft());
+                announcementDto.setExistenceBasement(requestExistenceBasement());
                 if (Utils.askOptionalData("sun exposure")) {
-                    sunExposure = requestSunExposure(); // optional
+                    announcementDto.setSunExposure(requestSunExposure().toString());
                 }
             }
         }
-
     }
 
     /**
@@ -205,9 +210,7 @@ public class PublishAnnouncementUI implements Runnable {
      */
     private void submitData() {
         try {
-            Boolean success = getController().publishAnnouncement(commissionValue, commissionTypeDesignation, ownerEmail, propertyTypeDesignation,
-                    streetName, city, district, state, zipCode, area, distanceCityCenter, price, numberBedroom, numberParkingSpace, existenceBasement,
-                    inhabitableLoft, numberBathroom, availableEquipmentDescriptionList, uriList, sunExposure);
+            Boolean success = getController().publishAnnouncement(announcementDto);
             if (success) {
                 System.out.println("\nAnnouncement published successfully.");
             } else {

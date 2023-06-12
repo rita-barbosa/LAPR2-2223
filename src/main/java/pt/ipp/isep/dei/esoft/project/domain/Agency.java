@@ -1,5 +1,7 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
+import pt.ipp.isep.dei.esoft.project.domain.dto.AnnouncementDto;
+import pt.ipp.isep.dei.esoft.project.domain.mapper.AnnouncementMapper;
 import pt.isep.lei.esoft.auth.domain.model.Email;
 
 import java.io.Serializable;
@@ -269,38 +271,16 @@ public class Agency implements Serializable {
     /**
      * This method creates a new sale Request instance, and adds it to the list of requests already existent.
      *
-     * @param ownerEmail         the owner email
-     * @param propertyType       the property type
-     * @param businessType       the business type
-     * @param amount             the amount
-     * @param area               the area
-     * @param availableEquipment the available equipment
-     * @param streetName         the street name
-     * @param city               the city
-     * @param district           the district
-     * @param state              the state
-     * @param zipCode            the zip code
-     * @param basement           the basement
-     * @param inhabitableLoft    the inhabitable loft
-     * @param parkingSpace       the parking space
-     * @param sunExposure        the sun exposure
-     * @param numberBedroom      the number bedroom
-     * @param numberBathroom     the number bathroom
-     * @param agent              the agent
-     * @param distanceCityCenter the distance city center
-     * @param photograph         the photograph
+     * @param announcementDto the announcement dto with all the necessary information
+     * @param propertyType    the property type
      * @return an Optional object of Request, allowing the calling code to handle the possibility of null values without the need for explicit null checks.
      */
-    public Optional<Request> createSaleRequest(String ownerEmail, PropertyType propertyType, String businessType, Double amount, Double area, List<String> availableEquipment, String streetName, String city, String district, String state, String zipCode, Boolean basement, Boolean inhabitableLoft, Integer parkingSpace, Enum<SunExposureTypes> sunExposure, Integer numberBedroom, Integer numberBathroom, Employee agent, Double distanceCityCenter, List<String> photograph) {
+    public Optional<Request> createSaleRequest(AnnouncementDto announcementDto, PropertyType propertyType, Employee agent) {
 
         Optional<Request> optionalValue = Optional.empty();
-        Request request;
-
-            request = new Request(ownerEmail, propertyType, businessType, amount, area, availableEquipment, streetName,
-                    city, district, state, zipCode, basement, inhabitableLoft, parkingSpace, sunExposure, numberBedroom,
-                    numberBathroom, agent, distanceCityCenter, photograph);
-
+        Request request = AnnouncementMapper.toModelSaleRequest(announcementDto, propertyType,agent);
         if (addRequest(request)) {
+            assert request != null;
             optionalValue = Optional.of(request);
         }
         return optionalValue;
@@ -395,7 +375,7 @@ public class Agency implements Serializable {
      * @param endDate    the end date
      * @return the list
      */
-    public List<Visit> getVisitRequestsByAgentEmail(String agentEmail, LocalDate beginDate, LocalDate endDate){
+    public List<Visit> getVisitRequestsByAgentEmail(String agentEmail, LocalDate beginDate, LocalDate endDate) {
         return announcements.getVisitRequestsByAgentEmail(agentEmail, beginDate, endDate);
     }
 

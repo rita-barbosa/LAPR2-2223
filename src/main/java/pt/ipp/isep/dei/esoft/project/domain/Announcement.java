@@ -329,6 +329,8 @@ public class Announcement implements Serializable {
     public String toString() {
         if (Objects.equals(this.saleAmount, SALE_AMOUNT_BY_DEFAULT)) {
             return getRequest().toString() + String.format("Acceptance Date: %s\n", acceptanceDate);
+        } else if (this.acceptanceDate.equals(DATE_BY_DEFAULT)) {
+            return getRequest().toString() + String.format("Sale Date: %s\nSale Amount: %s\n",saleDate, saleAmount);
         } else {
             return getRequest().toString() + String.format("Acceptance Date: %s\nSale Date: %s\nSale Amount: %s\n", acceptanceDate, saleDate, saleAmount);
         }

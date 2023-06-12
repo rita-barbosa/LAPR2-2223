@@ -2,7 +2,9 @@ package pt.ipp.isep.dei.esoft.project.application.controller;
 
 
 import pt.ipp.isep.dei.esoft.project.domain.*;
+import pt.ipp.isep.dei.esoft.project.domain.dto.AnnouncementDto;
 import pt.ipp.isep.dei.esoft.project.repository.*;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -36,8 +38,8 @@ public class PublishAnnouncementController {
         getCommissionTypeRepository();
         getPropertyTypeRepository();
         getAuthenticationRepository();
-    }
 
+    }
     /**
      * Instantiates a new Publish Announcement Controller.
      *
@@ -165,52 +167,28 @@ public class PublishAnnouncementController {
     /**
      * This method is responsible for publishing the announcement made by the agent.
      *
-     * @param commissionValue                   the commission value
-     * @param commissionTypeDesignation         the commission type designation
-     * @param ownerEmail                        the owner email
-     * @param propertyTypeDesignation           the property type designation
-     * @param streetName                        the street name
-     * @param city                              the city
-     * @param district                          the district
-     * @param state                             the state
-     * @param zipCode                           the zip code
-     * @param area                              the area
-     * @param distanceCityCenter                the distance city center
-     * @param price                             the price
-     * @param numberBedroom                     the number bedroom
-     * @param numberParkingSpace                the number parking space
-     * @param existenceBasement                 the existence basement
-     * @param inhabitableLoft                   the inhabitable loft
-     * @param numberBathroom                    the number bathroom
-     * @param availableEquipmentDescriptionList the available equipment description list
-     * @param uriList                           the uri list
-     * @param sunExposure                       the sun exposure
+     * @param announcementDto - a dto with all the necessary information.
      * @return the optional
      */
-    public Boolean publishAnnouncement(Double commissionValue, String commissionTypeDesignation, String ownerEmail, String propertyTypeDesignation,
-                                       String streetName, String city, String district, String state, String zipCode, Double area,
-                                       Double distanceCityCenter, Double price, Integer numberBedroom, Integer numberParkingSpace, Boolean existenceBasement,
-                                       Boolean inhabitableLoft, Integer numberBathroom, List<String> availableEquipmentDescriptionList, List<String> uriList,
-                                       SunExposureTypes sunExposure) throws IllegalArgumentException {
+    public Boolean publishAnnouncement(AnnouncementDto announcementDto) throws IllegalArgumentException {
         Boolean success = false;
         String email = getEmailFromSession();
         Optional<Agency> agency = getAgencyByEmail(email);
 
 
-        PropertyType propertyType = getPropertyTypeByDesignation(propertyTypeDesignation);
+        PropertyType propertyType = getPropertyTypeByDesignation(announcementDto.getPropertyTypeDesignation());
 
         Optional<Request> newRequest;
         Optional<Announcement> newAnnouncement;
 
-        CommissionType commissionType = getCommissionTypeByDesignation(commissionTypeDesignation);
+        CommissionType commissionType = getCommissionTypeByDesignation(announcementDto.getCommissionTypeDesignation());
 
         if (agency.isPresent()) {
             Employee agent = getAgentByEmail(email, agency.get());
             try {
-                newRequest = agency.get().createSaleRequest(ownerEmail, propertyType, "sale", price, area, availableEquipmentDescriptionList, streetName, city, district, state,
-                        zipCode, existenceBasement, inhabitableLoft, numberParkingSpace, sunExposure, numberBedroom, numberBathroom, agent, distanceCityCenter, uriList);
+                newRequest = agency.get().createSaleRequest(announcementDto,propertyType,agent);
                 if (newRequest.isPresent()) {
-                    newAnnouncement = agency.get().publishAnnouncement(agent, commissionType, commissionValue, newRequest.get());
+                    newAnnouncement = agency.get().publishAnnouncement(agent, commissionType, announcementDto.getCommissionValue(), newRequest.get());
                     if (newAnnouncement.isPresent()) {
                         success = true;
                     }
