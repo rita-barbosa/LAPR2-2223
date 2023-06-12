@@ -1,6 +1,6 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
-import net.bytebuddy.asm.Advice;
+import javafx.util.Pair;
 import org.junit.jupiter.api.Test;
 import pt.isep.lei.esoft.auth.domain.model.Email;
 
@@ -253,6 +253,10 @@ class AnnouncementTest {
                 "New York", "Manhattan", "NY", "10001", "Broadway");
         CommissionType commissionType = new CommissionType("Commission Type");
         Commission commission = new Commission(commissionType, 234.0);
+        Email client1 = new Email("client1@this.app");
+        OrderList orderList = new OrderList();
+        Order o1 = new Order(23000.0, client1);
+        orderList.addOrder(o1);
         LocalDate acceptanceDate = LocalDate.now();
 
         List<String> uriList = new ArrayList<>();
@@ -262,7 +266,7 @@ class AnnouncementTest {
                 uriList, "street", "city", "district", "state", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
 
-        Announcement announcement = new Announcement(employee, commission, request, acceptanceDate, new OrderList(), 0);
+        Announcement announcement = new Announcement(employee, commission, request, acceptanceDate, orderList, 0, 15200.3, LocalDate.of(2023, 1, 14));
         assertEquals(0, announcement.getId());
     }
 
@@ -431,12 +435,12 @@ class AnnouncementTest {
         Visit expected = new Visit(12, 5, 2023, 12, 13, "Jake Moon",
                 "555-775-5555");
 
-        Optional<Visit> visit = announcement.createVisit(12, 5, 2023, 12, 13, "Jake Moon",
+        Pair<Optional<Visit>, Integer> visit = announcement.createVisit(12, 5, 2023, 12, 13, "Jake Moon",
                 "555-775-5555");
 
         assertNotNull(visit);
-        assertTrue(visit.isPresent());
-        assertTrue(visit.get().equals(expected));
+        assertTrue(visit.getKey().isPresent());
+        assertEquals(visit.getKey().get(), expected);
     }
 
     @Test
@@ -458,6 +462,6 @@ class AnnouncementTest {
 
         Announcement announcement = new Announcement(employee, commission, request);
 
-        assertTrue(announcement.addVisit(visit));
+        assertTrue(announcement.addVisit(visit).getValue());
     }
 }
