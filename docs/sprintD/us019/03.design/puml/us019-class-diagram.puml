@@ -84,26 +84,26 @@ class Repositories {
     + getAgencyRepository()
 }
 
-class SubdivideStoresController {
-    + SubdivideStoresController(AgencyRepository)
-    + getStorePartitions()
+class SubdivideAgenciesController {
+    + SubdivideAgenciesController(AgencyRepository)
+    + getAgenciePartitions()
 }
 
-class SubdivideStoresUI {
+class SubdivideAgenciesUI {
 }
 
 Repositories -> Repositories : instance
 
-SubdivideStoresUI .left> SubdivideStoresController
+SubdivideAgenciesUI .left> SubdivideAgenciesController
 
-SubdivideStoresController .> Repositories : repositories
+SubdivideAgenciesController .> Repositories : repositories
 
-SubdivideStoresController .down.> Partition
+SubdivideAgenciesController .down.> Partition
 
 Repositories -> "1" AgencyRepository
 
-SubdivideStoresController ..> Agency
-SubdivideStoresController ..> AgencyRepository : AgencyRepository
+SubdivideAgenciesController ..> Agency
+SubdivideAgenciesController ..> AgencyRepository : AgencyRepository
 
 AgencyRepository "1" --> "*" Agency : aggregates >
 

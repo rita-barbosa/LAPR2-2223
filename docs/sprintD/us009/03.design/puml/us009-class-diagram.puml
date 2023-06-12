@@ -39,6 +39,14 @@ class AgencyRepository {
     + getAgencyByAnnouncementId(announcementId)
 }
 
+class BusinessTypeRepository {
+    + getBusinessTypeList()
+}
+
+class PropertyTypeRepository {
+    + getPropertyTypeList()
+}
+
 class Agency {
     - Integer id
     - String designation
@@ -56,17 +64,26 @@ class Repositories {
     + getAgencyRepository()
     + getAuthenticationRepository()
     + getCriteriaRepository()
+    + getBusinessTypeRepository()
+    + getPropertyTypeRepository()
 }
 
 class ScheduleVisitController {
-    + ScheduleVisitController(agencyRepository, personRepository,\n criteriaRepository, AuthenticationRepository)
+    + ScheduleVisitController(agencyRepository, personRepository,\n criteriaRepository, authenticationRepository,\n businessTypeRepository, propertyTypeRepository)
     + getAnnouncementListDto()
     + getAllAnnouncementsList()
+    + getCriteriaList()
+    + getBusinessTypeList()
+    + getPropertyTypeList()
+    + toDto(listToDisplay)
+    + getAnnouncementsByBusinessType(businessType, listToDisplay)
+    + getAnnouncementsByPropertyType(propertyType, listToDisplay)
+    + getAnnouncementsByNumberBedrooms(numberBedrooms, listToDisplay)
+    + getAnnouncementsByPrice(sortingOrder, listToDisplay)
+    + getAnnouncementsByCity(sortingOrder, listToDisplay)
+    + getAnnouncementsByState(sortingOrder, listToDisplay)
     + toModel(announcementDto)
     + scheduleVisit(announcement, visitDay, visitMonth, visitYear,\n startHour, endHour)
-    + getCriteriaList()
-    + toDto(listToDisplay)
-    + getFilteredList(criteria)
     + getUserPerson()
 }
 
@@ -81,7 +98,6 @@ note top of ScheduleVisitController
      endHour are retrieved from Visit
     - listToDisplay is the list of properties
       to display
-    - criteria is a string with the criteria choosen
 end note
 
 class ScheduleVisitUI {
@@ -110,25 +126,26 @@ class AnnouncementList {
     - List<Announcement> announcements
     + AnnouncementList()
     + getAnnouncementList()
-    + getAnnouncement(idx)
+    + getAnnouncementByIdx(idx)
     + addAll(announcementList)
     + hasSameId(announcementId)
-    + sortListByCriteria(criteria)
+    + announcementHasBusinessType(listToDisplay, businessType)
+    + announcementHasPropertyType(listToDisplay, propertyType)
+    + announcementHasNumberBedrooms(listToDisplay, numberBedrooms)
+    + sortAnnouncementsByAscendingPrice(listToDisplay)
+    + sortAnnouncementsByDescendingPrice(listToDisplay)
+    + sortAnnouncementsByAscendingCity(listToDisplay)
+    + sortAnnouncementsByDescendingCity(listToDisplay)
+    + sortAnnouncementsByAscendingState(listToDisplay)
+    + sortAnnouncementsByDescendingState(listToDisplay)
     + sortAnnouncementsByMostRecentAcceptanceDate(listToDisplay)
 }
 
-note right of AnnouncementList::getAnnouncement
+note right of AnnouncementList::getAnnouncementByIdx
 The variable idx refers to the
 position of the announcement
 in the Announcement List
 end note
-
-note left of AnnouncementList::sortListByFilter
-This method compares "criteria" (a string)
- to a list of criteria available and redirects
- the output to its respective sorting method.
-end note
-
 
 class AnnouncementDto{
     + create(announcementId, requestInfo)
@@ -141,11 +158,6 @@ note bottom of AnnouncementDto
      Request's toString()
 end note
 
-class AnnouncementListDto << List<AnnouncementDto> >>{
-
-    + add(announcementDto)
-}
-
 class Request{
     - LocalDate requestDate
     - Integer id
@@ -157,11 +169,6 @@ class Request{
     + toString()
 }
 
-'class Business{
-'    - Double amount
-'    - BusinessType businessType
-'    + toString()
-'}
 
 class Property {
     - PropertyType propertyType
@@ -200,22 +207,20 @@ class CriteriaRepository {
     + getCriteriaList()
 }
 
-note left of PersonRepository
+note bottom of PersonRepository
     - userEmail is retrieved
     from user session
 end note
 
-Interface Notification << Interface >> {
+Interface Notification as "<b><<Interface>></b>\nNotification" {
     + sendNotification(email)
 }
 
 'RELATIONS
 
-ScheduleVisitUI ..> ScheduleVisitController
+ScheduleVisitUI .> ScheduleVisitController
 
 Repositories -> Repositories : instance
-
-AuthenticationRepository -> AuthenticationRepository : instance
 
 AuthenticationRepository --> "1" UserSession
 
@@ -225,23 +230,31 @@ ScheduleVisitController ..> Repositories
 
 Repositories "1" --> "1" PersonRepository
 
-Repositories "1" --> "1" CriteriaRepository
-
 Repositories "1" --> "1" AgencyRepository
 
 Repositories "1" --> "1" AuthenticationRepository
 
 ScheduleVisitController ..> PersonRepository
 
+Repositories "1" --> "1" CriteriaRepository
+
 ScheduleVisitController ..> CriteriaRepository
+
+Repositories "1" --> "1" BusinessTypeRepository
+
+ScheduleVisitController ..> BusinessTypeRepository
+
+Repositories "1" --> "1" PropertyTypeRepository
+
+ScheduleVisitController ..> PropertyTypeRepository
 
 ScheduleVisitController ..> AgencyRepository
 
 ScheduleVisitController ..> Agency
 
-AgencyRepository "1" --> "*" Agency : aggregates
+AgencyRepository "1" --> "*" Agency : aggregates >
 
-PersonRepository "1" --> "*" Person : aggregates
+PersonRepository "1" --> "*" Person : aggregates >
 
 ScheduleVisitController ..> Person
 
@@ -255,17 +268,10 @@ AnnouncementMapper ..> Announcement
 
 AnnouncementMapper ..> AnnouncementDto
 
-AnnouncementMapper .right.> AnnouncementListDto
-
-ScheduleVisitController .> AnnouncementListDto
-
 ScheduleVisitController .> AnnouncementDto
-
-ScheduleVisitUI .> AnnouncementListDto
 
 ScheduleVisitUI .> AnnouncementDto
 
-AnnouncementListDto -> AnnouncementDto : contains >
 
 Person "1" -up-> "1" Employee: represented in <
 Employee "1" --> "*" Announcement: is published by <

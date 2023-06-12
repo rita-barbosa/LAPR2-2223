@@ -8,14 +8,15 @@ participant "announcement\n:Announcement" as ANNOUNCE
 participant "visit:Visit" as VST
 participant "employee\n:Employee" as EMP
 participant "person:\nPerson" as PERSON
+participant "<interface>\n:Notification" as NOTIFICATION
 
 
-autonumber 34
+autonumber 67
 
     -> CTRL : scheduleVisit(announcement, visitDay,\n visitMonth, visitYear, startHour, endHour)
     activate CTRL
 
-    autonumber 34.1
+    autonumber 67.1
 
     group Schedule Visit
    |||
@@ -78,15 +79,15 @@ autonumber 34
        ANNOUNCE --> CTRL : agentEmail
     deactivate ANNOUNCE
 |||
-    CTRL -> VST : sendNotificationMessage(agentEmail)
-    activate VST
+    CTRL -> NOTIFICATION : sendNotificationMessage(agentEmail)
+    activate NOTIFICATION
 
-        VST --> CTRL : confirmation
-    deactivate VST
+        NOTIFICATION --> CTRL : confirmation
+    deactivate NOTIFICATION
 |||
     end group
 
-    autonumber 35
+    autonumber 68
         <-- CTRL : visit
     deactivate CTRL
 

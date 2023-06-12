@@ -21,7 +21,7 @@ activate CTRL
 
     autonumber 6.1
 
-    group Convert Display List to DTO
+    group Convert List to DTO
 
         CTRL -> MAPPER : toDto(listToDisplay)
         activate MAPPER

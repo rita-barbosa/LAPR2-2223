@@ -33,7 +33,7 @@ activate CTM
     CTRL -> CTRL : toDto(listToDisplay)
     activate CTRL
             ref over CTRL
-                Convert Display List to DTO
+                Convert List to DTO
             end ref
         CTRL --> CTRL : listToDisplayDto
     deactivate CTRL
@@ -44,54 +44,196 @@ activate CTM
         UI --> CTM : shows announcements list
     deactivate UI
 
-    opt Selection of criterias
+    loop While the user intends
 
     CTM -> UI : asks to select filter for list
     activate UI
 
     UI -> CTRL : getCriteriaList()
     activate CTRL
-       CTRL -> CTRL : getCriteriaList()
-        activate CTRL
-                ref over CTRL
-                    Get Criteria List
-                end ref
-            CTRL --> CTRL : criteriaList
-        deactivate CTRL
-
+        ref over CTRL
+            Get Criteria List
+        end ref
     CTRL --> UI : criteriaList
     deactivate CTRL
 
-    UI --> CTM : shows criteria list
+    UI --> CTM : shows criteria list and asks to select a criteria type
 
     deactivate UI
-
-        loop For each criterion
 
             CTM -> UI : selects criteria
             activate UI
 
-            UI -> CTRL : getFilteredList(criteria)
-
+            UI -> CTRL : getAllAnnouncementsList()
             activate CTRL
+              ref over CTRL
+                Get Announcements List
+              end ref
 
-                CTRL -> LISTCLASS : listToDisplay = sortListByCriteria(criteria)
+            CTRL --> UI : listToDisplay
+            deactivate CTRL
+
+            alt criteria == 1
+
+                UI -> CTRL : getBusinessTypeList()
+                activate CTRL
+                ref over CTRL
+                Get Business Type List
+                end ref
+                CTRL --> UI : businessTypeList
+                deactivate CTRL
+
+                UI --> CTM : shows business type list and asks to select one
+                deactivate UI
+
+                CTM -> UI : selects a businessType
+                activate UI
+
+                UI -> CTRL : getAnnouncementsByBusinessType(businessType, listToDisplay)
+                deactivate UI
+                activate CTRL
+
+                CTRL -> LISTCLASS : announcementHasBusinessType(listToDisplay, businessType)
                 activate LISTCLASS
 
-                    LISTCLASS --> CTRL : listToDisplay
+                LISTCLASS --> CTRL : sortedList
+|||
+                deactivate LISTCLASS
+                deactivate CTRL
+
+            else criteria == 2
+
+                UI -> CTRL : getPropertyTypeList()
+                activate UI
+                activate CTRL
+                ref over CTRL
+                Get Property Type List
+                end ref
+                CTRL --> UI : propertyTypeList
+                deactivate CTRL
+
+                UI --> CTM : shows property type list and asks to select one
+                deactivate UI
+
+                CTM -> UI : selects a propertyType
+                activate UI
+
+                UI -> CTRL : getAnnouncementsByPropertyType(propertyType, listToDisplay)
+                deactivate UI
+                activate CTRL
+
+                CTRL -> LISTCLASS : announcementHasPropertyType(listToDisplay, propertyType)
+                activate LISTCLASS
+
+                    LISTCLASS --> CTRL : sortedList
+|||
+                deactivate LISTCLASS
+                deactivate CTRL
+
+            else criteria == 3 && propertyType != "Land"
+
+                CTM -> UI : types number of bedrooms
+                activate UI
+
+                UI -> CTRL : getAnnouncementsByNumberBedrooms(numberBedrooms, listToDisplay)
+                deactivate UI
+                activate CTRL
+
+                CTRL -> LISTCLASS : announcementHasNumberBedrooms(listToDisplay, numberBedrooms)
+                activate LISTCLASS
+
+                    LISTCLASS --> CTRL : sortedList
+|||
+                deactivate LISTCLASS
+                deactivate CTRL
+
+            else criteria == 4
+
+                UI --> CTM : shows price sorting orders available and asks to select one
+
+                CTM -> UI : selects a sortingOrder
+                activate UI
+
+                UI -> CTRL : getAnnouncementsByPrice(sortingOrder, listToDisplay)
+                deactivate UI
+                activate CTRL
+
+                alt sortingOrder == "Ascending"
+                CTRL -> LISTCLASS : sortAnnouncementsByAscendingPrice(listToDisplay)
+                |||
+                activate LISTCLASS
+                else
+                CTRL -> LISTCLASS : sortAnnouncementsByDescendingPrice(listToDisplay)
+                |||
+                end alt
+                
+                LISTCLASS --> CTRL : sortedList
+|||
+                deactivate LISTCLASS
+                deactivate CTRL
+
+            else criteria == 5
+            
+                UI --> CTM : shows city sorting orders available and asks to select one
+
+                CTM -> UI : selects a sortingOrder
+                activate UI
+
+                UI -> CTRL : getAnnouncementsByCity(sortingOrder, listToDisplay)
+                deactivate UI
+                activate CTRL
+
+                alt sortingOrder == "Ascending"
+                CTRL -> LISTCLASS : sortAnnouncementsByAscendingCity(listToDisplay)
+                |||
+                activate LISTCLASS
+                else
+                CTRL -> LISTCLASS : sortAnnouncementsByDescendingCity(listToDisplay)
+                |||
+                end alt
+                
+                LISTCLASS --> CTRL : sortedList
+|||
+                deactivate LISTCLASS
+                deactivate CTRL
+
+            else criteria == 6
+
+                UI --> CTM : shows state sorting orders available and asks to select one
+
+                CTM -> UI : selects a sortingOrder
+                activate UI
+
+                UI -> CTRL : getAnnouncementsByState(sortingOrder, listToDisplay)
+                deactivate UI
+                activate CTRL
+
+                alt sortingOrder == "Ascending"
+                CTRL -> LISTCLASS : sortAnnouncementsByAscendingState(listToDisplay)
+                |||
+                activate LISTCLASS
+                else
+                CTRL -> LISTCLASS : sortAnnouncementsByDescendingState(listToDisplay)
+                |||
+                end alt
+
+                LISTCLASS --> CTRL : sortedList
+|||
                 deactivate LISTCLASS
 
-                |||
-                    CTRL -> CTRL : toDto(listToDisplay)
+            end alt
+
+                    CTRL -> CTRL : toDto(sortedList)
                     activate CTRL
                             ref over CTRL
-                                Convert Display List to DTO
+                                Convert List to DTO
                             end ref
-                        CTRL --> CTRL : listToDisplayDto
+                        CTRL --> CTRL : sortedListDto
                     deactivate CTRL
 
-                        CTRL --> UI : listToDisplayDto
+                        CTRL --> UI : sortedListDto
                     deactivate CTRL
+                    activate UI
 
                         UI --> CTM : shows announcements list
                     deactivate UI
@@ -101,7 +243,6 @@ activate CTM
             deactivate UI
 
         end loop
-    end opt
 
     CTM -> UI : selects an announcement
         activate UI
@@ -124,7 +265,7 @@ activate CTM
     UI --> CTM : requests data
         deactivate UI
 
-    loop While Costumer intends
+    loop While the user intends
     CTM -> UI : types requested data (visitDay, visitMonth, visitYear,\n startHour, endHour)
         activate UI
 

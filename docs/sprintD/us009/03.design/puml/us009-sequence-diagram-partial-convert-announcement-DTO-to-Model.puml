@@ -13,13 +13,13 @@ participant "announcementList\n:AnnouncementList" as LISTCLASS
 participant "announcement\n:Announcement" as ANNOUNCE
 
 
-autonumber 26
+autonumber 59
 
  -> CTRL : toModel(announcementDto)
 
 activate CTRL
 
-    autonumber 26.1
+    autonumber 59.1
 
     group Convert Announcement DTO to Model
 
@@ -86,7 +86,7 @@ activate CTRL
 
     end group
 
-    autonumber 27
+    autonumber 60
 
     <-- CTRL  : announcement
 deactivate CTRL

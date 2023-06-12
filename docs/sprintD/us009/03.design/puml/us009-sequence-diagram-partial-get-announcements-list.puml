@@ -5,6 +5,8 @@ skinparam shadowing false
 
 
 participant ":ScheduleVisitController" as CTRL
+participant ":Repositories" as RepositorySingleton
+participant "repositories\n:Repositories" as PLAT
 participant "agencyRepository\n:AgencyRepository" as AgencyRepository
 participant "agency\n:Agency" as AGC
 participant "announcementList\n:AnnouncementList" as LISTCLASS
@@ -20,6 +22,21 @@ activate CTRL
     autonumber 4.1
 
     group Get Announcements List
+
+        CTRL -> RepositorySingleton : getInstance()
+
+        activate RepositorySingleton
+
+            RepositorySingleton --> CTRL : repositories
+        deactivate RepositorySingleton
+
+        CTRL -> PLAT : getAgencyRepository()
+
+        activate PLAT
+
+            PLAT -> CTRL : agencyRepository
+
+        deactivate PLAT
 |||
         CTRL -> AgencyRepository : getAllAnnouncementsList()
         activate AgencyRepository

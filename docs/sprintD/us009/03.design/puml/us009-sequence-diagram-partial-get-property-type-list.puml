@@ -1,0 +1,49 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+
+participant ":ScheduleVisitController" as CTRL
+participant ":Repositories" as RepositorySingleton
+participant "repositories\n:Repositories" as PLAT
+participant "propertyTypeRepository\n:PropertyTypeRepository" as PropertyTypeRepository
+
+
+autonumber 24
+
+ -> CTRL : getPropertyTypeList()
+
+activate CTRL
+
+    autonumber 24.1
+
+        group Get Property Type Object
+
+        CTRL -> RepositorySingleton : getInstances()
+        activate RepositorySingleton
+
+        RepositorySingleton --> CTRL : repositories
+        deactivate RepositorySingleton
+
+        CTRL -> PLAT : getPropertyTypeRepository()
+
+        activate PLAT
+
+        PLAT --> CTRL : propertyTypeRepository
+        deactivate PLAT
+
+        CTRL -> PropertyTypeRepository : getPropertyTypeList()
+
+        activate PropertyTypeRepository
+
+        PropertyTypeRepository --> CTRL : propertyTypeList
+        deactivate PropertyTypeRepository
+
+        end group
+
+autonumber 25
+<-- CTRL : propertyTypeList
+deactivate CTRL
+
+@enduml

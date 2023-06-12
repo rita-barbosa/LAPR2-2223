@@ -9,12 +9,12 @@ participant ":Repositories" as RepositorySingleton
 participant "repositories\n:Repositories" as PLAT
 participant "criteriaRepository\n:CriteriaRepository" as CriteriaRepository
 
-autonumber 12
+autonumber 11
 
 -> CTRL : getCriteriaList()
 
 activate CTRL
-autonumber 12.1
+autonumber 11.1
 
     group Get Criteria List
 
@@ -41,7 +41,7 @@ CTRL -> RepositorySingleton : getInstance()
 
         deactivate CriteriaRepository
      end
-     autonumber 13
+     autonumber 12
 
         <-- CTRL : criteriaList
 
