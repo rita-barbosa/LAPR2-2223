@@ -4,6 +4,6 @@ import java.util.List;
 
 public interface SortingAlgorithm {
 
-     List<Announcement> sort(String sortingOrder, List<?> list) ;
+     List<?> sort(String sortingOrder, List<?> list) ;
 
 }
