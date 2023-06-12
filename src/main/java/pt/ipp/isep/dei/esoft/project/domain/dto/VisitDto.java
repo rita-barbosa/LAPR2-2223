@@ -145,4 +145,16 @@ public class VisitDto {
                 return Objects.hash(startHour, endHour, visitDate, userName, userPhoneNumber, acceptanceStatus);
         }
 
+        /**
+         * Returns a string representation of the VisitDto object.
+         * The string contains the visit date, start hour, end hour,
+         * username and user phone number.
+         *
+         * @return a string representation of the VisitDto object.
+         */
+        @Override
+        public String toString(){
+           return String.format("Visit Date:%s\nStart Hour:%s\nEnd Hour:%s\nUsername:%s\nUser Phone Number:%s\n\n", visitDate, startHour, endHour, userName, userPhoneNumber);
+        }
+
 }

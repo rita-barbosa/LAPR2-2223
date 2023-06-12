@@ -6,6 +6,7 @@ import pt.ipp.isep.dei.esoft.project.domain.dto.VisitDto;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * The type Visit mapper.
@@ -18,14 +19,13 @@ public class VisitMapper {
      * @param visitsList the list of Visit objects
      * @return the list of VisitDto objects
      */
-    public List<VisitDto> toDto(List<Visit> visitsList) {
+    public static Optional<List<VisitDto>> toDto(List<Visit> visitsList) {
         List<VisitDto> visitsDtoList = new ArrayList<>();
-
         for (Visit visit : visitsList) {
-            visitsDtoList.add(toDto(visit));
+            VisitDto dto = toDto(visit);
+            visitsDtoList.add(dto);
         }
-
-        return visitsDtoList;
+        return Optional.of(visitsDtoList);
     }
 
     /**
@@ -34,7 +34,7 @@ public class VisitMapper {
      * @param visit the Visit object
      * @return the VisitDto object
      */
-    public VisitDto toDto(Visit visit) {
+    public static VisitDto toDto(Visit visit) {
         Integer id = visit.getId();
         Integer startHour = visit.getStartHour();
         Integer endHour = visit.getEndHour();
@@ -44,6 +44,5 @@ public class VisitMapper {
         Boolean acceptanceStatus = visit.getAcceptanceStatus();
 
         return new VisitDto(visitDate, startHour, endHour, userName, userPhoneNumber, id, acceptanceStatus);
-
     }
 }

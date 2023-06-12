@@ -176,6 +176,18 @@ public class Visit implements Serializable {
         return visit;
     }
 
+    /**
+     * Returns a string representation of the Visit object.
+     * The string contains the visit date, start hour, end hour,
+     * username and user phone number.
+     *
+     * @return a string representation of the Visit object.
+     */
+    @Override
+    public String toString(){
+        return String.format("Visit Date:%s\nStart Hour:%s\nEnd Hour:%s\nUser Name:%s\nUser Phone Number:%s\n\n", visitDate, startHour, endHour, userName, userPhoneNumber);
+    }
+
 
     /**
      * Gets user name.
