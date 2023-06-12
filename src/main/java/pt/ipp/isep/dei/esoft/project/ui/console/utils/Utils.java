@@ -1,5 +1,7 @@
 package pt.ipp.isep.dei.esoft.project.ui.console.utils;
 
+import pt.ipp.isep.dei.esoft.project.domain.dto.AnnouncementDto;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.text.ParseException;
@@ -16,6 +18,16 @@ import java.util.logging.Logger;
  */
 public class Utils {
 
+    static public Integer requestAnnouncementIndex(List<AnnouncementDto> list) {
+        int idx;
+        idx = readIntegerFromConsole("Please select an announcement by its index number.");
+        while (idx > list.size() || idx < 1) {
+            System.out.println("The announcement index must be within the displayed list.");
+            idx = readIntegerFromConsole("Please select an announcement by its index number.");
+        }
+        return idx;
+    }
+
     static public String readLineFromConsole(String prompt) {
         try {
             System.out.println("\n" + prompt);
@@ -31,34 +43,38 @@ public class Utils {
     }
 
     static public int readIntegerFromConsole(String prompt) {
+        boolean invalid = true;
+        Integer value = null;
         do {
             try {
-                String input = readLineFromConsole(prompt);
-
-                int value = Integer.parseInt(input);
-
-                return value;
-            } catch (NumberFormatException ex) {
-                Logger.getLogger(Utils.class.getName()).log(Level.SEVERE, null, ex);
+                value = Integer.parseInt(readLineFromConsole(prompt));
+                invalid = false;
+            } catch (NumberFormatException e) {
+                // Logger.getLogger(Utils.class.getName()).log(Level.SEVERE, null, e);
+                System.out.println("\nERROR: Value typed is invalid."
+                        + " (" + e.getClass().getSimpleName() + ")");
             }
-        } while (true);
+        } while (invalid);
+        return value;
     }
 
     static public double readDoubleFromConsole(String prompt) {
+        boolean invalid = true;
+        Double value = null;
         do {
             try {
-                String input = readLineFromConsole(prompt);
-
-                double value = Double.parseDouble(input);
-
-                return value;
-            } catch (NumberFormatException ex) {
-                Logger.getLogger(Utils.class.getName()).log(Level.SEVERE, null, ex);
+                value = Double.parseDouble(readLineFromConsole(prompt));
+                invalid = false;
+            } catch (NumberFormatException e) {
+                // Logger.getLogger(Utils.class.getName()).log(Level.SEVERE, null, e);
+                System.out.println("\nERROR: Value typed is invalid"
+                        + " (" + e.getClass().getSimpleName() + " - Decimal separator is a dot)");
             }
-        } while (true);
+        } while (invalid);
+        return value;
     }
 
-    public static Boolean showAndAnswerDirectQuestion(String message) {
+    public static Boolean askDirectQuestion(String message) {
         System.out.printf("\n%s \n1. Yes \n2. No\n", message);
         boolean invalid = true;
         int answer = -1;
@@ -126,17 +142,17 @@ public class Utils {
         return input.equalsIgnoreCase("s");
     }
 
-    static public Object showAndSelectOne(List list, String header) {
+    static public Object showAndSelectOne(List<?> list, String header) {
         showList(list, header);
         return selectsObject(list);
     }
 
-    static public int showAndSelectIndex(List list, String header) {
+    static public int showAndSelectIndex(List<?> list, String header) {
         showList(list, header);
         return selectsIndex(list);
     }
 
-    static public void showList(List list, String header) {
+    static public void showList(List<?> list, String header) {
         System.out.println(header);
 
         int index = 0;
@@ -149,12 +165,12 @@ public class Utils {
         System.out.println("0 - Cancel");
     }
 
-    static public Object selectsObject(List list) {
+    static public Object selectsObject(List<?> list) {
         String input;
-        Integer value;
+        int value;
         do {
             input = Utils.readLineFromConsole("Type your option: ");
-            value = Integer.valueOf(input);
+            value = Integer.parseInt(input);
         } while (value < 0 || value > list.size());
 
         if (value == 0) {
@@ -164,13 +180,45 @@ public class Utils {
         }
     }
 
-    static public int selectsIndex(List list) {
+    /**
+     * This method display and aks to select a type of sorting.
+     *
+     * @return the type of sorting chosen
+     */
+    public static String sortSelection(String prompt) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Sort types available:");
+        System.out.println("1. Ascending");
+        System.out.println("2. Descending");
+        int option = 0;
+        boolean invalid = true;
+        do {
+            try {
+                while (option < 1 || option > 2) {
+                    option = Integer.parseInt(readLineFromConsole(prompt));
+                    if (option == 1) {
+                        return "Ascending";
+                    } else if (option == 2) {
+                        return "Descending";
+                    }
+                }
+                invalid = false;
+            } catch (InputMismatchException e) {
+                System.out.println("\nERROR: Option selected is invalid"
+                        + " (" + e.getClass().getSimpleName() + ")");
+                sc.nextLine();
+            }
+        } while (invalid);
+        return null;
+    }
+
+    static public int selectsIndex(List<?> list) {
         String input;
-        Integer value;
+        int value;
         do {
             input = Utils.readLineFromConsole("Type your option: ");
             try {
-                value = Integer.valueOf(input);
+                value = Integer.parseInt(input);
             } catch (NumberFormatException ex) {
                 value = -1;
             }

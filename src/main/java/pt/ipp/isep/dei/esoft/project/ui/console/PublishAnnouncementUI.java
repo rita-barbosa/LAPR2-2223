@@ -282,7 +282,7 @@ public class PublishAnnouncementUI implements Runnable {
      * @return {@code true} if property has an inhabitable loft;  {@code false} otherwise;
      */
     private Boolean requestInhabitableLoft() {
-        return Utils.showAndAnswerDirectQuestion("Does the property have an Inhabitable Loft?");
+        return Utils.askDirectQuestion("Does the property have an Inhabitable Loft?");
     }
 
     /**
@@ -291,7 +291,7 @@ public class PublishAnnouncementUI implements Runnable {
      * @return {@code true} if property has a basement;  {@code false} otherwise;
      */
     private Boolean requestExistenceBasement() {
-        return Utils.showAndAnswerDirectQuestion("Does the property have a basement?");
+        return Utils.askDirectQuestion("Does the property have a basement?");
     }
 
     /**
