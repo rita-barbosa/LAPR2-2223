@@ -57,7 +57,7 @@ class RequestDtoTest {
 
         RequestDto dto = new RequestDto(propertyAttributes, businessAttributes, id, requestDate);
 
-        String expected = "Request ID: 0 \npropertyAttributesbusinessAttributesRequest Date: 2020-10-10\n";
+        String expected = "businessAttributespropertyAttributesRequest Date: 2020-10-10\n";
 
         assertEquals(expected, dto.toString());
     }

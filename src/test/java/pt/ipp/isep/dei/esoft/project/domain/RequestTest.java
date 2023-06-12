@@ -18,7 +18,7 @@ class RequestTest {
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3), uriList, "street",
-                "city", "district", "state", "12345");
+                "city", "district", "ST", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
     }
 
@@ -29,7 +29,7 @@ class RequestTest {
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3), uriList, "street",
-                "city", "district", "state", "12345");
+                "city", "district", "ST", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         assertEquals(request, request);
@@ -42,7 +42,7 @@ class RequestTest {
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3), uriList, "street",
-                "city", "district", "state", "12345");
+                "city", "district", "ST", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         assertNotEquals(request, new Object());
@@ -55,7 +55,7 @@ class RequestTest {
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3), uriList, "street",
-                "city", "district", "state", "12345");
+                "city", "district", "ST", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         assertNotEquals(request, null);
@@ -74,7 +74,7 @@ class RequestTest {
         Property property1 = new Property(new PropertyType("Apartment"), 12.6, 150.8, uriList1,
                 "May Av.", "New York", "York", "AL", "58240");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3), uriList, "street",
-                "city", "district", "state", "12345");
+                "city", "district", "ST", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
         Request request1 = new Request(ownerEmail1, property1, new Business("sale", 2043.9), LocalDate.now(), employee1);
 
@@ -88,7 +88,7 @@ class RequestTest {
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
         Property property = new Property(new PropertyType("Land"), (35.5), (89.3), uriList, "street",
-                "city", "district", "state", "12345");
+                "city", "district", "ST", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
         Request request1 = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
 
@@ -102,7 +102,7 @@ class RequestTest {
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3), uriList, "street",
-                "city", "district", "state", "12345");
+                "city", "district", "ST", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         assertEquals(request.hashCode(), request.hashCode());
@@ -115,9 +115,9 @@ class RequestTest {
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3), uriList, "street",
-                "city", "district", "state", "12345");
+                "city", "district", "ST", "12345");
         Property property1 = new Property(new PropertyType("House"), (35.5), (89.3), uriList, "street1",
-                "city", "district", "state", "12345");
+                "city", "district", "ST", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
         Request request1 = new Request(ownerEmail, property1, new Business("sale", 2345.0), LocalDate.now(), employee);
 
@@ -132,7 +132,7 @@ class RequestTest {
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3), uriList, "street",
-                "city", "district", "state", "12345");
+                "city", "district", "ST", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
         Request clone = request.clone();
         assertEquals(request, clone);
@@ -146,7 +146,7 @@ class RequestTest {
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3), uriList, "street",
-                "city", "district", "state", "12345");
+                "city", "district", "ST", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         assertEquals(property.toString(), request.getPropertyAttributes());
@@ -160,7 +160,7 @@ class RequestTest {
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3), uriList, "street",
-                "city", "district", "state", "12345");
+                "city", "district", "ST", "12345");
         Business business = new Business("sale", 2345.0);
         Request request = new Request(ownerEmail, property, business, LocalDate.now(), employee);
 
@@ -174,12 +174,12 @@ class RequestTest {
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3), uriList, "street",
-                "city", "district", "state", "12345");
+                "city", "district", "ST", "12345");
         Business business = new Business("sale", 2345.0);
         Request request = new Request(ownerEmail, property, business, LocalDate.now(), employee);
 
         String expected = "Type of Business: sale\nPrice: $2345,00\nProperty Type: land\nArea: 35,50 m²\nDistance from city center: 89,30 miles\n" +
-                "Location: street, city, district, state, 12345\nPhotographs:\n    * https://www.example.com/images/photo.jpg\n";
+                "Location: street, city, district, ST, 12345\nPhotographs:\n    * https://www.example.com/images/photo.jpg\n";
 
         assertEquals(expected, request.toString());
     }
@@ -191,7 +191,7 @@ class RequestTest {
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3), uriList, "street",
-                "city", "district", "state", "12345");
+                "city", "district", "ST", "12345");
         Business business = new Business("sale", 2345.0);
         Request request = new Request(ownerEmail, property, business, LocalDate.now(), employee);
 
@@ -205,7 +205,7 @@ class RequestTest {
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3), uriList, "street",
-                "city", "district", "state", "12345");
+                "city", "district", "ST", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         assertEquals(property, request.getProperty());
@@ -218,7 +218,7 @@ class RequestTest {
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3), uriList, "street",
-                "city", "district", "state", "12345");
+                "city", "district", "ST", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         assertEquals(LocalDate.now(), request.getRequestDate());
@@ -231,7 +231,7 @@ class RequestTest {
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3), uriList, "street",
-                "city", "district", "state", "12345");
+                "city", "district", "ST", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee, 0);
 
         assertEquals(0, request.getId());
@@ -246,7 +246,7 @@ class RequestTest {
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3), uriList, "street",
-                "city", "district", "state", "12345");
+                "city", "district", "ST", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee, 0);
 
         assertEquals(true, request.hasAgentWithEmail(agentEmail));
@@ -260,7 +260,7 @@ class RequestTest {
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3), uriList, "street",
-                "city", "district", "state", "12345");
+                "city", "district", "ST", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee, 0);
 
         assertEquals(agentEmail, request.getAgentEmail());
@@ -274,7 +274,7 @@ class RequestTest {
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3), uriList, "street",
-                "city", "district", "state", "12345");
+                "city", "district", "ST", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee, 0);
 
         assertEquals(email, request.getOwnerEmail());
@@ -287,7 +287,7 @@ class RequestTest {
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3), uriList, "street",
-                "city", "district", "state", "12345");
+                "city", "district", "ST", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee, 0);
 
         assertEquals(true, request.sendEmail());
@@ -300,7 +300,7 @@ class RequestTest {
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3), uriList, "street",
-                "city", "district", "state", "12345");
+                "city", "district", "ST", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee, 200);
 
         assertEquals(true, request.hasId(200));
@@ -313,7 +313,7 @@ class RequestTest {
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3), uriList, "street",
-                "city", "district", "state", "12345");
+                "city", "district", "ST", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee, 0);
 
         assertEquals(true, request.sendEmail());
@@ -326,7 +326,7 @@ class RequestTest {
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3), uriList, "street",
-                "city", "district", "state", "12345");
+                "city", "district", "ST", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee, 0);
 
         String message = "This is the message";

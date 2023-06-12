@@ -34,7 +34,7 @@ class RequestListTest {
         uriList.add("https://www.example.com/images/photo.jpg");
         uriList.add("https://www.example.com/images/photo123.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
-                uriList, "street", "city", "district", "state", "12345");
+                uriList, "street", "city", "district", "ST", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2500.0), LocalDate.now(), employee);
 
         String ownerEmail1 = "owner@email.com";
@@ -42,7 +42,7 @@ class RequestListTest {
         uriList1.add("https://www.example.com/images/photo456.jpg");
         uriList1.add("https://www.example.com/images/photo789.jpg");
         Property property1 = new Property(new PropertyType("land"), (35.5), (89.3),
-                uriList1, "street", "city", "district", "state", "12345");
+                uriList1, "street", "city", "district", "ST", "12345");
         Request request1 = new Request(ownerEmail1, property1, new Business("sale", 2500.0), LocalDate.now(), employee);
 
         requests.add(request);
@@ -67,7 +67,7 @@ class RequestListTest {
         uriList.add("https://www.example.com/images/photo.jpg");
         uriList.add("https://www.example.com/images/photo123.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
-                uriList, "street", "city", "district", "state", "12345");
+                uriList, "street", "city", "district", "ST", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2500.0), LocalDate.now(), employee);
 
         assertTrue(requestList.addRequest(request));
@@ -89,7 +89,7 @@ class RequestListTest {
         uriList.add("https://www.example.com/images/photo.jpg");
         uriList.add("https://www.example.com/images/photo123.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
-                uriList, "street", "city", "district", "state", "12345");
+                uriList, "street", "city", "district", "ST", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2500.0), LocalDate.now(), employee);
 
         requests.add(request);
@@ -113,7 +113,7 @@ class RequestListTest {
         uriList.add("https://www.example.com/images/photo.jpg");
         uriList.add("https://www.example.com/images/photo123.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
-                uriList, "street", "city", "district", "state", "12345");
+                uriList, "street", "city", "district", "ST", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2500.0), LocalDate.now(), employee);
         requestList.addRequest(request);
 
@@ -138,7 +138,7 @@ class RequestListTest {
         uriList.add("https://www.example.com/images/photo.jpg");
         uriList.add("https://www.example.com/images/photo123.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
-                uriList, "street", "city", "district", "state", "12345");
+                uriList, "street", "city", "district", "ST", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2500.0), LocalDate.now(), employee);
         requestList.addRequest(request);
 
@@ -161,7 +161,7 @@ class RequestListTest {
         uriList.add("https://www.example.com/images/photo.jpg");
         uriList.add("https://www.example.com/images/photo123.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
-                uriList, "street", "city", "district", "state", "12345");
+                uriList, "street", "city", "district", "ST", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2500.0), LocalDate.now(), employee);
 
         String ownerEmail1 = "owner1@email.com";
@@ -169,7 +169,7 @@ class RequestListTest {
         uriList1.add("https://www.example.com/images/photo456.jpg");
         uriList1.add("https://www.example.com/images/photo789.jpg");
         Property property1 = new Property(new PropertyType("land"), (35.5), (89.3),
-                uriList1, "street", "city", "district", "state", "12345");
+                uriList1, "street", "city", "district", "ST", "12345");
         Request request1 = new Request(ownerEmail1, property1, new Business("sale", 2500.0), LocalDate.now(), employee);
 
         requestList.addRequest(request);
@@ -193,7 +193,7 @@ class RequestListTest {
         uriList.add("https://www.example.com/images/photo.jpg");
         uriList.add("https://www.example.com/images/photo123.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
-                uriList, "street", "city", "district", "state", "12345");
+                uriList, "street", "city", "district", "ST", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2500.0), LocalDate.now(), employee);
         requestList.addRequest(request);
 
@@ -215,7 +215,7 @@ class RequestListTest {
         uriList.add("https://www.example.com/images/photo.jpg");
         uriList.add("https://www.example.com/images/photo123.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
-                uriList, "street", "city", "district", "state", "12345");
+                uriList, "street", "city", "district", "ST", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2500.0), LocalDate.now(), employee, 0);
 
         requestList.addRequest(request);
@@ -238,7 +238,7 @@ class RequestListTest {
         uriList.add("https://www.example.com/images/photo.jpg");
         uriList.add("https://www.example.com/images/photo123.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
-                uriList, "street", "city", "district", "state", "12345");
+                uriList, "street", "city", "district", "ST", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2500.0), LocalDate.now(), employee, 0);
 
         requestList.addRequest(request);
