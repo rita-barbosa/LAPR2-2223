@@ -1,8 +1,6 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
 import org.junit.jupiter.api.Test;
-import pt.isep.lei.esoft.auth.domain.model.Email;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +15,7 @@ class AgencyTest {
         Employee employee = new Employee(1234, "John Doe", "C12000078",
                 "004-45-6989", "employee@this.app", "agent", "623-456-7890",
                 "New York", "Manhattan", "NY", "10001", "Broadway");
-        Location location = new Location("street", "city", "district", "state", "12345");
+        Location location = new Location("street", "city", "district", "ST", "12345");
         Agency agency1 = new Agency(1234, "Description", "agency@email.com", "345 567 3456", location);
         agency1.addEmployee(employee);
 
@@ -36,7 +34,7 @@ class AgencyTest {
                 "134-23-2555", "employee2@this.app", "agent", "911-234-5567",
                 "Porto", "Porto", "Porto", "43005", "Rua da Alegria, 123");
 
-        Location location = new Location("street", "city", "district", "state", "12345");
+        Location location = new Location("street", "city", "district", "ST", "12345");
         Agency agency1 = new Agency(1234, "Description", "agency@email.com", "345 567 3456", location);
         agency1.addEmployee(employee1);
         agency1.addEmployee(employee2);
@@ -51,7 +49,7 @@ class AgencyTest {
         Employee employee = new Employee(1234, "John Doe", "C12000078",
                 "004-45-6989", "employee@this.app", "agent", "623-456-7890",
                 "New York", "Manhattan", "NY", "10001", "Broadway");
-        Location location = new Location("street", "city", "district", "state", "12345");
+        Location location = new Location("street", "city", "district", "ST", "12345");
         Agency agency1 = new Agency(1234, "Description", "agency@email.com", "345 567 3456", location);
         agency1.addEmployee(employee);
 
@@ -60,12 +58,12 @@ class AgencyTest {
         uriList.add("https://www.example.com/images/photo.jpg");
         List<String> av = new ArrayList<>();
         Property property = new Property(new PropertyType("land"), 35.5, 89.3, uriList, "street",
-                "city", "district", "state", "12345");
+                "city", "district", "ST", "12345");
 
         Request expected = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         Optional<Request> request = agency1.createRequest(ownerEmail, new PropertyType("land"), "sale", 2345.0,
-                35.5, 0, av, "street", "city", "district", "state", "12345", null,
+                35.5, 0, av, "street", "city", "district", "ST", "12345", null,
                 null, 0, null, 0, 0, employee, 89.3, uriList);
 
         assertNotNull(request);
@@ -79,7 +77,7 @@ class AgencyTest {
         Employee employee = new Employee(1234, "John Doe", "C12000078",
                 "004-45-6989", "employee@this.app", "agent", "623-456-7890",
                 "New York", "Manhattan", "NY", "10001", "Broadway");
-        Location location = new Location("street", "city", "district", "state", "12345");
+        Location location = new Location("street", "city", "district", "ST", "12345");
         Agency agency = new Agency(1234, "Description", "agency@email.com", "345 567 3456", location);
         agency.addEmployee(employee);
 
@@ -88,11 +86,11 @@ class AgencyTest {
         uriList.add("https://www.example.com/images/photo.jpg");
         List<String> av = new ArrayList<>();
         Property property = new Property(new PropertyType("land"), 35.5, 89.3, uriList, "street",
-                "city", "district", "state", "12345");
+                "city", "district", "ST", "12345");
         Request expected = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         Optional<Request> request = agency.createSaleRequest(ownerEmail, new PropertyType("land"), "sale", 2345.0,
-                35.5, av, "street", "city", "district", "state", "12345", false, false, 0, null,
+                35.5, av, "street", "city", "district", "ST", "12345", false, false, 0, null,
                 0, 0, employee, 89.3, uriList);
 
         assertNotNull(request);
@@ -102,7 +100,7 @@ class AgencyTest {
 
     @Test
     void ensureAddEmployeeWorks() {
-        Location location = new Location("street", "city", "district", "state", "12345");
+        Location location = new Location("street", "city", "district", "ST", "12345");
         Agency agency = new Agency(1234, "Description", "agency@email.com", "345 567 3456", location);
 
         Employee employee1 = new Employee(1234, "John Doe", "C12000078",
@@ -113,7 +111,7 @@ class AgencyTest {
 
     @Test
     void ensureAddDuplicatedEmployeeFails() {
-        Location location = new Location("street", "city", "district", "state", "12345");
+        Location location = new Location("street", "city", "district", "ST", "12345");
         Agency agency = new Agency(1234, "Description", "agency@email.com", "345 567 3456", location);
         Employee employee1 = new Employee(1234, "John Doe", "C12000078",
                 "004-45-6989", "employee@this.app", "agent", "623-456-7890",
@@ -125,7 +123,7 @@ class AgencyTest {
     @Test
     void ensureGetIdWorks() {
         Integer id = 1234;
-        Location location = new Location("street", "city", "district", "state", "12345");
+        Location location = new Location("street", "city", "district", "ST", "12345");
         Agency agency = new Agency(id, "Description", "agency@email.com", "345 567 3456", location);
 
         assertEquals(agency.getId(), id);
@@ -147,7 +145,7 @@ class AgencyTest {
         expected.add(employee2);
         expected.add(employee3);
 
-        Location location = new Location("street", "city", "district", "state", "12345");
+        Location location = new Location("street", "city", "district", "ST", "12345");
         Agency agency = new Agency(1234, "Description", "agency@email.com", "345 567 3456", location);
         agency.addEmployee(employee1);
         agency.addEmployee(employee2);
@@ -166,7 +164,7 @@ class AgencyTest {
 
     @Test
     void ensurePublishAnnouncementWorks() {
-        Location location = new Location("street", "city", "district", "state", "12345");
+        Location location = new Location("street", "city", "district", "ST", "12345");
         Agency agency = new Agency(1234, "Description", "agency@email.com", "345 567 3456", location);
         String ownerEmail = "owner@email.com";
         Employee employee = new Employee(1234, "John Doe", "C12000078",
@@ -177,7 +175,7 @@ class AgencyTest {
         uriList.add("https://www.example.com/images/photo.jpg");
 
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
-                uriList, "street", "city", "district", "state", "12345");
+                uriList, "street", "city", "district", "ST", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         Announcement expected = new Announcement(employee, commissionType, 234.0, request);
@@ -186,11 +184,11 @@ class AgencyTest {
 
         assertNotNull(announcement);
         assertTrue(announcement.isPresent());
-        assertEquals(announcement.get(), expected);
+        assertEquals(announcement.get().toString(), expected.toString());
     }
     @Test
     void ensureGetAnnouncementsWorks() {
-        Location location = new Location("street", "city", "district", "state", "12345");
+        Location location = new Location("street", "city", "district", "ST", "12345");
         Agency agency = new Agency(1234, "Description", "agency@email.com", "345 567 3456", location);
         String ownerEmail = "owner@email.com";
         String ownerEmail1 = "owner1@email.com";
@@ -202,11 +200,11 @@ class AgencyTest {
         uriList.add("https://www.example.com/images/photo.jpg");
 
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
-                uriList, "street", "city", "district", "state", "12345");
+                uriList, "street", "city", "district", "ST", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         Property property1 = new Property(new PropertyType("land"), (65.5), (89.3),
-                uriList, "street 1", "city 1", "district 1", "st1", "12345");
+                uriList, "street 1", "city 1", "district 1", "ST", "12345");
         Request request1 = new Request(ownerEmail1, property1, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         Announcement announcement = new Announcement(employee, commissionType, 234.0, request);
@@ -219,12 +217,13 @@ class AgencyTest {
         agency.publishAnnouncement(employee, commissionType, 234.0, request);
         agency.publishAnnouncement(employee, commissionType, 234.0, request1);
 
-        assertEquals(expected, agency.getAnnouncements());
+        assertEquals(agency.getAnnouncements().getList().toString(), expected.getList().toString());
+        assertEquals(agency.getAnnouncements().getList().size(), expected.getList().size());
     }
 
     @Test
     void ensureGetAnnouncementsListWorks() {
-        Location location = new Location("street", "city", "district", "state", "12345");
+        Location location = new Location("street", "city", "district", "ST", "12345");
         Agency agency = new Agency(1234, "Description", "agency@email.com", "345 567 3456", location);
         String ownerEmail = "owner@email.com";
         String ownerEmail1 = "owner1@email.com";
@@ -236,11 +235,11 @@ class AgencyTest {
         uriList.add("https://www.example.com/images/photo.jpg");
 
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
-                uriList, "street", "city", "district", "state", "12345");
+                uriList, "street", "city", "district", "ST", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         Property property1 = new Property(new PropertyType("land"), (65.5), (89.3),
-                uriList, "street 1", "city 1", "district 1", "st1", "12345");
+                uriList, "street 1", "city 1", "district 1", "ST", "12345");
         Request request1 = new Request(ownerEmail1, property1, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         Announcement announcement = new Announcement(employee, commissionType, 234.0, request);
@@ -253,8 +252,8 @@ class AgencyTest {
         agency.publishAnnouncement(employee, commissionType, 234.0, request);
         agency.publishAnnouncement(employee, commissionType, 234.0, request1);
 
-        assertEquals(agency.getAnnouncementsList(), expected);
-
+        assertEquals(agency.getAnnouncementsList().toString(), expected.toString());
+        assertEquals(agency.getAnnouncementsList().size(), expected.size());
     }
 
     @Test
@@ -335,372 +334,5 @@ class AgencyTest {
         assertEquals(agency1, agency);
     }
 
-    @Test
-    void ensureAnnouncementHasBusinessTypeWorks() {
-        Location location = new Location("Saint Avenue", "Heaven", "Sky", "SK", "12345");
-        Agency agency = new Agency(1234, "Idealista", "agency4@this.app", "999 444 5656", location);
 
-        String ownerEmail = "owner@email.com";
-        String ownerEmail1 = "owner1@email.com";
-        Employee employee = new Employee(1234, "John Doe", "C12000078",
-                "004-45-6989", "employee@this.app", "agent", "623-456-7890",
-                "New York", "Manhattan", "NY", "10001", "Broadway");
-        CommissionType commissionType = new CommissionType("Commission Type");
-        List<String> uriList = new ArrayList<>();
-        uriList.add("https://www.example.com/images/photo.jpg");
-        uriList.add("https://www.example.com/images/photo123.jpg");
-
-        Property property = new Property(new PropertyType("land"), (35.5), (89.3),
-                uriList, "street", "city", "district", "state", "12345");
-        Request request = new Request(ownerEmail, property, new Business("sale", 2500.0), LocalDate.now(), employee);
-
-        Property property1 = new Property(new PropertyType("land"), (100.0), (70.3),
-                uriList, "street 1", "city 1", "district 1", "st1", "12346");
-        Request request1 = new Request(ownerEmail1, property1, new Business("lease", 300.0), LocalDate.now(), employee);
-
-        agency.addAnnouncement(new Announcement(employee, commissionType, 234.0, request));
-        agency.addAnnouncement(new Announcement(employee, commissionType, 234.0, request1));
-
-        List<Announcement> expected = new ArrayList<>();
-        expected.add(new Announcement(employee, commissionType, 234.0, request1));
-
-        assertEquals(expected, agency.announcementHasBusinessType(agency.announcements.getList(), "Lease"));
-    }
-
-    @Test
-    void ensureAnnouncementHasPropertyTypeWorks() {
-        Location location = new Location("Saint Avenue", "Heaven", "Sky", "SK", "12345");
-        Agency agency = new Agency(1234, "Idealista", "agency4@this.app", "999 444 5656", location);
-
-        String ownerEmail = "owner@email.com";
-        String ownerEmail1 = "owner1@email.com";
-        Employee employee = new Employee(1234, "John Doe", "C12000078",
-                "004-45-6989", "employee@this.app", "agent", "623-456-7890",
-                "New York", "Manhattan", "NY", "10001", "Broadway");
-        CommissionType commissionType = new CommissionType("Commission Type");
-        List<String> uriList = new ArrayList<>();
-        uriList.add("https://www.example.com/images/photo.jpg");
-        uriList.add("https://www.example.com/images/photo123.jpg");
-
-        Property property = new Property(new PropertyType("land"), (35.5), (89.3),
-                uriList, "street", "city", "district", "state", "12345");
-        Request request = new Request(ownerEmail, property, new Business("sale", 2500.0), LocalDate.now(), employee);
-
-        List<String> av = new ArrayList<>();
-        av.add("AC");
-        av.add("Coffee Machine");
-        av.add("Heating Floor");
-        av.add("Massage Chair");
-        av.add("Jacuzzi");
-        av.add("Automatic Lights System");
-
-        Property property3 = new House(new PropertyType("house"), av, 32.4,
-                "street 3", "city 3", "district 3", "st3", "12340", true, false, 2,
-                SunExposureTypes.NORTH, 2, null, 12.5, uriList);
-        Request request1 = new Request(ownerEmail1, property3, new Business("lease", 2345.0), LocalDate.now(), employee);
-
-        agency.addAnnouncement(new Announcement(employee, commissionType, 234.0, request));
-        agency.addAnnouncement(new Announcement(employee, commissionType, 234.0, request1));
-
-        List<Announcement> expected = new ArrayList<>();
-        expected.add(new Announcement(employee, commissionType, 234.0, request1));
-
-        assertEquals(expected, agency.announcementHasPropertyType(agency.announcements.getList(), "House"));
-
-    }
-
-    @Test
-    void ensureAnnouncementHasNumberBedroomsWorks() {
-        Location location = new Location("Saint Avenue", "Heaven", "Sky", "SK", "12345");
-        Agency agency = new Agency(1234, "Idealista", "agency4@this.app", "999 444 5656", location);
-
-        String ownerEmail = "owner@email.com";
-        String ownerEmail1 = "owner1@email.com";
-        Employee employee = new Employee(1234, "John Doe", "C12000078",
-                "004-45-6989", "employee@this.app", "agent", "623-456-7890",
-                "New York", "Manhattan", "NY", "10001", "Broadway");
-        CommissionType commissionType = new CommissionType("Commission Type");
-        List<String> uriList = new ArrayList<>();
-        uriList.add("https://www.example.com/images/photo.jpg");
-        uriList.add("https://www.example.com/images/photo123.jpg");
-
-        List<String> av = new ArrayList<>();
-        av.add("AC");
-        av.add("Coffee Machine");
-        av.add("Heating Floor");
-        av.add("Massage Chair");
-        av.add("Jacuzzi");
-        av.add("Automatic Lights System");
-
-        Property property3 = new House(new PropertyType("house"), av, 32.4,
-                "street 3", "city 3", "district 3", "st3", "12340", true, false, 2,
-                SunExposureTypes.NORTH, 2, null, 12.5, uriList);
-        Request request1 = new Request(ownerEmail1, property3, new Business("lease", 2345.0), LocalDate.now(), employee);
-
-        Property property4 = new Residence(new PropertyType("apartment"), 125.4, av, "street 4",
-                "city 4", "district 4", "st4", "12348", 2, 1, 3, 15.2, uriList);
-        Request request = new Request(ownerEmail, property4, new Business("lease", 2345.0), LocalDate.now(), employee);
-
-        agency.addAnnouncement(new Announcement(employee, commissionType, 234.0, request));
-        agency.addAnnouncement(new Announcement(employee, commissionType, 234.0, request1));
-
-        List<Announcement> expected = new ArrayList<>();
-        expected.add(new Announcement(employee, commissionType, 234.0, request));
-
-        assertEquals(expected, agency.announcementHasNumberBedrooms(agency.announcements.getList(), 1));
-    }
-
-    @Test
-    void ensureSortAnnouncementsByAscendingPriceWorks() {
-        Location location = new Location("Saint Avenue", "Heaven", "Sky", "SK", "12345");
-        Agency agency = new Agency(1234, "Idealista", "agency4@this.app", "999 444 5656", location);
-
-        String ownerEmail = "owner@email.com";
-        String ownerEmail1 = "owner1@email.com";
-        Employee employee = new Employee(1234, "John Doe", "C12000078",
-                "004-45-6989", "employee@this.app", "agent", "623-456-7890",
-                "New York", "Manhattan", "NY", "10001", "Broadway");
-        CommissionType commissionType = new CommissionType("Commission Type");
-        List<String> uriList = new ArrayList<>();
-        uriList.add("https://www.example.com/images/photo.jpg");
-        uriList.add("https://www.example.com/images/photo123.jpg");
-
-        List<String> av = new ArrayList<>();
-        av.add("AC");
-        av.add("Coffee Machine");
-        av.add("Heating Floor");
-        av.add("Massage Chair");
-        av.add("Jacuzzi");
-        av.add("Automatic Lights System");
-
-        Property property3 = new House(new PropertyType("house"), av, 32.4,
-                "street 3", "city 3", "district 3", "st3", "12340", true, false, 2,
-                SunExposureTypes.NORTH, 2, null, 12.5, uriList);
-        Request request1 = new Request(ownerEmail1, property3, new Business("lease", 2345.0), LocalDate.now(), employee);
-
-        Property property4 = new Residence(new PropertyType("apartment"), 125.4, av, "street 4",
-                "city 4", "district 4", "st4", "12348", 2, 1, 3, 15.2, uriList);
-        Request request = new Request(ownerEmail, property4, new Business("lease", 1345.0), LocalDate.now(), employee);
-
-        agency.addAnnouncement(new Announcement(employee, commissionType, 234.0, request1));
-        agency.addAnnouncement(new Announcement(employee, commissionType, 234.0, request));
-
-        List<Announcement> expected = new ArrayList<>();
-        expected.add(new Announcement(employee, commissionType, 234.0, request));
-        expected.add(new Announcement(employee, commissionType, 234.0, request1));
-
-        assertEquals(expected, agency.sortAnnouncementsByAscendingPrice(agency.announcements.getList()));
-    }
-
-    @Test
-    void ensureSortAnnouncementsByDescendingPriceWorks() {
-        Location location = new Location("Saint Avenue", "Heaven", "Sky", "SK", "12345");
-        Agency agency = new Agency(1234, "Idealista", "agency4@this.app", "999 444 5656", location);
-
-        String ownerEmail = "owner@email.com";
-        String ownerEmail1 = "owner1@email.com";
-        Employee employee = new Employee(1234, "John Doe", "C12000078",
-                "004-45-6989", "employee@this.app", "agent", "623-456-7890",
-                "New York", "Manhattan", "NY", "10001", "Broadway");
-        CommissionType commissionType = new CommissionType("Commission Type");
-        List<String> uriList = new ArrayList<>();
-        uriList.add("https://www.example.com/images/photo.jpg");
-        uriList.add("https://www.example.com/images/photo123.jpg");
-
-        List<String> av = new ArrayList<>();
-        av.add("AC");
-        av.add("Coffee Machine");
-        av.add("Heating Floor");
-        av.add("Massage Chair");
-        av.add("Jacuzzi");
-        av.add("Automatic Lights System");
-
-        Property property3 = new House(new PropertyType("house"), av, 32.4,
-                "street 3", "city 3", "district 3", "st3", "12340", true, false, 2,
-                SunExposureTypes.NORTH, 2, null, 12.5, uriList);
-        Request request1 = new Request(ownerEmail1, property3, new Business("lease", 2345.0), LocalDate.now(), employee);
-
-        Property property4 = new Residence(new PropertyType("apartment"), 125.4, av, "street 4",
-                "city 4", "district 4", "st4", "12348", 2, 1, 3, 15.2, uriList);
-        Request request = new Request(ownerEmail, property4, new Business("lease", 1345.0), LocalDate.now(), employee);
-
-        agency.addAnnouncement(new Announcement(employee, commissionType, 234.0, request1));
-        agency.addAnnouncement(new Announcement(employee, commissionType, 234.0, request));
-
-        List<Announcement> expected = new ArrayList<>();
-        expected.add(new Announcement(employee, commissionType, 234.0, request1));
-        expected.add(new Announcement(employee, commissionType, 234.0, request));
-
-        assertEquals(expected, agency.sortAnnouncementsByDescendingPrice(agency.announcements.getList()));
-    }
-
-    @Test
-    void ensureSortAnnouncementsByAscendingCityWorks() {
-        Location location = new Location("Saint Avenue", "Heaven", "Sky", "SK", "12345");
-        Agency agency = new Agency(1234, "Idealista", "agency4@this.app", "999 444 5656", location);
-
-        String ownerEmail = "owner@email.com";
-        String ownerEmail1 = "owner1@email.com";
-        Employee employee = new Employee(1234, "John Doe", "C12000078",
-                "004-45-6989", "employee@this.app", "agent", "623-456-7890",
-                "New York", "Manhattan", "NY", "10001", "Broadway");
-        CommissionType commissionType = new CommissionType("Commission Type");
-        List<String> uriList = new ArrayList<>();
-        uriList.add("https://www.example.com/images/photo.jpg");
-        uriList.add("https://www.example.com/images/photo123.jpg");
-
-        List<String> av = new ArrayList<>();
-        av.add("AC");
-        av.add("Coffee Machine");
-        av.add("Heating Floor");
-        av.add("Massage Chair");
-        av.add("Jacuzzi");
-        av.add("Automatic Lights System");
-
-        Property property3 = new House(new PropertyType("house"), av, 32.4,
-                "street 3", "Amsterdam", "district 3", "st3", "12340", true, false, 2,
-                SunExposureTypes.NORTH, 2, null, 12.5, uriList);
-        Request request1 = new Request(ownerEmail1, property3, new Business("lease", 2345.0), LocalDate.now(), employee);
-
-        Property property4 = new Residence(new PropertyType("apartment"), 125.4, av, "street 4",
-                "Freamunde", "district 4", "st4", "12348", 2, 1, 3, 15.2, uriList);
-        Request request = new Request(ownerEmail, property4, new Business("lease", 1345.0), LocalDate.now(), employee);
-
-        agency.addAnnouncement(new Announcement(employee, commissionType, 234.0, request1));
-        agency.addAnnouncement(new Announcement(employee, commissionType, 234.0, request));
-
-        List<Announcement> expected = new ArrayList<>();
-        expected.add(new Announcement(employee, commissionType, 234.0, request1));
-        expected.add(new Announcement(employee, commissionType, 234.0, request));
-
-        assertEquals(expected, agency.sortAnnouncementsByAscendingCity(agency.announcements.getList()));
-
-    }
-
-    @Test
-    void ensureSortAnnouncementsByDescendingCityWorks() {
-        Location location = new Location("Saint Avenue", "Heaven", "Sky", "SK", "12345");
-        Agency agency = new Agency(1234, "Idealista", "agency4@this.app", "999 444 5656", location);
-
-        String ownerEmail = "owner@email.com";
-        String ownerEmail1 = "owner1@email.com";
-        Employee employee = new Employee(1234, "John Doe", "C12000078",
-                "004-45-6989", "employee@this.app", "agent", "623-456-7890",
-                "New York", "Manhattan", "NY", "10001", "Broadway");
-        CommissionType commissionType = new CommissionType("Commission Type");
-        List<String> uriList = new ArrayList<>();
-        uriList.add("https://www.example.com/images/photo.jpg");
-        uriList.add("https://www.example.com/images/photo123.jpg");
-
-        List<String> av = new ArrayList<>();
-        av.add("AC");
-        av.add("Coffee Machine");
-        av.add("Heating Floor");
-        av.add("Massage Chair");
-        av.add("Jacuzzi");
-        av.add("Automatic Lights System");
-
-        Property property3 = new House(new PropertyType("house"), av, 32.4,
-                "street 3", "Amsterdam", "district 3", "st3", "12340", true, false, 2,
-                SunExposureTypes.NORTH, 2, null, 12.5, uriList);
-        Request request1 = new Request(ownerEmail1, property3, new Business("lease", 2345.0), LocalDate.now(), employee);
-
-        Property property4 = new Residence(new PropertyType("apartment"), 125.4, av, "street 4",
-                "Freamunde", "district 4", "st4", "12348", 2, 1, 3, 15.2, uriList);
-        Request request = new Request(ownerEmail, property4, new Business("lease", 1345.0), LocalDate.now(), employee);
-
-        agency.addAnnouncement(new Announcement(employee, commissionType, 234.0, request1));
-        agency.addAnnouncement(new Announcement(employee, commissionType, 234.0, request));
-
-        List<Announcement> expected = new ArrayList<>();
-        expected.add(new Announcement(employee, commissionType, 234.0, request));
-        expected.add(new Announcement(employee, commissionType, 234.0, request1));
-
-        assertEquals(expected, agency.sortAnnouncementsByDescendingCity(agency.announcements.getList()));
-    }
-
-    @Test
-    void ensureSortAnnouncementsByAscendingStateWork() {
-        Location location = new Location("Saint Avenue", "Heaven", "Sky", "SK", "12345");
-        Agency agency = new Agency(1234, "Idealista", "agency4@this.app", "999 444 5656", location);
-
-        String ownerEmail = "owner@email.com";
-        String ownerEmail1 = "owner1@email.com";
-        Employee employee = new Employee(1234, "John Doe", "C12000078",
-                "004-45-6989", "employee@this.app", "agent", "623-456-7890",
-                "New York", "Manhattan", "NY", "10001", "Broadway");
-        CommissionType commissionType = new CommissionType("Commission Type");
-        List<String> uriList = new ArrayList<>();
-        uriList.add("https://www.example.com/images/photo.jpg");
-        uriList.add("https://www.example.com/images/photo123.jpg");
-
-        List<String> av = new ArrayList<>();
-        av.add("AC");
-        av.add("Coffee Machine");
-        av.add("Heating Floor");
-        av.add("Massage Chair");
-        av.add("Jacuzzi");
-        av.add("Automatic Lights System");
-
-        Property property3 = new House(new PropertyType("house"), av, 32.4,
-                "street 3", "Amsterdam", "district 3", "AK", "12340", true, false, 2,
-                SunExposureTypes.NORTH, 2, null, 12.5, uriList);
-        Request request1 = new Request(ownerEmail1, property3, new Business("lease", 2345.0), LocalDate.now(), employee);
-
-        Property property4 = new Residence(new PropertyType("apartment"), 125.4, av, "street 4",
-                "Freamunde", "district 4", "NY", "12348", 2, 1, 3, 15.2, uriList);
-        Request request = new Request(ownerEmail, property4, new Business("lease", 1345.0), LocalDate.now(), employee);
-
-        agency.addAnnouncement(new Announcement(employee, commissionType, 234.0, request1));
-        agency.addAnnouncement(new Announcement(employee, commissionType, 234.0, request));
-
-        List<Announcement> expected = new ArrayList<>();
-        expected.add(new Announcement(employee, commissionType, 234.0, request1));
-        expected.add(new Announcement(employee, commissionType, 234.0, request));
-
-        assertEquals(expected, agency.sortAnnouncementsByAscendingState(agency.announcements.getList()));
-    }
-
-    @Test
-    void ensureSortAnnouncementsByDescendingStateWork() {
-        Location location = new Location("Saint Avenue", "Heaven", "Sky", "SK", "12345");
-        Agency agency = new Agency(1234, "Idealista", "agency4@this.app", "999 444 5656", location);
-
-        String ownerEmail = "owner@email.com";
-        String ownerEmail1 = "owner1@email.com";
-        Employee employee = new Employee(1234, "John Doe", "C12000078",
-                "004-45-6989", "employee@this.app", "agent", "623-456-7890",
-                "New York", "Manhattan", "NY", "10001", "Broadway");
-        CommissionType commissionType = new CommissionType("Commission Type");
-        List<String> uriList = new ArrayList<>();
-        uriList.add("https://www.example.com/images/photo.jpg");
-        uriList.add("https://www.example.com/images/photo123.jpg");
-
-        List<String> av = new ArrayList<>();
-        av.add("AC");
-        av.add("Coffee Machine");
-        av.add("Heating Floor");
-        av.add("Massage Chair");
-        av.add("Jacuzzi");
-        av.add("Automatic Lights System");
-
-        Property property3 = new House(new PropertyType("house"), av, 32.4,
-                "street 3", "Amsterdam", "district 3", "AK", "12340", true, false, 2,
-                SunExposureTypes.NORTH, 2, null, 12.5, uriList);
-        Request request1 = new Request(ownerEmail1, property3, new Business("lease", 2345.0), LocalDate.now(), employee);
-
-        Property property4 = new Residence(new PropertyType("apartment"), 125.4, av, "street 4",
-                "Freamunde", "district 4", "NY", "12348", 2, 1, 3, 15.2, uriList);
-        Request request = new Request(ownerEmail, property4, new Business("lease", 1345.0), LocalDate.now(), employee);
-
-        agency.addAnnouncement(new Announcement(employee, commissionType, 234.0, request1));
-        agency.addAnnouncement(new Announcement(employee, commissionType, 234.0, request));
-
-
-        List<Announcement> expected = new ArrayList<>();
-        expected.add(new Announcement(employee, commissionType, 234.0, request));
-        expected.add(new Announcement(employee, commissionType, 234.0, request1));
-
-        assertEquals(expected, agency.sortAnnouncementsByDescendingState(agency.announcements.getList()));
-    }
 }

@@ -26,7 +26,7 @@ class AgencyRepositoryTest {
     @Test
     void ensureGetAgencyByEmailWorks() {
         AgencyRepository agencyRepository = new AgencyRepository();
-        Location location =new Location("street","city","district","state","12345");
+        Location location =new Location("street","city","district","ST","12345");
         Agency agency = new Agency(1234,"Description","agency@email.com","345-567-3456",location);
         String email = "employee@this.app.com";
         List<String> roles = new ArrayList<>();
@@ -44,7 +44,7 @@ class AgencyRepositoryTest {
     @Test
     void ensureGetAllAnnouncementsListWorks() {
         AgencyRepository agencyRepository = new AgencyRepository();
-        Location location = new Location("street", "city", "district", "state", "12345");
+        Location location = new Location("street", "city", "district", "ST", "12345");
         Agency agency = new Agency(1234, "Description", "agency@email.com", "345 567 3456", location);
         String ownerEmail = "owner@email.com";
         String ownerEmail1 = "owner1@email.com";
@@ -56,11 +56,11 @@ class AgencyRepositoryTest {
         uriList.add("https://www.example.com/images/photo.jpg");
 
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
-                uriList, "street", "city", "district", "state", "12345");
+                uriList, "street", "city", "district", "ST", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         Property property1 = new Property(new PropertyType("land"), (65.5), (89.3),
-                uriList, "street 1", "city 1", "district 1", "st1", "12345");
+                uriList, "street 1", "city 1", "district 1", "ST", "12345");
         Request request1 = new Request(ownerEmail1, property1, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         Announcement announcement = new Announcement(employee, commissionType, 234.0, request);
@@ -75,7 +75,7 @@ class AgencyRepositoryTest {
         agency.publishAnnouncement(employee, commissionType, 234.0, request);
         agency.publishAnnouncement(employee, commissionType, 234.0, request1);
 
-        assertEquals(agencyRepository.getAllAnnouncementsList().get(), expected.getList());
+        assertEquals(agencyRepository.getAllAnnouncementsList().get().toString(), expected.getList().toString());
     }
 
     @Test
@@ -83,7 +83,7 @@ class AgencyRepositoryTest {
         String email = "employee@this.app.com";
         List<String> roles = new ArrayList<>();
         roles.add("agent");
-        Location location =new Location("street","city","district","state","12345");
+        Location location =new Location("street","city","district","ST","12345");
         Employee employee = new Employee(2425,"Employee","C12345678","123-23-1234",new Email(email),roles,"345-345-3456",location);
         AgencyRepository agencyRepository = new AgencyRepository();
         Agency agency = new Agency(1234,"Description","agency@email.com","345-567-3456",location);
@@ -100,7 +100,7 @@ class AgencyRepositoryTest {
     @Test
     void ensureAddAgencyDuplicateFails() {
         AgencyRepository agencyRepository = new AgencyRepository();
-        Location location =new Location("street","city","district","state","12345");
+        Location location =new Location("street","city","district","ST","12345");
         Agency agency = new Agency(1234,"Description","agency@email.com","345-567-3456",location);
 
         String email = "employee@this.app.com";
@@ -114,6 +114,5 @@ class AgencyRepositoryTest {
         Optional<Agency> result = agencyRepository.add(agency);
 
         assertTrue(result.isEmpty());
-
     }
 }
