@@ -24,7 +24,6 @@ public class Bootstrap implements Runnable {
     }
 
     private void addRegressionModels() {
-
         RegressionModelTypeRepository regressionModelTypeRepository = Repositories.getInstance().getRegressionModelTypeRepository();
         RegressionModelType r = new RegressionModelType("Simple Linear");
         RegressionModelType r2 = new RegressionModelType("Multilinear");
@@ -232,12 +231,12 @@ public class Bootstrap implements Runnable {
         Property property3 = new House(new PropertyType("house"), av, 32.4,
                 "street 3", "city 3", "district 3", "OH", "12340", true, false, 2,
                 SunExposureTypes.NORTH, 2, null, 12.5, uriList);
-        Request request3 = new Request(ownerEmail2, property3, new Lease(3, "lease", 1234.0), LocalDate.now(), employee);
+        Request request3 = new Request(ownerEmail2, property3, new Lease(3, "sale", 1234.0), LocalDate.now(), employee);
 
 
         Property property4 = new Residence(new PropertyType("apartment"), 125.4, av, "street 4",
                 "city 4", "district 4", "PA", "12348", 2, 25, 3, 15.2, uriList);
-        Request request4 = new Request(ownerEmail2, property4, new Lease(15, "lease", 2345.0), LocalDate.now(), employee);
+        Request request4 = new Request(ownerEmail2, property4, new Lease(15, "sale", 2345.0), LocalDate.now(), employee);
 
         Property property5 = new Residence(new PropertyType("apartment"), 125.4, av, "street 4",
                 "city 4", "district 4", "SD", "12348", 2, 25, 3, 15.2, uriList);
@@ -249,6 +248,25 @@ public class Bootstrap implements Runnable {
         Announcement a4 = new Announcement(employee, commissionType, 234.0, request3);
         Announcement a5 = new Announcement(employee, commissionType, 234.0, request4);
         Announcement a6 = new Announcement(employee, commissionType, 234.0, request5);
+        Announcement a7 = new Announcement(employee, 35, request, "23-12-2022", 3245678d);
+        Announcement a8 = new Announcement(employee, 3495, request1, "23-12-2022", 336678d);
+        Announcement a9 = new Announcement(employee, 345, request2, "23-12-2022", 32458d);
+        Announcement a10 = new Announcement(employee, 3435, request3, "23-12-2022", 123245678d);
+        Announcement a11 = new Announcement(employee, 3, request4, "23-12-2022", 754245678d);
+        Announcement a12 = new Announcement(employee, 25, request5, "23-12-2022", 45678d);
+
+
+        Order o1 = new Order(2345467.0, new Email("owner@this.app"));
+        Order o2 = new Order(23467.0, new Email("owner@this.app"));
+        Order o3 = new Order(25467.0, new Email("owner@this.app"));
+        Order o4 = new Order(23330067.0, new Email("owner@this.app"));
+
+
+        a1.addOrder(o1);
+        a1.addOrder(o2);
+        a2.addOrder(o3);
+        a3.addOrder(o4);
+
 
         agency.addAnnouncement(a1);
         agency.addAnnouncement(a2);
@@ -256,6 +274,13 @@ public class Bootstrap implements Runnable {
         agency.addAnnouncement(a4);
         agency.addAnnouncement(a5);
         agency.addAnnouncement(a6);
+        agency.addAnnouncement(a7);
+        agency.addAnnouncement(a8);
+        agency.addAnnouncement(a9);
+        agency.addAnnouncement(a10);
+        agency.addAnnouncement(a11);
+        agency.addAnnouncement(a12);
+
     }
 
 }
