@@ -4,14 +4,18 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import pt.ipp.isep.dei.esoft.project.ui.Bootstrap;
 
 import java.io.IOException;
 
-public class HelloApplication extends Application {
+public class AnalyzeDealsApp extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
+        Bootstrap bootstrap = new Bootstrap();
+        bootstrap.run();
+        FXMLLoader fxmlLoader = new FXMLLoader(MainGUI.class.getResource("AnalyzeDealsUI.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+        stage.setResizable(false);
         stage.setTitle("Hello!");
         stage.setScene(scene);
         stage.show();

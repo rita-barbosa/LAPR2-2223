@@ -38,8 +38,7 @@ public class AnalyzeDealsController {
     }
 
     public List<RegressionModelTypeDto> getRegressionModelTypeList() {
-        RegressionModelTypeRepository regressionModelTypeRepository = getRegressionModelTypeRepository();
-        List<RegressionModelType> regressionModelTypeList = regressionModelTypeRepository.getRegressionModelTypes();
+        List<RegressionModelType> regressionModelTypeList = getRegressionModelTypeRepository().getRegressionModelTypes();
         return RegressionModelTypeMapper.toDto(regressionModelTypeList);
     }
 
