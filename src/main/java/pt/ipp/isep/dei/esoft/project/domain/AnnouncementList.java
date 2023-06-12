@@ -75,7 +75,6 @@ public class AnnouncementList implements Serializable {
         return listAnnouncements;
     }
 
-    //Still needs to be made things
     public List<Visit> getVisitRequestsByAgentEmail(String agentEmail, LocalDate beginDate, LocalDate endDate){
         List <Visit> visitsList = new ArrayList<>();
 

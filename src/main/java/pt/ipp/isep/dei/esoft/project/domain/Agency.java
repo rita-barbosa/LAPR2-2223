@@ -396,10 +396,7 @@ public class Agency implements Serializable {
      * @return the list
      */
     public List<Visit> getVisitRequestsByAgentEmail(String agentEmail, LocalDate beginDate, LocalDate endDate){
-        List<Visit> newList = new ArrayList<>();
-        return newList;
-//        return announcements.
-
+        return announcements.getVisitRequestsByAgentEmail(agentEmail, beginDate, endDate);
     }
 
 
