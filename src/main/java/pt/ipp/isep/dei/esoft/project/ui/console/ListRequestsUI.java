@@ -86,7 +86,7 @@ public class ListRequestsUI implements Runnable {
                         if (originalRequest.isPresent() && requestDto.isPresent()) {
                             controller.defineJustificationMessage(message, originalRequest.get());
                             controller.sendEmail(originalRequest.get());
-                            originalRequest.get().setvalidationStatus(true);
+                            originalRequest.get().setValidationStatus(true);
                             listRequests.get().remove(requestDto.get());
                         }
                     }
@@ -318,7 +318,7 @@ public class ListRequestsUI implements Runnable {
 
         if (success) {
             System.out.println("\nAnnouncement published successfully.");
-            request.get().setvalidationStatus(true);
+            request.get().setValidationStatus(true);
         } else {
             System.out.println("\nERROR: Announcement was not published and sms notification wasn't send.");
         }
