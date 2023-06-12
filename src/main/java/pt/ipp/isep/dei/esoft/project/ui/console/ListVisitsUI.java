@@ -1,13 +1,23 @@
 package pt.ipp.isep.dei.esoft.project.ui.console;
 
+import javafx.application.Application;
+import javafx.stage.Stage;
 import pt.ipp.isep.dei.esoft.project.application.controller.ListVisitsController;
 import pt.ipp.isep.dei.esoft.project.domain.dto.VisitDto;
+
+import java.io.IOException;
 
 import java.time.LocalDate;
 import java.util.*;
 
-public class ListVisitsUI implements Runnable {
 
+/**
+ * The type List visits ui.
+ */
+public class ListVisitsUI implements Runnable {
+    /**
+     * The Controller.
+     */
     private final ListVisitsController controller = new ListVisitsController();
     /**
      * The constant MAX_MONTH_IN_YEAR.
@@ -39,8 +49,14 @@ public class ListVisitsUI implements Runnable {
      */
     private static final Integer LEAP_YEARL_DAYS_IN_FEBRUARY = 29;
 
+    /**
+     * The Begin date.
+     */
     private LocalDate beginDate;
 
+    /**
+     * The End date.
+     */
     private LocalDate endDate;
     /**
      * The Visit day.
@@ -55,6 +71,11 @@ public class ListVisitsUI implements Runnable {
      */
     private Integer visitYear;
 
+    /**
+     * Get controller list visits controller.
+     *
+     * @return the list visits controller
+     */
     private ListVisitsController getController(){
         return controller;
     }
@@ -62,18 +83,42 @@ public class ListVisitsUI implements Runnable {
     public void run(){
         beginDate = requestBeginDate();
         endDate = requestEndDate();
-        Optional<List<VisitDto>> listVisitsDto = controller.getVisitRequestsList(beginDate, endDate);
+        if (beginDate != null && endDate != null){
+            if (endDate.isBefore(beginDate)){
+                System.out.println("\nInvalid date range.\n");
+                return;
+            }
+        }
+        Optional<List<VisitDto>> listVisitsDto;
+        try {
+            listVisitsDto = controller.getVisitRequestsList(beginDate, endDate);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         if (listVisitsDto.isPresent()){
             System.out.println("Booking requests:\n");
             displayList(listVisitsDto.get());
         }
     }
 
+    /**
+     * Display list.
+     *
+     * @param visitDtoList the visit dto list
+     */
     private void displayList(List<VisitDto> visitDtoList){
-        //CHECK THIS LATER
-
+        int i = 0;
+        for (VisitDto visit : visitDtoList){
+            System.out.printf("#%d\n", i++);
+            System.out.printf("%s\n", visit.toString());
+        }
     }
 
+    /**
+     * Request begin date local date.
+     *
+     * @return the local date
+     */
     private LocalDate requestBeginDate(){
         System.out.println("Select a begin date:");
         visitYear = visitYear();
@@ -82,8 +127,13 @@ public class ListVisitsUI implements Runnable {
         return LocalDate.of(visitYear, visitMonth, visitDay);
     }
 
+    /**
+     * Request end date local date.
+     *
+     * @return the local date
+     */
     private LocalDate requestEndDate(){
-        System.out.println("Select a end date: (YYYY-MM-DD)");
+        System.out.println("Select a end date:");
         visitYear = visitYear();
         visitMonth = visitMonth();
         visitDay = visitDay();
@@ -96,7 +146,7 @@ public class ListVisitsUI implements Runnable {
      * @return the integer
      */
     private Integer visitYear() {
-        System.out.println(" * In what year do you want to schedule your visit?");
+        System.out.println(" * Select the year?");
         int year = getIntAnswer();
         LocalDate date = LocalDate.now();
         while (year < date.getYear()) {
@@ -112,7 +162,7 @@ public class ListVisitsUI implements Runnable {
      * @return the integer
      */
     private Integer visitMonth() {
-        System.out.println(" * In what month do you want to schedule your visit?");
+        System.out.println(" * Select the month?");
         System.out.printf("1.January%n2.February%n3.March%n4.April%n" +
                 "5.May%n6.June%n7.July%n8.August%n" +
                 "9.September%n10.October%n11.November%n12.December%n");
@@ -130,7 +180,7 @@ public class ListVisitsUI implements Runnable {
      * @return the integer
      */
     private Integer visitDay() {
-        System.out.println(" * In what day do you want to schedule your visit?");
+        System.out.println(" * Select the day?");
         int day = getIntAnswer();
         List<Integer> oddMonths = Arrays.asList(1, 3, 5, 7, 8, 10, 12);
         List<Integer> evenMonths = Arrays.asList(4, 6, 9, 11);
