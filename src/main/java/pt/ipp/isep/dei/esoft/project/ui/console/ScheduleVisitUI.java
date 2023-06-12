@@ -1,8 +1,10 @@
 package pt.ipp.isep.dei.esoft.project.ui.console;
 
+import javafx.util.Pair;
 import pt.ipp.isep.dei.esoft.project.application.controller.ScheduleVisitController;
 import pt.ipp.isep.dei.esoft.project.domain.*;
 import pt.ipp.isep.dei.esoft.project.domain.dto.AnnouncementDto;
+import pt.ipp.isep.dei.esoft.project.ui.console.utils.Utils;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -70,10 +72,7 @@ public class ScheduleVisitUI implements Runnable {
      */
     private Integer endHour;
 
-    /**
-     * The Announcement index.
-     */
-    private Integer announcementIndex;
+    private String propertyTypeDesignation;
 
     /**
      * The Controller.
@@ -110,13 +109,13 @@ public class ScheduleVisitUI implements Runnable {
                     boolean answer;
                     do {
                         displayList(listToDisplayDto.get());
-                        answer = askQuestion("select any criteria");
+                        answer = Utils.askDirectQuestion("Select any criteria:");
                         copycat = Optional.of(new ArrayList<>(listToDisplay.get()));
                         while (answer && listToDisplayDto.get().size() > 0) {
+                            propertyTypeDesignation = "house";
                             copycat = filterList(copycat.get());
                             if (copycat.isPresent()) {
                                 listToDisplayDto = controller.toDto(copycat.get());
-
                                 if (listToDisplayDto.isPresent() && listToDisplayDto.get().size() > 0) {
                                     displayList(listToDisplayDto.get());
                                 }
@@ -124,7 +123,6 @@ public class ScheduleVisitUI implements Runnable {
                             if (listToDisplayDto.get().size() == 0) {
                                 System.out.println("...\nNo announcements with chosen sequence of criteria!\nReturning to initial list.");
                                 System.out.println("========================================================");
-                                // Reset listToDisplay and listToDisplayDto to the original list and its DTO
                                 copycat = Optional.of(new ArrayList<>(listToDisplay.get()));
                                 listToDisplayDto = controller.getAnnouncementListDto(copycat.get());
                                 try {
@@ -132,40 +130,22 @@ public class ScheduleVisitUI implements Runnable {
                                 } catch (InterruptedException e) {
                                     e.printStackTrace();
                                 }
-                                displayList(listToDisplayDto.get());  // Display the original list again
+                                displayList(listToDisplayDto.get());
                             } else {
-                                answer = askQuestion("select any criteria");
+                                answer = Utils.askDirectQuestion("Select any criteria:");
                             }
                         }
                     } while (answer);
                 }
             } while (listToDisplayDto.get().size() == 0);
             listToDisplayDto.get();
-            announcementIndex = requestAnnouncementIndex(listToDisplayDto.get());
+            Integer announcementIndex = Utils.requestAnnouncementIndex(listToDisplayDto.get());
             announcementDto = Optional.of(listToDisplayDto.get().get(announcementIndex - 1));
             announcement = controller.toModel(announcementDto.get());
             requestData();
             displaysData();
             announcement.ifPresent(this::submitData);
-        } while (askQuestion("submit another visit request"));
-    }
-
-
-    /**
-     * Request announcement index integer.
-     *
-     * @param list the list
-     * @return the integer
-     */
-    private Integer requestAnnouncementIndex(List<AnnouncementDto> list) {
-        System.out.println("Please select an announcement by its index number.");
-        int idx;
-        idx = getIntAnswer();
-        while (idx > list.size() || idx < 1) {
-            System.out.println("The announcement index must be within the displayed list.");
-            idx = getIntAnswer();
-        }
-        return idx;
+        } while (Utils.askDirectQuestion("Submit another visit request?"));
     }
 
     /**
@@ -183,13 +163,18 @@ public class ScheduleVisitUI implements Runnable {
                 break;
             case 2:
                 criteria = displayAndSelectPropertyType().toLowerCase();
-                System.out.println("========================================================\nAnnouncements by type of property:\n");
+                propertyTypeDesignation = criteria.toString();
+                System.out.println("========================================================\nAnnouncements by type of property:");
                 list = controller.getAnnouncementsByPropertyType(criteria.toString(), list);
                 break;
             case 3:
                 criteria = displayAndSelectNumberBedrooms();
-                System.out.println("========================================================\nAnnouncements by Number of Bedrooms:");
-                list = controller.getAnnouncementsByNumberBedrooms((Integer) criteria, list);
+                if (!propertyTypeDesignation.equalsIgnoreCase("Land")) {
+                    System.out.println("========================================================\nAnnouncements by Number of Bedrooms:");
+                    list = controller.getAnnouncementsByNumberBedrooms((Integer) criteria, list);
+                }else {
+                    list = new ArrayList<>();
+                }
                 break;
             case 4:
                 criteria = displayAndSelectPrice();
@@ -224,11 +209,18 @@ public class ScheduleVisitUI implements Runnable {
      * @param announcement the announcement
      */
     private void submitData(Announcement announcement) {
-        Boolean confirmation = getController().scheduleVisit(announcement, startHour, endHour, visitDay, visitMonth, visitYear);
-        if (confirmation) {
-            System.out.println("\nVisit request successfully sent to agent!\n");
+        Pair<Boolean, Integer> confirmation = getController().scheduleVisit(announcement, startHour, endHour, visitDay, visitMonth, visitYear);
+        if (confirmation.getKey()) {
+            System.out.println("\nVisit request successfully sent to agent!");
         } else {
-            System.out.println("\nERROR! Visit request not sent to agent!\n");
+            System.out.println("\nERROR! Visit request not sent to agent!");
+            if (confirmation.getValue() == 1) {
+                System.out.println("CONFLICT! This visit is already scheduled.");
+            } else if (confirmation.getValue() == 2) {
+                System.out.println("CONFLICT! The start hour of the visit request you want to submit conflicts with a visit taking place at that time in the same property.");
+            } else {
+                System.out.println("CONFLICT! The end hour of the visit request you want to submit conflicts with a visit taking place at that time in the same property.");
+            }
         }
     }
 
@@ -250,13 +242,11 @@ public class ScheduleVisitUI implements Runnable {
      * @return the integer
      */
     private Integer requestEndHour(Integer startHour) {
-        System.out.println("When do you want to end your visit? (24-hour format)");
-        int time = getIntAnswer();
+        int time = Utils.readIntegerFromConsole("When do you want to end your visit? (24-hour format)");
         while (time > MAX_HOUR_IN_DAY || time < MIN_HOUR_IN_DAY || time < startHour) {
             System.out.println("Ending hour invalid!");
-            System.out.println("Note that the time for the end of the visit cannot be earlier than the beginning of it.");
-            System.out.printf("Please choose an hour between 0 and 23, and later than %d.%n", startHour);
-            time = getIntAnswer();
+            System.out.print("Note that the time for the end of the visit cannot be earlier than the beginning of it.");
+            time = Utils.readIntegerFromConsole("Please choose an hour between " + (startHour + 1) + " and 23.");
         }
         return time;
     }
@@ -267,11 +257,9 @@ public class ScheduleVisitUI implements Runnable {
      * @return the integer
      */
     private Integer requestStartHour() {
-        System.out.println("When do you want to start your visit? (24-hours format)");
-        int time = getIntAnswer();
+        int time = Utils.readIntegerFromConsole("When do you want to start your visit? (24-hours format)");
         while (time > MAX_HOUR_IN_DAY || time < MIN_HOUR_IN_DAY) {
-            System.out.println("Starting hour invalid! Please choose an hour between 0 and 23.");
-            time = getIntAnswer();
+            time = Utils.readIntegerFromConsole("Starting hour invalid! Please choose an hour between 0 and 23.");
         }
         return time;
     }
@@ -282,12 +270,10 @@ public class ScheduleVisitUI implements Runnable {
      * @return the integer
      */
     private Integer requestVisitYear() {
-        System.out.println("In what year do you want to schedule your visit?");
-        int year = getIntAnswer();
+        int year = Utils.readIntegerFromConsole("In what year do you want to schedule your visit?");
         LocalDate date = LocalDate.now();
         while (year < date.getYear()) {
-            System.out.printf("Year invalid! Please choose a year from %d onwards.%n", date.getYear());
-            year = getIntAnswer();
+            year = Utils.readIntegerFromConsole("Year invalid! Please choose a year from " + date.getYear() + " onwards.");
         }
         return year;
     }
@@ -299,13 +285,12 @@ public class ScheduleVisitUI implements Runnable {
      */
     private Integer requestVisitMonth() {
         System.out.println("In what month do you want to schedule your visit?");
-        System.out.printf("1.January%n2.February%n3.March%n4.April%n" +
-                "5.May%n6.June%n7.July%n8.August%n" +
-                "9.September%n10.October%n11.November%n12.December%n");
-        int month = getIntAnswer();
+        String monthsOption = "1.January\n2.February\n3.March\n4.April\n" +
+                "5.May\n6.June\n7.July\n8.August\n" +
+                "9.September\n10.October\n11.November\n12.December";
+        int month = Utils.readIntegerFromConsole(monthsOption);
         while (month > MAX_MONTH_IN_YEAR || month < MIN_MONTH_IN_YEAR) {
-            System.out.println("Month invalid! Please choose an month between 1 and 12.");
-            month = getIntAnswer();
+            month = Utils.readIntegerFromConsole("Month invalid! Please choose an month between 1 and 12.");
         }
         return month;
     }
@@ -316,31 +301,26 @@ public class ScheduleVisitUI implements Runnable {
      * @return the integer
      */
     private Integer requestVisitDay() {
-        System.out.println("In what day do you want to schedule your visit?");
-        int day = getIntAnswer();
+        int day = Utils.readIntegerFromConsole("In what day do you want to schedule your visit?");
         List<Integer> oddMonths = Arrays.asList(1, 3, 5, 7, 8, 10, 12);
         List<Integer> evenMonths = Arrays.asList(4, 6, 9, 11);
 
         if (oddMonths.contains(visitMonth)) {
             while (day > MAX_DAYS_IN_MONTH || day < MIN_DAYS_IN_MONTH) {
-                System.out.println("Day invalid! Please choose a day between 1 and 31.");
-                day = getIntAnswer();
+                day = Utils.readIntegerFromConsole("Day invalid! Please choose a day between 1 and 31.");
             }
         } else if (evenMonths.contains(visitMonth)) {
             while (day > AVERAGE_DAYS_IN_MONTH || day < MIN_DAYS_IN_MONTH) {
-                System.out.println("Day invalid! Please choose a day between 1 and 30.");
-                day = getIntAnswer();
+                day = Utils.readIntegerFromConsole("Day invalid! Please choose a day between 1 and 30.");
             }
         } else {
             if (isItLeapYear(visitYear)) {
                 while (day > LEAP_YEARL_DAYS_IN_FEBRUARY || day < MIN_DAYS_IN_MONTH) {
-                    System.out.println("Day invalid! Please choose a day between 1 and 29.");
-                    day = getIntAnswer();
+                    day = Utils.readIntegerFromConsole("Day invalid! Please choose a day between 1 and 29.");
                 }
             } else {
                 while (day > DAYS_IN_FEBRUARY || day < MIN_DAYS_IN_MONTH) {
-                    System.out.println("Day invalid! Please choose a day between 1 and 28.");
-                    day = getIntAnswer();
+                    day = Utils.readIntegerFromConsole("Day invalid! Please choose a day between 1 and 28.");
                 }
             }
         }
@@ -370,7 +350,6 @@ public class ScheduleVisitUI implements Runnable {
             System.out.printf("%s", a.getRequestAttributes());
             System.out.println("========================================================");
         }
-        System.out.println();
     }
 
     /**
@@ -403,55 +382,6 @@ public class ScheduleVisitUI implements Runnable {
             }
         } while (invalid);
         return option;
-    }
-
-    /**
-     * Gets int answer.
-     *
-     * @return the int answer
-     */
-    private Integer getIntAnswer() {
-        Scanner input = new Scanner(System.in);
-        boolean invalid = true;
-        Integer value = null;
-        do {
-            try {
-                value = input.nextInt();
-                invalid = false;
-            } catch (InputMismatchException e) {
-                System.out.println("\nERROR: Value typed is invalid"
-                        + " (" + e.getClass().getSimpleName() + ")");
-                input.nextLine();
-            }
-        } while (invalid);
-        return value;
-    }
-
-    /**
-     * Ask question boolean.
-     *
-     * @param sentence the sentence
-     * @return the boolean
-     */
-    private Boolean askQuestion(String sentence) {
-        System.out.printf("Would you like to %s?%n1. Yes%n2. No%n", sentence);
-        boolean invalid = true;
-        int answer = -1;
-        Scanner input = new Scanner(System.in);
-        do {
-            try {
-                answer = input.nextInt();
-                if (answer != 1 && answer != 2) {
-                    System.out.println("\nERROR: Option selected is invalid. (1 or 2)");
-                } else {
-                    invalid = false;
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("\nERROR: Option selected is not a number. (1 or 2)");
-                input.nextLine();
-            }
-        } while (invalid);
-        return answer == 1;
     }
 
     /**
@@ -543,27 +473,11 @@ public class ScheduleVisitUI implements Runnable {
      * @return the number of bedrooms chosen
      */
     private Integer displayAndSelectNumberBedrooms() {
-        Scanner sc = new Scanner(System.in);
-        int option = -1;
-        boolean invalid = true;
-        do {
-            try {
-                while (option < 0) {
-                    System.out.println("Enter number of bedrooms:");
-                    option = sc.nextInt();
-                    if (option <= 0) {
-                        System.out.println("ERROR: Number of bedrooms is invalid.");
-                    }
-                }
-                invalid = false;
-            } catch (InputMismatchException e) {
-                System.out.println("\nERROR: Option selected is invalid"
-                        + " (" + e.getClass().getSimpleName() + ")");
-                sc.nextLine();
-            }
-        } while (invalid);
-        return option;
-
+        if (propertyTypeDesignation.equalsIgnoreCase("Land")) {
+            System.out.println("This filter is unavailable for Land announcements!");
+            return null;
+        }
+        return Utils.readIntegerFromConsole("Property's number of bedrooms:");
     }
 
     /**
@@ -572,8 +486,7 @@ public class ScheduleVisitUI implements Runnable {
      * @return the type of sorting select to price
      */
     private String displayAndSelectPrice() {
-        System.out.println("Price:");
-        return sortSelection();
+        return Utils.sortSelection("Price:");
     }
 
     /**
@@ -582,8 +495,7 @@ public class ScheduleVisitUI implements Runnable {
      * @return the type of sorting select to city
      */
     private String displayAndSelectCity() {
-        System.out.println("City:");
-        return sortSelection();
+        return Utils.sortSelection("City:");
     }
 
     /**
@@ -592,39 +504,8 @@ public class ScheduleVisitUI implements Runnable {
      * @return the type of sorting select to state
      */
     private String displayAndSelectState() {
-        System.out.println("State:");
-        return sortSelection();
+        return Utils.sortSelection("State:");
     }
 
-    /**
-     * This method display and aks to select a type of sorting.
-     *
-     * @return the type of sorting chosen
-     */
-    private String sortSelection() {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Sort types available:");
-        System.out.println("1. Ascending");
-        System.out.println("2. Descending");
-        int option = 0;
-        boolean invalid = true;
-        do {
-            try {
-                while (option < 1 || option > 2) {
-                    option = sc.nextInt();
-                    if (option == 1) {
-                        return "Ascending";
-                    } else if (option == 2) {
-                        return "Descending";
-                    }
-                }
-                invalid = false;
-            } catch (InputMismatchException e) {
-                System.out.println("\nERROR: Option selected is invalid"
-                        + " (" + e.getClass().getSimpleName() + ")");
-                sc.nextLine();
-            }
-        } while (invalid);
-        return null;
-    }
+
 }

@@ -45,12 +45,12 @@ class ScheduleVisitControllerIT {
         uriList.add("https://www.example.com/images/photo.jpg");
 
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
-                uriList, "street", "city", "district", "state", "12345");
+                uriList, "street", "city", "district", "AK", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         Announcement announcement = new Announcement(employee, commissionType, 234.0, request);
 
-        assertTrue(controller.scheduleVisit(announcement, 12, 13, 25, 5, 2023));
+        assertTrue(controller.scheduleVisit(announcement, 12, 13, 25, 5, 2023).getKey());
     }
 
     @Test
@@ -116,7 +116,7 @@ class ScheduleVisitControllerIT {
         uriList.add("https://www.example.com/images/photo.jpg");
         uriList.add("https://www.example.com/images/photo123.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
-                uriList, "street", "city", "district", "state", "12345");
+                uriList, "street", "city", "district", "AK", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2500.0), LocalDate.now(), employee);
         Email client1 = new Email("client1@this.app");
         Order o1 = new Order(23000.0, client1);
@@ -174,7 +174,7 @@ class ScheduleVisitControllerIT {
         uriList.add("https://www.example.com/images/photo.jpg");
         uriList.add("https://www.example.com/images/photo123.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
-                uriList, "street", "city", "district", "state", "12345");
+                uriList, "street", "city", "district", "AK", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2500.0), LocalDate.now(), employee);
         Email client1 = new Email("client1@this.app");
         Order o1 = new Order(23000.0, client1);
@@ -291,7 +291,7 @@ class ScheduleVisitControllerIT {
         CriteriaRepository criteriaRepository = new CriteriaRepository();
         PersonRepository personRepository = new PersonRepository();
 
-        Location location = new Location("street", "city", "district", "state", "12345");
+        Location location = new Location("street", "city", "district", "AK", "12345");
         Agency agency = new Agency(1234, "Description", "agency@email.com", "345 567 3456", location);
         String ownerEmail = "owner@email.com";
         String ownerEmail1 = "owner1@email.com";
@@ -303,22 +303,22 @@ class ScheduleVisitControllerIT {
         uriList.add("https://www.example.com/images/photo.jpg");
 
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
-                uriList, "street", "city", "district", "state", "12345");
+                uriList, "street", "city", "district", "AK", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         Property property1 = new Property(new PropertyType("land"), (65.5), (89.3),
-                uriList, "street 1", "city 1", "district 1", "st1", "12345");
-        Request request1 = new Request(ownerEmail1, property1, new Business("sale", 2345.0), LocalDate.now(), employee);
+                uriList, "street 1", "city 1", "district 1", "AK", "12345");
+        Request requeAK = new Request(ownerEmail1, property1, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         agencyRepository.add(agency);
 
         agency.publishAnnouncement(employee, commissionType, 234.0, request);
-        agency.publishAnnouncement(employee, commissionType, 234.0, request1);
+        agency.publishAnnouncement(employee, commissionType, 234.0, requeAK);
 
         ScheduleVisitController controller =
                 new ScheduleVisitController(agencyRepository, personRepository, criteriaRepository, authenticationRepository, propertyTypeRepository, businessTypeRepository);
 
-        List<Announcement> expected = controller.getAnnouncementsByBusinessType("Sale", agencyRepository.getAgenciesList().get(0).getAnnouncementsList());
+        List<Announcement> expected = controller.getAnnouncementsByBusinessType("Sale", agencyRepository.getAllAnnouncementsList().get());
 
         List<Announcement> actual = new ArrayList<>();
 
@@ -345,7 +345,7 @@ class ScheduleVisitControllerIT {
         CriteriaRepository criteriaRepository = new CriteriaRepository();
         PersonRepository personRepository = new PersonRepository();
 
-        Location location = new Location("street", "city", "district", "state", "12345");
+        Location location = new Location("street", "city", "district", "AK", "12345");
         Agency agency = new Agency(1234, "Description", "agency@email.com", "345 567 3456", location);
         String ownerEmail = "owner@email.com";
         String ownerEmail1 = "owner1@email.com";
@@ -357,22 +357,22 @@ class ScheduleVisitControllerIT {
         uriList.add("https://www.example.com/images/photo.jpg");
 
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
-                uriList, "street", "city", "district", "state", "12345");
+                uriList, "street", "city", "district", "AK", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         Property property1 = new Property(new PropertyType("land"), (65.5), (89.3),
-                uriList, "street 1", "city 1", "district 1", "st1", "12345");
-        Request request1 = new Request(ownerEmail1, property1, new Business("sale", 2345.0), LocalDate.now(), employee);
+                uriList, "street 1", "city 1", "district 1", "AK", "12345");
+        Request requeAK = new Request(ownerEmail1, property1, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         agencyRepository.add(agency);
 
         agency.publishAnnouncement(employee, commissionType, 234.0, request);
-        agency.publishAnnouncement(employee, commissionType, 234.0, request1);
+        agency.publishAnnouncement(employee, commissionType, 234.0, requeAK);
 
         ScheduleVisitController controller =
                 new ScheduleVisitController(agencyRepository, personRepository, criteriaRepository, authenticationRepository, propertyTypeRepository, businessTypeRepository);
 
-        List<Announcement> expected = controller.getAnnouncementsByPropertyType("Land", agencyRepository.getAgenciesList().get(0).getAnnouncementsList());
+        List<Announcement> expected = controller.getAnnouncementsByPropertyType("Land", agencyRepository.getAllAnnouncementsList().get());
 
         List<Announcement> actual = new ArrayList<>();
 
@@ -399,7 +399,7 @@ class ScheduleVisitControllerIT {
         CriteriaRepository criteriaRepository = new CriteriaRepository();
         PersonRepository personRepository = new PersonRepository();
 
-        Location location = new Location("street", "city", "district", "state", "12345");
+        Location location = new Location("street", "city", "district", "AK", "12345");
         Agency agency = new Agency(1234, "Description", "agency@email.com", "345 567 3456", location);
         String ownerEmail = "owner@email.com";
         String ownerEmail1 = "owner1@email.com";
@@ -411,22 +411,22 @@ class ScheduleVisitControllerIT {
         uriList.add("https://www.example.com/images/photo.jpg");
 
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
-                uriList, "street", "city", "district", "state", "12345");
+                uriList, "street", "city", "district", "AK", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         Property property1 = new Property(new PropertyType("land"), (65.5), (89.3),
-                uriList, "street 1", "city 1", "district 1", "st1", "12345");
-        Request request1 = new Request(ownerEmail1, property1, new Business("sale", 2345.0), LocalDate.now(), employee);
+                uriList, "street 1", "city 1", "district 1", "AK", "12345");
+        Request requeAK = new Request(ownerEmail1, property1, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         agencyRepository.add(agency);
 
         agency.publishAnnouncement(employee, commissionType, 234.0, request);
-        agency.publishAnnouncement(employee, commissionType, 234.0, request1);
+        agency.publishAnnouncement(employee, commissionType, 234.0, requeAK);
 
         ScheduleVisitController controller =
                 new ScheduleVisitController(agencyRepository, personRepository, criteriaRepository, authenticationRepository, propertyTypeRepository, businessTypeRepository);
 
-        List<Announcement> expected = controller.getAnnouncementsByNumberBedrooms(2, agencyRepository.getAgenciesList().get(0).getAnnouncementsList());
+        List<Announcement> expected = controller.getAnnouncementsByNumberBedrooms(2, agencyRepository.getAllAnnouncementsList().get());
 
         List<Announcement> actual = new ArrayList<>();
 
@@ -456,7 +456,7 @@ class ScheduleVisitControllerIT {
         CriteriaRepository criteriaRepository = new CriteriaRepository();
         PersonRepository personRepository = new PersonRepository();
 
-        Location location = new Location("street", "city", "district", "state", "12345");
+        Location location = new Location("street", "city", "district", "AK", "12345");
         Agency agency = new Agency(1234, "Description", "agency@email.com", "345 567 3456", location);
         String ownerEmail = "owner@email.com";
         String ownerEmail1 = "owner1@email.com";
@@ -468,30 +468,32 @@ class ScheduleVisitControllerIT {
         uriList.add("https://www.example.com/images/photo.jpg");
 
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
-                uriList, "street", "city", "district", "state", "12345");
+                uriList, "street", "city", "district", "AK", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         Property property1 = new Property(new PropertyType("land"), (65.5), (89.3),
-                uriList, "street 1", "city 1", "district 1", "st1", "12345");
-        Request request1 = new Request(ownerEmail1, property1, new Business("sale", 2345.0), LocalDate.now(), employee);
+                uriList, "street 1", "city 1", "district 1", "AK", "12345");
+        Request requeAK = new Request(ownerEmail1, property1, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         agencyRepository.add(agency);
 
         agency.publishAnnouncement(employee, commissionType, 234.0, request);
-        agency.publishAnnouncement(employee, commissionType, 234.0, request1);
+        agency.publishAnnouncement(employee, commissionType, 234.0, requeAK);
 
         ScheduleVisitController controller =
                 new ScheduleVisitController(agencyRepository, personRepository, criteriaRepository, authenticationRepository, propertyTypeRepository, businessTypeRepository);
 
-        List<Announcement> expected = controller.getAnnouncementsByPrice("Ascending", agencyRepository.getAgenciesList().get(0).getAnnouncementsList());
+        List<Announcement> expected = controller.getAnnouncementsByPrice("Ascending", agencyRepository.getAllAnnouncementsList().get());
 
-        List<Announcement> actual = new ArrayList<>();
+        AnnouncementList announcementList = new AnnouncementList();
 
         List<Agency> agencies = agencyRepository.getAgenciesList();
 
         for (Agency agency1 : agencies) {
-            actual.addAll(agency1.sortAnnouncementsByAscendingPrice(agency1.getAnnouncementsList()));
+            announcementList.getList().addAll(agency1.getAnnouncementsList());
         }
+
+        List<Announcement> actual = announcementList.sortAnnouncementsByAscendingPrice(announcementList.getList());
 
         assertEquals(expected, actual);
     }
@@ -504,7 +506,7 @@ class ScheduleVisitControllerIT {
         AuthenticationRepository authenticationRepository = new AuthenticationRepository();
         CriteriaRepository criteriaRepository = new CriteriaRepository();
         PersonRepository personRepository = new PersonRepository();
-        Location location = new Location("street", "city", "district", "state", "12345");
+        Location location = new Location("street", "city", "district", "AK", "12345");
         Agency agency = new Agency(1234, "Description", "agency@email.com", "345 567 3456", location);
         String ownerEmail = "owner@email.com";
         String ownerEmail1 = "owner1@email.com";
@@ -516,30 +518,32 @@ class ScheduleVisitControllerIT {
         uriList.add("https://www.example.com/images/photo.jpg");
 
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
-                uriList, "street", "city", "district", "state", "12345");
+                uriList, "street", "city", "district", "AK", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         Property property1 = new Property(new PropertyType("land"), (65.5), (89.3),
-                uriList, "street 1", "city 1", "district 1", "st1", "12345");
-        Request request1 = new Request(ownerEmail1, property1, new Business("sale", 2345.0), LocalDate.now(), employee);
+                uriList, "street 1", "city 1", "district 1", "AK", "12345");
+        Request requeAK = new Request(ownerEmail1, property1, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         agencyRepository.add(agency);
 
         agency.publishAnnouncement(employee, commissionType, 234.0, request);
-        agency.publishAnnouncement(employee, commissionType, 234.0, request1);
+        agency.publishAnnouncement(employee, commissionType, 234.0, requeAK);
 
         ScheduleVisitController controller =
                 new ScheduleVisitController(agencyRepository, personRepository, criteriaRepository, authenticationRepository, propertyTypeRepository, businessTypeRepository);
 
-        List<Announcement> expected = controller.getAnnouncementsByPrice("Descending", agencyRepository.getAgenciesList().get(0).getAnnouncementsList());
+        List<Announcement> expected = controller.getAnnouncementsByPrice("Descending", agencyRepository.getAllAnnouncementsList().get());
 
-        List<Announcement> actual = new ArrayList<>();
+        AnnouncementList announcementList = new AnnouncementList();
 
         List<Agency> agencies = agencyRepository.getAgenciesList();
 
         for (Agency agency1 : agencies) {
-            actual.addAll(agency1.sortAnnouncementsByDescendingPrice(agency1.getAnnouncementsList()));
+            announcementList.getList().addAll(agency1.getAnnouncementsList());
         }
+
+        List<Announcement> actual = announcementList.sortAnnouncementsByDescendingPrice(announcementList.getList());
 
         assertEquals(expected, actual);
     }
@@ -553,7 +557,7 @@ class ScheduleVisitControllerIT {
         CriteriaRepository criteriaRepository = new CriteriaRepository();
         PersonRepository personRepository = new PersonRepository();
 
-        Location location = new Location("street", "city", "district", "state", "12345");
+        Location location = new Location("street", "city", "district", "AK", "12345");
         Agency agency = new Agency(1234, "Description", "agency@email.com", "345 567 3456", location);
         String ownerEmail = "owner@email.com";
         String ownerEmail1 = "owner1@email.com";
@@ -565,30 +569,32 @@ class ScheduleVisitControllerIT {
         uriList.add("https://www.example.com/images/photo.jpg");
 
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
-                uriList, "street", "city", "district", "state", "12345");
+                uriList, "street", "city", "district", "FL", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         Property property1 = new Property(new PropertyType("land"), (65.5), (89.3),
-                uriList, "street 1", "city 1", "district 1", "st1", "12345");
-        Request request1 = new Request(ownerEmail1, property1, new Business("sale", 2345.0), LocalDate.now(), employee);
+                uriList, "street 1", "city 1", "district 1", "AK", "12345");
+        Request requeAK = new Request(ownerEmail1, property1, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         agencyRepository.add(agency);
 
         agency.publishAnnouncement(employee, commissionType, 234.0, request);
-        agency.publishAnnouncement(employee, commissionType, 234.0, request1);
+        agency.publishAnnouncement(employee, commissionType, 234.0, requeAK);
 
         ScheduleVisitController controller =
                 new ScheduleVisitController(agencyRepository, personRepository, criteriaRepository, authenticationRepository, propertyTypeRepository, businessTypeRepository);
 
-        List<Announcement> expected = controller.getAnnouncementsByCity("Ascending", agencyRepository.getAgenciesList().get(0).getAnnouncementsList());
+        List<Announcement> expected = controller.getAnnouncementsByCity("Ascending", agencyRepository.getAllAnnouncementsList().get());
 
-        List<Announcement> actual = new ArrayList<>();
+        AnnouncementList announcementList = new AnnouncementList();
 
         List<Agency> agencies = agencyRepository.getAgenciesList();
 
         for (Agency agency1 : agencies) {
-            actual.addAll(agency1.sortAnnouncementsByAscendingCity(agency1.getAnnouncementsList()));
+            announcementList.getList().addAll(agency1.getAnnouncementsList());
         }
+
+        List<Announcement> actual = announcementList.sortAnnouncementsByAscendingCity(announcementList.getList());
 
         assertEquals(expected, actual);
     }
@@ -602,7 +608,7 @@ class ScheduleVisitControllerIT {
         CriteriaRepository criteriaRepository = new CriteriaRepository();
         PersonRepository personRepository = new PersonRepository();
 
-        Location location = new Location("street", "city", "district", "state", "12345");
+        Location location = new Location("street", "city", "district", "AK", "12345");
         Agency agency = new Agency(1234, "Description", "agency@email.com", "345 567 3456", location);
         String ownerEmail = "owner@email.com";
         String ownerEmail1 = "owner1@email.com";
@@ -614,30 +620,32 @@ class ScheduleVisitControllerIT {
         uriList.add("https://www.example.com/images/photo.jpg");
 
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
-                uriList, "street", "city", "district", "state", "12345");
+                uriList, "street", "city", "district", "AK", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         Property property1 = new Property(new PropertyType("land"), (65.5), (89.3),
-                uriList, "street 1", "city 1", "district 1", "st1", "12345");
-        Request request1 = new Request(ownerEmail1, property1, new Business("sale", 2345.0), LocalDate.now(), employee);
+                uriList, "street 1", "city 1", "district 1", "AK", "12345");
+        Request requeAK = new Request(ownerEmail1, property1, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         agencyRepository.add(agency);
 
         agency.publishAnnouncement(employee, commissionType, 234.0, request);
-        agency.publishAnnouncement(employee, commissionType, 234.0, request1);
+        agency.publishAnnouncement(employee, commissionType, 234.0, requeAK);
 
         ScheduleVisitController controller =
                 new ScheduleVisitController(agencyRepository, personRepository, criteriaRepository, authenticationRepository, propertyTypeRepository, businessTypeRepository);
 
-        List<Announcement> expected = controller.getAnnouncementsByCity("Descending", agencyRepository.getAgenciesList().get(0).getAnnouncementsList());
+        List<Announcement> expected = controller.getAnnouncementsByCity("Descending", agencyRepository.getAllAnnouncementsList().get());
 
-        List<Announcement> actual = new ArrayList<>();
+        AnnouncementList announcementList = new AnnouncementList();
 
         List<Agency> agencies = agencyRepository.getAgenciesList();
 
         for (Agency agency1 : agencies) {
-            actual.addAll(agency1.sortAnnouncementsByDescendingCity(agency1.getAnnouncementsList()));
+            announcementList.getList().addAll(agency1.getAnnouncementsList());
         }
+
+        List<Announcement> actual = announcementList.sortAnnouncementsByDescendingCity(announcementList.getList());
 
         assertEquals(expected, actual);
     }
@@ -651,7 +659,7 @@ class ScheduleVisitControllerIT {
         CriteriaRepository criteriaRepository = new CriteriaRepository();
         PersonRepository personRepository = new PersonRepository();
 
-        Location location = new Location("street", "city", "district", "state", "12345");
+        Location location = new Location("street", "city", "district", "AK", "12345");
         Agency agency = new Agency(1234, "Description", "agency@email.com", "345 567 3456", location);
         String ownerEmail = "owner@email.com";
         String ownerEmail1 = "owner1@email.com";
@@ -663,30 +671,32 @@ class ScheduleVisitControllerIT {
         uriList.add("https://www.example.com/images/photo.jpg");
 
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
-                uriList, "street", "city", "district", "state", "12345");
+                uriList, "street", "city", "district", "ML", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         Property property1 = new Property(new PropertyType("land"), (65.5), (89.3),
-                uriList, "street 1", "city 1", "district 1", "st1", "12345");
-        Request request1 = new Request(ownerEmail1, property1, new Business("sale", 2345.0), LocalDate.now(), employee);
+                uriList, "street 1", "city 1", "district 1", "WM", "12345");
+        Request requeAK = new Request(ownerEmail1, property1, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         agencyRepository.add(agency);
 
         agency.publishAnnouncement(employee, commissionType, 234.0, request);
-        agency.publishAnnouncement(employee, commissionType, 234.0, request1);
+        agency.publishAnnouncement(employee, commissionType, 234.0, requeAK);
 
         ScheduleVisitController controller =
                 new ScheduleVisitController(agencyRepository, personRepository, criteriaRepository, authenticationRepository, propertyTypeRepository, businessTypeRepository);
 
-        List<Announcement> expected = controller.getAnnouncementsByState("Ascending", agencyRepository.getAgenciesList().get(0).getAnnouncementsList());
+        List<Announcement> expected = controller.getAnnouncementsByState("Ascending", agencyRepository.getAllAnnouncementsList().get());
 
-        List<Announcement> actual = new ArrayList<>();
+        AnnouncementList announcementList = new AnnouncementList();
 
         List<Agency> agencies = agencyRepository.getAgenciesList();
 
         for (Agency agency1 : agencies) {
-            actual.addAll(agency1.sortAnnouncementsByAscendingState(agency1.getAnnouncementsList()));
+            announcementList.getList().addAll(agency1.getAnnouncementsList());
         }
+
+        List<Announcement> actual = announcementList.sortAnnouncementsByAscendingState(announcementList.getList());
 
         assertEquals(expected, actual);
     }
@@ -700,7 +710,7 @@ class ScheduleVisitControllerIT {
         CriteriaRepository criteriaRepository = new CriteriaRepository();
         PersonRepository personRepository = new PersonRepository();
 
-        Location location = new Location("street", "city", "district", "state", "12345");
+        Location location = new Location("street", "city", "district", "AK", "12345");
         Agency agency = new Agency(1234, "Description", "agency@email.com", "345 567 3456", location);
         String ownerEmail = "owner@email.com";
         String ownerEmail1 = "owner1@email.com";
@@ -712,30 +722,32 @@ class ScheduleVisitControllerIT {
         uriList.add("https://www.example.com/images/photo.jpg");
 
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
-                uriList, "street", "city", "district", "state", "12345");
+                uriList, "street", "city", "district", "AK", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         Property property1 = new Property(new PropertyType("land"), (65.5), (89.3),
-                uriList, "street 1", "city 1", "district 1", "st1", "12345");
-        Request request1 = new Request(ownerEmail1, property1, new Business("sale", 2345.0), LocalDate.now(), employee);
+                uriList, "street 1", "city 1", "district 1", "ML", "12345");
+        Request requeAK = new Request(ownerEmail1, property1, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         agencyRepository.add(agency);
 
         agency.publishAnnouncement(employee, commissionType, 234.0, request);
-        agency.publishAnnouncement(employee, commissionType, 234.0, request1);
+        agency.publishAnnouncement(employee, commissionType, 234.0, requeAK);
 
         ScheduleVisitController controller =
                 new ScheduleVisitController(agencyRepository, personRepository, criteriaRepository, authenticationRepository, propertyTypeRepository, businessTypeRepository);
 
-        List<Announcement> expected = controller.getAnnouncementsByState("Descending", agencyRepository.getAgenciesList().get(0).getAnnouncementsList());
+        List<Announcement> expected = controller.getAnnouncementsByState("Descending", agencyRepository.getAllAnnouncementsList().get());
 
-        List<Announcement> actual = new ArrayList<>();
+        AnnouncementList announcementList = new AnnouncementList();
 
         List<Agency> agencies = agencyRepository.getAgenciesList();
 
         for (Agency agency1 : agencies) {
-            actual.addAll(agency1.sortAnnouncementsByDescendingState(agency1.getAnnouncementsList()));
+            announcementList.getList().addAll(agency1.getAnnouncementsList());
         }
+
+        List<Announcement> actual = announcementList.sortAnnouncementsByDescendingState(announcementList.getList());
 
         assertEquals(expected, actual);
     }

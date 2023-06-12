@@ -1,5 +1,6 @@
 package pt.ipp.isep.dei.esoft.project.application.controller;
 
+import javafx.util.Pair;
 import pt.ipp.isep.dei.esoft.project.domain.*;
 import pt.ipp.isep.dei.esoft.project.domain.dto.AnnouncementDto;
 import pt.ipp.isep.dei.esoft.project.domain.mapper.AnnouncementMapper;
@@ -259,7 +260,7 @@ public class ScheduleVisitController {
      * @param visitYear    the visit year
      * @return the boolean
      */
-    public Boolean scheduleVisit(Announcement announcement, Integer startHour, Integer endHour,
+    public Pair<Boolean, Integer> scheduleVisit(Announcement announcement, Integer startHour, Integer endHour,
                                  Integer visitDay, Integer visitMonth, Integer visitYear) {
         Optional<Person> user = getUserPerson();
         String userName = "";
@@ -270,13 +271,13 @@ public class ScheduleVisitController {
             userPhoneNumber = user.get().getPhoneNumber();
         }
 
-        Optional<Visit> newVisit = announcement.createVisit(visitDay, visitMonth, visitYear, startHour, endHour, userName, userPhoneNumber);
+        Pair<Optional<Visit>, Integer> newVisit = announcement.createVisit(visitDay, visitMonth, visitYear, startHour, endHour, userName, userPhoneNumber);
 
-        if (newVisit.isPresent()) {
+        if (newVisit.getKey().isPresent()) {
             String agentEmail = announcement.getAgentEmail();
-            newVisit.get().sendNotification(agentEmail);
+            newVisit.getKey().get().sendNotification(agentEmail);
         }
-        return newVisit.isPresent();
+        return new Pair<>(newVisit.getKey().isPresent(), newVisit.getValue());
     }
 
     /**
@@ -287,10 +288,9 @@ public class ScheduleVisitController {
      * @return the announcement list
      */
     public List<Announcement> getAnnouncementsByBusinessType(String businessType, List<Announcement> list) {
-        Agency agency = new Agency();
-        agency.getAnnouncements().setAnnouncements(list);
-
-        return new ArrayList<>(agency.announcementHasBusinessType(agency.getAnnouncementsList(), businessType));
+        AnnouncementList announcementList = new AnnouncementList();
+        announcementList.setAnnouncements(list);
+        return new ArrayList<>(announcementList.announcementHasBusinessType(announcementList.getList(), businessType));
     }
 
     /**
@@ -301,10 +301,9 @@ public class ScheduleVisitController {
      * @return the announcement list
      */
     public List<Announcement> getAnnouncementsByPropertyType(String propertyType, List<Announcement> list) {
-        Agency agency = new Agency();
-        agency.getAnnouncements().setAnnouncements(list);
-
-        return new ArrayList<>(agency.announcementHasPropertyType(agency.getAnnouncementsList(), propertyType));
+        AnnouncementList announcementList = new AnnouncementList();
+        announcementList.setAnnouncements(list);
+        return new ArrayList<>(announcementList.announcementHasPropertyType(announcementList.getList(), propertyType));
     }
 
     /**
@@ -315,10 +314,9 @@ public class ScheduleVisitController {
      * @return the announcement list
      */
     public List<Announcement> getAnnouncementsByNumberBedrooms(Integer numberBedrooms, List<Announcement> list) {
-        Agency agency = new Agency();
-        agency.getAnnouncements().setAnnouncements(list);
-
-        return new ArrayList<>(agency.announcementHasNumberBedrooms(agency.getAnnouncementsList(), numberBedrooms));
+        AnnouncementList announcementList = new AnnouncementList();
+        announcementList.setAnnouncements(list);
+        return new ArrayList<>(announcementList.announcementHasNumberBedrooms(announcementList.getList(), numberBedrooms));
     }
 
     /**
@@ -329,13 +327,12 @@ public class ScheduleVisitController {
      * @return the announcement list
      */
     public List<Announcement> getAnnouncementsByPrice(String priceSorting, List<Announcement> list) {
-        Agency agency = new Agency();
-        agency.getAnnouncements().setAnnouncements(list);
-
+        AnnouncementList announcementList = new AnnouncementList();
+        announcementList.setAnnouncements(list);
         if (priceSorting.equals("Ascending")) {
-            return new ArrayList<>(agency.sortAnnouncementsByAscendingPrice(list));
+            return new ArrayList<>(announcementList.sortAnnouncementsByAscendingPrice(list));
         }
-        return new ArrayList<>(agency.sortAnnouncementsByDescendingPrice(list));
+        return new ArrayList<>(announcementList.sortAnnouncementsByDescendingPrice(list));
     }
 
     /**
@@ -345,13 +342,12 @@ public class ScheduleVisitController {
      * @return the announcement list
      */
     public List<Announcement> getAnnouncementsByCity(String citySorting, List<Announcement> list) {
-        Agency agency = new Agency();
-        agency.getAnnouncements().setAnnouncements(list);
-
+        AnnouncementList announcementList = new AnnouncementList();
+        announcementList.setAnnouncements(list);
         if (citySorting.equals("Ascending")) {
-            return new ArrayList<>(agency.sortAnnouncementsByAscendingCity(list));
+            return new ArrayList<>(announcementList.sortAnnouncementsByAscendingCity(list));
         }
-        return new ArrayList<>(agency.sortAnnouncementsByDescendingCity(list));
+        return new ArrayList<>(announcementList.sortAnnouncementsByDescendingCity(list));
     }
 
     /**
@@ -361,12 +357,11 @@ public class ScheduleVisitController {
      * @return the announcement list
      */
     public List<Announcement> getAnnouncementsByState(String stateSorting, List<Announcement> list) {
-        Agency agency = new Agency();
-        agency.getAnnouncements().setAnnouncements(list);
-
+        AnnouncementList announcementList = new AnnouncementList();
+        announcementList.setAnnouncements(list);
         if (stateSorting.equals("Ascending")) {
-            return new ArrayList<>(agency.sortAnnouncementsByAscendingState(list));
+            return new ArrayList<>(announcementList.sortAnnouncementsByAscendingState(list));
         }
-        return new ArrayList<>(agency.sortAnnouncementsByDescendingState(list));
+        return new ArrayList<>(announcementList.sortAnnouncementsByDescendingState(list));
     }
 }
