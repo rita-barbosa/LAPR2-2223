@@ -308,12 +308,12 @@ class ScheduleVisitControllerIT {
 
         Property property1 = new Property(new PropertyType("land"), (65.5), (89.3),
                 uriList, "street 1", "city 1", "district 1", "AK", "12345");
-        Request requeAK = new Request(ownerEmail1, property1, new Business("sale", 2345.0), LocalDate.now(), employee);
+        Request request1 = new Request(ownerEmail1, property1, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         agencyRepository.add(agency);
 
         agency.publishAnnouncement(employee, commissionType, 234.0, request);
-        agency.publishAnnouncement(employee, commissionType, 234.0, requeAK);
+        agency.publishAnnouncement(employee, commissionType, 234.0, request1);
 
         ScheduleVisitController controller =
                 new ScheduleVisitController(agencyRepository, personRepository, criteriaRepository, authenticationRepository, propertyTypeRepository, businessTypeRepository);
@@ -362,12 +362,12 @@ class ScheduleVisitControllerIT {
 
         Property property1 = new Property(new PropertyType("land"), (65.5), (89.3),
                 uriList, "street 1", "city 1", "district 1", "AK", "12345");
-        Request requeAK = new Request(ownerEmail1, property1, new Business("sale", 2345.0), LocalDate.now(), employee);
+        Request request1 = new Request(ownerEmail1, property1, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         agencyRepository.add(agency);
 
         agency.publishAnnouncement(employee, commissionType, 234.0, request);
-        agency.publishAnnouncement(employee, commissionType, 234.0, requeAK);
+        agency.publishAnnouncement(employee, commissionType, 234.0, request1);
 
         ScheduleVisitController controller =
                 new ScheduleVisitController(agencyRepository, personRepository, criteriaRepository, authenticationRepository, propertyTypeRepository, businessTypeRepository);
@@ -416,12 +416,12 @@ class ScheduleVisitControllerIT {
 
         Property property1 = new Property(new PropertyType("land"), (65.5), (89.3),
                 uriList, "street 1", "city 1", "district 1", "AK", "12345");
-        Request requeAK = new Request(ownerEmail1, property1, new Business("sale", 2345.0), LocalDate.now(), employee);
+        Request request1 = new Request(ownerEmail1, property1, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         agencyRepository.add(agency);
 
         agency.publishAnnouncement(employee, commissionType, 234.0, request);
-        agency.publishAnnouncement(employee, commissionType, 234.0, requeAK);
+        agency.publishAnnouncement(employee, commissionType, 234.0, request1);
 
         ScheduleVisitController controller =
                 new ScheduleVisitController(agencyRepository, personRepository, criteriaRepository, authenticationRepository, propertyTypeRepository, businessTypeRepository);
@@ -473,12 +473,12 @@ class ScheduleVisitControllerIT {
 
         Property property1 = new Property(new PropertyType("land"), (65.5), (89.3),
                 uriList, "street 1", "city 1", "district 1", "AK", "12345");
-        Request requeAK = new Request(ownerEmail1, property1, new Business("sale", 2345.0), LocalDate.now(), employee);
+        Request request1 = new Request(ownerEmail1, property1, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         agencyRepository.add(agency);
 
         agency.publishAnnouncement(employee, commissionType, 234.0, request);
-        agency.publishAnnouncement(employee, commissionType, 234.0, requeAK);
+        agency.publishAnnouncement(employee, commissionType, 234.0, request1);
 
         ScheduleVisitController controller =
                 new ScheduleVisitController(agencyRepository, personRepository, criteriaRepository, authenticationRepository, propertyTypeRepository, businessTypeRepository);
@@ -523,12 +523,12 @@ class ScheduleVisitControllerIT {
 
         Property property1 = new Property(new PropertyType("land"), (65.5), (89.3),
                 uriList, "street 1", "city 1", "district 1", "AK", "12345");
-        Request requeAK = new Request(ownerEmail1, property1, new Business("sale", 2345.0), LocalDate.now(), employee);
+        Request request1 = new Request(ownerEmail1, property1, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         agencyRepository.add(agency);
 
         agency.publishAnnouncement(employee, commissionType, 234.0, request);
-        agency.publishAnnouncement(employee, commissionType, 234.0, requeAK);
+        agency.publishAnnouncement(employee, commissionType, 234.0, request1);
 
         ScheduleVisitController controller =
                 new ScheduleVisitController(agencyRepository, personRepository, criteriaRepository, authenticationRepository, propertyTypeRepository, businessTypeRepository);
@@ -574,12 +574,12 @@ class ScheduleVisitControllerIT {
 
         Property property1 = new Property(new PropertyType("land"), (65.5), (89.3),
                 uriList, "street 1", "city 1", "district 1", "AK", "12345");
-        Request requeAK = new Request(ownerEmail1, property1, new Business("sale", 2345.0), LocalDate.now(), employee);
+        Request request1 = new Request(ownerEmail1, property1, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         agencyRepository.add(agency);
 
         agency.publishAnnouncement(employee, commissionType, 234.0, request);
-        agency.publishAnnouncement(employee, commissionType, 234.0, requeAK);
+        agency.publishAnnouncement(employee, commissionType, 234.0, request1);
 
         ScheduleVisitController controller =
                 new ScheduleVisitController(agencyRepository, personRepository, criteriaRepository, authenticationRepository, propertyTypeRepository, businessTypeRepository);
@@ -625,12 +625,12 @@ class ScheduleVisitControllerIT {
 
         Property property1 = new Property(new PropertyType("land"), (65.5), (89.3),
                 uriList, "street 1", "city 1", "district 1", "AK", "12345");
-        Request requeAK = new Request(ownerEmail1, property1, new Business("sale", 2345.0), LocalDate.now(), employee);
+        Request request1 = new Request(ownerEmail1, property1, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         agencyRepository.add(agency);
 
         agency.publishAnnouncement(employee, commissionType, 234.0, request);
-        agency.publishAnnouncement(employee, commissionType, 234.0, requeAK);
+        agency.publishAnnouncement(employee, commissionType, 234.0, request1);
 
         ScheduleVisitController controller =
                 new ScheduleVisitController(agencyRepository, personRepository, criteriaRepository, authenticationRepository, propertyTypeRepository, businessTypeRepository);
@@ -676,12 +676,12 @@ class ScheduleVisitControllerIT {
 
         Property property1 = new Property(new PropertyType("land"), (65.5), (89.3),
                 uriList, "street 1", "city 1", "district 1", "WM", "12345");
-        Request requeAK = new Request(ownerEmail1, property1, new Business("sale", 2345.0), LocalDate.now(), employee);
+        Request request1 = new Request(ownerEmail1, property1, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         agencyRepository.add(agency);
 
         agency.publishAnnouncement(employee, commissionType, 234.0, request);
-        agency.publishAnnouncement(employee, commissionType, 234.0, requeAK);
+        agency.publishAnnouncement(employee, commissionType, 234.0, request1);
 
         ScheduleVisitController controller =
                 new ScheduleVisitController(agencyRepository, personRepository, criteriaRepository, authenticationRepository, propertyTypeRepository, businessTypeRepository);
@@ -727,12 +727,12 @@ class ScheduleVisitControllerIT {
 
         Property property1 = new Property(new PropertyType("land"), (65.5), (89.3),
                 uriList, "street 1", "city 1", "district 1", "ML", "12345");
-        Request requeAK = new Request(ownerEmail1, property1, new Business("sale", 2345.0), LocalDate.now(), employee);
+        Request request1 = new Request(ownerEmail1, property1, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         agencyRepository.add(agency);
 
         agency.publishAnnouncement(employee, commissionType, 234.0, request);
-        agency.publishAnnouncement(employee, commissionType, 234.0, requeAK);
+        agency.publishAnnouncement(employee, commissionType, 234.0, request1);
 
         ScheduleVisitController controller =
                 new ScheduleVisitController(agencyRepository, personRepository, criteriaRepository, authenticationRepository, propertyTypeRepository, businessTypeRepository);

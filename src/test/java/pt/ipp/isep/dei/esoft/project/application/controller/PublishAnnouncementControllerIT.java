@@ -56,7 +56,6 @@ class PublishAnnouncementControllerIT {
 
     @Test
     void ensurePublishAnnouncementForNonExistingAgencyFails() {
-        Repositories repositories = Repositories.getInstance();
         PropertyTypeRepository propertyTypeRepository = new PropertyTypeRepository();
         AgencyRepository agencyRepository = new AgencyRepository();
         CommissionTypeRepository commissionTypeRepository = new CommissionTypeRepository();
@@ -84,17 +83,15 @@ class PublishAnnouncementControllerIT {
         String ownerEmail = "owner@email.com";
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
-        List<String> av = new ArrayList<>();
 
-        PublishAnnouncementController ctrl = new PublishAnnouncementController(commissionTypeRepository, authenticationRepository, propertyTypeRepository, agencyRepository);
+        PublishAnnouncementController controller = new PublishAnnouncementController(commissionTypeRepository, authenticationRepository, propertyTypeRepository, agencyRepository);
 
-        Boolean result = ctrl.publishAnnouncement(234.4, c1.getDesignation(), ownerEmail, propertyType.getDesignation(),
+        Boolean result = controller.publishAnnouncement(234.4, c1.getDesignation(), ownerEmail, propertyType.getDesignation(),
                 "street", "city", "district", "AK", "12345", 234.4, 23.4, 456.6,
                 null, null, null, null, null,
                 null, uriList, null);
 
-        assertTrue(result);
-
+        assertFalse(result);
     }
 
     @Test
