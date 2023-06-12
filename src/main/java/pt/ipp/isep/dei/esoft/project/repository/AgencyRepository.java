@@ -174,10 +174,12 @@ public class AgencyRepository implements Serializable {
 
 
     public List<Announcement> getAllDealsAnnouncements() {
-        List<Announcement> listOfAllDeals = new ArrayList<>();
+        AnnouncementList listOfAllDeals = new AnnouncementList();
+        List<Announcement> dealsList = new ArrayList<>();
         for (Agency agency : agencies) {
-            listOfAllDeals.addAll(agency.getDealsAnnouncementList());
+            dealsList.addAll(agency.getDealsAnnouncementList());
         }
-        return listOfAllDeals;
+        listOfAllDeals.setAnnouncements(dealsList);
+        return listOfAllDeals.sortAnnouncementsByMostRecentSaleDate(listOfAllDeals.getList());
     }
 }
