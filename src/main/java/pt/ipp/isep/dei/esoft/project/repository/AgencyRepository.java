@@ -4,8 +4,9 @@ import pt.ipp.isep.dei.esoft.project.domain.*;
 import pt.ipp.isep.dei.esoft.project.domain.dto.LegacySystemDto;
 import pt.ipp.isep.dei.esoft.project.domain.mapper.LegacySystemMapper;
 
-import java.io.Serializable;
+import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,7 +17,7 @@ public class AgencyRepository implements Serializable {
     /**
      * The list with existent agencies.
      */
-    private final List<Agency> agencies;
+    private List<Agency> agencies;
 
     public AgencyRepository() {
         this.agencies = new ArrayList<>();
@@ -181,5 +182,26 @@ public class AgencyRepository implements Serializable {
         }
         listOfAllDeals.setAnnouncements(dealsList);
         return listOfAllDeals.sortAnnouncementsByMostRecentSaleDate(listOfAllDeals.getList());
+    }
+
+    public void saveAgencies() {
+        try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("binaryFile/agencyBin.data"))) {
+            outputStream.writeObject((List<Agency>) agencies);
+            System.out.println("Saved agencies.");
+        } catch (IOException e) {
+            System.out.println("ERROR: Couldn't save agencies.");
+        }
+    }
+
+    public void loadAgencies() {
+        File file = new File("binaryFile/agencyBin.data");
+        if (file.exists()) {
+            try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(file.getPath()))) {
+                agencies = (ArrayList<Agency>) inputStream.readObject();
+                System.out.println("Loaded agencies.");
+            } catch (IOException | ClassNotFoundException e) {
+                System.out.println("ERROR: Couldn't load agencies.");
+            }
+        }
     }
 }

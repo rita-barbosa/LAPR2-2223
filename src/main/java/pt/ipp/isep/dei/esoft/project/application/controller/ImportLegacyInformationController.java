@@ -15,6 +15,13 @@ public class ImportLegacyInformationController {
     private AgencyRepository agencyRepository;
     private PersonRepository personRepository;
 
+    public ImportLegacyInformationController() {
+        getAgencyRepository();
+        getPersonRepository();
+//        agencyRepository.loadAgencies();
+//        personRepository.loadPeople();
+    }
+
     private AgencyRepository getAgencyRepository() {
         if (agencyRepository == null) {
             Repositories repositories = Repositories.getInstance();
@@ -51,8 +58,16 @@ public class ImportLegacyInformationController {
         } catch (Exception e) {
             success = false;
         }
+//        saveBinaryFile();
         return success;
     }
+
+//    private void saveBinaryFile() {
+//        Repositories rep = Repositories.getInstance();
+//        PersonRepository people = rep.getPersonRepository();
+//        people.savePeople();
+//        agencyRepository.saveAgencies();
+//    }
 
     private Boolean publishAnnouncement(LegacySystemDto dto, Agency agency, Employee agent, String ownerEmail) throws
             NumberFormatException {
