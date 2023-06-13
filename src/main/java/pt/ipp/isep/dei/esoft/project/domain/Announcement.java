@@ -20,6 +20,10 @@ import java.util.Optional;
  * Represents an Announcement made by a agent, based on a request.
  */
 public class Announcement implements Serializable {
+
+    private static final long serialVersionUID = -6962031503097861713L;
+
+
     /**
      * The date of acceptance for the request
      */
