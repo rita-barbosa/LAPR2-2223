@@ -161,4 +161,7 @@ public class Employee extends Person implements Serializable {
         this.agencyId = (Integer) ipst.readObject();
     }
 
+    public Integer getAgencyId() {
+        return agencyId;
+    }
 }
