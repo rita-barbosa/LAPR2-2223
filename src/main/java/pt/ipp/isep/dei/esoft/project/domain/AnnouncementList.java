@@ -89,7 +89,7 @@ public class AnnouncementList implements Serializable {
         for (Announcement announcement : announcements) {
        //     System.out.println("hey");
             if (announcement.hasAgentWithEmail(agentEmail)) { //falha aqui
-//     /           if (!announcement.isDeal()){
+                if (!announcement.isDeal()){
                     List<Visit> copyVisitList = announcement.getVisitList();
                     for (Visit visit : copyVisitList) {
                         LocalDate visitDate = visit.getVisitDate();
@@ -97,7 +97,7 @@ public class AnnouncementList implements Serializable {
                             visitsList.add(visit.clone());
                         }
                     }
-//  /              }
+                }
             }
         }
         return visitsList;
