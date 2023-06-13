@@ -444,4 +444,18 @@ public class AnnouncementList implements Serializable {
         }
     };
 
+    /**
+     * Gets deals number.
+     *
+     * @return the deals number
+     */
+    public int getDealsNumber() {
+        int dealsNumber = 0;
+        for (Announcement announcement : announcements){
+            if (announcement.isDeal()){
+                dealsNumber++;
+            }
+        }
+        return dealsNumber;
+    }
 }
