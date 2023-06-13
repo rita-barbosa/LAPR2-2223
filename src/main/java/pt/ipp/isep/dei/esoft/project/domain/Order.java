@@ -199,18 +199,18 @@ public class Order implements Serializable {
 
     private void writeObject(ObjectOutputStream opst) throws IOException {
         opst.writeObject(this.clientEmail.getEmail());
-        opst.writeObject(this.id);
+        opst.writeInt(this.id);
         opst.writeObject(this.acceptanceAnswer);
         opst.writeObject(this.orderDate);
-        opst.writeObject(this.orderAmount);
+        opst.writeDouble(this.orderAmount);
     }
 
 
     private void readObject(ObjectInputStream ipst) throws IOException, ClassNotFoundException {
         this.clientEmail = new Email((String) ipst.readObject());
-        this.id = (Integer) ipst.readObject();
+        this.id =  ipst.readInt();
         this.acceptanceAnswer = (String) ipst.readObject();
         this.orderDate = (LocalDate) ipst.readObject();
-        this.orderAmount = (Double) ipst.readObject();
+        this.orderAmount =  ipst.readDouble();
     }
 }

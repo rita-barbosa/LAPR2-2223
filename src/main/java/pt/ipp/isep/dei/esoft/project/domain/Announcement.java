@@ -23,7 +23,6 @@ public class Announcement implements Serializable {
 
     private static final long serialVersionUID = -6962031503097861713L;
 
-
     /**
      * The date of acceptance for the request
      */
@@ -63,7 +62,7 @@ public class Announcement implements Serializable {
     /**
      * The default date value.
      */
-    private final LocalDate DATE_BY_DEFAULT = LocalDate.of(1, 1, 1);
+    private LocalDate DATE_BY_DEFAULT = LocalDate.of(1, 1, 1);
 
     /**
      * The id iteration variable.
@@ -76,7 +75,7 @@ public class Announcement implements Serializable {
     /**
      * The default sale amount value.
      */
-    private final Double SALE_AMOUNT_BY_DEFAULT = -1.0;
+    private Double SALE_AMOUNT_BY_DEFAULT = -1.0;
 
 
     /**
@@ -266,7 +265,6 @@ public class Announcement implements Serializable {
     }
 
     public Integer getAgencyId() {
-        System.out.println("ANNOUNCEMENT: " + this.agent.getEmployeeEmail().toString());
         return this.agent.getAgencyId();
     }
 
@@ -476,7 +474,7 @@ public class Announcement implements Serializable {
      * @return {@code true} if an announcement is a deal; {@code false} otherwise;
      */
     public boolean isDeal() {
-        return !this.saleAmount.equals(SALE_AMOUNT_BY_DEFAULT);
+        return !this.saleAmount.equals(-1.0);
     }
 
     /**
@@ -518,27 +516,31 @@ public class Announcement implements Serializable {
 
     private void writeObject(ObjectOutputStream opst) throws IOException {
         opst.writeObject(this.orders.getList());
-        opst.writeObject(this.id);
+        opst.writeInt(this.id);
         opst.writeObject(this.agent);
         opst.writeObject(this.request);
         opst.writeObject(this.acceptanceDate);
         opst.writeObject(this.commission);
-        opst.writeObject(this.saleAmount);
+        opst.writeDouble(this.saleAmount);
         opst.writeObject(this.saleDate);
         opst.writeObject(this.visitList);
+        opst.writeDouble(this.SALE_AMOUNT_BY_DEFAULT);
+        opst.writeObject(this.DATE_BY_DEFAULT);
     }
 
 
     private void readObject(ObjectInputStream ipst) throws IOException, ClassNotFoundException {
         this.orders = new OrderList((List<Order>) ipst.readObject());
-        this.id = (Integer) ipst.readObject();
+        this.id =  ipst.readInt();
         this.agent = (Employee) ipst.readObject();
         this.request = (Request) ipst.readObject();
         this.acceptanceDate = (LocalDate) ipst.readObject();
         this.commission = (Commission) ipst.readObject();
-        this.saleAmount = ipst.readDouble();
+        this.saleAmount =  ipst.readDouble();
         this.saleDate = (LocalDate) ipst.readObject();
-        this.visitList = ((List<Visit>) ipst.readObject());
+        this.visitList = (List<Visit>) ipst.readObject();
+        this.SALE_AMOUNT_BY_DEFAULT = ipst.readDouble();
+        this.DATE_BY_DEFAULT = (LocalDate) ipst.readObject();
     }
 }
 

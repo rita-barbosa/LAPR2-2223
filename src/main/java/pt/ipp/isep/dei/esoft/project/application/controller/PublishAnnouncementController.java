@@ -191,6 +191,7 @@ public class PublishAnnouncementController {
                     newAnnouncement = agency.get().publishAnnouncement(agent, commissionType, announcementDto.getCommissionValue(), newRequest.get());
                     if (newAnnouncement.isPresent()) {
                         success = true;
+                        Repositories.getInstance().getAgencyRepository().saveAgencies();
                     }
 
                 }

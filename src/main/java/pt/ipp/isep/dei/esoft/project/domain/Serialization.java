@@ -9,7 +9,7 @@ public class Serialization {
     }
 
     public static void loadData() {
-        Repositories.getInstance().getAgencyRepository().loadAgencies();
         Repositories.getInstance().getPersonRepository().loadPeople();
+        Repositories.getInstance().getAgencyRepository().loadAgencies();
     }
 }

@@ -15,6 +15,7 @@ import java.util.*;
  * The Agency class represents a real estate agency that contains information about employees, announcements, and requests.
  */
 public class Agency implements Serializable {
+    private static final long serialVersionUID = -6962038903097862313L;
     /**
      * The id of the agency;
      */
@@ -516,7 +517,7 @@ public class Agency implements Serializable {
 
     private void writeObject(ObjectOutputStream opst) throws IOException {
         opst.writeObject(this.emailAddress.getEmail());
-        opst.writeObject(this.id);
+        opst.writeInt(this.id);
         opst.writeObject(this.description);
         opst.writeObject(this.announcements.getList());
         opst.writeObject(this.requests.getList());
@@ -528,7 +529,7 @@ public class Agency implements Serializable {
 
     private void readObject(ObjectInputStream ipst) throws IOException, ClassNotFoundException {
         this.emailAddress = new Email((String) ipst.readObject());
-        this.id = (Integer) ipst.readObject();
+        this.id =  ipst.readInt();
         this.description = (String) ipst.readObject();
         this.announcements = new AnnouncementList((List<Announcement>) ipst.readObject());
         this.requests = new RequestList((List<Request>) ipst.readObject());

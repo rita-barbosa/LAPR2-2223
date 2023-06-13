@@ -89,8 +89,8 @@ public class Bootstrap implements Runnable {
         Location location = new Location("Saint Avenue", "Heaven", "Sky", "SK", "12345");
         Agency agency4 = new Agency(1234, "Make It Home Deluxe", "agency4@this.app", "999 444 5656", location);
         addEmployees(agency4);
-        addRequests(agency4);
-        addAnnouncements(agency4);
+//        addRequests(agency4);
+//       addAnnouncements(agency4);
         agencyRepository.add(agency4);
 
         Location location1 = new Location("Devil's Road", "Hell", "Earth", "ET", "16789");
@@ -201,7 +201,7 @@ public class Bootstrap implements Runnable {
         String ownerEmail = "owner@email.com";
         String ownerEmail1 = "owner1@email.com";
         String ownerEmail2 = "owner2@email.com";
-        Employee employee = agency.getAgentList().get(1);
+        Employee employee = new Employee("employee@this.app", "Agent");
 //        Employee employee = new Employee("employee@this.app", "Agent");
         CommissionType commissionType = new CommissionType("Commission Type");
         List<String> uriList = new ArrayList<>();
@@ -255,17 +255,17 @@ public class Bootstrap implements Runnable {
         Announcement a11 = new Announcement(employee, 3, request4, "23-12-2022", 754245678d);
         Announcement a12 = new Announcement(employee, 25, request5, "23-12-2022", 45678d);
 
-
+//
         Order o1 = new Order(2345467.0, new Email("owner@this.app"));
-        Order o2 = new Order(23467.0, new Email("owner@this.app"));
-        Order o3 = new Order(25467.0, new Email("owner@this.app"));
-        Order o4 = new Order(23330067.0, new Email("owner@this.app"));
-
-
+//        Order o2 = new Order(23467.0, new Email("owner@this.app"));
+//        Order o3 = new Order(25467.0, new Email("owner@this.app"));
+//        Order o4 = new Order(23330067.0, new Email("owner@this.app"));
+//
+//
         a1.addOrder(o1);
-        a1.addOrder(o2);
-        a2.addOrder(o3);
-        a3.addOrder(o4);
+//        a1.addOrder(o2);
+//        a2.addOrder(o3);
+//        a3.addOrder(o4);
 
         Visit v1 = new Visit(LocalDate.of(2023, 7, 25), 15, 20, "anasofia", "123456789");
         Visit v2 = new Visit(LocalDate.of(2023, 8, 10), 15, 20, "ritabarbosa", "987654321");

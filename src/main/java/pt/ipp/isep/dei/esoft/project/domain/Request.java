@@ -324,6 +324,7 @@ public class Request implements Serializable {
         this.agent = agent;
         this.id = counter++;
         this.requestDate = LocalDate.now();
+        this.validationStatus = false;
     }
 
     public Request(String ownerEmail, PropertyType propertyType, Double amount, Double area, String streetName, String city, String district,
@@ -336,6 +337,7 @@ public class Request implements Serializable {
         this.agent = agent;
         this.id = counter++;
         this.requestDate = LocalDate.now();
+        this.validationStatus = false;
 
     }
 
@@ -349,6 +351,7 @@ public class Request implements Serializable {
         this.agent = agent;
         this.id = counter++;
         this.requestDate = LocalDate.now();
+        this.validationStatus = false;
     }
 
     /**
@@ -674,24 +677,24 @@ public class Request implements Serializable {
     }
     private void writeObject(ObjectOutputStream opst) throws IOException {
         opst.writeObject(this.ownerEmail.getEmail());
-        opst.writeObject(this.id);
+        opst.writeInt(this.id);
         opst.writeObject(this.agent);
         opst.writeObject(this.business);
         opst.writeObject(this.property);
         opst.writeObject(this.justificationMessage);
         opst.writeObject(this.requestDate);
-        opst.writeObject(this.validationStatus);
+        opst.writeBoolean(this.validationStatus);
     }
 
 
     private void readObject(ObjectInputStream ipst) throws IOException, ClassNotFoundException {
         this.ownerEmail = new Email((String) ipst.readObject());
-        this.id = (Integer) ipst.readObject();
+        this.id =  ipst.readInt();
         this.agent = (Employee) ipst.readObject();
         this.business = (Business) ipst.readObject();
         this.property = (Property) ipst.readObject();
         this.justificationMessage = (String) ipst.readObject();
         this.requestDate = (LocalDate) ipst.readObject();
-        this.validationStatus = (Boolean) ipst.readObject();
+        this.validationStatus =  ipst.readBoolean();
     }
 }

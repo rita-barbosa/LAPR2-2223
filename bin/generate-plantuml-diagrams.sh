@@ -8,13 +8,14 @@ extra="-SdefaultFontSize=20"
 
 processing single files
 # shellcheck disable=SC2044
-for plantuml_file in `find ../docs -name "*.puml" -type f`;
+for plantuml_file in `find ../docs/sprintD/us018 -name "*.puml" -type f`;
 do
  path=${plantuml_file%/*}
  #filename=${plantuml_file##*/}
  echo "Processing file: $plantuml_file"
 
   path="$path/svg"
+
 
   echo "PATH:$path"
   mkdir -p $path
