@@ -1,7 +1,5 @@
 package pt.ipp.isep.dei.esoft.project.ui.console;
 
-import javafx.application.Application;
-import javafx.stage.Stage;
 import pt.ipp.isep.dei.esoft.project.application.controller.ListVisitsController;
 import pt.ipp.isep.dei.esoft.project.domain.dto.VisitDto;
 
@@ -90,11 +88,11 @@ public class ListVisitsUI implements Runnable {
             }
         }
         Optional<List<VisitDto>> listVisitsDto;
-        try {
+//        try {
             listVisitsDto = controller.getVisitRequestsList(beginDate, endDate);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
         if (listVisitsDto.isPresent()){
             System.out.println("Booking requests:\n");
             displayList(listVisitsDto.get());
@@ -133,7 +131,7 @@ public class ListVisitsUI implements Runnable {
      * @return the local date
      */
     private LocalDate requestEndDate(){
-        System.out.println("Select a end date:");
+        System.out.println("\nSelect a end date:");
         visitYear = visitYear();
         visitMonth = visitMonth();
         visitDay = visitDay();

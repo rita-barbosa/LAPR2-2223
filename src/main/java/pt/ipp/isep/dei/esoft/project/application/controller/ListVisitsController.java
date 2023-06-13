@@ -89,9 +89,12 @@ public class ListVisitsController {
      * @return the visit requests list
      * @throws IOException the io exception
      */
-    public Optional<List<VisitDto>> getVisitRequestsList(LocalDate beginDate, LocalDate endDate) throws IOException {
+    public Optional<List<VisitDto>> getVisitRequestsList(LocalDate beginDate, LocalDate endDate) {
+        //missing the throws IOEXception
         Optional <List<VisitDto>> newVisitsDtoList = Optional.empty();
-        String agentEmail = getAgentEmail();
+        String agentEmail;
+//                = getAgentEmail();
+        agentEmail = "employee@this.app";
         Optional<List<Visit>> visitList = getVisitRequestsListByAgentEmail(agentEmail, beginDate, endDate);
         //IT'S MISSING THE SORTING METHOD!!! CHECK AGAIN THIS AFTER MAKING THE SORTING
         //CHECK CHECK CHECK!!!
