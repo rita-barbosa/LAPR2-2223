@@ -87,9 +87,9 @@ public class Employee extends Person implements Serializable {
      *
      * @param roleId       the role id
      */
-    public Employee(String roleId) {
+    public Employee(String roleId, Integer agencyId) {
         super(LEGACY_AGENT_NAME, LEGACY_AGENT_PASSPORT_CARD_NUMBER, LEGACY_AGENT_TAX_NUMBER, LEGACY_AGENT_EMAIL_ADDRESS, LEGACY_AGENT_PHONE_NUMBER,roleId);
-
+        this.agencyId = agencyId;
     }
 
 

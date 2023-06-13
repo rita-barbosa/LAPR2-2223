@@ -133,10 +133,11 @@ public class DisplayPropertiesUI implements Runnable {
      */
     private void displayAnnouncements(List<Announcement> announcementList) {
         for (Announcement announcement : announcementList) {
-            System.out.println(announcement.toString());
+            if (!announcement.isDeal()){
+                System.out.println(announcement.toString());
+            }
         }
     }
-
     /**
      * This method asks user if he wants to select any criteria.
      *

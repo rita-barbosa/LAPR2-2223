@@ -489,7 +489,7 @@ public class Agency implements Serializable {
      */
     public Employee createDefaultAgent() {
         String role = "agent";
-        return new Employee(role);
+        return new Employee(role,this.id);
     }
 
     /**

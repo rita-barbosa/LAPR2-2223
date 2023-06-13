@@ -76,7 +76,7 @@ public class Announcement implements Serializable {
     /**
      * The default sale amount value.
      */
-    private final Double SALE_AMOUNT_BY_DEFAULT = (double) -1;
+    private final Double SALE_AMOUNT_BY_DEFAULT = -1.0;
 
 
     /**
@@ -266,6 +266,7 @@ public class Announcement implements Serializable {
     }
 
     public Integer getAgencyId() {
+        System.out.println("ANNOUNCEMENT: " + this.agent.getEmployeeEmail().toString());
         return this.agent.getAgencyId();
     }
 
@@ -437,7 +438,7 @@ public class Announcement implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Announcement that = (Announcement) o;
-        return Objects.equals(acceptanceDate, that.acceptanceDate) && Objects.equals(saleDate, that.saleDate) && Objects.equals(commission, that.commission) && Objects.equals(request, that.request) && Objects.equals(agent, that.agent) && Objects.equals(id, that.id) && Objects.equals(orders, that.orders) && Objects.equals(visitList, that.visitList) && Objects.equals(DATE_BY_DEFAULT, that.DATE_BY_DEFAULT) && Objects.equals(saleAmount, that.saleAmount) && Objects.equals(SALE_AMOUNT_BY_DEFAULT, that.SALE_AMOUNT_BY_DEFAULT);
+        return Objects.equals(acceptanceDate, that.acceptanceDate) && Objects.equals(saleDate, that.saleDate) && Objects.equals(commission, that.commission) && Objects.equals(request, that.request) && Objects.equals(agent, that.agent) && Objects.equals(id, that.id) && Objects.equals(orders, that.orders) && Objects.equals(visitList, that.visitList) && Objects.equals(saleAmount, that.saleAmount);
     }
 
     /**
@@ -447,7 +448,7 @@ public class Announcement implements Serializable {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(acceptanceDate, saleDate, commission, request, agent, id, orders, visitList, DATE_BY_DEFAULT, saleAmount, SALE_AMOUNT_BY_DEFAULT);
+        return Objects.hash(acceptanceDate, saleDate, commission, request, agent, id, orders, visitList, saleAmount);
     }
 
     /**
@@ -535,7 +536,7 @@ public class Announcement implements Serializable {
         this.request = (Request) ipst.readObject();
         this.acceptanceDate = (LocalDate) ipst.readObject();
         this.commission = (Commission) ipst.readObject();
-        this.saleAmount = (Double) ipst.readObject();
+        this.saleAmount = ipst.readDouble();
         this.saleDate = (LocalDate) ipst.readObject();
         this.visitList = ((List<Visit>) ipst.readObject());
     }
