@@ -202,6 +202,7 @@ public class Bootstrap implements Runnable {
         String ownerEmail1 = "owner1@email.com";
         String ownerEmail2 = "owner2@email.com";
         Employee employee = agency.getAgentList().get(1);
+//        Employee employee = new Employee("employee@this.app", "Agent");
         CommissionType commissionType = new CommissionType("Commission Type");
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
@@ -266,6 +267,27 @@ public class Bootstrap implements Runnable {
         a2.addOrder(o3);
         a3.addOrder(o4);
 
+        Visit v1 = new Visit(LocalDate.of(2023, 7, 25), 15, 20, "anasofia", "123456789");
+        Visit v2 = new Visit(LocalDate.of(2023, 8, 10), 15, 20, "ritabarbosa", "987654321");
+        Visit v3 = new Visit(LocalDate.of(2023, 9, 23), 15, 20, "peppapig", "24682468");
+        Visit v4 = new Visit(LocalDate.of(2023, 10, 5), 15, 20, "matildevarela", "135791357");
+        Visit v5 = new Visit(LocalDate.of(2023, 8, 15), 15, 20, "raven", "1592648");
+        Visit v6 = new Visit(LocalDate.of(2023, 9, 1), 15, 20, "robin", "1111111111");
+        Visit v7 = new Visit(LocalDate.of(2023, 10, 30), 15, 20, "starfire", "10965274");
+        Visit v8 = new Visit(LocalDate.of(2023, 12, 10), 15, 20, "cyborgue", "0316492457");
+
+        a1.addVisit(v1);
+        a2.addVisit(v2);
+        a1.addVisit(v3);
+        a2.addVisit(v4);
+        a3.addVisit(v5);
+        a4.addVisit(v6);
+        a5.addVisit(v7);
+        a6.addVisit(v8);
+
+//        List<Visit> copyVisitList = agency.getAnnouncements().getList().get(0).getVisitList();
+//
+//        System.out.println(copyVisitList.get(0).toString());
 
         agency.addAnnouncement(a1);
         agency.addAnnouncement(a2);
