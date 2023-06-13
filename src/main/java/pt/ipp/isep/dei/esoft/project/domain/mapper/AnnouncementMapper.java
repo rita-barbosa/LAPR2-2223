@@ -46,16 +46,16 @@ public class AnnouncementMapper {
         return new AnnouncementDto(id, requestAttributes, commissionAttributes, acceptanceDate, listOrdersDto);
     }
 
-    public static Optional<List<AnnouncementDto>> toNetworkDto(List<Announcement> announcements) {
+    public static Optional<List<AnnouncementDto>> toNetworkDto(List<Announcement> announcements, List<Agency> agencies) {
         List<AnnouncementDto> listAnnouncementsDto = new ArrayList<>();
         for (Announcement announce : announcements) {
-            AnnouncementDto dto = toNetworkDto(announce);
+            AnnouncementDto dto = toNetworkDto(announce, agencies);
             listAnnouncementsDto.add(dto);
         }
         return Optional.of(listAnnouncementsDto);
     }
 
-    public static AnnouncementDto toNetworkDto(Announcement announcement) {
+    public static AnnouncementDto toNetworkDto(Announcement announcement, List<Agency> agencies) {
         int id = announcement.getId();
         String saleDate = announcement.getSaleDate().toString();
         double saleAmount = announcement.getSaleAmount();
@@ -63,16 +63,19 @@ public class AnnouncementMapper {
         String acceptanceDate = announcement.getAcceptanceDate().toString();
         String commissionAttributes = announcement.getCommissionAttributes();
         String requestAttributes = announcement.getRequestAttributes();
-        AgencyRepository agencyRepository = Repositories.getInstance().getAgencyRepository();
-        Optional<Agency> agency = agencyRepository.getAgencyByEmployeeEmail(announcement.getAgentEmail());
-        String agencyDescription = "";
-        int agencyId = 0;
-        if (agency.isPresent()) {
-            agencyId = agency.get().getId();
-            agencyDescription = agency.get().getDescription();
-        }
+        int agencyId = announcement.getAgencyId();
+        String agencyDescription = getAgencyDescriptionById(agencyId, agencies);
         return new AnnouncementDto(id, saleDate, saleAmount, requestDate, acceptanceDate, commissionAttributes,
                 requestAttributes, agencyDescription, agencyId);
+    }
+
+    private static String getAgencyDescriptionById(int agencyId, List<Agency> agencies) {
+        for (Agency agency : agencies) {
+            if (agency.getId() == agencyId) {
+                return agency.getDescription();
+            }
+        }
+        return null;
     }
 
     public static Request toModelSaleRequest(AnnouncementDto announcementDto, PropertyType propertyType, Employee agent) {

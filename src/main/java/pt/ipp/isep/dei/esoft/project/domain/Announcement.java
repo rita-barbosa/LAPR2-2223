@@ -261,6 +261,10 @@ public class Announcement implements Serializable {
         return this.agent.getName();
     }
 
+    public Integer getAgencyId() {
+        return this.agent.getAgencyId();
+    }
+
     /**
      * This method returns a string with the agent phone number.
      *

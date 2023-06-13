@@ -151,6 +151,19 @@ public class AnnouncementDto {
     }
 
 
+    /**
+     * Instantiates a new Announcement dto.
+     *
+     * @param id                   the id
+     * @param saleDate             the sale date
+     * @param saleAmount           the sale amount
+     * @param requestDate          the request date
+     * @param acceptanceDate       the acceptance date
+     * @param commissionAttributes the commission attributes
+     * @param requestAttributes    the request attributes
+     * @param agencyDescription    the agency description
+     * @param agencyId             the agency id
+     */
     public AnnouncementDto(Integer id, String saleDate, Double saleAmount, String requestDate, String acceptanceDate,
                            String commissionAttributes, String requestAttributes, String agencyDescription, Integer agencyId) {
         this.id = id;
@@ -240,6 +253,13 @@ public class AnnouncementDto {
             sb.append(String.format("#%s %s\n", idx, orderDto.toString()));
             idx++;
         }
+        return sb.toString();
+    }
+
+    public String toDealString() {
+        StringBuilder sb = new StringBuilder(String.format("Announcement ID: %d\n%sRequest Date: %s\n%s\nSale Date: %s\nSale Amount: $%.2f\n",
+                id, requestAttributes, requestDate, commissionAttributes, saleDate, saleAmount));
+        sb.append(String.format("Agency ID: %d\nAgency Name: %s\n", agencyId, agencyDescription));
         return sb.toString();
     }
 

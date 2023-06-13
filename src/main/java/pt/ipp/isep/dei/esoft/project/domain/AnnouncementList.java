@@ -144,21 +144,21 @@ public class AnnouncementList implements Serializable {
      */
     public List<Announcement> sortAnnouncementsByMostRecentAcceptanceDate() {
         List<Announcement> sortedList = new ArrayList<>(this.announcements);
-        sortedList.sort(Comparator.comparing(Announcement::getSaleDate));
+        sortedList.sort(Comparator.comparing(Announcement::getAcceptanceDate));
         Collections.reverse(sortedList);
         return sortedList;
     }
 
+
     /**
-     * This method sorts the list of announcements by most recent sale date.
+     * Sort announcements by most recent sale date list.
      *
-     * @param listAnnouncements the list announcements
      * @return the list
      */
-    public List<Announcement> sortAnnouncementsByMostRecentSaleDate(List<Announcement> listAnnouncements) {
-        listAnnouncements.sort(Comparator.comparing(Announcement::getAcceptanceDate));
-        Collections.reverse(listAnnouncements);
-        return listAnnouncements;
+    public List<Announcement> sortAnnouncementsByMostRecentSaleDate() {
+        this.announcements.sort(Comparator.comparing(Announcement::getSaleDate));
+        Collections.reverse(this.announcements);
+        return this.announcements;
     }
 
     /**
