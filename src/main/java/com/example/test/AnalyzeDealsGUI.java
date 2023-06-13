@@ -1,5 +1,6 @@
 package com.example.test;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -7,10 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import pt.ipp.isep.dei.esoft.project.application.controller.AnalyzeDealsController;
-import pt.ipp.isep.dei.esoft.project.application.controller.ListDealsNetworkController;
-import pt.ipp.isep.dei.esoft.project.domain.Announcement;
 import pt.ipp.isep.dei.esoft.project.domain.IndependentVariables;
 import pt.ipp.isep.dei.esoft.project.domain.dto.RegressionModelTypeDto;
 import pt.ipp.isep.dei.esoft.project.domain.dto.StatisticDto;
@@ -24,6 +22,8 @@ public class AnalyzeDealsGUI implements Initializable {
     private AnalyzeDealsController controller;
     private String regressionModel;
     private String variable;
+    private StatisticDto statistic;
+
     @FXML
     private ComboBox<String> cmbVariable;
 
@@ -34,7 +34,9 @@ public class AnalyzeDealsGUI implements Initializable {
     private Label lblWarning;
 
     @FXML
-    private ListView<String> listViewDealsDisplay;
+    private ListView<String> listViewStatistics;
+    @FXML
+    private ListView<String> listViewForecastValue;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -90,19 +92,19 @@ public class AnalyzeDealsGUI implements Initializable {
         }
     }
 
-    private String getStatisticReport(String regressionModel, String variable) {
+    private void getStatisticReport(String regressionModel, String variable) {
         try {
-            StatisticDto s = controller.getStatisticsAndForecastValues(new RegressionModelTypeDto(regressionModel), variable);
-            return s.getReport();
-        } catch (ReflectiveOperationException | NullPointerException e) {
+            this.statistic = controller.getStatisticsAndForecastValues(new RegressionModelTypeDto(regressionModel), variable);
+        } catch (ReflectiveOperationException e) {
             lblWarning.setText("ERROR: " + e.getMessage());
         }
-        return "No data available";
     }
 
     private void updateList(String regressionModel, String variable) {
         try {
-            listViewDealsDisplay.getItems().add(getStatisticReport(regressionModel, variable));
+            getStatisticReport(regressionModel, variable);
+            listViewStatistics.getItems().add(this.statistic.getReport());
+            listViewForecastValue.getItems().add(this.statistic.getValuesComparison());
         } catch (NullPointerException e) {
             lblWarning.setText("ERROR: No sale (apartment/house) deals in the system.");
         } catch (MathIllegalArgumentException e) {
@@ -126,14 +128,24 @@ public class AnalyzeDealsGUI implements Initializable {
         return true;
     }
 
+    @FXML
+    private void btnCloseApp(ActionEvent event){
+        Platform.exit();
+    }
 
     public void btnResetAction(ActionEvent event) {
         this.regressionModel = null;
         this.variable = null;
+        lblWarning.setText("");
         cmbVariable.getItems().clear();
         cmbVariable.setDisable(false);
         initComboBoxVariable();
         cmbRegressionModel.getItems().clear();
-        listViewDealsDisplay.getItems().clear();
+        initComboBoxRegression();
+        listViewStatistics.getItems().clear();
+        listViewForecastValue.getItems().clear();
     }
+
+
 }
+

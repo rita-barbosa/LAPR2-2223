@@ -5,54 +5,68 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.test.AnalyzeDealsGUI">
+<AnchorPane prefHeight="573.0" prefWidth="715.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.test.AnalyzeDealsGUI">
     <children>
-        <Rectangle arcHeight="5.0" fill="#7abedd" height="48.0" stroke="TRANSPARENT" strokeType="INSIDE" width="607.0" />
-        <Label layoutX="197.0" layoutY="7.0" text="Analyze Sale Deals" textFill="#254757">
+        <Rectangle arcHeight="5.0" fill="#7bbedb" height="48.0" stroke="TRANSPARENT" strokeType="INSIDE" width="715.0" />
+        <Label alignment="CENTER" layoutX="251.0" layoutY="7.0" text="Analyze Sale Deals" textFill="#254757">
             <font>
                 <Font name="System Bold Italic" size="24.0" />
             </font>
         </Label>
-        <Button fx:id="btnShowData" layoutX="35.0" layoutY="351.0" mnemonicParsing="false" onAction="#btnNextAction" prefHeight="35.0" prefWidth="81.0" text="Ok">
-            <font>
-                <Font size="14.0" />
-            </font>
-        </Button>
-        <AnchorPane layoutX="24.0" layoutY="59.0" prefHeight="96.0" prefWidth="200.0">
+        <AnchorPane layoutX="20.0" layoutY="59.0" prefHeight="110.0" prefWidth="202.0">
             <children>
-                <Rectangle arcHeight="5.0" fill="#22b9ff61" height="98.0" layoutY="2.0" stroke="TRANSPARENT" strokeType="INSIDE" width="200.0" />
-                <Label layoutX="44.0" layoutY="22.0" text="Regression Model">
+                <Rectangle arcHeight="5.0" fill="#7bbedb87" height="98.0" layoutX="2.0" layoutY="5.0" stroke="TRANSPARENT" strokeType="INSIDE" width="200.0" />
+                <Label alignment="CENTER" layoutX="28.0" layoutY="14.0" prefHeight="25.0" prefWidth="145.0" text="Regression Model" textFill="#254757">
                     <font>
-                        <Font size="14.0" />
+                        <Font name="System Bold" size="16.0" />
                     </font>
                 </Label>
-            <ComboBox fx:id="cmbRegressionModel" layoutX="14.0" layoutY="61.0" onAction="#initComboBoxRegression" prefHeight="25.0" prefWidth="173.0" />
+            <ComboBox fx:id="cmbRegressionModel" layoutX="15.0" layoutY="61.0" onAction="#initComboBoxRegression" prefHeight="25.0" prefWidth="173.0" />
             </children>
         </AnchorPane>
-        <AnchorPane layoutX="24.0" layoutY="173.0" prefHeight="96.0" prefWidth="200.0">
+        <AnchorPane layoutX="21.0" layoutY="274.0" prefHeight="96.0" prefWidth="200.0" />
+        <AnchorPane fx:id="anchorpane" layoutX="238.0" layoutY="61.0" minHeight="0.0" minWidth="0.0" prefHeight="504.0" prefWidth="465.0">
             <children>
-                <Rectangle arcHeight="5.0" fill="#22b9ff61" height="98.0" layoutY="2.0" stroke="TRANSPARENT" strokeType="INSIDE" width="200.0" />
-             <Label layoutX="34.0" layoutY="22.0" text="Independent Variable">
-                    <font>
-                        <Font size="14.0" />
-                    </font>
-                </Label>
-            <ComboBox fx:id="cmbVariable" layoutX="14.0" layoutY="61.0" onAction="#initComboBoxVariable" prefHeight="25.0" prefWidth="173.0" />
+            <Rectangle arcHeight="5.0" fill="#7bbedb87" height="504.0" layoutX="-2.0" layoutY="5.0" stroke="TRANSPARENT" strokeType="INSIDE" width="465.0" />
+                <ListView fx:id="listViewForecastValue" layoutX="3.0" layoutY="293.0" prefHeight="211.0" prefWidth="456.0" />
+            <ListView fx:id="listViewStatistics" layoutX="3.0" layoutY="42.0" prefHeight="211.0" prefWidth="456.0" />
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="149.0" layoutY="261.0" prefHeight="27.0" prefWidth="158.0" text="Estimated Values" textAlignment="CENTER" textFill="#254757">
+               <font>
+                  <Font name="System Bold Italic" size="18.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" layoutX="103.0" layoutY="7.0" prefHeight="35.0" prefWidth="251.0" text="Regression Model Statistics" textAlignment="CENTER" textFill="#254757">
+               <font>
+                  <Font name="System Bold Italic" size="18.0" />
+               </font>
+            </Label>
             </children>
         </AnchorPane>
-        <AnchorPane fx:id="anchorpane" layoutX="244.0" layoutY="59.0" minHeight="0.0" minWidth="0.0" prefHeight="327.0" prefWidth="349.0">
-            <children>
-                <ListView fx:id="listViewDealsDisplay" layoutX="17.0" prefHeight="333.0" prefWidth="334.0" />
-            </children>
-        </AnchorPane>
-        <Button fx:id="btnReset" layoutX="143.0" layoutY="351.0" mnemonicParsing="false" onAction="#btnResetAction" prefHeight="35.0" prefWidth="81.0" text="Reset">
+        <Button fx:id="btnReset" layoutX="51.0" layoutY="479.0" mnemonicParsing="false" onAction="#btnResetAction" prefHeight="35.0" prefWidth="135.0" style="-fx-background-color: acd9ed;" text="Reset" textFill="#254757">
             <font>
-                <Font size="14.0" />
+                <Font name="System Bold" size="14.0" />
             </font>
         </Button>
-        <Label fx:id="lblWarning" alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="282.0" prefHeight="63.0" prefWidth="224.0" textAlignment="CENTER" textFill="RED" wrapText="true">
+        <Button fx:id="btnShowData" layoutX="51.0" layoutY="433.0" mnemonicParsing="false" onAction="#btnNextAction" prefHeight="35.0" prefWidth="135.0" style="-fx-background-color: #acd9ed;" text="Ok" textFill="#254757">
+            <font>
+                <Font name="System Bold" size="14.0" />
+            </font>
+        </Button>
+        <Label fx:id="lblWarning" alignment="CENTER" contentDisplay="CENTER" layoutX="21.0" layoutY="297.0" prefHeight="122.0" prefWidth="200.0" textAlignment="CENTER" textFill="RED" wrapText="true">
          <font>
-            <Font size="13.0" />
+            <Font name="System Bold" size="13.0" />
          </font></Label>
+          <Rectangle arcHeight="5.0" fill="#7cbdd987" height="98.0" layoutX="21.0" layoutY="179.0" stroke="TRANSPARENT" strokeType="INSIDE" width="200.0" />
+      <ComboBox fx:id="cmbVariable" layoutX="35.0" layoutY="241.0" onAction="#initComboBoxVariable" prefHeight="25.0" prefWidth="173.0" />
+       <Label alignment="CENTER" layoutX="35.0" layoutY="192.0" prefHeight="25.0" prefWidth="173.0" text="Independent Variable" textFill="#254757">
+              <font>
+                  <Font name="System Bold" size="16.0" />
+                </font>
+          </Label>
+      <Button alignment="CENTER" layoutX="82.0" layoutY="536.0" mnemonicParsing="false" onAction="#btnCloseApp" prefHeight="27.0" prefWidth="74.0" style="-fx-background-color: #acd9ed;" text="Close" textFill="#254757">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Button>
     </children>
 </AnchorPane>

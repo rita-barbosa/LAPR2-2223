@@ -12,7 +12,7 @@ public class Visit implements Serializable {
     /**
      * The Id.
      */
-    private Integer id = 0;
+    private Integer id;
     /**
      * The id iteration variable.
      */

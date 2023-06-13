@@ -41,7 +41,6 @@ public class SimpleLinear implements RegressionModel {
         this.regression = new SimpleRegression();
         addData();
         n = this.regression.getN();
-        System.out.println("simple linear:"+n);
         degreeOfFreedom = this.n - 2;
         intercept = this.regression.getIntercept();
         slope = this.regression.getSlope();
@@ -90,24 +89,30 @@ public class SimpleLinear implements RegressionModel {
         report.append(String.format("Sxx: %.4f%n", Sxx));
         report.append(String.format("Syy: %.4f%n", Syy));
         report.append(String.format("Sxy: %.4f%n", Sxy));
+        report.append(String.format("%n[-----Significance Model with Anova-----]%n")); //
         report.append(String.format("SE: %.4f%n", SE));
         report.append(String.format("SR: %.4f%n", SR));
         report.append(String.format("ST: %.4f%n", ST));
-        report.append(String.format("%n[-----Significance Model with Anova-----]%n")); //
+        report.append("-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-\n");
         report.append(String.format("MSR: %.4f%n", MSR));
         report.append(String.format("MSE: %.4f%n", MSE));
+        report.append("-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-\n");
         report.append(String.format("F (observed): %.4f%n", fObs));
         report.append(String.format("F Snedecor: %.4f%n", fSnedecor));
+        report.append("-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-\n");
         report.append(String.format("Test: H0 : b = b0 %n      H1 : b != b0%n"));
         report.append(compareAnovaSigModel());
         report.append(String.format("%n[-----Confidence Intervals-----]%n"));
-        report.append("## For slope:%n");
+        report.append("## For slope:\n");
         report.append(getConfidenceIntervals(slopeStdErr, slope));
-        report.append("## For intercept:%n");
+        report.append("-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-\n");
+        report.append("## For intercept:\n");
         report.append(getConfidenceIntervals(interceptStdErr, intercept));
-        report.append(String.format("%n[-----Hypothesis Test | Slope-----]%n"));
+        report.append(String.format("%n[-----Hypothesis Tests-----]%n"));
+        report.append("## For slope:\n");
         report.append(slopeHypothesisTest());
-        report.append(String.format("%n[-----Hypothesis Test | Intercept-----]%n"));
+        report.append("-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-\n");
+        report.append("## For intercept:\n");
         report.append(interceptHypothesisTest());
 
         return report.toString();

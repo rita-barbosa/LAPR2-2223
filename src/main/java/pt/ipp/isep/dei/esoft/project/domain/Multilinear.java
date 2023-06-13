@@ -109,7 +109,9 @@ public class Multilinear implements RegressionModel {
         for (int i = 0; i < this.parametersStdErr.length; i++) {
             double tObserved = (this.beta[i] / this.parametersStdErr[i]);
             double tC = tStudent(1 - (ALPHA / 2), (int) (this.n - (this.k + 1)));
+
             s.append(String.format("%n#%s | Parameter: %.4f%n", i, this.beta[i]));
+            s.append("-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-\n");
             s.append(String.format("Test: H0: Bj = 0\n      H1: Bj != 0\n"));
             s.append(getHypothesisTestDecision(tObserved, tC));
         }
@@ -124,11 +126,9 @@ public class Multilinear implements RegressionModel {
         report.append(String.format("Equation: y = %.2f + (%.2fX\u2081) + (%.2fX\u2082) + (%.2fX\u2083) + (%.2fX\u2084) + (%.2fX\u2085)\n", beta[0], beta[1], beta[2], beta[3], beta[4], beta[5]));
         report.append(String.format("%n[-----Additional Statistics-----]%n"));
         report.append(String.format("n : %d%n", n));
-        report.append(String.format("SQT: %.4f\n", ST));
-        report.append(String.format("SQR: %.4f\n", SR));
-        report.append(String.format("SQE: %.4f\n", SE));
         report.append(String.format("R Squared: %.4f\n", rSquare));
         report.append(String.format("R Squared Adjusted: %.4f\n", rSquareAdjusted));
+        report.append("-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-\n");
         report.append(String.format("# Independent Variables Average %n"));
         report.append(String.format("             .X\u2081 Average : %.2f%n", xAverage[0]));
         report.append(String.format("             .X\u2082 Average : %.2f%n", xAverage[1]));
@@ -138,8 +138,13 @@ public class Multilinear implements RegressionModel {
         report.append(String.format("# Dependent Variable Average %n"));
         report.append(String.format("             .Y Average : %.2f%n", xAverage[0]));
         report.append(String.format("%n[-----Significance Model with Anova-----]%n"));
+        report.append(String.format("SQT: %.4f\n", ST));
+        report.append(String.format("SQR: %.4f\n", SR));
+        report.append(String.format("SQE: %.4f\n", SE));
+        report.append("-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-\n");
         report.append(String.format("MQR: %.4f%n", MQR));
         report.append(String.format("MQE: %.4f%n", MQE));
+        report.append("-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-\n");
         report.append(String.format("F (observed): %.4f%n", fObs));
         report.append(String.format("F Snedecor: %.4f%n", fSnedecor));
         report.append(compareAnovaSigModel());
@@ -159,6 +164,7 @@ public class Multilinear implements RegressionModel {
             double upper = this.beta[i] + (tStudent(1 - (ALPHA / 2), (int) (this.n - (this.k + 1))) * this.parametersStdErr[i]);
 
             s.append(String.format("#%s | Parameter: %.4f%n", i, this.beta[i]));
+            s.append("-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-\n");
             s.append(String.format("Standard Error : %.4f%n", this.parametersStdErr[i]));
             s.append(String.format("Lower : %.4f%n", lower));
             s.append(String.format("Upper : %.4f%n", upper));
