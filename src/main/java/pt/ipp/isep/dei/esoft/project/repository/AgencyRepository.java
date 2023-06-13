@@ -6,7 +6,6 @@ import pt.ipp.isep.dei.esoft.project.domain.mapper.LegacySystemMapper;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -201,4 +200,15 @@ public class AgencyRepository implements Serializable {
             }
         }
     }
+
+    public List<Integer> getDealsNumberOfAgencies(){
+        List<Integer> listOfDeals = new ArrayList<>();
+        for (Agency agency : agencies){
+            int agencyId = agency.getId();
+            int dealsNumber = agency.getNumberOfDeals();
+            listOfDeals.add(agencyId, dealsNumber);
+        }
+        return listOfDeals;
+    }
+
 }

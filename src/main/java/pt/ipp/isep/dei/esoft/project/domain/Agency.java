@@ -537,4 +537,8 @@ public class Agency implements Serializable {
         this.location = (Location) ipst.readObject();
         this.employees = (List<Employee>) ipst.readObject();
     }
+
+    public int getNumberOfDeals() {
+        return this.getAnnouncements().getDealsNumber();
+    }
 }
