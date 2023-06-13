@@ -2,6 +2,7 @@ package pt.ipp.isep.dei.esoft.project.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MergeAlgorithm implements SortingAlgorithm, Serializable {
@@ -18,7 +19,9 @@ public class MergeAlgorithm implements SortingAlgorithm, Serializable {
     @Override
     public List<Announcement> sort(String sortingOrder, List<?> list) {
         Announcement[] announce = getAnnouncementArray(list);
-        this.mergeSort(announce, list.size(), sortingOrder);
+        // array,0,array.length-1
+        this.mergeSort(announce, 0, announce.length - 1, sortingOrder);
+        this.sortedList = Arrays.asList(announce);
         return this.sortedList;
     }
 
@@ -30,63 +33,66 @@ public class MergeAlgorithm implements SortingAlgorithm, Serializable {
         return announce;
     }
 
-    private void mergeSort(Announcement[] announce, int size, String sortingOrder) {
-        if (size < 2) {
-            return;
-        }
-
-        int mid = size / 2;
-        Announcement[] l = new Announcement[mid];
-        Announcement[] r = new Announcement[size - mid];
-
-        for (int i = 0; i < mid; i++) {
-            l[i] = announce[i];
-        }
-        for (int i = mid; i < size; i++) {
-            r[i - mid] = announce[i];
-        }
-        mergeSort(l, mid, sortingOrder);
-        mergeSort(r, size - mid, sortingOrder);
-
-        if (sortingOrder.equalsIgnoreCase("Ascending")) {
-            mergeAcending(announce, l, r, mid, size - mid);
-        }else {
-            mergeDescending(announce, l, r, mid, size - mid);
-        }
-    }
-
-    private void mergeAcending(Announcement[] announce, Announcement[] l, Announcement[] r, int left, int right) {
-        int i = 0, j = 0, k = 0;
-        while (i < left && j < right) {
-            if (l[i].getRequest().getProperty().getArea() <= r[j].getRequest().getProperty().getArea()) {
-                announce[k++] = l[i++];
+    private void mergeSort(Announcement[] announce, int low, int high, String sortingOrder) {
+        if (high - low + 1 > 1) {
+            int mid = (low + high) / 2;
+            mergeSort(announce, low, mid, sortingOrder);
+            mergeSort(announce, mid + 1, high, sortingOrder);
+            if (sortingOrder.equalsIgnoreCase("Ascending")) {
+                mergeAcending(announce, low, mid, high);
             } else {
-                announce[k++] = r[j++];
+                mergeDescending(announce, low, mid, high);
             }
         }
-        while (i < left) {
-            announce[k++] = l[i++];
-        }
-        while (j < right) {
-            announce[k++] = r[j++];
-        }
     }
 
-    private void mergeDescending(Announcement[] announce, Announcement[] l, Announcement[] r, int left, int right) {
-        int i = 0, j = 0, k = 0;
-        while (i < left && j < right) {
-            if (l[i].getRequest().getProperty().getArea() <= r[j].getRequest().getProperty().getArea()) {
-                announce[k++] = l[i++];
+    private void mergeAcending(Announcement[] announce, int low, int mid, int high) {
+        int i, j, k;
+        Announcement[] c = new Announcement[high - low + 1];
+        k = 0;
+        i = low;
+        j = mid + 1;
+        while (i <= mid && j <= high) {
+            if (announce[i].getRequest().getProperty().getArea() <= announce[j].getRequest().getProperty().getArea()) {
+                c[k++] = announce[i++];
             } else {
-                announce[k++] = r[j++];
+                c[k++] = announce[j++];
             }
         }
-        while (i < left) {
-            announce[k++] = l[i++];
+        while (i <= mid) {
+            c[k++] = announce[i++];
         }
-        while (j < right) {
-            announce[k++] = r[j++];
+        while (j <= high) {
+            c[k++] = announce[j++];
+        }
+        k = 0;
+        for (i = low; i <= high; i++) {
+            announce[i] = c[k++];
         }
     }
 
+    private void mergeDescending(Announcement[] announce, int low, int mid, int high) {
+        int i, j, k;
+        Announcement[] c = new Announcement[high - low + 1];
+        k = 0;
+        i = low;
+        j = mid + 1;
+        while (i <= mid && j <= high) {
+            if (announce[i].getRequest().getProperty().getArea() >= announce[j].getRequest().getProperty().getArea()) {
+                c[k++] = announce[i++];
+            } else {
+                c[k++] = announce[j++];
+            }
+        }
+        while (i <= mid) {
+            c[k++] = announce[i++];
+        }
+        while (j <= high) {
+            c[k++] = announce[j++];
+        }
+        k = 0;
+        for (i = low; i <= high; i++) {
+            announce[i] = c[k++];
+        }
+    }
 }

@@ -2,6 +2,7 @@ package pt.ipp.isep.dei.esoft.project.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class BubbleAlgorithm implements SortingAlgorithm, Serializable {
@@ -20,12 +21,12 @@ public class BubbleAlgorithm implements SortingAlgorithm, Serializable {
     @Override
     public List<Announcement> sort(String sortingOrder, List<?> list) {
         Announcement[] announce = getAnnouncementArray(list);
-
         if (sortingOrder.equalsIgnoreCase("Ascending")) {
             this.sortAscending(announce, list.size());
-            return this.sortedList;
+        }else {
+            this.sortDescending(announce, list.size());
         }
-        sortDescending(announce, list.size());
+        this.sortedList = Arrays.asList(announce);
         return this.sortedList;
     }
 
