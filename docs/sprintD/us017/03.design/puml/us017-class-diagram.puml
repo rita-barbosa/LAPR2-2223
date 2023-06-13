@@ -21,6 +21,8 @@ class Agency {
     - AnnouncementList announcements
     - RequestList requests
     + getDealsAnnouncementList()
+    + hasId()
+    + getDescription()
 }
 
 class AnnouncementList{
@@ -37,7 +39,8 @@ in the Announcement List
 end note
 
 class AnnouncementMapper {
-    + toDto(sortedListDto)
+    + toNetworkDto(listOfAllDeals, agenciesList)
+    + getAgencyDescriptionById(agencyId, agenciesList)
 }
 
 class AnnouncementDto{
@@ -52,10 +55,6 @@ note top of AnnouncementDto
     String from Announcement
     Commission's toString()
 end note
-
-'class AnnouncementListDto << List<AnnouncementDto> >>{
-'    + add(announcementDto)
-'}
 
 class Announcement{
     - LocalDate acceptanceDate
@@ -76,7 +75,6 @@ class Announcement{
     + getSaleAmount()
     + getRequestInfo()
     + getAgentName()
-'    + getAgentTaxNumber()
     + getAgentAgencyId()
 }
 
@@ -105,6 +103,7 @@ class Request{
 
 class AgencyRepository {
     + getAllDealsAnnouncements()
+    + getAgenciesList()
 }
 
 class Repositories {
@@ -144,21 +143,8 @@ end note
 class ListDealsNetworkUI {
 }
 
-class Person{
-    - String name;
-    - String taxNumber;
-    - Email emailAddress;
-    - String phoneNumber;
-    - String passportCardNumber;
-    - List<String> roles;
-    - Location location;
-    + getName()
- }
-
-
 class Employee{
     - String agencyId
-    + getName()
     + getAgencyId()
 }
 
@@ -195,15 +181,6 @@ MergeAlgorithm ..up|> SortingAlgorithm : implements >
 
 BubbleAlgorithm ..left|> SortingAlgorithm : implements >
 
-'AnnouncementMapper .left.> AnnouncementListDto
-
-'ListDealsNetworkController .> AnnouncementListDto
-
-'ListDealsNetworkUI .> AnnouncementListDto
-
-'AnnouncementListDto -left> AnnouncementDto : contains >
-
-Person "1" -down-> "1" Employee: represented in <
 Employee "1" --> "*" Announcement: is published by <
 Employee "1" -> "1" Agency: works in  >
 AnnouncementList "1" --> "*" Announcement: records >
