@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.test.SubdivideAgenciesGUI">
+   <children>
+      <Rectangle arcHeight="5.0" fill="#7abedd" height="48.0" stroke="TRANSPARENT" strokeType="INSIDE" width="607.0" />
+      <Label layoutX="173.0" layoutY="7.0" text="The Real Estate Agency" textFill="#254757">
+         <font>
+            <Font name="System Bold Italic" size="24.0" />
+         </font>
+      </Label>
+      <AnchorPane fx:id="anchorpane" layoutX="43.0" layoutY="96.0" minHeight="0.0" minWidth="0.0" prefHeight="290.0" prefWidth="538.0">
+         <children>
+            <ListView fx:id="listViewPartitionsDisplay" layoutX="-3.0" prefHeight="290.0" prefWidth="545.0" stylesheets="@Styles.css" />
+         </children>
+      </AnchorPane>
+      <Rectangle arcHeight="5.0" fill="#24baff61" height="35.0" layoutX="40.0" layoutY="61.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="545.0" />
+      <Label layoutX="68.0" layoutY="67.0" text="Subdivision of Agencies and Partitions based on number of deals">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
