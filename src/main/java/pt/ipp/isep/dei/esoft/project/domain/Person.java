@@ -2,6 +2,9 @@ package pt.ipp.isep.dei.esoft.project.domain;
 
 import pt.isep.lei.esoft.auth.domain.model.Email;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.*;
 
@@ -476,6 +479,27 @@ public class Person implements Serializable {
                 && Objects.equals(emailAddress, person.emailAddress) && Objects.equals(phoneNumber, person.phoneNumber)
                 && Objects.equals(passportCardNumber, person.passportCardNumber) && Objects.equals(roles, person.roles)
                 && Objects.equals(location, person.location);
+    }
+
+    private void writeObject(ObjectOutputStream opst) throws IOException {
+        opst.writeObject(this.emailAddress.getEmail());
+        opst.writeObject(this.passportCardNumber);
+        opst.writeObject(this.taxNumber);
+        opst.writeObject(this.name);
+        opst.writeObject(this.phoneNumber);
+        opst.writeObject(this.location);
+        opst.writeObject(this.roles);
+    }
+
+
+    private void readObject(ObjectInputStream ipst) throws IOException, ClassNotFoundException {
+        this.emailAddress = new Email((String) ipst.readObject());
+        this.passportCardNumber = (String) ipst.readObject();
+        this.taxNumber = (String) ipst.readObject();
+        this.name = (String) ipst.readObject();
+        this.phoneNumber = (String) ipst.readObject();
+        this.location = (Location) ipst.readObject();
+        this.roles = (List<String>) ipst.readObject();
     }
 }
 

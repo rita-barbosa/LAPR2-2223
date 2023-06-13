@@ -1,5 +1,6 @@
 package pt.ipp.isep.dei.esoft.project.ui.console.menu;
 
+import pt.ipp.isep.dei.esoft.project.domain.Serialization;
 import pt.ipp.isep.dei.esoft.project.ui.console.CreateRequestUI;
 import pt.ipp.isep.dei.esoft.project.ui.console.DevTeamUI;
 import pt.ipp.isep.dei.esoft.project.ui.console.DisplayPropertiesUI;
@@ -13,6 +14,7 @@ import java.util.List;
 
 /**
  * The MainMenuUI class provides a command-line user interface for the main menu of an application.
+ *
  * @author Paulo Maio pam@isep.ipp.pt
  */
 public class MainMenuUI implements Runnable {
@@ -42,5 +44,6 @@ public class MainMenuUI implements Runnable {
                 options.get(option).run();
             }
         } while (option != -1);
+        Serialization.saveData();
     }
 }

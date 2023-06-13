@@ -11,7 +11,7 @@ import static java.awt.SystemColor.text;
 /**
  * The purchase order made by the client.
  */
-public class Order implements Serializable{
+public class Order implements Serializable {
     /**
      * The Id.
      */
@@ -197,4 +197,20 @@ public class Order implements Serializable{
         return Objects.hash(id, orderAmount, orderDate, clientEmail, acceptanceAnswer);
     }
 
+    private void writeObject(ObjectOutputStream opst) throws IOException {
+        opst.writeObject(this.clientEmail.getEmail());
+        opst.writeObject(this.id);
+        opst.writeObject(this.acceptanceAnswer);
+        opst.writeObject(this.orderDate);
+        opst.writeObject(this.orderAmount);
+    }
+
+
+    private void readObject(ObjectInputStream ipst) throws IOException, ClassNotFoundException {
+        this.clientEmail = new Email((String) ipst.readObject());
+        this.id = (Integer) ipst.readObject();
+        this.acceptanceAnswer = (String) ipst.readObject();
+        this.orderDate = (LocalDate) ipst.readObject();
+        this.orderAmount = (Double) ipst.readObject();
+    }
 }

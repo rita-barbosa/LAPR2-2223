@@ -7,6 +7,7 @@ import pt.ipp.isep.dei.esoft.project.repository.AgencyRepository;
 import pt.ipp.isep.dei.esoft.project.repository.PersonRepository;
 import pt.ipp.isep.dei.esoft.project.repository.Repositories;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,8 +19,6 @@ public class ImportLegacyInformationController {
     public ImportLegacyInformationController() {
         getAgencyRepository();
         getPersonRepository();
-//        agencyRepository.loadAgencies();
-//        personRepository.loadPeople();
     }
 
     private AgencyRepository getAgencyRepository() {
@@ -58,16 +57,9 @@ public class ImportLegacyInformationController {
         } catch (Exception e) {
             success = false;
         }
-//        saveBinaryFile();
         return success;
     }
 
-//    private void saveBinaryFile() {
-//        Repositories rep = Repositories.getInstance();
-//        PersonRepository people = rep.getPersonRepository();
-//        people.savePeople();
-//        agencyRepository.saveAgencies();
-//    }
 
     private Boolean publishAnnouncement(LegacySystemDto dto, Agency agency, Employee agent, String ownerEmail) throws
             NumberFormatException {

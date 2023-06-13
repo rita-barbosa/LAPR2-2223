@@ -18,6 +18,10 @@ public class AnnouncementList implements Serializable {
         this.announcements = new ArrayList<>();
     }
 
+    public AnnouncementList(List<Announcement> announcement) {
+        this.announcements = announcement;
+    }
+
     /**
      * Returns the list of announcements for this agency.
      *

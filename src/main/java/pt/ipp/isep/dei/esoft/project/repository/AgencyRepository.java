@@ -186,10 +186,9 @@ public class AgencyRepository implements Serializable {
 
     public void saveAgencies() {
         try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("binaryFile/agencyBin.data"))) {
-            outputStream.writeObject((List<Agency>) agencies);
-            System.out.println("Saved agencies.");
+            outputStream.writeObject(agencies);
         } catch (IOException e) {
-            System.out.println("ERROR: Couldn't save agencies.");
+            System.out.println(e.getMessage());
         }
     }
 
@@ -198,9 +197,8 @@ public class AgencyRepository implements Serializable {
         if (file.exists()) {
             try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(file.getPath()))) {
                 agencies = (ArrayList<Agency>) inputStream.readObject();
-                System.out.println("Loaded agencies.");
             } catch (IOException | ClassNotFoundException e) {
-                System.out.println("ERROR: Couldn't load agencies.");
+                System.out.println(e.getMessage());
             }
         }
     }

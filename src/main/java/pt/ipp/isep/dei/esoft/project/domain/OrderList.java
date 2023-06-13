@@ -21,6 +21,13 @@ public class OrderList implements Serializable {
     }
 
     /**
+     * Constructs a new OrderList instance with a specified list of orders.
+     * @param order
+     */
+    public OrderList(List<Order> order) {
+        this.orders = order;
+    }
+    /**
      * Adds an order to the list.
      *
      * @param order the order to add

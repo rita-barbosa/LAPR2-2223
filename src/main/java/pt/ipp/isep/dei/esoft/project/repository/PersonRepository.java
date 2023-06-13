@@ -94,7 +94,6 @@ public class PersonRepository implements Serializable {
     public void savePeople() {
         try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("binaryFile/personBin.data"))) {
             outputStream.writeObject((List<Person>) people);
-            System.out.println("Saved person.");
         } catch (IOException e) {
             System.out.println("ERROR: Couldn't save person.");
         }
@@ -105,9 +104,8 @@ public class PersonRepository implements Serializable {
         if (file.exists()) {
             try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(file.getPath()))) {
                 people = (ArrayList<Person>) inputStream.readObject();
-                System.out.println("Loaded people.");
             } catch (IOException | ClassNotFoundException e) {
-                System.out.println("ERROR: Couldn't load people.");
+                System.out.println(e.getMessage());
             }
         }
     }

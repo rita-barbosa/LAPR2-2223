@@ -4,6 +4,9 @@ import pt.ipp.isep.dei.esoft.project.domain.dto.AnnouncementDto;
 import pt.ipp.isep.dei.esoft.project.domain.mapper.AnnouncementMapper;
 import pt.isep.lei.esoft.auth.domain.model.Email;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.*;
@@ -95,7 +98,7 @@ public class Agency implements Serializable {
      * @param location     the location of the agency.
      * @throws IllegalArgumentException the illegal argument exception
      */
-    public Agency(Integer id, String description, String emailAddress, String phoneNumber, String location) throws IllegalArgumentException {
+    public Agency(Integer id, String description, String emailAddress, String phoneNumber, String location) {
         this.id = id;
         this.description = description;
         this.emailAddress = new Email(emailAddress);
@@ -278,7 +281,7 @@ public class Agency implements Serializable {
     public Optional<Request> createSaleRequest(AnnouncementDto announcementDto, PropertyType propertyType, Employee agent) {
 
         Optional<Request> optionalValue = Optional.empty();
-        Request request = AnnouncementMapper.toModelSaleRequest(announcementDto, propertyType,agent);
+        Request request = AnnouncementMapper.toModelSaleRequest(announcementDto, propertyType, agent);
         if (addRequest(request)) {
             assert request != null;
             optionalValue = Optional.of(request);
@@ -509,5 +512,28 @@ public class Agency implements Serializable {
      */
     public List<Announcement> getDealsAnnouncementList() {
         return announcements.getDealsList();
+    }
+
+    private void writeObject(ObjectOutputStream opst) throws IOException {
+        opst.writeObject(this.emailAddress.getEmail());
+        opst.writeObject(this.id);
+        opst.writeObject(this.description);
+        opst.writeObject(this.announcements.getList());
+        opst.writeObject(this.requests.getList());
+        opst.writeObject(this.phoneNumber);
+        opst.writeObject(this.location);
+        opst.writeObject(this.employees);
+    }
+
+
+    private void readObject(ObjectInputStream ipst) throws IOException, ClassNotFoundException {
+        this.emailAddress = new Email((String) ipst.readObject());
+        this.id = (Integer) ipst.readObject();
+        this.description = (String) ipst.readObject();
+        this.announcements = new AnnouncementList((List<Announcement>) ipst.readObject());
+        this.requests = new RequestList((List<Request>) ipst.readObject());
+        this.phoneNumber = (String) ipst.readObject();
+        this.location = (Location) ipst.readObject();
+        this.employees = (List<Employee>) ipst.readObject();
     }
 }

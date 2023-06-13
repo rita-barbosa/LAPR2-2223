@@ -2,6 +2,9 @@ package pt.ipp.isep.dei.esoft.project.domain;
 
 import pt.isep.lei.esoft.auth.domain.model.Email;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
@@ -147,6 +150,15 @@ public class Employee extends Person implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         Employee employee = (Employee) o;
         return super.equals(o) && Objects.equals(agencyId, employee.agencyId);
+    }
+
+    private void writeObject(ObjectOutputStream opst) throws IOException {
+        opst.writeObject(this.agencyId);
+    }
+
+
+    private void readObject(ObjectInputStream ipst) throws IOException, ClassNotFoundException {
+        this.agencyId = (Integer) ipst.readObject();
     }
 
 }

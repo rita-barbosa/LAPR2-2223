@@ -2,6 +2,9 @@ package pt.ipp.isep.dei.esoft.project.domain;
 
 import pt.isep.lei.esoft.auth.domain.model.Email;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.*;
@@ -18,7 +21,7 @@ public class Request implements Serializable {
     /**
      * The Request date.
      */
-    private final LocalDate requestDate;
+    private LocalDate requestDate;
     /**
      * The Agent.
      */
@@ -26,7 +29,7 @@ public class Request implements Serializable {
     /**
      * The Business.
      */
-    private final Business business;
+    private Business business;
     /**
      * The Property.
      */
@@ -668,5 +671,27 @@ public class Request implements Serializable {
         variablesValue.add(((Residence) this.property).getParkingSpace().doubleValue());
 
         return variablesValue;
+    }
+    private void writeObject(ObjectOutputStream opst) throws IOException {
+        opst.writeObject(this.ownerEmail.getEmail());
+        opst.writeObject(this.id);
+        opst.writeObject(this.agent);
+        opst.writeObject(this.business);
+        opst.writeObject(this.property);
+        opst.writeObject(this.justificationMessage);
+        opst.writeObject(this.requestDate);
+        opst.writeObject(this.validationStatus);
+    }
+
+
+    private void readObject(ObjectInputStream ipst) throws IOException, ClassNotFoundException {
+        this.ownerEmail = new Email((String) ipst.readObject());
+        this.id = (Integer) ipst.readObject();
+        this.agent = (Employee) ipst.readObject();
+        this.business = (Business) ipst.readObject();
+        this.property = (Property) ipst.readObject();
+        this.justificationMessage = (String) ipst.readObject();
+        this.requestDate = (LocalDate) ipst.readObject();
+        this.validationStatus = (Boolean) ipst.readObject();
     }
 }

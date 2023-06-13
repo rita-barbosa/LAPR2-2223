@@ -4,7 +4,11 @@ import javafx.util.Pair;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import org.apache.commons.math3.stat.regression.MultipleLinearRegression;
 import org.apache.commons.math3.stat.regression.OLSMultipleLinearRegression;
+import pt.isep.lei.esoft.auth.domain.model.Email;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -149,6 +153,8 @@ public class Announcement implements Serializable {
         this.acceptanceDate = DATE_BY_DEFAULT;
         int[] date = mapStringToLocalDate(propertyDateSale);
         this.saleDate = LocalDate.of(date[2], date[1], date[0]);
+        this.orders = new OrderList();
+        this.visitList = new ArrayList<>();
         this.saleAmount = propertySalePrice;
         this.id = counter++;
     }
@@ -327,10 +333,10 @@ public class Announcement implements Serializable {
      * @return the string
      */
     public String toString() {
-        if (Objects.equals(this.saleAmount, SALE_AMOUNT_BY_DEFAULT)) {
+        if (this.saleAmount.equals(SALE_AMOUNT_BY_DEFAULT)) {
             return getRequest().toString() + String.format("Acceptance Date: %s\n", acceptanceDate);
         } else if (this.acceptanceDate.equals(DATE_BY_DEFAULT)) {
-            return getRequest().toString() + String.format("Sale Date: %s\nSale Amount: %s\n",saleDate, saleAmount);
+            return getRequest().toString() + String.format("Sale Date: %s\nSale Amount: %s\n", saleDate, saleAmount);
         } else {
             return getRequest().toString() + String.format("Acceptance Date: %s\nSale Date: %s\nSale Amount: %s\n", acceptanceDate, saleDate, saleAmount);
         }
@@ -499,6 +505,31 @@ public class Announcement implements Serializable {
      */
     public List<Visit> getVisitList() {
         return this.visitList;
+    }
+
+    private void writeObject(ObjectOutputStream opst) throws IOException {
+        opst.writeObject(this.orders.getList());
+        opst.writeObject(this.id);
+        opst.writeObject(this.agent);
+        opst.writeObject(this.request);
+        opst.writeObject(this.acceptanceDate);
+        opst.writeObject(this.commission);
+        opst.writeObject(this.saleAmount);
+        opst.writeObject(this.saleDate);
+        opst.writeObject(this.visitList);
+    }
+
+
+    private void readObject(ObjectInputStream ipst) throws IOException, ClassNotFoundException {
+        this.orders = new OrderList((List<Order>) ipst.readObject());
+        this.id = (Integer) ipst.readObject();
+        this.agent = (Employee) ipst.readObject();
+        this.request = (Request) ipst.readObject();
+        this.acceptanceDate = (LocalDate) ipst.readObject();
+        this.commission = (Commission) ipst.readObject();
+        this.saleAmount = (Double) ipst.readObject();
+        this.saleDate = (LocalDate) ipst.readObject();
+        this.visitList = ((List<Visit>) ipst.readObject());
     }
 }
 

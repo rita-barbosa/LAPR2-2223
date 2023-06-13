@@ -22,6 +22,13 @@ public class RequestList implements Serializable {
     }
 
     /**
+     * Instantiates a new Request list.
+     */
+    public RequestList(List<Request> requests){
+        this.requests = requests;
+    }
+
+    /**
      * Get the list.
      *
      * @return the list
@@ -162,6 +169,4 @@ public class RequestList implements Serializable {
         }
         return false;
     }
-
-
 }
