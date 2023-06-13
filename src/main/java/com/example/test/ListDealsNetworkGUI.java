@@ -4,12 +4,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import pt.ipp.isep.dei.esoft.project.application.controller.ListDealsNetworkController;
+
 import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+
 import javafx.fxml.FXML;
-import pt.ipp.isep.dei.esoft.project.domain.*;
 import pt.ipp.isep.dei.esoft.project.domain.dto.AnnouncementDto;
 
 public class ListDealsNetworkGUI implements Initializable {
@@ -17,6 +18,8 @@ public class ListDealsNetworkGUI implements Initializable {
     private ListDealsNetworkController controller;
 
     private String algorithm = null;
+
+    private Boolean isItSorted = false;
 
     private String sortingOrder = null;
 
@@ -50,17 +53,15 @@ public class ListDealsNetworkGUI implements Initializable {
 //            announcementDealsDisplayStage.setTitle("Announcement Deals in Network");
 //            announcementDealsDisplayStage.setResizable(false);
 //            announcementDealsDisplayStage.setScene(scene);
-
         controller = new ListDealsNetworkController();
         atualizarListViewDealsDisplay();
     }
 
     public void atualizarListViewDealsDisplay() {
-        //  listViewDealsDisplay.getItems().addAll(controller.toDto(controller.getAllDealsList()).toString());
-        Optional<List<Announcement>> allAnnouncementsList = controller.getAgencyRepository().getAllAnnouncementsList();
-        if (allAnnouncementsList.isPresent()) {
-            for (Announcement announcement : allAnnouncementsList.get()) {
-                listViewDealsDisplay.getItems().add(announcement.toString());
+        if (controller.toDto(controller.getAllDealsList()).isPresent()) {
+            List<AnnouncementDto> announcementDtos = controller.toDto(controller.getAllDealsList()).get();
+            for (AnnouncementDto announcement : announcementDtos) {
+                listViewDealsDisplay.getItems().add(announcement.toDealString());
             }
         }
     }
@@ -87,23 +88,31 @@ public class ListDealsNetworkGUI implements Initializable {
     void resetValues(ActionEvent event) {
         algorithm = null;
         sortingOrder = null;
+        isItSorted = false;
         ToggleGroup orderToggleGroup = radiobtnAscendingOrder.getToggleGroup();
         orderToggleGroup.selectToggle(null);
         ToggleGroup algorithmToggleGroup = radiobtnBubbleSort.getToggleGroup();
         algorithmToggleGroup.selectToggle(null);
         lblWarning.setText("");
+        resetListView();
         atualizarListViewDealsDisplay();
+    }
+
+
+    void resetListView() {
+        listViewDealsDisplay.getItems().clear();
     }
 
     @FXML
     void sortList(ActionEvent event) {
         checkWarningMessage();
-        if (algorithm != null && sortingOrder != null) {
-            listViewDealsDisplay.getItems().clear();
+        if (algorithm != null && sortingOrder != null && !isItSorted) {
+            resetListView();
             Optional<List<AnnouncementDto>> sortedList = controller.getListSortedByAlgorithm(sortingOrder, algorithm);
             if (sortedList.isPresent()) {
-                for (Object announcement : sortedList.get().toArray()) {
-                    listViewDealsDisplay.getItems().add(announcement.toString());
+                isItSorted = true;
+                for (AnnouncementDto dto : sortedList.get()) {
+                    listViewDealsDisplay.getItems().add(dto.toDealString());
                 }
             }
             lblWarning.setText("");
@@ -111,12 +120,15 @@ public class ListDealsNetworkGUI implements Initializable {
     }
 
     private void checkWarningMessage() {
-        if (algorithm == null && sortingOrder == null){
+        if (algorithm == null && sortingOrder == null) {
             lblWarning.setText("Sorting algorithm must be selected.\nSorting order must be selected.");
-        }else if (algorithm == null ){
+        } else if (algorithm == null) {
             lblWarning.setText("Sorting algorithm must be selected.");
-        }else {
+        } else {
             lblWarning.setText("Sorting order must be selected.");
+        }
+        if (isItSorted) {
+            lblWarning.setText("Must click 'Reset' button.");
         }
     }
 }

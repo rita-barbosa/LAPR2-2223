@@ -29,25 +29,17 @@ public class ListDealsNetworkUI implements Runnable, Serializable {
      * Run.
      */
     public void run() {
+        System.out.println("\n=============================================================\n");
         System.out.println("Deals in the Network");
-
+        System.out.println("\n=============================================================");
         Optional<List<AnnouncementDto>> allDealsList = controller.toDto(controller.getAllDealsList());
         if (allDealsList.isPresent() && allDealsList.get().size() > 0) {
             displayList(allDealsList.get());
         }
-
-        AgencyRepository agencyRepository = Repositories.getInstance().getAgencyRepository();
-        Optional<List<Announcement>> allAnnouncementsList = agencyRepository.getAllAnnouncementsList();
-        if (allAnnouncementsList.isPresent()) {
-            displayList(allAnnouncementsList.get());
-        }
-
         do {
             requestData();
             submitData();
         } while (askQuestion());
-
-
     }
 
     /**
@@ -76,13 +68,17 @@ public class ListDealsNetworkUI implements Runnable, Serializable {
         return answer == 1;
     }
 
-    private void displayList(List<?> allDealsList) {
-        for (Object dto : allDealsList) {
-            System.out.println(dto.toString());
+    private void displayList(List<AnnouncementDto> allDealsList) {
+        for (AnnouncementDto dto : allDealsList) {
+                System.out.println(dto.toDealString());
+            System.out.println("=============================================================");
         }
     }
 
     private void submitData() {
+        System.out.println("\n=============================================================\n");
+        System.out.println("Deals sorted by property area");
+        System.out.println("\n=============================================================");
         Optional<List<AnnouncementDto>> sortedListDto = getController().getListSortedByAlgorithm(sortingOrder, algorithm);
         if (sortedListDto.isPresent() && sortedListDto.get().size() > 1) {
             displayList(sortedListDto.get());

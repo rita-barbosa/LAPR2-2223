@@ -17,14 +17,14 @@
             <Font name="System Bold Italic" size="24.0" />
          </font>
       </Label>
-      <Button fx:id="btnSortButton" layoutX="36.0" layoutY="290.0" mnemonicParsing="false" onAction="#sortList" prefHeight="35.0" prefWidth="81.0" text="Sort List">
+      <Button fx:id="btnSortButton" layoutX="37.0" layoutY="312.0" mnemonicParsing="false" onAction="#sortList" prefHeight="35.0" prefWidth="81.0" text="Sort List">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
-      <AnchorPane layoutX="24.0" layoutY="59.0" prefHeight="96.0" prefWidth="200.0">
+      <AnchorPane layoutX="25.0" layoutY="95.0" prefHeight="96.0" prefWidth="200.0">
          <children>
-            <Rectangle arcHeight="5.0" fill="#22b9ff61" height="98.0" layoutY="2.0" stroke="TRANSPARENT" strokeType="INSIDE" width="200.0" />
+            <Rectangle arcHeight="5.0" fill="#24baff61" height="98.0" layoutY="2.0" stroke="TRANSPARENT" strokeType="INSIDE" width="200.0" />
             <RadioButton fx:id="radiobtnAscendingOrder" layoutX="14.0" layoutY="48.0" mnemonicParsing="false" onAction="#setSortingOrder" text="Ascending">
                <toggleGroup>
                   <ToggleGroup fx:id="SortingOrder" />
@@ -33,12 +33,12 @@
             <RadioButton fx:id="radiobtnDescendingOrder" layoutX="108.0" layoutY="48.0" mnemonicParsing="false" onAction="#setSortingOrder" text="Descending" toggleGroup="$SortingOrder" />
             <Label layoutX="58.0" layoutY="14.0" text="Sorting Order">
                <font>
-                  <Font size="14.0" />
+                  <Font name="System Bold" size="14.0" />
                </font>
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="24.0" layoutY="173.0" prefHeight="96.0" prefWidth="200.0">
+      <AnchorPane layoutX="25.0" layoutY="201.0" prefHeight="96.0" prefWidth="200.0">
          <children>
             <Rectangle arcHeight="5.0" fill="#22b9ff61" height="98.0" layoutY="2.0" stroke="TRANSPARENT" strokeType="INSIDE" width="200.0" />
             <RadioButton fx:id="radiobtnMergeSort" layoutX="14.0" layoutY="48.0" mnemonicParsing="false" onAction="#setSortingAlgorithm" text="Merge Sort">
@@ -49,21 +49,32 @@
             <RadioButton fx:id="radiobtnBubbleSort" layoutX="108.0" layoutY="48.0" mnemonicParsing="false" onAction="#setSortingAlgorithm" text="Bubble Sort" toggleGroup="$SortingAlgorithm" />
             <Label layoutX="45.0" layoutY="14.0" text="Sorting Algorithm">
                <font>
-                  <Font size="14.0" />
+                  <Font name="System Bold" size="14.0" />
                </font>
             </Label>
          </children>
       </AnchorPane>
-    <AnchorPane fx:id="anchorpane" layoutX="244.0" layoutY="59.0" minHeight="0.0" minWidth="0.0" prefHeight="327.0" prefWidth="349.0">
+    <AnchorPane fx:id="anchorpane" layoutX="244.0" layoutY="96.0" minHeight="0.0" minWidth="0.0" prefHeight="290.0" prefWidth="349.0">
          <children>
-            <ListView fx:id="listViewDealsDisplay" prefHeight="333.0" prefWidth="351.0" />
+            <ListView fx:id="listViewDealsDisplay" prefHeight="290.0" prefWidth="351.0" stylesheets="@Styles.css" />
          </children>
       </AnchorPane>
-      <Button fx:id="btnResetButton" layoutX="124.0" layoutY="290.0" mnemonicParsing="false" onAction="#resetValues" prefHeight="35.0" prefWidth="81.0" text="Reset">
+      <Button fx:id="btnResetButton" layoutX="125.0" layoutY="312.0" mnemonicParsing="false" onAction="#resetValues" prefHeight="35.0" prefWidth="81.0" text="Reset">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
-      <Label fx:id="lblWarning" alignment="CENTER" contentDisplay="CENTER" layoutX="17.0" layoutY="339.0" prefHeight="35.0" prefWidth="200.0" textFill="RED" />
+      <Label fx:id="lblWarning" alignment="CENTER" contentDisplay="CENTER" layoutX="21.0" layoutY="351.0" prefHeight="35.0" prefWidth="200.0" textFill="RED" />
+      <Label fx:id="lblWarning1" alignment="CENTER" contentDisplay="CENTER" layoutX="25.0" layoutY="59.0" prefHeight="35.0" prefWidth="200.0" text="Deals sorted by Property Dates">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
+      <Rectangle arcHeight="5.0" fill="#24baff61" height="35.0" layoutX="244.0" layoutY="61.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="351.0" />
+      <Label layoutX="311.0" layoutY="65.0" text="Deals within the Network">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

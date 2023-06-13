@@ -48,7 +48,8 @@ public class ListDealsNetworkController {
     }
 
     public Optional<List<AnnouncementDto>> toDto(List<Announcement> allDealsList) {
-        return AnnouncementMapper.toNetworkDto(allDealsList);
+
+        return AnnouncementMapper.toNetworkDto(allDealsList, agencyRepository.getAgenciesList());
     }
 
     public Optional<List<AnnouncementDto>> getListSortedByAlgorithm(String sortingOrder, String algorithm) {
