@@ -130,7 +130,7 @@ public class Announcement implements Serializable {
      * @param request        the request
      * @param acceptanceDate the acceptance date
      */
-    public Announcement(Employee agent, Commission commission, Request request, LocalDate acceptanceDate, OrderList orders, Integer id, Double saleAmount, LocalDate saleDate) {
+    public Announcement(Employee agent, Commission commission, Request request, LocalDate acceptanceDate, OrderList orders, Integer id, Double saleAmount, LocalDate saleDate, List<Visit> visitList) {
         this.commission = commission;
         this.agent = agent;
         this.request = request;
@@ -138,7 +138,7 @@ public class Announcement implements Serializable {
         this.saleAmount = saleAmount;
         this.acceptanceDate = acceptanceDate;
         this.orders = orders;
-        this.visitList = new ArrayList<>();
+        this.visitList = visitList;
         this.id = id;
     }
 
@@ -333,7 +333,7 @@ public class Announcement implements Serializable {
      * @return A new copy of this Announcement object
      */
     public Announcement clone() {
-        return new Announcement(this.agent, this.commission, this.request, this.acceptanceDate, this.orders, this.id, this.saleAmount, this.saleDate);
+        return new Announcement(this.agent, this.commission, this.request, this.acceptanceDate, this.orders, this.id, this.saleAmount, this.saleDate, this.visitList);
     }
 
     /**
@@ -342,7 +342,7 @@ public class Announcement implements Serializable {
      * @return the string
      */
     public String toString() {
-        if (this.saleAmount.equals(SALE_AMOUNT_BY_DEFAULT)) {
+        if (Objects.equals(this.saleAmount, SALE_AMOUNT_BY_DEFAULT)) {
             return getRequest().toString() + String.format("Acceptance Date: %s\n", acceptanceDate);
         } else if (this.acceptanceDate.equals(DATE_BY_DEFAULT)) {
             return getRequest().toString() + String.format("Sale Date: %s\nSale Amount: %s\n", saleDate, saleAmount);

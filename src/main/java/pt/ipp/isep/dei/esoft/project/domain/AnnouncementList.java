@@ -87,14 +87,17 @@ public class AnnouncementList implements Serializable {
         List<Visit> visitsList = new ArrayList<>();
 
         for (Announcement announcement : announcements) {
-            if (announcement.hasAgentWithEmail(agentEmail)) {
-                List<Visit> copyVisitList = announcement.getVisitList();
-                for (Visit visit : copyVisitList) {
-                    LocalDate visitDate = visit.getVisitDate();
-                    if ((visitDate.isEqual(beginDate) || visitDate.isAfter(beginDate)) && (visitDate.isEqual(endDate) || visitDate.isBefore(endDate))) {
-                        visitsList.add(visit.clone());
+       //     System.out.println("hey");
+            if (announcement.hasAgentWithEmail(agentEmail)) { //falha aqui
+//     /           if (!announcement.isDeal()){
+                    List<Visit> copyVisitList = announcement.getVisitList();
+                    for (Visit visit : copyVisitList) {
+                        LocalDate visitDate = visit.getVisitDate();
+                        if ((visitDate.isEqual(beginDate) || visitDate.isAfter(beginDate)) && (visitDate.isEqual(endDate) || visitDate.isBefore(endDate))) {
+                            visitsList.add(visit.clone());
+                        }
                     }
-                }
+//  /              }
             }
         }
         return visitsList;
