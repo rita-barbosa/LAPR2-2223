@@ -42,18 +42,22 @@ public class AcceptOrdersUI implements Runnable {
             for (AnnouncementDto a : listAnnouncements.get()) {
                 System.out.println(a.toString());
                 int idx = 1;
-                for (OrderDto o : a.getListOrdersDto()) {
-                    acceptanceAnswer = selectAcceptanceAnswerOfOrder(o, idx);
-                    idx++;
-                    success = controller.defineOrderAcceptance(acceptanceAnswer, a.getAnnouncementId(), o.getId());
-                    successMessage(success, acceptanceAnswer);
-                    if (acceptanceAnswer.equals(Answers.ACCEPT.toString().toLowerCase())) {
-                        break;
+                if (!a.getListOrdersDto().isEmpty()) {
+                    for (OrderDto o : a.getListOrdersDto()) {
+                        acceptanceAnswer = selectAcceptanceAnswerOfOrder(o, idx);
+                        idx++;
+                        success = controller.defineOrderAcceptance(acceptanceAnswer, a.getAnnouncementId(), o.getId());
+                        successMessage(success, acceptanceAnswer);
+                        if (acceptanceAnswer.equals(Answers.ACCEPT.toString().toLowerCase())) {
+                            break;
+                        }
                     }
+                } else {
+                    System.out.println("WARNING: This property doesn't have purchase orders.");
                 }
             }
         } else {
-            System.out.println("WARNING: This property doesn't have any purchase order.");
+            System.out.println("WARNING: There aren't property available for purchase to be evaluated.");
         }
     }
 
