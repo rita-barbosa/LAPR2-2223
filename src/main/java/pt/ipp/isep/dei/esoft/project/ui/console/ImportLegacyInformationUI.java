@@ -16,12 +16,9 @@ public class ImportLegacyInformationUI implements Runnable {
 
     ImportLegacyInformationController controller;
 
-    private ImportLegacyInformationController getController() {
-        return controller;
-    }
-
     @Override
     public void run() {
+        controller = new ImportLegacyInformationController();
         System.out.println("\nImport information from legacy system file");
 
 //* **AC1:** The system administrator must be able to choose a file to import.
@@ -35,7 +32,7 @@ public class ImportLegacyInformationUI implements Runnable {
     }
 
     private void submitData() {
-        if (getController().importInformationFromFile(filepath)) {
+        if (controller.importInformationFromFile(filepath)) {
             System.out.println("\nLegacy system information successfully imported!");
         } else {
             System.out.println("\nThe legacy system information was not imported!");
