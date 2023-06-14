@@ -88,11 +88,11 @@ public class ListVisitsUI implements Runnable {
             }
         }
         Optional<List<VisitDto>> listVisitsDto;
-//        try {
+        try {
             listVisitsDto = controller.getVisitRequestsList(beginDate, endDate);
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         if (listVisitsDto.isPresent()){
             System.out.println("Booking requests:\n");
             displayList(listVisitsDto.get());

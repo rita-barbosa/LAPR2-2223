@@ -7,10 +7,11 @@ import pt.ipp.isep.dei.esoft.project.repository.AgencyRepository;
 import pt.ipp.isep.dei.esoft.project.repository.AuthenticationRepository;
 import pt.ipp.isep.dei.esoft.project.repository.Repositories;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -30,11 +31,6 @@ public class ListVisitsController {
      * The Agency repository.
      */
     private AgencyRepository agencyRepository;
-
-    /**
-     * The Order.
-     */
-    private final String ORDER = "Ascending";
 
     /**
      * Instantiates a new List visits controller.
@@ -89,33 +85,56 @@ public class ListVisitsController {
      * @return the visit requests list
      * @throws IOException the io exception
      */
-    public Optional<List<VisitDto>> getVisitRequestsList(LocalDate beginDate, LocalDate endDate) {
-        //missing the throws IOEXception
+    public Optional<List<VisitDto>> getVisitRequestsList(LocalDate beginDate, LocalDate endDate) throws IOException {
         Optional <List<VisitDto>> newVisitsDtoList = Optional.empty();
-        String agentEmail;
-//                = getAgentEmail();
-        agentEmail = "employee@this.app";
+        String agentEmail = getAgentEmail();
         Optional<List<Visit>> visitList = getVisitRequestsListByAgentEmail(agentEmail, beginDate, endDate);
-        //IT'S MISSING THE SORTING METHOD!!! CHECK AGAIN THIS AFTER MAKING THE SORTING
-        //CHECK CHECK CHECK!!!
         if (visitList.isPresent()){
             newVisitsDtoList = VisitMapper.toDto(visitList.get());
         }
+
+        try(InputStream file = new FileInputStream("config.properties")) {
+            Properties properties = new Properties();
+            properties.load(file);
+            String sortClass = properties.getProperty("sortingAlgorithm");
+
+            if (sortClass != null){
+                Class<?> sortAlgorithmClass = Class.forName(sortClass);
+                Constructor<?> constructor = sortAlgorithmClass.getConstructor(List.class);
+                SortAlgorithm sortingAlgorithm = (SortAlgorithm) constructor.newInstance(newVisitsDtoList.get());
+                newVisitsDtoList = Optional.of(sortingAlgorithm.sort(newVisitsDtoList.get()));
+            }
+
+        }  catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException |
+                  InvocationTargetException e){
+            System.out.println("\n\nTHE PATH CHOSEN IS NOT CORRECT!! \nPLEASE CORRECT IT AND RUN THE APPLICATION AGAIN!!");
+            newVisitsDtoList = Optional.empty();
+        }
+
         return newVisitsDtoList;
 
-//        List<VisitDto> sortedDtoList = null;
-//        if (getAlgorithm().equals("sortingAlgorithm1")){
-//            SortingAlgorithm1 sortingAlgorithm1 = new SortingAlgorithm1();
-//            sortedDtoList = sortingAlgorithm1.sort(ORDER, newVisitsDtoList.get());
-//            return Optional.of(sortedDtoList);
+
+//            if (getAlgorithm().equals("sortingAlgorithm1")){
+//                SortingAlgorithm1 sortingAlgorithm1 = new SortingAlgorithm1(newVisitsDtoList.get());
+//                sortingAlgorithm1.sort(ORDER, newVisitsDtoList.get());
+//                return Optional.of(sortingAlgorithm1.getSortDtoList());
+////                SortingAlgorithm1 sortingAlgorithm1 = new SortingAlgorithm1();
+////                sortedDtoList = sortingAlgorithm1.sort(ORDER, newVisitsDtoList.get());
+////                return Optional.of(sortedDtoList);
 //
-//        } else {
-//            SortingAlgorithm2 sortingAlgorithm2 = new SortingAlgorithm2();
-//            sortedDtoList = sortingAlgorithm2.sort(ORDER, newVisitsDtoList.get());
-//            return Optional.of(sortedDtoList);
-//        }
+//            } else {
+//                SortingAlgorithm2 sortingAlgorithm2 = new SortingAlgorithm2(newVisitsDtoList.get());
+//                sortingAlgorithm2.sort(ORDER, newVisitsDtoList.get());
+//                return Optional.of(sortingAlgorithm2.getSortDtoList());
+//
+////                SortingAlgorithm2 sortingAlgorithm2 = new SortingAlgorithm2();
+////                sortedDtoList = sortingAlgorithm2.sort(ORDER, newVisitsDtoList.get());
+////                return Optional.of(sortedDtoList);
+//            }
+
 
 //        List<VisitDto> sortedDtoList = getAlgorithm().sort(ORDER, newVisitsDtoList.get());
+//        return Optional.of(sortedDtoList);
     }
 
     /**
@@ -148,7 +167,7 @@ public class ListVisitsController {
         return agentEmail;
     }
 
-//    public SortingAlgorithm getAlgorithm() throws IOException {
+//    public SortAlgorithm getAlgorithm() throws IOException {
 //        File configFile = new File("config.properties");
 //        InputStream inputStream = new FileInputStream(configFile);
 //        Properties properties = new Properties();
@@ -161,9 +180,9 @@ public class ListVisitsController {
 //        } catch (ClassNotFoundException e) {
 //            e.printStackTrace();
 //        }
-//        SortingAlgorithm sortingAlgorithm = null;
+//        SortAlgorithm sortingAlgorithm = null;
 //        try {
-//            sortingAlgorithm = (SortingAlgorithm) oClass.newInstance();
+//            sortingAlgorithm = (SortAlgorithm) oClass.newInstance();
 //        } catch (InstantiationException e) {
 //            e.printStackTrace();
 //        } catch (IllegalAccessException e) {
@@ -172,18 +191,18 @@ public class ListVisitsController {
 //        return sortingAlgorithm;
 //    }
 
-    /**
-     * Gets algorithm.
-     *
-     * @return the algorithm
-     * @throws IOException the io exception
-     */
-    public String getAlgorithm() throws IOException{
-        File configFile = new File("config.properties");
-        InputStream inputStream = new FileInputStream(configFile);
-        Properties properties = new Properties();
-        properties.load(inputStream);
-        return properties.getProperty("sortingAlgorithm");
-    }
+//    /**
+//     * Gets algorithm.
+//     *
+//     * @return the algorithm
+//     * @throws IOException the io exception
+//     */
+//    public String getAlgorithm() throws IOException{
+//        File configFile = new File("config.properties");
+//        InputStream inputStream = new FileInputStream(configFile);
+//        Properties properties = new Properties();
+//        properties.load(inputStream);
+//        return properties.getProperty("sortingAlgorithm");
+//    }
 
 }
