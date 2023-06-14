@@ -75,7 +75,7 @@ class AgencyRepositoryTest {
         agency.publishAnnouncement(employee, commissionType, 234.0, request);
         agency.publishAnnouncement(employee, commissionType, 234.0, request1);
 
-        assertEquals(agencyRepository.getAllAnnouncementsList().get().toString(), expected.getList().toString());
+        assertEquals(agencyRepository.getAllNonDealAnnouncementsList().get().toString(), expected.getList().toString());
     }
 
     @Test

@@ -66,7 +66,7 @@ class ScheduleVisitControllerIT {
                 new ScheduleVisitController(agencyRepository, personRepository, criteriaRepository, authenticationRepository, propertyTypeRepository, businessTypeRepository);
 
 
-        Optional<List<Announcement>> list = controller.getAllAnnouncementsList();
+        Optional<List<Announcement>> list = controller.getAllNonDealAnnouncementsList();
 
         List<Announcement> expected = new ArrayList<>();
 
@@ -318,7 +318,7 @@ class ScheduleVisitControllerIT {
         ScheduleVisitController controller =
                 new ScheduleVisitController(agencyRepository, personRepository, criteriaRepository, authenticationRepository, propertyTypeRepository, businessTypeRepository);
 
-        List<Announcement> expected = controller.getAnnouncementsByBusinessType("Sale", agencyRepository.getAllAnnouncementsList().get());
+        List<Announcement> expected = controller.getAnnouncementsByBusinessType("Sale", agencyRepository.getAllNonDealAnnouncementsList().get());
 
         List<Announcement> actual = new ArrayList<>();
 
@@ -372,7 +372,7 @@ class ScheduleVisitControllerIT {
         ScheduleVisitController controller =
                 new ScheduleVisitController(agencyRepository, personRepository, criteriaRepository, authenticationRepository, propertyTypeRepository, businessTypeRepository);
 
-        List<Announcement> expected = controller.getAnnouncementsByPropertyType("Land", agencyRepository.getAllAnnouncementsList().get());
+        List<Announcement> expected = controller.getAnnouncementsByPropertyType("Land", agencyRepository.getAllNonDealAnnouncementsList().get());
 
         List<Announcement> actual = new ArrayList<>();
 
@@ -426,7 +426,7 @@ class ScheduleVisitControllerIT {
         ScheduleVisitController controller =
                 new ScheduleVisitController(agencyRepository, personRepository, criteriaRepository, authenticationRepository, propertyTypeRepository, businessTypeRepository);
 
-        List<Announcement> expected = controller.getAnnouncementsByNumberBedrooms(2, agencyRepository.getAllAnnouncementsList().get());
+        List<Announcement> expected = controller.getAnnouncementsByNumberBedrooms(2, agencyRepository.getAllNonDealAnnouncementsList().get());
 
         List<Announcement> actual = new ArrayList<>();
 
@@ -483,7 +483,7 @@ class ScheduleVisitControllerIT {
         ScheduleVisitController controller =
                 new ScheduleVisitController(agencyRepository, personRepository, criteriaRepository, authenticationRepository, propertyTypeRepository, businessTypeRepository);
 
-        List<Announcement> expected = controller.getAnnouncementsByPrice("Ascending", agencyRepository.getAllAnnouncementsList().get());
+        List<Announcement> expected = controller.getAnnouncementsByPrice("Ascending", agencyRepository.getAllNonDealAnnouncementsList().get());
 
         AnnouncementList announcementList = new AnnouncementList();
 
@@ -533,7 +533,7 @@ class ScheduleVisitControllerIT {
         ScheduleVisitController controller =
                 new ScheduleVisitController(agencyRepository, personRepository, criteriaRepository, authenticationRepository, propertyTypeRepository, businessTypeRepository);
 
-        List<Announcement> expected = controller.getAnnouncementsByPrice("Descending", agencyRepository.getAllAnnouncementsList().get());
+        List<Announcement> expected = controller.getAnnouncementsByPrice("Descending", agencyRepository.getAllNonDealAnnouncementsList().get());
 
         AnnouncementList announcementList = new AnnouncementList();
 
@@ -584,7 +584,7 @@ class ScheduleVisitControllerIT {
         ScheduleVisitController controller =
                 new ScheduleVisitController(agencyRepository, personRepository, criteriaRepository, authenticationRepository, propertyTypeRepository, businessTypeRepository);
 
-        List<Announcement> expected = controller.getAnnouncementsByCity("Ascending", agencyRepository.getAllAnnouncementsList().get());
+        List<Announcement> expected = controller.getAnnouncementsByCity("Ascending", agencyRepository.getAllNonDealAnnouncementsList().get());
 
         AnnouncementList announcementList = new AnnouncementList();
 
@@ -635,7 +635,7 @@ class ScheduleVisitControllerIT {
         ScheduleVisitController controller =
                 new ScheduleVisitController(agencyRepository, personRepository, criteriaRepository, authenticationRepository, propertyTypeRepository, businessTypeRepository);
 
-        List<Announcement> expected = controller.getAnnouncementsByCity("Descending", agencyRepository.getAllAnnouncementsList().get());
+        List<Announcement> expected = controller.getAnnouncementsByCity("Descending", agencyRepository.getAllNonDealAnnouncementsList().get());
 
         AnnouncementList announcementList = new AnnouncementList();
 
@@ -686,7 +686,7 @@ class ScheduleVisitControllerIT {
         ScheduleVisitController controller =
                 new ScheduleVisitController(agencyRepository, personRepository, criteriaRepository, authenticationRepository, propertyTypeRepository, businessTypeRepository);
 
-        List<Announcement> expected = controller.getAnnouncementsByState("Ascending", agencyRepository.getAllAnnouncementsList().get());
+        List<Announcement> expected = controller.getAnnouncementsByState("Ascending", agencyRepository.getAllNonDealAnnouncementsList().get());
 
         AnnouncementList announcementList = new AnnouncementList();
 
@@ -737,7 +737,7 @@ class ScheduleVisitControllerIT {
         ScheduleVisitController controller =
                 new ScheduleVisitController(agencyRepository, personRepository, criteriaRepository, authenticationRepository, propertyTypeRepository, businessTypeRepository);
 
-        List<Announcement> expected = controller.getAnnouncementsByState("Descending", agencyRepository.getAllAnnouncementsList().get());
+        List<Announcement> expected = controller.getAnnouncementsByState("Descending", agencyRepository.getAllNonDealAnnouncementsList().get());
 
         AnnouncementList announcementList = new AnnouncementList();
 

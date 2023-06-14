@@ -16,7 +16,7 @@ class LegacySystemTest {
         List<String> legacySystemInformationList;
         LegacySystemDto legacyDto = null;
 
-        File file = new File("importInformationTestFile");
+        File file = new File("importInformationTestFile.csv");
         BufferedReader reader = new BufferedReader(new FileReader(file));
         String line = reader.readLine();
         String[] attributes = line.split(";");
