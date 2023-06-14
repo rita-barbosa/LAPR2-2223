@@ -14,7 +14,7 @@ public class ImportLegacyInformationUI implements Runnable {
     private static final String LEGACY_FILE_EXTENSION = "csv";
     private static final Integer MIN_FILE_NAME_PARTS = 2;
 
-    ImportLegacyInformationController controller = new ImportLegacyInformationController();
+    ImportLegacyInformationController controller;
 
     private ImportLegacyInformationController getController() {
         return controller;
@@ -35,7 +35,7 @@ public class ImportLegacyInformationUI implements Runnable {
     }
 
     private void submitData() {
-        if (controller.importInformationFromFile(filepath)) {
+        if (getController().importInformationFromFile(filepath)) {
             System.out.println("\nLegacy system information successfully imported!");
         } else {
             System.out.println("\nThe legacy system information was not imported!");

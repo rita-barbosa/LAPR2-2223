@@ -94,7 +94,7 @@ public class ScheduleVisitUI implements Runnable {
     public void run() {
         System.out.println("\nSchedule a visit to a property");
         System.out.println("========================================================");
-        Optional<List<Announcement>> listToDisplay = controller.getAllAnnouncementsList();
+        Optional<List<Announcement>> listToDisplay = controller.getAllNonDealAnnouncementsList();
         Optional<List<Announcement>> copycat;
         Optional<List<AnnouncementDto>> listToDisplayDto = Optional.empty();
         Optional<AnnouncementDto> announcementDto;
@@ -128,7 +128,7 @@ public class ScheduleVisitUI implements Runnable {
                                 try {
                                     Thread.sleep(3500);
                                 } catch (InterruptedException e) {
-                                    e.printStackTrace();
+                                    throw new RuntimeException(e);
                                 }
                                 displayList(listToDisplayDto.get());
                             } else {
@@ -172,7 +172,7 @@ public class ScheduleVisitUI implements Runnable {
                 if (!propertyTypeDesignation.equalsIgnoreCase("Land")) {
                     System.out.println("========================================================\nAnnouncements by Number of Bedrooms:");
                     list = controller.getAnnouncementsByNumberBedrooms((Integer) criteria, list);
-                }else {
+                } else {
                     list = new ArrayList<>();
                 }
                 break;
@@ -209,19 +209,25 @@ public class ScheduleVisitUI implements Runnable {
      * @param announcement the announcement
      */
     private void submitData(Announcement announcement) {
-        Pair<Boolean, Integer> confirmation = getController().scheduleVisit(announcement, startHour, endHour, visitDay, visitMonth, visitYear);
-        if (confirmation.getKey()) {
-            System.out.println("\nVisit request successfully sent to agent!");
-        } else {
-            System.out.println("\nERROR! Visit request not sent to agent!");
-            if (confirmation.getValue() == 1) {
-                System.out.println("CONFLICT! This visit is already scheduled.");
-            } else if (confirmation.getValue() == 2) {
-                System.out.println("CONFLICT! The start hour of the visit request you want to submit conflicts with a visit taking place at that time in the same property.");
+        try {
+            Pair<Boolean, Integer> confirmation = getController().scheduleVisit(announcement, startHour, endHour, visitDay, visitMonth, visitYear);
+            if (confirmation.getKey()) {
+                System.out.println("\nVisit request successfully sent to agent!");
             } else {
-                System.out.println("CONFLICT! The end hour of the visit request you want to submit conflicts with a visit taking place at that time in the same property.");
+                System.out.println("\nERROR! Visit request not sent to agent!");
+                if (confirmation.getValue() == 1) {
+                    System.out.println("CONFLICT! This visit is already scheduled.");
+                } else if (confirmation.getValue() == 2) {
+                    System.out.println("CONFLICT! The start hour of the visit request you want to submit conflicts with a visit taking place at that time in the same property.");
+                } else {
+                    System.out.println("CONFLICT! The end hour of the visit request you want to submit conflicts with a visit taking place at that time in the same property.");
+                }
             }
+        } catch (IllegalArgumentException e) {
+            System.out.println("\nERROR! Visit request not sent to agent!");
+            System.out.println("ERROR: " + e.getMessage());
         }
+
     }
 
     /**
