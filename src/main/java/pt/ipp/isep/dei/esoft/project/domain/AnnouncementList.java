@@ -14,10 +14,18 @@ public class AnnouncementList implements Serializable {
      */
     private List<Announcement> announcements;
 
+    /**
+     * Instantiates a new Announcement list.
+     */
     public AnnouncementList() {
         this.announcements = new ArrayList<>();
     }
 
+    /**
+     * Instantiates a new Announcement list.
+     *
+     * @param announcement the announcement
+     */
     public AnnouncementList(List<Announcement> announcement) {
         this.announcements = announcement;
     }
@@ -84,21 +92,22 @@ public class AnnouncementList implements Serializable {
         return listAnnouncements;
     }
 
+    /**
+     * Gets visit requests by agent email.
+     *
+     * @param agentEmail the agent email
+     * @param beginDate  the begin date
+     * @param endDate    the end date
+     * @return the visit requests by agent email
+     */
     public List<Visit> getVisitRequestsByAgentEmail(String agentEmail, LocalDate beginDate, LocalDate endDate) {
         List<Visit> visitsList = new ArrayList<>();
 
         for (Announcement announcement : announcements) {
-            System.out.println("Announcement: ENTERED LIST");
-            if (announcement.hasAgentWithEmail(agentEmail)) { //falha aqui
+            if (announcement.hasAgentWithEmail(agentEmail)) {
                 if (!announcement.isDeal()) {
-                    System.out.println("Announcement: IS DEAL");
                     List<Visit> copyVisitList = announcement.getVisitList();
-                    if (copyVisitList.isEmpty()) {
-                        System.out.println("ANNOUNCEMETN:  NO VISITS");
-
-                    }
                     for (Visit visit : copyVisitList) {
-                        System.out.println("Announcement: " + visit.toString());
                         LocalDate visitDate = visit.getVisitDate();
                         if ((visitDate.isEqual(beginDate) || visitDate.isAfter(beginDate)) && (visitDate.isEqual(endDate) || visitDate.isBefore(endDate))) {
                             visitsList.add(visit.clone());
@@ -143,7 +152,7 @@ public class AnnouncementList implements Serializable {
     /**
      * This method sorts the list of announcements by oldest acceptance date.
      *
-     * @param listAnnouncements
+     * @param listAnnouncements the list announcements
      */
     private void sortAnnouncementsByOldestAcceptanceDate(List<Announcement> listAnnouncements) {
         Collections.sort(listAnnouncements, acceptanceDate);
@@ -151,6 +160,8 @@ public class AnnouncementList implements Serializable {
 
     /**
      * This method sorts the list of announcements by most recent acceptance date.
+     *
+     * @return the list
      */
     public List<Announcement> sortAnnouncementsByMostRecentAcceptanceDate() {
         List<Announcement> sortedList = new ArrayList<>(this.announcements);
@@ -174,12 +185,15 @@ public class AnnouncementList implements Serializable {
     /**
      * This method sorts the list of announcements by oldest sale date.
      *
-     * @param listAnnouncements
+     * @param listAnnouncements the list announcements
      */
     private void sortAnnouncementsByOldestSaleDate(List<Announcement> listAnnouncements) {
         Collections.sort(listAnnouncements, saleDate);
     }
 
+    /**
+     * The Sale date.
+     */
     Comparator<Announcement> saleDate = new Comparator<Announcement>() {
         public int compare(Announcement a1, Announcement a2) {
             LocalDate a1SaleDate = a1.getSaleDate();
