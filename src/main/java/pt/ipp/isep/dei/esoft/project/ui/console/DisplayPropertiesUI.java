@@ -66,15 +66,12 @@ public class DisplayPropertiesUI implements Runnable {
         Optional<List<Announcement>> announcementList = controller.getAllAnnouncementsList();
         if (announcementList.isPresent()) {
             List<Announcement> copyList = new ArrayList<>(announcementList.get());
-//        announcementList = controller.sortAnnouncementsByMostRecentAdded();
-//            if (announcementList.isPresent()) {
                 System.out.println("Listed Properties:\n");
                 displayAnnouncements(announcementList.get());
                 boolean continueLoop = true;
                 do {
                     boolean option = askOption();
                     if (option) {
-//                    List<Announcement> copyList = new ArrayList<>(announcementList.get());
                         List<String> criterias = getController().getCriteriaRepository().getCriteriaList();
                         switch (displayAndSelectCriteriaList(criterias)) {
                             case 1:
