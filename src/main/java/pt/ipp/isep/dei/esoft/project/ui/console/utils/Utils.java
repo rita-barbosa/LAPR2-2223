@@ -195,7 +195,7 @@ public class Utils {
         do {
             try {
                 while (option < 1 || option > 2) {
-                    option = Integer.parseInt(readLineFromConsole(prompt));
+                    option = sc.nextInt();
                     if (option == 1) {
                         return "Ascending";
                     } else if (option == 2) {
