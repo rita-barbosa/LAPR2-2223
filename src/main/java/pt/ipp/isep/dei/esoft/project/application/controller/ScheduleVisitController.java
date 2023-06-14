@@ -209,9 +209,9 @@ public class ScheduleVisitController {
      *
      * @return the list
      */
-    public Optional<List<Announcement>> getAllAnnouncementsList() {
+    public Optional<List<Announcement>> getAllNonDealAnnouncementsList() {
         Agency agency = new Agency();
-        Optional<List<Announcement>> list = agencyRepository.getAllAnnouncementsList();
+        Optional<List<Announcement>> list = agencyRepository.getAllNonDealAnnouncementsList();
         if (list.isPresent() && list.get().size() > 0) {
             agency.getAnnouncements().setAnnouncements(list.get());
         }
@@ -261,21 +261,25 @@ public class ScheduleVisitController {
      * @return the boolean
      */
     public Pair<Boolean, Integer> scheduleVisit(Announcement announcement, Integer startHour, Integer endHour,
-                                 Integer visitDay, Integer visitMonth, Integer visitYear) {
+                                                Integer visitDay, Integer visitMonth, Integer visitYear) {
         Optional<Person> user = getUserPerson();
         String userName = "";
         String userPhoneNumber = "";
+        Pair<Optional<Visit>, Integer> newVisit = null;
+
 
         if (user.isPresent()) {
             userName = user.get().getName();
             userPhoneNumber = user.get().getPhoneNumber();
-        }
-
-        Pair<Optional<Visit>, Integer> newVisit = announcement.createVisit(visitDay, visitMonth, visitYear, startHour, endHour, userName, userPhoneNumber);
-
-        if (newVisit.getKey().isPresent()) {
-            String agentEmail = announcement.getAgentEmail();
-            newVisit.getKey().get().sendNotification(agentEmail);
+            try {
+                newVisit = announcement.createVisit(visitDay, visitMonth, visitYear, startHour, endHour, userName, userPhoneNumber);
+                if (newVisit.getKey().isPresent()) {
+                    String agentEmail = announcement.getAgentEmail();
+                    newVisit.getKey().get().sendNotification(agentEmail);
+                }
+            }catch (IllegalArgumentException e){
+                throw e;
+            }
         }
         return new Pair<>(newVisit.getKey().isPresent(), newVisit.getValue());
     }

@@ -6,7 +6,6 @@ import pt.ipp.isep.dei.esoft.project.domain.BusinessType;
 import pt.ipp.isep.dei.esoft.project.domain.PropertyType;
 import pt.ipp.isep.dei.esoft.project.repository.*;
 
-import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -335,7 +334,7 @@ public class DisplayPropertiesController {
      */
     public Optional<List<Announcement>> getAllAnnouncementsList() {
         Agency agency = new Agency();
-        Optional<List<Announcement>> list = agencyRepository.getAllAnnouncementsList();
+        Optional<List<Announcement>> list = agencyRepository.getAllNonDealAnnouncementsList();
         if (list.isPresent() && list.get().size() > 0) {
             agency.getAnnouncements().setAnnouncements(list.get());
         }
