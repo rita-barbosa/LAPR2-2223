@@ -1,5 +1,6 @@
-package com.example.test;
+package pt.ipp.isep.dei.esoft.project.ui.console.menu.gui;
 
+import com.example.test.MainGUI;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

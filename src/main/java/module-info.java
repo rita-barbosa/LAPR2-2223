@@ -10,4 +10,6 @@ module com.example.test {
 
     opens com.example.test to javafx.fxml;
     exports com.example.test;
+    exports pt.ipp.isep.dei.esoft.project.ui.console.menu.gui;
+    opens pt.ipp.isep.dei.esoft.project.ui.console.menu.gui to javafx.fxml;
 }
