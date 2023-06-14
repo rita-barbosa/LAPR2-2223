@@ -375,12 +375,12 @@ public class Agency implements Serializable {
      * Get visit requests by agent email list.
      *
      * @param agentEmail the agent email
-     * @param beginDate  the begin date
+     * @param beginningDate  the beginning date
      * @param endDate    the end date
      * @return the list
      */
-    public List<Visit> getVisitRequestsByAgentEmail(String agentEmail, LocalDate beginDate, LocalDate endDate) {
-        return announcements.getVisitRequestsByAgentEmail(agentEmail, beginDate, endDate);
+    public List<Visit> getVisitRequestsByAgentEmail(String agentEmail, LocalDate beginningDate, LocalDate endDate) {
+        return announcements.getVisitRequestsByAgentEmail(agentEmail, beginningDate, endDate);
     }
 
 
@@ -514,6 +514,9 @@ public class Agency implements Serializable {
     public List<Announcement> getDealsAnnouncementList() {
         return announcements.getDealsList();
     }
+    public List<Announcement> getNonDealsAnnouncementsList() {
+        return announcements.getNonDealsList();
+    }
 
     private void writeObject(ObjectOutputStream opst) throws IOException {
         opst.writeObject(this.emailAddress.getEmail());
@@ -541,4 +544,5 @@ public class Agency implements Serializable {
     public int getNumberOfDeals() {
         return this.getAnnouncements().getDealsNumber();
     }
+
 }
