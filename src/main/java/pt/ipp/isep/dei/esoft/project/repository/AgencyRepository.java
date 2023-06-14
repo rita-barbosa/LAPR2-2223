@@ -109,10 +109,10 @@ public class AgencyRepository implements Serializable {
      *
      * @return the list
      */
-    public Optional<List<Announcement>> getAllAnnouncementsList() {
+    public Optional<List<Announcement>> getAllNonDealAnnouncementsList() {
         List<Announcement> list = new ArrayList<>();
         for (Agency agency : agencies) {
-            list.addAll(agency.getAnnouncementsList());
+            list.addAll(agency.getNonDealsAnnouncementsList());
         }
         return Optional.of(list);
     }

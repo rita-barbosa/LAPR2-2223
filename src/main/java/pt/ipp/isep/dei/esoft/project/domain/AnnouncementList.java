@@ -267,10 +267,30 @@ public class AnnouncementList implements Serializable {
         return dataList;
     }
 
+    /**
+     * Gets deals list.
+     *
+     * @return the deals list
+     */
     public List<Announcement> getDealsList() {
         List<Announcement> dealsList = new ArrayList<>();
         for (Announcement announcement : announcements) {
             if (announcement.isDeal()) {
+                dealsList.add(announcement);
+            }
+        }
+        return dealsList;
+    }
+
+    /**
+     * Gets non deals list.
+     *
+     * @return the non deals list
+     */
+    public List<Announcement> getNonDealsList() {
+        List<Announcement> dealsList = new ArrayList<>();
+        for (Announcement announcement : announcements) {
+            if (!announcement.isDeal()) {
                 dealsList.add(announcement);
             }
         }
@@ -458,4 +478,6 @@ public class AnnouncementList implements Serializable {
         }
         return dealsNumber;
     }
+
+
 }
