@@ -89,12 +89,13 @@ public class Bootstrap implements Runnable {
         Location location = new Location("Saint Avenue", "Heaven", "Sky", "SK", "12345");
         Agency agency4 = new Agency(1234, "Make It Home Deluxe", "agency4@this.app", "999 444 5656", location);
         addEmployees(agency4);
-        addRequests(agency4);
-       addAnnouncements(agency4);
+       // addRequests(agency4);
+       //addAnnouncements(agency4);
         agencyRepository.add(agency4);
 
         Location location1 = new Location("Devil's Road", "Hell", "Earth", "ET", "16789");
         Agency agency5 = new Agency(6789, "Make It Home LLC.", "agency5@this.app", "286 776 8435", location1);
+        addEmployees(agency5);
         agencyRepository.add(agency5);
     }
 

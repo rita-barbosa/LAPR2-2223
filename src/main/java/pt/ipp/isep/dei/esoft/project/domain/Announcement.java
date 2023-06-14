@@ -538,7 +538,7 @@ public class Announcement implements Serializable {
         this.commission = (Commission) ipst.readObject();
         this.saleAmount =  ipst.readDouble();
         this.saleDate = (LocalDate) ipst.readObject();
-        this.visitList = (List<Visit>) ipst.readObject();
+        this.visitList = (ArrayList<Visit>) ipst.readObject();
         this.SALE_AMOUNT_BY_DEFAULT = ipst.readDouble();
         this.DATE_BY_DEFAULT = (LocalDate) ipst.readObject();
     }

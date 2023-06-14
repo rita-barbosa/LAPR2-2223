@@ -8,7 +8,7 @@ import java.util.*;
  * The type Request list.
  */
 public class RequestList implements Serializable {
-
+    private static final long serialVersionUID = -696203150887861713L;
     /**
      * The Requests.
      */
@@ -17,14 +17,14 @@ public class RequestList implements Serializable {
     /**
      * Instantiates a new Request list.
      */
-    public RequestList(){
+    public RequestList() {
         this.requests = new ArrayList<>();
     }
 
     /**
      * Instantiates a new Request list.
      */
-    public RequestList(List<Request> requests){
+    public RequestList(List<Request> requests) {
         this.requests = requests;
     }
 
@@ -33,7 +33,7 @@ public class RequestList implements Serializable {
      *
      * @return the list
      */
-    public List<Request> getList(){
+    public List<Request> getList() {
         return requests;
     }
 
@@ -71,7 +71,7 @@ public class RequestList implements Serializable {
         List<Request> listRequests = new ArrayList<>();
 
         for (Request a : requests) {
-            if (a.hasAgentWithEmail(agentEmail) && !a.getValidationStatus()) {
+            if (a.hasAgentWithEmail(agentEmail) && (!a.getValidationStatus())) {
                 listRequests.add(a.clone());
             }
         }
@@ -84,7 +84,7 @@ public class RequestList implements Serializable {
      *
      * @param listRequests the list requests
      */
-    private void sortRequestsByMostRecentAdded(List<Request> listRequests){
+    private void sortRequestsByMostRecentAdded(List<Request> listRequests) {
         Collections.sort(listRequests, requestDate);
     }
 

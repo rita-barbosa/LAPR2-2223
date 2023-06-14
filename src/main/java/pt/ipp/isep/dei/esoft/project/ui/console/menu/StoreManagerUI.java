@@ -1,8 +1,7 @@
 package pt.ipp.isep.dei.esoft.project.ui.console.menu;
 
-import com.example.test.AnalyzeDealsApp;
+import pt.ipp.isep.dei.esoft.project.ui.console.menu.gui.AnalyzeDealsApp;
 import javafx.application.Application;
-import pt.ipp.isep.dei.esoft.project.ui.console.*;
 import pt.ipp.isep.dei.esoft.project.ui.console.utils.Utils;
 
 import java.util.ArrayList;

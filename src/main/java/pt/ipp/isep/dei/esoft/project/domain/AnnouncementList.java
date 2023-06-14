@@ -41,6 +41,7 @@ public class AnnouncementList implements Serializable {
         Boolean success = false;
         if (validateAnnouncement(announcement)) {
             announcements.add(announcement.clone());
+            announcement.getRequest().setValidationStatus(true);
             if (!announcement.isDeal()) {
                 success = announcement.sendSMS();
             } else {
@@ -471,8 +472,8 @@ public class AnnouncementList implements Serializable {
      */
     public int getDealsNumber() {
         int dealsNumber = 0;
-        for (Announcement announcement : announcements){
-            if (announcement.isDeal()){
+        for (Announcement announcement : announcements) {
+            if (announcement.isDeal()) {
                 dealsNumber++;
             }
         }

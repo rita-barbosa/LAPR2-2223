@@ -201,9 +201,9 @@ public class AgencyRepository implements Serializable {
         }
     }
 
-    public List<Integer> getDealsNumberOfAgencies(){
+    public List<Integer> getDealsNumberOfAgencies() {
         List<Integer> listOfDeals = new ArrayList<>();
-        for (Agency agency : agencies){
+        for (Agency agency : agencies) {
             int agencyId = agency.getId();
             int dealsNumber = agency.getNumberOfDeals();
             listOfDeals.add(agencyId, dealsNumber);

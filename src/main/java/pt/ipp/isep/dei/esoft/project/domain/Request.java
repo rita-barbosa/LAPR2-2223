@@ -13,6 +13,7 @@ import java.util.*;
  * The type Request.
  */
 public class Request implements Serializable {
+    private static final long serialVersionUID = -696203157861713L;
 
     /**
      * The Id.
@@ -338,7 +339,6 @@ public class Request implements Serializable {
         this.id = counter++;
         this.requestDate = LocalDate.now();
         this.validationStatus = false;
-
     }
 
     public Request(String ownerEmail, PropertyType propertyType, Double amount, Double area, String streetName, String city, String district,
@@ -675,6 +675,7 @@ public class Request implements Serializable {
 
         return variablesValue;
     }
+
     private void writeObject(ObjectOutputStream opst) throws IOException {
         opst.writeObject(this.ownerEmail.getEmail());
         opst.writeInt(this.id);
@@ -689,12 +690,12 @@ public class Request implements Serializable {
 
     private void readObject(ObjectInputStream ipst) throws IOException, ClassNotFoundException {
         this.ownerEmail = new Email((String) ipst.readObject());
-        this.id =  ipst.readInt();
+        this.id = ipst.readInt();
         this.agent = (Employee) ipst.readObject();
         this.business = (Business) ipst.readObject();
         this.property = (Property) ipst.readObject();
         this.justificationMessage = (String) ipst.readObject();
         this.requestDate = (LocalDate) ipst.readObject();
-        this.validationStatus =  ipst.readBoolean();
+        this.validationStatus = ipst.readBoolean();
     }
 }

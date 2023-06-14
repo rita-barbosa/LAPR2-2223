@@ -1,7 +1,12 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -9,6 +14,7 @@ import java.util.Objects;
  */
 public class Visit implements Serializable {
 
+    private static final long serialVersionUID = -6233496203157861713L;
     /**
      * The Id.
      */
@@ -215,4 +221,33 @@ public class Visit implements Serializable {
     public Boolean getAcceptanceStatus(){
         return acceptanceStatus;
     }
+
+//    private void writeObject(ObjectOutputStream opst) throws IOException {
+//        opst.writeObject(this.orders.getList());
+//        opst.writeInt(this.id);
+//        opst.writeObject(this.agent);
+//        opst.writeObject(this.request);
+//        opst.writeObject(this.acceptanceDate);
+//        opst.writeObject(this.commission);
+//        opst.writeDouble(this.saleAmount);
+//        opst.writeObject(this.saleDate);
+//        opst.writeObject(this.visitList);
+//        opst.writeDouble(this.SALE_AMOUNT_BY_DEFAULT);
+//        opst.writeObject(this.DATE_BY_DEFAULT);
+//    }
+//
+//
+//    private void readObject(ObjectInputStream ipst) throws IOException, ClassNotFoundException {
+//        this.orders = new OrderList((List<Order>) ipst.readObject());
+//        this.id =  ipst.readInt();
+//        this.agent = (Employee) ipst.readObject();
+//        this.request = (Request) ipst.readObject();
+//        this.acceptanceDate = (LocalDate) ipst.readObject();
+//        this.commission = (Commission) ipst.readObject();
+//        this.saleAmount =  ipst.readDouble();
+//        this.saleDate = (LocalDate) ipst.readObject();
+//        this.visitList = (ArrayList<Visit>) ipst.readObject();
+//        this.SALE_AMOUNT_BY_DEFAULT = ipst.readDouble();
+//        this.DATE_BY_DEFAULT = (LocalDate) ipst.readObject();
+//    }
 }
