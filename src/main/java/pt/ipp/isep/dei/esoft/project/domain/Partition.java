@@ -1,54 +1,125 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
-import javafx.util.Pair;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
-import static java.lang.Runtime.getRuntime;
 
 public class Partition {
 
-    private static List<String> sublistStringList = new ArrayList<>();
-    private static int listNum = 0;
+    private List<Integer> listOfDeals;
+    private int minDifference;
+    private List<Integer> subList1;
+    private List<Integer> subList2;
 
 
-    public static List<String> getSubLists(List<Integer> listOfDeals) {
-        int size = listOfDeals.size();
-        List<Long> binaryRepList = getBinaryRepList(size);
-        return getPartitions(listOfDeals, binaryRepList);
+    public Partition(List<Integer> numbers) {
+        this.listOfDeals = numbers;
+        getPartitions(numbers);
     }
 
-    private static List<String> getPartitions(List<Integer> listOfDeals, List<Long> binaryRepList) {
-        for (Long binary : binaryRepList){
-           Long binaryRep = getBinaryRepresentation(binaryRepList.indexOf(binary));
-           String partitionInfo = getPartitionInfo(listOfDeals, binaryRep);
-            sublistStringList.add(partitionInfo);
+    public int getMinDifference() {
+        return minDifference;
+    }
+
+    public List<String> getSubLists() {
+        this.getPartitions(this.listOfDeals);
+        List<String> subListsString = new ArrayList<>();
+        subListsString.add(this.getPartitionInfo(subList1, 1));
+        subListsString.add(this.getPartitionInfo(subList2, 2));
+        subListsString.add("Difference : " + this.minDifference);
+        return subListsString;
+    }
+
+    private void getPartitions(List<Integer> listOfDeals) {
+        int listOfDealsSize = getListSize(listOfDeals);
+        int size = getPowerOfTwo(listOfDealsSize);
+
+        this.minDifference = Integer.MAX_VALUE;
+
+        for (int i = 0; i < size; i++) {
+            List<Integer> subList1 = new ArrayList<>(listOfDeals);
+            List<Integer> subList2 = new ArrayList<>(listOfDeals);
+            int subListSum1 = 0;
+            int subListSum2 = 0;
+
+            String binary = decimalToBinary(i);
+
+            for (int j = 0; j < binary.length(); j++) {
+                if (binary.charAt(j) == '0') {
+                    subList1.set(j, 0);
+                    subListSum2 += listOfDeals.get(j);
+                } else {
+                    subList2.set(j, 0);
+                    subListSum1 += listOfDeals.get(j);
+                }
+            }
+            if (binary.length() < size) {
+                for (int k = binary.length(); k < listOfDealsSize; k++) {
+                    subList1.set(k, 0);
+                    subListSum2 += listOfDeals.get(k);
+                }
+            }
+            int difference = calculateDifference(subListSum1, subListSum2);
+            if (this.minDifference > difference) {
+                this.minDifference = difference;
+                this.subList1 = subList1;
+                this.subList2 = subList2;
+            }
         }
-        return sublistStringList;
     }
 
-    private static List<Long> getBinaryRepList(int size) {
-        return null;
+    private static int getListSize(List<Integer> list) {
+        int counter = 0;
+
+        for (Integer num : list) {
+            counter++;
+        }
+        return counter;
     }
 
-    private static Long getBinaryRepresentation(int idx) {
-        return null;
+    public static int getPowerOfTwo(int listSize) {
+        int n = 2;
+        if (listSize == 0) {
+            return 0;
+        } else if (listSize == 1) {
+            return 1;
+        } else {
+            for (int i = 0; i < listSize - 1; i++) {
+                n = n * 2;
+            }
+            return n - 1;
+        }
     }
 
-    private static String getPartitionInfo(List<Integer> listOfDeals, Long binaryRep) {
-        listNum++;
-        // IDK BUT MAYBE PUT THE SUBLIST INTO A STRING????????
-        List<Integer> sublist = new ArrayList<>();
-        //Lista 1 : [9, 28, 32] : Tamanho input : 3 : Sublista : [9, 28, 0] : Diferenca : 5 : Time : 2.19345092773e-05
-        Pair<Integer, String> differenceInfo = calculateDifference();
+    public static String decimalToBinary(int decimal) {
+        if (decimal == 0) {
+            return "0";
+        }
+        String binary = "";
+        while (decimal > 0) {
+            int bit = decimal % 2; //1Op + 1A
+            binary = bit + binary;
+            decimal /= 2;
+        }
 
-        return String.format("List %d: %s Input Size: %d Sublist: %s Diference: %d Time: %s",
-                listNum, Arrays.toString(listOfDeals.toArray()), listOfDeals.size(), sublist, differenceInfo.getKey(), differenceInfo.getValue());
+        return binary;
     }
 
-    private static Pair<Integer, String> calculateDifference(){
-        return new Pair<>(null, getRuntime().toString());
+    private String getPartitionInfo(List<Integer> subList, int idx) {
+        StringBuilder s = new StringBuilder();
+
+        s.append(String.format("|------------Subset | %1d------------|%n", idx));
+        s.append(String.format("|  Agency ID  |  Number Properties |%n"));
+        for (int i = 0; i < subList.size(); i++) {
+            s.append(String.format("|     %2d      |         %-3d        |%n", i, subList.get(i)));
+        }
+        return s.toString();
+    }
+
+    private static int calculateDifference(int sum1, int sum2) {
+        int dif = (sum2) - (sum1);
+        if (dif < 0) {
+            dif = (-dif);
+        }
+        return dif;
     }
 }
