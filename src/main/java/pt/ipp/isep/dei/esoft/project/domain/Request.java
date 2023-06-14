@@ -362,27 +362,29 @@ public class Request implements Serializable {
      */
     private Enum<SunExposureTypes> mapStringToSunExposure(String sunExposureChar) {
         SunExposureTypes sunExposure = null;
-        switch (sunExposureChar.toLowerCase()) {
-            case "n":
-            case "north":
-                sunExposure = SunExposureTypes.NORTH;
-                break;
-            case "e":
-            case "east":
-                sunExposure = SunExposureTypes.EAST;
-                break;
-            case "w":
-            case "west":
-                sunExposure = SunExposureTypes.WEST;
-                break;
-            case "s":
-            case "south":
-                sunExposure = SunExposureTypes.SOUTH;
-                break;
-            default:
-                System.out.println("ERROR: Invalid data in file.");
-                System.exit(1);
-                break;
+        if (sunExposureChar != null) {
+            switch (sunExposureChar.toLowerCase()) {
+                case "n":
+                case "north":
+                    sunExposure = SunExposureTypes.NORTH;
+                    break;
+                case "e":
+                case "east":
+                    sunExposure = SunExposureTypes.EAST;
+                    break;
+                case "w":
+                case "west":
+                    sunExposure = SunExposureTypes.WEST;
+                    break;
+                case "s":
+                case "south":
+                    sunExposure = SunExposureTypes.SOUTH;
+                    break;
+                default:
+                    System.out.println("ERROR: Invalid data in file.");
+                    System.exit(1);
+                    break;
+            }
         }
         return sunExposure;
     }
