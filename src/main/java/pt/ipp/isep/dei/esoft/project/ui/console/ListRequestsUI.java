@@ -52,7 +52,7 @@ public class ListRequestsUI implements Runnable {
 
     public void run() {
         Scanner input = new Scanner(System.in);
-        System.out.println("Property requests to be published:\n");
+        System.out.println("\nProperty requests to be published:\n");
         Optional<List<RequestDto>> listRequests = controller.getRequestsList();
         Optional<RequestDto> requestDto = Optional.empty();
         boolean continueLoop = true;
@@ -94,7 +94,8 @@ public class ListRequestsUI implements Runnable {
                     continueLoop = false;
                 }
             } else {
-                System.out.println("There isn't any property request available.");
+                System.out.println("\n\nThere isn't any property request available! Returning to the Agent Menu!");
+                continueLoop = false;
             }
         } while (continueLoop);
     }
