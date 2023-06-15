@@ -6,9 +6,11 @@ import java.io.PrintWriter;
 
 public class EmailNotification implements Notification {
 
+    static Integer counter = 1;
+
     @Override
     public Boolean sendNotification(String to, String topic, String message) {
-        String fileName = "Notifications/" + "EMAIL." + FILE_TYPE;
+        String fileName = "Notifications/" + "EMAIL." + counter + FILE_TYPE;
         File file = new File(fileName);
         File parentDir = file.getParentFile();
         if (!parentDir.exists()) {
@@ -20,6 +22,7 @@ public class EmailNotification implements Notification {
             text.write(TEXT_TOPIC + topic + "\n");
             text.write(message);
             text.close();
+            counter++;
             return true;
         } catch (IOException e) {
             return false;
