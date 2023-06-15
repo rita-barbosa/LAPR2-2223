@@ -14,7 +14,7 @@ public class Bootstrap implements Runnable {
     public void run() {
         addUserRoles();
         addUsers();
-        //addAgencies();
+        addAgencies();
         addPeople();
         addCommissionTypes();
         addPropertyTypes();
