@@ -1,29 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Rectangle?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.test.SubdivideAgenciesGUI">
+<AnchorPane prefHeight="575.0" prefWidth="715.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.test.SubdivideAgenciesGUI">
    <children>
-      <Rectangle arcHeight="5.0" fill="#7abedd" height="48.0" stroke="TRANSPARENT" strokeType="INSIDE" width="607.0" />
-      <Label layoutX="173.0" layoutY="7.0" text="The Real Estate Agency" textFill="#254757">
+      <Rectangle arcHeight="5.0" fill="#7abedd" height="48.0" stroke="TRANSPARENT" strokeType="INSIDE" width="715.0" />
+      <Label layoutX="110.0" layoutY="7.0" text="Subdivide Agencies By Number of Properties" textFill="#254757">
          <font>
             <Font name="System Bold Italic" size="24.0" />
          </font>
       </Label>
-      <AnchorPane fx:id="anchorpane" layoutX="43.0" layoutY="96.0" minHeight="0.0" minWidth="0.0" prefHeight="290.0" prefWidth="538.0">
+      <Rectangle arcHeight="5.0" fill="#7bbedb61" height="450.0" layoutX="30.0" layoutY="59.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="658.0" />
+      <AnchorPane fx:id="anchorpane" layoutX="50.0" layoutY="95.0" minHeight="0.0" minWidth="0.0" prefHeight="361.0" prefWidth="309.0">
          <children>
-            <ListView fx:id="listViewPartitionsDisplay" layoutX="-3.0" prefHeight="290.0" prefWidth="545.0" stylesheets="@Styles.css" />
+            <ListView fx:id="listViewSubset1" prefHeight="347.0" prefWidth="300.0" stylesheets="@Styles.css" />
          </children>
       </AnchorPane>
-      <Rectangle arcHeight="5.0" fill="#24baff61" height="35.0" layoutX="40.0" layoutY="61.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="545.0" />
-      <Label layoutX="68.0" layoutY="67.0" text="Subdivision of Agencies and Partitions based on number of deals">
+      <AnchorPane layoutX="363.0" layoutY="95.0" prefHeight="360.0" prefWidth="309.0">
+         <children>
+            <ListView fx:id="listViewSubset2" layoutX="5.0" prefHeight="347.0" prefWidth="300.0" />
+         </children>
+      </AnchorPane>
+      <Button layoutX="380.0" layoutY="526.0" mnemonicParsing="false" onAction="#btnExit" prefHeight="35.0" prefWidth="105.0" style="-fx-background-color: acd9ed;" text="Return" textFill="#254757">
          <font>
-            <Font name="System Bold" size="16.0" />
+            <Font name="System Bold" size="14.0" />
+         </font></Button>
+      <Button alignment="CENTER" layoutX="231.0" layoutY="526.0" mnemonicParsing="false" onAction="#btnReset" prefHeight="35.0" prefWidth="105.0" style="-fx-background-color: acd9ed;" text="Reset" textFill="#254757">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font></Button>
+      <Label alignment="CENTER" layoutX="135.0" layoutY="68.0" prefHeight="21.0" prefWidth="138.0" text="Subset 1" textFill="#254757">
+         <font>
+            <Font name="System Bold Italic" size="18.0" />
          </font>
       </Label>
+      <Label alignment="CENTER" layoutX="456.0" layoutY="68.0" prefHeight="27.0" prefWidth="122.0" text="Subset 2" textFill="#254757">
+         <font>
+            <Font name="System Bold Italic" size="18.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="318.0" layoutY="456.0" prefHeight="17.0" prefWidth="80.0" text="Difference " textFill="#254757">
+         <font>
+            <Font name="System Bold Italic" size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtDifference" layoutX="283.0" layoutY="476.0" />
    </children>
 </AnchorPane>
