@@ -203,13 +203,17 @@ public class AgencyRepository implements Serializable {
     }
 
     public List<Integer> getDealsNumberOfAgencies() {
-        List<Integer> listOfDeals = new ArrayList<>(Collections.nCopies(agencies.size(), 0));
-        for (Agency agency : agencies) {
-            int agencyId = agency.getId();
-            int dealsNumber = agency.getNumberOfDeals();
-            listOfDeals.set(agencyId - 1, dealsNumber);
+        try {
+            List<Integer> listOfDeals = new ArrayList<>(Collections.nCopies(agencies.size(), 0));
+            for (Agency agency : agencies) {
+                int agencyId = agency.getId();
+                int dealsNumber = agency.getNumberOfDeals();
+                listOfDeals.set(agencyId - 1, dealsNumber);
+            }
+            return listOfDeals;
+        } catch (IndexOutOfBoundsException e) {
+            throw new IndexOutOfBoundsException("Invalid agency ID.");
         }
-        return listOfDeals;
     }
 
 }

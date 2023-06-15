@@ -14,7 +14,7 @@ public class Bootstrap implements Runnable {
     public void run() {
         addUserRoles();
         addUsers();
-        addAgencies();
+        //addAgencies();
         addPeople();
         addCommissionTypes();
         addPropertyTypes();
@@ -95,7 +95,7 @@ public class Bootstrap implements Runnable {
 
         Location location1 = new Location("Devil's Road", "Hell", "Earth", "ET", "16789");
         Agency agency5 = new Agency(6789, "Make It Home LLC.", "agency5@this.app", "286 776 8435", location1);
-        addEmployees(agency5);
+        //addEmployees(agency5);
         agencyRepository.add(agency5);
     }
 

@@ -30,7 +30,7 @@ public class Partition {
     }
 
     private void getPartitions(List<Integer> listOfDeals) {
-        int listOfDealsSize = getListSize(listOfDeals); // 3n+3 : O(n)
+        int listOfDealsSize = listOfDeals.size(); // 1 : O(n)
         int size = getPowerOfTwo(listOfDealsSize); //3n + 2 :
 
         this.minDifference = Integer.MAX_VALUE; // 1A
@@ -69,14 +69,6 @@ public class Partition {
         }
     }
 
-    private static int getListSize(List<Integer> list) { // 1 + (n+1) + (n+1) + n + 1 = 3n +3
-        int counter = 0; // 1A
-
-        for (Integer num : list) { // (n + 1) AouI + (n + 1) C
-            counter++; //(n)AouI
-        }
-        return counter;//1R
-    }
 
     public static int getPowerOfTwo(int listSize) { // 1 + 1 + 1 + n + (n-1) + (n-1) + 1 = 3n + 2
         int n = 2; //1A
@@ -109,10 +101,10 @@ public class Partition {
     private String getPartitionInfo(List<Integer> subList, int idx) {
         StringBuilder s = new StringBuilder();
 
-        s.append(String.format("|------------Subset | %1d------------|%n", idx));
-        s.append(String.format("|  Agency ID  |  Number Properties |%n"));
+        s.append(String.format(" AGENCY |  Number Properties%n", idx));
+
         for (int i = 0; i < subList.size(); i++) {
-            s.append(String.format("|     %2d      |         %-3d        |%n", i, subList.get(i)));
+            s.append(String.format(" - ID:   %2d  |    %d%n", i + 1,subList.get(i)));
         }
         return s.toString();
     }
