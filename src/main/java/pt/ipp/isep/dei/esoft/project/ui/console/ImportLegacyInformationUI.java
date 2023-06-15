@@ -3,8 +3,6 @@ package pt.ipp.isep.dei.esoft.project.ui.console;
 import pt.ipp.isep.dei.esoft.project.application.controller.ImportLegacyInformationController;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
 
 public class ImportLegacyInformationUI implements Runnable {
@@ -20,22 +18,20 @@ public class ImportLegacyInformationUI implements Runnable {
     public void run() {
         controller = new ImportLegacyInformationController();
         System.out.println("\nImport information from legacy system file");
-
-//* **AC1:** The system administrator must be able to choose a file to import.
-//* **AC2:** The system should only accept CSV files.
-//* **AC3:** The file content must be validated, showing a message to the system administrator if the file is empty or its content is not in the requested format.
-//* **AC4:** The import operation, when successful, should trigger a success message to the system administrator.
-
         filepath = requestFilepath();
 
         submitData();
     }
 
     private void submitData() {
-        if (controller.importInformationFromFile(filepath)) {
-            System.out.println("\nLegacy system information successfully imported!");
-        } else {
-            System.out.println("\nThe legacy system information was not imported!");
+        try {
+            if (controller.importInformationFromFile(filepath)) {
+                System.out.println("\nLegacy system information successfully imported!");
+            } else {
+                System.out.println("\nThe legacy system information was not imported!");
+            }
+        } catch (Exception e) {
+            System.out.println("ERROR: " + e.getMessage());
         }
     }
 

@@ -403,7 +403,7 @@ public class Request implements Serializable {
                 date[i] = Integer.parseInt(dateString[i]);
             }
         } catch (NumberFormatException e) {
-            throw e;
+            throw new NumberFormatException("Invalid date format in file.");
         }
         return date;
     }
