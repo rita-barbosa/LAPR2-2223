@@ -1,4 +1,4 @@
-package com.example.test;
+package pt.ipp.isep.dei.esoft.project.ui.console.gui;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;

@@ -1,4 +1,4 @@
-package pt.ipp.isep.dei.esoft.project.ui.console.menu.gui;
+package pt.ipp.isep.dei.esoft.project.ui.console.gui;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;

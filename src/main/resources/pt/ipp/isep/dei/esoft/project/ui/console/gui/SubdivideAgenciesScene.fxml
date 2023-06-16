@@ -5,7 +5,7 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="575.0" prefWidth="715.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.test.SubdivideAgenciesGUI">
+<AnchorPane prefHeight="575.0" prefWidth="715.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.ipp.isep.dei.esoft.project.ui.console.gui.SubdivideAgenciesGUI">
    <children>
       <Rectangle arcHeight="5.0" fill="#7abedd" height="48.0" stroke="TRANSPARENT" strokeType="INSIDE" width="715.0" />
       <Label layoutX="110.0" layoutY="7.0" text="Subdivide Agencies By Number of Properties" textFill="#254757">

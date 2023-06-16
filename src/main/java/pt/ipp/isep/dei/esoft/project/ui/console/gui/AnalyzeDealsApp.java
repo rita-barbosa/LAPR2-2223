@@ -1,4 +1,4 @@
-package com.example.test;
+package pt.ipp.isep.dei.esoft.project.ui.console.gui;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -8,15 +8,15 @@ import pt.ipp.isep.dei.esoft.project.ui.Bootstrap;
 
 import java.io.IOException;
 
-public class MainGUI extends Application {
+public class AnalyzeDealsApp extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         Bootstrap bootstrap = new Bootstrap();
         bootstrap.run();
-        FXMLLoader fxmlLoader = new FXMLLoader(MainGUI.class.getResource("ListDealsNetworkScene.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+        FXMLLoader fxmlLoader = new FXMLLoader(AnalyzeDealsApp.class.getResource("AnalyzeDealsUI.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 715, 575);
         stage.setResizable(false);
-        stage.setTitle("Hello!");
+        stage.setTitle("Real Estate");
         stage.setScene(scene);
         stage.show();
     }

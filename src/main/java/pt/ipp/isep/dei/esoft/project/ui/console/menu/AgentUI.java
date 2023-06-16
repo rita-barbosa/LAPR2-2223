@@ -1,7 +1,7 @@
 package pt.ipp.isep.dei.esoft.project.ui.console.menu;
 
 
-import pt.ipp.isep.dei.esoft.project.ui.console.menu.gui.ListVisitsApp;
+import pt.ipp.isep.dei.esoft.project.ui.console.gui.ListVisitsApp;
 import javafx.application.Application;
 import pt.ipp.isep.dei.esoft.project.ui.console.AcceptOrdersUI;
 import pt.ipp.isep.dei.esoft.project.ui.console.ListRequestsUI;

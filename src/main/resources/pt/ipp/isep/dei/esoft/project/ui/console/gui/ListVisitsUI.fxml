@@ -5,7 +5,7 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="573.0" prefWidth="715.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.ipp.isep.dei.esoft.project.ui.console.menu.gui.ListVisitsGUI">
+<AnchorPane prefHeight="573.0" prefWidth="715.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.ipp.isep.dei.esoft.project.ui.console.gui.ListVisitsGUI">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#7abedd" height="50.0" stroke="TRANSPARENT" strokeType="INSIDE" width="715.0" />
       <Label layoutX="236.0" layoutY="6.0" text="List Booking Requests" textFill="#254757">

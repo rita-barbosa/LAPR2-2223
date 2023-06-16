@@ -1,6 +1,6 @@
 package pt.ipp.isep.dei.esoft.project.ui.console.menu;
 
-import pt.ipp.isep.dei.esoft.project.ui.console.menu.gui.AnalyzeDealsApp;
+import pt.ipp.isep.dei.esoft.project.ui.console.gui.AnalyzeDealsApp;
 import javafx.application.Application;
 import pt.ipp.isep.dei.esoft.project.ui.console.utils.Utils;
 
