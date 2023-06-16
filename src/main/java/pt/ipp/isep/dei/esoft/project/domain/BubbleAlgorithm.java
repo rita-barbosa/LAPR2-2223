@@ -20,50 +20,41 @@ public class BubbleAlgorithm implements SortingAlgorithm, Serializable {
 
     @Override
     public List<Announcement> sort(String sortingOrder, List<?> list) {
-        Announcement[] deals = getAnnouncementArray(list);
-        Double[] areas = getAreaArray(deals);
+        Announcement[] announce = getAnnouncementArray(list);
         if (sortingOrder.equalsIgnoreCase("Ascending")) {
-            this.sortAscending(areas, deals, list.size());
+            this.sortAscending(announce, list.size());
         }else {
-            this.sortDescending(areas, deals, list.size());
+            this.sortDescending(announce, list.size());
         }
-        this.sortedList = Arrays.asList(deals);
+        this.sortedList = Arrays.asList(announce);
         return this.sortedList;
     }
 
-    private Double[] getAreaArray(Announcement[] deals) {
-        Double[] area = new Double[deals.length];
-        for (int i = 0; i < deals.length; i++) {
-            area[i] = deals[i].getRequest().getProperty().getArea();
-        }
-        return area;
-    }
-
     private Announcement[] getAnnouncementArray(List<?> list) {
-        Announcement[] deals = new Announcement[list.size()];
+        Announcement[] announce = new Announcement[list.size()];
         for (int i = 0; i < list.size(); i++) {
-            deals[i] = (Announcement) list.get(i);
+            announce[i] = (Announcement) list.get(i);
         }
-        return deals;
+        return announce;
     }
 
-    public void sortAscending(Double[] areas, Announcement[] deals, int size) {
+    public void sortAscending(Announcement[] announce, int size) {
         for (int i = 0; i < size; i++)
             for (int j = 0; j < size - 1; j++)
-                if (areas[j] > areas[j + 1]) {
-                    Announcement temp = deals[j];
-                    deals[j] = deals[j + 1];
-                    deals[j + 1] = temp;
+                if (announce[j].getRequest().getProperty().getArea() > announce[j + 1].getRequest().getProperty().getArea()) {
+                    Announcement temp = announce[j];
+                    announce[j] = announce[j + 1];
+                    announce[j + 1] = temp;
                 }
     }
 
-    public void sortDescending(Double[] areas, Announcement[] deals, int size) {
+    public void sortDescending(Announcement[] announce, int size) {
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size - 1; j++) {
-                if (areas[j] < areas[j + 1]) {
-                    Announcement temp = deals[j];
-                    deals[j] = deals[j + 1];
-                    deals[j + 1] = temp;
+                if (announce[j].getRequest().getProperty().getArea() < announce[j + 1].getRequest().getProperty().getArea()) {
+                    Announcement temp = announce[j];
+                    announce[j] = announce[j + 1];
+                    announce[j + 1] = temp;
                 }
             }
         }
