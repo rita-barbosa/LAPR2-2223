@@ -16,10 +16,7 @@ class Agency {
     - String description
     - Email emailAddress
     - String phoneNumber
-    - Location location
     - List<Employee> employees
-    - AnnouncementList announcements
-    - RequestList requests
     + getDealsAnnouncementList()
     + hasId()
     + getDescription()
@@ -60,12 +57,7 @@ class Announcement{
     - LocalDate acceptanceDate
     - LocalDate saleDate
     - Double saleAmount
-    - Commission commission
-    - Request request
-    - Employee agent
     - Integer id
-    - Commission commission
-    - OrderList orders
     - List<Visit> visitList
     + isDeal()
     + getSaleDate()
@@ -74,30 +66,24 @@ class Announcement{
     + getCommissionInfo()
     + getSaleAmount()
     + getRequestInfo()
-    + getAgentName()
-    + getAgentAgencyId()
+    + getAgencyId()
 }
 
 note left of Announcement::isItDeal
 This method checks if the
-saleDate of the Announcement
+saleAmount of the Announcement
 is different from the default one
-(1-1-1)
 end note
 
 class Commission{
     - Double commissionValue
-    - CommissionType commissionType
     + toString()
 }
 
 class Request{
     - LocalDate requestDate
     - Integer id
-    - Employee Employee
     - Email ownerEmail
-    - Business business
-    - Property property
     + toString()
 }
 

@@ -29,10 +29,8 @@ activate NWM
     NWM -> System : selects a sorting algorithm
     activate System
 
-    System --> NWM : displays results and asks if the user wants to sort list again
+    System --> NWM : displays results, asks if the user wants to sort list again\n and operation success
     end loop
-
-    System --> NWM : displays operation success
     deactivate System
 
 @enduml
