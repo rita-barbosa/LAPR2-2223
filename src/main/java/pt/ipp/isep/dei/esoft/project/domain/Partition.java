@@ -13,7 +13,6 @@ public class Partition {
 
     public Partition(List<Integer> numbers) {
         this.listOfDeals = numbers;
-        getPartitions(numbers);
     }
 
     public int getMinDifference() {
@@ -21,16 +20,17 @@ public class Partition {
     }
 
     public List<String> getSubLists() {
-        this.getPartitions(this.listOfDeals);
+        calculatePartitions(listOfDeals);
+
         List<String> subListsString = new ArrayList<>();
-        subListsString.add(this.getPartitionInfo(subList1, 1));
-        subListsString.add(this.getPartitionInfo(subList2, 2));
+        subListsString.add(this.getPartitionInfo(this.subList1, 1));
+        subListsString.add(this.getPartitionInfo(this.subList2, 2));
         subListsString.add(String.valueOf(this.minDifference));
         return subListsString;
     }
 
-    private void getPartitions(List<Integer> listOfDeals) {
-        int listOfDealsSize = listOfDeals.size(); // 1 : O(n)
+    private void calculatePartitions(List<Integer> listOfDeals) {
+        int listOfDealsSize = listOfDeals.size(); // 1 : O(1)
         int size = getPowerOfTwo(listOfDealsSize); //3n + 2 :
 
         this.minDifference = Integer.MAX_VALUE; // 1A
