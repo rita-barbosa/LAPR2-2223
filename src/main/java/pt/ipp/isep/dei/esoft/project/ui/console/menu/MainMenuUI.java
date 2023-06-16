@@ -47,6 +47,10 @@ public class MainMenuUI implements Runnable {
                 options.get(option).run();
             }
         } while (option != -1);
-        Serialization.saveData();
+        try {
+            Serialization.saveData();
+        } catch (Exception e){
+            System.out.println("ERROR: Couldn't save data.");
+        }
     }
 }
