@@ -8,6 +8,10 @@ participant ":ScheduleVisitController" as CTRL
 participant ":Repositories" as RepositorySingleton
 participant "repositories\n:Repositories" as PLAT
 participant "criteriaRepository\n:CriteriaRepository" as CriteriaRepository
+participant ":CriteriaMapper" as MAPPER
+participant "criteriaDtoList\n:List<CriteriaDto>" as DTOLIST
+participant "criteriaDto\n:CriteriaDto" as DTO
+
 
 autonumber 11
 
@@ -16,7 +20,7 @@ autonumber 11
 activate CTRL
 autonumber 11.1
 
-    group Get Criteria List
+    group Get Criteria DTO List
 
 CTRL -> RepositorySingleton : getInstance()
 
@@ -40,10 +44,34 @@ CTRL -> RepositorySingleton : getInstance()
         CriteriaRepository --> CTRL : criteriaList
 
         deactivate CriteriaRepository
+
+        CTRL -> MAPPER : toDto(criteriaList)
+        activate MAPPER
+
+        MAPPER -> DTOLIST** : create()
+
+        loop for each criterion
+
+         MAPPER -> MAPPER : criteriaDto = toDto(criterion)
+        activate MAPPER
+
+        MAPPER --> DTO** : create(criterion)
+        deactivate MAPPER
+
+         MAPPER -> DTOLIST : add(criteriaDto)
+        activate DTOLIST
+        deactivate DTOLIST
+
+        end loop
+
+        MAPPER --> CTRL : criteriaDtoList
+
+        deactivate MAPPER
+
      end
      autonumber 12
 
-        <-- CTRL : criteriaList
+        <-- CTRL : criteriaDtoList
 
         deactivate CTRL
 @enduml

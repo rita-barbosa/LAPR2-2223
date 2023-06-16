@@ -12,12 +12,12 @@ participant "userSession\n:UserSession" as SESSION
 participant "personRepository\n:PersonRepository" as PersonRepository
 participant "person:\nPerson" as PERSON
 
-autonumber 67.1
+autonumber 95.1
 
      -> CTRL : getUserPerson()
      activate CTRL
 
-autonumber 67.1.1
+autonumber 95.1.1
 
     group Get User Person
 
@@ -75,7 +75,7 @@ autonumber 67.1.1
 
      end group
 
-autonumber 67.2
+autonumber 95.2
 
         <-- CTRL : person
     deactivate CTRL

@@ -10,18 +10,20 @@ participant "repositories\n:Repositories" as PLAT
 participant "agencyRepository\n:AgencyRepository" as AgencyRepository
 participant "agency\n:Agency" as AGC
 participant "announcementList\n:AnnouncementList" as LISTCLASS
+participant "announcements\n:Announcement" as ANNOUNCE
 participant "listAnnouncements\n: List<Announcement>" as AnnounceList
 
 
 autonumber 4
 
- -> CTRL : getAllAnnouncementsList()
 
 activate CTRL
 
+      -> CTRL : getAllNonDealAnnouncements()
+
     autonumber 4.1
 
-    group Get Announcements List
+    group Get Non Deals List
 
         CTRL -> RepositorySingleton : getInstance()
 
@@ -38,7 +40,7 @@ activate CTRL
 
         deactivate PLAT
 |||
-        CTRL -> AgencyRepository : getAllAnnouncementsList()
+        CTRL -> AgencyRepository : getAllNonDealAnnouncements()
         activate AgencyRepository
 
         AgencyRepository -> AnnounceList** : listToDisplay = create()
@@ -46,38 +48,48 @@ activate CTRL
        loop for all agencies
 
 
-            AgencyRepository -> AGC : getAnnouncementList()
+            AgencyRepository -> AGC : getNonDealAnnouncements()
             activate AGC
 
-            AGC -> LISTCLASS : getAnnouncementList()
+            AGC -> LISTCLASS : getNonDeals()
             activate LISTCLASS
 
-                LISTCLASS --> AGC : announcementList
+            loop for all announcements
+
+                LISTCLASS -> ANNOUNCE : isDeal()
+                activate ANNOUNCE
+
+                    ANNOUNCE --> LISTCLASS : true/false
+                deactivate ANNOUNCE
+
+            end loop
+
+                LISTCLASS --> AGC : nonDealsList
             deactivate LISTCLASS
 
-                AGC --> AgencyRepository : announcementList
+                AGC --> AgencyRepository : nonDealsList
             deactivate AGC
 
-            AgencyRepository -> AnnounceList : addAll(announcementList)
+            AgencyRepository -> AnnounceList : addAll(nonDealsList)
             activate AnnounceList
             deactivate AnnounceList
 |||
        end loop
 
-            AgencyRepository -> LISTCLASS : sortAnnouncementsByMostRecentAcceptanceDate(listToDisplay)
+            AgencyRepository -> LISTCLASS : sortAnnouncementsByMostRecentAcceptanceDate(nonDealsList)
             activate LISTCLASS
 
-                LISTCLASS --> AgencyRepository : listToDisplay
+                LISTCLASS --> AgencyRepository : nonDealsList
             deactivate LISTCLASS
 |||
         end group
 
-            AgencyRepository --> CTRL : listToDisplay
+            AgencyRepository --> CTRL : nonDealsList
         deactivate AgencyRepository
 
 
     autonumber 5
-    <-- CTRL  : listToDisplay
+    <-- CTRL  : nonDealsList
 deactivate CTRL
 
 

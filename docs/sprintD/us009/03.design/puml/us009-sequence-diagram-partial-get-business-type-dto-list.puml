@@ -1,0 +1,75 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+
+participant ":ScheduleVisitController" as CTRL
+participant ":Repositories" as RepositorySingleton
+participant "repositories\n:Repositories" as PLAT
+participant "businessTypeRepository\n:BusinessTypeRepository" as BusinessTypeRepository
+participant ":CriteriaMapper" as MAPPER
+participant "criteriaDtoList\n:List<CriteriaDto>" as DTOLIST
+participant "criteriaDto\n:CriteriaDto" as DTO
+
+autonumber 15
+
+ -> CTRL : getBusinessTypeList()
+
+activate CTRL
+
+    autonumber 15.1
+
+        group Get Business Type DTO List
+
+        CTRL -> RepositorySingleton : getInstances()
+        activate RepositorySingleton
+
+        RepositorySingleton --> CTRL : repositories
+        deactivate RepositorySingleton
+
+        CTRL -> PLAT : getBusinessTypeRepository()
+
+        activate PLAT
+
+        PLAT --> CTRL : businessTypeRepository
+        deactivate PLAT
+
+        CTRL -> BusinessTypeRepository : getBusinessTypeDesignationsList()
+
+        activate BusinessTypeRepository
+
+        BusinessTypeRepository --> CTRL : businessTypeDesignationsList
+        deactivate BusinessTypeRepository
+
+        CTRL -> MAPPER : toDto(businessTypeDesignationsList)
+        activate MAPPER
+
+        MAPPER -> DTOLIST** : create()
+
+        loop for each businessTypeDesignation
+
+         MAPPER -> MAPPER : businessTypeDto = toDto(businessTypeDesignation)
+        activate MAPPER
+
+        MAPPER --> DTO** : create(businessTypeDesignation)
+        deactivate MAPPER
+
+         MAPPER -> DTOLIST : add(businessTypeDto)
+        activate DTOLIST
+        deactivate DTOLIST
+
+        end loop
+
+        MAPPER --> CTRL : businessTypeDtoList
+
+        deactivate MAPPER
+
+
+        end group
+
+autonumber 16
+<-- CTRL : businessTypeDtoList
+deactivate CTRL
+
+@enduml

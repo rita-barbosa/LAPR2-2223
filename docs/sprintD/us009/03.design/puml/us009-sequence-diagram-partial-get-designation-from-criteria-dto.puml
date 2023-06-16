@@ -1,0 +1,44 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+
+participant ":ScheduleVisitController" as CTRL
+participant ":CriteriaMapper" as MAPPER
+participant "criteriaDto\n:CriteriaDto" as DTO
+
+autonumber 20
+
+ -> CTRL : getDesignationFromDto(businessTypeDto)
+
+activate CTRL
+
+    autonumber 20.1
+
+    group Get Designation from Criteria DTO
+|||
+    CTRL -> MAPPER : getDesignation(businessTypeDto)
+    activate MAPPER
+
+
+
+    MAPPER -> DTO : getDesignation()
+    activate DTO
+
+    DTO --> MAPPER : designation
+    deactivate DTO
+
+
+    MAPPER --> CTRL : designation
+
+    deactivate MAPPER
+
+    end group
+
+    autonumber 21
+
+    <-- CTRL  : designation
+deactivate CTRL
+
+@enduml

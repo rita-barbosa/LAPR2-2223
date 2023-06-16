@@ -3,54 +3,134 @@ skinparam monochrome true
 skinparam packageStyle rectangle
 skinparam shadowing false
 
-title System Sequence Diagram (SSD) - US009
+title Sequence Diagram (SD) - US009
 
 autonumber
 
 actor "<b> Customer </b>" as CTM
-participant "<b> :System </b>" as System
+participant "<b> :System</b>" as SYSTEM
 
 activate CTM
 
-    CTM -> System : asks to schedule a new visit
-        activate System
+    CTM -> SYSTEM : asks to schedule a new visit
+        activate SYSTEM
 
-    System --> CTM : shows the list of announcements available
-        deactivate System
+        SYSTEM --> CTM : shows non deals list and asks if the user wants\n to filter the list
+    deactivate SYSTEM
 
-    opt Selection of criteria
+    loop While the user intends
 
-        CTM -> System : asks to select filter for list
-        activate System
+    CTM -> SYSTEM : selects to see criteria to filter the list
+    activate SYSTEM
 
-        System --> CTM : criteriaList
-        deactivate System
+        SYSTEM --> CTM : shows criteria list and asks to select a criteria type
+    deactivate SYSTEM
 
-        loop While Costumer intends
+            CTM -> SYSTEM : selects criteria option
+            activate SYSTEM
 
-            CTM -> System : selects list filter
-            activate System
+            alt option == 1
 
-                System --> CTM : shows filtered announcements list
-            deactivate System
+                SYSTEM --> CTM : shows business type list and asks to select one
+                deactivate SYSTEM
+
+                CTM -> SYSTEM : selects a business type
+                activate SYSTEM
+
+                    SYSTEM --> CTM : shows sorted list and asks if it wants to select more criteria
+                deactivate SYSTEM
+|||
+            else option == 2
+            
+                CTM -> SYSTEM : selects criteria
+                activate SYSTEM
+
+                SYSTEM --> CTM : shows property type list and asks to select one
+                deactivate SYSTEM
+
+                CTM -> SYSTEM : selects a property type
+                activate SYSTEM
+
+                    SYSTEM --> CTM : shows sorted list and asks if it wants to select more criteria
+                deactivate SYSTEM
+|||
+            else option == 3 && propertyType != "Land"
+
+                CTM -> SYSTEM : selects criteria
+                activate SYSTEM
+
+                SYSTEM --> CTM : requests data (numberBedrooms)
+                deactivate SYSTEM
+
+                CTM -> SYSTEM : types number of bedrooms
+                activate SYSTEM
+
+                    SYSTEM --> CTM : shows sorted list and asks if it wants to select more criteria
+                deactivate SYSTEM
+|||
+            else option == 4
+
+                CTM -> SYSTEM : selects criteria
+                activate SYSTEM
+
+                SYSTEM --> CTM : shows price sorting orders available and asks to select one
+                deactivate SYSTEM
+
+
+                CTM -> SYSTEM : selects a sorting order
+                activate SYSTEM
+
+                    SYSTEM --> CTM : shows sorted list and asks if it wants to select more criteria
+                deactivate SYSTEM
+|||
+            else option == 5
+
+                CTM -> SYSTEM : selects criteria
+                activate SYSTEM
+            
+                SYSTEM --> CTM : shows city sorting orders available and asks to select one
+                deactivate SYSTEM
+
+
+                CTM -> SYSTEM : selects a sorting order
+                activate SYSTEM
+
+                    SYSTEM --> CTM : shows sorted list and asks if it wants to select more criteria
+                deactivate SYSTEM
+|||
+            else option == 6
+
+                CTM -> SYSTEM : selects criteria
+                activate SYSTEM
+
+                    SYSTEM --> CTM : shows sorted list
+                deactivate SYSTEM
+|||
+            deactivate SYSTEM
+
+            end alt
+
         end loop
 
-    end opt
+    CTM -> SYSTEM : selects an announcement
+        activate SYSTEM
 
-    CTM -> System : selects an announcement
-        activate System
+    SYSTEM --> CTM : requests data (visitDay, visitMonth, visitYear, startHour,\n endHour)
+        deactivate SYSTEM
 
-    System --> CTM : requests data
-        deactivate System
+    loop While the user intends
+    CTM -> SYSTEM : types requested data
+        activate SYSTEM
 
-    loop While Costumer intends
+    SYSTEM --> CTM : shows all data and asks to submit
+    deactivate SYSTEM
 
-    CTM -> System : types requested data (visitDate, visitBeginning, visitEnd)
-        activate System
+    CTM -> SYSTEM : submits data
+    activate SYSTEM
 
     end loop
 
-    System --> CTM : displays operation success
-        deactivate System
+    SYSTEM --> CTM : displays operation success
+    deactivate SYSTEM
 
 @enduml

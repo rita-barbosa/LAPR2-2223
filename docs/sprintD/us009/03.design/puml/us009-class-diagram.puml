@@ -35,16 +35,16 @@ class Visit {
 }
 
 class AgencyRepository {
-    + getAllAnnouncementsList()
+    + getAllNonDealAnnouncements()
     + getAgencyByAnnouncementId(announcementId)
 }
 
 class BusinessTypeRepository {
-    + getBusinessTypeList()
+    + getBusinessTypeDesignationsList()
 }
 
 class PropertyTypeRepository {
-    + getPropertyTypeList()
+    + getPropertyTypeDesignationsList()
 }
 
 class Agency {
@@ -52,7 +52,7 @@ class Agency {
     - String designation
     - String emailAddress
     - Integer phoneNumber
-    + getAnnouncementList()
+    + getNonDealAnnouncements()
     + getAnnouncementById(announcementId)
     + anyAnnouncementHasId(announcementId)
 }
@@ -70,22 +70,28 @@ class Repositories {
 
 class ScheduleVisitController {
     + ScheduleVisitController(agencyRepository, personRepository,\n criteriaRepository, authenticationRepository,\n businessTypeRepository, propertyTypeRepository)
-    + getAnnouncementListDto()
-    + getAllAnnouncementsList()
+    + getAllNonDealAnnouncementsDto()
+    + getAllNonDealAnnouncements()
     + getCriteriaList()
     + getBusinessTypeList()
     + getPropertyTypeList()
-    + toDto(listToDisplay)
-    + getAnnouncementsByBusinessType(businessType, listToDisplay)
-    + getAnnouncementsByPropertyType(propertyType, listToDisplay)
-    + getAnnouncementsByNumberBedrooms(numberBedrooms, listToDisplay)
-    + getAnnouncementsByPrice(sortingOrder, listToDisplay)
-    + getAnnouncementsByCity(sortingOrder, listToDisplay)
-    + getAnnouncementsByState(sortingOrder, listToDisplay)
+    + toDto(nonDealsList)
+    + getDesignationFromDto(businessTypeDto)
+    + getAnnouncementsByBusinessType(businessTypeDto, nonDealsList)
+    + getAnnouncementsByPropertyType(propertyTypeDto, nonDealsList)
+    + getAnnouncementsByNumberBedrooms(numberBedrooms, nonDealsList)
+    + getAnnouncementsByPrice(sortingOrder, nonDealsList)
+    + getAnnouncementsByCity(sortingOrder, nonDealsList)
+    + getAnnouncementsByState(sortingOrder, nonDealsList)
     + toModel(announcementDto)
     + scheduleVisit(announcement, visitDay, visitMonth, visitYear,\n startHour, endHour)
     + getUserPerson()
 }
+
+note right of ScheduleVisitController::getDesignationFromDto
+This method call be also
+used with propertyTypeDto
+end note
 
 note top of ScheduleVisitController
     - announcementDto is retrieved
@@ -96,19 +102,23 @@ note top of ScheduleVisitController
     - visit is retrieved from announcement
     - visitDay, visitMonth, visitYear, startHour,
      endHour are retrieved from Visit
-    - listToDisplay is the list of properties
+    - nonDealsList is the list of properties
       to display
 end note
+
+
 
 class ScheduleVisitUI {
 }
 
 class Announcement {
-    - List<Visit> visits
     - LocalDate acceptanceDate
+    - LocalDate saleDate
+    - Double saleAmount
     - Integer id
-    - Employee agent
+    - List<Visit> visitList
     + getId()
+    + isDeal()
     + hasId(announcementId)
     + getAnnouncementInfoToDisplay()
     + createVisit(visitDay, visitMonth, visitYear, startHour,\n endHour, userName, userPhoneNumber)
@@ -118,27 +128,42 @@ class Announcement {
 }
 
 class AnnouncementMapper {
-    + toDto(listToDisplay)
+    + toDto(nonDealsList)
     + getAnnouncementIdFromDto(announcementDto)
+}
+
+class CriteriaMapper {
+    + toDto(criteriaList)
+    + toDto(criterion)
+    + getDesignation(obj)
+    + create(businessTypeDesignation)
+    + create(criterion)
+}
+
+note right of CriteriaMapper::create
+This method it is also used
+with propertyTypeDesignation
+end note
+
+class CriteriaDto{
+    + getDesignation()
 }
 
 class AnnouncementList {
     - List<Announcement> announcements
-    + AnnouncementList()
-    + getAnnouncementList()
-    + getAnnouncementByIdx(idx)
-    + addAll(announcementList)
-    + hasSameId(announcementId)
-    + announcementHasBusinessType(listToDisplay, businessType)
-    + announcementHasPropertyType(listToDisplay, propertyType)
-    + announcementHasNumberBedrooms(listToDisplay, numberBedrooms)
-    + sortAnnouncementsByAscendingPrice(listToDisplay)
-    + sortAnnouncementsByDescendingPrice(listToDisplay)
-    + sortAnnouncementsByAscendingCity(listToDisplay)
-    + sortAnnouncementsByDescendingCity(listToDisplay)
-    + sortAnnouncementsByAscendingState(listToDisplay)
-    + sortAnnouncementsByDescendingState(listToDisplay)
-    + sortAnnouncementsByMostRecentAcceptanceDate(listToDisplay)
+    + getNonDeals()
+    + getAnnouncementById(announcementId)
+    + anyAnnouncementHasId(announcementId)
+    + announcementHasBusinessType(nonDealsList, businessType)
+    + announcementHasPropertyType(nonDealsList, propertyType)
+    + announcementHasNumberBedrooms(nonDealsList, numberBedrooms)
+    + sortAnnouncementsByAscendingPrice(nonDealsList)
+    + sortAnnouncementsByDescendingPrice(nonDealsList)
+    + sortAnnouncementsByAscendingCity(nonDealsList)
+    + sortAnnouncementsByDescendingCity(nonDealsList)
+    + sortAnnouncementsByAscendingState(nonDealsList)
+    + sortAnnouncementsByDescendingState(nonDealsList)
+    + sortAnnouncementsByMostRecentAcceptanceDate(nonDealsList)
 }
 
 note right of AnnouncementList::getAnnouncementByIdx
@@ -161,20 +186,14 @@ end note
 class Request{
     - LocalDate requestDate
     - Integer id
-    - Employee Employee
     - Email ownerEmail
-    - Business business
-    - Property property
-    + getLocation()
     + toString()
 }
 
 
 class Property {
-    - PropertyType propertyType
     - Double area
     - Double distanceCityCenter
-    - Location location
     - List<Photograph> photograph
     + getLocation()
     + toString()
@@ -192,7 +211,6 @@ class Person{
     - String phoneNumber;
     - String passportCardNumber;
     - List<String> roles;
-    - Location location;
     + getName()
     + getPhoneNumber()
     + getEmailAddress()
@@ -217,6 +235,7 @@ Interface Notification as "<b><<Interface>></b>\nNotification" {
 }
 
 'RELATIONS
+
 
 ScheduleVisitUI .> ScheduleVisitController
 
@@ -264,6 +283,10 @@ ScheduleVisitController .> Announcement
 
 ScheduleVisitController ..> AnnouncementMapper
 
+ScheduleVisitController .> CriteriaMapper
+
+CriteriaMapper ..> CriteriaDto
+
 AnnouncementMapper ..> Announcement
 
 AnnouncementMapper ..> AnnouncementDto
@@ -283,7 +306,6 @@ Employee "1" -> "1" Agency: works in  >
 Agency "1" --> "1" AnnouncementList : owns >
 AnnouncementList "1" --> "*" Announcement: records >
 Property "1" -left-> "1" Request : < has information about
-'Request "1" -left "1" Business: is described by >
 Announcement "1" -left-> "1" Request : is  based on >
 Agency "1" --> "*" Request : is assigned to >
 Visit .up|> Notification : implements >

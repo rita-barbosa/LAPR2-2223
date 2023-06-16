@@ -1,0 +1,75 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+
+participant ":ScheduleVisitController" as CTRL
+participant ":Repositories" as RepositorySingleton
+participant "repositories\n:Repositories" as PLAT
+participant "propertyTypeRepository\n:PropertyTypeRepository" as PropertyTypeRepository
+participant ":CriteriaMapper" as MAPPER
+participant "criteriaDtoList\n:List<CriteriaDto>" as DTOLIST
+participant "criteriaDto\n:CriteriaDto" as DTO
+
+autonumber 29
+
+ -> CTRL : getPropertyTypeList()
+
+activate CTRL
+
+    autonumber 29.1
+
+        group Get Property Type DTO List
+
+        CTRL -> RepositorySingleton : getInstances()
+        activate RepositorySingleton
+
+        RepositorySingleton --> CTRL : repositories
+        deactivate RepositorySingleton
+
+        CTRL -> PLAT : getPropertyTypeRepository()
+
+        activate PLAT
+
+        PLAT --> CTRL : propertyTypeRepository
+        deactivate PLAT
+
+
+        CTRL -> PropertyTypeRepository : getPropertyTypeDesignationsList()
+
+        activate PropertyTypeRepository
+
+        PropertyTypeRepository --> CTRL : propertyTypeDesignationsList
+        deactivate PropertyTypeRepository
+
+        CTRL -> MAPPER : toDto(propertyTypeDesignationsList)
+        activate MAPPER
+
+        MAPPER -> DTOLIST** : create()
+
+        loop for each propertyTypeDesignationsList
+
+         MAPPER -> MAPPER : propertyTypeDto = toDto(propertyTypeDesignationsList)
+        activate MAPPER
+
+        MAPPER --> DTO** : create(propertyTypeDesignationsList)
+        deactivate MAPPER
+
+         MAPPER -> DTOLIST : add(propertyTypeDto)
+        activate DTOLIST
+        deactivate DTOLIST
+
+        end loop
+
+        MAPPER --> CTRL : propertyTypeDtoList
+
+        deactivate MAPPER
+
+        end group
+
+autonumber 30
+<-- CTRL : propertyTypeDtoList
+deactivate CTRL
+
+@enduml

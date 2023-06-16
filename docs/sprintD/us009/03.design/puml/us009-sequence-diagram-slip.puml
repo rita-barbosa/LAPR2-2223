@@ -19,209 +19,318 @@ activate CTM
 
     UI -> CTRL** : create
 
-    UI -> CTRL : getAnnouncementListDto()
+    UI -> CTRL : getAllNonDealAnnouncementsDto()
         activate CTRL
 
-    CTRL -> CTRL : getAllAnnouncementsList()
+    CTRL -> CTRL : getAllNonDealAnnouncements()
     activate CTRL
             ref over CTRL
-                Get Announcements List
+                Get Non Deals List
             end ref
-        CTRL --> CTRL : listToDisplay
+        CTRL --> CTRL : nonDealsList
     deactivate CTRL
 |||
-    CTRL -> CTRL : toDto(listToDisplay)
+    CTRL -> CTRL : toDto(nonDealsList)
     activate CTRL
             ref over CTRL
                 Convert List to DTO
             end ref
-        CTRL --> CTRL : listToDisplayDto
+        CTRL --> CTRL : nonDealsListDto
     deactivate CTRL
 
-        CTRL --> UI : listToDisplayDto
+        CTRL --> UI : nonDealsListDto
     deactivate CTRL
 
-        UI --> CTM : shows announcements list
+        UI --> CTM : shows non deals list and asks if the user wants\n to filter the list
     deactivate UI
 
     loop While the user intends
 
-    CTM -> UI : asks to select filter for list
+    CTM -> UI : selects to see criteria to filter the list
     activate UI
 
     UI -> CTRL : getCriteriaList()
     activate CTRL
-        ref over CTRL
-            Get Criteria List
-        end ref
-    CTRL --> UI : criteriaList
+
+    ref over CTRL
+        Get Criteria DTO List
+    end ref
+
+    CTRL --> UI : criteriaDtoList
     deactivate CTRL
 
     UI --> CTM : shows criteria list and asks to select a criteria type
 
     deactivate UI
 
-            CTM -> UI : selects criteria
+            CTM -> UI : selects criteria option
             activate UI
 
-            UI -> CTRL : getAllAnnouncementsList()
-            activate CTRL
-              ref over CTRL
-                Get Announcements List
-              end ref
-
-            CTRL --> UI : listToDisplay
-            deactivate CTRL
-
-            alt criteria == 1
+            alt option == 1
 
                 UI -> CTRL : getBusinessTypeList()
                 activate CTRL
+
                 ref over CTRL
-                Get Business Type List
+                Get Business Type DTO List
                 end ref
-                CTRL --> UI : businessTypeList
+
+                CTRL --> UI : businessTypeDtoList
                 deactivate CTRL
 
                 UI --> CTM : shows business type list and asks to select one
                 deactivate UI
 
-                CTM -> UI : selects a businessType
+                CTM -> UI : selects a business type
                 activate UI
 
-                UI -> CTRL : getAnnouncementsByBusinessType(businessType, listToDisplay)
-                deactivate UI
+                UI -> CTRL : getAnnouncementsByBusinessType(businessTypeDto, nonDealsList)
                 activate CTRL
 
-                CTRL -> LISTCLASS : announcementHasBusinessType(listToDisplay, businessType)
+                CTRL -> CTRL : getDesignationFromDto(businessTypeDto)
+                activate CTRL
+
+                ref over CTRL
+                Get Designation from Criteria DTO
+                end ref
+                CTRL --> CTRL : designation
+                deactivate CTRL
+|||
+                CTRL -> LISTCLASS : announcementHasBusinessType(nonDealsList, businessTypeDesignation)
                 activate LISTCLASS
 
                 LISTCLASS --> CTRL : sortedList
 |||
                 deactivate LISTCLASS
-                deactivate CTRL
 
-            else criteria == 2
+                CTRL -> CTRL : toDto(sortedList)
+                    activate CTRL
+                            ref over CTRL
+                                Convert List to DTO
+                            end ref
+                        CTRL --> CTRL : sortedListDto
+                    deactivate CTRL
+
+                        CTRL --> UI : sortedListDto
+                    deactivate CTRL
+
+                        UI --> CTM : shows sorted list and asks if it wants to select more criteria
+                    deactivate UI
+|||
+            else option == 2
+            
+                CTM -> UI : selects criteria
+                activate UI
 
                 UI -> CTRL : getPropertyTypeList()
-                activate UI
                 activate CTRL
+
                 ref over CTRL
-                Get Property Type List
+                Get Property Type DTO List
                 end ref
-                CTRL --> UI : propertyTypeList
+
+                CTRL --> UI : propertyTypeDtoList
                 deactivate CTRL
 
                 UI --> CTM : shows property type list and asks to select one
                 deactivate UI
 
-                CTM -> UI : selects a propertyType
+                CTM -> UI : selects a property type
                 activate UI
 
-                UI -> CTRL : getAnnouncementsByPropertyType(propertyType, listToDisplay)
-                deactivate UI
+                UI -> CTRL : getAnnouncementsByPropertyType(propertyTypeDto, nonDealsList)
                 activate CTRL
 
-                CTRL -> LISTCLASS : announcementHasPropertyType(listToDisplay, propertyType)
+                CTRL -> CTRL : getDesignationFromDtol(propertyTypeDto)
+                activate CTRL
+
+                ref over CTRL
+                Get Designation from Criteria DTO
+                end ref
+                CTRL --> CTRL : designation
+                deactivate CTRL
+|||
+                CTRL -> LISTCLASS : announcementHasPropertyType(nonDealsList, propertyTypeDesignation)
                 activate LISTCLASS
 
                     LISTCLASS --> CTRL : sortedList
 |||
                 deactivate LISTCLASS
-                deactivate CTRL
+                
+                CTRL -> CTRL : toDto(sortedList)
+                    activate CTRL
+                            ref over CTRL
+                                Convert List to DTO
+                            end ref
+                        CTRL --> CTRL : sortedListDto
+                    deactivate CTRL
 
-            else criteria == 3 && propertyType != "Land"
+                        CTRL --> UI : sortedListDto
+                    deactivate CTRL
+
+                        UI --> CTM : shows sorted list and asks if it wants to select more criteria
+                    deactivate UI
+|||
+            else option == 3 && propertyType != "Land"
+
+                CTM -> UI : selects criteria
+                activate UI
+
+                UI --> CTM : requests data (numberBedrooms)
+                deactivate UI
 
                 CTM -> UI : types number of bedrooms
                 activate UI
 
-                UI -> CTRL : getAnnouncementsByNumberBedrooms(numberBedrooms, listToDisplay)
-                deactivate UI
+                UI -> CTRL : getAnnouncementsByNumberBedrooms(numberBedrooms, nonDealsList)
                 activate CTRL
 
-                CTRL -> LISTCLASS : announcementHasNumberBedrooms(listToDisplay, numberBedrooms)
+                CTRL -> LISTCLASS : announcementHasNumberBedrooms(nonDealsList, numberBedrooms)
                 activate LISTCLASS
 
                     LISTCLASS --> CTRL : sortedList
 |||
                 deactivate LISTCLASS
-                deactivate CTRL
 
-            else criteria == 4
+                CTRL -> CTRL : toDto(sortedList)
+                    activate CTRL
+                            ref over CTRL
+                                Convert List to DTO
+                            end ref
+                        CTRL --> CTRL : sortedListDto
+                    deactivate CTRL
+
+                        CTRL --> UI : sortedListDto
+                    deactivate CTRL
+
+                        UI --> CTM : shows sorted list and asks if it wants to select more criteria
+                    deactivate UI
+                deactivate CTRL
+|||
+            else option == 4
+
+                CTM -> UI : selects criteria
+                activate UI
 
                 UI --> CTM : shows price sorting orders available and asks to select one
+                deactivate UI
 
-                CTM -> UI : selects a sortingOrder
+
+                CTM -> UI : selects a sorting order
                 activate UI
 
-                UI -> CTRL : getAnnouncementsByPrice(sortingOrder, listToDisplay)
-                deactivate UI
+                UI -> CTRL : getAnnouncementsByPrice(sortingOrder, nonDealsList)
                 activate CTRL
 
                 alt sortingOrder == "Ascending"
-                CTRL -> LISTCLASS : sortAnnouncementsByAscendingPrice(listToDisplay)
-                |||
+                CTRL -> LISTCLASS : sortAnnouncementsByAscendingPrice(nonDealsList)
                 activate LISTCLASS
-                else
-                CTRL -> LISTCLASS : sortAnnouncementsByDescendingPrice(listToDisplay)
-                |||
-                end alt
-                
-                LISTCLASS --> CTRL : sortedList
-|||
-                deactivate LISTCLASS
-                deactivate CTRL
 
-            else criteria == 5
+                    LISTCLASS --> CTRL : sortedList
+                deactivate LISTCLASS
+
+                else sortingOrder == "Descending"
+                CTRL -> LISTCLASS : sortAnnouncementsByDescendingPrice(nonDealsList)
+                activate LISTCLASS
+
+                LISTCLASS --> CTRL : sortedList
+                deactivate LISTCLASS
+
+                end alt
+|||
+               CTRL -> CTRL : toDto(sortedList)
+                    activate CTRL
+                            ref over CTRL
+                                Convert List to DTO
+                            end ref
+                        CTRL --> CTRL : sortedListDto
+                    deactivate CTRL
+
+                        CTRL --> UI : sortedListDto
+                    deactivate CTRL
+
+                        UI --> CTM : shows sorted list and asks if it wants to select more criteria
+                    deactivate UI
+|||
+            else option == 5
+
+                CTM -> UI : selects criteria
+                activate UI
             
                 UI --> CTM : shows city sorting orders available and asks to select one
+                deactivate UI
 
-                CTM -> UI : selects a sortingOrder
+
+                CTM -> UI : selects a sorting order
                 activate UI
 
-                UI -> CTRL : getAnnouncementsByCity(sortingOrder, listToDisplay)
-                deactivate UI
+                UI -> CTRL : getAnnouncementsByCity(sortingOrder, nonDealsList)
                 activate CTRL
 
                 alt sortingOrder == "Ascending"
-                CTRL -> LISTCLASS : sortAnnouncementsByAscendingCity(listToDisplay)
-                |||
+                CTRL -> LISTCLASS : sortAnnouncementsByAscendingCity(nonDealsList)
                 activate LISTCLASS
-                else
-                CTRL -> LISTCLASS : sortAnnouncementsByDescendingCity(listToDisplay)
-                |||
-                end alt
-                
+
                 LISTCLASS --> CTRL : sortedList
-|||
                 deactivate LISTCLASS
+
+                else sortingOrder == "Descending"
+
+                CTRL -> LISTCLASS : sortAnnouncementsByDescendingCity(nonDealsList)
+                activate LISTCLASS
+
+                LISTCLASS --> CTRL : sortedList
+                deactivate LISTCLASS
+
+                end alt
+|||
+                CTRL -> CTRL : toDto(sortedList)
+                activate CTRL
+                        ref over CTRL
+                            Convert List to DTO
+                        end ref
+                    CTRL --> CTRL : sortedListDto
                 deactivate CTRL
 
-            else criteria == 6
+                    CTRL --> UI : sortedListDto
+                deactivate CTRL
 
-                UI --> CTM : shows state sorting orders available and asks to select one
+                    UI --> CTM : shows sorted list and asks if it wants to select more criteria
+                deactivate UI
+|||
+            else option == 6
 
-                CTM -> UI : selects a sortingOrder
+                CTM -> UI : selects criteria
                 activate UI
 
-                UI -> CTRL : getAnnouncementsByState(sortingOrder, listToDisplay)
+                UI --> CTM : shows state sorting orders available and asks to select one
                 deactivate UI
+
+
+                CTM -> UI : selects a sorting order
+                activate UI
+
+                UI -> CTRL : getAnnouncementsByState(sortingOrder, nonDealsList)
                 activate CTRL
 
                 alt sortingOrder == "Ascending"
-                CTRL -> LISTCLASS : sortAnnouncementsByAscendingState(listToDisplay)
-                |||
+                CTRL -> LISTCLASS : sortAnnouncementsByAscendingState(nonDealsList)
                 activate LISTCLASS
-                else
-                CTRL -> LISTCLASS : sortAnnouncementsByDescendingState(listToDisplay)
-                |||
-                end alt
 
                 LISTCLASS --> CTRL : sortedList
-|||
                 deactivate LISTCLASS
 
-            end alt
+                else sortingOrder == "Descending"
+
+                CTRL -> LISTCLASS : sortAnnouncementsByDescendingState(nonDealsList)
+                activate LISTCLASS
+
+                LISTCLASS --> CTRL : sortedList
+                deactivate LISTCLASS
+
+                end alt
+|||
+                deactivate LISTCLASS
 
                     CTRL -> CTRL : toDto(sortedList)
                     activate CTRL
@@ -233,14 +342,15 @@ activate CTM
 
                         CTRL --> UI : sortedListDto
                     deactivate CTRL
-                    activate UI
 
-                        UI --> CTM : shows announcements list
+                        UI --> CTM : shows sorted list
                     deactivate UI
-
+|||
             deactivate CTRL
 
             deactivate UI
+
+            end alt
 
         end loop
 
@@ -249,24 +359,19 @@ activate CTM
 
     UI -> CTRL : toModel(announcementDto)
     activate CTRL
-    CTRL -> CTRL : toModel(announcementDto)
-    activate CTRL
         ref over CTRL
             Convert Announcement DTO
              to Model
         end ref
 
-    CTRL --> CTRL : announcement
-    deactivate CTRL
-
         CTRL --> UI : announcement
     deactivate CTRL
 
-    UI --> CTM : requests data
+    UI --> CTM : requests data (visitDay, visitMonth, visitYear, startHour,\n endHour)
         deactivate UI
 
     loop While the user intends
-    CTM -> UI : types requested data (visitDay, visitMonth, visitYear,\n startHour, endHour)
+    CTM -> UI : types requested data
         activate UI
 
     UI --> CTM : shows all data and asks to submit
@@ -275,20 +380,14 @@ activate CTM
     CTM -> UI : submits data
     activate UI
 
-        UI -> CTRL : scheduleVisit(announcement, visitDay,\n visitMonth, visitYear, startHour, endHour)
+        UI -> CTRL : scheduleVisit(announcement, visitDay, visitMonth, visitYear, startHour, endHour)
 
-        activate CTRL
-
-        CTRL -> CTRL : scheduleVisit(announcement, visitDay,\n visitMonth, visitYear, startHour, endHour)
         activate CTRL
 
         ref over CTRL
             Schedule Visit
         end ref
-
-            CTRL --> CTRL : confirmation
-        deactivate CTRL
-    |||
+|||
     end loop
 
     CTRL --> UI : confirmation

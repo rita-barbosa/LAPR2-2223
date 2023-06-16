@@ -11,12 +11,12 @@ participant "person:\nPerson" as PERSON
 participant "<interface>\n:Notification" as NOTIFICATION
 
 
-autonumber 67
+autonumber 95
 
     -> CTRL : scheduleVisit(announcement, visitDay,\n visitMonth, visitYear, startHour, endHour)
     activate CTRL
 
-    autonumber 67.1
+    autonumber 95.1
 
     group Schedule Visit
    |||
@@ -28,14 +28,14 @@ autonumber 67
                CTRL --> CTRL : person
            deactivate CTRL
 |||
-    CTRL -> PERSON : userName = getName()
+    CTRL -> PERSON : getName()
     activate PERSON
 
         PERSON --> CTRL : userName
     deactivate PERSON
 
 
-    CTRL -> PERSON : userPhoneNumber = getPhoneNumber()
+    CTRL -> PERSON : getPhoneNumber()
     activate PERSON
 
         PERSON --> CTRL : userPhoneNumber
@@ -61,7 +61,7 @@ autonumber 67
         ANNOUNCE --> CTRL : visit
     deactivate ANNOUNCE
 |||
-    CTRL -> ANNOUNCE: agentEmail = getAgentEmail()
+    CTRL -> ANNOUNCE: getAgentEmail()
     activate ANNOUNCE
 
     ANNOUNCE -> EMP : getAgentEmail()
@@ -87,7 +87,7 @@ autonumber 67
 |||
     end group
 
-    autonumber 68
+    autonumber 96
         <-- CTRL : visit
     deactivate CTRL
 
