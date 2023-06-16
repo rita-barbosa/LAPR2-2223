@@ -16,10 +16,6 @@ class Agency {
     - String description
     - Email emailAddress
     - String phoneNumber
-    - Location location
-    - List<Employee> employees
-    - AnnouncementList announcements
-    - RequestList requests
     + getAgencyId()
     + getNumberOfDeals()
 }
@@ -33,12 +29,7 @@ class Announcement{
     - LocalDate acceptanceDate
     - LocalDate saleDate
     - Double saleAmount
-    - Commission commission
-    - Request request
-    - Employee agent
     - Integer id
-    - Commission commission
-    - OrderList orders
     - List<Visit> visitList
     + isDeal()
 }
