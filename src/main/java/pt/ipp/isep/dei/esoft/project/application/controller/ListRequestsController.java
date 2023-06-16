@@ -276,6 +276,7 @@ public class ListRequestsController {
 
                 newAnnouncement = agency.get().publishAnnouncement(agent, commissionType, commissionValue, request.get());
                 if (newAnnouncement.isPresent()) {
+                    request.get().setValidationStatus(true);
                     success = true;
                 }
             }
