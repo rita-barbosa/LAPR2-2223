@@ -46,7 +46,7 @@ activate ADM
     ADM -> UI : selects regression model.
     activate UI
 
-    alt regressionModelTypeDto == simple linear
+    opt regressionModelTypeDto == simple linear
         UI --> ADM: shows the variables available for regression \nmodels and asks to select one.
          deactivate UI
         ADM -> UI: selects variable.

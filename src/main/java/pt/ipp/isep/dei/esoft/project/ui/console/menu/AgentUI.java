@@ -19,8 +19,8 @@ public class AgentUI implements Runnable {
         options.add(new MenuItem("Publish a sale announcement", new PublishAnnouncementUI()));
         options.add(new MenuItem("Accept Orders", new AcceptOrdersUI()));
         options.add(new MenuItem("List property announcement requests", new ListRequestsUI()));
-        options.add(new MenuItem("List booking requests", new ListVisitsUI()));
-        options.add(new MenuItem("List booking requests (Java Fx)", new ListVisitsApp()));
+       // options.add(new MenuItem("List booking requests", new ListVisitsUI()));
+        options.add(new MenuItem("List booking requests", new ListVisitsApp()));
         int option = 0;
         do {
             option = Utils.showAndSelectIndex(options, "\n\nAgent Menu:");

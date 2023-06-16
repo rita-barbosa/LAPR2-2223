@@ -19,7 +19,7 @@ activate Agent
     System --> Agent : displays property by oldest and its orders by highest price\n and asks to select acceptanceAnswer for orders
     deactivate System
 
-    alt  purchaseOrderList != empty
+    opt  purchaseOrderList != empty
     loop for each displayed offer && while acceptanceAnswer != yes
 
     Agent -> System : selects acceptanceAnswer

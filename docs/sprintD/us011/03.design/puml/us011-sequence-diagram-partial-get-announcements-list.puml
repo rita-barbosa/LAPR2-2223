@@ -31,7 +31,7 @@ autonumber 13.1
      Announce --> AnnList : true/false
      deactivate Announce
 
-         alt true
+         opt true
             AnnList -> Announce : getOrderList()
             activate Announce
             Announce --> AnnList: orderList

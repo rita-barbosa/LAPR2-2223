@@ -1,5 +1,6 @@
 package pt.ipp.isep.dei.esoft.project.ui.console.menu;
 
+import pt.ipp.isep.dei.esoft.project.ui.console.AnalyzeDealsUI;
 import pt.ipp.isep.dei.esoft.project.ui.console.gui.AnalyzeDealsApp;
 import javafx.application.Application;
 import pt.ipp.isep.dei.esoft.project.ui.console.utils.Utils;
@@ -11,7 +12,7 @@ public class StoreManagerUI implements Runnable {
     @Override
     public void run() {
         List<MenuItem> options = new ArrayList<MenuItem>();
-//        options.add(new MenuItem("Analyze Sale Deals", new AnalyzeDealsUI()));
+        //options.add(new MenuItem("Analyze Sale Deals", new AnalyzeDealsUI()));
         options.add(new MenuItem("Analyze Sale Deals", new AnalyzeDealsApp()));
         int option = 0;
         do {

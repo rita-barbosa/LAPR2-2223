@@ -8,12 +8,12 @@ import pt.ipp.isep.dei.esoft.project.ui.Bootstrap;
 
 import java.io.IOException;
 
-public class MainGUI extends Application {
+public class ListDealsNetworkApp extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         Bootstrap bootstrap = new Bootstrap();
         bootstrap.run();
-        FXMLLoader fxmlLoader = new FXMLLoader(MainGUI.class.getResource("ListDealsNetworkScene.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(ListDealsNetworkApp.class.getResource("ListDealsNetworkScene.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 600, 400);
         stage.setResizable(false);
         stage.setTitle("Hello!");
