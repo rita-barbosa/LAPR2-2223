@@ -188,7 +188,7 @@ public class OrderRequestController {
      * @return the user person
      */
     public Optional<Person> getUserPerson() {
-        String userEmail = authenticationRepository.getCurrentUserSession().getUserId().toString();
+        String userEmail = getAuthenticationRepository().getCurrentUserSession().getUserId().toString();
         return personRepository.getPersonByEmail(userEmail);
     }
 
@@ -368,7 +368,7 @@ public class OrderRequestController {
      * @param orderAmount the start hour
      */
     public OrderRequestResult orderRequest(Announcement announcement, Double orderAmount) {
-        Email userEmail = authenticationRepository.getCurrentUserSession().getUserId();
+        Email userEmail = getAuthenticationRepository().getCurrentUserSession().getUserId();
         Stream<Order> userOrders = announcement.getListOfOrders().stream().filter(a -> a.getClientEmail().equals(userEmail));
         if (userOrders.anyMatch(a -> a.getAcceptanceAnswer().equals(Order.ACCEPTANCE_ANSWER_BY_DEFAULT))){
             return OrderRequestResult.PENDING_ORDER;

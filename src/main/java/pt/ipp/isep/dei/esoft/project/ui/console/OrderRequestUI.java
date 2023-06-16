@@ -12,8 +12,9 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
+import java.util.concurrent.ExecutionException;
 
-public class OrderRequestUI implements Runnable{
+public class OrderRequestUI implements Runnable {
 
     /**
      * The Order amount.
@@ -31,6 +32,7 @@ public class OrderRequestUI implements Runnable{
      * The Controller.
      */
     private final OrderRequestController controller = new OrderRequestController();
+
     /**
      * Gets controller.
      *
@@ -49,32 +51,36 @@ public class OrderRequestUI implements Runnable{
         Optional<AnnouncementDto> announcementDto = Optional.empty();
         Optional<Announcement> announcement = Optional.empty();
 
-        if (listToDisplay.isPresent() && listToDisplay.get().size() > 0) {
-            listToDisplayDto = controller.getAnnouncementListDto(listToDisplay.get());
-        }
-        if (listToDisplayDto.isPresent() && listToDisplayDto.get().size() > 0) {
-            displayList(listToDisplayDto.get());
-            while (askQuestion("select any criteria")) {
-                listToDisplay = filterList();
-                if (listToDisplay.isPresent() && listToDisplay.get().size() > 0) {
-                    listToDisplayDto = controller.toDto(listToDisplay.get());
-                    if (listToDisplayDto.isPresent() && listToDisplayDto.get().size() > 0) {
-                        displayList(listToDisplayDto.get());
+        try {
+            if (listToDisplay.isPresent() && listToDisplay.get().size() > 0) {
+                listToDisplayDto = controller.getAnnouncementListDto(listToDisplay.get());
+            }
+            if (listToDisplayDto.isPresent() && listToDisplayDto.get().size() > 0) {
+                displayList(listToDisplayDto.get());
+                while (askQuestion("select any criteria")) {
+                    listToDisplay = filterList();
+                    if (listToDisplay.isPresent() && listToDisplay.get().size() > 0) {
+                        listToDisplayDto = controller.toDto(listToDisplay.get());
+                        if (listToDisplayDto.isPresent() && listToDisplayDto.get().size() > 0) {
+                            displayList(listToDisplayDto.get());
+                        }
                     }
                 }
             }
+            if (listToDisplayDto.isPresent() && listToDisplayDto.get().size() > 0) {
+                announcementIndex = requestAnnouncementIndex(listToDisplayDto.get());
+                announcementDto = Optional.of(listToDisplayDto.get().get(announcementIndex - 1));
+            }
+            if (announcementDto.isPresent()) {
+                announcement = controller.toModel(announcementDto.get());
+            }
+            System.out.println("\nIntroduce the order amount.");
+            requestData(announcement.get());
+            displaysData();
+            announcement.ifPresent(this::submitData);
+        } catch (Exception e) {
+            System.out.println("ERROR: There are no property available for sale/rent");
         }
-        if (listToDisplayDto.isPresent() && listToDisplayDto.get().size() > 0) {
-            announcementIndex = requestAnnouncementIndex(listToDisplayDto.get());
-            announcementDto = Optional.of(listToDisplayDto.get().get(announcementIndex - 1));
-        }
-        if (announcementDto.isPresent()) {
-            announcement = controller.toModel(announcementDto.get());
-        }
-        System.out.println("\nIntroduce the order amount.");
-        requestData(announcement.get());
-        displaysData();
-        announcement.ifPresent(this::submitData) ;
 
     }
 
@@ -143,7 +149,7 @@ public class OrderRequestUI implements Runnable{
      */
     private void displaysData() {
         System.out.printf("### Order Request ###\nOrder amount %s\nClient email: %s\n",
-                orderAmount, clientEmail);
+                orderAmount, controller.getUserPerson().get().getEmailAddress());
     }
 
     /**
@@ -153,7 +159,7 @@ public class OrderRequestUI implements Runnable{
      */
     private void submitData(Announcement announcement) {
         OrderRequestResult confirmation = getController().orderRequest(announcement, orderAmount);
-        switch (confirmation){
+        switch (confirmation) {
 
             case PENDING_ORDER:
                 System.out.println("You still have a pending order in this announcement, wait for a response.");
