@@ -307,7 +307,7 @@ public class ScheduleVisitController {
     public List<AnnouncementDto> getAnnouncementsByPropertyType(CriteriaDto propertyTypeDto) {
         String propertyType = CriteriaMapper.getDesignationFromDto(propertyTypeDto);
         AnnouncementList announcementList = new AnnouncementList(agencyRepository.getAllNonDealAnnouncementsList().get());
-        return AnnouncementMapper.toDto(new ArrayList<>(announcementList.announcementHasBusinessType(announcementList.getList(), propertyType))).get();
+        return AnnouncementMapper.toDto(new ArrayList<>(announcementList.announcementHasPropertyType(announcementList.getList(), propertyType))).get();
     }
 
     /**

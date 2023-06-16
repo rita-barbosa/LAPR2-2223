@@ -4,7 +4,9 @@ import org.junit.jupiter.api.Test;
 import pt.ipp.isep.dei.esoft.project.application.controller.authorization.AuthenticationController;
 import pt.ipp.isep.dei.esoft.project.domain.*;
 import pt.ipp.isep.dei.esoft.project.domain.dto.AnnouncementDto;
+import pt.ipp.isep.dei.esoft.project.domain.dto.CriteriaDto;
 import pt.ipp.isep.dei.esoft.project.domain.dto.OrderDto;
+import pt.ipp.isep.dei.esoft.project.domain.mapper.AnnouncementMapper;
 import pt.ipp.isep.dei.esoft.project.domain.mapper.OrderMapper;
 import pt.ipp.isep.dei.esoft.project.repository.*;
 import pt.isep.lei.esoft.auth.domain.model.Email;
@@ -54,7 +56,7 @@ class ScheduleVisitControllerIT {
     }
 
     @Test
-    void getAllAnnouncementsList() {
+    void getAllNonDealAnnouncementsDto() {
         PropertyTypeRepository propertyTypeRepository = new PropertyTypeRepository();
         AgencyRepository agencyRepository = new AgencyRepository();
         BusinessTypeRepository businessTypeRepository = new BusinessTypeRepository();
@@ -66,9 +68,9 @@ class ScheduleVisitControllerIT {
                 new ScheduleVisitController(agencyRepository, personRepository, criteriaRepository, authenticationRepository, propertyTypeRepository, businessTypeRepository);
 
 
-        Optional<List<Announcement>> list = controller.getAllNonDealAnnouncementsList();
+        Optional<List<AnnouncementDto>> list = controller.getAllNonDealAnnouncementsDto();
 
-        List<Announcement> expected = new ArrayList<>();
+        List<AnnouncementDto> expected = new ArrayList<>();
 
         if (list.isPresent() && list.get().size() > 0) {
             expected = list.get();
@@ -78,10 +80,16 @@ class ScheduleVisitControllerIT {
 
         for (Agency agency : agencyRepository.getAgenciesList()) {
             actual.addAll(agency.getAnnouncementsList());
-
         }
 
-        assertEquals(expected, actual);
+        List<AnnouncementDto> actualDto = new ArrayList<>();
+
+        for (Announcement announcement : actual){
+            actualDto.add(new AnnouncementDto(announcement.getId(), announcement.getRequestAttributes(), announcement.getCommissionAttributes(), announcement.getAcceptanceDate().toString(),
+                    OrderMapper.toDto(announcement.getListOfOrders())));
+        }
+
+        assertEquals(expected, actualDto);
     }
 
     @Test
@@ -219,7 +227,7 @@ class ScheduleVisitControllerIT {
         ScheduleVisitController controller =
                 new ScheduleVisitController(agencyRepository, personRepository, criteriaRepository, authenticationRepository, propertyTypeRepository, businessTypeRepository);
 
-        List<PropertyType> propertyTypeList = controller.getPropertyTypeList();
+        List<CriteriaDto> propertyTypeList = controller.getPropertyTypeList().get();
 
         assertArrayEquals(expected.toArray(), propertyTypeList.toArray());
     }
@@ -238,8 +246,7 @@ class ScheduleVisitControllerIT {
         ScheduleVisitController controller =
                 new ScheduleVisitController(agencyRepository, personRepository, criteriaRepository, authenticationRepository, propertyTypeRepository, businessTypeRepository);
 
-        List<BusinessType> businessTypeList = controller.getBusinessTypeList();
-
+        List<CriteriaDto> businessTypeList = controller.getBusinessTypeList().get();
         assertArrayEquals(expected.toArray(), businessTypeList.toArray());
     }
 
@@ -259,7 +266,7 @@ class ScheduleVisitControllerIT {
         ScheduleVisitController controller =
                 new ScheduleVisitController(agencyRepository, personRepository, criteriaRepository, authenticationRepository, propertyTypeRepository, businessTypeRepository);
 
-        List<String> criteria = controller.getCriteriaList();
+        List<CriteriaDto> criteria = controller.getCriteriaList().get();
 
         assertArrayEquals(expected.toArray(), criteria.toArray());
     }
@@ -318,7 +325,7 @@ class ScheduleVisitControllerIT {
         ScheduleVisitController controller =
                 new ScheduleVisitController(agencyRepository, personRepository, criteriaRepository, authenticationRepository, propertyTypeRepository, businessTypeRepository);
 
-        List<Announcement> expected = controller.getAnnouncementsByBusinessType("Sale", agencyRepository.getAllNonDealAnnouncementsList().get());
+        List<AnnouncementDto> expected = controller.getAnnouncementsByBusinessType(new CriteriaDto("Sale"));
 
         List<Announcement> actual = new ArrayList<>();
 
@@ -333,7 +340,14 @@ class ScheduleVisitControllerIT {
             }
         }
 
-        assertEquals(expected, actual);
+        List<AnnouncementDto> actualDto = new ArrayList<>();
+
+        for (Announcement announcement : actual){
+            actualDto.add(new AnnouncementDto(announcement.getId(), announcement.getRequestAttributes(), announcement.getCommissionAttributes(), announcement.getAcceptanceDate().toString(),
+                    OrderMapper.toDto(announcement.getListOfOrders())));
+        }
+
+        assertEquals(expected, actualDto);
     }
 
     @Test
@@ -372,7 +386,7 @@ class ScheduleVisitControllerIT {
         ScheduleVisitController controller =
                 new ScheduleVisitController(agencyRepository, personRepository, criteriaRepository, authenticationRepository, propertyTypeRepository, businessTypeRepository);
 
-        List<Announcement> expected = controller.getAnnouncementsByPropertyType("Land", agencyRepository.getAllNonDealAnnouncementsList().get());
+        List<AnnouncementDto> expected = controller.getAnnouncementsByPropertyType(new CriteriaDto("Land"));
 
         List<Announcement> actual = new ArrayList<>();
 
@@ -387,7 +401,14 @@ class ScheduleVisitControllerIT {
             }
         }
 
-        assertEquals(expected, actual);
+        List<AnnouncementDto> actualDto = new ArrayList<>();
+
+        for (Announcement announcement : actual){
+            actualDto.add(new AnnouncementDto(announcement.getId(), announcement.getRequestAttributes(), announcement.getCommissionAttributes(), announcement.getAcceptanceDate().toString(),
+                    OrderMapper.toDto(announcement.getListOfOrders())));
+        }
+
+        assertEquals(expected, actualDto);
     }
 
     @Test
@@ -426,7 +447,7 @@ class ScheduleVisitControllerIT {
         ScheduleVisitController controller =
                 new ScheduleVisitController(agencyRepository, personRepository, criteriaRepository, authenticationRepository, propertyTypeRepository, businessTypeRepository);
 
-        List<Announcement> expected = controller.getAnnouncementsByNumberBedrooms(2, agencyRepository.getAllNonDealAnnouncementsList().get());
+        List<AnnouncementDto> expected = controller.getAnnouncementsByNumberBedrooms(2);
 
         List<Announcement> actual = new ArrayList<>();
 
@@ -444,7 +465,14 @@ class ScheduleVisitControllerIT {
             }
         }
 
-        assertEquals(expected, actual);
+        List<AnnouncementDto> actualDto = new ArrayList<>();
+
+        for (Announcement announcement : actual){
+            actualDto.add(new AnnouncementDto(announcement.getId(), announcement.getRequestAttributes(), announcement.getCommissionAttributes(), announcement.getAcceptanceDate().toString(),
+                    OrderMapper.toDto(announcement.getListOfOrders())));
+        }
+
+        assertEquals(expected, actualDto);
     }
 
     @Test
@@ -483,7 +511,7 @@ class ScheduleVisitControllerIT {
         ScheduleVisitController controller =
                 new ScheduleVisitController(agencyRepository, personRepository, criteriaRepository, authenticationRepository, propertyTypeRepository, businessTypeRepository);
 
-        List<Announcement> expected = controller.getAnnouncementsByPrice("Ascending", agencyRepository.getAllNonDealAnnouncementsList().get());
+        List<AnnouncementDto> expected = controller.getAnnouncementsByPrice("Ascending");
 
         AnnouncementList announcementList = new AnnouncementList();
 
@@ -495,7 +523,14 @@ class ScheduleVisitControllerIT {
 
         List<Announcement> actual = announcementList.sortAnnouncementsByAscendingPrice(announcementList.getList());
 
-        assertEquals(expected, actual);
+        List<AnnouncementDto> actualDto = new ArrayList<>();
+
+        for (Announcement announcement : actual){
+            actualDto.add(new AnnouncementDto(announcement.getId(), announcement.getRequestAttributes(), announcement.getCommissionAttributes(), announcement.getAcceptanceDate().toString(),
+                    OrderMapper.toDto(announcement.getListOfOrders())));
+        }
+
+        assertEquals(expected, actualDto);
     }
 
     @Test
@@ -533,7 +568,7 @@ class ScheduleVisitControllerIT {
         ScheduleVisitController controller =
                 new ScheduleVisitController(agencyRepository, personRepository, criteriaRepository, authenticationRepository, propertyTypeRepository, businessTypeRepository);
 
-        List<Announcement> expected = controller.getAnnouncementsByPrice("Descending", agencyRepository.getAllNonDealAnnouncementsList().get());
+        List<AnnouncementDto> expected = controller.getAnnouncementsByPrice("Descending");
 
         AnnouncementList announcementList = new AnnouncementList();
 
@@ -545,7 +580,14 @@ class ScheduleVisitControllerIT {
 
         List<Announcement> actual = announcementList.sortAnnouncementsByDescendingPrice(announcementList.getList());
 
-        assertEquals(expected, actual);
+        List<AnnouncementDto> actualDto = new ArrayList<>();
+
+        for (Announcement announcement : actual){
+            actualDto.add(new AnnouncementDto(announcement.getId(), announcement.getRequestAttributes(), announcement.getCommissionAttributes(), announcement.getAcceptanceDate().toString(),
+                    OrderMapper.toDto(announcement.getListOfOrders())));
+        }
+
+        assertEquals(expected, actualDto);
     }
 
     @Test
@@ -584,7 +626,7 @@ class ScheduleVisitControllerIT {
         ScheduleVisitController controller =
                 new ScheduleVisitController(agencyRepository, personRepository, criteriaRepository, authenticationRepository, propertyTypeRepository, businessTypeRepository);
 
-        List<Announcement> expected = controller.getAnnouncementsByCity("Ascending", agencyRepository.getAllNonDealAnnouncementsList().get());
+        List<AnnouncementDto> expected = controller.getAnnouncementsByCity("Ascending");
 
         AnnouncementList announcementList = new AnnouncementList();
 
@@ -596,7 +638,14 @@ class ScheduleVisitControllerIT {
 
         List<Announcement> actual = announcementList.sortAnnouncementsByAscendingCity(announcementList.getList());
 
-        assertEquals(expected, actual);
+        List<AnnouncementDto> actualDto = new ArrayList<>();
+
+        for (Announcement announcement : actual){
+            actualDto.add(new AnnouncementDto(announcement.getId(), announcement.getRequestAttributes(), announcement.getCommissionAttributes(), announcement.getAcceptanceDate().toString(),
+                    OrderMapper.toDto(announcement.getListOfOrders())));
+        }
+
+        assertEquals(expected, actualDto);
     }
 
     @Test
@@ -635,7 +684,7 @@ class ScheduleVisitControllerIT {
         ScheduleVisitController controller =
                 new ScheduleVisitController(agencyRepository, personRepository, criteriaRepository, authenticationRepository, propertyTypeRepository, businessTypeRepository);
 
-        List<Announcement> expected = controller.getAnnouncementsByCity("Descending", agencyRepository.getAllNonDealAnnouncementsList().get());
+        List<AnnouncementDto> expected = controller.getAnnouncementsByCity("Descending");
 
         AnnouncementList announcementList = new AnnouncementList();
 
@@ -647,7 +696,14 @@ class ScheduleVisitControllerIT {
 
         List<Announcement> actual = announcementList.sortAnnouncementsByDescendingCity(announcementList.getList());
 
-        assertEquals(expected, actual);
+        List<AnnouncementDto> actualDto = new ArrayList<>();
+
+        for (Announcement announcement : actual){
+            actualDto.add(new AnnouncementDto(announcement.getId(), announcement.getRequestAttributes(), announcement.getCommissionAttributes(), announcement.getAcceptanceDate().toString(),
+                    OrderMapper.toDto(announcement.getListOfOrders())));
+        }
+
+        assertEquals(expected, actualDto);
     }
 
     @Test
@@ -686,7 +742,7 @@ class ScheduleVisitControllerIT {
         ScheduleVisitController controller =
                 new ScheduleVisitController(agencyRepository, personRepository, criteriaRepository, authenticationRepository, propertyTypeRepository, businessTypeRepository);
 
-        List<Announcement> expected = controller.getAnnouncementsByState("Ascending", agencyRepository.getAllNonDealAnnouncementsList().get());
+        List<AnnouncementDto> expected = controller.getAnnouncementsByState("Ascending");
 
         AnnouncementList announcementList = new AnnouncementList();
 
@@ -698,7 +754,14 @@ class ScheduleVisitControllerIT {
 
         List<Announcement> actual = announcementList.sortAnnouncementsByAscendingState(announcementList.getList());
 
-        assertEquals(expected, actual);
+        List<AnnouncementDto> actualDto = new ArrayList<>();
+
+        for (Announcement announcement : actual){
+            actualDto.add(new AnnouncementDto(announcement.getId(), announcement.getRequestAttributes(), announcement.getCommissionAttributes(), announcement.getAcceptanceDate().toString(),
+                    OrderMapper.toDto(announcement.getListOfOrders())));
+        }
+
+        assertEquals(expected, actualDto);
     }
 
     @Test
@@ -737,7 +800,7 @@ class ScheduleVisitControllerIT {
         ScheduleVisitController controller =
                 new ScheduleVisitController(agencyRepository, personRepository, criteriaRepository, authenticationRepository, propertyTypeRepository, businessTypeRepository);
 
-        List<Announcement> expected = controller.getAnnouncementsByState("Descending", agencyRepository.getAllNonDealAnnouncementsList().get());
+        List<AnnouncementDto> expected = controller.getAnnouncementsByState("Descending");
 
         AnnouncementList announcementList = new AnnouncementList();
 
@@ -749,7 +812,14 @@ class ScheduleVisitControllerIT {
 
         List<Announcement> actual = announcementList.sortAnnouncementsByDescendingState(announcementList.getList());
 
-        assertEquals(expected, actual);
+        List<AnnouncementDto> actualDto = new ArrayList<>();
+
+        for (Announcement announcement : actual){
+            actualDto.add(new AnnouncementDto(announcement.getId(), announcement.getRequestAttributes(), announcement.getCommissionAttributes(), announcement.getAcceptanceDate().toString(),
+                    OrderMapper.toDto(announcement.getListOfOrders())));
+        }
+
+        assertEquals(expected, actualDto);
     }
 
 }
