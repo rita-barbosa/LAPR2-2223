@@ -4,6 +4,7 @@ import javafx.util.Pair;
 import pt.ipp.isep.dei.esoft.project.application.controller.ScheduleVisitController;
 import pt.ipp.isep.dei.esoft.project.domain.*;
 import pt.ipp.isep.dei.esoft.project.domain.dto.AnnouncementDto;
+import pt.ipp.isep.dei.esoft.project.domain.dto.CriteriaDto;
 import pt.ipp.isep.dei.esoft.project.ui.console.utils.Utils;
 
 import java.time.LocalDate;
@@ -94,53 +95,51 @@ public class ScheduleVisitUI implements Runnable {
     public void run() {
         System.out.println("\nSchedule a visit to a property");
         System.out.println("========================================================");
-        Optional<List<Announcement>> listToDisplay = controller.getAllNonDealAnnouncementsList();
-        Optional<List<Announcement>> copycat;
-        Optional<List<AnnouncementDto>> listToDisplayDto = Optional.empty();
+        Optional<List<AnnouncementDto>> nonDealsListDto;
+        Optional<List<AnnouncementDto>> copycat;
+       // Optional<List<AnnouncementDto>> listToDisplayDto = Optional.empty();
         Optional<AnnouncementDto> announcementDto;
         Optional<Announcement> announcement;
 
         do {
             do {
-                if (listToDisplay.get().size() > 0) {
-                    listToDisplayDto = controller.getAnnouncementListDto(listToDisplay.get());
-                }
-                if (listToDisplayDto.isPresent() && listToDisplayDto.get().size() > 0) {
+                nonDealsListDto = controller.getAllNonDealAnnouncementsDto();
+                if (nonDealsListDto.isPresent() && nonDealsListDto.get().size() > 0) {
                     boolean answer;
                     do {
-                        displayList(listToDisplayDto.get());
+                        displayList(nonDealsListDto.get());
                         answer = Utils.askDirectQuestion("Select any criteria:");
-                        copycat = Optional.of(new ArrayList<>(listToDisplay.get()));
-                        while (answer && listToDisplayDto.get().size() > 0) {
+                       //copycat = nonDealsListDto;
+                        while (answer && nonDealsListDto.get().size() > 0) {
                             propertyTypeDesignation = "house";
-                            copycat = filterList(copycat.get());
+                            copycat = filterList(nonDealsListDto.get());
                             if (copycat.isPresent()) {
-                                listToDisplayDto = controller.toDto(copycat.get());
-                                if (listToDisplayDto.isPresent() && listToDisplayDto.get().size() > 0) {
-                                    displayList(listToDisplayDto.get());
+                                nonDealsListDto = copycat;
+                                if (nonDealsListDto.get().size() > 0) {
+                                    displayList(nonDealsListDto.get());
                                 }
                             }
-                            if (listToDisplayDto.get().size() == 0) {
+                            if (nonDealsListDto.get().size() == 0) {
                                 System.out.println("...\nNo announcements with chosen sequence of criteria!\nReturning to initial list.");
                                 System.out.println("========================================================");
-                                copycat = Optional.of(new ArrayList<>(listToDisplay.get()));
-                                listToDisplayDto = controller.getAnnouncementListDto(copycat.get());
+                                //copycat = Optional.of(new ArrayList<>(listToDisplay.get()));
+                                nonDealsListDto = controller.getAllNonDealAnnouncementsDto();
                                 try {
                                     Thread.sleep(3500);
                                 } catch (InterruptedException e) {
                                     throw new RuntimeException(e);
                                 }
-                                displayList(listToDisplayDto.get());
+                                displayList(nonDealsListDto.get());
                             } else {
                                 answer = Utils.askDirectQuestion("Select any criteria:");
                             }
                         }
                     } while (answer);
                 }
-            } while (listToDisplayDto.get().size() == 0);
-            listToDisplayDto.get();
-            Integer announcementIndex = Utils.requestAnnouncementIndex(listToDisplayDto.get());
-            announcementDto = Optional.of(listToDisplayDto.get().get(announcementIndex - 1));
+            } while (nonDealsListDto.get().size() == 0);
+            nonDealsListDto.get();
+            Integer announcementIndex = Utils.requestAnnouncementIndex(nonDealsListDto.get());
+            announcementDto = Optional.of(nonDealsListDto.get().get(announcementIndex - 1));
             announcement = controller.toModel(announcementDto.get());
             requestData();
             displaysData();
@@ -153,25 +152,25 @@ public class ScheduleVisitUI implements Runnable {
      *
      * @return the filtered list
      */
-    private Optional<List<Announcement>> filterList(List<Announcement> list) {
+    private Optional<List<AnnouncementDto>> filterList(List<AnnouncementDto> list) {
         Object criteria;
-        switch (displayAndSelectCriteriaList(controller.getCriteriaList())) {
+        switch (displayAndSelectCriteriaList(controller.getCriteriaList().get())) {
             case 1:
-                criteria = displayAndSelectBusinessType().toLowerCase();
+                criteria = displayAndSelectBusinessType();
                 System.out.println("========================================================\nAnnouncements by type of business:");
-                list = controller.getAnnouncementsByBusinessType(criteria.toString(), list);
+                list = controller.getAnnouncementsByBusinessType((CriteriaDto) criteria);
                 break;
             case 2:
-                criteria = displayAndSelectPropertyType().toLowerCase();
+                criteria = displayAndSelectPropertyType();
                 propertyTypeDesignation = criteria.toString();
                 System.out.println("========================================================\nAnnouncements by type of property:");
-                list = controller.getAnnouncementsByPropertyType(criteria.toString(), list);
+                list = controller.getAnnouncementsByPropertyType((CriteriaDto) criteria);
                 break;
             case 3:
-                criteria = displayAndSelectNumberBedrooms();
+                criteria = selectNumberBedrooms();
                 if (!propertyTypeDesignation.equalsIgnoreCase("Land")) {
                     System.out.println("========================================================\nAnnouncements by Number of Bedrooms:");
-                    list = controller.getAnnouncementsByNumberBedrooms((Integer) criteria, list);
+                    list = controller.getAnnouncementsByNumberBedrooms((Integer) criteria);
                 } else {
                     list = new ArrayList<>();
                 }
@@ -179,17 +178,17 @@ public class ScheduleVisitUI implements Runnable {
             case 4:
                 criteria = displayAndSelectPrice();
                 System.out.println("========================================================\nAnnouncements by Price:");
-                list = controller.getAnnouncementsByPrice(criteria.toString(), list);
+                list = controller.getAnnouncementsByPrice(criteria.toString());
                 break;
             case 5:
                 criteria = displayAndSelectCity();
                 System.out.println("========================================================\nAnnouncements by City:");
-                list = controller.getAnnouncementsByCity(criteria.toString(), list);
+                list = controller.getAnnouncementsByCity(criteria.toString());
                 break;
             case 6:
                 criteria = displayAndSelectState();
                 System.out.println("========================================================\nAnnouncements by State:");
-                list = controller.getAnnouncementsByState(criteria.toString(), list);
+                list = controller.getAnnouncementsByState(criteria.toString());
                 break;
         }
         return Optional.of(list);
@@ -218,9 +217,9 @@ public class ScheduleVisitUI implements Runnable {
                 if (confirmation.getValue() == 1) {
                     System.out.println("CONFLICT! This visit is already scheduled.");
                 } else if (confirmation.getValue() == 2) {
-                    System.out.println("CONFLICT! The start hour of the visit request you want to submit conflicts with a visit taking place at that time in the same property.");
+                    System.out.println("CONFLICT! The start hour of the visit request you want to submit conflicts with \na visit taking place at that time in the same property.");
                 } else {
-                    System.out.println("CONFLICT! The end hour of the visit request you want to submit conflicts with a visit taking place at that time in the same property.");
+                    System.out.println("CONFLICT! The end hour of the visit request you want to submit conflicts with a \nvisit taking place at that time in the same property.");
                 }
             }
         } catch (IllegalArgumentException e) {
@@ -364,11 +363,11 @@ public class ScheduleVisitUI implements Runnable {
      * @param criterias the list of criterias
      * @return the criteria chosen
      */
-    private Integer displayAndSelectCriteriaList(List<String> criterias) {
+    private Integer displayAndSelectCriteriaList(List<CriteriaDto> criterias) {
         Scanner sc = new Scanner(System.in);
         int count = 0;
         System.out.println("Criteria available:");
-        for (String criteria : criterias) {
+        for (CriteriaDto criteria : criterias) {
             count++;
             System.out.printf("%d - %s\n", count, criteria);
         }
@@ -395,15 +394,15 @@ public class ScheduleVisitUI implements Runnable {
      *
      * @return the type of business chosen
      */
-    private String displayAndSelectBusinessType() {
+    private CriteriaDto displayAndSelectBusinessType() {
         Scanner sc = new Scanner(System.in);
-        List<BusinessType> businessTypes = controller.getBusinessTypeList();
-        displayBusinessTypeOptions(businessTypes);
+        List<CriteriaDto> businessTypeDtoList = controller.getBusinessTypeList().get();
+        displayBusinessTypeOptions(businessTypeDtoList);
         int option = 0;
         boolean invalid = true;
         do {
             try {
-                while (option < 1 || option > businessTypes.size()) {
+                while (option < 1 || option > businessTypeDtoList.size()) {
                     System.out.println("Select type of business:");
                     option = sc.nextInt();
                 }
@@ -414,7 +413,7 @@ public class ScheduleVisitUI implements Runnable {
                 sc.nextLine();
             }
         } while (invalid);
-        return (businessTypes.get(option - 1).getDesignation());
+        return (businessTypeDtoList.get(option - 1));
     }
 
     /**
@@ -422,10 +421,10 @@ public class ScheduleVisitUI implements Runnable {
      *
      * @param businessTypes the business types
      */
-    private void displayBusinessTypeOptions(List<BusinessType> businessTypes) {
+    private void displayBusinessTypeOptions(List<CriteriaDto> businessTypes) {
         int count = 0;
         System.out.println("Type of business:");
-        for (BusinessType businessType : businessTypes) {
+        for (CriteriaDto businessType : businessTypes) {
             count++;
             System.out.printf("%d - %s\n", count, businessType);
         }
@@ -436,15 +435,15 @@ public class ScheduleVisitUI implements Runnable {
      *
      * @return the type of property chosen
      */
-    private String displayAndSelectPropertyType() {
+    private CriteriaDto displayAndSelectPropertyType() {
         Scanner sc = new Scanner(System.in);
-        List<PropertyType> propertyTypes = controller.getPropertyTypeList();
-        displayPropertiesTypeOptions(propertyTypes);
+        List<CriteriaDto> propertyTypesDtoList = controller.getPropertyTypeList().get();
+        displayPropertiesTypeOptions(propertyTypesDtoList);
         int option = 0;
         boolean invalid = true;
         do {
             try {
-                while (option < 1 || option > propertyTypes.size()) {
+                while (option < 1 || option > propertyTypesDtoList.size()) {
                     System.out.println("Select type of property:");
                     option = sc.nextInt();
                 }
@@ -455,7 +454,7 @@ public class ScheduleVisitUI implements Runnable {
                 sc.nextLine();
             }
         } while (invalid);
-        return (propertyTypes.get(option - 1).getDesignation());
+        return (propertyTypesDtoList.get(option - 1));
     }
 
     /**
@@ -463,10 +462,10 @@ public class ScheduleVisitUI implements Runnable {
      *
      * @param propertyTypes the property types
      */
-    private void displayPropertiesTypeOptions(List<PropertyType> propertyTypes) {
+    private void displayPropertiesTypeOptions(List<CriteriaDto> propertyTypes) {
         int count = 0;
         System.out.println("Type of properties:");
-        for (PropertyType propertyType : propertyTypes) {
+        for (CriteriaDto propertyType : propertyTypes) {
             count++;
             System.out.printf("%d - %s\n", count, propertyType);
         }
@@ -478,7 +477,7 @@ public class ScheduleVisitUI implements Runnable {
      *
      * @return the number of bedrooms chosen
      */
-    private Integer displayAndSelectNumberBedrooms() {
+    private Integer selectNumberBedrooms() {
         if (propertyTypeDesignation.equalsIgnoreCase("Land")) {
             System.out.println("This filter is unavailable for Land announcements!");
             return null;
