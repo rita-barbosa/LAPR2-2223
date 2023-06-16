@@ -79,6 +79,18 @@ public class BusinessTypeRepository implements Serializable {
         return (!(businessTypes.contains(businessType)));
     }
 
+    /**
+     * Gets business type designations list.
+     *
+     * @return the business type designations list
+     */
+    public List<String> getBusinessTypeDesignationsList() {
+        List<String> businessTypeDesignationsList = new ArrayList<>();
+        for (BusinessType businessType : businessTypes){
+            businessTypeDesignationsList.add(businessType.getDesignation());
+        }
+        return businessTypeDesignationsList;
+    }
 }
 
 

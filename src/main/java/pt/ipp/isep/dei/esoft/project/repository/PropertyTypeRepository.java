@@ -79,6 +79,18 @@ public class PropertyTypeRepository implements Serializable {
         return (!(propertyTypes.contains(propertyType)));
     }
 
+    /**
+     * Gets property type designations list.
+     *
+     * @return the property type designations list
+     */
+    public List<String> getPropertyTypeDesignationsList() {
+        List<String> propertyTypeDesignationsList = new ArrayList<>();
+        for (PropertyType propertyType : propertyTypes){
+            propertyTypeDesignationsList.add(propertyType.getDesignation());
+        }
+        return propertyTypeDesignationsList;
+    }
 }
 
 
