@@ -78,6 +78,9 @@ The owner chooses the responsible agent in one other US. Please discuss this que
 * **AC1:** The list of property announcement requests should be sorted by the date they were created, with the most recent requests appearing first.
 * **AC2:** An announcement is posted when a request is accepted. The list of requests should be refreshed, and that request should not be shown again.
 * **AC3:** When an announcement request is decline, the agent must include a justification message, that should be sent to the owner by e-mail.
+* **AC4:** When the agent decide to publish the announcement request, he must choose the type of commission and its value.
+* **AC5:** When publishing an announcement, the sale price should be the sum of the owner requested price and the commission value chosen by the agent.
+* **AC6:** The Agent should do the login within the application.
 
 
 
@@ -95,7 +98,8 @@ The owner chooses the responsible agent in one other US. Please discuss this que
 * Typed data:
 	* The confirmation
     * justification message 
-    * commission
+    * commission type
+    * commission value
 
 
 **Output Data:**
