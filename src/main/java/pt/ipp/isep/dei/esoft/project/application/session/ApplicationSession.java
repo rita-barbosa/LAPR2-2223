@@ -21,7 +21,7 @@ public class ApplicationSession implements Serializable {
         return new UserSession(userSession);
     }
 
-    private Properties getProperties() {
+    public Properties getProperties() {
         Properties props = new Properties();
 
         // Add default properties and values
