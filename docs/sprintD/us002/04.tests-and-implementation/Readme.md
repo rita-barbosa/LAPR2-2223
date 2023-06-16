@@ -8,90 +8,86 @@
 
 ```java
     @Test
-    void ensurePublishAnnouncementWorks(){
-            Repositories repositories=Repositories.getInstance();
-            PropertyTypeRepository propertyTypeRepository=new PropertyTypeRepository();
-            AgencyRepository agencyRepository=new AgencyRepository();
-            CommissionTypeRepository commissionTypeRepository=new CommissionTypeRepository();
-            AuthenticationRepository authenticationRepository=new AuthenticationRepository();
+    void ensurePublishAnnouncementWorks() {
+            Repositories repositories = Repositories.getInstance();
+            PropertyTypeRepository propertyTypeRepository = new PropertyTypeRepository();
+            AgencyRepository agencyRepository = new AgencyRepository();
+            CommissionTypeRepository commissionTypeRepository = new CommissionTypeRepository();
+            AuthenticationRepository authenticationRepository = new AuthenticationRepository();
 
-            CommissionType c1=new CommissionType("Fixed");
+            CommissionType c1 = new CommissionType("Fixed");
             commissionTypeRepository.add(c1);
 
-            PropertyType propertyType=new PropertyType("Land");
+            PropertyType propertyType = new PropertyType("Land");
             propertyTypeRepository.add(propertyType);
-            ArrayList<PropertyType> propType=new ArrayList<>();
+            ArrayList<PropertyType> propType = new ArrayList<>();
         propType.add(propertyType);
 
-        authenticationRepository.addUserRole(AuthenticationController.ROLE_AGENT,AuthenticationController.ROLE_AGENT);
-        authenticationRepository.addUserWithRole("John","agent1@this.app","01AGEnt",
+        authenticationRepository.addUserRole(AuthenticationController.ROLE_AGENT, AuthenticationController.ROLE_AGENT);
+        authenticationRepository.addUserWithRole("John", "agent1@this.app", "01AGEnt",
         AuthenticationController.ROLE_AGENT);
 
-        Agency agency=new Agency(1234);
-        Employee employee=new Employee("agent1@this.app","agent");
+        Agency agency = new Agency(1234);
+        Employee employee = new Employee(1234, "Elsa", "C12345678", "123-23-2345", "1agent1@this.app", "agent", "423-423-2345", "city", "district", "AK", "12345", "street");
         agency.addEmployee(employee);
         agencyRepository.add(agency);
 
-        authenticationRepository.doLogin("agent1@this.app","01AGEnt");
+        authenticationRepository.doLogin("agent1@this.app", "01AGEnt");
 
-        String ownerEmail="owner@email.com";
-        List<String> uriList=new ArrayList<>();
+        String ownerEmail = "owner@email.com";
+        List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
-        List<String> av=new ArrayList<>();
+        List<String> av = new ArrayList<>();
 
-        PublishAnnouncementController ctrl=new PublishAnnouncementController(commissionTypeRepository,authenticationRepository,propertyTypeRepository,agencyRepository);
+        AnnouncementDto a = new AnnouncementDto(ownerEmail, propertyType.getDesignation(), 4534, 453452, "St.Nicholas", "Pole North", "Madagascar", "NY", "14524", uriList, 35434, c1.getDesignation());
 
-        Optional<Announcement> result=ctrl.publishAnnouncement(234.4,c1.getDesignation(),ownerEmail,propertyType.getDesignation(),
-        "street","city","district","AK","12345",234.4,23.4,456.6,
-        null,null,null,null,null,
-        null,uriList,null);
+        PublishAnnouncementController ctrl = new PublishAnnouncementController(commissionTypeRepository, authenticationRepository, propertyTypeRepository, agencyRepository);
+
+        Boolean result = ctrl.publishAnnouncement(a);
         }
+
+
 ```
 
 **Test 2:** Checks if Publish Announcement fails for non-existent agency.
 
 ```java
-    @Test
-    void ensurePublishAnnouncementForNonExistingAgencyFails(){
-            Repositories repositories=Repositories.getInstance();
-            PropertyTypeRepository propertyTypeRepository=new PropertyTypeRepository();
-            AgencyRepository agencyRepository=new AgencyRepository();
-            CommissionTypeRepository commissionTypeRepository=new CommissionTypeRepository();
-            AuthenticationRepository authenticationRepository=new AuthenticationRepository();
+  @Test
+    void ensurePublishAnnouncementForNonExistingAgencyFails() {
+            PropertyTypeRepository propertyTypeRepository = new PropertyTypeRepository();
+            AgencyRepository agencyRepository = new AgencyRepository();
+            CommissionTypeRepository commissionTypeRepository = new CommissionTypeRepository();
+            AuthenticationRepository authenticationRepository = new AuthenticationRepository();
 
-            CommissionType c1=new CommissionType("Fixed");
+            CommissionType c1 = new CommissionType("Fixed");
             commissionTypeRepository.add(c1);
 
-            PropertyType propertyType=new PropertyType("Land");
+            PropertyType propertyType = new PropertyType("Land");
             propertyTypeRepository.add(propertyType);
-            ArrayList<PropertyType> propType=new ArrayList<>();
+            ArrayList<PropertyType> propType = new ArrayList<>();
         propType.add(propertyType);
 
-        authenticationRepository.addUserRole(AuthenticationController.ROLE_AGENT,AuthenticationController.ROLE_AGENT);
-        authenticationRepository.addUserWithRole("John","2agent2@this.app","02AGEnt",
+        authenticationRepository.addUserRole(AuthenticationController.ROLE_AGENT, AuthenticationController.ROLE_AGENT);
+        authenticationRepository.addUserWithRole("John", "2agent2@this.app", "02AGEnt",
         AuthenticationController.ROLE_AGENT);
 
-        Agency agency=new Agency(1234);
-        Employee employee=new Employee("1agent1@this.app","agent");
+        Agency agency = new Agency(1234);
+        Employee employee = new Employee(1234, "Elsa", "C12345678", "123-23-2345", "1agent1@this.app", "agent", "423-423-2345", "city", "district", "AK", "12345", "street");
         agency.addEmployee(employee);
         agencyRepository.add(agency);
 
-        authenticationRepository.doLogin("2agent2@this.app","02AGEnt");
+        authenticationRepository.doLogin("2agent2@this.app", "02AGEnt");
 
-        String ownerEmail="owner@email.com";
-        List<String> uriList=new ArrayList<>();
+        String ownerEmail = "owner@email.com";
+        List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
-        List<String> av=new ArrayList<>();
 
-        PublishAnnouncementController ctrl=new PublishAnnouncementController(commissionTypeRepository,authenticationRepository,propertyTypeRepository,agencyRepository);
+        AnnouncementDto a = new AnnouncementDto(ownerEmail, propertyType.getDesignation(), 4534, 453452, "St.Nicholas", "Pole North", "Madagascar", "NY", "14524", uriList, 35434,c1.getDesignation());
 
-        Optional<Announcement> result=ctrl.publishAnnouncement(234.4,c1.getDesignation(),ownerEmail,propertyType.getDesignation(),
-        "street","city","district","AK","12345",234.4,23.4,456.6,
-        null,null,null,null,null,
-        null,uriList,null);
+        PublishAnnouncementController ctrl = new PublishAnnouncementController(commissionTypeRepository, authenticationRepository, propertyTypeRepository, agencyRepository);
 
-        assertTrue(result.isEmpty());
-
+        Boolean result = ctrl.publishAnnouncement(a);
+        assertFalse(result);
         }
 ```
 
