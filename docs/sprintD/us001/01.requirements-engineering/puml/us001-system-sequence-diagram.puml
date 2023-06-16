@@ -46,22 +46,18 @@ activate User
         deactivate System
     end
 
-    alt properType != land
+    opt number of bedrooms & properType != land
+        User -> System : asks to select number of bedrooms
+        activate System
 
-        opt number of bedrooms
-            User -> System : asks to select number of bedrooms
-            activate System
+        System --> User : shows options for number of bedrooms and request data
+        deactivate System
 
-            System --> User : shows options for number of bedrooms and request data
-            deactivate System
+        User -> System : selects data (numberBedrooms)
+        activate System
 
-            User -> System : selects data (numberBedrooms)
-            activate System
-
-            System --> User : display all the listed properties, according to the \ncriteria chosen
-            deactivate System
-        end
-
+        System --> User : display all the listed properties, according to the \ncriteria chosen
+        deactivate System
     end
 
     opt price
