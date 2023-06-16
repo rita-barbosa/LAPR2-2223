@@ -12,7 +12,8 @@ participant ":ListVisitsController" as CTRL
 participant "repositories\n:Repositories" as PLAT
 participant "agencyRepository\n: AgencyRepository" as AgRep
 participant "agency\n: Agency" as AGENCY
-participant "<b><<Interface>></b>\n:SortingAlgorithm" as SORTALG
+participant "applicationSession\n: ApplicationSession" as AppSess
+participant "<b><<Interface>></b>\n:SortAlgorithm" as SORTALG
 
 activate ADM
 
@@ -78,26 +79,6 @@ activate ADM
         deactivate CTRL
         |||
 
-        CTRL -> CTRL : getSortedVisitRequestList(sortingOrder, visitRequestsList)
-        activate CTRL
-
-        CTRL -> SORTALG** : create()
-
-        note right SORTALG
-        SortingMethod implementation will
-        depend on the sorting method specified
-        in the configuration file.
-        end note
-
-        CTRL -> SORTALG : sort(order, visitRequestsList)
-        activate SORTALG
-
-        SORTALG --> CTRL : sortedVisitsList
-        deactivate SORTALG
-
-        CTRL --> CTRL : sortedVisitsList
-        deactivate CTRL
-        |||
 
             CTRL -> CTRL : toDto(visitRequestsList)
             activate CTRL
@@ -109,9 +90,43 @@ activate ADM
 
             CTRL --> CTRL : listVisitsDto
             deactivate CTRL
+            |||
 
-             CTRL --> UI: listVisitsDto
+             CTRL -> CTRL : getSortedVisitRequestList(listVisitsDto)
+             activate CTRL
+
+              CTRL -> AppSess : getInstance()
+              activate AppSess
+
+              AppSess --> CTRL : appSession
+              deactivate AppSess
+
+              CTRL -> AppSess : getProperties()
+               activate AppSess
+
+               AppSess --> CTRL : properties
+               deactivate AppSess
+               |||
+
+             note over CTRL
+             SortingMethod implementation will
+             depend on the sorting method specified
+             in the configuration file.
+             end note
+             |||
+
+             CTRL -> SORTALG : sort(listVisitsDto)
+             activate SORTALG
+
+             SORTALG --> CTRL : sortedVisitsListDto
+             deactivate SORTALG
+
+             CTRL --> CTRL : sortedVisitsListDto
              deactivate CTRL
+             |||
+
+        CTRL --> UI: sortedVisitsListDto
+          deactivate CTRL
 
 
         UI --> ADM : display all booking requests according to the \ndates chosen

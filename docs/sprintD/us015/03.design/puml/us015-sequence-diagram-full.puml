@@ -11,27 +11,20 @@ participant ":ListVisitsUI" as UI
 participant ":ListVisitsController" as CTRL
 participant ":Repositories" as RepositorySingleton
 participant "repositories\n:Repositories" as PLAT
-'participant "algorithmRepository:\nAlgorithmRepository" as AlgorithmRepository
-'participant "algorithmMapper\n:AlgorithmMapper" as AlgMapper
-'participant "algorithmDto\n:AlgorithmDto" as AlgDto
-'participant "algorithmDtoList\n:List<AlgorithmDto>" as AlgDtoList
-'participant "algorithm\n:Algorithm" as Alg
 participant "authenticationRepository\n: AuthenticationRepository" as AuthRep
 participant "userSession\n: UserSession" as SESSION
 participant "email\n: Email" as Email
 participant "agencyRepository\n: AgencyRepository" as AgRep
 participant "agency\n: Agency" as AGENCY
 participant "announcementList\n: AnnouncementList" as AnnList
-'participant "listAnnouncements\n: List<Announcement>" as AnnounceList
 participant "announcement\n: Announcement" as Announce
-'participant "request\n: Request" as REQ
-'participant "property\n: Property" as PROPER
-'participant "location\n: Location" as LOC
 participant "listVisits\n: List<Visit>" as VisitList
-participant "<b><<Interface>></b>\n:SortingAlgorithm" as SORTALG
+participant "applicationSession\n: ApplicationSession" as AppSess
+participant "<b><<Interface>></b>\n:SortAlgorithm" as SORTALG
 participant "visitMapper\n: VisitMapper" as VisitMapper
 participant "visit\n: Visit" as Visit
 participant "listVisitsDto\n: List<VisitDto>" as VisitDtoList
+participant "visitDto\n: VisitDto" as VisitDto
 
 activate ADM
 
@@ -45,67 +38,6 @@ activate ADM
 
     ADM -> UI : selects requested data (begin date, end date)
     activate UI
-
-'        UI -> CTRL : getAlgorithms()
-'        activate CTRL
-'
-'            CTRL -> RepositorySingleton : getInstance()
-'            activate RepositorySingleton
-'
-'                RepositorySingleton --> CTRL: repositories
-'            deactivate RepositorySingleton
-'
-'            CTRL -> PLAT : getAlgorithmRepository()
-'            activate PLAT
-'
-'                PLAT --> CTRL: algorithmRepository
-'            deactivate PLAT
-'
-'            CTRL -> AlgorithmRepository : getAlgorithmList()
-'            activate AlgorithmRepository
-'
-'                AlgorithmRepository --> CTRL : algorithmList
-'            deactivate AlgorithmRepository
-'
-'            CTRL -> AlgMapper: toDto(algorithmList)
-'            activate AlgMapper
-'
-'            AlgMapper -> AlgDtoList** : create
-'
-'            loop for each algorithm
-'
-'                AlgMapper -> AlgMapper : toDto(algorithmList)
-'                activate AlgMapper
-'
-'                AlgMapper -> Alg : getAlgorithmTypeDesignation()
-'                activate Alg
-'
-'                Alg --> AlgMapper : algorithmTypeDesignation
-'                deactivate Alg
-'
-'                |||
-'                AlgMapper -> AlgDto** : create(algorithmTypeDesignation)
-'
-'
-'                AlgMapper --> AlgMapper: algorithmTypeDto
-'                deactivate AlgMapper
-'                |||
-'                AlgMapper -> AlgDtoList: add(algorithmTypeDto)
-'                activate AlgDtoList
-'                deactivate AlgDtoList
-'                end loop
-'
-'            AlgMapper --> CTRL : algorithmDtoList
-'            deactivate AlgMapper
-'
-'        CTRL --> UI : algorithmDtoList
-'        deactivate CTRL
-
-'        UI --> ADM : shows sorting algorithm options and asks to select one
-'    deactivate UI
-'
-'    ADM -> UI : selects data (sorting algorithm)
-'    activate UI
 
     UI -> CTRL : getVisitRequestsList(beginDate, endDate)
     activate CTRL
@@ -171,7 +103,6 @@ activate ADM
         CTRL -> AGENCY: getVisitRequestsByAgentEmail(agentEmail, beginDate, endDate)
         activate AGENCY
 
-'        loop for each announcement
         AGENCY -> AnnList : getVisitRequestsByAgentEmail(agentEmail, beginDate, endDate)
              activate AnnList
 
@@ -186,91 +117,39 @@ activate ADM
              deactivate Announce
 
                  opt true
-                 AnnList -> Announce : getVisitDate()
+                 AnnList -> Announce : getVisitList()
                  activate Announce
 
-                 Announce --> AnnList : visitDate
+                 Announce --> AnnList : visitsList
                  deactivate Announce
 
+                 loop for each visit request
 
-                 opt visitDate >= beginDate & visitDate <= endDate
-                    AnnList -> Announce : getVisitRequests(beginDate, endDate)
-                    activate Announce
-                    Announce --> AnnList: visitsList
-                    deactivate Announce
+                 AnnList -> Visit : getVisitDate()
+                 activate Visit
 
-'                    AnnList -> Announce : getLocation()
-'                    activate Announce
-'
-'                    Announce -> REQ : getLocation()
-'                    activate REQ
-'
-'                    REQ -> PROPER : getLocation()
-'                    activate PROPER
+                 Visit --> AnnList : visitDate
+                 deactivate Visit
 
-'                    PROPER -> LOC : getLocation()
-'                    activate LOC
-'
-'                    LOC --> PROPER : location
-'                    deactivate LOC
-
-'                    PROPER --> REQ : location
-'                    deactivate PROPER
-'
-'                    REQ --> Announce : location
-'                    deactivate REQ
-'
-'                    Announce --> AnnList : location
-'                    deactivate Announce
-
-                    loop for each visit
-                        opt !acceptanceStatus
+                 opt visitDate >= beginDate & visitDate <= endDate & !acceptanceStatus
                            AnnList -> VisitList : add(Visit)
-'                            AnnList -> VisitList : add(Visit, Location)
                             activate VisitList
                             deactivate VisitList
-                        end opt
                     end loop
                 end opt
 
                  |||
                  end opt
              end loop
-'             AnnList -> AnnList : sortVisitsByAlgorithm(listVisits, sortingAlgorithm)
-'             activate AnnList
-'             AnnList --> AnnList: visitRequestsList
-'             deactivate AnnList
 
              AnnList --> AGENCY : visitRequestsList
              deactivate AnnList
 
-'        end loop
 
         AGENCY --> CTRL : visitRequestsList
         deactivate AGENCY
 
         CTRL --> CTRL: visitRequestsList
-        deactivate CTRL
-        |||
-
-        CTRL -> CTRL : getSortedVisitRequestList(sortingOrder, visitRequestsList)
-        activate CTRL
-
-        CTRL -> SORTALG** : create()
-
-        note right SORTALG
-        SortingMethod implementation will
-        depend on the sorting method specified
-        in the configuration file.
-        end note
-
-        CTRL -> SORTALG : sort(order, visitRequestsList)
-        activate SORTALG
-
-        SORTALG --> CTRL : sortedVisitsList
-        deactivate SORTALG
-
-        CTRL --> CTRL : sortedVisitsList
         deactivate CTRL
         |||
 
@@ -319,9 +198,6 @@ activate ADM
                         activate VisitDto
                         deactivate VisitDto
 
-'                         ref over VisitMapper
-'                              Create VisitDto
-'                         end ref
                     |||
                     VisitMapper --> VisitMapper: VisitDto
                     deactivate VisitMapper
@@ -335,8 +211,41 @@ activate ADM
 
                  VisitMapper --> CTRL : listVisitsDto
                  deactivate VisitMapper
+                 |||
 
-             CTRL --> UI: listVisitsDto
+                 CTRL -> CTRL : getSortedVisitRequestList(listVisitsDto)
+                 activate CTRL
+
+                 CTRL -> AppSess : getInstance()
+                 activate AppSess
+
+                 AppSess --> CTRL : appSession
+                 deactivate AppSess
+
+                 CTRL -> AppSess : getProperties()
+                  activate AppSess
+
+                  AppSess --> CTRL : properties
+                  deactivate AppSess
+                  |||
+
+                 note over CTRL
+                 SortingMethod implementation will
+                 depend on the sorting method specified
+                 in the configuration file.
+                 end note
+
+                 CTRL -> SORTALG : sort(listVisitsDto)
+                 activate SORTALG
+
+                 SORTALG --> CTRL : sortedVisitsListDto
+                 deactivate SORTALG
+
+                 CTRL --> CTRL : sortedVisitsListDto
+                 deactivate CTRL
+                 |||
+
+             CTRL --> UI: sortedVisitsListDto
              deactivate CTRL
 
         UI --> ADM : display all booking requests according to the \ndates chosen

@@ -7,11 +7,13 @@ participant ":ListVisitsController" as CTRL
 participant "visitMapper\n: VisitMapper" as VisitMapper
 participant "visit\n: Visit" as Visit
 participant "listVisitsDto\n: List<VisitDto>" as VisitDtoList
+participant "visitDto\n: VisitDto" as VisitDto
 
-autonumber 33
--> ORG: toDto(visitRequestsList)
 
-autonumber 33.1
+autonumber 18
+-> CTRL: toDto(visitRequestsList)
+
+autonumber 18.1
 activate CTRL
     group Create Task
 
@@ -75,7 +77,7 @@ activate CTRL
                          deactivate VisitMapper
     end
 
-    autonumber 34
+    autonumber 19
     <-- CTRL : listVisitsDto
 deactivate CTRL
 

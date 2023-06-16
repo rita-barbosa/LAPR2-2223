@@ -9,14 +9,14 @@ autonumber
 participant ":ListVisitsController" as CTRL
 participant "agency\n: Agency" as AGENCY
 participant "announcementList\n: AnnouncementList" as AnnList
-participant "listAnnouncements\n: List<Announcement>" as AnnounceList
 participant "announcement\n: Announcement" as Announce
+participant "visit\n: Visit" as Visit
 participant "listVisits\n: List<Visit>" as VisitList
 
-autonumber 25
+autonumber 15
 
  -> CTRL : getVisitRequestsByAgentEmail(agentEmail, beginDate, endDate)
-autonumber 25.1
+autonumber 15.1
 activate CTRL
     group Get Visit Requests by Agent Email
 
@@ -32,40 +32,39 @@ activate CTRL
 
 
                          loop for each announcement
-                         AnnList -> Announce : hasAgentWithEmail(agentEmail)
-                         activate Announce
+                          AnnList -> Announce : hasAgentWithEmail(agentEmail)
+                          activate Announce
 
-                         Announce --> AnnList : true/false
-                         deactivate Announce
+                          Announce --> AnnList : true/false
+                          deactivate Announce
 
-                             opt true
-                             AnnList -> Announce : getVisitDate()
-                             activate Announce
+                              opt true
+                              AnnList -> Announce : getVisitList()
+                              activate Announce
 
-                             Announce --> AnnList : visitDate
-                             deactivate Announce
+                              Announce --> AnnList : visitsList
+                              deactivate Announce
 
+                              loop for each visit request
 
-                             opt visitDate >= beginDate & visitDate <= endDate
-                                AnnList -> Announce : getVisitRequests(beginDate, endDate)
-                                activate Announce
-                                Announce --> AnnList: visitsList
-                                deactivate Announce
+                              AnnList -> Visit : getVisitDate()
+                              activate Visit
 
+                              Visit --> AnnList : visitDate
+                              deactivate Visit
 
-                                loop for each visit
-                                    opt !acceptanceStatus
-                                       AnnList -> VisitList : add(Visit)
-            '                            AnnList -> VisitList : add(Visit, Location)
-                                        activate VisitList
-                                        deactivate VisitList
-                                    end opt
-                                end loop
-                            end opt
+                              opt visitDate >= beginDate & visitDate <= endDate & !acceptanceStatus
 
-                             |||
+                                        AnnList -> VisitList : add(Visit)
+                                         activate VisitList
+                                         deactivate VisitList
+
+                                 end loop
                              end opt
-                         end loop
+
+                              |||
+                              end opt
+                          end loop
 
                          AnnList --> AGENCY : visitRequestsList
                          deactivate AnnList
@@ -76,7 +75,7 @@ activate CTRL
 
 
     end
-    autonumber 26
+    autonumber 16
     <-- CTRL  :  visitRequestsList
 deactivate CTRL
 

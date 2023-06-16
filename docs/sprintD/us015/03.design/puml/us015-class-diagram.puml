@@ -1,47 +1,24 @@
 @startuml
-'skinparam monochrome true
 skinparam packageStyle rectangle
 skinparam shadowing false
 skinparam linetype polyline
-'skinparam linetype orto
 
 skinparam classAttributeIconSize 0
 
 class Repositories {
     - Repositories()
     + getInstance() : repositories
-'    + getAlgorithmRepository()
     + getAuthenticationRepository()
     + getAgencyRepository()
 }
 
 class ListVisitsController {
-    + ListVisitsController(agencyRepository, authenticationRepository, algorithmRepository)
-    + getAlgorithms()
+    + ListVisitsController(agencyRepository, authenticationRepository)
     + getVisitRequestsList(beginDate, endDate, sortingAlgorithm)
     - getAgentEmail()
-    - getVisitRequestsListVyAgentEmail(agentEmail, beginDate, endDate, sortingAlgorithm)
+    - getVisitRequestsListByAgentEmail(agentEmail, beginDate, endDate)
+    - getSortedVisitRequestList(listVisitsDto)
 }
-
-'class AlgorithmRepository{
-'+ getAlgorithmList()
-'}
-'
-'class AlgorithmMapper{
-'+toDto(algorithmList)
-'}
-'
-'class AlgorithmDto{
-'-String algorithmType
-'
-'+AlgorithmDto(AlgorithmTypeDesignation)
-'}
-'
-'class Algorithm{
-'-String algorithmType
-'
-'+getAlgorithmTypeDesignation()
-'}
 
 class AuthenticationRepository{
 +getCurrentSession()
@@ -60,14 +37,13 @@ class Agency{
 - Integer phoneNumber
 
 + anyAgentHasEmail(agentEmail)
-+ getVisitRequestsByAgentEmail(agentEmail, beginDate, endDate, sortingAlgorithm)
++ getVisitRequestsByAgentEmail(agentEmail, beginDate, endDate)
 }
 
 class AnnouncementList{
 - List<Visit> visits
 
 + getVisitRequestsByAgentEmail(agentEmail, beginDate, endDate, sortingAlgorithm)
-- sortingVisitsByAlgorithm(listVisits, sortingAlgorithm)
 }
 
 class Announcement{
@@ -77,12 +53,12 @@ class Announcement{
     - Employee agent
 
 + hasAgentWithEmail(agentEmail)
++ getVisitList()
 + getVisitRequests(beginDate, endDate)
-+ getVisitDate()
 }
 
 class VisitMapper{
-+toDto(VisitRequestsList)
++toDto(Visit)
 }
 
 class Visit{
@@ -107,56 +83,32 @@ class VisitDto{
 - Boolean acceptanceStatus
 
 +VisitDto(id, visitDate, startHour, endHour, acceptanceStatus)
++add(VisitDto)
 }
 
-'class Request{
-'- LocalDate requestDate
-'- Integer id
-'- Employee Employee
-'- Email ownerEmail
-'- Business business
-'- Property property
-'
-'+getLocation()
-'}
-'
-'class Property{
-'- PropertyType propertyType
-'- Double area
-'- Double distanceCityCenter
-'- Location location
-'- List<Photograph> photograph
-'
-'+getLocation()
-'}
-
-'class Location{
-'
-'+getLocation()
-'}
-
-'interface SortingMethods{
-'+getSortedVisitRequestList(visitRequestsList)
-'}
-'
-'class SortingMethods1 implements SortingMethods{
-'+getSortedVisitRequestList(visitRequestsList)
-'}
-'
-'class SortingMethods2 implements SortingMethods{
-'+getSortedVisitRequestList(visitRequestsList)
-'}
-
-interface SortingAlgorithm  as "<b><<Interface>></b>\nSortingAlgorithm" {
-    - sort(order, visitRequestsList)
+interface SortAlgorithm  as "<b><<Interface>></b>\nSortingAlgorithm" {
+ List<VisitDto> sort(List<?> list)
 }
 
-class SortingAlgorithm1 implements SortingAlgorithm{
--sort(order, visitRequestsList)
+class SortingAlgorithm1 implements SortAlgorithm{
+List<VisitDto> sortDtoList
+
++SortingAlgorithm1(List<VisitDto> visitDtoList)
++getSortDtoList()
++List<VisitDto> sort(List<?> list)
++sortingAlgorithm(Object[] list, int size)
+-getVisitDtoArray(List<?> list)
 }
 
-class SortingAlgorithm2 implements SortingAlgorithm{
--sort(order, visitRequestsList)
+class SortingAlgorithm2 implements SortAlgorithm{
+List<VisitDto> sortDtoList
+
++SortingAlgorithm2(List<VisitDto> visitDtoList)
++getSortDtoList()
++List<VisitDto> sort(List<?> list)
+-getVisitDtoArray(List<?> list)
+-mergeAlgorithm(VisitDto[] visitDtos, int low, int high)
+-ascendingAlgorithm(VisitDto[] visitDtos, int low, int middle, int high)
 }
 
 
@@ -170,30 +122,23 @@ ListVisitsUI .> ListVisitsController
 
 ListVisitsController .> Repositories : repositories
 
-'ListVisitsController ..> AlgorithmMapper
+
 ListVisitsController .> VisitMapper
 
-'AlgorithmMapper ..> AlgorithmDto
-'AlgorithmDto ..> Algorithm
-'AlgorithmMapper ..> Algorithm
 VisitMapper ..> VisitDto
 VisitDto ..> Visit
 VisitMapper ..> Visit
 
 ListVisitsController ..> AgencyRepository : agencyRepository
 ListVisitsController ..> AuthenticationRepository : authenticationRepository
-'ListVisitsController ..> AlgorithmRepository : algorithmRepository
 Repositories --> "1" AgencyRepository
-'Repositories --> "1" AlgorithmRepository
 Repositories --> "1" AuthenticationRepository
 AgencyRepository --> "*" Agency
 Agency --> "1" AnnouncementList
 AnnouncementList "1" --> "*" Announcement
 Announcement "1"--> "*" Visit
-'AlgorithmRepository --> "*" Algorithm
-ListVisitsController --> "1"SortingAlgorithm : makes use of
+ListVisitsController --> "1"SortAlgorithm : makes use of
 'Announcement "1" -> "1" Request : is based on
 'Request "1" -> "1" Property : has information about
-''00
 'Visit "1" -> "1" Property : is done to
 @enduml
