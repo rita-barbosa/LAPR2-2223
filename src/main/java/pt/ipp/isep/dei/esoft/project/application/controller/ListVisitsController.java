@@ -85,7 +85,7 @@ public class ListVisitsController {
      * @return the visit requests list
      * @throws IOException the io exception
      */
-    public Optional<List<VisitDto>> getVisitRequestsList(LocalDate beginDate, LocalDate endDate) throws IOException {
+    public Optional<List<VisitDto>> getVisitRequestsList(LocalDate beginDate, LocalDate endDate) throws Exception {
         Optional <List<VisitDto>> newVisitsDtoList = Optional.empty();
         String agentEmail = getAgentEmail();
         Optional<List<Visit>> visitList = getVisitRequestsListByAgentEmail(agentEmail, beginDate, endDate);
@@ -93,48 +93,30 @@ public class ListVisitsController {
             newVisitsDtoList = VisitMapper.toDto(visitList.get());
         }
 
-        try(InputStream file = new FileInputStream("config.properties")) {
-            Properties properties = new Properties();
-            properties.load(file);
-            String sortClass = properties.getProperty("sortingAlgorithm");
-
-            if (sortClass != null){
-                Class<?> sortAlgorithmClass = Class.forName(sortClass);
-                Constructor<?> constructor = sortAlgorithmClass.getConstructor(List.class);
-                SortAlgorithm sortingAlgorithm = (SortAlgorithm) constructor.newInstance(newVisitsDtoList.get());
-                newVisitsDtoList = Optional.of(sortingAlgorithm.sort(newVisitsDtoList.get()));
-            }
-
-        }  catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException |
-                  InvocationTargetException e){
-            System.out.println("\n\nTHE PATH CHOSEN IS NOT CORRECT!! \nPLEASE CORRECT IT AND RUN THE APPLICATION AGAIN!!");
-            newVisitsDtoList = Optional.empty();
-        }
-
-        return newVisitsDtoList;
-
-
-//            if (getAlgorithm().equals("sortingAlgorithm1")){
-//                SortingAlgorithm1 sortingAlgorithm1 = new SortingAlgorithm1(newVisitsDtoList.get());
-//                sortingAlgorithm1.sort(ORDER, newVisitsDtoList.get());
-//                return Optional.of(sortingAlgorithm1.getSortDtoList());
-////                SortingAlgorithm1 sortingAlgorithm1 = new SortingAlgorithm1();
-////                sortedDtoList = sortingAlgorithm1.sort(ORDER, newVisitsDtoList.get());
-////                return Optional.of(sortedDtoList);
+//        try(InputStream file = new FileInputStream("config.properties")) {
+//            Properties properties = new Properties();
+//            properties.load(file);
+//            String sortClass = properties.getProperty("sortingAlgorithm");
 //
-//            } else {
-//                SortingAlgorithm2 sortingAlgorithm2 = new SortingAlgorithm2(newVisitsDtoList.get());
-//                sortingAlgorithm2.sort(ORDER, newVisitsDtoList.get());
-//                return Optional.of(sortingAlgorithm2.getSortDtoList());
-//
-////                SortingAlgorithm2 sortingAlgorithm2 = new SortingAlgorithm2();
-////                sortedDtoList = sortingAlgorithm2.sort(ORDER, newVisitsDtoList.get());
-////                return Optional.of(sortedDtoList);
+//            if (sortClass != null){
+//                Class<?> sortAlgorithmClass = Class.forName(sortClass);
+//                Constructor<?> constructor = sortAlgorithmClass.getConstructor(List.class);
+//                SortAlgorithm sortingAlgorithm = (SortAlgorithm) constructor.newInstance(newVisitsDtoList.get());
+//                newVisitsDtoList = Optional.of(sortingAlgorithm.sort(newVisitsDtoList.get()));
 //            }
+//
+//        }  catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException |
+//                  InvocationTargetException e){
+//            throw new Exception("\n\nTHE PATH CHOSEN IS NOT CORRECT!! \nPLEASE CORRECT IT AND RUN THE APPLICATION AGAIN!!\n\n");
+////            System.out.println("\n\nTHE PATH CHOSEN IS NOT CORRECT!! \nPLEASE CORRECT IT AND RUN THE APPLICATION AGAIN!!");
+////            newVisitsDtoList = Optional.empty();
+//        }
 
+//        return newVisitsDtoList;
 
-//        List<VisitDto> sortedDtoList = getAlgorithm().sort(ORDER, newVisitsDtoList.get());
-//        return Optional.of(sortedDtoList);
+//        Optional<List<VisitDto>> sortedVisitsListDto = getSortedVisitRequestList(newVisitsDtoList);
+
+        return getSortedVisitRequestList(newVisitsDtoList);
     }
 
     /**
@@ -166,6 +148,60 @@ public class ListVisitsController {
         String agentEmail = getAuthenticationRepository().getCurrentUserSession().getUserId().getEmail();
         return agentEmail;
     }
+
+    /**
+     * Gets sorted visit request list.
+     *
+     * @param listVisitsDto the list visits dto
+     * @return the sorted visit request list
+     * @throws Exception the exception
+     */
+    public Optional<List<VisitDto>> getSortedVisitRequestList(Optional<List<VisitDto>> listVisitsDto) throws Exception{
+        try(InputStream file = new FileInputStream("config.properties")) {
+            Properties properties = new Properties();
+            properties.load(file);
+            String sortClass = properties.getProperty("sortingAlgorithm");
+
+            if (sortClass != null){
+                Class<?> sortAlgorithmClass = Class.forName(sortClass);
+                Constructor<?> constructor = sortAlgorithmClass.getConstructor(List.class);
+                SortAlgorithm sortingAlgorithm = (SortAlgorithm) constructor.newInstance(listVisitsDto.get());
+                listVisitsDto = Optional.of(sortingAlgorithm.sort(listVisitsDto.get()));
+            }
+
+        }  catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException |
+                  InvocationTargetException e){
+            throw new Exception();
+        }
+
+//        listVisitsDto = Optional.of(getAlgorithm().sort(listVisitsDto.get()));
+        return listVisitsDto;
+    }
+
+//    public SortAlgorithm getAlgorithm() throws IOException {
+//        InputStream file = new FileInputStream("config.properties");
+//        Properties properties = new Properties();
+//        properties.load(file);
+//        String sortClass = properties.getProperty("sortingAlgorithm");
+//        Class<?> sortAlgorithmClass = null;
+//
+//        try {
+//            sortAlgorithmClass = Class.forName(sortClass);
+//        } catch (ClassNotFoundException e) {
+//            e.printStackTrace();
+////            throw new RuntimeException(e);
+//        }
+//
+//        SortAlgorithm sortingAlgorithm = null;
+//
+//        try {
+//            sortingAlgorithm = (SortAlgorithm) sortAlgorithmClass.newInstance();
+//        } catch (InstantiationException | IllegalAccessException e) {
+//            throw new RuntimeException(e);
+//        }
+//        return sortingAlgorithm;
+//
+//    }
 
 //    public SortAlgorithm getAlgorithm() throws IOException {
 //        File configFile = new File("config.properties");

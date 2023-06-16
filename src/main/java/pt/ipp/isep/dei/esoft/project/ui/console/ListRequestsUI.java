@@ -71,7 +71,7 @@ public class ListRequestsUI implements Runnable {
                     }
                     if (originalRequest.isPresent()) {
                         System.out.println(originalRequest.get());
-                    }
+
                     boolean optionForRequest = askOptionForRequest();
                     if (optionForRequest) {
                         commissionTypeDesignation = displayAndSelectCommissionType();
@@ -89,6 +89,9 @@ public class ListRequestsUI implements Runnable {
                             originalRequest.get().setValidationStatus(true);
                             listRequests.get().remove(requestDto.get());
                         }
+                    }
+                } else {
+                        System.out.println("ERROR!!!!");
                     }
                 } else {
                     continueLoop = false;
@@ -319,7 +322,7 @@ public class ListRequestsUI implements Runnable {
 
         if (success) {
             System.out.println("\nAnnouncement published successfully.");
-            request.get().setValidationStatus(true);
+//            request.get().setValidationStatus(true);
         } else {
             System.out.println("\nERROR: Announcement was not published and sms notification wasn't send.");
         }

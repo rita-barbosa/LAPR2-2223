@@ -183,14 +183,14 @@ public class Request implements Serializable {
      * @param agent       the agent
      * @param id          the id
      */
-    public Request(String ownerEmail, Property property, Business business, LocalDate requestDate, Employee agent, Integer id) {
+    public Request(String ownerEmail, Property property, Business business, LocalDate requestDate, Employee agent, Integer id,Boolean validationStatus) {
         this.ownerEmail = new Email(ownerEmail);
         this.requestDate = requestDate;
         this.business = business;
         this.agent = agent;
         this.property = property;
         this.id = id;
-        this.validationStatus = false;
+        this.validationStatus = validationStatus;
     }
 
     /**
@@ -325,7 +325,7 @@ public class Request implements Serializable {
         this.agent = agent;
         this.id = counter++;
         this.requestDate = LocalDate.now();
-        this.validationStatus = false;
+        this.validationStatus = true;
     }
 
     public Request(String ownerEmail, PropertyType propertyType, Double amount, Double area, String streetName, String city, String district,
@@ -338,7 +338,7 @@ public class Request implements Serializable {
         this.agent = agent;
         this.id = counter++;
         this.requestDate = LocalDate.now();
-        this.validationStatus = false;
+        this.validationStatus = true;
     }
 
     public Request(String ownerEmail, PropertyType propertyType, Double amount, Double area, String streetName, String city, String district,
@@ -351,7 +351,7 @@ public class Request implements Serializable {
         this.agent = agent;
         this.id = counter++;
         this.requestDate = LocalDate.now();
-        this.validationStatus = false;
+        this.validationStatus = true;
     }
 
     /**
@@ -459,7 +459,7 @@ public class Request implements Serializable {
      * @return the request
      */
     public Request clone() {
-        return new Request(this.ownerEmail.toString(), this.property, this.business, this.requestDate, this.agent, this.id);
+        return new Request(this.ownerEmail.toString(), this.property, this.business, this.requestDate, this.agent, this.id,this.validationStatus);
     }
 
     /**
@@ -510,7 +510,7 @@ public class Request implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Request request = (Request) o;
-        return Objects.equals(requestDate, request.requestDate) && Objects.equals(agent, request.agent) && Objects.equals(business, request.business) && Objects.equals(property, request.property) && Objects.equals(ownerEmail, request.ownerEmail);
+        return Objects.equals(requestDate, request.requestDate) && Objects.equals(agent, request.agent) && Objects.equals(business, request.business) && Objects.equals(property, request.property) && Objects.equals(ownerEmail, request.ownerEmail) && Objects.equals(validationStatus, request.validationStatus);
     }
 
     /**
@@ -520,7 +520,7 @@ public class Request implements Serializable {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(requestDate, agent, business, property, ownerEmail);
+        return Objects.hash(requestDate, agent, business, property, ownerEmail, validationStatus);
     }
 
 //    public String getId() {

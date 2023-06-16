@@ -42,11 +42,6 @@ public class DisplayPropertiesUI implements Runnable {
      */
     private String stateSorting;
 
-//    /**
-//     * The Announcements.
-//     */
-//    private List<Announcement> announcementList;
-
 
     /**
      * This method returns the DisplayPropertiesController instance associated with this UI.
@@ -66,6 +61,9 @@ public class DisplayPropertiesUI implements Runnable {
         Optional<List<Announcement>> announcementList = controller.getAllAnnouncementsList();
         if (announcementList.isPresent()) {
             List<Announcement> copyList = new ArrayList<>(announcementList.get());
+            if (copyList.isEmpty()) {
+                System.out.println("\nThere aren't any announcements available! Returning to the menu!");
+            } else {
                 System.out.println("Listed Properties:\n");
                 displayAnnouncements(announcementList.get());
                 boolean continueLoop = true;
@@ -120,6 +118,7 @@ public class DisplayPropertiesUI implements Runnable {
                     }
                 } while (continueLoop);
 //            }
+            }
         }
     }
 

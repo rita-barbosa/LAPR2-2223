@@ -70,7 +70,7 @@ public class AgencyRepository implements Serializable {
     public Optional<Agency> getAgencyByRequestId(Integer requestId) {
         Optional<Agency> newAgency = Optional.empty();
         for (Agency agency : agencies) {
-            if (agency.anyAnnouncementHasId(requestId)) {
+            if (agency.anyRequestHasId(requestId)) {
                 newAgency = Optional.of(agency);
             }
         }
