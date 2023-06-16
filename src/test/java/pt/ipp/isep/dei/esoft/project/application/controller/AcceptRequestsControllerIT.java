@@ -1,6 +1,5 @@
 package pt.ipp.isep.dei.esoft.project.application.controller;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import pt.ipp.isep.dei.esoft.project.application.controller.authorization.AuthenticationController;
 import pt.ipp.isep.dei.esoft.project.domain.*;
@@ -17,7 +16,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ListRequestsControllerIT {
+class AcceptRequestsControllerIT {
 
     @Test
     void ensureGetRequestsListWorks() {
@@ -54,7 +53,7 @@ class ListRequestsControllerIT {
         agency.addRequest(request);
         agencyRepository.add(agency);
 
-        ListRequestsController controller = new ListRequestsController(authenticationRepository, agencyRepository, commissionTypeRepository);
+        AcceptRequestsController controller = new AcceptRequestsController(authenticationRepository, agencyRepository, commissionTypeRepository);
 
         Optional<List<RequestDto>> listRequestsDto = controller.getRequestsList();
 
@@ -97,7 +96,7 @@ class ListRequestsControllerIT {
 
         authenticationRepository.doLogin("agent1@this.app", "01AGEnt");
 
-        ListRequestsController controller = new ListRequestsController(authenticationRepository, agencyRepository, commissionTypeRepository);
+        AcceptRequestsController controller = new AcceptRequestsController(authenticationRepository, agencyRepository, commissionTypeRepository);
 
         Optional<List<CommissionType>> commissionTypeList = controller.getCommissionTypeList();
 

@@ -1,8 +1,7 @@
 package pt.ipp.isep.dei.esoft.project.ui.console;
 
-import pt.ipp.isep.dei.esoft.project.application.controller.ListRequestsController;
+import pt.ipp.isep.dei.esoft.project.application.controller.AcceptRequestsController;
 import pt.ipp.isep.dei.esoft.project.domain.*;
-import pt.ipp.isep.dei.esoft.project.domain.dto.AnnouncementDto;
 import pt.ipp.isep.dei.esoft.project.domain.dto.CommissionTypeDto;
 import pt.ipp.isep.dei.esoft.project.domain.dto.RequestDto;
 
@@ -11,12 +10,12 @@ import java.util.*;
 /**
  * The type List requests ui.
  */
-public class ListRequestsUI implements Runnable {
+public class AcceptRequestsUI implements Runnable {
 
     /**
      * The Controller.
      */
-    private final ListRequestsController controller = new ListRequestsController();
+    private final AcceptRequestsController controller = new AcceptRequestsController();
 
     /**
      * The designation of the type of property being announced.
@@ -46,7 +45,7 @@ public class ListRequestsUI implements Runnable {
      *
      * @return the list requests controller
      */
-    private ListRequestsController getController() {
+    private AcceptRequestsController getController() {
         return controller;
     }
 
@@ -77,7 +76,7 @@ public class ListRequestsUI implements Runnable {
                         commissionTypeDesignation = displayAndSelectCommissionType();
                         commissionValue = requestCommissionValue();
                         if (requestConfirmation() && requestDto.isPresent()) {
-                            submitData(originalRequest);
+                            submitData(originalRequest, commissionTypeDesignation, commissionValue);
                             listRequests.get().remove(requestDto.get());
                         }
                     } else {
@@ -217,7 +216,7 @@ public class ListRequestsUI implements Runnable {
      */
     private String displayAndSelectCommissionType() {
         Optional<List<CommissionType>> commissionTypes = controller.getCommissionTypeList();
-        Optional<List<CommissionTypeDto>> commissionTypeDtos = controller.getCommissionTypeListDto(commissionTypes.get());
+        Optional<List<CommissionTypeDto>> commissionTypeDtos = controller.getCommissionTypeListDto();
         boolean invalid = true;
         int listSize = commissionTypeDtos.get().size();
         int answer = -1;
@@ -317,12 +316,11 @@ public class ListRequestsUI implements Runnable {
      *
      * @param request the request
      */
-    private void submitData(Optional<Request> request) {
+    private void submitData(Optional<Request> request, String commissionTypeDesignation, Double commissionValue) {
         Boolean success = getController().publishAnnouncement(commissionTypeDesignation, commissionValue, request);
 
         if (success) {
             System.out.println("\nAnnouncement published successfully.");
-//            request.get().setValidationStatus(true);
         } else {
             System.out.println("\nERROR: Announcement was not published and sms notification wasn't send.");
         }

@@ -17,7 +17,7 @@ import java.util.Optional;
 /**
  * The type List requests controller.
  */
-public class ListRequestsController {
+public class AcceptRequestsController {
 
     /**
      * The Authentication repository.
@@ -37,7 +37,7 @@ public class ListRequestsController {
     /**
      * Instantiates a new List requests controller.
      */
-    public ListRequestsController() {
+    public AcceptRequestsController() {
         getAuthenticationRepository();
         getAgencyRepository();
         getCommissionTypeRepository();
@@ -51,7 +51,7 @@ public class ListRequestsController {
      * @param agencyRepository         the agency repository
      * @param commissionTypeRepository the commission type repository
      */
-    public ListRequestsController(AuthenticationRepository authenticationRepository, AgencyRepository agencyRepository, CommissionTypeRepository commissionTypeRepository) {
+    public AcceptRequestsController(AuthenticationRepository authenticationRepository, AgencyRepository agencyRepository, CommissionTypeRepository commissionTypeRepository) {
         this.authenticationRepository = authenticationRepository;
         this.agencyRepository = agencyRepository;
         this.commissionTypeRepository = commissionTypeRepository;
@@ -161,11 +161,11 @@ public class ListRequestsController {
     /**
      * Get commission type list dto optional.
      *
-     * @param commissionTypes the commission types
      * @return the optional
      */
-    public Optional<List<CommissionTypeDto>> getCommissionTypeListDto(List<CommissionType> commissionTypes){
-        return toDto(commissionTypes);
+    public Optional<List<CommissionTypeDto>> getCommissionTypeListDto(){
+        Optional<List<CommissionType>> commissionTypeList = getCommissionTypeList();
+        return toDto(commissionTypeList.get());
     }
 
     /**
