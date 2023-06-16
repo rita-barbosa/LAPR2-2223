@@ -17,16 +17,8 @@ public class SortingAlgorithm1 implements SortAlgorithm, Serializable {
     public List<VisitDto> getSortDtoList(){
         return sortDtoList;
     }
-
-//    public void setSortDtoList(List<VisitDto> sortDtoList){
-//        this.sortDtoList = sortDtoList;
-//    }
-
     @Override
     public List<VisitDto> sort(List<?> list){
-//        if (sortingOrder.equalsIgnoreCase("Ascending")){
-//            this.sortingAlgorithm(list.toArray(), list.size());
-//        }
         VisitDto[] visit = getVisitDtoArray(list);
         this.sortingAlgorithm(visit, list.size());
         this.sortDtoList = Arrays.asList(visit);
