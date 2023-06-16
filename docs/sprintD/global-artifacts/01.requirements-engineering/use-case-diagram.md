@@ -21,7 +21,7 @@ link as suggested below.**
 | US 004 | [Submit a request for an announcement](../../us004/Readme.md)             |
 | US 005 | [Register new agency](../../us005/Readme.md)                              |
 | US 007 | [Register user in the system](../../us007/Readme.md)                      |
-| US 008 | [List property announcement requests](../../us008/Readme.md)              |
+| US 008 | [Accept property announcement requests](../../us008/Readme.md)            |
 | US 009 | [Schedule a visit to a property](../../us009/Readme.md)                   |
 | US 010 | [To submit a purchase order](../../us010/Readme.md)                       |
 | US 011 | [Accept purchase orders](../../us011/Readme.md)                           |

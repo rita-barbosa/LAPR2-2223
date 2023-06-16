@@ -23,7 +23,7 @@ left to right direction
         "System Administrator" --> UC5
     usecase "UC7 - Register a user\n in the system" as UC7
         "Unregistered User" --> UC7
-    usecase "UC8 - List property\n announcement requests" as UC8
+    usecase "UC8 - Accept property\n announcement requests" as UC8
        "Agent" --> UC8
     usecase "UC9 - Schedule a\n visit to a property" as UC9
        "Registered User" --> UC9
