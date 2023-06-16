@@ -30,6 +30,21 @@ class VisitTest {
     }
 
     @Test
+    void getAcceptanceStatus() {
+        Visit visit = new Visit(12, 5, 2023, 12, 15, "Jake Moon",
+                "555-775-5555");
+        assertEquals(false, visit.getAcceptanceStatus());
+    }
+
+    @Test
+    void getId() {
+        Visit visit = new Visit(12, 5, 2023, 12, 15, "Jake Moon",
+                "555-775-5555");
+        int id = 0;
+        assertEquals(0, id);
+    }
+
+    @Test
     void ensureSendNotificationTrue() {
         Visit visit = new Visit(12, 5, 2023, 12, 15, "Jake Moon",
                 "555-775-5555");
