@@ -1,10 +1,7 @@
 package pt.ipp.isep.dei.esoft.project.ui.console;
 
 import pt.ipp.isep.dei.esoft.project.application.controller.ListDealsNetworkController;
-import pt.ipp.isep.dei.esoft.project.domain.Announcement;
 import pt.ipp.isep.dei.esoft.project.domain.dto.AnnouncementDto;
-import pt.ipp.isep.dei.esoft.project.repository.AgencyRepository;
-import pt.ipp.isep.dei.esoft.project.repository.Repositories;
 
 import java.io.Serializable;
 import java.util.*;

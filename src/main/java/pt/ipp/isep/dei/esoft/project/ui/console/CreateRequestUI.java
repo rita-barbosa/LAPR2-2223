@@ -232,9 +232,9 @@ public class CreateRequestUI implements Runnable {
                 parkingSpace, sunExposure, numberBedroom, numberBathroom, agent, distanceCityCenter, uri, agency);
 
         if (request.isPresent()) {
-            System.out.println("\nRequest successfully created!");
+            System.out.println("\n\nRequest successfully created!");
         } else {
-            System.out.println("\nRequest not created! Your submission is already in the system!");
+            System.out.println("\n\nERROR! Request not created!");
         }
     }
 
@@ -649,7 +649,6 @@ public class CreateRequestUI implements Runnable {
      * @param businessTypes the business types list
      */
     private void displayBusinessTypeOptions(List<BusinessType> businessTypes) {
-        //display the business types as a menu with number options to select
         int i = 1;
         for (BusinessType businessType : businessTypes) {
             System.out.println(i + " - " + businessType.getDesignation());
@@ -663,7 +662,6 @@ public class CreateRequestUI implements Runnable {
      * @param propertyTypes the property types list
      */
     private void displayPropertyTypeOptions(List<PropertyType> propertyTypes) {
-        //display the property types as a menu with number options to select
         int i = 1;
         for (PropertyType propertyType : propertyTypes) {
             System.out.println(i + " - " + propertyType.getDesignation());
