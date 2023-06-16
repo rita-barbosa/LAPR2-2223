@@ -41,8 +41,8 @@ class Repositories {
     + getAuthenticationRepository()
 }
 
-class ListRequestsController {
-    + ListRequestsController(organizationRepository, taskCategoryRepository)
+class AcceptRequestsController {
+    + AcceptRequestsController(organizationRepository, taskCategoryRepository)
     + getTaskCategories()
     + getRequestByIdDto(requestIndex)
     + getCommissionTypeListDto()
@@ -59,7 +59,7 @@ class ListRequestsController {
     - getCommissionTypeByDescription(commissionTypeDesignation)
 }
 
-class ListRequestsUI {
+class AcceptRequestsUI {
 }
 
 class Email{
@@ -163,9 +163,9 @@ class CommissionTypeDto{
 Repositories -> Repositories : instance
 ApplicationSession -> ApplicationSession : instance
 
-ListRequestsUI .> ListRequestsController
+AcceptRequestsUI .> AcceptRequestsController
 
-ListRequestsController .> Repositories : repositories
+AcceptRequestsController .> Repositories : repositories
 
 Repositories --> "1" AgencyRepository
 Repositories --> "1" CommissionTypeRepository
@@ -175,13 +175,13 @@ AgencyRepository --> "*" Agency
 ApplicationSession --> "1" UserSession : userSession
 UserSession --> Email
 
-ListRequestsController ..> ApplicationSession
-ListRequestsController ..> UserSession
+AcceptRequestsController ..> ApplicationSession
+AcceptRequestsController ..> UserSession
 
-ListRequestsController ..> RequestMapper
-ListRequestsController ..> CommissionTypeMapper
-ListRequestsController --> Announcement
-ListRequestsController -> Request
+AcceptRequestsController ..> RequestMapper
+AcceptRequestsController ..> CommissionTypeMapper
+AcceptRequestsController --> Announcement
+AcceptRequestsController -> Request
 Agency --> "1" RequestList
 RequestList "1" --> "*" Request
 Request .> Notification

@@ -4,7 +4,7 @@ skinparam packageStyle rectangle
 skinparam shadowing false
 
 
-participant ":ListRequestsController" as CTRL
+participant ":AcceptRequestsController" as CTRL
 participant "commissionTypeMapper\n: CommissionTypeMapper" as ComTypeMapper
 participant "commissionType\n: CommissionType" as ComType
 participant "listCommissionType\n: List<CommissionTypeDto>" as ComTypeList

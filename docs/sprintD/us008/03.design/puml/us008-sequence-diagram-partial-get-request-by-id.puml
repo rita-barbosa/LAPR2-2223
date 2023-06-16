@@ -4,7 +4,7 @@ skinparam packageStyle rectangle
 skinparam shadowing false
 
 
-participant ":ListRequestsController" as CTRL
+participant ":AcceptRequestsController" as CTRL
 participant "agencyRepository:\nAgencyRepository" as AgencyRepository
 participant "agency\n: Agency" as AGENCY
 participant "requestList\n: RequestList" as ReqList

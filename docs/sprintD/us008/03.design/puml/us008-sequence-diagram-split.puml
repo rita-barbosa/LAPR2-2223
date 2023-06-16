@@ -7,8 +7,8 @@ autonumber
 
 'hide footbox
 actor "Agent" as ADM
-participant ":ListRequestsUI" as UI
-participant ":ListRequestsController" as CTRL
+participant ":AcceptRequestsUI" as UI
+participant ":AcceptRequestsController" as CTRL
 participant ":Repositories" as RepositorySingleton
 participant "repositories\n:Repositories" as PLAT
 participant "agencyRepository:\nAgencyRepository" as AgencyRepository

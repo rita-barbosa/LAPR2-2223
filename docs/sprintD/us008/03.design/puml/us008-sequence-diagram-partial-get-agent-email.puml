@@ -4,7 +4,7 @@ skinparam packageStyle rectangle
 skinparam shadowing false
 
 
-participant ":ListRequestsController" as CTRL
+participant ":AcceptRequestsController" as CTRL
 participant ":Repositories" as RepositorySingleton
 participant "repositories\n:Repositories" as PLAT
 participant "authenticationRepository\n: AuthenticationRepository" as AuthRep
