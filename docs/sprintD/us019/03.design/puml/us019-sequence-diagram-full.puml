@@ -17,7 +17,7 @@ participant "announcementList\n:AnnouncementList" as ANNOUNCELIST
 participant "announcement\n:Announcement" as ANNOUNCE
 participant "partition\n:Partition" as PART
 participant ":List<Integer>" as INTEGERLIST
-participant ":List<String>" as STRINGLIST
+participant "subListsInfo\n:List<String>" as STRINGLIST
 
 
 title Sequence Diagram (SD) - US019
@@ -99,43 +99,80 @@ activate NWM
 
              end loop
 
-            AgencyRepository --> CTRL : listOfDeals
-            deactivate AgencyRepository
 
-            CTRL -> PART : getSubLists(listOfDeals)
+
+           AgencyRepository -> PART**: create(listOfDeals)
             activate PART
 
-            PART -> INTEGERLIST : size = getSize()
-            activate INTEGERLIST
-            deactivate INTEGERLIST
+            PART -> PART : calculatePartitions(listOfDeals)
+            activate PART
+
+            PART -> PART : getPowerOfTwo(listOfDeals)
+            activate PART
+            PART --> PART : size
+            deactivate PART
+
+            loop for all numbers until size
+
+            PART -> PART: decimalToBinary(number)
+            activate PART
+
+            PART --> PART : binary
+            deactivate PART
+            |||
+            PART -> PART: calculateDifference(subListSum1,subListSum2)
+            activate PART
+
+            PART --> PART : difference
+            deactivate PART
+            |||
+            end loop
+            PART --> PART :
+            deactivate PART
+
+             PART  --> AgencyRepository:
+            deactivate PART
+
+             AgencyRepository --> CTRL : partition
+             deactivate AgencyRepository
+
+            CTRL -> PART : getSubLists()
+            activate PART
 
             PART -> STRINGLIST** : sublistStringList = create()
 
-            PART -> PART : getBinaryRepList(size)
+            PART -> PART: getPartitionInfo(sublist1)
             activate PART
 
-            PART --> PART : binaryRepList
+            PART --> PART : subListInfo1
             deactivate PART
-|||
-            PART -> PART : getPartitions(listOfDeals, binaryRepList)
+
+            PART -> STRINGLIST : add(subListInfo1)
+            activate STRINGLIST
+            deactivate STRINGLIST
+
+            PART -> PART: getPartitionInfo(sublist2)
             activate PART
 
-            ref over PART
-            Get List of Sublists Strings
-            end ref
-
-            PART --> PART : sublistStringList
+            PART --> PART : subListInfo2
             deactivate PART
 
-            PART -->  CTRL : sublistStringList
+            PART -> STRINGLIST : add(subListInfo2)
+            activate STRINGLIST
+            deactivate STRINGLIST
+
+            PART -> STRINGLIST : add(minDifference)
+            activate STRINGLIST
+            deactivate STRINGLIST
+
+            PART --> CTRL: subListsInfo
             deactivate PART
 
-            CTRL --> UI: sublistStringList
+            CTRL --> UI: subListsInfo
             deactivate CTRL
 
             UI --> NWM: shows sublists, difference of the number of\n properties and displays operation success
-
-    deactivate UI
+             deactivate UI
 
 deactivate NWM
 

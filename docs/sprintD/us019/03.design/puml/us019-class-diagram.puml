@@ -25,8 +25,7 @@ class Agency {
 }
 
 class AnnouncementList{
-    - List<Announcement> announcements
-    + getList()
+    + getDealsNumber()
 }
 
 
@@ -45,14 +44,18 @@ class Announcement{
 }
 
 class Partition {
-    + getSubLists(listOfDeals)
-    + getBinaryRepList(size)
-    + getPartitions(listOfDeals, binaryRepList)
-    + getBinaryRepresentation(idx)
-    + getPartitionInfo(listOfDeals, binaryRep)
-    + calculateDifference()
-    + getRuntime()
-    + toString()
+    - List<Integer> listOfDeals
+    - int minDifference
+    - List<Integer> subList1
+    - List<Integer> subList2
+    + Partition(listOfDeals)
+    + getSubLists()
+    - getPowerOfTwo(listOfDeals)
+    - calculatePartitions(listOfDeals)
+    - decimalToBinary(number)
+    - calculateDifference(subListSum1,subListSum2)
+    - getPartitionInfo(subList)
+
 }
 
 note right of Partition::getBinaryRepList
