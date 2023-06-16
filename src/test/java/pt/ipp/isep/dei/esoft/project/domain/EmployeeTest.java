@@ -70,7 +70,7 @@ class EmployeeTest {
         String email = "employee@this.app.com";
         List<String> roles = new ArrayList<>();
         roles.add("agent");
-        Location location = new Location("street", "city", "district", "state", "12345");
+        Location location = new Location("street", "city", "district", "st", "12345");
         Employee employee = new Employee(2425, "Employee", "C12345678", "123-23-1234", new Email(email), roles, "345-345-3456", location);
         Employee clone = employee.clone();
 

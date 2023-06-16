@@ -52,7 +52,7 @@ class CreateRequestControllerIT {
                 new CreateRequestController(agencyRepository, propertyTypeRepository, businessTypeRepository, authenticationRepository);
 
         Optional<Request> result = controller.createRequest("Land", "Sale", 2345.0,
-                35.5, 0, av, "street", "city", "district", "state", "12345", null,
+                35.5, 0, av, "street", "city", "district", "st", "12345", null,
                 null, null, null, null, null, employee, 89.3, uriList, agency);
     }
 

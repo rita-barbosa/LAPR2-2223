@@ -26,7 +26,7 @@ class AnnouncementMapperTest {
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
-                uriList, "street", "city", "district", "state", "12345");
+                uriList, "street", "city", "district", "st", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
         List<OrderDto> orderDtoList = new ArrayList<>();
         String orderDate = LocalDate.now().toString();

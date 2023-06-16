@@ -5,7 +5,7 @@ import java.util.Objects;
 
 public class AnnouncementDto {
     private String saleDate;
-    private Double saleAmount;
+    private Double amount;
     private String requestDate;
     private String agencyDescription;
     private Integer agencyId;
@@ -171,7 +171,7 @@ public class AnnouncementDto {
         this.commissionAttributes = commissionAttributes;
         this.acceptanceDate = acceptanceDate;
         this.saleDate = saleDate;
-        this.saleAmount = saleAmount;
+        this.amount = saleAmount;
         this.requestDate = requestDate;
         this.agencyDescription = agencyDescription;
         this.agencyId = agencyId;
@@ -189,6 +189,25 @@ public class AnnouncementDto {
     }
 
     public AnnouncementDto() {
+
+    }
+
+    public AnnouncementDto(String ownerEmail, String propertyTypeDesignation, double amount,
+                           double area, String streetName, String city, String district,
+                           String state, String zipcode, List<String> uriList,
+                           double distanceCityCenter,String commissionTypeDesignation) {
+        this.ownerEmail = ownerEmail;
+        this.propertyTypeDesignation = propertyTypeDesignation;
+        this.amount = amount;
+        this.streetName = streetName;
+        this.area = area;
+        this.city = city;
+        this.district = district;
+        this.state = state;
+        this.zipCode = zipcode;
+        this.uriList = uriList;
+        this.distanceCityCenter = distanceCityCenter;
+        this.commissionTypeDesignation = commissionTypeDesignation;
 
     }
 
@@ -258,7 +277,7 @@ public class AnnouncementDto {
 
     public String toDealString() {
         StringBuilder sb = new StringBuilder(String.format("Announcement ID: %d\n%sRequest Date: %s\n%s\nSale Date: %s\nSale Amount: $%.2f\n",
-                id, requestAttributes, requestDate, commissionAttributes, saleDate, saleAmount));
+                id, requestAttributes, requestDate, commissionAttributes, saleDate, amount));
         sb.append(String.format("Agency ID: %d\nAgency Name: %s\n", agencyId, agencyDescription));
         return sb.toString();
     }
@@ -274,7 +293,7 @@ public class AnnouncementDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AnnouncementDto that = (AnnouncementDto) o;
-        return Double.compare(that.commissionValue, commissionValue) == 0 && Double.compare(that.area, area) == 0 && Double.compare(that.distanceCityCenter, distanceCityCenter) == 0 && Double.compare(that.price, price) == 0 && numberBedroom == that.numberBedroom && numberParkingSpace == that.numberParkingSpace && numberBathroom == that.numberBathroom && existenceBasement == that.existenceBasement && inhabitableLoft == that.inhabitableLoft && id == that.id && Objects.equals(saleDate, that.saleDate) && Objects.equals(saleAmount, that.saleAmount) && Objects.equals(requestDate, that.requestDate) && Objects.equals(agencyDescription, that.agencyDescription) && Objects.equals(agencyId, that.agencyId) && Objects.equals(propertyTypeDesignation, that.propertyTypeDesignation) && Objects.equals(commissionTypeDesignation, that.commissionTypeDesignation) && Objects.equals(ownerEmail, that.ownerEmail) && Objects.equals(streetName, that.streetName) && Objects.equals(city, that.city) && Objects.equals(district, that.district) && Objects.equals(state, that.state) && Objects.equals(zipCode, that.zipCode) && Objects.equals(uriList, that.uriList) && Objects.equals(availableEquipmentDescriptionList, that.availableEquipmentDescriptionList) && Objects.equals(sunExposure, that.sunExposure) && Objects.equals(requestAttributes, that.requestAttributes) && Objects.equals(commissionAttributes, that.commissionAttributes) && Objects.equals(acceptanceDate, that.acceptanceDate) && Objects.equals(listOrdersDto, that.listOrdersDto);
+        return Double.compare(that.commissionValue, commissionValue) == 0 && Double.compare(that.area, area) == 0 && Double.compare(that.distanceCityCenter, distanceCityCenter) == 0 && Double.compare(that.price, price) == 0 && numberBedroom == that.numberBedroom && numberParkingSpace == that.numberParkingSpace && numberBathroom == that.numberBathroom && existenceBasement == that.existenceBasement && inhabitableLoft == that.inhabitableLoft && id == that.id && Objects.equals(saleDate, that.saleDate) && Objects.equals(amount, that.amount) && Objects.equals(requestDate, that.requestDate) && Objects.equals(agencyDescription, that.agencyDescription) && Objects.equals(agencyId, that.agencyId) && Objects.equals(propertyTypeDesignation, that.propertyTypeDesignation) && Objects.equals(commissionTypeDesignation, that.commissionTypeDesignation) && Objects.equals(ownerEmail, that.ownerEmail) && Objects.equals(streetName, that.streetName) && Objects.equals(city, that.city) && Objects.equals(district, that.district) && Objects.equals(state, that.state) && Objects.equals(zipCode, that.zipCode) && Objects.equals(uriList, that.uriList) && Objects.equals(availableEquipmentDescriptionList, that.availableEquipmentDescriptionList) && Objects.equals(sunExposure, that.sunExposure) && Objects.equals(requestAttributes, that.requestAttributes) && Objects.equals(commissionAttributes, that.commissionAttributes) && Objects.equals(acceptanceDate, that.acceptanceDate) && Objects.equals(listOrdersDto, that.listOrdersDto);
     }
 
     /**
@@ -286,7 +305,7 @@ public class AnnouncementDto {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(saleDate, saleAmount, requestDate, agencyDescription, agencyId, propertyTypeDesignation, commissionTypeDesignation, commissionValue, ownerEmail, streetName, city, district, state, zipCode, area, distanceCityCenter, price, uriList, numberBedroom, numberParkingSpace, numberBathroom, availableEquipmentDescriptionList, existenceBasement, inhabitableLoft, sunExposure, id, requestAttributes, commissionAttributes, acceptanceDate, listOrdersDto);
+        return Objects.hash(saleDate, amount, requestDate, agencyDescription, agencyId, propertyTypeDesignation, commissionTypeDesignation, commissionValue, ownerEmail, streetName, city, district, state, zipCode, area, distanceCityCenter, price, uriList, numberBedroom, numberParkingSpace, numberBathroom, availableEquipmentDescriptionList, existenceBasement, inhabitableLoft, sunExposure, id, requestAttributes, commissionAttributes, acceptanceDate, listOrdersDto);
     }
 
     /**

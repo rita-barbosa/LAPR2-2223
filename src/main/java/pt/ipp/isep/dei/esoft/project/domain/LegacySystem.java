@@ -9,7 +9,7 @@ import java.util.*;
 
 public class LegacySystem {
 
-    public static Optional<List<LegacySystemDto>> importInformation(String filePath) {
+    public static Optional<List<LegacySystemDto>> importInformation(String filePath) throws IOException {
         List<LegacySystemDto> legacySystemInformationDtoList = new ArrayList<>();
 
         File file = new File(filePath);
@@ -32,11 +32,8 @@ public class LegacySystem {
             }
             return Optional.of(legacySystemInformationDtoList);
         } catch (IOException e) {
-            System.out.println("ERROR: Couldn't read information from file. ");
+            throw new IOException("ERROR: Couldn't read information from file.");
         }
-
-        return Optional.empty();
-
     }
 
     private static boolean verifyFile(File file) {

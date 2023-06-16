@@ -16,7 +16,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class DisplayPropertiesControllerIT {
 
     @Test
-    @Disabled
     void ensureGetAgenciesListWorks() {
         PropertyTypeRepository propertyTypeRepository = new PropertyTypeRepository();
         AgencyRepository agencyRepository = new AgencyRepository();
@@ -37,7 +36,6 @@ class DisplayPropertiesControllerIT {
     }
 
     @Test
-    @Disabled
     void ensureGetAnnouncementsListWorks() {
         PropertyTypeRepository propertyTypeRepository = new PropertyTypeRepository();
         AgencyRepository agencyRepository = new AgencyRepository();
@@ -45,8 +43,8 @@ class DisplayPropertiesControllerIT {
         CriteriaRepository criteriaRepository = new CriteriaRepository();
         DisplayPropertiesController controller = new DisplayPropertiesController(agencyRepository, propertyTypeRepository, businessTypeRepository, criteriaRepository);
 
-        Location location =new Location("street","city","district","state","12345");
-        Location location1 =new Location("street1","cit1y","district1","state1","67891");
+        Location location =new Location("street","city","district","st","12345");
+        Location location1 =new Location("street1","cit1y","district1","sh","67891");
         Agency agency = new Agency(1234,"Description","agency@email.com","345 123 7219",location);
         Agency agency1 = new Agency(5678,"Description","agency1@email.com","789 123 7219",location1);
         List<Agency> agencies = new ArrayList<>();
@@ -62,11 +60,11 @@ class DisplayPropertiesControllerIT {
         uriList.add("https://www.example.com/images/photo.jpg");
 
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
-                uriList, "street", "city", "district", "state", "12345");
+                uriList, "street", "city", "district", "st", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         Property property1 = new Property(new PropertyType("land"), (65.5), (70.5),
-                uriList, "street 1", "city 1", "district 1", "st1", "67891");
+                uriList, "street 1", "city 1", "district 1", "sh", "67891");
         Request request1 = new Request(ownerEmail1, property1, new Business("sale", 5678.0), LocalDate.now(), employee1);
 
         Announcement announcement = new Announcement(employee, commissionType, 234.0, request);
@@ -86,7 +84,6 @@ class DisplayPropertiesControllerIT {
     }
 
     @Test
-    @Disabled
     void ensureSortAnnouncementsByMostRecentAdded() {
         PropertyTypeRepository propertyTypeRepository = new PropertyTypeRepository();
         AgencyRepository agencyRepository = new AgencyRepository();
@@ -94,8 +91,8 @@ class DisplayPropertiesControllerIT {
         CriteriaRepository criteriaRepository = new CriteriaRepository();
         DisplayPropertiesController controller = new DisplayPropertiesController(agencyRepository, propertyTypeRepository, businessTypeRepository, criteriaRepository);
 
-        Location location =new Location("street","city","district","state","12345");
-        Location location1 =new Location("street1","cit1y","district1","state1","67891");
+        Location location =new Location("street","city","district","st","12345");
+        Location location1 =new Location("street1","cit1y","district1","sh","67891");
         Agency agency = new Agency(1234,"Description","agency@email.com","345 123 7219",location);
         Agency agency1 = new Agency(5678,"Description","agency1@email.com","789 123 7219",location1);
         List<Agency> agencies = new ArrayList<>();
@@ -110,11 +107,11 @@ class DisplayPropertiesControllerIT {
         uriList.add("https://www.example.com/images/photo.jpg");
 
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
-                uriList, "street", "city", "district", "state", "12345");
+                uriList, "street", "city", "district", "st", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.of(2023,5,15), employee);
 
         Property property1 = new Property(new PropertyType("land"), (65.5), (70.5),
-                uriList, "street 1", "city 1", "district 1", "st1", "67891");
+                uriList, "street 1", "city 1", "district 1", "sh", "67891");
         Request request1 = new Request(ownerEmail1, property1, new Business("lease", 300.0), LocalDate.now(), employee1);
 
         Announcement announcement = new Announcement(employee, commissionType, 234.0, request);
@@ -133,7 +130,6 @@ class DisplayPropertiesControllerIT {
     }
 
     @Test
-    @Disabled
     void ensureGetAnnouncementsByBusinessTypeWorks() {
         PropertyTypeRepository propertyTypeRepository = new PropertyTypeRepository();
         AgencyRepository agencyRepository = new AgencyRepository();
@@ -141,8 +137,8 @@ class DisplayPropertiesControllerIT {
         CriteriaRepository criteriaRepository = new CriteriaRepository();
         DisplayPropertiesController controller = new DisplayPropertiesController(agencyRepository, propertyTypeRepository, businessTypeRepository, criteriaRepository);
 
-        Location location =new Location("street","city","district","state","12345");
-        Location location1 =new Location("street1","cit1y","district1","state1","67891");
+        Location location =new Location("street","city","district","st","12345");
+        Location location1 =new Location("street1","cit1y","district1","sh","67891");
         Agency agency = new Agency(1234,"Description","agency@email.com","345 123 7219",location);
         Agency agency1 = new Agency(5678,"Description","agency1@email.com","789 123 7219",location1);
         List<Agency> agencies = new ArrayList<>();
@@ -158,11 +154,11 @@ class DisplayPropertiesControllerIT {
         uriList.add("https://www.example.com/images/photo.jpg");
 
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
-                uriList, "street", "city", "district", "state", "12345");
+                uriList, "street", "city", "district", "st", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2345.0), LocalDate.now(), employee);
 
         Property property1 = new Property(new PropertyType("land"), (65.5), (70.5),
-                uriList, "street 1", "city 1", "district 1", "st1", "67891");
+                uriList, "street 1", "city 1", "district 1", "sh", "67891");
         Request request1 = new Request(ownerEmail1, property1, new Business("lease", 300.0), LocalDate.now(), employee1);
 
         Announcement announcement = new Announcement(employee, commissionType, 234.0, request);
@@ -179,7 +175,6 @@ class DisplayPropertiesControllerIT {
     }
 
     @Test
-    @Disabled
     void ensureGetAnnouncementsByPropertyType() {
         PropertyTypeRepository propertyTypeRepository = new PropertyTypeRepository();
         AgencyRepository agencyRepository = new AgencyRepository();
@@ -187,8 +182,8 @@ class DisplayPropertiesControllerIT {
         CriteriaRepository criteriaRepository = new CriteriaRepository();
         DisplayPropertiesController controller = new DisplayPropertiesController(agencyRepository, propertyTypeRepository, businessTypeRepository, criteriaRepository);
 
-        Location location =new Location("street","city","district","state","12345");
-        Location location1 =new Location("street1","cit1y","district1","state1","67891");
+        Location location =new Location("street","city","district","st","12345");
+        Location location1 =new Location("street1","cit1y","district1","sh","67891");
         Agency agency = new Agency(1234,"Description","agency@email.com","345 123 7219",location);
         Agency agency1 = new Agency(5678,"Description","agency1@email.com","789 123 7219",location1);
         List<Agency> agencies = new ArrayList<>();
@@ -204,7 +199,7 @@ class DisplayPropertiesControllerIT {
         uriList.add("https://www.example.com/images/photo.jpg");
 
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
-                uriList, "street", "city", "district", "state", "12345");
+                uriList, "street", "city", "district", "st", "12345");
         Request request = new Request(ownerEmail, property, new Business("lease", 2345.0), LocalDate.now(), employee);
 
         List<String> av = new ArrayList<>();
@@ -214,7 +209,7 @@ class DisplayPropertiesControllerIT {
         av.add("Massage Chair");
 
         Property property1 = new House(new PropertyType("house"), av, 32.4,
-                "street1", "city1", "district1", "st1", "12340", true, false, 2,
+                "street1", "city1", "district1", "sh", "12340", true, false, 2,
                 SunExposureTypes.NORTH, 2, null, 12.5, uriList);
         Request request1 = new Request(ownerEmail1, property1, new Business("lease", 2345.0), LocalDate.now(), employee);
 
@@ -232,7 +227,6 @@ class DisplayPropertiesControllerIT {
     }
 
     @Test
-    @Disabled
     void ensureGetAnnouncementsByNumberBedrooms() {
         PropertyTypeRepository propertyTypeRepository = new PropertyTypeRepository();
         AgencyRepository agencyRepository = new AgencyRepository();
@@ -240,8 +234,8 @@ class DisplayPropertiesControllerIT {
         CriteriaRepository criteriaRepository = new CriteriaRepository();
         DisplayPropertiesController controller = new DisplayPropertiesController(agencyRepository, propertyTypeRepository, businessTypeRepository, criteriaRepository);
 
-        Location location =new Location("street","city","district","state","12345");
-        Location location1 =new Location("street1","cit1y","district1","state1","67891");
+        Location location =new Location("street","city","district","st","12345");
+        Location location1 =new Location("street1","cit1y","district1","sh","67891");
         Agency agency = new Agency(1234,"Description","agency@email.com","345 123 7219",location);
         Agency agency1 = new Agency(5678,"Description","agency1@email.com","789 123 7219",location1);
         List<Agency> agencies = new ArrayList<>();
@@ -263,12 +257,12 @@ class DisplayPropertiesControllerIT {
         av.add("Massage Chair");
 
         Property property = new House(new PropertyType("house"), av, 32.4,
-                "street 3", "city 3", "district 3", "st3", "12340", true, false, 2,
+                "street 3", "city 3", "district 3", "sg", "12340", true, false, 2,
                 SunExposureTypes.NORTH, 2, null, 12.5, uriList);
         Request request = new Request(ownerEmail1, property, new Business("lease", 2345.0), LocalDate.now(), employee);
 
         Property property1 = new Residence(new PropertyType("apartment"), 125.4, av, "street 4",
-                "city 4", "district 4", "st4", "12348", 2, 1, 3, 15.2, uriList);
+                "city 4", "district 4", "sk", "12348", 2, 1, 3, 15.2, uriList);
         Request request1 = new Request(ownerEmail, property1, new Business("lease", 2345.0), LocalDate.now(), employee);
 
         Announcement announcement = new Announcement(employee, commissionType, 234.0, request);
@@ -285,7 +279,6 @@ class DisplayPropertiesControllerIT {
     }
 
     @Test
-    @Disabled
     void ensureGetAnnouncementsByPrice() {
         PropertyTypeRepository propertyTypeRepository = new PropertyTypeRepository();
         AgencyRepository agencyRepository = new AgencyRepository();
@@ -293,8 +286,8 @@ class DisplayPropertiesControllerIT {
         CriteriaRepository criteriaRepository = new CriteriaRepository();
         DisplayPropertiesController controller = new DisplayPropertiesController(agencyRepository, propertyTypeRepository, businessTypeRepository, criteriaRepository);
 
-        Location location =new Location("street","city","district","state","12345");
-        Location location1 =new Location("street1","city1","district1","state1","67891");
+        Location location =new Location("street","city","district","st","12345");
+        Location location1 =new Location("street1","city1","district1","st","67891");
         Agency agency = new Agency(1234,"Description","agency@email.com","345 123 7219",location);
         Agency agency1 = new Agency(5678,"Description","agency1@email.com","789 123 7219",location1);
         List<Agency> agencies = new ArrayList<>();
@@ -316,12 +309,12 @@ class DisplayPropertiesControllerIT {
         av.add("Massage Chair");
 
         Property property = new House(new PropertyType("house"), av, 32.4,
-                "street 3", "city 3", "district 3", "st3", "12340", true, false, 2,
+                "street 3", "city 3", "district 3", "st", "12340", true, false, 2,
                 SunExposureTypes.NORTH, 2, null, 12.5, uriList);
         Request request = new Request(ownerEmail1, property, new Business("lease", 2345.0), LocalDate.now(), employee);
 
         Property property1 = new Residence(new PropertyType("apartment"), 125.4, av, "street 4",
-                "city 4", "district 4", "st4", "12348", 2, 1, 3, 15.2, uriList);
+                "city 4", "district 4", "st", "12348", 2, 1, 3, 15.2, uriList);
         Request request1 = new Request(ownerEmail, property1, new Business("lease", 5000.0), LocalDate.now(), employee);
 
         Announcement announcement = new Announcement(employee, commissionType, 234.0, request);
@@ -339,7 +332,6 @@ class DisplayPropertiesControllerIT {
     }
 
     @Test
-    @Disabled
     void ensureGetAnnouncementsByCity() {
         PropertyTypeRepository propertyTypeRepository = new PropertyTypeRepository();
         AgencyRepository agencyRepository = new AgencyRepository();
@@ -347,8 +339,8 @@ class DisplayPropertiesControllerIT {
         CriteriaRepository criteriaRepository = new CriteriaRepository();
         DisplayPropertiesController controller = new DisplayPropertiesController(agencyRepository, propertyTypeRepository, businessTypeRepository, criteriaRepository);
 
-        Location location =new Location("street","city","district","state","12345");
-        Location location1 =new Location("street1","city1","district1","state1","67891");
+        Location location =new Location("street","city","district","st","12345");
+        Location location1 =new Location("street1","city1","district1","st","67891");
         Agency agency = new Agency(1234,"Description","agency@email.com","345 123 7219",location);
         Agency agency1 = new Agency(5678,"Description","agency1@email.com","789 123 7219",location1);
         List<Agency> agencies = new ArrayList<>();
@@ -370,12 +362,12 @@ class DisplayPropertiesControllerIT {
         av.add("Massage Chair");
 
         Property property = new House(new PropertyType("house"), av, 32.4,
-                "street1", "city1", "district1", "st3", "12340", true, false, 2,
+                "street1", "city1", "district1", "st", "12340", true, false, 2,
                 SunExposureTypes.NORTH, 2, null, 12.5, uriList);
         Request request = new Request(ownerEmail1, property, new Business("lease", 2345.0), LocalDate.now(), employee);
 
         Property property1 = new Residence(new PropertyType("apartment"), 125.4, av, "street 4",
-                "city4", "district4", "st4", "12348", 2, 1, 3, 15.2, uriList);
+                "city4", "district4", "st", "12348", 2, 1, 3, 15.2, uriList);
         Request request1 = new Request(ownerEmail, property1, new Business("lease", 5000.0), LocalDate.now(), employee);
 
         Announcement announcement = new Announcement(employee, commissionType, 234.0, request);
@@ -393,7 +385,6 @@ class DisplayPropertiesControllerIT {
     }
 
     @Test
-    @Disabled
     void ensureGetAnnouncementsByState() {
         PropertyTypeRepository propertyTypeRepository = new PropertyTypeRepository();
         AgencyRepository agencyRepository = new AgencyRepository();
@@ -401,8 +392,8 @@ class DisplayPropertiesControllerIT {
         CriteriaRepository criteriaRepository = new CriteriaRepository();
         DisplayPropertiesController controller = new DisplayPropertiesController(agencyRepository, propertyTypeRepository, businessTypeRepository, criteriaRepository);
 
-        Location location =new Location("street","city","district","state","12345");
-        Location location1 =new Location("street1","city1","district1","state1","67891");
+        Location location =new Location("street","city","district","st","12345");
+        Location location1 =new Location("street1","city1","district1","st","67891");
         Agency agency = new Agency(1234,"Description","agency@email.com","345 123 7219",location);
         Agency agency1 = new Agency(5678,"Description","agency1@email.com","789 123 7219",location1);
         List<Agency> agencies = new ArrayList<>();
@@ -424,12 +415,12 @@ class DisplayPropertiesControllerIT {
         av.add("Massage Chair");
 
         Property property = new House(new PropertyType("house"), av, 32.4,
-                "street1", "city1", "district1", "st5", "12340", true, false, 2,
+                "street1", "city1", "district1", "st", "12340", true, false, 2,
                 SunExposureTypes.NORTH, 2, null, 12.5, uriList);
         Request request = new Request(ownerEmail1, property, new Business("lease", 2345.0), LocalDate.now(), employee);
 
         Property property1 = new Residence(new PropertyType("apartment"), 125.4, av, "street 4",
-                "city4", "district4", "st4", "12348", 2, 1, 3, 15.2, uriList);
+                "city4", "district4", "st", "12348", 2, 1, 3, 15.2, uriList);
         Request request1 = new Request(ownerEmail, property1, new Business("lease", 5000.0), LocalDate.now(), employee);
 
         Announcement announcement = new Announcement(employee, commissionType, 234.0, request);
@@ -447,7 +438,6 @@ class DisplayPropertiesControllerIT {
     }
 
     @Test
-    @Disabled
     void ensureGetBusinessTypeListWorks() {
         PropertyTypeRepository propertyTypeRepository = new PropertyTypeRepository();
         AgencyRepository agencyRepository = new AgencyRepository();
@@ -470,7 +460,6 @@ class DisplayPropertiesControllerIT {
     }
 
     @Test
-    @Disabled
     void ensureGetPropertyTypeListWorks() {
         PropertyTypeRepository propertyTypeRepository = new PropertyTypeRepository();
         AgencyRepository agencyRepository = new AgencyRepository();

@@ -21,6 +21,11 @@ public class AnalyzeDealsController {
     public AnalyzeDealsController() {
     }
 
+    public AnalyzeDealsController(RegressionModelTypeRepository regressionModelTypeRepository, AgencyRepository agencyRepository) {
+        this.regressionModelTypeRepository = regressionModelTypeRepository;
+        this.agencyRepository = agencyRepository;
+    }
+
     private RegressionModelTypeRepository getRegressionModelTypeRepository() {
         if (regressionModelTypeRepository == null) {
             Repositories repositories = Repositories.getInstance();
@@ -43,7 +48,6 @@ public class AnalyzeDealsController {
     }
 
     public StatisticDto getStatisticsAndForecastValues(RegressionModelTypeDto regressionModelTypeDto, String variable) throws ReflectiveOperationException {
-
         RegressionModelType regressionModelType = RegressionModelTypeMapper.toModel(regressionModelTypeDto);
         List<List<Double>> dealsDataList = getDataForAnalysis(regressionModelType, variable);
         if (!dealsDataList.isEmpty()) {

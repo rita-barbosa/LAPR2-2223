@@ -122,7 +122,7 @@ class HouseTest {
                 false, 2, SunExposureTypes.NORTH, 2, null,
                 12.5, uriList);
         House house1 = new House(new PropertyType("house"), av, 38.4,
-                "street 3", "city 3", "district 3", "st4", "12340", false,
+                "street 3", "city 3", "district 3", "st", "12340", false,
                 false, 4, SunExposureTypes.SOUTH, 0, 1,
                 12.5, uriList);
 
@@ -202,7 +202,7 @@ class HouseTest {
                 false, 2, SunExposureTypes.NORTH, 2, null,
                 12.5, uriList);
         House house1 = new House(new PropertyType("house"), av, 38.4,
-                "street 3", "city 3", "district 3", "st4", "12340", false,
+                "street 3", "city 3", "district 3", "st", "12340", false,
                 false, 4, SunExposureTypes.SOUTH, 0, 1,
                 12.5, uriList);
 

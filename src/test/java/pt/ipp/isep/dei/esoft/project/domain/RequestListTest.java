@@ -1,18 +1,11 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
-import pt.ipp.isep.dei.esoft.project.application.controller.ListRequestsController;
-import pt.ipp.isep.dei.esoft.project.application.controller.authorization.AuthenticationController;
-import pt.ipp.isep.dei.esoft.project.repository.AgencyRepository;
-import pt.ipp.isep.dei.esoft.project.repository.AuthenticationRepository;
-import pt.ipp.isep.dei.esoft.project.repository.CommissionTypeRepository;
-import pt.isep.lei.esoft.auth.domain.model.Email;
 
+import org.junit.jupiter.api.Test;
+import pt.isep.lei.esoft.auth.domain.model.Email;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -35,7 +28,7 @@ class RequestListTest {
         uriList.add("https://www.example.com/images/photo123.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
                 uriList, "street", "city", "district", "ST", "12345");
-        Request request = new Request(ownerEmail, property, new Business("sale", 2500.0), LocalDate.now(), employee);
+        Request request = new Request(ownerEmail, property, new Business("sale", 2500.0), LocalDate.now(), employee,0,false);
 
         String ownerEmail1 = "owner@email.com";
         List<String> uriList1 = new ArrayList<>();
@@ -43,7 +36,7 @@ class RequestListTest {
         uriList1.add("https://www.example.com/images/photo789.jpg");
         Property property1 = new Property(new PropertyType("land"), (35.5), (89.3),
                 uriList1, "street", "city", "district", "ST", "12345");
-        Request request1 = new Request(ownerEmail1, property1, new Business("sale", 2500.0), LocalDate.now(), employee);
+        Request request1 = new Request(ownerEmail1, property1, new Business("sale", 2500.0), LocalDate.now(), employee,0,false);
 
         requests.add(request);
         requests.add(request1);
@@ -68,7 +61,7 @@ class RequestListTest {
         uriList.add("https://www.example.com/images/photo123.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
                 uriList, "street", "city", "district", "ST", "12345");
-        Request request = new Request(ownerEmail, property, new Business("sale", 2500.0), LocalDate.now(), employee);
+        Request request = new Request(ownerEmail, property, new Business("sale", 2500.0), LocalDate.now(), employee,0,false);
 
         assertTrue(requestList.addRequest(request));
     }
@@ -90,7 +83,7 @@ class RequestListTest {
         uriList.add("https://www.example.com/images/photo123.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
                 uriList, "street", "city", "district", "ST", "12345");
-        Request request = new Request(ownerEmail, property, new Business("sale", 2500.0), LocalDate.now(), employee);
+        Request request = new Request(ownerEmail, property, new Business("sale", 2500.0), LocalDate.now(), employee,0,false);
 
         requests.add(request);
         requestList.addRequest(request);
@@ -114,7 +107,7 @@ class RequestListTest {
         uriList.add("https://www.example.com/images/photo123.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
                 uriList, "street", "city", "district", "ST", "12345");
-        Request request = new Request(ownerEmail, property, new Business("sale", 2500.0), LocalDate.now(), employee);
+        Request request = new Request(ownerEmail, property, new Business("sale", 2500.0), LocalDate.now(), employee,0,false);
         requestList.addRequest(request);
 
         RequestList clone = requestList.clone();
@@ -139,7 +132,7 @@ class RequestListTest {
         uriList.add("https://www.example.com/images/photo123.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
                 uriList, "street", "city", "district", "ST", "12345");
-        Request request = new Request(ownerEmail, property, new Business("sale", 2500.0), LocalDate.now(), employee);
+        Request request = new Request(ownerEmail, property, new Business("sale", 2500.0), LocalDate.now(), employee,0,false);
         requestList.addRequest(request);
 
         assertEquals(requestList, requestList);
@@ -162,7 +155,7 @@ class RequestListTest {
         uriList.add("https://www.example.com/images/photo123.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
                 uriList, "street", "city", "district", "ST", "12345");
-        Request request = new Request(ownerEmail, property, new Business("sale", 2500.0), LocalDate.now(), employee);
+        Request request = new Request(ownerEmail, property, new Business("sale", 2500.0), LocalDate.now(), employee,0,false);
 
         String ownerEmail1 = "owner1@email.com";
         List<String> uriList1 = new ArrayList<>();
@@ -170,7 +163,7 @@ class RequestListTest {
         uriList1.add("https://www.example.com/images/photo789.jpg");
         Property property1 = new Property(new PropertyType("land"), (35.5), (89.3),
                 uriList1, "street", "city", "district", "ST", "12345");
-        Request request1 = new Request(ownerEmail1, property1, new Business("sale", 2500.0), LocalDate.now(), employee);
+        Request request1 = new Request(ownerEmail1, property1, new Business("sale", 2500.0), LocalDate.now(), employee,0,false);
 
         requestList.addRequest(request);
         requestList1.addRequest(request1);
@@ -194,7 +187,7 @@ class RequestListTest {
         uriList.add("https://www.example.com/images/photo123.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
                 uriList, "street", "city", "district", "ST", "12345");
-        Request request = new Request(ownerEmail, property, new Business("sale", 2500.0), LocalDate.now(), employee);
+        Request request = new Request(ownerEmail, property, new Business("sale", 2500.0), LocalDate.now(), employee,0,false);
         requestList.addRequest(request);
 
         assertEquals(requestList.hashCode(), requestList.hashCode());
@@ -216,7 +209,7 @@ class RequestListTest {
         uriList.add("https://www.example.com/images/photo123.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
                 uriList, "street", "city", "district", "ST", "12345");
-        Request request = new Request(ownerEmail, property, new Business("sale", 2500.0), LocalDate.now(), employee, 0);
+        Request request = new Request(ownerEmail, property, new Business("sale", 2500.0), LocalDate.now(), employee, 0,false);
 
         requestList.addRequest(request);
 
@@ -239,7 +232,7 @@ class RequestListTest {
         uriList.add("https://www.example.com/images/photo123.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
                 uriList, "street", "city", "district", "ST", "12345");
-        Request request = new Request(ownerEmail, property, new Business("sale", 2500.0), LocalDate.now(), employee, 0);
+        Request request = new Request(ownerEmail, property, new Business("sale", 2500.0), LocalDate.now(), employee, 0,false);
 
         requestList.addRequest(request);
 

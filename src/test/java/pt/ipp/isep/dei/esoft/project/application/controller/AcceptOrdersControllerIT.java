@@ -41,7 +41,7 @@ class AcceptOrdersControllerIT {
         uriList.add("https://www.example.com/images/photo.jpg");
         uriList.add("https://www.example.com/images/photo123.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
-                uriList, "street", "city", "district", "state", "12345");
+                uriList, "street", "city", "district", "st", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2500.0), LocalDate.now(), employee);
         Email client1 = new Email("client1@this.app");
         Order o1 = new Order(23000.0, client1);
@@ -85,7 +85,7 @@ class AcceptOrdersControllerIT {
         uriList.add("https://www.example.com/images/photo.jpg");
         uriList.add("https://www.example.com/images/photo123.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
-                uriList, "street", "city", "district", "state", "12345");
+                uriList, "street", "city", "district", "st", "12345");
         Request request = new Request(ownerEmail, property, new Business("sale", 2500.0), LocalDate.now(), employee);
         Email client1 = new Email("client1@this.app");
         Order o1 = new Order(23000.0, client1);

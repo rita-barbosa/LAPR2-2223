@@ -30,7 +30,7 @@ class LocationTest {
     @Test
     void ensureLocationWithDifferentAttributesNotEquals() {
         Location location = new Location("street", "city", "district", "ST", "12345");
-        Location location1 = new Location("street1", "city1", "district1", "ST1", "12346");
+        Location location1 = new Location("street1", "city1", "district1", "ST", "12346");
 
         assertNotEquals(location, location1);
     }

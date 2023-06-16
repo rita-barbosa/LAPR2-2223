@@ -29,8 +29,8 @@ class RequestMapperTest {
         uriList.add("https://www.example.com/images/photo.jpg");
         uriList.add("https://www.example.com/images/photo123.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
-                uriList, "street", "city", "district", "state", "12345");
-        Request request = new Request(ownerEmail, property, new Business("sale", 2500.0), LocalDate.now(), employee);
+                uriList, "street", "city", "district", "st", "12345");
+        Request request = new Request(ownerEmail, property, new Business("sale", 2500.0), LocalDate.now(), employee,0, false);
 
 
         requests.add(request);
@@ -59,8 +59,8 @@ class RequestMapperTest {
         uriList.add("https://www.example.com/images/photo.jpg");
         uriList.add("https://www.example.com/images/photo123.jpg");
         Property property = new Property(new PropertyType("land"), (35.5), (89.3),
-                uriList, "street", "city", "district", "state", "12345");
-        Request request = new Request(ownerEmail, property, new Business("sale", 2500.0), LocalDate.now(), employee, 0);
+                uriList, "street", "city", "district", "st", "12345");
+        Request request = new Request(ownerEmail, property, new Business("sale", 2500.0), LocalDate.now(), employee, 0, false);
 
         agency.addRequest(request);
 

@@ -103,7 +103,7 @@ class AnnouncementDtoTest {
                 "requestAttributes\n" +
                 "commissionAttributes\n" +
                 "Orders:\n" +
-                "Order 0 | Amount offered : 245555.0 \n";
+                "#1 Order | Amount offered : 245555.0 \n";
 
         assertEquals(expected, announcementDto.toString());
     }

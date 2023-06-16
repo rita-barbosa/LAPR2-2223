@@ -21,6 +21,11 @@ public class ImportLegacyInformationController {
         getPersonRepository();
     }
 
+    public ImportLegacyInformationController(AgencyRepository agencyRepository, PersonRepository personRepository) {
+        this.agencyRepository = agencyRepository;
+        this.personRepository = personRepository;
+    }
+
     private AgencyRepository getAgencyRepository() {
         if (agencyRepository == null) {
             Repositories repositories = Repositories.getInstance();
@@ -40,8 +45,9 @@ public class ImportLegacyInformationController {
     public Boolean importInformationFromFile(String filePath) {
         boolean success;
         Optional<List<LegacySystemDto>> newList;
-        newList = LegacySystem.importInformation(filePath);
+
         try {
+            newList = LegacySystem.importInformation(filePath);
             if (newList.isPresent()) {
                 for (LegacySystemDto dto : newList.get()) {
                     Optional<Agency> newAgency = registerAgency(dto);
@@ -61,7 +67,7 @@ public class ImportLegacyInformationController {
     }
 
 
-    private Boolean publishAnnouncement(LegacySystemDto dto, Agency agency, Employee agent, String ownerEmail) throws
+    Boolean publishAnnouncement(LegacySystemDto dto, Agency agency, Employee agent, String ownerEmail) throws
             NumberFormatException {
         Request newRequest = getRequestFromLegacy(dto, agency, agent, ownerEmail);
         Announcement newAnnouncement = new Announcement(agent, dto.getCommission(), newRequest, dto.getPropertyDateSale(), dto.getPropertyPrice());
@@ -77,17 +83,17 @@ public class ImportLegacyInformationController {
         return newRequest;
     }
 
-    private Person registerOwner(LegacySystemDto dto) {
+    Person registerOwner(LegacySystemDto dto) {
         return getPersonRepository().registerPerson(dto);
     }
 
-    private Employee registerAgent(Agency newAgency) {
+    Employee registerAgent(Agency newAgency) {
         Employee agent = newAgency.createDefaultAgent();
         getPersonRepository().add(agent);
         return agent;
     }
 
-    private Optional<Agency> registerAgency(LegacySystemDto dto) throws IllegalArgumentException {
+    Optional<Agency> registerAgency(LegacySystemDto dto) throws IllegalArgumentException {
         return getAgencyRepository().registerAgency(dto);
     }
 }
