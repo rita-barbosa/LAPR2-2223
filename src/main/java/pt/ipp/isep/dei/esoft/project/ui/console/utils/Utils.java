@@ -83,12 +83,12 @@ public class Utils {
             try {
                 answer = input.nextInt();
                 if (answer != 1 && answer != 2) {
-                    System.out.println("\nERROR: Option selected is invalid. (1 or 2)");
+                    System.out.println("\nERROR: Option selected is invalid.");
                 } else {
                     invalid = false;
                 }
             } catch (InputMismatchException e) {
-                System.out.println("\nERROR: Option selected is not a number. (1 or 2)");
+                System.out.println("\nERROR: Option selected is not a number.");
                 input.nextLine();
             }
         } while (invalid);
@@ -105,12 +105,12 @@ public class Utils {
             try {
                 answer = input.nextInt();
                 if (answer != 1 && answer != 2) {
-                    System.out.println("\nERROR: Option selected is invalid. (1 or 2)");
+                    System.out.println("\nERROR: Option selected is invalid.");
                 } else {
                     invalid = false;
                 }
             } catch (InputMismatchException e) {
-                System.out.println("\nERROR: Option selected is not a number. (1 or 2)");
+                System.out.println("\nERROR: Option selected is not a number.");
                 input.nextLine();
             }
         } while (invalid);
@@ -204,7 +204,7 @@ public class Utils {
                 }
                 invalid = false;
             } catch (InputMismatchException e) {
-                System.out.println("\nERROR: Option selected is invalid"
+                System.out.println("\nERROR: Option selected is invalid."
                         + " (" + e.getClass().getSimpleName() + ")");
                 sc.nextLine();
             }
