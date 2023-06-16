@@ -1,4 +1,4 @@
-# US 008 - To list property announcement requests
+# US 008 - To accept property announcement requests
 
 [Requirements Engineering](01.requirements-engineering/Readme.md)
 
