@@ -69,11 +69,6 @@ activate ADM
     LS --> CTRL : legacySystemDtoList
     deactivate LS
 
-         note right CTRL
-                **VER COMO COLOCAR AGORA O RESTO DAS CLASSES**
-         end note
-
-
     |||
     CTRL -> CTRL : registerAgency(legacySystemDto)
     activate CTRL
