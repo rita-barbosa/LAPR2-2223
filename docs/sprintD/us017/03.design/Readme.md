@@ -55,7 +55,8 @@ Other software classes (i.e. Pure Fabrication) identified:
 
 ### Alternative 1 - Full Diagram
 
-This diagram shows the full sequence of interactions between the classes involved in the realization of this user story.
+This diagram shows a sequence of interactions between the classes involved in the realization of this user story, but it
+is split in partial diagrams to better illustrate the interactions between the classes.
 
 ![Sequence Diagram - Split](svg/us017-sequence-diagram-split.svg)
 
