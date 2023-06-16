@@ -35,16 +35,16 @@ public class Multilinear implements RegressionModel {
         this.n = data.size();
         calculateVariablesAverage();
         this.beta = regression.estimateRegressionParameters();
-        this.k = beta.length;
+        this.k = beta.length - 1;
         this.SE = regression.calculateResidualSumOfSquares();
         this.ST = regression.calculateTotalSumOfSquares();
         this.SR = this.ST - this.SE;
         this.rSquare = regression.calculateRSquared();   // this.SR / this.ST;
-        this.rSquareAdjusted = calculateAdjustedRSquared();  // regression.calculateAdjustedRSquared();
+        this.rSquareAdjusted = regression.calculateAdjustedRSquared();  // regression.calculateAdjustedRSquared();
         this.MQR = this.SR / this.k;
         this.MQE = this.SE / (this.n - (this.k + 1));
         this.fObs = MQR / MQE;
-        this.fSnedecor = fSnedecor(ALPHA, (int) this.k, (int) (this.n - (this.k + 1)));
+        this.fSnedecor = fSnedecor(1 - ALPHA, (int) this.k, (int) (this.n - (this.k + 1)));
         this.parametersStdErr = regression.estimateRegressionParametersStandardErrors();
     }
 
@@ -145,8 +145,8 @@ public class Multilinear implements RegressionModel {
         report.append(String.format("MQR: %.4f%n", MQR));
         report.append(String.format("MQE: %.4f%n", MQE));
         report.append("-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-\n");
-        report.append(String.format("F (observed): %.4f%n", fObs));
-        report.append(String.format("F Snedecor: %.4f%n", fSnedecor));
+        report.append(String.format("F-Statistic: %.4f%n", fObs));
+        report.append(String.format("F-Distribution: %.4f%n", fSnedecor));
         report.append(compareAnovaSigModel());
         report.append(String.format("%n[-----Confidence Intervals-----]%n"));
         report.append(getConfidenceIntervals());
@@ -166,8 +166,8 @@ public class Multilinear implements RegressionModel {
             s.append(String.format("#%s | Parameter: %.4f%n", i, this.beta[i]));
             s.append("-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-\n");
             s.append(String.format("Standard Error : %.4f%n", this.parametersStdErr[i]));
-            s.append(String.format("Lower : %.4f%n", lower));
-            s.append(String.format("Upper : %.4f%n", upper));
+            s.append(String.format("Lower Values: %.4f%n", lower));
+            s.append(String.format("Upper Values: %.4f%n", upper));
             s.append(String.format("IC(95%%): ] %.2f; %.2f [%n%n", lower, upper));
         }
         return s.toString();

@@ -56,7 +56,8 @@ public class SimpleLinear implements RegressionModel {
         MSR = SR; // MSR = SR / 1 -> to simplify we automatically assigned SR to MSR
         MSE = SE / degreeOfFreedom;
         fObs = MSR / MSE;
-        fSnedecor = fSnedecor(ALPHA, 1, (int) degreeOfFreedom);
+        System.out.println(degreeOfFreedom);
+        fSnedecor = fSnedecor(1-ALPHA, 1, (int) degreeOfFreedom);
         slopeStdErr = this.regression.getSlopeStdErr();
         interceptStdErr = this.regression.getInterceptStdErr();
 
@@ -97,8 +98,8 @@ public class SimpleLinear implements RegressionModel {
         report.append(String.format("MSR: %.4f%n", MSR));
         report.append(String.format("MSE: %.4f%n", MSE));
         report.append("-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-\n");
-        report.append(String.format("F (observed): %.4f%n", fObs));
-        report.append(String.format("F Snedecor: %.4f%n", fSnedecor));
+        report.append(String.format("F - Statistic: %.4f%n", fObs));
+        report.append(String.format("F - Distribution: %.4f%n", fSnedecor));
         report.append("-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-\n");
         report.append(String.format("Test: H0 : b = b0 %n      H1 : b != b0%n"));
         report.append(compareAnovaSigModel());
@@ -182,8 +183,8 @@ public class SimpleLinear implements RegressionModel {
         double upper = value + tValue * stdErr;
 
         s.append(String.format("Standard error : %.4f%n", stdErr));
-        s.append(String.format("Slope Lower : %.4f%n", lower));
-        s.append(String.format("Slope Upper : %.4f%n", upper));
+        s.append(String.format("Lower Value : %.4f%n", lower));
+        s.append(String.format("Upper Value: %.4f%n", upper));
         s.append(String.format("IC(95%%): ] %.2f; %.2f [%n", lower, upper));
 
         return s.toString();
