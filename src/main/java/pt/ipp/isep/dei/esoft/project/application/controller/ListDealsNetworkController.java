@@ -48,7 +48,6 @@ public class ListDealsNetworkController {
     }
 
     public Optional<List<AnnouncementDto>> toDto(List<Announcement> allDealsList) {
-
         return AnnouncementMapper.toNetworkDto(allDealsList, agencyRepository.getAgenciesList());
     }
 
