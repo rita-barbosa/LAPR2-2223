@@ -40,7 +40,7 @@
 |                                                                  | ... globally validating duplicated announcements?                          | Agency                   | Information Expert: knows all announcements instances.                                                                                                                                       |
 | Step 12 : asks for justification message                         | ... displaying the UI for the actor to input data?                         | ListRequestsUI           | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model.                                                                                |
 | Step 13 : submits message                                        | ... obtaining the owner's email?                                           | Request                  | Information Expert: knows all the information about a request.                                                                                                                               |
-|                                                                  | ... sending a notification to the agent informing about the visit request? | Notification             | **change**                                                                                                                                                                                   |
+|                                                                  | ... sending a notification to the agent informing about the visit request? | EmailNotification        | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model.                                                                                |
 | Step 14 : shows operation success                                | ... informing operation success?                                           | ListRequestsUI           | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model.                                                                                |
 
 ### Systematization ##
@@ -64,6 +64,7 @@ Other software classes (i.e. Pure Fabrication) identified:
  * RequestDto
  * CommissionTypeMapper
  * CommissionTypeDto
+ * EmailNotification
 
 
 ## 3.2. Sequence Diagram (SD)
