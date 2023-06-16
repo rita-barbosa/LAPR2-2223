@@ -202,15 +202,17 @@ public class AgencyRepository implements Serializable {
         }
     }
 
-    public List<Integer> getDealsNumberOfAgencies() {
+    public Partition getDealsNumberOfAgencies() {
         try {
             List<Integer> listOfDeals = new ArrayList<>(Collections.nCopies(agencies.size(), 0));
             for (Agency agency : agencies) {
                 int agencyId = agency.getId();
                 int dealsNumber = agency.getNumberOfDeals();
+                System.out.println(dealsNumber);
                 listOfDeals.set(agencyId - 1, dealsNumber);
             }
-            return listOfDeals;
+            Partition p = new Partition(listOfDeals);
+            return p;
         } catch (IndexOutOfBoundsException e) {
             throw new IndexOutOfBoundsException("Invalid agency ID.");
         }

@@ -13,6 +13,8 @@ public class Partition {
 
     public Partition(List<Integer> numbers) {
         this.listOfDeals = numbers;
+        calculatePartitions(listOfDeals);
+        System.out.println(minDifference);
     }
 
     public int getMinDifference() {
@@ -20,8 +22,6 @@ public class Partition {
     }
 
     public List<String> getSubLists() {
-        calculatePartitions(listOfDeals);
-
         List<String> subListsString = new ArrayList<>();
         subListsString.add(this.getPartitionInfo(this.subList1, 1));
         subListsString.add(this.getPartitionInfo(this.subList2, 2));

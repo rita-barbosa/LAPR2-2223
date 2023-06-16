@@ -35,7 +35,7 @@ public class SubdivideAgenciesController {
     }
 
     public List<String> getAgenciesPartitions(){
-        Partition p = new Partition(agencyRepository.getDealsNumberOfAgencies());
+        Partition p = getAgencyRepository().getDealsNumberOfAgencies();
         return p.getSubLists();
     }
 

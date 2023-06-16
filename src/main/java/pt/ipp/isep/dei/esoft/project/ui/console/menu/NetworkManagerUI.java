@@ -1,5 +1,6 @@
 package pt.ipp.isep.dei.esoft.project.ui.console.menu;
 
+import javafx.application.Application;
 import pt.ipp.isep.dei.esoft.project.ui.console.DisplayAgenciesUI;
 import pt.ipp.isep.dei.esoft.project.ui.console.ListDealsNetworkUI;
 import pt.ipp.isep.dei.esoft.project.ui.console.SubdivideAgenciesUI;
@@ -22,7 +23,15 @@ public class NetworkManagerUI implements Runnable {
             option = Utils.showAndSelectIndex(options, "\n\nNetwork Manager Menu:");
 
             if ((option >= 0) && (option < options.size())) {
-                options.get(option).run();
+                if (options.get(option).getGui() == null) {
+                    options.get(option).run();
+                } else if (options.get(option).getUi() == null) {
+                    try {
+                        Application.launch(options.get(option).getGui().getClass());
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
             }
         } while (option != -1);
     }

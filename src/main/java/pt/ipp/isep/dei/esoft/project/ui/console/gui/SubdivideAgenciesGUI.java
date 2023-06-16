@@ -39,10 +39,10 @@ public class SubdivideAgenciesGUI implements Initializable {
         } catch (IndexOutOfBoundsException e) {
             lblWarning.setText("ERROR: " + e.getMessage());
         } catch (Exception e) {
-            lblWarning.setText("ERROR: Couldn't generate subsets.");
+            lblWarning.setText( e.getMessage());
         }
     }
-
+//"ERROR: Couldn't generate subsets."+
     private void displaysList(List<String> sublistStringList) {
         txtAreaSubset1.setText(sublistStringList.get(0));
         txtAreaSubset2.setText(sublistStringList.get(1));
