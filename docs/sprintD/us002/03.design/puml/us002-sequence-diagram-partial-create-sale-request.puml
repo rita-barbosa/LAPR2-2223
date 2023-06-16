@@ -11,12 +11,12 @@ participant "request\n:Request" as REQUEST
 
 
 
-autonumber 42
+autonumber 46
 
         -> AGENCY: createSaleRequest(announcementDto, propertyType,agent)
          activate AGENCY
 
-autonumber 42.1
+autonumber 46.1
 
     group Create Request
 
@@ -64,20 +64,19 @@ autonumber 42.1
         deactivate DTO
         alt propertyType == land
 
-        MAPPER -> REQUEST **: createSaleRequest(propertyType, amount,\n area, streetName, city, district,\nstate, zipCode, distanceCityCenter,uriList,agent)
-        activate REQUEST
-            |||
-           ref over REQUEST
+        MAPPER -> MAPPER : createPropertySaleRequest(propertyType, amount,\n area, streetName, city, district,\nstate, zipCode, distanceCityCenter,uriList,agent)
+        activate MAPPER
+  |||
+           ref over MAPPER
 
                 Create Property Sale Request
 
            end ref
+        MAPPER --> MAPPER:
+        deactivate MAPPER
 
-        REQUEST --> MAPPER : request
-        deactivate REQUEST
-        end alt
-
-        alt propertyTypeDesignation = house || propertyTypeDesignation = apartment
+        |||
+        else propertyTypeDesignation = house || propertyTypeDesignation = apartment
 
             MAPPER -> DTO : numberBedrooms = getNumberBedrooms()
             activate DTO
@@ -96,23 +95,24 @@ autonumber 42.1
             deactivate DTO
 
 
-                alt propertyTypeDesignation = Apartment
-            MAPPER -> REQUEST **: createSaleRequest(propertyType, amount,\n area, streetName, city, district,\nstate, zipCode, distanceCityCenter,uriList,agent,\nnumberBedrooms,numberBathrooms,\nnumberParkingSpace,availableEquipmentDescriptionList)
-            activate REQUEST
+            opt propertyTypeDesignation = Apartment
+            MAPPER -> MAPPER: createResidenceSaleRequest(propertyType, amount,\n area, streetName, city, district,\nstate, zipCode, distanceCityCenter,uriList,agent,\nnumberBedrooms,numberBathrooms,\nnumberParkingSpace,availableEquipmentDescriptionList)
+            activate MAPPER
 
                   |||
-                  ref over REQUEST
+                  ref over MAPPER
 
                        Create Residence Sale Request
 
                   end ref
 
 
-            REQUEST --> MAPPER : request
-            deactivate REQUEST
-        end alt
+            MAPPER --> MAPPER : request
+            deactivate MAPPER
+            |||
+        end opt
 
-        alt propertyType = house
+        opt propertyType = house
 
             MAPPER -> DTO : existenceBasement = getBasement()
             activate DTO
@@ -126,20 +126,21 @@ autonumber 42.1
             activate DTO
             deactivate DTO
 
-             MAPPER -> REQUEST **: createSaleRequest(propertyType, amount,\n area, streetName, city, district,\nstate, zipCode, distanceCityCenter,uriList,agent,\nnumberBedrooms,numberBathrooms,\nnumberParkingSpace,availableEquipment,\nexistenceBasement,inhabitableLoft,sunExposure)
-             activate REQUEST
+            MAPPER -> MAPPER : createHouseSaleRequest(propertyType, amount,\n area, streetName, city, district,\nstate, zipCode, distanceCityCenter,uriList,agent,\nnumberBedrooms,numberBathrooms,\nnumberParkingSpace,availableEquipment,\nexistenceBasement,inhabitableLoft,sunExposure)
+            activate MAPPER
+              |||
+              ref over MAPPER
 
-                  |||
-                  ref over REQUEST
+                   Create House Sale Request
 
-                       Create House Sale Request
+              end ref
 
-                  end ref
+            MAPPER --> MAPPER : request
+            deactivate MAPPER
 
-            REQUEST --> MAPPER : request
-            deactivate REQUEST
+
              |||
-             end alt
+             end opt
 
             |||
              end alt
@@ -165,7 +166,7 @@ autonumber 42.1
     |||
     end
 
-autonumber 43
+autonumber 47
         <-- AGENCY: request
         deactivate AGENCY
 

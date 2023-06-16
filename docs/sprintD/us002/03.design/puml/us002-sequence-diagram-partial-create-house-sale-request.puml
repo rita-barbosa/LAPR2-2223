@@ -3,6 +3,7 @@ skinparam monochrome true
 skinparam packageStyle rectangle
 skinparam shadowing false
 
+participant "announcementMapper\n:AnnouncementMapper" as MAPPER
 participant "request\n:Request" as REQUEST
 participant "house\n:House" as HOUSE
 participant "location\n:Location" as LOCATION
@@ -11,15 +12,17 @@ participant "photograph\n:Photograph" as PHOTO
 participant "business\n:Business" as BUSINESS
 
 
-autonumber 42
+autonumber 46.23
 
-       -> REQUEST **: createSaleRequest(propertyType, amount,\n area, streetName, city, district,\nstate, zipCode, distanceCityCenter,\nnumberBedrooms,numberBathrooms,\nnumberParkingSpace,availableEquipmentDescriptionList,\nexistenceBasement,inhabitableLoft,sunExposure)
-       activate REQUEST
+            -> MAPPER : createSaleRequest(propertyType, amount,\n area, streetName, city, district,\nstate, zipCode, distanceCityCenter,uriList,agent,\nnumberBedrooms,numberBathrooms,\nnumberParkingSpace,availableEquipment,\nexistenceBasement,inhabitableLoft,sunExposure)
+            activate MAPPER
 
-autonumber 42.1
+autonumber 46.23.1
 
     group Create House Sale Request
 
+        MAPPER -> REQUEST **: createSaleRequest(propertyType, amount,\n area, streetName, city, district,\nstate, zipCode, distanceCityCenter,\nnumberBedrooms,numberBathrooms,\nnumberParkingSpace,availableEquipmentDescriptionList,\nexistenceBasement,inhabitableLoft,sunExposure)
+        activate REQUEST
 
              REQUEST -> BUSINESS** : createBusiness(amount)
 
@@ -94,11 +97,13 @@ autonumber 42.1
             HOUSE --> REQUEST : house
             deactivate HOUSE
 
+            REQUEST --> MAPPER : request
+            deactivate REQUEST
     end
 
-autonumber 43
-        <--  REQUEST : request
-        deactivate REQUEST
+autonumber 46.24
+         <--  MAPPER : request
+         deactivate MAPPER
 
 
 @enduml

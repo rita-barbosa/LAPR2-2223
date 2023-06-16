@@ -147,8 +147,8 @@ As an agent, I can publish any sale announcement on the system, for example rece
 
 * There is a dependency to "US003 Register a new employee" since at least an agent has to be registered so that an
   announcement
-* can be published. Additionally, there is also a dependency to "US005 - Register new agency" because an agency needs to
-* exist so that an employee can registered, and an announcement can be published.
+ can be published. Additionally, there is also a dependency to "US005 - Register new agency" because an agency needs to
+exist so that an employee can registered, and an announcement can be published.
 
 ### 1.5 Input and Output Data
 

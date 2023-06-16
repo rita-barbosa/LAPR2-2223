@@ -12,12 +12,12 @@ participant "agencyRepository\n:AgencyRepository" as AgencyRepository
 participant "agency\n:Agency" as AGENCY
 
 
-autonumber 34
+autonumber 36
 
              -> CTRL : getAgencyByEmployeeEmail(email)
              activate CTRL
 
-autonumber 34.1
+autonumber 36.1
 
     group Get Agency
 
@@ -49,7 +49,7 @@ autonumber 34.1
              deactivate AgencyRepository
     end
 
-autonumber 35
+autonumber 37
 
     <-- CTRL : agency
 

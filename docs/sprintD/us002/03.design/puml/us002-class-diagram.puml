@@ -19,6 +19,9 @@ class Property
     - Double distanceCityCentre
     - Double area
     + Property(propertyType, area, distanceCityCenter, photograph,\n streetName, city, district, state, zipCode)
+    - addPhotograph(photograph)
+    - validatePhotograph(photograph)
+    - fillPhotographList(uriList)
 }
 class Location
 {
@@ -28,6 +31,7 @@ class Location
     - String state
     - Integer zipCode
     + Location(streetName, city, district, state,zipCode)
+    -validateLocation(location)
 }
 class Photograph
 {
@@ -37,7 +41,7 @@ class Photograph
 class AvailableEquipment
 {
     - List<String> description
-    - addAvailableEquipment(availableEquipmentList)
+    - AvailableEquipment(availableEquipmentDescription)
 }
 
 class UserSession
@@ -50,7 +54,8 @@ class Employee {
 }
 
 class Announcement {
-    - LocalDate acceptanceDate
+   - LocalDate acceptanceDate
+  - Integer id
     + Announcement(agent, commissionType, commissionValue, request)
     + sendSMS()
 }
@@ -65,7 +70,9 @@ class Request
 {
     - LocalDate requestDate
     - String ownerEmail
-    + Request(ownerEmail, propertyType,streetName, city, district, state,\nzipCode, distanceCityCentre, price, photograph,numberBedroom,\nnumberParkingSpace,existenceBasement,inhabitableLoft, numberBathroom,\n availableEquipment, sunExposure)
+    + Request(propertyType, amount,\n area, streetName, city, district,\nstate, zipCode, distanceCityCenter,uriList,agent)
+    + Request(propertyType, amount,\n area, streetName, city, district,\nstate, zipCode, distanceCityCenter,uriList,agent,\nnumberBedrooms,numberBathrooms,\nnumberParkingSpace,availableEquipmentDescriptionList)
+    + Request(propertyType, amount,\n area, streetName, city, district,\nstate, zipCode, distanceCityCenter,uriList,agent,\nnumberBedrooms,numberBathrooms,\nnumberParkingSpace,availableEquipment,\nexistenceBasement,inhabitableLoft,sunExposure)
 
 }
 class Agency {
@@ -79,7 +86,7 @@ class Agency {
     - validateRequest(request)
     + anyAgentHasEmail(email)
     + publishAnnouncement(agent, commissionType, commissionValue, request)
-    + createSaleRequest(ownerEmail, propertyType,businessType, streetName, city, district, state, zipCode, area, distanceCityCentre,\n price, photograph,numberBedroom,numberParkingSpace, existenceBasement,inhabitableLoft,\nnumberBathroom, availableEquipment, sunExposure)
+    + createSaleRequest(announcementDto, propertyType,agent)
 }
 class AnnouncementList{
  + addAnnouncement(announcement)
@@ -153,6 +160,9 @@ class Residence
     - Integer numberBedroom
     - Integer numberParkingSpace
     + Residence(propertyType, area, availableEquipment, streetName, \ncity, district, state,zipCode, parkingSpace, numberBedroom,\n numberBathroom, distanceCityCenter, photograph)
+    - fillAvailableEquipmentList(availableEquipmentDescriptionList)
+    - addAvailableEquipment(availableEquipment)
+    - validateAvailableEquipment(availableEquipment)
 }
 class House
 {
@@ -212,6 +222,9 @@ class AnnouncementDto {
 }
 class AnnouncementMapper{
 + toModelRequest(announcementDto,propertyType)
+- createPropertySaleRequest(propertyType, amount,\n area, streetName, city, district,\nstate, zipCode, distanceCityCenter,uriList,agent)
+- createResidenceSaleRequest(propertyType, amount,\n area, streetName, city, district,\nstate, zipCode, distanceCityCenter,uriList,agent,\nnumberBedrooms,numberBathrooms,\nnumberParkingSpace,availableEquipmentDescriptionList)
+- createHouseSaleRequest(propertyType, amount,\n area, streetName, city, district,\nstate, zipCode, distanceCityCenter,uriList,agent,\nnumberBedrooms,numberBathrooms,\nnumberParkingSpace,availableEquipment,\nexistenceBasement,inhabitableLoft,sunExposure)
 }
 
 

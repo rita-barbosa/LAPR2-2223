@@ -18,14 +18,23 @@
 |                                                                   | ... fetching the agency that has the user (agent) email?                 | AgencyRepository              | Information Expert: contains all the agencies; Pure Fabrication.                                              |
 |                                                                   | ... verifying if there is any agent that has the user email in a agency? | Agency                        | Information Expert: knows all its agents (employees).                                                         |
 |                                                                   | ... obtaining the agent of said agency with the user email               | Agency                        | Information Expert: knows all its agents.                                                                     |
+|                                                                   | ... fetching the property type designation?                              | AnnouncementDto               | DTO pattern; Information Expert: knows its own data.                                                          |
 |                                                                   | ... getting a property type object by designation?                       | PropertyTypeRepository        | Information Expert: knows the property types and has its descriptions; Pure Fabrication.                      |
-|                                                                   | ... creating a Property (Residence or House) object?                     | Request                       | Creator (Rule 1/4): in the Domain Model Request has information about Property.                               |
-|                                                                   | ... instantiating a new Location?                                        | Property                      | Creator (Rule 1): in the Domain Model Property contains Location.                                             |
+|                                                                   | ... obtaining the necessary information to create a new request?         | AnnouncementDto               | DTO pattern                                                                                                   |
+|                                                                   | ... instantiating a new Request instance?                                | AnnouncementMapper            | DTO pattern                                                                                                   |
 |                                                                   | ... instantiating a new Business?                                        | Request                       | Creator (Rule 1): in the Domain Model Request aggregates Business                                             |
+|                                                                   | ... creating a Property (Residence or House) object?                     | Request                       | Creator (Rule 1): in the Domain Model Request contains Property.                                              |
 |                                                                   | ... instantiating a new Photograph?                                      | Property                      | Creator (Rule 1): in the Domain Model Property contains Photograph.                                           |
+|                                                                   | ... saving the new Photograph instance?                                  | Property                      | Information Expert: has its own photographs.                                                                  |
+|                                                                   | ... validating duplicated photographs?                                   | Property                      | Information Expert: knows its own photographs.                                                                |
+|                                                                   | ... instantiating a new Location?                                        | Property                      | Creator (Rule 1): in the Domain Model Property contains Location.                                             |
+|                                                                   | ... validating the location data?                                        | Location                      | Information Expert : knows its own data.                                                                      |
 |                                                                   | ... instantiating a new AvailableEquipment?                              | Residence                     | Creator (Rule 1): in the Domain Model Residence contains AvailableEquipment.                                  |
+|                                                                   | ... saving the new AvailableEquipment instance?                          | Property                      | Information Expert: has its own AvailableEquipment.                                                           |
+|                                                                   | ... validating duplicated photographs?                                   | Property                      | Information Expert: knows its own AvailableEquipment.                                                         |
 |                                                                   | ... saving the created request?                                          | Agency                        | Agency: owns all its requests.                                                                                |
 |                                                                   | ... globally validating duplicated requests?                             | Agency                        | Information Expert: knows all requests.                                                                       |
+|                                                                   | ... fetching the commission type designation?                            | AnnouncementDto               | DTO pattern; Information Expert: knows its own data.                                                          |
 |                                                                   | ... getting a commission type object by designation?                     | CommissionRepository          | Information Expert: knows the commission types and has its descriptions; Pure Fabrication.                    |
 |                                                                   | ... publishing an announcement?                                          | Agency                        | Information Expert: owns all its announcements.                                                               |
 |                                                                   | ... instantiating a new announcement?                                    | Agency                        | Creator (Rule 1): in the Domain Model Agency owns Announcements.                                              |
@@ -92,7 +101,6 @@ It uses interaction occurrence.
 
 ![Sequence Diagram - Partial - Create Sale Request ](svg/us002-sequence-diagram-partial-create-sale-request.svg)
 
-
 **Create Property Sale Request SD**
 
 ![Sequence Diagram - Partial - Create Property Sale Request ](svg/us002-sequence-diagram-partial-create-property-sale-request.svg)
@@ -100,7 +108,6 @@ It uses interaction occurrence.
 **Create Residence Sale Request SD**
 
 ![Sequence Diagram - Partial - Create Residence Sale Request ](svg/us002-sequence-diagram-partial-create-residence-sale-request.svg)
-
 
 **Create House Sale Request SD**
 

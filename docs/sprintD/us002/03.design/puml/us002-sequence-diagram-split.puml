@@ -225,7 +225,7 @@ activate ADM
         activate AGENCY
 
         ref over AGENCY
-        Create Request
+        Create Sale Request
         end ref
 
         AGENCY -->CTRL : request
