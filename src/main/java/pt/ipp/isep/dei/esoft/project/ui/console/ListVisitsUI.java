@@ -3,8 +3,6 @@ package pt.ipp.isep.dei.esoft.project.ui.console;
 import pt.ipp.isep.dei.esoft.project.application.controller.ListVisitsController;
 import pt.ipp.isep.dei.esoft.project.domain.dto.VisitDto;
 
-import java.io.IOException;
-
 import java.time.LocalDate;
 import java.util.*;
 
@@ -82,16 +80,17 @@ public class ListVisitsUI implements Runnable {
         beginDate = requestBeginDate();
         endDate = requestEndDate();
         if (beginDate != null && endDate != null){
-            if (endDate.isBefore(beginDate)){
-                System.out.println("\nInvalid date range.\n");
-                return;
+            while (endDate.isBefore(beginDate)){
+                System.out.println("\nERROR: INVALID DATE RANGE!!!\nSELECT THE BEGIN DATE AND THE END DATE AGAIN!\n");
+                beginDate = requestBeginDate();
+                endDate = requestEndDate();
             }
         }
         Optional<List<VisitDto>> listVisitsDto;
         try {
             listVisitsDto = controller.getVisitRequestsList(beginDate, endDate);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            throw new RuntimeException();
         }
         if (listVisitsDto.isPresent()){
             System.out.println("Booking requests:\n");
