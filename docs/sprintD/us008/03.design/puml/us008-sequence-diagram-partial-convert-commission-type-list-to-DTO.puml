@@ -10,13 +10,13 @@ participant "commissionType\n: CommissionType" as ComType
 participant "listCommissionType\n: List<CommissionTypeDto>" as ComTypeList
 participant "commissionTypeDto\n: CommissionTypeDto" as ComTypeDto
 
-autonumber 32
-    -> CTRL: toDto(commissionTypeList)
+autonumber 3
+    -> CTRL:4 toDto(commissionTypeList)
     activate CTRL
 
 group Convert commission type list to DTO
 
-autonumber 32.1
+autonumber 34.1
 
 
     CTRL -> ComTypeMapper : toDto(commissionTypeList)
@@ -55,7 +55,7 @@ end loop
 
 
 end group
-autonumber 33
+autonumber 35
      <-- CTRL: commissionTypeListDto
      deactivate CTRL
 

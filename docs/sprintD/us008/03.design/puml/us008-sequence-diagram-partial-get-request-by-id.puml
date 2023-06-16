@@ -11,13 +11,13 @@ participant "requestList\n: RequestList" as ReqList
 participant "request\n: Request" as REQUEST
 
 
-autonumber 24
+autonumber 26
     -> CTRL: getRequestByID(requestId)
     activate CTRL
 
 group Get request by ID
 
-autonumber 24.1
+autonumber 26.1
 
     CTRL -> AgencyRepository: getRequestByID(requestId)
     activate AgencyRepository
@@ -52,7 +52,7 @@ autonumber 24.1
     deactivate AgencyRepository
 
 end group
-autonumber 25
+autonumber 27
      <-- CTRL: request
      deactivate CTRL
 

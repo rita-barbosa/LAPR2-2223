@@ -40,6 +40,10 @@ activate ADM
 
          CTRL --> CTRL : agentEmail
          deactivate CTRL
+         |||
+
+         CTRL -> CTRL :getRequestsListByAgentEmail(agentEmail)
+         activate CTRL
 
         CTRL -> PLAT : getAgencyRepository()
         activate PLAT
@@ -72,6 +76,7 @@ activate ADM
         AGENCY --> CTRL : requestList
         deactivate AGENCY
 
+        |||
 
         CTRL -> CTRL : toDto(requestList)
         activate CTRL
@@ -79,6 +84,10 @@ activate ADM
         ref over CTRL
         Convert Request List to DTO
         end ref
+
+        CTRL --> CTRL : requestListDto
+        deactivate CTRL
+
 
         CTRL --> CTRL : requestListDto
         deactivate CTRL
@@ -97,7 +106,7 @@ activate ADM
     ADM -> UI : selects a request
     activate UI
 
-    UI -> CTRL : getRequestByIdDto(requestIdDto)
+    UI -> CTRL : getRequestByIdDto(requestIndex)
     activate CTRL
 
     CTRL -> ReqMapper : requestId =  getRequestIdFromDto(requestIdDto)
@@ -135,7 +144,7 @@ activate ADM
 
     alt option == accept
 
-          UI -> CTRL : getCommissionTypeLis()
+          UI -> CTRL : getCommissionTypeListDto()
           activate CTRL
 
           CTRL -> CTRL : getCommissionTypeList()
@@ -184,7 +193,7 @@ activate ADM
             activate CTRL
 
 
-            CTRL -> AGENCY: getAgentByEmail(email, agency)
+            CTRL -> AGENCY: getAgentByEmail(email)
             activate AGENCY
 
             AGENCY --> CTRL : agent
@@ -222,35 +231,35 @@ activate ADM
             ADM -> UI : submits message
             activate UI
 
-            UI -> CTRL : getOwnerEmail()
+            UI -> CTRL : defineJustificationMessage(message, request)
             activate CTRL
 
-            CTRL -> AGENCY : getOwnerEmail()
-            activate AGENCY
-
-            AGENCY -> REQUEST : getOwnerEmail()
+            CTRL -> REQUEST : defineJustificationMessage(message)
             activate REQUEST
 
-            REQUEST --> AGENCY : ownerEmail
+            REQUEST --> CTRL : justificationMessage
             deactivate REQUEST
 
-            AGENCY --> CTRL : ownerEmail
-            deactivate AGENCY
-
-            CTRL --> UI : ownerEmail
+            CTRL --> UI : justificationMessage
             deactivate CTRL
 
-            UI -> CTRL : sendEmail(ownerEmail, message)
+            UI -> CTRL : sendEmail(request)
             activate CTRL
 
-            CTRL -> REQUEST : sendEmail(ownerEmail, message)
+            CTRL -> REQUEST : sendEmail()
             activate REQUEST
 
-            REQUEST -> Notification : sendNotification(ownerEmail)
-            activate Notification
+            REQUEST -> REQUEST : getOwnerEmail()
+            activate REQUEST
 
-            Notification --> REQUEST : confirmation
-            deactivate Notification
+            REQUEST --> REQUEST : ownerEmail
+            deactivate REQUEST
+
+            REQUEST -> EmailNotification : sendNotification(ownerEmail, justificationMessage)
+            activate EmailNotification
+
+            EmailNotification --> REQUEST : confirmation
+            deactivate EmailNotification
 
             REQUEST --> CTRL : confirmation
             deactivate REQUEST

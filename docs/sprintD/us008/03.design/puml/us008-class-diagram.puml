@@ -23,6 +23,8 @@ class UserSession {
 '}
 
 class CommissionTypeRepository {
+    - double commissionValue
+
     + getCommissionTypeList()
     + getCommissionTypeByDesignation(designation)
 }
@@ -42,10 +44,19 @@ class Repositories {
 class ListRequestsController {
     + ListRequestsController(organizationRepository, taskCategoryRepository)
     + getTaskCategories()
+    + getRequestByIdDto(requestIndex)
+    + getCommissionTypeListDto()
+    + getCommissionTypeList()
+    + publishAnnouncement(commissionTypeDesignation, commissionValue, request, email)
+    + defineJustificationMessage(message, request)
+    + sendEmail(request)
     - getEmployeeFromSession()
-    - getRequestsListByAgentEmail()
-    - getRequestById(requestIdDto)
-
+    - getRequestsListByAgentEmail(agentEmail)
+    - getAgentEmail()
+    - toDto(requestList)
+    - getRequestByID(requestId)
+    - toDto(commissionTypeList)
+    - getCommissionTypeByDescription(commissionTypeDesignation)
 }
 
 class ListRequestsUI {
@@ -57,6 +68,8 @@ class Email{
 
 class Announcement{
     - LocalDate acceptanceDate
+    - String commissionTypeDesignation
+    - Double commissionValue
     + Announcement(agent, commissionType, commissionValue, request)
 }
 
@@ -65,9 +78,20 @@ class Commission{
     + Commission(commissionValue, commissionType)
 }
 
+class CommissionTypeRepository {
+    + getCommissionTypeList()
+    + getCommissionTypeByDesignation(designation)
+}
+
 class Agency{
+    - integer id
+    - String designation
+    - String emailAddress
+    - String phoneNumber
+
     + getAgentByEmail(email, agency)
-    - anyAgentHasEmail(agentEmail)
+    + anyAgentHasEmail(agentEmail)
+    + publishAnnouncement(agent, commissionType commissionValue, request)
 }
 
 class Request{
@@ -83,6 +107,7 @@ class Request{
 +getOwnerEmail()
 +sendEmail(ownerEmail, message)
 +hasSameId(id)
++ sendNotification(ownerEmail, justificationMessage)
 }
 
 class RequestList{
@@ -95,31 +120,41 @@ class RequestList{
 
 class RequestMapper{
 +toDto(request)
-+add()
++add(requestDto)
 }
 
 class RequestDto{
++List<RequestDto> requestListDto
 -propertyAttributes
 -businessAttributes
 -id
+-requestDate
 
 +RequestDto(request)
 +getPropertyAttributes()
 +getBusinessAttributes()
 +getRequestDate()
 +getRequestIdFromDto()
++RequestDto(propertyAttributes, businessAttributes, requestDate, requestID)
 }
 
 interface Notification{
 }
 
-class CommissionMapper{
+class EmailNotification implements Notification{
++sendNotification(ownerEmail, justificationMessage)
+}
+
+class CommissionTypeMapper{
 +toDto(commissionTypeList)
-+getCommissionType()
+
 }
 
 class CommissionTypeDto{
++List<CommissionTypeDto> listCommissionTypeDto
+-String commissionType
 +CommissionTypeDto(commissionTypeList)
++getCommissionType()
 
 }
 
@@ -144,16 +179,17 @@ ListRequestsController ..> ApplicationSession
 ListRequestsController ..> UserSession
 
 ListRequestsController ..> RequestMapper
-ListRequestsController ..> CommissionMapper
+ListRequestsController ..> CommissionTypeMapper
 ListRequestsController --> Announcement
 ListRequestsController -> Request
-Agency --> RequestList
-RequestList --> Request
+Agency --> "1" RequestList
+RequestList "1" --> "*" Request
 Request .> Notification
 CommissionTypeRepository -> Commission
 Announcement --> Commission
-CommissionMapper ..> CommissionTypeDto
-RequestMapper .> RequestDto
+CommissionTypeMapper ..> CommissionTypeDto
+RequestMapper ..> RequestDto
+CommissionType "1" <--- Commission : isCategorized
 
 
 

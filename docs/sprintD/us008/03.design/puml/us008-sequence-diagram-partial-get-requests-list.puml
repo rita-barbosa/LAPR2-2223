@@ -10,12 +10,12 @@ participant "requestList\n: RequestList" as ReqList
 participant "requestMapper\n: RequestMapper" as ReqMapper
 participant "request\n: Request" as REQUEST
 
-autonumber 12
+autonumber 13
     -> AGENCY: getRequestListByAgentEmail(agentEmail)
     activate AGENCY
 
 group Get Requests List
-autonumber 12.1
+autonumber 13.1
 
         AGENCY -> ReqList : getRequestsListByAgentEmail(agentEmail)
         activate ReqList
@@ -27,7 +27,13 @@ autonumber 12.1
          REQUEST --> ReqList : true/false
          deactivate REQUEST
 
-             alt true
+         ReqList -> REQUEST : getValidationStatus()
+          activate REQUEST
+
+          REQUEST --> ReqList : true/false
+          deactivate REQUEST
+
+             alt hasAgentWithEmail(agentEmail) = true & getValidationStatus() = true
              ReqList -> ReqList : add(request)
              activate ReqList
 
@@ -48,7 +54,7 @@ autonumber 12.1
 
 
 end group
-autonumber 13
+autonumber 14
      <-- AGENCY: requestList
      deactivate AGENCY
 

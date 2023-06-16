@@ -7,12 +7,12 @@ participant "agency\n:Agency" as AGENCY
 participant "announcement\n:Announcement" as AD
 participant "commission\n:Commission" as COMMISSION
 
-autonumber 46
+autonumber 48
 
              -> AGENCY : publishAnnouncement(agent,commissionType, commissionValue, request)
              activate AGENCY
 
-autonumber 46.1
+autonumber 48.1
 
     group Publish announcement
 
@@ -38,7 +38,7 @@ autonumber 46.1
             deactivate  AGENCY
     end
 
-autonumber 47
+autonumber 49
 
     <-- AGENCY : announcement
     deactivate AGENCY

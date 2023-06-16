@@ -13,12 +13,12 @@ participant "repositories\n:Repositories" as PLAT
 participant "commissionTypeRepository\n:CommissionTypeRepository" as CommissionTypeRepository
 
 
-autonumber 30
+autonumber 32
 
             -> CTRL :  getCommissionTypeList()
             activate CTRL
 
-autonumber 30.1
+autonumber 32.1
 
     group Get Commission Type List
 
@@ -42,7 +42,7 @@ autonumber 30.1
 
     end
 
-autonumber 31
+autonumber 313
 
     <-- CTRL : commissionTypeList
     deactivate CTRL
