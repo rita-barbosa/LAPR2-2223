@@ -43,6 +43,18 @@ class AgencyRepository{
 }
 
 class Agency{
+    - integer id
+    - String designation
+    - String emailAddress
+    - String phoneNumber
+
+    +getAnnouncementList()
+
+}
+
+class AnnouncementList{
++List<Announcement> listAnnouncements
++sortAnnouncementsByMostRecentAcceptanceDate(announcementList)
 +announcementHasTypeBusiness(announcementList, businessType)
 +announcementHasTypeProperties(announcementList, propertyType)
 +announcementHasNumberBedrooms(announcementList, numberBedrooms)

@@ -14,6 +14,8 @@ participant "repositories\n:Repositories" as PLAT
 participant "criteriaRepository\n:CriteriaRepository" as CRITERIAREP
 participant "agencyRepository\n: AgencyRepository" as AGENCYREP
 participant "agency\n: Agency" as AGENCY
+participant "announcementList\n: AnnouncementList" as LISTCLASS
+participant "listAnnouncements\n: List<Announcement>" as AnnounceList
 
 
 activate User
@@ -38,29 +40,82 @@ activate User
          PLAT --> CTRL : agencyRepository
          deactivate PLAT
 
-         CTRL -> AGENCYREP : getAgenciesList()
-         activate AGENCYREP
+'         CTRL -> AGENCYREP : getAgenciesList()
+'         activate AGENCYREP
+'
+'         AGENCYREP --> CTRL : agencieslist
+'         deactivate AGENCYREP
 
-         AGENCYREP --> CTRL : agencieslist
-         deactivate AGENCYREP
+
+'         loop for each agency
+'         CTRL -> CTRL : getAnnouncementList()
+'         activate CTRL
+'
+'         CTRL -> AGENCY : getAnnouncementList()
+'         activate AGENCY
+'
+'         AGENCY --> CTRL : announcementList
+'         deactivate AGENCY
+'
+'         CTRL --> CTRL : add(announcementList)
+'         deactivate CTRL
+'         |||
+'         end
+
+         CTRL -> AGENCYREP : getAllAnnouncementsList()
+                 activate AGENCYREP
+
+                 AGENCYREP -> AnnounceList** : announcementList = create()
+
+                loop for all agencies
+
+                     AGENCYREP -> AGENCY : getAnnouncementList()
+                     activate AGENCY
+
+                     AGENCY -> LISTCLASS : getAnnouncementList()
+                     activate LISTCLASS
+
+                         LISTCLASS --> AGENCY : announcementList
+                     deactivate LISTCLASS
+
+                         AGENCY --> AGENCYREP : announcementList
+                     deactivate AGENCY
+                     AGENCYREP -> AnnounceList : addAll(announcementList)
+                     activate AnnounceList
+                     deactivate AnnounceList
+         |||
+                end loop
+
+                     AGENCYREP -> LISTCLASS : sortAnnouncementsByMostRecentAcceptanceDate(announcementList)
+                     activate LISTCLASS
+
+                         LISTCLASS --> AGENCYREP : announcementList
+                     deactivate LISTCLASS
+         |||
 
 
-         loop for each agency
-         CTRL -> AGENCY : getAnnouncementList()
-         activate AGENCY
+                     AGENCYREP --> CTRL : announcementList
+                 deactivate AGENCYREP
 
-         AGENCY --> CTRL : announcementList
-         deactivate AGENCY
+'         CTRL -> LISTCLASS : getAnnouncementsByMostRecentAdded(announcementList)
+'         activate LISTCLASS
+'
+'         LISTCLASS -> LISTCLASS : sortByMostRecentAdded(announcementList)
+'         activate LISTCLASS
 
-         end
+'         LISTCLASS --> LISTCLASS : announcementList
+'         deactivate LISTCLASS
+'
+'         LISTCLASS --> CTRL : announcementList
+'         deactivate LISTCLASS
 
-         CTRL -> CTRL : sortByMostRecentAdded(announcementList)
-         activate CTRL
-         deactivate CTRL
-
-         CTRL -> CTRL : announcementList
-         activate CTRL
-         deactivate CTRL
+'         CTRL -> CTRL : sortByMostRecentAdded(announcementList)
+'         activate CTRL
+'         deactivate CTRL
+'
+'         CTRL -> CTRL : announcementList
+'         activate CTRL
+'         deactivate CTRL
 
          CTRL --> UI : announcementList
          deactivate CTRL
@@ -110,30 +165,30 @@ activate User
         UI -> CTRL :  getAnnouncementsByBusinessType(announcementsList, businessType)
         activate CTRL
 
-        CTRL -> AGENCY : getAnnouncementsByBusinessType(announcementList, businessType)
-        activate AGENCY
+        CTRL -> AnnounceList : getAnnouncementsByBusinessType(announcementList, businessType)
+        activate AnnounceList
 
         loop for each announcement
 
-            AGENCY -> AGENCY : announcementHasBusinessType(announcementList,\n businessType)
-            activate AGENCY
+            AnnounceList -> AnnounceList : announcementHasBusinessType(announcementList,\n businessType)
+            activate AnnounceList
 
-            AGENCY --> AGENCY: true/false
-            deactivate AGENCY
+            AnnounceList --> AnnounceList: true/false
+            deactivate AnnounceList
 
             alt false
-            AGENCY -> AGENCY : removeAnnouncement(announcementList)
-            activate AGENCY
+            AnnounceList -> AnnounceList : removeAnnouncement(announcementList)
+            activate AnnounceList
 
-            AGENCY --> AGENCY: announcementList
-            deactivate AGENCY
+            AnnounceList --> AnnounceList: announcementList
+            deactivate AnnounceList
             |||
            end
         |||
         end
 
-        AGENCY --> CTRL : announcementList
-        deactivate AGENCY
+        AnnounceList --> CTRL : announcementList
+        deactivate AnnounceList
 
         CTRL --> UI : announcementList
         deactivate CTRL
@@ -157,29 +212,29 @@ activate User
     activate CTRL
 
 
-    CTRL -> AGENCY : getAnnouncementsByPropertyType(announcementList, propertyType)
-    activate AGENCY
+    CTRL -> AnnounceList : getAnnouncementsByPropertyType(announcementList, propertyType)
+    activate AnnounceList
 
     loop for each announcement
-        AGENCY -> AGENCY : announcementHasPropertyType(announcementList, \npropertyType)
-        activate AGENCY
+        AnnounceList -> AnnounceList : announcementHasPropertyType(announcementList, \npropertyType)
+        activate AnnounceList
 
-        AGENCY --> AGENCY: true/false
-        deactivate AGENCY
+        AnnounceList --> AnnounceList: true/false
+        deactivate AnnounceList
 
         alt false
-            AGENCY -> AGENCY : removeAnnouncement(announcementList)
-            activate AGENCY
+            AnnounceList -> AnnounceList : removeAnnouncement(announcementList)
+            activate AnnounceList
 
-            AGENCY --> AGENCY: announcementList
-            deactivate AGENCY
+            AnnounceList --> AnnounceList: announcementList
+            deactivate AnnounceList
         |||
         end
         |||
     end
 
-        AGENCY --> CTRL : announcementList
-        deactivate AGENCY
+        AnnounceList --> CTRL : announcementList
+        deactivate AnnounceList
 
 
         CTRL --> UI : announcementList
@@ -190,9 +245,7 @@ activate User
         |||
     end
 
-    alt propertyType != land
-    |||
-    opt number of bedrooms
+    opt number of bedrooms & properType != land
         User -> UI : asks to select number of bedrooms
         activate UI
 
@@ -205,37 +258,35 @@ activate User
         UI -> CTRL :  getAnnouncementsByNumberBedrooms(announcementsList, numberBedrooms)
         activate CTRL
 
-        CTRL -> AGENCY : getAnnouncementsByNumberBedrooms(announcementList,\n numberBedrooms)
-        activate AGENCY
+        CTRL -> AnnounceList : getAnnouncementsByNumberBedrooms(announcementList,\n numberBedrooms)
+        activate AnnounceList
 
         loop for each announcement
-            AGENCY -> AGENCY : announcementHasNumberBedrooms(announcementList,\n numberBedrooms)
-            activate AGENCY
+            AnnounceList -> AnnounceList : announcementHasNumberBedrooms(announcementList,\n numberBedrooms)
+            activate AnnounceList
 
-            AGENCY --> AGENCY: true/false
-            deactivate AGENCY
+            AnnounceList --> AnnounceList: true/false
+            deactivate AnnounceList
 
             alt false
-            AGENCY -> AGENCY : removeAnnouncement(announcementList)
-            activate AGENCY
+            AnnounceList -> AnnounceList : removeAnnouncement(announcementList)
+            activate AnnounceList
 
-            AGENCY --> AGENCY: announcementList
-            deactivate AGENCY
+            AnnounceList --> AnnounceList: announcementList
+            deactivate AnnounceList
         |||
         end
     |||
     end
 
-    AGENCY --> CTRL : announcementList
-    deactivate AGENCY
+    AnnounceList --> CTRL : announcementList
+    deactivate AnnounceList
 
     CTRL --> UI : announcementList
     deactivate CTRL
 
     UI --> User : display all the listed properties, according to the \ncriteria chosen
     deactivate UI
-    |||
-    end
     |||
     end
 
@@ -253,32 +304,32 @@ activate User
         UI -> CTRL : getAnnouncementsByPrice(sortingType, announcementList)
         activate CTRL
 
-        CTRL -> AGENCY : getAnnouncementsByPrice(sortingType, announcementList)
-        activate AGENCY
+        CTRL -> AnnounceList : getAnnouncementsByPrice(sortingType, announcementList)
+        activate AnnounceList
 
 
         alt ascending price
 
-            AGENCY -> AGENCY : sortAnnouncementsByAscendingPrice(announcementList)
-            activate AGENCY
+            AnnounceList -> AnnounceList : sortAnnouncementsByAscendingPrice(announcementList)
+            activate AnnounceList
 
-            AGENCY --> AGENCY : announcementList
-            deactivate AGENCY
+            AnnounceList --> AnnounceList : announcementList
+            deactivate AnnounceList
 
             else descending price
 
-            AGENCY -> AGENCY : sortAnnouncementsByDescendingPrice(announcementList)
-            activate AGENCY
+            AnnounceList -> AnnounceList : sortAnnouncementsByDescendingPrice(announcementList)
+            activate AnnounceList
 
-            AGENCY --> AGENCY : announcementList
-            deactivate AGENCY
+            AnnounceList --> AnnounceList : announcementList
+            deactivate AnnounceList
 
             |||
         end
 
 
-        AGENCY --> CTRL : announcementList
-        deactivate AGENCY
+        AnnounceList --> CTRL : announcementList
+        deactivate AnnounceList
 
         CTRL --> UI : announcementList
         deactivate CTRL
@@ -301,31 +352,31 @@ activate User
         UI -> CTRL : getAnnouncementsByCity(sortingType, announcementList)
         activate CTRL
 
-        CTRL -> AGENCY : getAnnouncementsByCity(sortingType, announcementList)
-        activate AGENCY
+        CTRL -> AnnounceList : getAnnouncementsByCity(sortingType, announcementList)
+        activate AnnounceList
 
         alt ascending city
 
-            AGENCY -> AGENCY : sortAnnouncementsByAscendingCity(announcementList)
-            activate AGENCY
+            AnnounceList -> AnnounceList : sortAnnouncementsByAscendingCity(announcementList)
+            activate AnnounceList
 
-            AGENCY --> AGENCY : announcementList
-            deactivate AGENCY
+            AnnounceList --> AnnounceList : announcementList
+            deactivate AnnounceList
 
             else descending city
 
-            AGENCY -> AGENCY : sortAnnouncementsByDescendingCity(announcementList)
-            activate AGENCY
+            AnnounceList -> AnnounceList : sortAnnouncementsByDescendingCity(announcementList)
+            activate AnnounceList
 
-            AGENCY --> AGENCY : announcementList
-            deactivate AGENCY
+            AnnounceList --> AnnounceList : announcementList
+            deactivate AnnounceList
 
         |||
         end
 
 
-       AGENCY --> CTRL : announcementList
-       deactivate AGENCY
+       AnnounceList --> CTRL : announcementList
+       deactivate AnnounceList
 
        CTRL --> UI : announcementList
        deactivate CTRL
@@ -348,32 +399,32 @@ activate User
         UI -> CTRL : getAnnouncementsByState(sortingType, announcementList)
         activate CTRL
 
-        CTRL -> AGENCY : getAnnouncementsByState(sortingType, announcementList)
-        activate AGENCY
+        CTRL -> AnnounceList : getAnnouncementsByState(sortingType, announcementList)
+        activate AnnounceList
 
 
         alt ascending state
 
-            AGENCY -> AGENCY : sortAnnouncementsByAscendingState(announcementList)
-            activate AGENCY
+            AnnounceList -> AnnounceList : sortAnnouncementsByAscendingState(announcementList)
+            activate AnnounceList
 
-            AGENCY --> AGENCY : announcementList
-            deactivate AGENCY
+            AnnounceList --> AnnounceList : announcementList
+            deactivate AnnounceList
 
             else descending state
 
-            AGENCY -> AGENCY : sortAnnouncementsByDescendingState(announcementList)
-            activate AGENCY
+            AnnounceList -> AnnounceList : sortAnnouncementsByDescendingState(announcementList)
+            activate AnnounceList
 
-            AGENCY --> AGENCY : announcementList
-            deactivate AGENCY
+            AnnounceList --> AnnounceList : announcementList
+            deactivate AnnounceList
 
         |||
         end
 
 
-        AGENCY --> CTRL : announcementList
-        deactivate AGENCY
+        AnnounceList --> CTRL : announcementList
+        deactivate AnnounceList
 
         CTRL --> UI : announcementList
         deactivate CTRL
