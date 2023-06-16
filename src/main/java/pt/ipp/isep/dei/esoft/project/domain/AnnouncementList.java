@@ -48,8 +48,8 @@ public class AnnouncementList implements Serializable {
     public Boolean addAnnouncement(Announcement announcement) {
         Boolean success = false;
         if (validateAnnouncement(announcement)) {
+//            announcement.getRequest().setValidationStatus(true);
             announcements.add(announcement.clone());
-            announcement.getRequest().setValidationStatus(true);
             if (!announcement.isDeal()) {
                 success = announcement.sendSMS();
             } else {

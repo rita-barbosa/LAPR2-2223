@@ -148,7 +148,7 @@ public class RequestList implements Serializable {
      */
     public Optional<Request> getRequestById(Integer requestId) {
         for (Request a : requests) {
-            if (a.hasId(requestId)) {
+            if (a.hasId(requestId) && !a.getValidationStatus()) {
                 return Optional.of(a);
             }
         }
@@ -163,7 +163,7 @@ public class RequestList implements Serializable {
      */
     public Boolean anyRequestHasId(Integer requestId) {
         for (Request a : requests) {
-            if (a.hasId(requestId)) {
+            if (a.hasId(requestId) && !a.getValidationStatus()) {
                 return true;
             }
         }
