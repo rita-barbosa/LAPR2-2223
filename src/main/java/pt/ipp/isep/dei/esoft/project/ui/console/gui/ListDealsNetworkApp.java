@@ -14,7 +14,7 @@ public class ListDealsNetworkApp extends Application {
         Bootstrap bootstrap = new Bootstrap();
         bootstrap.run();
         FXMLLoader fxmlLoader = new FXMLLoader(ListDealsNetworkApp.class.getResource("ListDealsNetworkScene.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+        Scene scene = new Scene(fxmlLoader.load(), 715, 575);
         stage.setResizable(false);
         stage.setTitle("Hello!");
         stage.setScene(scene);

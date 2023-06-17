@@ -58,11 +58,11 @@ public class ListDealsNetworkController {
     private Optional<List<AnnouncementDto>> getSortedList(String sortingOrder, String algorithm, List<Announcement> listOfAllDeals) {
         if (algorithm.equalsIgnoreCase("Merge Sort")) {
             MergeAlgorithm sortedList = new MergeAlgorithm(listOfAllDeals);
-            sortedList.sort(sortingOrder, getAllDealsList());
+            sortedList.sort(sortingOrder, listOfAllDeals);
             return toDto(sortedList.getSortedList());
         } else {
             BubbleAlgorithm sortedList = new BubbleAlgorithm(listOfAllDeals);
-            sortedList.sort(sortingOrder, getAllDealsList());
+            sortedList.sort(sortingOrder, listOfAllDeals);
             return toDto(sortedList.getSortedList());
         }
     }

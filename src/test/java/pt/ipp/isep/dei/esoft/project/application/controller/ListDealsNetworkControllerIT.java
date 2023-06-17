@@ -25,9 +25,9 @@ class ListDealsNetworkControllerIT {
 
     @Test
     void getAllDealsList() {
-        ListDealsNetworkController controller = new ListDealsNetworkController();
 
-        AgencyRepository agencyRepository = controller.getAgencyRepository();
+
+        AgencyRepository agencyRepository = new AgencyRepository();
         Location location = new Location("Saint Avenue", "Heaven", "Sky", "SK", "12345");
         Agency agency = new Agency(31, "Make It Home Deluxe", "agency4@this.app", "999 444 5656", location);
         agencyRepository.add(agency);
@@ -85,6 +85,8 @@ class ListDealsNetworkControllerIT {
         agency.addAnnouncement(a10);
         agency.addAnnouncement(a11);
         agency.addAnnouncement(a12);
+
+        ListDealsNetworkController controller = new ListDealsNetworkController(agencyRepository);
 
         AnnouncementList expected = new AnnouncementList(new ArrayList<>(Arrays.asList(a7, a8, a9, a10, a11, a12)));
 
@@ -181,9 +183,8 @@ class ListDealsNetworkControllerIT {
 
     @Test
     void getListSortedByAlgorithm() {
-        ListDealsNetworkController controller = new ListDealsNetworkController();
+        AgencyRepository agencyRepository = new AgencyRepository();
 
-        AgencyRepository agencyRepository = controller.getAgencyRepository();
         Location location = new Location("Saint Avenue", "Heaven", "Sky", "SK", "12345");
         Agency agency = new Agency(31, "Make It Home Deluxe", "agency4@this.app", "999 444 5656", location);
         agencyRepository.add(agency);
@@ -242,6 +243,8 @@ class ListDealsNetworkControllerIT {
         agency.addAnnouncement(a11);
         agency.addAnnouncement(a12);
 
+        ListDealsNetworkController controller = new ListDealsNetworkController(agencyRepository);
+
         List<AnnouncementDto> networkDealsAscending = new ArrayList<>();
         networkDealsAscending.add(AnnouncementMapper.toNetworkDto(a9, agencyRepository.getAgenciesList()));
         networkDealsAscending.add(AnnouncementMapper.toNetworkDto(a10, agencyRepository.getAgenciesList()));
@@ -256,10 +259,8 @@ class ListDealsNetworkControllerIT {
             expectedAscending.add(dto.toDealString());
         }
 
-        MergeAlgorithm mergeAlgorithm = new MergeAlgorithm(new ArrayList<>());
 
-        List<AnnouncementDto> networkDealsControllerMergeAscending = AnnouncementMapper.toNetworkDto(mergeAlgorithm.sort("Ascending",
-                agencyRepository.getAllDealsAnnouncements()), agencyRepository.getAgenciesList()).get();
+        List<AnnouncementDto> networkDealsControllerMergeAscending = controller.getListSortedByAlgorithm("Ascending", "Merge Sort").get();
 
         List<String> actualMergeAscending = new ArrayList<>();
 
@@ -281,10 +282,7 @@ class ListDealsNetworkControllerIT {
             expectedDescening.add(dto.toDealString());
         }
 
-        MergeAlgorithm mergeAlgorithm2 = new MergeAlgorithm(new ArrayList<>());
-
-        List<AnnouncementDto> networkDealsControllerMergeDescending = AnnouncementMapper.toNetworkDto(mergeAlgorithm2.sort("Descending",
-                agencyRepository.getAllDealsAnnouncements()), agencyRepository.getAgenciesList()).get();
+        List<AnnouncementDto> networkDealsControllerMergeDescending = controller.getListSortedByAlgorithm("Descending", "Merge Sort").get();
 
         List<String> actualMergeDescending = new ArrayList<>();
 
