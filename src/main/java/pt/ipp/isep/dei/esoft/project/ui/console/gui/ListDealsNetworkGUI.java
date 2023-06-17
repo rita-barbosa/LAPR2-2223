@@ -43,16 +43,6 @@ public class ListDealsNetworkGUI implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-//            FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/ListDealsNetworkScene.fxml"));
-//            Parent root = loader.load();
-//
-//            Scene scene = new Scene(root);
-//
-//            announcementDealsDisplayStage = new Stage();
-//            announcementDealsDisplayStage.initModality(Modality.APPLICATION_MODAL);
-//            announcementDealsDisplayStage.setTitle("Announcement Deals in Network");
-//            announcementDealsDisplayStage.setResizable(false);
-//            announcementDealsDisplayStage.setScene(scene);
         controller = new ListDealsNetworkController();
         atualizarListViewDealsDisplay();
     }
