@@ -292,9 +292,9 @@ public class ScheduleVisitController {
      * @param businessTypeDto the business type dto
      * @return the announcement list
      */
-    public List<AnnouncementDto> getAnnouncementsByBusinessType(CriteriaDto businessTypeDto) {
+    public List<AnnouncementDto> getAnnouncementsByBusinessType(CriteriaDto businessTypeDto, List<AnnouncementDto> list) {
         String businessType = CriteriaMapper.getDesignationFromDto(businessTypeDto);
-        AnnouncementList announcementList = new AnnouncementList(agencyRepository.getAllNonDealAnnouncementsList().get());
+        AnnouncementList announcementList = new AnnouncementList(AnnouncementMapper.toModelNonDeals(list, agencyRepository.getAgenciesList()));
         return AnnouncementMapper.toDto(new ArrayList<>(announcementList.announcementHasBusinessType(announcementList.getList(), businessType))).get();
     }
 
@@ -304,9 +304,9 @@ public class ScheduleVisitController {
      * @param propertyTypeDto the property type dto
      * @return the announcement list
      */
-    public List<AnnouncementDto> getAnnouncementsByPropertyType(CriteriaDto propertyTypeDto) {
+    public List<AnnouncementDto> getAnnouncementsByPropertyType(CriteriaDto propertyTypeDto, List<AnnouncementDto> list) {
         String propertyType = CriteriaMapper.getDesignationFromDto(propertyTypeDto);
-        AnnouncementList announcementList = new AnnouncementList(agencyRepository.getAllNonDealAnnouncementsList().get());
+        AnnouncementList announcementList = new AnnouncementList(AnnouncementMapper.toModelNonDeals(list, agencyRepository.getAgenciesList()));
         return AnnouncementMapper.toDto(new ArrayList<>(announcementList.announcementHasPropertyType(announcementList.getList(), propertyType))).get();
     }
 
@@ -316,8 +316,8 @@ public class ScheduleVisitController {
      * @param numberBedrooms the number bedrooms
      * @return the announcement list
      */
-    public List<AnnouncementDto> getAnnouncementsByNumberBedrooms(Integer numberBedrooms) {
-        AnnouncementList announcementList = new AnnouncementList(agencyRepository.getAllNonDealAnnouncementsList().get());
+    public List<AnnouncementDto> getAnnouncementsByNumberBedrooms(Integer numberBedrooms, List<AnnouncementDto> list) {
+        AnnouncementList announcementList = new AnnouncementList(AnnouncementMapper.toModelNonDeals(list, agencyRepository.getAgenciesList()));
         return AnnouncementMapper.toDto(new ArrayList<>(announcementList.announcementHasNumberBedrooms(announcementList.getList(), numberBedrooms))).get();
     }
 
@@ -327,8 +327,8 @@ public class ScheduleVisitController {
      * @param priceSorting the price sorting order
      * @return the announcement list
      */
-    public List<AnnouncementDto> getAnnouncementsByPrice(String priceSorting) {
-        AnnouncementList announcementList = new AnnouncementList(agencyRepository.getAllNonDealAnnouncementsList().get());
+    public List<AnnouncementDto> getAnnouncementsByPrice(String priceSorting, List<AnnouncementDto> list) {
+        AnnouncementList announcementList = new AnnouncementList(AnnouncementMapper.toModelNonDeals(list, agencyRepository.getAgenciesList()));
         if (priceSorting.equals("Ascending")) {
             return AnnouncementMapper.toDto(new ArrayList<>(announcementList.sortAnnouncementsByAscendingPrice(announcementList.getList()))).get();
         }
@@ -341,8 +341,8 @@ public class ScheduleVisitController {
      * @param citySorting the city sorting order
      * @return the announcement list
      */
-    public List<AnnouncementDto> getAnnouncementsByCity(String citySorting) {
-        AnnouncementList announcementList = new AnnouncementList(agencyRepository.getAllNonDealAnnouncementsList().get());
+    public List<AnnouncementDto> getAnnouncementsByCity(String citySorting, List<AnnouncementDto> list) {
+        AnnouncementList announcementList = new AnnouncementList(AnnouncementMapper.toModelNonDeals(list, agencyRepository.getAgenciesList()));
         if (citySorting.equals("Ascending")) {
             return AnnouncementMapper.toDto(new ArrayList<>(announcementList.sortAnnouncementsByAscendingCity(announcementList.getList()))).get();
         }
@@ -355,8 +355,8 @@ public class ScheduleVisitController {
      * @param stateSorting the state sorting order
      * @return the announcement list
      */
-    public List<AnnouncementDto> getAnnouncementsByState(String stateSorting) {
-        AnnouncementList announcementList = new AnnouncementList(agencyRepository.getAllNonDealAnnouncementsList().get());
+    public List<AnnouncementDto> getAnnouncementsByState(String stateSorting, List<AnnouncementDto> list) {
+        AnnouncementList announcementList = new AnnouncementList(AnnouncementMapper.toModelNonDeals(list, agencyRepository.getAgenciesList()));
         if (stateSorting.equals("Ascending")) {
             return AnnouncementMapper.toDto(new ArrayList<>(announcementList.sortAnnouncementsByAscendingState(announcementList.getList()))).get();
         }

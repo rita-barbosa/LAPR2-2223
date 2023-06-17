@@ -158,19 +158,19 @@ public class ScheduleVisitUI implements Runnable {
             case 1:
                 criteria = displayAndSelectBusinessType();
                 System.out.println("========================================================\nAnnouncements by type of business:");
-                list = controller.getAnnouncementsByBusinessType((CriteriaDto) criteria);
+                list = controller.getAnnouncementsByBusinessType((CriteriaDto) criteria, list);
                 break;
             case 2:
                 criteria = displayAndSelectPropertyType();
                 propertyTypeDesignation = criteria.toString();
                 System.out.println("========================================================\nAnnouncements by type of property:");
-                list = controller.getAnnouncementsByPropertyType((CriteriaDto) criteria);
+                list = controller.getAnnouncementsByPropertyType((CriteriaDto) criteria, list);
                 break;
             case 3:
                 criteria = selectNumberBedrooms();
                 if (!propertyTypeDesignation.equalsIgnoreCase("Land")) {
                     System.out.println("========================================================\nAnnouncements by Number of Bedrooms:");
-                    list = controller.getAnnouncementsByNumberBedrooms((Integer) criteria);
+                    list = controller.getAnnouncementsByNumberBedrooms((Integer) criteria, list);
                 } else {
                     list = new ArrayList<>();
                 }
@@ -178,17 +178,17 @@ public class ScheduleVisitUI implements Runnable {
             case 4:
                 criteria = displayAndSelectPrice();
                 System.out.println("========================================================\nAnnouncements by Price:");
-                list = controller.getAnnouncementsByPrice(criteria.toString());
+                list = controller.getAnnouncementsByPrice(criteria.toString(), list);
                 break;
             case 5:
                 criteria = displayAndSelectCity();
                 System.out.println("========================================================\nAnnouncements by City:");
-                list = controller.getAnnouncementsByCity(criteria.toString());
+                list = controller.getAnnouncementsByCity(criteria.toString(), list);
                 break;
             case 6:
                 criteria = displayAndSelectState();
                 System.out.println("========================================================\nAnnouncements by State:");
-                list = controller.getAnnouncementsByState(criteria.toString());
+                list = controller.getAnnouncementsByState(criteria.toString(), list);
                 break;
         }
         return Optional.of(list);

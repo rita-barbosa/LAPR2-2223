@@ -6,3 +6,8 @@
     -fx-background-color: #b6d8ea;
     -fx-text-fill: black;
 }
+
+#listViewDealsDisplay{
+    -fx-border-color :  #7abedd;
+    -fx-border-width: 2;
+}
