@@ -208,8 +208,7 @@ public class Bootstrap implements Runnable {
         String ownerEmail = "owner@email.com";
         String ownerEmail1 = "owner1@email.com";
         String ownerEmail2 = "owner2@email.com";
-        Employee employee = new Employee("employee@this.app", "Agent");
-//        Employee employee = new Employee("employee@this.app", "Agent");
+        Employee employee = agency.getAgentList().get(0);
         CommissionType commissionType = new CommissionType("Commission Type");
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/photo.jpg");
@@ -262,7 +261,6 @@ public class Bootstrap implements Runnable {
         Announcement a11 = new Announcement(employee, 3, request4, "23-12-2022", 754245678d);
         Announcement a12 = new Announcement(employee, 25, request5, "23-12-2022", 45678d);
 
-//
         Order o1 = new Order(2345467.0, new Email("owner@this.app"));
 //        Order o2 = new Order(23467.0, new Email("owner@this.app"));
 //        Order o3 = new Order(25467.0, new Email("owner@this.app"));
