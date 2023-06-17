@@ -6,12 +6,11 @@ import pt.ipp.isep.dei.esoft.project.domain.Announcement;
 import pt.ipp.isep.dei.esoft.project.domain.dto.AnnouncementDto;
 import pt.ipp.isep.dei.esoft.project.domain.BusinessType;
 import pt.ipp.isep.dei.esoft.project.domain.PropertyType;
+import pt.ipp.isep.dei.esoft.project.domain.dto.CriteriaDto;
+import pt.ipp.isep.dei.esoft.project.ui.console.utils.Utils;
 import pt.isep.lei.esoft.auth.domain.model.Email;
 
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Optional;
-import java.util.Scanner;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 
 public class OrderRequestUI implements Runnable {
@@ -28,6 +27,10 @@ public class OrderRequestUI implements Runnable {
      * The Announcement index.
      */
     private Integer announcementIndex;
+    /**
+     * The property type designation.
+     */
+    private String propertyTypeDesignation;
     /**
      * The Controller.
      */
@@ -46,35 +49,51 @@ public class OrderRequestUI implements Runnable {
     public void run() {
         System.out.println("\nCreate a order request for a property.");
         System.out.println("========================================================");
-        Optional<List<Announcement>> listToDisplay = controller.getAllAnnouncementsList();
-        Optional<List<AnnouncementDto>> listToDisplayDto = Optional.empty();
+        //Optional<List<Announcement>> listToDisplay = controller.getAllNonDealAnnouncementsDto();
+        Optional<List<AnnouncementDto>> nonDealsListDto  = controller.getAllNonDealAnnouncementsDto();
+        Optional<List<AnnouncementDto>> copycat;
         Optional<AnnouncementDto> announcementDto = Optional.empty();
         Optional<Announcement> announcement = Optional.empty();
 
         try {
-            if (listToDisplay.isPresent() && listToDisplay.get().size() > 0) {
-                listToDisplayDto = controller.getAnnouncementListDto(listToDisplay.get());
-            }
-            if (listToDisplayDto.isPresent() && listToDisplayDto.get().size() > 0) {
-                displayList(listToDisplayDto.get());
-                while (askQuestion("select any criteria")) {
-                    listToDisplay = filterList();
-                    if (listToDisplay.isPresent() && listToDisplay.get().size() > 0) {
-                        listToDisplayDto = controller.toDto(listToDisplay.get());
-                        if (listToDisplayDto.isPresent() && listToDisplayDto.get().size() > 0) {
-                            displayList(listToDisplayDto.get());
+            nonDealsListDto = controller.getAllNonDealAnnouncementsDto();
+            if (nonDealsListDto.isPresent() && nonDealsListDto.get().size() > 0) {
+                boolean answer;
+                do {
+                    displayList(nonDealsListDto.get());
+                    answer = Utils.askDirectQuestion("Select any criteria:");
+                    while (answer && nonDealsListDto.get().size() > 0) {
+                        propertyTypeDesignation = "house";
+                        copycat = filterList(nonDealsListDto.get());
+                        if (copycat.isPresent()) {
+                            nonDealsListDto = copycat;
+                            if (nonDealsListDto.get().size() > 0) {
+                                displayList(nonDealsListDto.get());
+                            }
+                        }
+                        if (nonDealsListDto.get().size() == 0) {
+                            System.out.println("...\nNo announcements with chosen sequence of criteria!\nReturning to initial list.");
+                            System.out.println("========================================================");
+                            nonDealsListDto = controller.getAllNonDealAnnouncementsDto();
+                            try {
+                                Thread.sleep(3500);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+                            displayList(nonDealsListDto.get());
+                        } else {
+                            answer = Utils.askDirectQuestion("Select any criteria:");
                         }
                     }
-                }
+                } while (answer);
             }
-            if (listToDisplayDto.isPresent() && listToDisplayDto.get().size() > 0) {
-                announcementIndex = requestAnnouncementIndex(listToDisplayDto.get());
-                announcementDto = Optional.of(listToDisplayDto.get().get(announcementIndex - 1));
+            if (nonDealsListDto.isPresent() && nonDealsListDto.get().size() > 0) {
+                announcementIndex = requestAnnouncementIndex(nonDealsListDto.get());
+                announcementDto = Optional.of(nonDealsListDto.get().get(announcementIndex - 1));
             }
             if (announcementDto.isPresent()) {
                 announcement = controller.toModel(announcementDto.get());
             }
-            System.out.println("\nIntroduce the order amount.");
             requestData(announcement.get());
             displaysData();
             announcement.ifPresent(this::submitData);
@@ -91,12 +110,10 @@ public class OrderRequestUI implements Runnable {
      * @return the integer
      */
     private Integer requestAnnouncementIndex(List<AnnouncementDto> list) {
-        System.out.println("Please select an announcement by its index number.");
         int idx;
-        idx = getIntAnswer();
+        idx = Utils.readIntegerFromConsole("Please select an announcement by its index number.");
         while (idx > list.size() || idx < 1) {
-            System.out.println("The announcement index must be within the displayed list.");
-            idx = getIntAnswer();
+            idx = Utils.readIntegerFromConsole("The announcement index must be within the displayed list.");
         }
         return idx;
     }
@@ -106,43 +123,48 @@ public class OrderRequestUI implements Runnable {
      *
      * @return the filtered list
      */
-    private Optional<List<Announcement>> filterList() {
-        Optional<List<Announcement>> listToDisplay = controller.getAllAnnouncementsList();
+    private Optional<List<AnnouncementDto>> filterList(List<AnnouncementDto> list) {
         Object criteria;
-        switch (displayAndSelectCriteriaList(controller.getCriteriaList())) {
+        switch (displayAndSelectCriteriaList(controller.getCriteriaList().get())) {
             case 1:
-                criteria = displayAndSelectBusinessType().toLowerCase();
+                criteria = displayAndSelectBusinessType();
                 System.out.println("========================================================\nAnnouncements by type of business:");
-                listToDisplay = Optional.of(controller.getAnnouncementsByBusinessType(criteria.toString()));
+                list = controller.getAnnouncementsByBusinessType((CriteriaDto) criteria, list);
                 break;
             case 2:
-                criteria = displayAndSelectPropertyType().toLowerCase();
-                System.out.println("========================================================\nAnnouncements by type of property:\n");
-                listToDisplay = Optional.of(controller.getAnnouncementsByPropertyType(criteria.toString()));
+                criteria = displayAndSelectPropertyType();
+                propertyTypeDesignation = criteria.toString();
+                System.out.println("========================================================\nAnnouncements by type of property:");
+                list = controller.getAnnouncementsByPropertyType((CriteriaDto) criteria, list);
                 break;
             case 3:
                 criteria = displayAndSelectNumberBedrooms();
-                System.out.println("========================================================\nAnnouncements by Number of Bedrooms:");
-                listToDisplay = Optional.of(controller.getAnnouncementsByNumberBedrooms((Integer) criteria));
+                if (!propertyTypeDesignation.equalsIgnoreCase("Land")) {
+                    System.out.println("========================================================\nAnnouncements by Number of Bedrooms:");
+                    list = controller.getAnnouncementsByNumberBedrooms((Integer) criteria, list);
+                } else {
+                    list = new ArrayList<>();
+                }
                 break;
             case 4:
                 criteria = displayAndSelectPrice();
                 System.out.println("========================================================\nAnnouncements by Price:");
-                listToDisplay = Optional.of(controller.getAnnouncementsByPrice(criteria.toString()));
+                list = controller.getAnnouncementsByPrice(criteria.toString(), list);
                 break;
             case 5:
                 criteria = displayAndSelectCity();
                 System.out.println("========================================================\nAnnouncements by City:");
-                listToDisplay = Optional.of(controller.getAnnouncementsByCity(criteria.toString()));
+                list = controller.getAnnouncementsByCity(criteria.toString(), list);
                 break;
             case 6:
                 criteria = displayAndSelectState();
                 System.out.println("========================================================\nAnnouncements by State:");
-                listToDisplay = Optional.of(controller.getAnnouncementsByState(criteria.toString()));
+                list = controller.getAnnouncementsByState(criteria.toString(), list);
                 break;
         }
-        return listToDisplay;
+        return Optional.of(list);
     }
+
 
     /**
      * Displays data.
@@ -181,29 +203,11 @@ public class OrderRequestUI implements Runnable {
     }
 
     private Double requestOrderAmount(Announcement announcement) {
-        System.out.println("");
-        double value = getDoubleAnswer();
+        double value = Utils.readDoubleFromConsole("Introduce the order amount.");
         while (value > announcement.getRequest().getBusiness().getPrice()) {
-            System.out.printf("They order amount can´t be higher then the order in the announcement");
-            value = getIntAnswer();
+            System.out.printf("The order amount can not be higher then\nthe amount asked in the announcement\n");
+            value = Utils.readIntegerFromConsole("Introduce the order amount.");
         }
-        return value;
-    }
-
-    private double getDoubleAnswer() {
-        Scanner input = new Scanner(System.in);
-        boolean invalid = true;
-        Double value = null;
-        do {
-            try {
-                value = input.nextDouble();
-                invalid = false;
-            } catch (InputMismatchException e) {
-                System.out.println("\nERROR: Value typed is invalid"
-                        + " (" + e.getClass().getSimpleName() + ")");
-                input.nextLine();
-            }
-        } while (invalid);
         return value;
     }
 
@@ -228,11 +232,11 @@ public class OrderRequestUI implements Runnable {
      * @param criterias the list of criterias
      * @return the criteria chosen
      */
-    private Integer displayAndSelectCriteriaList(List<String> criterias) {
+    private Integer displayAndSelectCriteriaList(List<CriteriaDto> criterias) {
         Scanner sc = new Scanner(System.in);
         int count = 0;
         System.out.println("Criteria available:");
-        for (String criteria : criterias) {
+        for (CriteriaDto criteria : criterias) {
             count++;
             System.out.printf("%d - %s\n", count, criteria);
         }
@@ -240,7 +244,7 @@ public class OrderRequestUI implements Runnable {
         boolean invalid = true;
         do {
             try {
-                System.out.println("Which one do you want to choose?\n");
+                System.out.println("Which one do you want to choose?");
                 while (option < 1 || option > 6) {
                     option = sc.nextInt();
                 }
@@ -255,63 +259,19 @@ public class OrderRequestUI implements Runnable {
     }
 
     /**
-     * Gets int answer.
+     * This method display and aks to select a type of business.
      *
-     * @return the int answer
+     * @return the type of business chosen
      */
-    private Integer getIntAnswer() {
-        Scanner input = new Scanner(System.in);
-        boolean invalid = true;
-        Integer value = null;
-        do {
-            try {
-                value = input.nextInt();
-                invalid = false;
-            } catch (InputMismatchException e) {
-                System.out.println("\nERROR: Value typed is invalid"
-                        + " (" + e.getClass().getSimpleName() + ")");
-                input.nextLine();
-            }
-        } while (invalid);
-        return value;
-    }
-
-    /**
-     * Ask question boolean.
-     *
-     * @param sentence the sentence
-     * @return the boolean
-     */
-    private Boolean askQuestion(String sentence) {
-        System.out.printf("Would you like to %s?%n1. Yes%n2. No%n", sentence);
-        boolean invalid = true;
-        int answer = -1;
-        Scanner input = new Scanner(System.in);
-        do {
-            try {
-                answer = input.nextInt();
-                if (answer != 1 && answer != 2) {
-                    System.out.println("\nERROR: Option selected is invalid. (1 or 2)");
-                } else {
-                    invalid = false;
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("\nERROR: Option selected is not a number. (1 or 2)");
-                input.nextLine();
-            }
-        } while (invalid);
-        return answer == 1;
-    }
-
-    private String displayAndSelectBusinessType() {
+    private CriteriaDto displayAndSelectBusinessType() {
         Scanner sc = new Scanner(System.in);
-        List<BusinessType> businessTypes = controller.getBusinessTypeList();
-        displayBusinessTypeOptions(businessTypes);
+        List<CriteriaDto> businessTypeDtoList = controller.getBusinessTypeList().get();
+        displayBusinessTypeOptions(businessTypeDtoList);
         int option = 0;
         boolean invalid = true;
         do {
             try {
-                while (option < 1 || option > businessTypes.size()) {
+                while (option < 1 || option > businessTypeDtoList.size()) {
                     System.out.println("Select type of business:");
                     option = sc.nextInt();
                 }
@@ -322,7 +282,7 @@ public class OrderRequestUI implements Runnable {
                 sc.nextLine();
             }
         } while (invalid);
-        return (businessTypes.get(option - 1).getDesignation());
+        return (businessTypeDtoList.get(option - 1));
     }
 
     /**
@@ -330,10 +290,10 @@ public class OrderRequestUI implements Runnable {
      *
      * @param businessTypes the business types
      */
-    private void displayBusinessTypeOptions(List<BusinessType> businessTypes) {
+    private void displayBusinessTypeOptions(List<CriteriaDto> businessTypes) {
         int count = 0;
         System.out.println("Type of business:");
-        for (BusinessType businessType : businessTypes) {
+        for (CriteriaDto businessType : businessTypes) {
             count++;
             System.out.printf("%d - %s\n", count, businessType);
         }
@@ -344,15 +304,15 @@ public class OrderRequestUI implements Runnable {
      *
      * @return the type of property chosen
      */
-    private String displayAndSelectPropertyType() {
+    private CriteriaDto displayAndSelectPropertyType() {
         Scanner sc = new Scanner(System.in);
-        List<PropertyType> propertyTypes = controller.getPropertyTypeList();
-        displayPropertiesTypeOptions(propertyTypes);
+        List<CriteriaDto> propertyTypesDtoList = controller.getPropertyTypeList().get();
+        displayPropertiesTypeOptions(propertyTypesDtoList);
         int option = 0;
         boolean invalid = true;
         do {
             try {
-                while (option < 1 || option > propertyTypes.size()) {
+                while (option < 1 || option > propertyTypesDtoList.size()) {
                     System.out.println("Select type of property:");
                     option = sc.nextInt();
                 }
@@ -363,7 +323,7 @@ public class OrderRequestUI implements Runnable {
                 sc.nextLine();
             }
         } while (invalid);
-        return (propertyTypes.get(option - 1).getDesignation());
+        return (propertyTypesDtoList.get(option - 1));
     }
 
     /**
@@ -371,10 +331,10 @@ public class OrderRequestUI implements Runnable {
      *
      * @param propertyTypes the property types
      */
-    private void displayPropertiesTypeOptions(List<PropertyType> propertyTypes) {
+    private void displayPropertiesTypeOptions(List<CriteriaDto> propertyTypes) {
         int count = 0;
         System.out.println("Type of properties:");
-        for (PropertyType propertyType : propertyTypes) {
+        for (CriteriaDto propertyType : propertyTypes) {
             count++;
             System.out.printf("%d - %s\n", count, propertyType);
         }
@@ -387,27 +347,11 @@ public class OrderRequestUI implements Runnable {
      * @return the number of bedrooms chosen
      */
     private Integer displayAndSelectNumberBedrooms() {
-        Scanner sc = new Scanner(System.in);
-        int option = -1;
-        boolean invalid = true;
-        do {
-            try {
-                while (option < 0) {
-                    System.out.println("Enter number of bedrooms:");
-                    option = sc.nextInt();
-                    if (option <= 0) {
-                        System.out.println("ERROR: Number of bedrooms is invalid.");
-                    }
-                }
-                invalid = false;
-            } catch (InputMismatchException e) {
-                System.out.println("\nERROR: Option selected is invalid"
-                        + " (" + e.getClass().getSimpleName() + ")");
-                sc.nextLine();
-            }
-        } while (invalid);
-        return option;
-
+        if (propertyTypeDesignation.equalsIgnoreCase("Land")) {
+            System.out.println("This filter is unavailable for Land announcements!");
+            return null;
+        }
+        return Utils.readIntegerFromConsole("Property's number of bedrooms:");
     }
 
     /**
@@ -416,8 +360,7 @@ public class OrderRequestUI implements Runnable {
      * @return the type of sorting select to price
      */
     private String displayAndSelectPrice() {
-        System.out.println("Price:");
-        return sortSelection();
+        return Utils.sortSelection("Price:");
     }
 
     /**
@@ -426,8 +369,7 @@ public class OrderRequestUI implements Runnable {
      * @return the type of sorting select to city
      */
     private String displayAndSelectCity() {
-        System.out.println("City:");
-        return sortSelection();
+        return Utils.sortSelection("City:");
     }
 
     /**
@@ -436,40 +378,8 @@ public class OrderRequestUI implements Runnable {
      * @return the type of sorting select to state
      */
     private String displayAndSelectState() {
-        System.out.println("State:");
-        return sortSelection();
+        return Utils.sortSelection("State:");
     }
 
-    /**
-     * This method display and aks to select a type of sorting.
-     *
-     * @return the type of sorting chosen
-     */
-    private String sortSelection() {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Sort types available:");
-        System.out.println("1. Ascending");
-        System.out.println("2. Descending");
-        int option = 0;
-        boolean invalid = true;
-        do {
-            try {
-                while (option < 1 || option > 2) {
-                    option = sc.nextInt();
-                    if (option == 1) {
-                        return "Ascending";
-                    } else if (option == 2) {
-                        return "Descending";
-                    }
-                }
-                invalid = false;
-            } catch (InputMismatchException e) {
-                System.out.println("\nERROR: Option selected is invalid"
-                        + " (" + e.getClass().getSimpleName() + ")");
-                sc.nextLine();
-            }
-        } while (invalid);
-        return null;
-    }
 }
 

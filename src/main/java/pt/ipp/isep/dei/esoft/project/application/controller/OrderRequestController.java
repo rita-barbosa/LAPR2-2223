@@ -2,7 +2,9 @@ package pt.ipp.isep.dei.esoft.project.application.controller;
 
 import pt.ipp.isep.dei.esoft.project.domain.*;
 import pt.ipp.isep.dei.esoft.project.domain.dto.AnnouncementDto;
+import pt.ipp.isep.dei.esoft.project.domain.dto.CriteriaDto;
 import pt.ipp.isep.dei.esoft.project.domain.mapper.AnnouncementMapper;
+import pt.ipp.isep.dei.esoft.project.domain.mapper.CriteriaMapper;
 import pt.ipp.isep.dei.esoft.project.repository.*;
 import pt.isep.lei.esoft.auth.domain.model.Email;
 
@@ -117,9 +119,9 @@ public class OrderRequestController {
      *
      * @return the property types
      */
-    public List<PropertyType> getPropertyTypeList() {
+    public Optional<List<CriteriaDto>> getPropertyTypeList() {
         PropertyTypeRepository propertyTypeRepository = getPropertyTypeRepository();
-        return propertyTypeRepository.getPropertyTypeList();
+        return CriteriaMapper.toDto(propertyTypeRepository.getPropertyTypeDesignationsList());
     }
 
     /**
@@ -140,9 +142,9 @@ public class OrderRequestController {
      *
      * @return the business types
      */
-    public List<BusinessType> getBusinessTypeList() {
+    public Optional<List<CriteriaDto>> getBusinessTypeList() {
         BusinessTypeRepository businessTypeRepository = getBusinessTypeRepository();
-        return businessTypeRepository.getBusinessTypeList();
+        return CriteriaMapper.toDto(businessTypeRepository.getBusinessTypeDesignationsList());
     }
 
     /**
@@ -176,9 +178,9 @@ public class OrderRequestController {
      *
      * @return the criteria list
      */
-    public List<String> getCriteriaList() {
+    public Optional<List<CriteriaDto>> getCriteriaList() {
         CriteriaRepository criteriaRepository = getCriteriaRepository();
-        return criteriaRepository.getCriteriaList();
+        return CriteriaMapper.toDto(criteriaRepository.getCriteriaList());
     }
 
 
@@ -207,13 +209,13 @@ public class OrderRequestController {
      *
      * @return the list
      */
-    public Optional<List<Announcement>> getAllAnnouncementsList() {
+    public Optional<List<AnnouncementDto>> getAllNonDealAnnouncementsDto() {
         Agency agency = new Agency();
         Optional<List<Announcement>> list = agencyRepository.getAllNonDealAnnouncementsList();
         if (list.isPresent() && list.get().size() > 0){
             agency.getAnnouncements().setAnnouncements(list.get());
         }
-        return Optional.of(agency.getAnnouncements().sortAnnouncementsByMostRecentAcceptanceDate());
+        return AnnouncementMapper.toDto(agency.getAnnouncements().sortAnnouncementsByMostRecentAcceptanceDate());
     }
 
     /**
@@ -250,33 +252,25 @@ public class OrderRequestController {
     /**
      * Get announcement list by business type.
      *
-     * @param businessType the business type
+     * @param businessTypeDto the business type dto
      * @return the announcement list
      */
-    public List<Announcement> getAnnouncementsByBusinessType(String businessType) {
-        List<Announcement> listToDisplay = new ArrayList<>();
-        List<Agency> agencies = agencyRepository.getAgenciesList();
-
-        for (Agency agency : agencies) {
-            listToDisplay.addAll(agency.getAnnouncements().announcementHasBusinessType(agency.getAnnouncementsList(), businessType));
-        }
-        return listToDisplay;
+    public List<AnnouncementDto> getAnnouncementsByBusinessType(CriteriaDto businessTypeDto, List<AnnouncementDto> list) {
+        String businessType = CriteriaMapper.getDesignationFromDto(businessTypeDto);
+        AnnouncementList announcementList = new AnnouncementList(AnnouncementMapper.toModelNonDeals(list, agencyRepository.getAgenciesList()));
+        return AnnouncementMapper.toDto(new ArrayList<>(announcementList.announcementHasBusinessType(announcementList.getList(), businessType))).get();
     }
 
     /**
      * Get announcements list by property type.
      *
-     * @param propertyType the property type
+     * @param propertyTypeDto the property type dto
      * @return the announcement list
      */
-    public List<Announcement> getAnnouncementsByPropertyType(String propertyType) {
-        List<Announcement> listToDisplay = new ArrayList<>();
-        List<Agency> agencies = agencyRepository.getAgenciesList();
-
-        for (Agency agency : agencies) {
-            listToDisplay.addAll(agency.getAnnouncements().announcementHasPropertyType(agency.getAnnouncementsList(), propertyType));
-        }
-        return listToDisplay;
+    public List<AnnouncementDto> getAnnouncementsByPropertyType(CriteriaDto propertyTypeDto, List<AnnouncementDto> list) {
+        String propertyType = CriteriaMapper.getDesignationFromDto(propertyTypeDto);
+        AnnouncementList announcementList = new AnnouncementList(AnnouncementMapper.toModelNonDeals(list, agencyRepository.getAgenciesList()));
+        return AnnouncementMapper.toDto(new ArrayList<>(announcementList.announcementHasPropertyType(announcementList.getList(), propertyType))).get();
     }
 
     /**
@@ -285,14 +279,9 @@ public class OrderRequestController {
      * @param numberBedrooms the number bedrooms
      * @return the announcement list
      */
-    public List<Announcement> getAnnouncementsByNumberBedrooms(Integer numberBedrooms) {
-        List<Announcement> listToDisplay = new ArrayList<>();
-        List<Agency> agencies = agencyRepository.getAgenciesList();
-
-        for (Agency agency : agencies) {
-            listToDisplay.addAll(agency.getAnnouncements().announcementHasNumberBedrooms(agency.getAnnouncementsList(), numberBedrooms));
-        }
-        return listToDisplay;
+    public List<AnnouncementDto> getAnnouncementsByNumberBedrooms(Integer numberBedrooms, List<AnnouncementDto> list) {
+        AnnouncementList announcementList = new AnnouncementList(AnnouncementMapper.toModelNonDeals(list, agencyRepository.getAgenciesList()));
+        return AnnouncementMapper.toDto(new ArrayList<>(announcementList.announcementHasNumberBedrooms(announcementList.getList(), numberBedrooms))).get();
     }
 
     /**
@@ -301,20 +290,12 @@ public class OrderRequestController {
      * @param priceSorting the price sorting order
      * @return the announcement list
      */
-    public List<Announcement> getAnnouncementsByPrice(String priceSorting) {
-        List<Announcement> listToDisplay = new ArrayList<>();
-        List<Agency> agencies = agencyRepository.getAgenciesList();
-
+    public List<AnnouncementDto> getAnnouncementsByPrice(String priceSorting, List<AnnouncementDto> list) {
+        AnnouncementList announcementList = new AnnouncementList(AnnouncementMapper.toModelNonDeals(list, agencyRepository.getAgenciesList()));
         if (priceSorting.equals("Ascending")) {
-            for (Agency agency : agencies) {
-                listToDisplay.addAll(agency.getAnnouncements().sortAnnouncementsByAscendingPrice(agency.getAnnouncementsList()));
-            }
-        } else {
-            for (Agency agency : agencies) {
-                listToDisplay.addAll(agency.getAnnouncements().sortAnnouncementsByDescendingPrice(agency.getAnnouncementsList()));
-            }
+            return AnnouncementMapper.toDto(new ArrayList<>(announcementList.sortAnnouncementsByAscendingPrice(announcementList.getList()))).get();
         }
-        return listToDisplay;
+        return AnnouncementMapper.toDto(new ArrayList<>(announcementList.sortAnnouncementsByDescendingPrice(announcementList.getList()))).get();
     }
 
     /**
@@ -323,20 +304,12 @@ public class OrderRequestController {
      * @param citySorting the city sorting order
      * @return the announcement list
      */
-    public List<Announcement> getAnnouncementsByCity(String citySorting) {
-        List<Announcement> listToDisplay = new ArrayList<>();
-        List<Agency> agencies = agencyRepository.getAgenciesList();
-
+    public List<AnnouncementDto> getAnnouncementsByCity(String citySorting, List<AnnouncementDto> list) {
+        AnnouncementList announcementList = new AnnouncementList(AnnouncementMapper.toModelNonDeals(list, agencyRepository.getAgenciesList()));
         if (citySorting.equals("Ascending")) {
-            for (Agency agency : agencies) {
-                listToDisplay.addAll(agency.getAnnouncements().sortAnnouncementsByAscendingCity(agency.getAnnouncementsList()));
-            }
-        } else {
-            for (Agency agency : agencies) {
-                listToDisplay.addAll(agency.getAnnouncements().sortAnnouncementsByDescendingCity(agency.getAnnouncementsList()));
-            }
+            return AnnouncementMapper.toDto(new ArrayList<>(announcementList.sortAnnouncementsByAscendingCity(announcementList.getList()))).get();
         }
-        return listToDisplay;
+        return AnnouncementMapper.toDto(new ArrayList<>(announcementList.sortAnnouncementsByDescendingCity(announcementList.getList()))).get();
     }
 
     /**
@@ -345,20 +318,12 @@ public class OrderRequestController {
      * @param stateSorting the state sorting order
      * @return the announcement list
      */
-    public List<Announcement> getAnnouncementsByState(String stateSorting) {
-        List<Announcement> listToDisplay = new ArrayList<>();
-        List<Agency> agencies = agencyRepository.getAgenciesList();
-
+    public List<AnnouncementDto> getAnnouncementsByState(String stateSorting, List<AnnouncementDto> list) {
+        AnnouncementList announcementList = new AnnouncementList(AnnouncementMapper.toModelNonDeals(list, agencyRepository.getAgenciesList()));
         if (stateSorting.equals("Ascending")) {
-            for (Agency agency : agencies) {
-                listToDisplay.addAll(agency.getAnnouncements().sortAnnouncementsByAscendingState(agency.getAnnouncementsList()));
-            }
-        } else {
-            for (Agency agency : agencies) {
-                listToDisplay.addAll(agency.getAnnouncements().sortAnnouncementsByDescendingState(agency.getAnnouncementsList()));
-            }
+            return AnnouncementMapper.toDto(new ArrayList<>(announcementList.sortAnnouncementsByAscendingState(announcementList.getList()))).get();
         }
-        return listToDisplay;
+        return AnnouncementMapper.toDto(new ArrayList<>(announcementList.sortAnnouncementsByDescendingState(announcementList.getList()))).get();
     }
 
     /**
