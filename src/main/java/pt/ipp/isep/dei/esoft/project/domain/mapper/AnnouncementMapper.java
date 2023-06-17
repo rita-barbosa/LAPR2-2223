@@ -106,4 +106,24 @@ public class AnnouncementMapper {
         }
         return null;
     }
+
+    public static List<Announcement> toModelNonDeals(List<AnnouncementDto> list, List<Agency> agencies) {
+        List<Announcement> nondeals = new ArrayList<>();
+        for (AnnouncementDto dto : list){
+            nondeals.add(AnnouncementMapper.toModelNonDeal(dto, agencies));
+        }
+        return nondeals;
+    }
+
+    private static Announcement toModelNonDeal(AnnouncementDto dto, List<Agency> agencies) {
+        int id = dto.getAnnouncementId();
+        for (Agency agency: agencies){
+            if (agency.anyAnnouncementHasId(id)){
+                return agency.getAnnouncementById(id).get();
+            }
+        }
+        return null;
+    }
+
+
 }
