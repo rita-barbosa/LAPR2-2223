@@ -73,6 +73,9 @@ public class ScheduleVisitUI implements Runnable {
      */
     private Integer endHour;
 
+    /**
+     * The property type designation.
+     */
     private String propertyTypeDesignation;
 
     /**
@@ -97,7 +100,6 @@ public class ScheduleVisitUI implements Runnable {
         System.out.println("========================================================");
         Optional<List<AnnouncementDto>> nonDealsListDto;
         Optional<List<AnnouncementDto>> copycat;
-       // Optional<List<AnnouncementDto>> listToDisplayDto = Optional.empty();
         Optional<AnnouncementDto> announcementDto;
         Optional<Announcement> announcement;
 
@@ -109,7 +111,6 @@ public class ScheduleVisitUI implements Runnable {
                     do {
                         displayList(nonDealsListDto.get());
                         answer = Utils.askDirectQuestion("Select any criteria:");
-                       //copycat = nonDealsListDto;
                         while (answer && nonDealsListDto.get().size() > 0) {
                             propertyTypeDesignation = "house";
                             copycat = filterList(nonDealsListDto.get());
@@ -122,7 +123,6 @@ public class ScheduleVisitUI implements Runnable {
                             if (nonDealsListDto.get().size() == 0) {
                                 System.out.println("...\nNo announcements with chosen sequence of criteria!\nReturning to initial list.");
                                 System.out.println("========================================================");
-                                //copycat = Optional.of(new ArrayList<>(listToDisplay.get()));
                                 nonDealsListDto = controller.getAllNonDealAnnouncementsDto();
                                 try {
                                     Thread.sleep(3500);
