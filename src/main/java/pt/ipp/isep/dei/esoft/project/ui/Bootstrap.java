@@ -19,7 +19,7 @@ public class Bootstrap implements Runnable {
         }
         addUserRoles();
         addUsers();
-       // addAgencies();
+        addAgencies();
         addPeople();
         addCommissionTypes();
         addPropertyTypes();
@@ -255,12 +255,12 @@ public class Bootstrap implements Runnable {
         Announcement a4 = new Announcement(employee, commissionType, 234.0, request3);
         Announcement a5 = new Announcement(employee, commissionType, 234.0, request4);
         Announcement a6 = new Announcement(employee, commissionType, 234.0, request5);
-        Announcement a7 = new Announcement(employee, 35, request, "23-12-2022", 3245678d);
-        Announcement a8 = new Announcement(employee, 3495, request1, "23-12-2022", 336678d);
-        Announcement a9 = new Announcement(employee, 345, request2, "23-12-2022", 32458d);
-        Announcement a10 = new Announcement(employee, 3435, request3, "23-12-2022", 123245678d);
-        Announcement a11 = new Announcement(employee, 3, request4, "23-12-2022", 754245678d);
-        Announcement a12 = new Announcement(employee, 25, request5, "23-12-2022", 45678d);
+        Announcement a7 = new Announcement(employee, 35, request, "23/12/2022", 3245678d);
+        Announcement a8 = new Announcement(employee, 3495, request1, "23/12/2022", 336678d);
+        Announcement a9 = new Announcement(employee, 345, request2, "23/12/2022", 32458d);
+        Announcement a10 = new Announcement(employee, 3435, request3, "23/12/2022", 123245678d);
+        Announcement a11 = new Announcement(employee, 3, request4, "23/12/2022", 754245678d);
+        Announcement a12 = new Announcement(employee, 25, request5, "23/12/2022", 45678d);
 
         Order o1 = new Order(2345467.0, new Email("owner@this.app"));
 //        Order o2 = new Order(23467.0, new Email("owner@this.app"));
@@ -273,14 +273,14 @@ public class Bootstrap implements Runnable {
 //        a2.addOrder(o3);
 //        a3.addOrder(o4);
 
-        Visit v1 = new Visit(LocalDate.of(2023, 7, 25), 15, 20, "anasofia", "123456789");
-        Visit v2 = new Visit(LocalDate.of(2023, 8, 10), 15, 20, "ritabarbosa", "987654321");
-        Visit v3 = new Visit(LocalDate.of(2023, 9, 23), 15, 20, "peppapig", "24682468");
-        Visit v4 = new Visit(LocalDate.of(2023, 10, 5), 15, 20, "matildevarela", "135791357");
-        Visit v5 = new Visit(LocalDate.of(2023, 8, 15), 15, 20, "raven", "1592648");
-        Visit v6 = new Visit(LocalDate.of(2023, 9, 1), 15, 20, "robin", "1111111111");
-        Visit v7 = new Visit(LocalDate.of(2023, 10, 30), 15, 20, "starfire", "10965274");
-        Visit v8 = new Visit(LocalDate.of(2023, 12, 10), 15, 20, "cyborgue", "0316492457");
+        Visit v1 = new Visit(LocalDate.of(2023, 7, 25), 13, 14, "Steve Rogers", "555-666-1234");
+        Visit v2 = new Visit(LocalDate.of(2023, 8, 10), 15, 16, "Maria Leal", "543-222-2345");
+        Visit v3 = new Visit(LocalDate.of(2023, 9, 23), 14, 15, "Rita Barbosa", "765-123-4321");
+        Visit v4 = new Visit(LocalDate.of(2023, 10, 5), 12, 13, "Vernon Hwang", "675-321-5362");
+        Visit v5 = new Visit(LocalDate.of(2023, 8, 15), 15, 20, "Mark Lee", "555-777-3421");
+        Visit v6 = new Visit(LocalDate.of(2023, 9, 1), 15, 17, "Jessica Maria", "556-765-3333");
+        Visit v7 = new Visit(LocalDate.of(2023, 10, 30), 16, 17, "John Week", "555-666-7654");
+        Visit v8 = new Visit(LocalDate.of(2023, 12, 10), 15, 19, "Mona Lisa", "555-676-4567");
 
         a1.addVisit(v1);
         a2.addVisit(v2);
