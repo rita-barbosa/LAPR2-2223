@@ -19,9 +19,9 @@ public class SubdivideAgenciesGUI implements Initializable {
     private final String TIME_UNIT ="ms";
 
     @FXML
-    private Label txtAreaSubset1;
+    private ListView txtAreaSubset1;
     @FXML
-    private Label txtAreaSubset2;
+    private ListView txtAreaSubset2;
     @FXML
     private Label txtDifference;
     @FXML
@@ -50,8 +50,8 @@ public class SubdivideAgenciesGUI implements Initializable {
 
 
     private void displaysList(List<String> sublistStringList) {
-        txtAreaSubset1.setText(sublistStringList.get(0));
-        txtAreaSubset2.setText(sublistStringList.get(1));
+        txtAreaSubset1.getItems().add(sublistStringList.get(0));
+        txtAreaSubset2.getItems().add(sublistStringList.get(1));
         txtDifference.setText(sublistStringList.get(2));
     }
 
@@ -74,8 +74,8 @@ public class SubdivideAgenciesGUI implements Initializable {
 
     @FXML
     public void btnReset(ActionEvent event) {
-        txtAreaSubset1.setText("");
-        txtAreaSubset2.setText("");
+        txtAreaSubset1.getItems().clear();
+        txtAreaSubset2.getItems().clear();
         txtDifference.setText("");
         txtExecutionTime.setText("");
         lblWarning.setText("");

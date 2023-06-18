@@ -30,11 +30,11 @@ public class Partition {
 
     private void calculatePartitions(List<Integer> listOfDeals) {
         int listOfDealsSize = listOfDeals.size(); // 1 : O(1)
-        int size = getPowerOfTwo(listOfDealsSize); //3n + 2 :
+        int numBinaries = getPowerOfTwo(listOfDealsSize); //3n + 2 :
 
         this.minDifference = Integer.MAX_VALUE; // 1A
 
-        for (int i = 0; i < size; i++) { // (2^n -1) + 1 = 2^n
+        for (int i = 0; i < numBinaries; i++) { // (2^n -1) + 1 = 2^n
             List<Integer> subList1 = new ArrayList<>(listOfDeals); // (2^n -1) A
             List<Integer> subList2 = new ArrayList<>(listOfDeals); // (2^n -1)  A
             int subListSum1 = 0; // (2^n -1) A
@@ -52,7 +52,7 @@ public class Partition {
                 }
             }
 
-            if (binary.length() < size) { // (2^n -1) C
+            if (binary.length() < numBinaries) { // (2^n -1) C
                 for (int k = binary.length(); k < listOfDealsSize; k++) { // (n - 1) + 1 = n * (2^n -1)
                     subList1.set(k, 0); // (n-1) * (2^n -1) A
                     subListSum2 += listOfDeals.get(k); // (n-1) * (2^n -1) A +  (n-1) * (2^n -1)op
