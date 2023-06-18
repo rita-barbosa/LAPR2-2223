@@ -30,13 +30,20 @@ public class SimpleLinear implements RegressionModel {
     private double slopeStdErr;
 
     private double interceptStdErr;
-
     private final double HYPOTHESIS_TEST_VALUE = 0;
-    private final double ALPHA = 0.05;
+    private double alpha;
     private List<List<Double>> dealsData;
     private SimpleRegression regression;
 
-    public SimpleLinear(List<List<Double>> data) {
+    private double variableValue;
+    private double predictionValue;
+    private double predictionStdErr;
+    private Integer confidenceLevel;
+
+    public SimpleLinear(List<List<Double>> data, Integer confidenceLevel, List<Integer> values) {
+        this.alpha = (100 - confidenceLevel) / 100.0;
+        this.confidenceLevel = confidenceLevel;
+        this.variableValue = values.get(0);
         this.dealsData = data;
         this.regression = new SimpleRegression();
         addData();
@@ -56,11 +63,11 @@ public class SimpleLinear implements RegressionModel {
         MSR = SR; // MSR = SR / 1 -> to simplify we automatically assigned SR to MSR
         MSE = SE / degreeOfFreedom;
         fObs = MSR / MSE;
-        System.out.println(degreeOfFreedom);
-        fSnedecor = fSnedecor(1-ALPHA, 1, (int) degreeOfFreedom);
+        fSnedecor = fSnedecor(1 - alpha, 1, (int) degreeOfFreedom);
         slopeStdErr = this.regression.getSlopeStdErr();
         interceptStdErr = this.regression.getInterceptStdErr();
-
+        this.predictionValue = this.regression.predict(this.variableValue);
+        predictionStdErr = (Math.sqrt(this.SE / this.degreeOfFreedom) * Math.sqrt(1 + ((double) 1 / n) + (Math.pow((variableValue - xAverage), 2) / this.Sxx)));
     }
 
     @Override
@@ -109,6 +116,10 @@ public class SimpleLinear implements RegressionModel {
         report.append("-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-\n");
         report.append("## For intercept:\n");
         report.append(getConfidenceIntervals(interceptStdErr, intercept));
+        report.append("-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-\n");
+        report.append("## For Estimated Value:\n");
+        report.append(String.format("Estimated value: %.4f%n", predictionValue));
+        report.append(getConfidenceIntervals(predictionStdErr, predictionValue));
         report.append(String.format("%n[-----Hypothesis Tests-----]%n"));
         report.append("## For slope:\n");
         report.append(slopeHypothesisTest());
@@ -121,7 +132,7 @@ public class SimpleLinear implements RegressionModel {
 
     private String slopeHypothesisTest() {
         StringBuilder stringBuilder = new StringBuilder();
-        double tc = tStudent(1 - (ALPHA / 2), (int) degreeOfFreedom);
+        double tc = tStudent(1 - (alpha / 2), (int) degreeOfFreedom);
         double S = Math.sqrt(this.SE / degreeOfFreedom);
         double tObs = ((slope - HYPOTHESIS_TEST_VALUE) / (S / Math.sqrt(Sxx)));
 
@@ -133,7 +144,7 @@ public class SimpleLinear implements RegressionModel {
 
     private String interceptHypothesisTest() {
         StringBuilder stringBuilder = new StringBuilder();
-        double tc = tStudent(1 - (ALPHA / 2), (int) degreeOfFreedom);
+        double tc = tStudent(1 - (alpha / 2), (int) degreeOfFreedom);
         double S = Math.sqrt(this.SE / degreeOfFreedom);
         double tObs = (intercept - HYPOTHESIS_TEST_VALUE) / (S * Math.sqrt((1.0 / n) + ((xAverage * xAverage) / Sxx)));
 
@@ -147,10 +158,10 @@ public class SimpleLinear implements RegressionModel {
     public String compareAnovaSigModel() {
         StringBuilder stringBuilder = new StringBuilder();
         if (fObs > fSnedecor) {
-            stringBuilder.append(String.format("Decision: [f0 = %.2f] > [f(%.2f; %d; %d) = %.2f]\n", fObs, ALPHA, 1, degreeOfFreedom, fSnedecor));
+            stringBuilder.append(String.format("Decision: [f0 = %.2f] > [f(%.2f; %d; %d) = %.2f]\n", fObs, alpha, 1, degreeOfFreedom, fSnedecor));
             stringBuilder.append(String.format("    > Reject H0: the regression model is significant.\n"));
         } else {
-            stringBuilder.append(String.format("Decision: [f0 = %.2f] <= [f(%.2f; %d; %d) = %.2f]\n", fObs, ALPHA, 1, degreeOfFreedom, fSnedecor));
+            stringBuilder.append(String.format("Decision: [f0 = %.2f] <= [f(%.2f; %d; %d) = %.2f]\n", fObs, alpha, 1, degreeOfFreedom, fSnedecor));
             stringBuilder.append(String.format("    > Accept H0: the regression model isn't significant, therefore, shouldn't be used.\n"));
         }
         return stringBuilder.toString();
@@ -178,14 +189,14 @@ public class SimpleLinear implements RegressionModel {
     private String getConfidenceIntervals(double stdErr, double value) {
         StringBuilder s = new StringBuilder();
 
-        double tValue = tStudent(1 - (ALPHA / 2), (int) degreeOfFreedom);
+        double tValue = tStudent(1 - (alpha / 2), (int) degreeOfFreedom);
         double lower = value - tValue * stdErr;
         double upper = value + tValue * stdErr;
 
         s.append(String.format("Standard error : %.4f%n", stdErr));
         s.append(String.format("Lower Value : %.4f%n", lower));
         s.append(String.format("Upper Value: %.4f%n", upper));
-        s.append(String.format("IC(95%%): ] %.2f; %.2f [%n", lower, upper));
+        s.append(String.format("IC(%d%%): ] %.2f; %.2f [%n",this.confidenceLevel,lower, upper));
 
         return s.toString();
     }

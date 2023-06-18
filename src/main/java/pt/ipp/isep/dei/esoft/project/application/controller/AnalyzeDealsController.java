@@ -47,12 +47,12 @@ public class AnalyzeDealsController {
         return RegressionModelTypeMapper.toDto(regressionModelTypeList);
     }
 
-    public StatisticDto getStatisticsAndForecastValues(RegressionModelTypeDto regressionModelTypeDto, String variable) throws ReflectiveOperationException {
+    public StatisticDto getStatisticsAndForecastValues(RegressionModelTypeDto regressionModelTypeDto, String variable, Integer confidenceLevel, List<Integer> values) throws ReflectiveOperationException {
         RegressionModelType regressionModelType = RegressionModelTypeMapper.toModel(regressionModelTypeDto);
         List<List<Double>> dealsDataList = getDataForAnalysis(regressionModelType, variable);
         if (!dealsDataList.isEmpty()) {
             try {
-                return getRegressionModelStatistics(regressionModelType, dealsDataList);
+                return getRegressionModelStatistics(regressionModelType, dealsDataList,confidenceLevel,values);
             } catch (ReflectiveOperationException e) {
                 throw e;
             }
@@ -67,8 +67,8 @@ public class AnalyzeDealsController {
         return newList.orElse(null);
     }
 
-    private StatisticDto getRegressionModelStatistics(RegressionModelType regressionModelType, List<List<Double>> dealsDataList) throws ReflectiveOperationException {
-        Statistic s = new Statistic(dealsDataList, regressionModelType);
+    private StatisticDto getRegressionModelStatistics(RegressionModelType regressionModelType, List<List<Double>> dealsDataList,Integer confidenceLevel, List<Integer> values) throws ReflectiveOperationException {
+        Statistic s = new Statistic(dealsDataList, regressionModelType,confidenceLevel,values);
         return StatisticMapper.toDto(s);
     }
 }

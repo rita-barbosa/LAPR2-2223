@@ -1,11 +1,16 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
+import org.apache.commons.math3.linear.LUDecomposition;
+import org.apache.commons.math3.linear.MatrixUtils;
+import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.stat.regression.OLSMultipleLinearRegression;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Multilinear.
+ */
 public class Multilinear implements RegressionModel {
     private long n;
     private long k;
@@ -24,12 +29,27 @@ public class Multilinear implements RegressionModel {
     private double fObs;
     private double fSnedecor;
     private double[] parametersStdErr;
-    private final double ALPHA = 0.05;
+    private double alpha;
     private List<List<Double>> dealsData;
     private OLSMultipleLinearRegression regression;
+    private Integer confidenceLevel;
+    private List<Integer> values;
+    private double predictionValue;
 
-    public Multilinear(List<List<Double>> data) {
+    private RealMatrix xTXX;
+
+    /**
+     * Instantiates a new Multilinear.
+     *
+     * @param data            the data
+     * @param confidenceLevel the confidence level
+     * @param values          the values
+     */
+    public Multilinear(List<List<Double>> data, Integer confidenceLevel, List<Integer> values) {
+        this.alpha = (100 - confidenceLevel) / 100.0;
+        this.confidenceLevel = confidenceLevel;
         this.dealsData = data;
+        this.values = values;
         this.regression = new OLSMultipleLinearRegression();
         addData();
         this.n = data.size();
@@ -44,12 +64,9 @@ public class Multilinear implements RegressionModel {
         this.MQR = this.SR / this.k;
         this.MQE = this.SE / (this.n - (this.k + 1));
         this.fObs = MQR / MQE;
-        this.fSnedecor = fSnedecor(1 - ALPHA, (int) this.k, (int) (this.n - (this.k + 1)));
+        this.fSnedecor = fSnedecor(1 - alpha, (int) this.k, (int) (this.n - (this.k + 1)));
         this.parametersStdErr = regression.estimateRegressionParametersStandardErrors();
-    }
-
-    private double calculateAdjustedRSquared() {
-        return (1 - ((double) (this.n - 1) / (this.n - (this.k + 1))) * (1 - this.rSquare));
+        calculatePredictionValue(this.values);
     }
 
     @Override
@@ -108,7 +125,7 @@ public class Multilinear implements RegressionModel {
 
         for (int i = 0; i < this.parametersStdErr.length; i++) {
             double tObserved = (this.beta[i] / this.parametersStdErr[i]);
-            double tC = tStudent(1 - (ALPHA / 2), (int) (this.n - (this.k + 1)));
+            double tC = tStudent(1 - (alpha / 2), (int) (this.n - (this.k + 1)));
 
             s.append(String.format("%n#%s | Parameter: %.4f%n", i, this.beta[i]));
             s.append("-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-\n");
@@ -150,37 +167,125 @@ public class Multilinear implements RegressionModel {
         report.append(compareAnovaSigModel());
         report.append(String.format("%n[-----Confidence Intervals-----]%n"));
         report.append(getConfidenceIntervals());
+        report.append(getConfidenceIntervalsForEstimated());
         report.append(String.format("%n[-----Hypothesis Tests-----]%n"));
         report.append(getHypothesisTests());
 
         return report.toString();
     }
 
+    /**
+     * This method calculates the confidence intervals
+     *
+     * @return a string with the confidence intervals information
+     */
     private String getConfidenceIntervals() {
         StringBuilder s = new StringBuilder();
 
         for (int i = 0; i < this.parametersStdErr.length; i++) {
-            double lower = this.beta[i] - (tStudent(1 - (ALPHA / 2), (int) (this.n - (this.k + 1))) * this.parametersStdErr[i]);
-            double upper = this.beta[i] + (tStudent(1 - (ALPHA / 2), (int) (this.n - (this.k + 1))) * this.parametersStdErr[i]);
+            double lower = this.beta[i] - (tStudent(1 - (alpha / 2), (int) (this.n - (this.k + 1))) * this.parametersStdErr[i]);
+            double upper = this.beta[i] + (tStudent(1 - (alpha / 2), (int) (this.n - (this.k + 1))) * this.parametersStdErr[i]);
 
             s.append(String.format("#%s | Parameter: %.4f%n", i, this.beta[i]));
             s.append("-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-\n");
             s.append(String.format("Standard Error : %.4f%n", this.parametersStdErr[i]));
             s.append(String.format("Lower Values: %.4f%n", lower));
             s.append(String.format("Upper Values: %.4f%n", upper));
-            s.append(String.format("IC(95%%): ] %.2f; %.2f [%n%n", lower, upper));
+            s.append(String.format("IC(%d%%): ] %.2f; %.2f [%n%n",this.confidenceLevel, lower, upper));
         }
         return s.toString();
     }
+
+    private String getConfidenceIntervalsForEstimated() {
+        StringBuilder s = new StringBuilder();
+        double tc = tStudent(1 - (alpha / 2), (int) (this.n - (this.k - 1)));
+
+        Double lower = this.predictionValue - (Math.sqrt(this.MQE * ((1 + xTXX.getEntry(0, 0))) * tc));
+        Double upper = this.predictionValue + (Math.sqrt(this.MQE * ((1 + xTXX.getEntry(0, 0))) * tc));
+
+        s.append(String.format("Estimated Value: %.4f%n", this.predictionValue));
+        s.append("-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-\n");
+        s.append(String.format("Lower Values: %.4f%n", lower));
+        s.append(String.format("Upper Values: %.4f%n", upper));
+        s.append(String.format("IC(%d%%): ] %.2f; %.2f [%n%n",this.confidenceLevel, lower, upper));
+        return s.toString();
+    }
+
+    /**
+     * Calculate prediction value.
+     *
+     * @param values the values
+     */
+    public void calculatePredictionValue(List<Integer> values) {
+        double[][] matrix = matrixX();
+
+        RealMatrix xMatrix = MatrixUtils.createRealMatrix(matrix);
+
+        RealMatrix xMatrixT = MatrixUtils.createRealMatrix(transpose(matrixX()));
+
+        RealMatrix multiplicationXxT = (xMatrixT.multiply(xMatrix));
+
+        RealMatrix inverse = new LUDecomposition(multiplicationXxT).getSolver().getInverse();
+        double[][] pams = {{1, values.get(0), values.get(4), values.get(1), values.get(2), values.get(3)}};
+
+        RealMatrix xO = MatrixUtils.createRealMatrix(pams);
+        RealMatrix xOT = MatrixUtils.createRealMatrix(transpose(xO.getData()));
+
+        this.xTXX = xO.multiply(inverse).multiply(xOT);
+
+        this.predictionValue = predict((double) values.get(0), (double) values.get(4), (double) values.get(1), (double) values.get(2), (double) values.get(3));
+    }
+
+
+
+    /**
+     * This method adjuts the matrix of X for calculation
+     *
+     * @return - double[][]
+     */
+    private double[][] matrixX() {
+        int length = matrixX.length;
+        double[][] matrixAux = new double[length][matrixX[0].length + 1];
+        // X matrix
+        for (int i = 0; i < length; i++) {
+            matrixAux[i][0] = 1;
+            matrixAux[i][1] = this.matrixX[i][0];
+            matrixAux[i][2] = this.matrixX[i][1];
+            matrixAux[i][3] = this.matrixX[i][2];
+            matrixAux[i][4] = this.matrixX[i][3];
+            matrixAux[i][5] = this.matrixX[i][4];
+        }
+        return matrixAux;
+    }
+
+
+    /**
+     * This method transposes the matrix
+     *
+     * @param matrix
+     * @return - double[][]
+     */
+    private double[][] transpose(double[][] matrix) {
+        double[][] matrixTransposed = new double[matrix[0].length][matrix.length];
+
+        for (int i = 0; i < matrix[0].length; i++) {
+            for (int j = 0; j < matrix.length; j++) {
+                matrixTransposed[i][j] = matrix[j][i];
+            }
+        }
+        return matrixTransposed;
+
+    }
+
 
     @Override
     public String compareAnovaSigModel() {
         StringBuilder stringBuilder = new StringBuilder();
         if (fObs > fSnedecor) {
-            stringBuilder.append(String.format("Decision: [f0 = %.2f] > [f(%.2f,%d,%d) = %.2f]\n", this.fObs, ALPHA, this.n, (this.n - (this.k + 1)), this.fSnedecor));
+            stringBuilder.append(String.format("Decision: [f0 = %.2f] > [f(%.2f,%d,%d) = %.2f]\n", this.fObs, alpha, this.n, (this.n - (this.k + 1)), this.fSnedecor));
             stringBuilder.append(String.format("    > Reject H0: the regression model is significant.\n"));
         } else {
-            stringBuilder.append(String.format("Decision: [f0 = %.2f] <= [f(%.2f,%d,%d) = %.2f]\n", this.fObs, ALPHA, this.n, (this.n - (this.k + 1)), this.fSnedecor));
+            stringBuilder.append(String.format("Decision: [f0 = %.2f] <= [f(%.2f,%d,%d) = %.2f]\n", this.fObs, alpha, this.n, (this.n - (this.k + 1)), this.fSnedecor));
             stringBuilder.append(String.format("    > Accept H0: the regression model isn't significant, therefore, shouldn't be used.\n"));
         }
         return stringBuilder.toString();

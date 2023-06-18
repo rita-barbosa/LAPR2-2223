@@ -49,17 +49,17 @@ public class AnalyzeDealsUI implements Runnable{
             int idx2 = Utils.showAndSelectIndex(Arrays.asList(IndependentVariables.values()), "Independent Variables");
             variable = Arrays.asList(IndependentVariables.values()).get(idx2).toString();
         }
-
-        try {
-            statisticDto = controller.getStatisticsAndForecastValues(regression, variable);
-            if (statisticDto != null) {
-                System.out.println(statisticDto.getReport());
-            } else {
-                System.out.println("ERROR: There are no sale deals.");
-            }
-        } catch (ReflectiveOperationException e) {
-            System.out.println(e.getMessage());
-        }
+//
+//        try {
+//           // statisticDto = controller.getStatisticsAndForecastValues(regression, variable,);
+//            if (statisticDto != null) {
+//                System.out.println(statisticDto.getReport());
+//            } else {
+//                System.out.println("ERROR: There are no sale deals.");
+//            }
+//        } catch (ReflectiveOperationException e) {
+//            System.out.println(e.getMessage());
+//        }
 
     }
 }

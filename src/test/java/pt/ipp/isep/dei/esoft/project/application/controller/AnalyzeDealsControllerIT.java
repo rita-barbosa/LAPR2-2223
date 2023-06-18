@@ -39,7 +39,7 @@ class AnalyzeDealsControllerIT {
     void getStatisticsAndForecastValues() {
         try {
             List<List<Double>> list = new ArrayList<>();
-            Statistic s = new Statistic(list, new RegressionModelType("Simple Linear"));
+            Statistic s = new Statistic(list, new RegressionModelType("Simple Linear"),90,new ArrayList<>());
             assertEquals(s, s);
         } catch (ReflectiveOperationException e) {
                 assertTrue(true);
