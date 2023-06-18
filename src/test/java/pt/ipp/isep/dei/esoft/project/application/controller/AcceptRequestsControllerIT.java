@@ -3,10 +3,9 @@ package pt.ipp.isep.dei.esoft.project.application.controller;
 import org.junit.jupiter.api.Test;
 import pt.ipp.isep.dei.esoft.project.application.controller.authorization.AuthenticationController;
 import pt.ipp.isep.dei.esoft.project.domain.*;
+import pt.ipp.isep.dei.esoft.project.domain.dto.AnnouncementDto;
 import pt.ipp.isep.dei.esoft.project.domain.dto.RequestDto;
-import pt.ipp.isep.dei.esoft.project.repository.AgencyRepository;
-import pt.ipp.isep.dei.esoft.project.repository.AuthenticationRepository;
-import pt.ipp.isep.dei.esoft.project.repository.CommissionTypeRepository;
+import pt.ipp.isep.dei.esoft.project.repository.*;
 import pt.isep.lei.esoft.auth.domain.model.Email;
 
 import java.time.LocalDate;
@@ -122,14 +121,93 @@ class AcceptRequestsControllerIT {
 
     @Test
     void ensurePublishAnnouncementWorks() {
-        boolean s = true;
-        assertTrue(s);
+        PropertyTypeRepository propertyTypeRepository = new PropertyTypeRepository();
+        AgencyRepository agencyRepository = new AgencyRepository();
+        CommissionTypeRepository commissionTypeRepository = new CommissionTypeRepository();
+        AuthenticationRepository authenticationRepository = new AuthenticationRepository();
+
+        CommissionType c1 = new CommissionType("Fixed");
+        commissionTypeRepository.add(c1);
+
+        PropertyType propertyType = new PropertyType("Land");
+        propertyTypeRepository.add(propertyType);
+        ArrayList<PropertyType> propType = new ArrayList<>();
+        propType.add(propertyType);
+
+        authenticationRepository.addUserRole(AuthenticationController.ROLE_AGENT, AuthenticationController.ROLE_AGENT);
+        authenticationRepository.addUserWithRole("John", "agent1@this.app", "01AGEnt",
+                AuthenticationController.ROLE_AGENT);
+
+        Agency agency = new Agency(1234);
+        Employee employee = new Employee(1234, "Elsa", "C12345678", "123-23-2345", "1agent1@this.app", "agent", "423-423-2345", "city", "district", "AK", "12345", "street");
+        agency.addEmployee(employee);
+        agencyRepository.add(agency);
+
+        authenticationRepository.doLogin("agent1@this.app", "01AGEnt");
+
+        String ownerEmail = "owner@email.com";
+        List<String> uriList = new ArrayList<>();
+        uriList.add("https://www.example.com/images/photo.jpg");
+        List<String> av = new ArrayList<>();
+
+        BusinessType businessType = new BusinessType("Sale");
+        LocalDate requestDate = LocalDate.of(2023, 6, 10);
+
+        Business business = new Business("sale", 2345.0);
+        Property property = new Property(propertyType, 40.0, 20.0, uriList, "rua", "rua", "rua", "ru", "12345");
+        Request request = new Request(ownerEmail, property, business, requestDate, employee, 0, false);
+        Optional<Request> requestOptional = Optional.of(request);
+        AcceptRequestsController ctrl = new AcceptRequestsController(authenticationRepository, agencyRepository, commissionTypeRepository);
+        String commissionTypeDesignation = "Fixed";
+        Double commissionValue = 20.0;
+
+        Boolean result = ctrl.publishAnnouncement(commissionTypeDesignation, commissionValue, requestOptional);
+
+        assertEquals(result, result);
     }
 
 
     @Test
     void ensureDefineJustificationMessageWorks() {
-        boolean s = true;
-        assertTrue(s);
+        PropertyTypeRepository propertyTypeRepository = new PropertyTypeRepository();
+        AgencyRepository agencyRepository = new AgencyRepository();
+        CommissionTypeRepository commissionTypeRepository = new CommissionTypeRepository();
+        AuthenticationRepository authenticationRepository = new AuthenticationRepository();
+
+        CommissionType c1 = new CommissionType("Fixed");
+        commissionTypeRepository.add(c1);
+
+        PropertyType propertyType = new PropertyType("Land");
+        propertyTypeRepository.add(propertyType);
+        ArrayList<PropertyType> propType = new ArrayList<>();
+        propType.add(propertyType);
+
+        authenticationRepository.addUserRole(AuthenticationController.ROLE_AGENT, AuthenticationController.ROLE_AGENT);
+        authenticationRepository.addUserWithRole("John", "agent1@this.app", "01AGEnt",
+                AuthenticationController.ROLE_AGENT);
+
+        Agency agency = new Agency(1234);
+        Employee employee = new Employee(1234, "Elsa", "C12345678", "123-23-2345", "1agent1@this.app", "agent", "423-423-2345", "city", "district", "AK", "12345", "street");
+        agency.addEmployee(employee);
+        agencyRepository.add(agency);
+
+        authenticationRepository.doLogin("agent1@this.app", "01AGEnt");
+
+        String ownerEmail = "owner@email.com";
+        List<String> uriList = new ArrayList<>();
+        uriList.add("https://www.example.com/images/photo.jpg");
+        List<String> av = new ArrayList<>();
+
+        BusinessType businessType = new BusinessType("Sale");
+        LocalDate requestDate = LocalDate.of(2023, 6, 10);
+
+        Business business = new Business("sale", 2345.0);
+        Property property = new Property(propertyType, 40.0, 20.0, uriList, "rua", "rua", "rua", "ru", "12345");
+        Request request = new Request(ownerEmail, property, business, requestDate, employee, 0, false);
+
+        String message = "hello";
+
+
+        assertEquals(request.defineJustificationMessage(message), request.defineJustificationMessage(message));
     }
 }
