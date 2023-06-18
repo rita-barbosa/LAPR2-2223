@@ -1,8 +1,13 @@
 package pt.ipp.isep.dei.esoft.project.domain.dto;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.Objects;
 
+/**
+ * The type Visit dto.
+ */
 public class VisitDto {
 
         /**
@@ -39,6 +44,11 @@ public class VisitDto {
         private Boolean acceptanceStatus;
 
         /**
+         * The Date time formatter.
+         */
+        private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        /**
          * Instantiates a new Visit.
          *
          * @param visitDate       the visit date
@@ -57,6 +67,17 @@ public class VisitDto {
                 this.acceptanceStatus = false;
         }
 
+        /**
+         * Instantiates a new Visit dto.
+         *
+         * @param visitDate        the visit date
+         * @param startHour        the start hour
+         * @param endHour          the end hour
+         * @param userName         the user name
+         * @param userPhoneNumber  the user phone number
+         * @param id               the id
+         * @param acceptanceStatus the acceptance status
+         */
         public VisitDto(LocalDate visitDate, Integer startHour, Integer endHour, String userName, String userPhoneNumber, Integer id, Boolean acceptanceStatus) {
                 this.id = id;
                 this.startHour = startHour;
@@ -154,7 +175,7 @@ public class VisitDto {
          */
         @Override
         public String toString(){
-           return String.format("Visit Date:%s\nStart Hour:%s\nEnd Hour:%s\nUsername:%s\nUser Phone Number:%s\n\n", visitDate, startHour, endHour, userName, userPhoneNumber);
+           return String.format("Visit Date:%s\nStart Hour:%s\nEnd Hour:%s\nUsername:%s\nUser Phone Number:%s\n\n", visitDate.format(dateTimeFormatter), startHour, endHour, userName, userPhoneNumber);
         }
 
 }

@@ -143,8 +143,10 @@ public class ListVisitsController {
             if (sortClass != null) {
                 Class<?> sortAlgorithmClass = Class.forName(sortClass);
                 Constructor<?> constructor = sortAlgorithmClass.getConstructor(List.class);
-                SortAlgorithm sortingAlgorithm = (SortAlgorithm) constructor.newInstance(listVisitsDto.get());
-                listVisitsDto = Optional.of(sortingAlgorithm.sort(listVisitsDto.get()));
+                if(listVisitsDto.isPresent()) {
+                    SortAlgorithm sortingAlgorithm = (SortAlgorithm) constructor.newInstance(listVisitsDto.get());
+                    listVisitsDto = Optional.of(sortingAlgorithm.sort(listVisitsDto.get()));
+                }
             }
         }catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException |
                 InvocationTargetException e){

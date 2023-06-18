@@ -49,19 +49,28 @@ public class ListVisitsGUI implements Initializable {
         Optional<List<VisitDto>> allVisitDtoList;
         try {
             allVisitDtoList = controller.getVisitRequestsList(beginDate, endDate);
+            if (allVisitDtoList.isPresent()){
+                for (VisitDto visit : allVisitDtoList.get()){
+                    visitsListDisplay.getItems().add(visit.toString());
+                    btnSortButton.setDisable(true);
+                }
+            }
+            lblWarning.setText("");
         } catch (Exception e) {
             lblWarning.setText("ERROR: INVALID CONFIGURATION FILE!!\n *CONTACT SYSTEM ADMINISTRATOR!!\n\n *CLICK IN THE RETURN BUTTON!!");
             btnSortButton.setDisable(true);
             btnReset.setDisable(true);
-            throw new RuntimeException(e);
+//            throw new RuntimeException(e);
         }
 
-        if (allVisitDtoList.isPresent()){
-            for (VisitDto visit : allVisitDtoList.get()){
-                visitsListDisplay.getItems().add(visit.toString());
-                btnSortButton.setDisable(true);
-            }
-        }
+//        if (allVisitDtoList.isPresent()){
+//            for (VisitDto visit : allVisitDtoList.get()){
+//                visitsListDisplay.getItems().add(visit.toString());
+//                btnSortButton.setDisable(true);
+//            }
+//        }
+
+
     }
 
     @FXML
@@ -70,7 +79,7 @@ public class ListVisitsGUI implements Initializable {
         endDate = btnEndDate.getValue();
         if (validateDates(beginDate, endDate)){
             updateListToDisplay();
-            lblWarning.setText("");
+//            lblWarning.setText("");
             btnSortButton.setDisable(true);
         }
     }
@@ -91,23 +100,6 @@ public class ListVisitsGUI implements Initializable {
         }
     }
 
-//    @FXML
-//    void sortList(ActionEvent event){
-//
-//    }
-
-
-
-//    private void checkWarningMessage(){
-//        if (beginDate == null && endDate == null){
-//            lblWarning.setText("Begin date must be selected. \nEnd date must be selected. ");
-//        } else if (beginDate == null) {
-//            lblWarning.setText("Begin date must be selected.");
-//        } else {
-//            lblWarning.setText("End date must be selected.");
-//        }
-//    }
-
 
     public void btnResetAction(ActionEvent event){
         this.beginDate = null;
@@ -120,10 +112,6 @@ public class ListVisitsGUI implements Initializable {
         visitsListDisplay.getItems().clear();
         btnSortButton.setDisable(false);
     }
-
-//    private void updateList(LocalDate beginDate, LocalDate endDate){
-//
-//    }
 
 
     private boolean validateDates(LocalDate beginDate, LocalDate endDate){
