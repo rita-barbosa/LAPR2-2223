@@ -75,14 +75,14 @@ public class DisplayPropertiesUI implements Runnable {
                             case 1:
                                 businessType = displayAndSelectBusinessType().toLowerCase();
                                 copyList = controller.getAnnouncementsByBusinessType(businessType, copyList);
-                                System.out.println("Announcements by type of business:\n");
+                                System.out.println("\nAnnouncements by type of business:\n");
                                 displayAnnouncements(copyList);
                                 break;
 
                             case 2:
                                 propertyType = displayAndSelectPropertyType().toLowerCase();
                                 copyList = controller.getAnnouncementsByPropertyType(propertyType, copyList);
-                                System.out.println("Announcements by type of property:\n");
+                                System.out.println("\nAnnouncements by type of property:\n");
                                 displayAnnouncements(copyList);
                                 break;
 
@@ -90,6 +90,7 @@ public class DisplayPropertiesUI implements Runnable {
                                 if (!Objects.equals(propertyType, "land")) {
                                     numberBedrooms = displayAndSelectNumberBedrooms();
                                     copyList = controller.getAnnouncementsByNumberBedrooms(numberBedrooms, copyList);
+                                    System.out.println("\nAnnouncements by number of bedrooms:\n");
                                     displayAnnouncements(copyList);
                                 } else {
                                     System.out.println("That option isn't available\n");
@@ -99,17 +100,20 @@ public class DisplayPropertiesUI implements Runnable {
                             case 4:
                                 priceSorting = displayAndSelectPrice();
                                 copyList = controller.getAnnouncementsByPrice(priceSorting, copyList);
+                                System.out.println("\nAnnouncements by " + priceSorting.toLowerCase() + " price:\n");
                                 displayAnnouncements(copyList);
                                 break;
 
                             case 5:
                                 citySorting = displayAndSelectCity();
                                 copyList = controller.getAnnouncementsByCity(citySorting, copyList);
+                                System.out.println("\nAnnouncements by " + citySorting.toLowerCase() + " city:\n");
                                 displayAnnouncements(copyList);
                                 break;
                             case 6:
                                 stateSorting = displayAndSelectState();
                                 copyList = controller.getAnnouncementsByState(stateSorting, copyList);
+                                System.out.println("\nAnnouncements by " + stateSorting.toLowerCase() + " state:\n");
                                 displayAnnouncements(copyList);
                                 break;
                         }
@@ -152,8 +156,7 @@ public class DisplayPropertiesUI implements Runnable {
                 }
                 invalid = false;
             } catch (InputMismatchException e) {
-                System.out.println("\nERROR: Option selected is invalid"
-                        + " (" + e.getClass().getSimpleName() + ")");
+                System.out.println("\nERROR: Option selected is invalid");
                 sc.nextLine();
             }
         } while (invalid);
@@ -187,8 +190,7 @@ public class DisplayPropertiesUI implements Runnable {
                 }
                 invalid = false;
             } catch (InputMismatchException e) {
-                System.out.println("\nERROR: Option selected is invalid"
-                        + " (" + e.getClass().getSimpleName() + ")");
+                System.out.println("\nERROR: Option selected is invalid");
                 sc.nextLine();
             }
         } while (invalid);
@@ -216,8 +218,7 @@ public class DisplayPropertiesUI implements Runnable {
                 }
                 invalid = false;
             } catch (InputMismatchException e) {
-                System.out.println("\nERROR: Option selected is invalid"
-                        + " (" + e.getClass().getSimpleName() + ")");
+                System.out.println("\nERROR: Option selected is invalid");
                 sc.nextLine();
             }
         } while (invalid);
@@ -244,8 +245,7 @@ public class DisplayPropertiesUI implements Runnable {
                 }
                 invalid = false;
             } catch (InputMismatchException e) {
-                System.out.println("\nERROR: Option selected is invalid"
-                        + " (" + e.getClass().getSimpleName() + ")");
+                System.out.println("\nERROR: Option selected is invalid");
                 sc.nextLine();
             }
         } while (invalid);
@@ -264,16 +264,15 @@ public class DisplayPropertiesUI implements Runnable {
         do {
             try {
                 while (option < 0) {
-                    System.out.println("Enter number of bedrooms:");
+                    System.out.println("\nEnter number of bedrooms:");
                     option = sc.nextInt();
                     if (option <= 0) {
-                        System.out.println("ERROR: Number of bedrooms is invalid.");
+                        System.out.println("\nERROR: Number of bedrooms is invalid.");
                     }
                 }
                 invalid = false;
             } catch (InputMismatchException e) {
-                System.out.println("\nERROR: Option selected is invalid"
-                        + " (" + e.getClass().getSimpleName() + ")");
+                System.out.println("\nERROR: Option selected is invalid");
                 sc.nextLine();
             }
         } while (invalid);
@@ -336,8 +335,7 @@ public class DisplayPropertiesUI implements Runnable {
                 }
                 invalid = false;
             } catch (InputMismatchException e) {
-                System.out.println("\nERROR: Option selected is invalid"
-                        + " (" + e.getClass().getSimpleName() + ")");
+                System.out.println("\nERROR: Option selected is invalid");
                 sc.nextLine();
             }
         } while (invalid);

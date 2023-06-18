@@ -89,9 +89,7 @@ public class AcceptRequestsUI implements Runnable {
                             listRequests.get().remove(requestDto.get());
                         }
                     }
-                } else {
-                        System.out.println("ERROR!!!!");
-                    }
+                }
                 } else {
                     continueLoop = false;
                 }
@@ -231,8 +229,7 @@ public class AcceptRequestsUI implements Runnable {
                 }
                 invalid = false;
             } catch (InputMismatchException e) {
-                System.out.println("\nERROR: Option selected is invalid"
-                        + " (" + e.getClass().getSimpleName() + ")");
+                System.out.println("\nERROR: Option selected is invalid");
                 input.nextLine();
             }
         } while (invalid);
@@ -278,8 +275,7 @@ public class AcceptRequestsUI implements Runnable {
                 value = input.nextDouble();
                 invalid = false;
             } catch (InputMismatchException e) {
-                System.out.println("\nERROR: Value typed is invalid"
-                        + " (" + e.getClass().getSimpleName() + ")");
+                System.out.println("\nERROR: Value typed is invalid");
                 input.nextLine();
             }
         } while (invalid);
