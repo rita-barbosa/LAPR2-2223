@@ -12,12 +12,10 @@ public class ListVisitsApp extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        Bootstrap bootstrap = new Bootstrap();
-        bootstrap.run();
         FXMLLoader fxmlLoader = new FXMLLoader(ListVisitsApp.class.getResource("ListVisitsUI.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 715, 575);
         stage.setResizable(false);
-        stage.setTitle("Real Estate");
+        stage.setTitle("Real Estate USA");
         stage.setScene(scene);
         stage.show();
     }
