@@ -254,6 +254,11 @@ public class AnalyzeDealsGUI implements Initializable {
         initComboBoxRegression();
         listViewStatistics.getItems().clear();
         listViewForecastValue.getItems().clear();
+        txtArea.setText("");
+        txtBedrooms.setText("");
+        txtBathrooms.setText("");
+        txtParking.setText("");
+        txtDcc.setText("");
         txtArea.setDisable(true);
         txtBedrooms.setDisable(true);
         txtBathrooms.setDisable(true);

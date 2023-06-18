@@ -169,7 +169,7 @@ public class Announcement implements Serializable {
      * @return the int [ ]
      */
     private int[] mapStringToLocalDate(String value) {
-        String[] dateString = value.split("-");
+        String[] dateString = value.split("/");
 
         int[] date = new int[dateString.length];
         try {
