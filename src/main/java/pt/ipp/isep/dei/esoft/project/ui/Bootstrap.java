@@ -26,7 +26,6 @@ public class Bootstrap implements Runnable {
         addBusinessTypes();
         addCriteria();
         addRegressionModels();
-
     }
 
     private void addRegressionModels() {
@@ -47,7 +46,6 @@ public class Bootstrap implements Runnable {
         Person client2 = new Person("Jake Moon", "C12777778",
                 "134-23-2555", "client1@this.app", "555-775-5555", "client",
                 "Rua da Alegria, 123", "Porto", "Porto", "PT", "43005");
-
         Person client1 = new Person("Paulo Borges", "C04575989",
                 "843-88-4881", "client2@this.app", "911-264-5567", "client",
                 "Broadway St", "Manhattan", "New York", "NY", "10001");
@@ -159,7 +157,9 @@ public class Bootstrap implements Runnable {
         String ownerEmail = "jack@email.com";
         String ownerEmail1 = "finn@email.com";
         String ownerEmail2 = "lila@email.com";
-        Employee employee = new Employee("employee@this.app", "Agent");
+        Employee employee = new Employee(agency.getId(), "John Doe", "C12000078",
+                "004-45-6989", "employee@this.app", "agent", "623-456-7890",
+                "New York", "Manhattan", "NY", "10001", "Broadway");
         List<String> uriList = new ArrayList<>();
         uriList.add("https://www.example.com/images/amazingphoto.jpg%22");
         uriList.add("https://www.example.com/images/photosky.jpg%22");

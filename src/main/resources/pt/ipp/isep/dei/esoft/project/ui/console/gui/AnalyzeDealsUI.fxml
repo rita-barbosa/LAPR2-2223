@@ -46,12 +46,12 @@
                 <Font name="System Bold" size="14.0" />
             </font>
         </Button>
-        <Button fx:id="btnNext" layoutX="144.0" layoutY="487.0" mnemonicParsing="false" onAction="#btnNextAction" prefHeight="35.0" prefWidth="95.0" style="-fx-background-color: #acd9ed;" text="Next" textFill="#254757">
+        <Button fx:id="btnNext" layoutX="144.0" layoutY="487.0" mnemonicParsing="false" onAction="#btnNextAction" prefHeight="35.0" prefWidth="95.0" style="-fx-background-color: #acd9ed;" text="Ok" textFill="#254757">
             <font>
                 <Font name="System Bold" size="14.0" />
             </font>
         </Button>
-        <Label fx:id="lblWarning" alignment="CENTER" contentDisplay="CENTER" layoutX="23.0" layoutY="411.0" prefHeight="65.0" prefWidth="412.0" textAlignment="CENTER" textFill="RED" wrapText="true">
+        <Label fx:id="lblWarning" alignment="CENTER" contentDisplay="CENTER" layoutX="23.0" layoutY="411.0" prefHeight="65.0" prefWidth="217.0" textAlignment="CENTER" textFill="RED" wrapText="true">
          <font>
             <Font name="System Bold" size="13.0" />
          </font></Label>
@@ -62,7 +62,7 @@
                   <Font name="System Bold" size="16.0" />
                 </font>
           </Label>
-      <Button alignment="CENTER" layoutX="93.0" layoutY="530.0" mnemonicParsing="false" onAction="#btnCloseApp" prefHeight="27.0" prefWidth="74.0" style="-fx-background-color: #acd9ed;" text="Close" textFill="#254757">
+      <Button alignment="CENTER" layoutX="93.0" layoutY="530.0" mnemonicParsing="false" onAction="#btnCloseApp" prefHeight="27.0" prefWidth="74.0" style="-fx-background-color: #acd9ed;" text="Return" textFill="#254757">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>

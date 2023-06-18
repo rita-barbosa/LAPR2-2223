@@ -18,7 +18,6 @@ public class AgentUI implements Runnable {
         options.add(new MenuItem("Publish a sale announcement", new PublishAnnouncementUI()));
         options.add(new MenuItem("Accept Orders", new AcceptOrdersUI()));
         options.add(new MenuItem("Accept property announcement requests", new AcceptRequestsUI()));
-       // options.add(new MenuItem("List booking requests", new ListVisitsUI()));
         options.add(new MenuItem("List booking requests", new ListVisitsApp()));
         int option = 0;
         do {
@@ -29,16 +28,18 @@ public class AgentUI implements Runnable {
                     options.get(option).run();
                 } else if (options.get(option).getUi() == null) {
                     try {
-                        Application.launch(options.get(option).getGui().getClass());
+                        if (!Utils.getApplicationLaunched()) {
+                            Application.launch(options.get(option).getGui().getClass());
+                            Utils.setAplicationLaunched(true);
+                        } else {
+                            System.out.println("It's not possible to open another feature with graphic interface. \nPlease restart the application.");
+                        }
                     } catch (Exception e) {
-                        throw new RuntimeException(e);
+                        System.out.println("It's not possible to open another feature with graphic interface. \nPlease restart the application.");
                     }
                 }
             }
 
-//            if ((option >= 0) && (option < options.size())) {
-//                options.get(option).run();
-//            }
         } while (option != -1);
     }
 }

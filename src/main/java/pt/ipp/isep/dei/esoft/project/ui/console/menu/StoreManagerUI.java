@@ -31,7 +31,7 @@ public class StoreManagerUI implements Runnable {
                             System.out.println("It's not possible to open another feature with graphic interface. \nPlease restart the application.");
                         }
                     } catch (Exception e) {
-                        throw new RuntimeException(e);
+                        System.out.println("It's not possible to open another feature with graphic interface. \nPlease restart the application.");
                     }
                 }
             }
