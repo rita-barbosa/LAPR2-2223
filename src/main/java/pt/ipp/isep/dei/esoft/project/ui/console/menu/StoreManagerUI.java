@@ -1,5 +1,6 @@
 package pt.ipp.isep.dei.esoft.project.ui.console.menu;
 
+import pt.ipp.isep.dei.esoft.project.ui.Main;
 import pt.ipp.isep.dei.esoft.project.ui.console.AnalyzeDealsUI;
 import pt.ipp.isep.dei.esoft.project.ui.console.gui.AnalyzeDealsApp;
 import javafx.application.Application;
@@ -23,7 +24,12 @@ public class StoreManagerUI implements Runnable {
                     options.get(option).run();
                 } else if (options.get(option).getUi() == null) {
                     try {
-                        Application.launch(options.get(option).getGui().getClass());
+                        if (!Utils.getApplicationLaunched()) {
+                            Application.launch(options.get(option).getGui().getClass());
+                            Utils.setAplicationLaunched(true);
+                        } else {
+                            System.out.println("It's not possible to open another feature with graphic interface. \nPlease restart the application.");
+                        }
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }

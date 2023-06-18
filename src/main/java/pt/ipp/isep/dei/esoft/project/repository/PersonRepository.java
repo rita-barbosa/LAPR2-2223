@@ -91,21 +91,21 @@ public class PersonRepository implements Serializable {
         return newPerson;
     }
 
-    public void savePeople() {
+    public void savePeople() throws IOException {
         try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("binaryFile/personBin.data"))) {
             outputStream.writeObject((List<Person>) people);
         } catch (IOException e) {
-            System.out.println("ERROR: Couldn't save person.");
+            throw e;
         }
     }
 
-    public void loadPeople() {
+    public void loadPeople() throws IOException, ClassNotFoundException {
         File file = new File("binaryFile/personBin.data");
         if (file.exists()) {
             try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(file.getPath()))) {
                 people = (ArrayList<Person>) inputStream.readObject();
             } catch (IOException | ClassNotFoundException e) {
-                System.out.println(e.getMessage());
+                throw e;
             }
         }
     }

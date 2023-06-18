@@ -14,6 +14,8 @@ public class MenuItem {
     private final Runnable ui;
     private final Application gui;
 
+
+
     public MenuItem(String description, Runnable ui) {
         if (StringUtils.isBlank(description)) {
             throw new IllegalArgumentException("MenuItem description cannot be null or empty.");

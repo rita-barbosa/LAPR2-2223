@@ -12,20 +12,21 @@ import java.util.List;
 public class Bootstrap implements Runnable {
 
     public void run() {
+        try {
+            Serialization.loadData();
+        } catch (Exception e) {
+            System.out.println("ERROR: Couldn't load data.");
+        }
         addUserRoles();
         addUsers();
-        addAgencies();
+       // addAgencies();
         addPeople();
         addCommissionTypes();
         addPropertyTypes();
         addBusinessTypes();
         addCriteria();
         addRegressionModels();
-        try {
-            Serialization.loadData();
-        } catch (Exception e) {
-            System.out.println("ERROR: Couldn't load data.");
-        }
+
     }
 
     private void addRegressionModels() {
@@ -90,17 +91,17 @@ public class Bootstrap implements Runnable {
 
     private void addAgencies() {
         AgencyRepository agencyRepository = Repositories.getInstance().getAgencyRepository();
-        Location location = new Location("Saint Avenue", "Heaven", "Sky", "SK", "12345");
-        Agency agency4 = new Agency(31, "Make It Home Deluxe", "agency4@this.app", "999 444 5656", location);
+        Location location = new Location("71 ST. NICHOLAS DRIVE", "FAIRBANKS NORTH STAR", "NORTH POLE", "AK", "99705");
+        Agency agency4 = new Agency(1, "North Pole", "northpole@realstateUSA.com", "907-488-4800", location);
         addEmployees(agency4);
-        // addRequests(agency4);
-        //addAnnouncements(agency4);
+        addRequests(agency4);
+        addAnnouncements(agency4);
         agencyRepository.add(agency4);
 
-        Location location1 = new Location("Devil's Road", "Hell", "Earth", "ET", "16789");
-        Agency agency5 = new Agency(32, "Make It Home LLC.", "agency5@this.app", "286 776 8435", location1);
-        //addEmployees(agency5);
-        agencyRepository.add(agency5);
+//        Location location1 = new Location("Devil's Road", "Hell", "Earth", "ET", "16789");
+//        Agency agency5 = new Agency(2, "Make It Home LLC.", "agency5@this.app", "286 776 8435", location1);
+//        //addEmployees(agency5);
+//        agencyRepository.add(agency5);
     }
 
     private void addUsers() {
@@ -306,6 +307,5 @@ public class Bootstrap implements Runnable {
         agency.addAnnouncement(a10);
         agency.addAnnouncement(a11);
         agency.addAnnouncement(a12);
-
     }
 }

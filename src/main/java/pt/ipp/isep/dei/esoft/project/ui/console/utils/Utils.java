@@ -18,6 +18,8 @@ import java.util.logging.Logger;
  */
 public class Utils {
 
+    private static Boolean isApplicationLaunched = false;
+
     static public Integer requestAnnouncementIndex(List<AnnouncementDto> list) {
         int idx;
         idx = readIntegerFromConsole("Please select an announcement by its index number.");
@@ -26,6 +28,10 @@ public class Utils {
             idx = readIntegerFromConsole("Please select an announcement by its index number.");
         }
         return idx;
+    }
+
+    static public Boolean getApplicationLaunched() {
+        return isApplicationLaunched;
     }
 
     static public String readLineFromConsole(String prompt) {
@@ -225,5 +231,9 @@ public class Utils {
         } while (value < 0 || value > list.size());
 
         return value - 1;
+    }
+
+    public static void setAplicationLaunched(boolean b) {
+        isApplicationLaunched = b;
     }
 }

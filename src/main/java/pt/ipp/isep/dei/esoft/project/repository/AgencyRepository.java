@@ -183,21 +183,21 @@ public class AgencyRepository implements Serializable {
         return listOfAllDeals.sortAnnouncementsByMostRecentSaleDate();
     }
 
-    public void saveAgencies() {
+    public void saveAgencies() throws IOException {
         try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("binaryFile/agencyBin.data"))) {
             outputStream.writeObject(agencies);
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            throw e;
         }
     }
 
-    public void loadAgencies() {
+    public void loadAgencies() throws IOException, ClassNotFoundException {
         File file = new File("binaryFile/agencyBin.data");
         if (file.exists()) {
             try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(file.getPath()))) {
                 agencies = (ArrayList<Agency>) inputStream.readObject();
             } catch (IOException | ClassNotFoundException e) {
-                System.out.println(e.getMessage());
+                throw e;
             }
         }
     }
@@ -208,7 +208,6 @@ public class AgencyRepository implements Serializable {
             for (Agency agency : agencies) {
                 int agencyId = agency.getId();
                 int dealsNumber = agency.getNumberOfDeals();
-                System.out.println(dealsNumber);
                 listOfDeals.set(agencyId - 1, dealsNumber);
             }
             Partition p = new Partition(listOfDeals);

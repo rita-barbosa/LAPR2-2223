@@ -422,6 +422,7 @@ public class Agency implements Serializable {
      */
     public Agency clone() {
         Agency clone = new Agency(this.id);
+        clone.id = this.id;
         clone.description = (this.description);
         clone.phoneNumber = (this.phoneNumber);
         clone.emailAddress = (this.emailAddress);
