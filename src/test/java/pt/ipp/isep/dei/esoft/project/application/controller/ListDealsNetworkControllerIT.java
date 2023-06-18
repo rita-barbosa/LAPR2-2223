@@ -73,12 +73,12 @@ class ListDealsNetworkControllerIT {
                 "city 4", "district 4", "SD", "12348", 2, 25, 3, 15.2, uriList);
         Request request5 = new Request(ownerEmail2, property5, new Business("sale", 2345.0), LocalDate.now(), employee);
 
-        Announcement a7 = new Announcement(employee, 35, request, "23-12-2022", 3245678d);
-        Announcement a8 = new Announcement(employee, 3495, request1, "23-12-2022", 336678d);
-        Announcement a9 = new Announcement(employee, 345, request2, "23-12-2022", 32458d);
-        Announcement a10 = new Announcement(employee, 3435, request3, "23-12-2022", 123245678d);
-        Announcement a11 = new Announcement(employee, 3, request4, "23-12-2022", 754245678d);
-        Announcement a12 = new Announcement(employee, 25, request5, "23-12-2022", 45678d);
+        Announcement a7 = new Announcement(employee, 35, request, "23/12/2022", 3245678d);
+        Announcement a8 = new Announcement(employee, 3495, request1, "23/12/2022", 336678d);
+        Announcement a9 = new Announcement(employee, 345, request2, "23/12/2022", 32458d);
+        Announcement a10 = new Announcement(employee, 3435, request3, "23/12/2022", 123245678d);
+        Announcement a11 = new Announcement(employee, 3, request4, "23/12/2022", 754245678d);
+        Announcement a12 = new Announcement(employee, 25, request5, "23/12/2022", 45678d);
         agency.addAnnouncement(a7);
         agency.addAnnouncement(a8);
         agency.addAnnouncement(a9);
@@ -143,12 +143,12 @@ class ListDealsNetworkControllerIT {
                 "city 4", "district 4", "SD", "12348", 2, 25, 3, 15.2, uriList);
         Request request5 = new Request(ownerEmail2, property5, new Business("sale", 2345.0), LocalDate.now(), employee);
 
-        Announcement a7 = new Announcement(employee, 35, request, "23-12-2022", 3245678d);
-        Announcement a8 = new Announcement(employee, 3495, request1, "23-12-2022", 336678d);
-        Announcement a9 = new Announcement(employee, 345, request2, "23-12-2022", 32458d);
-        Announcement a10 = new Announcement(employee, 3435, request3, "23-12-2022", 123245678d);
-        Announcement a11 = new Announcement(employee, 3, request4, "23-12-2022", 754245678d);
-        Announcement a12 = new Announcement(employee, 25, request5, "23-12-2022", 45678d);
+        Announcement a7 = new Announcement(employee, 35, request, "23/12/2022", 3245678d);
+        Announcement a8 = new Announcement(employee, 3495, request1, "23/12/2022", 336678d);
+        Announcement a9 = new Announcement(employee, 345, request2, "23/12/2022", 32458d);
+        Announcement a10 = new Announcement(employee, 3435, request3, "23/12/2022", 123245678d);
+        Announcement a11 = new Announcement(employee, 3, request4, "23/12/2022", 754245678d);
+        Announcement a12 = new Announcement(employee, 25, request5, "23/12/2022", 45678d);
         agency.addAnnouncement(a7);
         agency.addAnnouncement(a8);
         agency.addAnnouncement(a9);
@@ -230,12 +230,12 @@ class ListDealsNetworkControllerIT {
                 "city 4", "district 4", "SD", "12348", 2, 25, 3, 15.2, uriList);
         Request request5 = new Request(ownerEmail2, property5, new Business("sale", 2345.0), LocalDate.now(), employee);
 
-        Announcement a7 = new Announcement(employee, 35, request, "23-12-2022", 3245678d);
-        Announcement a8 = new Announcement(employee, 3495, request1, "23-12-2022", 336678d);
-        Announcement a9 = new Announcement(employee, 345, request2, "23-12-2022", 32458d);
-        Announcement a10 = new Announcement(employee, 3435, request3, "23-12-2022", 123245678d);
-        Announcement a11 = new Announcement(employee, 3, request4, "23-12-2022", 754245678d);
-        Announcement a12 = new Announcement(employee, 25, request5, "23-12-2022", 45678d);
+        Announcement a7 = new Announcement(employee, 35, request, "23/12/2022", 3245678d);
+        Announcement a8 = new Announcement(employee, 3495, request1, "23/12/2022", 336678d);
+        Announcement a9 = new Announcement(employee, 345, request2, "23/12/2022", 32458d);
+        Announcement a10 = new Announcement(employee, 3435, request3, "23/12/2022", 123245678d);
+        Announcement a11 = new Announcement(employee, 3, request4, "23/12/2022", 754245678d);
+        Announcement a12 = new Announcement(employee, 25, request5, "23/12/2022", 45678d);
         agency.addAnnouncement(a7);
         agency.addAnnouncement(a8);
         agency.addAnnouncement(a9);
