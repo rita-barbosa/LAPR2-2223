@@ -13,7 +13,7 @@
             <Font name="System Bold Italic" size="24.0" />
          </font>
       </Label>
-      <Rectangle arcHeight="5.0" fill="#7bbedb61" height="418.0" layoutX="34.0" layoutY="59.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="658.0" />
+      <Rectangle arcHeight="5.0" fill="#7bbedb61" height="412.0" layoutX="34.0" layoutY="59.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="649.0" />
       <AnchorPane fx:id="anchorpane" layoutX="50.0" layoutY="95.0" minHeight="0.0" minWidth="0.0" prefHeight="315.0" prefWidth="309.0">
          <children>
             <Label fx:id="txtAreaSubset1" alignment="TOP_LEFT" layoutX="-4.0" prefHeight="315.0" prefWidth="309.0" style="-fx-background-color: white;" textFill="#254757">
@@ -48,8 +48,8 @@
             <Font name="System Bold Italic" size="18.0" />
          </font>
       </Label>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#264757a0" height="54.0" layoutX="261.0" layoutY="419.0" stroke="TRANSPARENT" strokeType="INSIDE" width="200.0" />
-      <Label alignment="CENTER" layoutX="321.0" layoutY="419.0" prefHeight="17.0" prefWidth="80.0" text="Difference " textFill="WHITE">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#264757a1" height="54.0" layoutX="104.0" layoutY="413.0" stroke="TRANSPARENT" strokeType="INSIDE" width="200.0" />
+      <Label alignment="CENTER" layoutX="164.0" layoutY="419.0" prefHeight="17.0" prefWidth="80.0" text="Difference " textFill="WHITE">
          <font>
             <Font name="System Bold Italic" size="15.0" />
          </font>
@@ -59,14 +59,25 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Button>
-      <Label fx:id="txtDifference" alignment="CENTER" layoutX="295.0" layoutY="440.0" prefHeight="21.0" prefWidth="132.0" textFill="WHITE">
+      <Label fx:id="txtDifference" alignment="CENTER" layoutX="138.0" layoutY="440.0" prefHeight="21.0" prefWidth="132.0" textFill="WHITE">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Label fx:id="lblWarning" layoutX="251.0" layoutY="485.0" prefHeight="35.0" prefWidth="216.0" textFill="#fa0000" wrapText="true">
+      <Label fx:id="lblWarning" alignment="CENTER" layoutX="251.0" layoutY="485.0" prefHeight="35.0" prefWidth="216.0" textFill="#fa0000" wrapText="true">
          <font>
             <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#264757a1" height="54.0" layoutX="417.0" layoutY="413.0" stroke="#ffffff00" strokeType="INSIDE" width="200.0" />
+      <Label alignment="CENTER" layoutX="457.0" layoutY="419.0" prefHeight="21.0" prefWidth="122.0" text="Execution Time" textFill="WHITE">
+         <font>
+            <Font name="System Bold Italic" size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="txtExecutionTime" alignment="CENTER" layoutX="451.0" layoutY="440.0" prefHeight="21.0" prefWidth="132.0" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="14.0" />
          </font>
       </Label>
    </children>

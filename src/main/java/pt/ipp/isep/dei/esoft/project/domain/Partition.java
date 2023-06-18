@@ -14,7 +14,6 @@ public class Partition {
     public Partition(List<Integer> numbers) {
         this.listOfDeals = numbers;
         calculatePartitions(listOfDeals);
-        System.out.println(minDifference);
     }
 
     public int getMinDifference() {
@@ -104,7 +103,9 @@ public class Partition {
         s.append(String.format(" AGENCY |  Number Properties%n", idx));
 
         for (int i = 0; i < subList.size(); i++) {
-            s.append(String.format(" - ID:   %2d  |    %d%n", i + 1,subList.get(i)));
+            if (subList.get(i) != 0) {
+                s.append(String.format(" - ID:   %2d  |    %d%n", i + 1, subList.get(i)));
+            }
         }
         return s.toString();
     }

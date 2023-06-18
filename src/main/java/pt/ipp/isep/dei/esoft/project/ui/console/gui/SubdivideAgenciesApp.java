@@ -11,8 +11,6 @@ import java.io.IOException;
 public class SubdivideAgenciesApp extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        Bootstrap bootstrap = new Bootstrap();
-        bootstrap.run();
         FXMLLoader fxmlLoader = new FXMLLoader(SubdivideAgenciesApp.class.getResource("SubdivideAgenciesScene.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 715, 575);
         stage.setResizable(false);
