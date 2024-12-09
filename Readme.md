@@ -1,19 +1,10 @@
-# Project Template
+# LAPR2 | 2022-2023
 
-This is the project template for LEI's second semester project 2022/2023.
+This is the project for LEI's second semester project 2022/2023.
 
 It contains didactic artifacts relevant to the integrative project to be developed during the second semester of the academic year of 2021-2022 in the [Degree in Informatics Engineering (LEI)](http://www.isep.ipp.pt/Course/Course/26) from [Instituto Superior de Engenharia do Porto (ISEP)](http://www.isep.ipp.pt).
 
-In particular, it has:
-
-* [The team members and task assignment during Sprints](docs/Readme.md)
-* A template to capture and systematize evidence of applying properly the Software Development Process, namely regarding the activities of Engineering Requirements, Analysis and Design
-* Source code available to students as a starting point
-* General description of how the provided application works (and it is structured).
-
 ## Application Overview
-
-WIP
 
 # How to generate the svg files
 
@@ -91,5 +82,10 @@ mvn test javadoc:javadoc jacoco:report org.pitest:pitest-maven:mutationCoverage 
 
 # Who do I talk to about this project
 
-Nuno Bettencourt
+| Name           | Number  | Contact           |
+|----------------|---------|-------------------|
+| Ana Guterres   | 1221933 |1221933@isep.ipp.pt|
+| Matilde Varela | 1220683 |1220683@isep.ipp.pt|
+| Jonas Souza    | 1221597 |1221597@isep.ipp.pt|
+| Rita Barbosa   | 1220841 |1220841@isep.ipp.pt|
 
